@@ -1,0 +1,9 @@
+name: bottle
+version: 0.1.0
+
+authors:
+  - Chris Zimmerman <chris-zimmerman@live.com>
+
+crystal: 0.31.1
+
+license: MIT
