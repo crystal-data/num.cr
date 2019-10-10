@@ -26,6 +26,19 @@ lib LibGsl
     vector : GslVector
   end
 
+  struct GslMatrix
+    size1 : UInt
+    size2 : UInt
+    tda : UInt
+    data : Double*
+    block : GslBlock*
+    owner: Integer
+  end
+
+  struct GslMatrixView
+    matrix : GslMatrix
+  end
+
   # Block allocation
   fun gsl_block_alloc(n : UInt) : GslBlock
   fun gsl_block_calloc(n : UInt) : GslBlock
@@ -78,6 +91,59 @@ lib LibGsl
   fun gsl_vector_isnonneg(v : GslVector*) : Integer
   fun gsl_vector_equal(u : GslVector*, v : GslVector*) : Integer
 
-  # Blas absmin
-  fun gsl_blas_idamax(x : GslVector*) : Integer
+  # matrix allocation
+  fun gsl_matrix_alloc(n1 : UInt, n2 : UInt) : GslMatrix*
+  fun gsl_matrix_allow(n1 : UInt, n2 : UInt) : GslMatrix*
+  fun gsl_matrix_free(m : GslMatrix*)
+
+  # matrix getters/setters
+  fun gsl_matrix_get(m : GslMatrix*, i : UInt, j : UInt) : Double
+  fun gsl_matrix_set(m : GslMatrix*, i : UInt, j : UInt)
+  fun gsl_matrix_set_all(m : GslMatrix*, x : Double)
+  fun gsl_matrix_set_zero(m : GslMatrix*)
+  fun gsl_matrix_set_identify(m : GslMatrix*)
+  fun gsl_matrix_get_row(v : GslVector*, m : GslMatrix*, i : UInt) : Integer
+  fun gsl_matrix_get_col(v : GslVector*, m : GslMatrix*, i : UInt) : Integer
+  fun gsl_matrix_set_row(m : GslMatrix*, i : UInt, v : GslVector*) : Integer
+  fun gsl_matrix_set_col(m : GslMatrix*, i : UInt, v : GslVector*) : Integer
+
+  # matrix views
+  fun gsl_matrix_submatrix(m : GslMatrix*, k1 : UInt, k2 : UInt, n1 : UInt, n2: UInt) : GslMatrixView
+  fun gsl_matrix_row(m : GslMatrix*, i : UInt) : GslVectorView
+  fun gsl_matrix_column(m : GslMatrix*, j : UInt) : GslVectorView
+  fun gsl_matrix_subrow(m : GslMatrix*, j : UInt) : GslVectorView
+  fun gsl_matrix_subcolumn(m : GslMatrix*, j : UInt) : GslVectorView
+  fun gsl_matrix_diagonal(m : GslMatrix*) : GslVectorView
+  fun gsl_matrix_subdiagonal(m : GslMatrix*, k : UInt) : GslVectorView
+  fun gsl_matrix_superdiagonal(m : GslMatrix*, k : UInt)
+
+  # matrix mutations
+  fun gsl_matrix_swap_rows(m : GslMatrix*, i : UInt, j : UInt) : Integer
+  fun gsl_matrix_swap_columns(m : GslMatrix*, i : UInt, j : UInt) : Integer
+  fun gsl_matrix_swap_rowcol(m : GslMatrix*, i : UInt, j : UInt) : Integer
+  fun gsl_matrix_transpose_memcpy(dest : GslMatrix*, src : GslMatrix*) : Integer
+  fun gsl_matrix_transpose(m : GslMatrix*) : Integer
+
+  # arithmetic
+  fun gsl_matrix_add(a : GslMatrix*, b : GslMatrix*) : Integer
+  fun gsl_matrix_sub(a : GslMatrix*, b : GslMatrix*)
+  fun gsl_matrix_mul_elements(a : GslMatrix*, b : GslMatrix*) : Integer
+  fun gsl_matrix_div_elements(a : GslMatrix*, b : GslMatrix*) : Integer
+  fun gsl_matrix_scale(a : GslMatrix*, x : Double) : Integer
+  fun gsl_matrix_add_constant(a : GslMatrix*, x : Double)
+
+  # matrix properties
+  fun gsl_matrix_max(m : GslMatrix*) : Double
+  fun gsl_matrix_min(m : GslMatrix*) : Double
+  fun gsl_matrix_minmax(m : GslMatrix*, min_out : Double*, max_out : Double*)
+  fun gsl_matrix_max_index(m : GslMatrix*, imax : UInt, jmax : UInt)
+  fun gsl_matrix_min_index(m : GslMatrix*, imin: UInt, jmin : UInt)
+  fun gsl_matrix_minmax_index(m : GslMatrix*, imin : UInt, jmin : UInt, imax : UInt, jmax : UInt)
+
+  # null checks
+  fun gsl_matrix_isnull(m : GslMatrix*) : Integer
+  fun gsl_matrix_ispos(m : GslMatrix*) : Integer
+  fun gsl_matrix_isneg(m : GslMatrix*) : Integer
+  fun gsl_matrix_isnonneg(m : GslMatrix*) : Integer
+
 end
