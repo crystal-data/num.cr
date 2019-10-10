@@ -6,6 +6,7 @@ require "../util/statistics"
 class Vector
   include Bottle::Util::Indexing
   include Bottle::Util::Arithmetic
+  include Bottle::Util::Statistics
 
   @ptr : Pointer(LibGsl::GslVector)
   @size : Int32
@@ -109,6 +110,6 @@ class Vector
   end
 
   def to_s(io)
-    io << "Vector[" << @vec.data.to_slice(@size).join(", ") << "]"
+    io << "[" << @vec.data.to_slice(@size).join(", ") << "]"
   end
 end

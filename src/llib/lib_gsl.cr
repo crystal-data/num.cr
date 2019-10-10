@@ -98,7 +98,7 @@ lib LibGsl
 
   # matrix getters/setters
   fun gsl_matrix_get(m : GslMatrix*, i : UInt, j : UInt) : Double
-  fun gsl_matrix_set(m : GslMatrix*, i : UInt, j : UInt)
+  fun gsl_matrix_set(m : GslMatrix*, i : UInt, j : UInt, x : Double)
   fun gsl_matrix_set_all(m : GslMatrix*, x : Double)
   fun gsl_matrix_set_zero(m : GslMatrix*)
   fun gsl_matrix_set_identify(m : GslMatrix*)
@@ -123,6 +123,7 @@ lib LibGsl
   fun gsl_matrix_swap_rowcol(m : GslMatrix*, i : UInt, j : UInt) : Integer
   fun gsl_matrix_transpose_memcpy(dest : GslMatrix*, src : GslMatrix*) : Integer
   fun gsl_matrix_transpose(m : GslMatrix*) : Integer
+  fun gsl_matrix_memcpy(dest : GslMatrix*, src : GslMatrix*)
 
   # arithmetic
   fun gsl_matrix_add(a : GslMatrix*, b : GslMatrix*) : Integer
@@ -136,9 +137,9 @@ lib LibGsl
   fun gsl_matrix_max(m : GslMatrix*) : Double
   fun gsl_matrix_min(m : GslMatrix*) : Double
   fun gsl_matrix_minmax(m : GslMatrix*, min_out : Double*, max_out : Double*)
-  fun gsl_matrix_max_index(m : GslMatrix*, imax : UInt, jmax : UInt)
-  fun gsl_matrix_min_index(m : GslMatrix*, imin: UInt, jmin : UInt)
-  fun gsl_matrix_minmax_index(m : GslMatrix*, imin : UInt, jmin : UInt, imax : UInt, jmax : UInt)
+  fun gsl_matrix_max_index(m : GslMatrix*, imax : UInt*, jmax : UInt*)
+  fun gsl_matrix_min_index(m : GslMatrix*, imin: UInt*, jmin : UInt*)
+  fun gsl_matrix_minmax_index(m : GslMatrix*, imin : UInt*, jmin : UInt*, imax : UInt*, jmax : UInt*)
 
   # null checks
   fun gsl_matrix_isnull(m : GslMatrix*) : Integer
