@@ -1,119 +1,301 @@
-require "../llib/lib_gsl"
+require "../util/type"
+require "../llib/gsl"
 require "../util/indexing"
 require "../util/arithmetic"
 require "../util/statistics"
 
-class Vector
-  include Bottle::Util::Indexing
-  include Bottle::Util::Arithmetic
-  include Bottle::Util::Statistics
-
-  @ptr : Pointer(LibGsl::GslVector)
-  @size : Int32
-  @vec : LibGsl::GslVector
+class Vector(T)
+  @ptr : Pointer(T)
+  @obj : T
   @owner : Int32
+  @size : UInt64
+  @stride : UInt64
 
   getter ptr
   getter owner
+  getter size
+  getter strides
 
-  def initialize(data : Indexable(Float64))
-    ptv = LibGsl.gsl_vector_alloc(data.size)
-    data.each_with_index { |e, i| LibGsl.gsl_vector_set(ptv, i, e) }
-    @ptr = ptv
-    @size = data.size
-    @vec = @ptr.value
-    @owner = @vec.owner
+  def self.new(data : Array(A)) forall A
+    new(fetch_struct(data))
   end
 
-  def initialize(vec : LibGsl::GslVector, @size)
-    @vec = vec
-    @ptr = pointerof(@vec)
-    @owner = @vec.owner
+  private def self.fetch_struct(items : Array(Int32))
+    vector = LibGsl.gsl_vector_int_alloc(items.size)
+    items.each_with_index { |e, i| LibGsl.gsl_vector_int_set(vector, i, e) }
+    return vector
+  end
+
+  private def self.fetch_struct(items : Array(Float64))
+    vector = LibGsl.gsl_vector_alloc(items.size)
+    items.each_with_index { |e, i| LibGsl.gsl_vector_set(vector, i, e) }
+    return vector
+  end
+
+  private def self.fetch_struct(items : Array(Float64 | Int32))
+    vector = LibGsl.gsl_vector_alloc(items.size)
+    items.each_with_index { |e, i| LibGsl.gsl_vector_set(vector, i, e) }
+    return vector
+  end
+
+  private def initialize(data : Array)
+    @ptr = vector_type(data)
+    @obj = @ptr.value
+    @owner = @obj.owner
+    @size = @obj.size
+    @stride = @obj.stride
+  end
+
+  def initialize(@ptr : Pointer(T))
+    @obj = @ptr.value
+    @owner = @obj.owner
+    @size = @obj.size
+    @stride = @obj.stride
+  end
+
+  def initialize(@obj : T)
+    @ptr = pointerof(@obj)
+    @owner = @obj.owner
+    @size = @obj.size
+    @stride = @obj.stride
   end
 
   def copy
-    ptv = LibGsl.gsl_vector_alloc(@size)
-    LibGsl.gsl_vector_memcpy(ptv, @ptr)
-    return Vector.new(ptv.value, @size)
+    Bottle::Util::Indexing.copy_vector(self)
   end
 
-  def +(other : Vector)
-    _add_vec(self.copy, other)
+  # Gets a single element from a vector at a given index, the core
+  # indexing operation of a vector
+  #
+  # ```
+  # vec = Vector.new [1, 2, 3, 4, 5]
+  # vec[0] # => 1
+  # ```
+  def [](index : Int32)
+    Bottle::Util::Indexing.get_vector_element_at_index(@ptr, index)
   end
 
+  # Gets multiple elements from a vector at given indexes.  This returns
+  # a `copy` since there is no way to create a contiguous slice of memory
+  #
+  # ```
+  # vec = Vector.new [1, 2, 3]
+  # vec[[1, 2]] # => [2, 3]
+  # ```
+  def [](indexes : Array(Int32))
+    Bottle::Util::Indexing.get_vector_elements_at_indexes(@ptr, indexes)
+  end
+
+  # Returns a view of a vector defined by a given range.  Currently only
+  # supports single strided ranges due to limitations of Crystal
+  #
+  # ```
+  # vec = Vector.new [1, 2, 3, 4, 5]
+  # vec[2...4] # => [3, 4]
+  # ```
+  def [](range : Range(Int32 | Nil, Int32 | Nil))
+    Bottle::Util::Indexing.get_vector_elements_at_range(@ptr, range, @size)
+  end
+
+  # Sets a single element from a vector at a given index
+  #
+  # ```
+  # vec = Vector.new [1, 2, 3]
+  # vec[0] = 10
+  # vec # => [10, 2, 3]
+  # ```
+  def []=(index : Int32, value : Number)
+    Bottle::Util::Indexing.set_vector_element_at_index(@ptr, index, value)
+  end
+
+  # Sets multiple elements of a vector by the given indexes.
+  #
+  # ```
+  # vec = Vector.new [1, 2, 3]
+  # vec[[0, 1]] = [10, 9]
+  # vec # => [10, 9, 3]
+  # ```
+  def []=(indexes : Array(Int32), values : Array(Number))
+    Bottle::Util::Indexing.set_vector_elements_at_indexes(@ptr, indexes, values)
+  end
+
+  # Sets elements of a vector to given values based on the given range
+  #
+  # ```
+  # vec = Vector.new [1, 2, 3, 4, 5]
+  # vec[1...] = [10, 9, 8, 7]
+  # vec # => [1, 10, 9, 8, 7]
+  # ```
+  def []=(range : Range(Int32 | Nil, Int32 | Nil), values : Array(Number))
+    Bottle::Util::Indexing.set_vector_elements_at_range(@ptr, range, @size, values)
+  end
+
+  # Elementwise addition of a vector to another equally sized vector
+  #
+  # ```
+  # v1 = Vector.new [1.0, 2.0, 3.0]
+  # v2 = Vector.new [2.0, 4.0, 6.0]
+  # v1 + v2 # => [3.0, 6.0, 9.0]
+  # ```
+  def +(other : Vector(T))
+    Bottle::Util::VectorMath.add(self.copy, other)
+  end
+
+  # Elementwise addition of a vector to a scalar
+  #
+  # ```
+  # v1 = Vector.new [1.0, 2.0, 3.0]
+  # v2 = 2
+  # v1 + v2 # => [3.0, 4.0, 5.0]
+  # ```
   def +(other : Number)
-    _add_vec_constant(self.copy, other)
+    Bottle::Util::VectorMath.add_constant(self.copy, other)
   end
 
-  def -(other : Vector)
-    _sub_vec(self.copy, other)
+  # Elementwise subtraction of a vector to another equally sized vector
+  #
+  # ```
+  # v1 = Vector.new [1.0, 2.0, 3.0]
+  # v2 = Vector.new [2.0, 4.0, 6.0]
+  # v1 - v2 # => [-1.0, -2.0, -3.0]
+  # ```
+  def -(other : Vector(T))
+    Bottle::Util::VectorMath.sub(self.copy, other)
   end
 
+  # Elementwise subtraction of a vector with a scalar
+  #
+  # ```
+  # v1 = Vector.new [1.0, 2.0, 3.0]
+  # v2 = 2
+  # v1 - v2 # => [-1.0, 0.0, 1.0]
+  # ```
   def -(other : Number)
-    _sub_vec_constant(self.copy, other)
+    Bottle::Util::VectorMath.sub_constant(self.copy, other)
   end
 
-  def *(other : Vector)
-    _mul_vec(self.copy, other)
+  # Elementwise multiplication of a vector to another equally sized vector
+  #
+  # ```
+  # v1 = Vector.new [1.0, 2.0, 3.0]
+  # v2 = Vector.new [2.0, 4.0, 6.0]
+  # v1 * v2 # => [3.0, 8.0, 18.0]
+  # ```
+  def *(other : Vector(T))
+    Bottle::Util::VectorMath.mul(self.copy, other)
   end
 
+  # Elementwise multiplication of a vector to a scalar
+  #
+  # ```
+  # v1 = Vector.new [1.0, 2.0, 3.0]
+  # v2 = 2
+  # v1 + v2 # => [2.0, 4.0, 6.0]
+  # ```
   def *(other : Number)
-    _mul_vec_constant(self.copy, other)
+    Bottle::Util::VectorMath.mul_constant(self.copy, other)
   end
 
-  def /(other : Vector)
-    _div_vec(self.copy, other)
+  # Elementwise division of a vector to another equally sized vector
+  #
+  # ```
+  # v1 = Vector.new [1.0, 2.0, 3.0]
+  # v2 = Vector.new [2.0, 4.0, 6.0]
+  # v1 / v2 # => [0.5, 0.5, 0.5]
+  # ```
+  def /(other : Vector(T))
+    Bottle::Util::VectorMath.div(self.copy, other)
   end
 
+  # Elementwise division of a vector to a scalar
+  #
+  # ```
+  # v1 = Vector.new [1.0, 2.0, 3.0]
+  # v2 = 2
+  # v1 / v2 # => [0.5, 1, 1.5]
+  # ```
   def /(other : Number)
-    _div_vec_constant(self.copy, other)
+    Bottle::Util::VectorMath.div_constant(self.copy, other)
   end
 
-  def [](ii : Int32)
-    _take_vec_at_index(@ptr, ii)
-  end
-
-  def [](ii : Iterable(Int32))
-    _take_vec_at_indexes(@ptr, ii)
-  end
-
-  def [](ii : Range(Int32, Int32))
-    _take_vec_at_range(@ptr, ii)
-  end
-
-  def []=(ii : Int32, vv : Number)
-    _set_vec_at_index(@ptr, ii, vv)
-  end
-
+  # Computes the maximum value of a vector
+  #
+  # ```
+  # v = Vector.new [1, 2, 3, 4]
+  # v.max # => 4
+  # ```
   def max
-    _vec_max(@ptr)
+    Bottle::Util::VectorStats.vector_max(@ptr)
   end
 
+  # Computes the minimum value of a vector
+  #
+  # ```
+  # v = Vector.new [1, 2, 3, 4]
+  # v.min # => 1
+  # ```
   def min
-    _vec_min(@ptr)
+    Bottle::Util::VectorStats.vector_min(@ptr)
   end
 
+  # Computes the min and max values of a vector
+  #
+  # ```
+  # v = Vector.new [1, 2, 3, 4]
+  # v.ptpv # => {1, 4}
+  # ```
   def ptpv
-    _vec_ptpv(@ptr)
+    Bottle::Util::VectorStats.vector_ptpv(@ptr)
   end
 
+  # Computes the "peak to peak" of a vector (max - min)
+  #
+  # ```
+  # v = Vector.new [1, 2, 3, 4]
+  # v.ptp # => 3
+  # ```
   def ptp
-    _vec_ptp(@ptr)
+    Bottle::Util::VectorStats.vector_ptp(@ptr)
   end
 
+  # Computes the index of the maximum value of a vector
+  #
+  # ```
+  # v = Vector.new [1, 2, 3, 4]
+  # v.idxmax # => 3
+  # ```
   def idxmax
-    _vec_idxmax(@ptr)
+    Bottle::Util::VectorStats.vector_idxmax(@ptr)
   end
 
+  # Computes the index of the minimum value of a vector
+  #
+  # ```
+  # v = Vector.new [1, 2, 3, 4]
+  # v.idxmin # => 0
+  # ```
   def idxmin
-    _vec_idxmin(@ptr)
+    Bottle::Util::VectorStats.vector_idxmin(@ptr)
   end
 
+  # Computes the indexes of the minimum and maximum values of a vector
+  #
+  # ```
+  # v = Vector.new [1, 2, 3, 4]
+  # v.ptpidx # => {0, 3}
+  # ```
   def ptpidx
-    _vec_ptpidx(@ptr)
+    Bottle::Util::VectorStats.vector_ptpidx(@ptr)
   end
 
   def to_s(io)
-    io << "[" << @vec.data.to_slice(@size).join(", ") << "]"
+    vals = (0...@size).map { |i| Bottle::Util::Indexing.get_vector_element_at_index(@ptr, i) }
+    io << "[" << vals.join(", ") << "]"
   end
+
 end
+
+v1 = Vector.new [1.0, 2, 3]
+v2 = Vector.new [1.0, 2, 3]
+
+puts v1.ptp
