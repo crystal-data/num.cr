@@ -31,7 +31,7 @@ lib LibGsl
     tda : UInt
     data : Double*
     block : GslBlock*
-    owner: Integer
+    owner : Integer
   end
 
   struct GslMatrixView
@@ -110,6 +110,7 @@ lib LibGsl
   fun gsl_matrix_submatrix(m : GslMatrix*, k1 : UInt, k2 : UInt, n1 : UInt, n2: UInt) : GslMatrixView
   fun gsl_matrix_row(m : GslMatrix*, i : UInt) : GslVectorView
   fun gsl_matrix_column(m : GslMatrix*, j : UInt) : GslVectorView
+  fun gsl_matrix_subcolumn(m : GslMatrix*, j : UInt, offset : UInt, n : UInt) : GslVectorView
   # fun gsl_matrix_subrow(m : GslMatrix*, j : UInt) : GslVectorView
   # fun gsl_matrix_subcolumn(m : GslMatrix*, j : UInt) : GslVectorView
   fun gsl_matrix_diagonal(m : GslMatrix*) : GslVectorView

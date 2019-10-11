@@ -35,9 +35,11 @@ module Bottle::Util::Indexing
     return Vector.new(vv.vector, j)
   end
 
+  # BUG this needs to use `gsl_matrix_column`
   def _get_vec_at_col(m, j, i)
-    vv = LibGsl.gsl_matrix_column(m, j)
-    return Vector.new(vv.vector, i)
+    vec = LibGsl.gsl_vector_alloc(i)
+    LibGsl.gsl_matrix_get_col(vec, m, j)
+    return Vector.new(vec.value, i)
   end
 
   def _normalize_range(rng : Range, n)
@@ -57,9 +59,3 @@ module Bottle::Util::Indexing
     return Matrix(Float64).new ptm.value, c, r
   end
 end
-
-
-r = ...5 # Range(Nil, Int32)
-newr = (r.begin.nil? ? 0 : r.begin)...5 # Range(Int32 | Nil, Int32)
-
-# I need Range(Int32, Int32)

@@ -141,7 +141,3 @@ def rand_matrix(n, m)
     (0...m).map { |_| Random.rand(10) }
   end
 end
-
-m = Matrix.new rand_matrix(5, 5)
-puts m
-m[..., 2]
