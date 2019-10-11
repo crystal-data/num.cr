@@ -210,8 +210,8 @@ lib LibGsl
   fun gsl_matrix_int_set_identify(m : GslMatrixInt*)
   fun gsl_matrix_int_get_row(v : GslVectorInt*, m : GslMatrixInt*, i : UInt) : Integer
   fun gsl_matrix_int_get_col(v : GslVectorInt*, m : GslMatrixInt*, i : UInt) : Integer
-  fun gsl_matrix_int_set_row(m : GslMatrixInt*, i : UInt, v : GslVector*) : Integer
-  fun gsl_matrix_int_set_col(m : GslMatrixInt*, i : UInt, v : GslVector*) : Integer
+  fun gsl_matrix_int_set_row(m : GslMatrixInt*, i : UInt, v : GslVectorInt*) : Integer
+  fun gsl_matrix_int_set_col(m : GslMatrixInt*, i : UInt, v : GslVectorInt*) : Integer
   fun gsl_matrix_int_submatrix(m : GslMatrixInt*, k1 : UInt, k2 : UInt, n1 : UInt, n2 : UInt) : GslMatrixIntView
   fun gsl_matrix_int_row(m : GslMatrixInt*, i : UInt) : GslVectorIntView
   fun gsl_matrix_int_column(m : GslMatrixInt*, j : UInt) : GslVectorIntView
@@ -242,4 +242,5 @@ lib LibGsl
   fun gsl_matrix_int_ispos(m : GslMatrixInt*) : Integer
   fun gsl_matrix_int_isneg(m : GslMatrixInt*) : Integer
   fun gsl_matrix_int_isnonneg(m : GslMatrixInt*) : Integer
+  # ###############INTEGER#####################
 end
