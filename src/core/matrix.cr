@@ -112,10 +112,7 @@ class Matrix(T)
 
   def [](row : Range, col : Int32)
     r = _normalize_range(row, @nrows)
-    c = _normalize_range(..., @ncols)
-    mat = _slice_matrix_submatrix(@ptr, r.begin, r.end, c.begin, c.end)
-    puts mat
-    _get_vec_at_col(mat.ptr, col, mat.nrows)
+    _slice_matrix_submatrix(@ptr, r.begin, r.end, col-1, col)
   end
 
   def [](row : Range = ..., col : Range = ...)
@@ -141,3 +138,5 @@ def rand_matrix(n, m)
     (0...m).map { |_| Random.rand(10) }
   end
 end
+
+m = Matrix.new rand_matrix(5, 5)
