@@ -30,6 +30,10 @@ module Bottle::Util::Indexing
     return Vector.new(view.vector, jj - ii)
   end
 
+  def _take_mat_at_index(m, i, j)
+    return LibGsl.gsl_matrix_get(m, i, j)
+  end
+
   def _get_vec_at_row(m, i, j)
     vv = LibGsl.gsl_matrix_row(m, i)
     return Vector.new(vv.vector, j)

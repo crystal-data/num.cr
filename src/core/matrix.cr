@@ -13,10 +13,12 @@ class Matrix(T)
   @nrows : Int32
   @ncols : Int32
   @mat : LibGsl::GslMatrix
+  @owner : Int32
 
   getter ptr
   getter nrows
   getter ncols
+  getter owner
 
   def initialize(data : Indexable(Indexable(T)))
     @nrows = data.size
@@ -29,10 +31,12 @@ class Matrix(T)
     end
     @ptr = ptm
     @mat = @ptr.value
+    @owner = @mat.owner
   end
 
   def initialize(mat : LibGsl::GslMatrix, @nrows, @ncols)
     @mat = mat
+    @owner = @mat.owner
     @ptr = pointerof(@mat)
   end
 
@@ -106,6 +110,10 @@ class Matrix(T)
     _get_vec_at_row(@ptr, row, @ncols)
   end
 
+  def [](row : Int32, col : Int32)
+    _take_mat_at_index(@ptr, row, col)
+  end
+
   def [](row : Range(Nil, Nil), column : Int32)
     _get_vec_at_col(@ptr, column, @nrows)
   end
@@ -138,5 +146,3 @@ def rand_matrix(n, m)
     (0...m).map { |_| Random.rand(10) }
   end
 end
-
-m = Matrix.new rand_matrix(5, 5)

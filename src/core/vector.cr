@@ -11,8 +11,10 @@ class Vector
   @ptr : Pointer(LibGsl::GslVector)
   @size : Int32
   @vec : LibGsl::GslVector
+  @owner : Int32
 
   getter ptr
+  getter owner
 
   def initialize(data : Indexable(Float64))
     ptv = LibGsl.gsl_vector_alloc(data.size)
@@ -20,11 +22,13 @@ class Vector
     @ptr = ptv
     @size = data.size
     @vec = @ptr.value
+    @owner = @vec.owner
   end
 
   def initialize(vec : LibGsl::GslVector, @size)
     @vec = vec
     @ptr = pointerof(@vec)
+    @owner = @vec.owner
   end
 
   def copy
