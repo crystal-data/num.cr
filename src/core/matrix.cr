@@ -15,6 +15,8 @@ class Matrix(T)
   @mat : LibGsl::GslMatrix
 
   getter ptr
+  getter nrows
+  getter ncols
 
   def initialize(data : Indexable(Indexable(T)))
     @nrows = data.size
@@ -96,6 +98,32 @@ class Matrix(T)
     _mat_idxmin(@ptr)
   end
 
+  def transpose
+    _transpose_mat(@ptr, @nrows, @ncols)
+  end
+
+  def [](row : Int32)
+    _get_vec_at_row(@ptr, row, @ncols)
+  end
+
+  def [](row : Range(Nil, Nil), column : Int32)
+    _get_vec_at_col(@ptr, column, @nrows)
+  end
+
+  def [](row : Range, col : Int32)
+    r = _normalize_range(row, @nrows)
+    c = _normalize_range(..., @ncols)
+    mat = _slice_matrix_submatrix(@ptr, r.begin, r.end, c.begin, c.end)
+    puts mat
+    _get_vec_at_col(mat.ptr, col, mat.nrows)
+  end
+
+  def [](row : Range = ..., col : Range = ...)
+    r = _normalize_range(row, @nrows)
+    c = _normalize_range(col, @ncols)
+    _slice_matrix_submatrix(@ptr, r.begin, r.end, c.begin, c.end)
+  end
+
   def to_s(io)
     io << "["
     (0...@nrows).each do |el|
@@ -113,3 +141,7 @@ def rand_matrix(n, m)
     (0...m).map { |_| Random.rand(10) }
   end
 end
+
+m = Matrix.new rand_matrix(5, 5)
+puts m
+m[..., 2]

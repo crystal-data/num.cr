@@ -1,5 +1,4 @@
 @[Link("gsl")]
-@[Link("openblas")]
 lib LibGsl
   alias Integer = LibC::Int
   alias Real = LibC::Float
@@ -111,8 +110,8 @@ lib LibGsl
   fun gsl_matrix_submatrix(m : GslMatrix*, k1 : UInt, k2 : UInt, n1 : UInt, n2: UInt) : GslMatrixView
   fun gsl_matrix_row(m : GslMatrix*, i : UInt) : GslVectorView
   fun gsl_matrix_column(m : GslMatrix*, j : UInt) : GslVectorView
-  fun gsl_matrix_subrow(m : GslMatrix*, j : UInt) : GslVectorView
-  fun gsl_matrix_subcolumn(m : GslMatrix*, j : UInt) : GslVectorView
+  # fun gsl_matrix_subrow(m : GslMatrix*, j : UInt) : GslVectorView
+  # fun gsl_matrix_subcolumn(m : GslMatrix*, j : UInt) : GslVectorView
   fun gsl_matrix_diagonal(m : GslMatrix*) : GslVectorView
   fun gsl_matrix_subdiagonal(m : GslMatrix*, k : UInt) : GslVectorView
   fun gsl_matrix_superdiagonal(m : GslMatrix*, k : UInt)

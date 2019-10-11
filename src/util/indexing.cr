@@ -1,5 +1,6 @@
 require "../llib/lib_gsl"
 require "../core/vector"
+require "../core/matrix"
 
 module Bottle::Util::Indexing
   extend self
@@ -33,4 +34,32 @@ module Bottle::Util::Indexing
     vv = LibGsl.gsl_matrix_row(m, i)
     return Vector.new(vv.vector, j)
   end
+
+  def _get_vec_at_col(m, j, i)
+    vv = LibGsl.gsl_matrix_column(m, j)
+    return Vector.new(vv.vector, i)
+  end
+
+  def _normalize_range(rng : Range, n)
+    first = (rng.begin.nil? ? 0 : rng.begin).as(Int32)
+    last = (rng.end.nil? ? n : rng.end).as(Int32)
+    return (first...last)
+  end
+
+  def _slice_matrix_submatrix(m, k1, n1, k2, n2)
+    view = LibGsl.gsl_matrix_submatrix(m, k1, k2, n1-k1, n2-k2)
+    return Matrix(Float64).new(view.matrix, n1-k1, n2-k2)
+  end
+
+  def _transpose_mat(m, r, c)
+    ptm = LibGsl.gsl_matrix_alloc(c, r)
+    LibGsl.gsl_matrix_transpose_memcpy(ptm, m)
+    return Matrix(Float64).new ptm.value, c, r
+  end
 end
+
+
+r = ...5 # Range(Nil, Int32)
+newr = (r.begin.nil? ? 0 : r.begin)...5 # Range(Int32 | Nil, Int32)
+
+# I need Range(Int32, Int32)

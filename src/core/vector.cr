@@ -30,7 +30,7 @@ class Vector
   def copy
     ptv = LibGsl.gsl_vector_alloc(@size)
     LibGsl.gsl_vector_memcpy(ptv, @ptr)
-    return Vector(Float64).new(ptv.value, @size)
+    return Vector.new(ptv.value, @size)
   end
 
   def +(other : Vector)
