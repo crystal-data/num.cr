@@ -102,7 +102,7 @@ macro indexing_abstract(type_, prefix)
     def set_vector_elements_at_range(vector : Pointer({{ type_ }}), range, size, values)
       newr = convert_range_to_slice(range, size)
       newr.each_with_index do |el, index|
-        LibGsl.{{ prefix}}_set(vector, el, values[index])
+        LibGsl.{{ prefix }}_set(vector, el, values[index])
       end
     end
 

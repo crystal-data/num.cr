@@ -292,7 +292,6 @@ class Vector(T)
     vals = (0...@size).map { |i| Bottle::Util::Indexing.get_vector_element_at_index(@ptr, i) }
     io << "[" << vals.join(", ") << "]"
   end
-
 end
 
 v1 = Vector.new [1.0, 2, 3]
