@@ -1,8 +1,9 @@
-require "../util/type"
 require "../llib/gsl"
 require "../util/indexing"
 require "../util/arithmetic"
 require "../util/statistics"
+require "../util/generic"
+require "../util/blas_arithmetic"
 
 class Vector(T)
   @ptr : Pointer(T)
@@ -36,14 +37,6 @@ class Vector(T)
     vector = LibGsl.gsl_vector_alloc(items.size)
     items.each_with_index { |e, i| LibGsl.gsl_vector_set(vector, i, e) }
     return vector
-  end
-
-  private def initialize(data : Array)
-    @ptr = vector_type(data)
-    @obj = @ptr.value
-    @owner = @obj.owner
-    @size = @obj.size
-    @stride = @obj.stride
   end
 
   def initialize(@ptr : Pointer(T))
@@ -218,6 +211,27 @@ class Vector(T)
     Bottle::Util::VectorMath.div_constant(self.copy, other)
   end
 
+  # Computes the dot product of two vectors
+  #
+  # ```
+  # v1 = Vector.new [1.0, 2.0, 3.0]
+  # v2 = Vector.new [4.0, 5.0, 6.0]
+  # v1.dot(v2) # => 32
+  # ```
+  def dot(other : Vector)
+    Bottle::Util::VectorMath.vector_dot(self, other)
+  end
+
+  # Computes the euclidean norm of the vector
+  #
+  # ```
+  # vec = Vector.new [1.0, 2.0, 3.0]
+  # vec.norm # => 3.741657386773941
+  # ```
+  def norm
+    Bottle::Util::VectorMath.vector_norm(self)
+  end
+
   # Computes the maximum value of a vector
   #
   # ```
@@ -293,8 +307,3 @@ class Vector(T)
     io << "[" << vals.join(", ") << "]"
   end
 end
-
-v1 = Vector.new [1.0, 2, 3]
-v2 = Vector.new [1.0, 2, 3]
-
-puts v1.ptp

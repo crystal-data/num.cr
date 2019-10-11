@@ -1,12 +1,13 @@
 require "../llib/gsl"
 require "../core/vector"
+require "../core/matrix"
 require "./exceptions"
 
 # Creates indexing methods for each support data type of gsl.
 # Since all the calls are virtually identical, and since
 # only the pointers are passed around, this is an easy way
 # to avoid duplicate code for no reason.
-macro indexing_abstract(type_, prefix)
+macro vector_indexing_abstract(type_, prefix)
   module Bottle::Util::Indexing
     include Bottle::Util::Exceptions
     extend self
@@ -115,5 +116,20 @@ macro indexing_abstract(type_, prefix)
   end
 end
 
-indexing_abstract LibGsl::GslVector, gsl_vector
-indexing_abstract LibGsl::GslVectorInt, gsl_vector_int
+vector_indexing_abstract LibGsl::GslVector, gsl_vector
+vector_indexing_abstract LibGsl::GslVectorInt, gsl_vector_int
+
+macro matrix_indexing_abstract(type_, prefix)
+  module Bottle::Util::Indexing
+    include Bottle::Util::Exceptions
+    extend self
+
+    def get_matrix_row_at_index(matrix : Pointer({{ type_ }}), index : Int32)
+      vv = LibGsl.{{ prefix }}_row(matrix, index)
+      return Vector.new vv.vector
+    end
+  end
+end
+
+matrix_indexing_abstract LibGsl::GslMatrix, gsl_matrix
+matrix_indexing_abstract LibGsl::GslMatrixInt, gsl_matrix_int
