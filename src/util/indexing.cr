@@ -128,6 +128,11 @@ macro matrix_indexing_abstract(type_, prefix)
       vv = LibGsl.{{ prefix }}_row(matrix, index)
       return Vector.new vv.vector
     end
+
+    def get_matrix_col_at_index(matrix : Pointer({{ type_ }}), column : Int32)
+      vv = LibGsl.{{ prefix }}_column(matrix, column)
+      return Vector.new vv.vector
+    end
   end
 end
 

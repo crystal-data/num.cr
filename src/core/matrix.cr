@@ -55,7 +55,11 @@ class Matrix(T)
     @ncols = @obj.size2
   end
 
-  def [](index : Int32)
-    Bottle::Util::Indexing.get_matrix_row_at_index(@ptr, index)
+  def [](row : Int32)
+    Bottle::Util::Indexing.get_matrix_row_at_index(@ptr, row)
+  end
+
+  def [](range : Range(Nil, Nil), column : Int32)
+    Bottle::Util::Indexing.get_matrix_col_at_index(@ptr, column)
   end
 end

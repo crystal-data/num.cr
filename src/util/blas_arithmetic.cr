@@ -1,16 +1,15 @@
 require "../core/vector"
 require "../llib/gsl"
+require "../llib/cblas"
 
 module Bottle::Util::VectorMath
   extend self
 
   def vector_dot(vector : Vector(LibGsl::GslVector), other : Vector(LibGsl::GslVector))
-    res = 0.0
-    LibGsl.gsl_blas_ddot(vector.ptr, other.ptr, pointerof(res))
-    return res
+    LibCblas.ddot(vector.size, vector.@obj.data, vector.stride, other.@obj.data, other.stride)
   end
 
   def vector_norm(vector : Vector(LibGsl::GslVector))
-    LibGsl.gsl_blas_dnrm2(vector.ptr)
+    LibCblas.snrm2(vector.size, vector.@obj.data, vector.stride)
   end
 end
