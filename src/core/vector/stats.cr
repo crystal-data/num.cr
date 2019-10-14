@@ -1,9 +1,8 @@
-require "../llib/gsl"
-require "../core/vector"
+require "../../libs/gsl"
+require "../../vector/*"
 
 macro statistics_abstract(type_, prefix)
-  module Bottle::Util::VectorStats
-    include Bottle::Util::Exceptions
+  module Bottle::Core::VectorStats
     extend self
 
     def vector_max(a : Pointer({{ type_ }}))

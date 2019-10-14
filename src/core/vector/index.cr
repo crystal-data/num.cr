@@ -1,15 +1,13 @@
-require "../llib/gsl"
-require "../core/vector"
-require "../core/matrix"
-require "./exceptions"
+require "../../libs/gsl"
+require "../../vector/*"
 
 # Creates indexing methods for each support data type of gsl.
 # Since all the calls are virtually identical, and since
 # only the pointers are passed around, this is an easy way
 # to avoid duplicate code for no reason.
-macro vector_indexing_abstract(type_, prefix)
-  module Bottle::Util::Indexing
-    include Bottle::Util::Exceptions
+macro vector_indexing_abstract(type_, dtype, prefix)
+  module Bottle::Core::VectorIndex
+    include Bottle::Core::Exceptions
     extend self
 
     # Gets a single element from a vector at a given index, the core
@@ -107,7 +105,7 @@ macro vector_indexing_abstract(type_, prefix)
       end
     end
 
-    def copy_vector(vector : Vector({{ type_ }}))
+    def copy_vector(vector : Vector({{ type_ }}, {{ dtype }}))
       ptv = LibGsl.{{ prefix }}_alloc(vector.size)
       LibGsl.{{ prefix }}_memcpy(ptv, vector.ptr)
       return Vector.new ptv, ptv.value.data
@@ -116,25 +114,5 @@ macro vector_indexing_abstract(type_, prefix)
   end
 end
 
-vector_indexing_abstract LibGsl::GslVector, gsl_vector
-vector_indexing_abstract LibGsl::GslVectorInt, gsl_vector_int
-
-macro matrix_indexing_abstract(type_, prefix)
-  module Bottle::Util::Indexing
-    include Bottle::Util::Exceptions
-    extend self
-
-    def get_matrix_row_at_index(matrix : Pointer({{ type_ }}), index : Int32)
-      vv = LibGsl.{{ prefix }}_row(matrix, index)
-      return Vector.new vv.vector, vv.vector.data
-    end
-
-    def get_matrix_col_at_index(matrix : Pointer({{ type_ }}), column : Int32)
-      vv = LibGsl.{{ prefix }}_column(matrix, column)
-      return Vector.new vv.vector, vv.vector.data
-    end
-  end
-end
-
-matrix_indexing_abstract LibGsl::GslMatrix, gsl_matrix
-matrix_indexing_abstract LibGsl::GslMatrixInt, gsl_matrix_int
+vector_indexing_abstract LibGsl::GslVector, Float64, gsl_vector
+vector_indexing_abstract LibGsl::GslVectorInt, Int32, gsl_vector_int

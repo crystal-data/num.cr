@@ -230,8 +230,8 @@ lib LibGsl
   fun gsl_matrix_int_sub(a : GslMatrixInt*, b : GslMatrixInt*)
   fun gsl_matrix_int_mul_elements(a : GslMatrixInt*, b : GslMatrixInt*) : Integer
   fun gsl_matrix_int_div_elements(a : GslMatrixInt*, b : GslMatrixInt*) : Integer
-  fun gsl_matrix_int_scale(a : GslMatrixInt*, x : Integer) : Integer
-  fun gsl_matrix_int_add_constant(a : GslMatrixInt*, x : Integer)
+  fun gsl_matrix_int_scale(a : GslMatrixInt*, x : Double) : Integer
+  fun gsl_matrix_int_add_constant(a : GslMatrixInt*, x : Double)
   fun gsl_matrix_int_max(m : GslMatrixInt*) : Integer
   fun gsl_matrix_int_min(m : GslMatrixInt*) : Integer
   fun gsl_matrix_int_minmax(m : GslMatrixInt*, min_out : Integer*, max_out : Integer*)
