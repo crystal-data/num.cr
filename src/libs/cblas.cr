@@ -1,7 +1,7 @@
 {% if flag?(:darwin) %}
   @[Link(framework: "Accelerate")]
 {% else %}
-  @[Link("cblas")]
+  @[Link("openblas")]
 {% end %}
 lib LibCblas
   alias Integer = LibC::Int
@@ -13,5 +13,8 @@ lib LibCblas
   alias UInt = LibC::SizeT
 
   fun ddot = cblas_ddot(n : Integer, x : Double*, incx : Integer, y : Double*, incy : Integer) : Double
-  fun snrm2 = cblas_snrm2(n : Integer, x : Double*, incx : Integer) : Double
+  fun dnrm2 = cblas_dnrm2(n : Integer, x : Double*, incx : Integer) : Double
+  fun dscal = cblas_dscal(n : Integer, da : Double, dx : Double*, incx : Integer)
+  fun dasum = cblas_dasum(n : Integer, dx : Double*, incx : Integer) : Double
+  fun idamax = cblas_idamax(n : Integer, dx : Double*, incx : Integer) : Integer
 end

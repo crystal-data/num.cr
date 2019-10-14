@@ -1,19 +1,49 @@
-macro matrix_indexing_abstract(type_, dtype, prefix)
-  module Bottle::Util::Indexing
-    include Bottle::Util::Exceptions
-    extend self
+require "../../libs/gsl"
+require "../../matrix/*"
+require "../vector/index"
 
-    def get_matrix_row_at_index(matrix : Pointer({{ type_ }}), index : Int32)
-      vv = LibGsl.{{ prefix }}_row(matrix, index)
-      return Vector.new vv.vector, vv.vector.data
-    end
+module Bottle::Core::MatrixIndex
+  include Bottle::Core::Exceptions
+  extend self
 
-    def get_matrix_col_at_index(matrix : Pointer({{ type_ }}), column : Int32)
-      vv = LibGsl.{{ prefix }}_column(matrix, column)
-      return Vector.new vv.vector, vv.vector.data
-    end
+  def get_matrix_value(matrix : Matrix(LibGsl::GslMatrix, Float64), row, col)
+    LibGsl.gsl_matrix_get(matrix.ptr, row, col)
+  end
+
+  # Gets row view from a matrix at a given index
+  #
+  # ```
+  # m = Matrix.new [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+  # m[0] # => [1, 2, 3]
+  # ```
+  def get_matrix_row_at_index(matrix : Matrix(LibGsl::GslMatrix, Float64), index : Int32, range)
+    r = Bottle::Core::VectorIndex.convert_range_to_slice(range, matrix.nrows)
+    vv = LibGsl.gsl_matrix_subrow(matrix.ptr, index, r.begin, r.end - r.begin)
+    return Vector.new vv.vector, vv.vector.data
+  end
+
+  # Gets a column view from a matrix at a given index
+  #
+  # ```
+  # m = Matrix.new [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+  # m[..., 0] # => [1, 4, 7]
+  # ```
+  def get_matrix_col_at_index(matrix : Matrix(LibGsl::GslMatrix, Float64), column : Int32, range)
+    c = Bottle::Core::VectorIndex.convert_range_to_slice(range, matrix.ncols)
+    vv = LibGsl.gsl_matrix_subcolumn(matrix.ptr, column, c.begin, c.end - c.begin)
+    return Vector.new vv.vector, vv.vector.data
+  end
+
+  # Gets a submatrix from ranges
+  #
+  # ```
+  # m = Matrix.new [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+  # m[...2, ...2] # => [[1.0, 2.0], [4.0, 5.0]]
+  # ```
+  def get_submatrix_by_slice(matrix : Matrix(LibGsl::GslMatrix, Float64), rows, cols)
+    r = Bottle::Core::VectorIndex.convert_range_to_slice(rows, matrix.nrows)
+    c = Bottle::Core::VectorIndex.convert_range_to_slice(cols, matrix.ncols)
+    m = LibGsl.gsl_matrix_submatrix(matrix.ptr, r.begin, c.begin, c.end - c.begin, r.end - r.begin)
+    return Matrix.new m.matrix, m.matrix.data
   end
 end
-
-matrix_indexing_abstract LibGsl::GslMatrix, Float64, gsl_matrix
-matrix_indexing_abstract LibGsl::GslMatrixInt, Int32, gsl_matrix_int

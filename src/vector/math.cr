@@ -66,7 +66,7 @@ class Vector(T, D)
   # v1 + v2 # => [2.0, 4.0, 6.0]
   # ```
   def *(other : Number)
-    Bottle::Core::VectorMath.mul_constant(self.copy, other.to_f)
+    Bottle::Core::VectorMath.mul_constant(self.copy, other)
   end
 
   # Elementwise division of a vector to another equally sized vector

@@ -1,9 +1,5 @@
-require "../llib/gsl"
-require "../util/indexing"
-require "../util/arithmetic"
-require "../util/statistics"
-require "../util/generic"
-require "../util/blas_arithmetic"
+require "../core/matrix/*"
+require "./*"
 
 class Matrix(T, D)
   @ptr : Pointer(T)
@@ -23,7 +19,7 @@ class Matrix(T, D)
   getter dtype
 
   def self.new(data : Array(Array(A))) forall A
-    new(fetch_struct(data))
+    new(*fetch_struct(data))
   end
 
   def self.fetch_struct(data : Array(Array(Number)))
@@ -47,11 +43,23 @@ class Matrix(T, D)
     @dtype = D
   end
 
-  def [](row : Int32)
-    Bottle::Util::Indexing.get_matrix_row_at_index(@ptr, row)
+  def initialize(@obj : T, @data : Pointer(D))
+    @ptr = pointerof(@obj)
+    @owner = @obj.owner
+    @tda = @obj.tda
+    @nrows = @obj.size1
+    @ncols = @obj.size2
+    @dtype = D
   end
 
-  def [](range : Range(Nil, Nil), column : Int32)
-    Bottle::Util::Indexing.get_matrix_col_at_index(@ptr, column)
+  def to_s(io)
+    io << "["
+    (0...@nrows).each do |el|
+      startl = el == 0 ? "" : " "
+      endl = el == @nrows - 1 ? "" : "\n"
+      row = Bottle::Core::MatrixIndex.get_matrix_row_at_index(self, el)
+      io << startl << row << endl
+    end
+    io << "]"
   end
 end

@@ -61,6 +61,3 @@ class Vector(T, D)
     return Vector.new vector, vector.value.data
   end
 end
-
-v = Vector.new [1, 2, 3, 4]
-puts v

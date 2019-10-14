@@ -2,27 +2,6 @@ require "../core/vector/*"
 require "./*"
 
 class Vector(T, D)
-  # Computes the dot product of two vectors
-  #
-  # ```
-  # v1 = Vector.new [1.0, 2.0, 3.0]
-  # v2 = Vector.new [4.0, 5.0, 6.0]
-  # v1.dot(v2) # => 32
-  # ```
-  def dot(other : Vector)
-    Bottle::Core::VectorStats.vector_dot(self, other)
-  end
-
-  # Computes the euclidean norm of the vector
-  #
-  # ```
-  # vec = Vector.new [1.0, 2.0, 3.0]
-  # vec.norm # => 3.741657386773941
-  # ```
-  def norm
-    Bottle::Core::VectorStats.vector_norm(self)
-  end
-
   # Computes the maximum value of a vector
   #
   # ```
