@@ -23,8 +23,8 @@ class Vector(T, D)
   end
 
   private def self.fetch_struct(items : Array(Int32))
-    vector = LibGsl.gsl_vector_int_alloc(items.size)
-    items.each_with_index { |e, i| LibGsl.gsl_vector_int_set(vector, i, e) }
+    vector = LibGsl.gsl_vector_alloc(items.size)
+    items.each_with_index { |e, i| LibGsl.gsl_vector_set(vector, i, e) }
     return vector, vector.value.data
   end
 
@@ -56,13 +56,11 @@ class Vector(T, D)
     @dtype = D
   end
 
-  def self.zeros(n : Int32, dtype : Float64.class)
+  def self.zeros(n : Int32)
     vector = LibGsl.gsl_vector_calloc(n)
     return Vector.new vector, vector.value.data
   end
-
-  def self.zeros(n : Int32, dtype : Int32.class)
-    vector = LibGsl.gsl_vector_int_calloc(n)
-    return Vector.new vector, vector.value.data
-  end
 end
+
+v = Vector.new [1, 2, 3, 4]
+puts v
