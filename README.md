@@ -30,10 +30,17 @@ Bottle provides a Vector class that supports integer and float data types.
 dv = Vector.new [1.0, 2, 3, 4, 5] # dtype is Float64
 iv = Vector.new [1, 2, 3, 4, 5] # dtype is Int32
 
-iv[1...] # slice of vector
-iv[[1, 2, 3]] # copy of vector, multi-indexing
+iv[1...]                  # slice of vector
+iv[[1, 2, 3]]             # copy of vector, multi-indexing
 iv[[1, 2, 3]] = [6, 7, 8] # in place multiple assignment
-iv + iv # elementwise addition of vectors
+iv + iv                   # elementwise operations on vectors
+iv * iv
+iv / iv
+iv / 5                    # elementwise operations using constants
+iv - 8
+
+iv.dot(iv)                # BLAS backed routines
+iv.norm
 ```
 
 ## Development
