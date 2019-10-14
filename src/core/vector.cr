@@ -14,12 +14,14 @@ class Vector(T, D)
   @size : UInt64
   @stride : UInt64
   @data : Pointer(D)
+  @dtype : D.class
 
   getter ptr
   getter owner
   getter size
   getter stride
   getter data
+  getter dtype
 
   def self.new(data : Array(A)) forall A
     new(*fetch_struct(data))
@@ -48,6 +50,7 @@ class Vector(T, D)
     @owner = @obj.owner
     @size = @obj.size
     @stride = @obj.stride
+    @dtype = D
   end
 
   def initialize(@obj : T, @data : Pointer(D))
@@ -55,6 +58,7 @@ class Vector(T, D)
     @owner = @obj.owner
     @size = @obj.size
     @stride = @obj.stride
+    @dtype = D
   end
 
   def self.zeros(n : Int32, dtype : Float64.class)
