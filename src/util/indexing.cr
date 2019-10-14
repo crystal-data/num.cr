@@ -48,7 +48,7 @@ macro vector_indexing_abstract(type_, prefix)
         val = get_vector_element_at_index(vector, el)
         set_vector_element_at_index(ptv, index, val)
       end
-      return Vector.new ptv
+      return Vector.new ptv, ptv.value.data
     end
 
     # Sets multiple elements of a vector by the given indexes.
@@ -90,7 +90,7 @@ macro vector_indexing_abstract(type_, prefix)
     def get_vector_elements_at_range(vector : Pointer({{ type_ }}), range, size)
       newr = convert_range_to_slice(range, size)
       vv = LibGsl.{{ prefix }}_subvector(vector, newr.begin, newr.end - newr.begin)
-      return Vector.new vv.vector
+      return Vector.new vv.vector, vv.vector.data
     end
 
     # Sets elements of a vector to given values based on the given range
@@ -110,7 +110,7 @@ macro vector_indexing_abstract(type_, prefix)
     def copy_vector(vector : Vector({{ type_ }}))
       ptv = LibGsl.{{ prefix }}_alloc(vector.size)
       LibGsl.{{ prefix }}_memcpy(ptv, vector.ptr)
-      return Vector.new(ptv.value)
+      return Vector.new ptv, ptv.value.data
     end
 
   end
@@ -126,12 +126,12 @@ macro matrix_indexing_abstract(type_, prefix)
 
     def get_matrix_row_at_index(matrix : Pointer({{ type_ }}), index : Int32)
       vv = LibGsl.{{ prefix }}_row(matrix, index)
-      return Vector.new vv.vector
+      return Vector.new vv.vector, vv.vector.data
     end
 
     def get_matrix_col_at_index(matrix : Pointer({{ type_ }}), column : Int32)
       vv = LibGsl.{{ prefix }}_column(matrix, column)
-      return Vector.new vv.vector
+      return Vector.new vv.vector, vv.vector.data
     end
   end
 end

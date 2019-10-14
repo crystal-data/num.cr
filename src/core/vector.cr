@@ -5,7 +5,7 @@ require "../util/statistics"
 require "../util/generic"
 require "../util/blas_arithmetic"
 require "../util/ma.cr"
-require "benchmark"
+# require "../ma/comparison"
 
 class Vector(T, D)
   @ptr : Pointer(T)
@@ -229,6 +229,10 @@ class Vector(T, D)
     Bottle::Util::VectorMath.div_constant(self.copy, other)
   end
 
+  def ==(other : Vector)
+    Bottle::Ma::Comparison.vector_equal(self, other)
+  end
+
   # Computes the dot product of two vectors
   #
   # ```
@@ -325,3 +329,8 @@ class Vector(T, D)
     io << "[" << vals.join(", ") << "]"
   end
 end
+
+v1 = Vector.new [1.0, 2.0, 3.0]
+v2 = Vector.new [1.0, 3.0, 3.0]
+
+puts v2 * v2
