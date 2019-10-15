@@ -18,6 +18,10 @@ class Matrix(T, D)
   getter ncols
   getter dtype
 
+  def copy
+    Bottle::Core::MatrixIndex.copy_matrix(self)
+  end
+
   def self.new(data : Array(Array(A))) forall A
     new(*fetch_struct(data))
   end
@@ -34,7 +38,7 @@ class Matrix(T, D)
     return ptm, ptm.value.data
   end
 
-  private def initialize(@ptr : Pointer(T), @data : Pointer(D))
+  def initialize(@ptr : Pointer(T), @data : Pointer(D))
     @obj = @ptr.value
     @owner = @obj.owner
     @tda = @obj.tda
@@ -57,7 +61,7 @@ class Matrix(T, D)
     (0...@nrows).each do |el|
       startl = el == 0 ? "" : " "
       endl = el == @nrows - 1 ? "" : "\n"
-      row = Bottle::Core::MatrixIndex.get_matrix_row_at_index(self, el)
+      row = Bottle::Core::MatrixIndex.get_matrix_row_at_index(self, el, ...)
       io << startl << row << endl
     end
     io << "]"
