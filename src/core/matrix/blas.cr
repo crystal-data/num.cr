@@ -26,7 +26,7 @@ module Bottle::Core::MatrixBlas
   end
 
   def mul_matrix(a : Matrix(LibGsl::GslMatrix, Float64), b : Matrix(LibGsl::GslMatrix, Float64))
-    c = Matrix.empty(a.nrows, a.ncols)
+    c = Matrix.empty(a.nrows, b.ncols)
     LibCblas.dgemm(
       LibCblas::MatrixLayout::RowMajor,
       LibCblas::MatrixTranspose::NoTrans, LibCblas::MatrixTranspose::NoTrans,
