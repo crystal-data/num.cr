@@ -35,13 +35,12 @@ lib LibCblas
 
   # Level 2
   fun dgemv = cblas_dgemv(order : MatrixLayout, trans : MatrixTranspose, m : Integer,
-    n : Integer, alpha : Double, a : Double*, lda : Integer, x : Double*, incx : Integer, beta : Double, y : Double*, incy : Integer)
+                          n : Integer, alpha : Double, a : Double*, lda : Integer, x : Double*, incx : Integer, beta : Double, y : Double*, incy : Integer)
   fun dger = cblas_dger(order : MatrixLayout, m : Integer, n : Integer, alpha : Double, x : Double*,
-    incx : Integer, y : Double*, incy : Integer, a : Double*, lda : Integer)
+                        incx : Integer, y : Double*, incy : Integer, a : Double*, lda : Integer)
 
   # Level 3
   fun dgemm = cblas_dgemm(order : MatrixLayout, trans_a : MatrixTranspose, trans_b : MatrixTranspose,
-    m : Integer, n : Integer, k : Integer, alpha : Double, a : Double*, lda : Integer, b : Double*,
-    ldb : Integer, beta : Double, c : Double*, ldc : Integer)
-
+                          m : Integer, n : Integer, k : Integer, alpha : Double, a : Double*, lda : Integer, b : Double*,
+                          ldb : Integer, beta : Double, c : Double*, ldc : Integer)
 end
