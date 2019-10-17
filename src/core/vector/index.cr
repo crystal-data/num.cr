@@ -100,6 +100,12 @@ module Bottle::Core::VectorIndex
     end
   end
 
+  # Returns a copy of a vector that owns its own memory
+  #
+  # ```
+  # a = Vector.new [1, 2, 3]
+  # a.copy # => [1, 2, 3]
+  # ```
   def copy_vector(vector : Vector(LibGsl::GslVector, Float64))
     ptv = LibGsl.gsl_vector_alloc(vector.size)
     LibGsl.gsl_vector_memcpy(ptv, vector.ptr)

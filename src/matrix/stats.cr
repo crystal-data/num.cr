@@ -65,4 +65,8 @@ class Matrix(T, D)
   def idxmin(axis : Int32 | Nil = nil)
     Bottle::Core::MatrixStats.matrix_idxmin(self, axis)
   end
+
+  def cumsum(axis : Int32 | Nil = nil)
+    Bottle::Core::MatrixStats.matrix_cumsum(self.copy, axis)
+  end
 end

@@ -41,4 +41,22 @@ class Matrix(T, D)
   def [](row : Int32, col : Int32)
     Bottle::Core::MatrixIndex.get_matrix_value(self, row, col)
   end
+
+  def []=(row : Int32, v : Vector)
+    Bottle::Core::MatrixIndex.set_matrix_row(self, row, v)
+  end
+
+  def []=(range : Range(Nil, Nil), col : Int32, v : Vector)
+    Bottle::Core::MatrixIndex.set_matrix_column(self, col, v)
+  end
+
+  # Returns the diagonal of a matrix
+  #
+  # ```
+  # m = Matrix.new [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+  # m.diagonal # => [1.0, 5.0, 9.0]
+  # ```
+  def diagonal
+    Bottle::Core::MatrixIndex.get_matrix_diagonal(self, k = 0)
+  end
 end

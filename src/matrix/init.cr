@@ -79,4 +79,10 @@ class Matrix(T, D)
     end
     return Matrix.new d
   end
+
+  def transpose
+    m = Matrix.empty(ncols, nrows)
+    LibGsl.gsl_matrix_transpose_memcpy(m.ptr, self.ptr)
+    return m
+  end
 end

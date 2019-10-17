@@ -72,8 +72,23 @@ class Vector(T, D)
     Bottle::Core::VectorStats.vector_ptpidx(@ptr)
   end
 
-  def to_s(io)
-    vals = (0...@size).map { |i| Bottle::Core::VectorIndex.get_vector_element_at_index(@ptr, i) }
-    io << "[" << vals.join(", ") << "]"
+  # Computes the cumulative sum of a vector
+  #
+  # ```
+  # v = Vector.new [1, 2, 3, 4]
+  # v.cumsum # => [1, 3, 6, 10]
+  # ```
+  def cumsum
+    Bottle::Core::VectorStats.vector_cumsum(self.copy)
+  end
+
+  # Computes the cumulative product of a vector
+  #
+  # ```
+  # v = Vector.new [1, 2, 3, 4]
+  # v.cumprod # => [1, 2, 6, 24]
+  # ```
+  def cumprod
+    Bottle::Core::VectorStats.vector_cumprod(self.copy)
   end
 end

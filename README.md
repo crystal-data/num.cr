@@ -24,28 +24,68 @@ welcomed and encouraged to bring powerful and fast data science to Crystal.
 require "bottle"
 ```
 
-Bottle provides a Vector class that supports integer and float data types.
+Bottle provides a Vector class as a powerful one-dimensional data structure
 
 ```crystal
-dv = Vector.new [1.0, 2, 3, 4, 5] # dtype is Float64
-iv = Vector.new [1, 2, 3, 4, 5] # dtype is Int32
+v = Vector.new [1, 2, 3, 4, 5]
+```
 
-iv[1...]                  # slice of vector
-iv[[1, 2, 3]]             # copy of vector, multi-indexing
-iv[[1, 2, 3]] = [6, 7, 8] # in place multiple assignment
-iv + iv                   # elementwise operations on vectors
-iv * iv
-iv / iv
-iv / 5                    # elementwise operations using constants
-iv - 8
+Bottle provides powerful slicing and assignment operations.
 
-iv.dot(iv)                # BLAS backed routines
-iv.norm
+```crystal
+# Sliced view of a vector
+v[1...] # => [2.0, 3.0, 4.0, 5.0]
+
+# Pass multiple indexes to return a new vector that owns its own memory
+v[[0, 2, 2]] # => [1.0, 3.0, 3.0]
+
+# Assign multiple values at once.
+v[[0, 1, 2]] = [8.0, 7.0, 5.0]
+v # => [8.0, 7.0, 5.0, 4.0, 5.0]
+```
+
+Bottle also provides vectorized numerical methods.
+
+```crystal
+# Cumulative operations
+v.cumsum # => [1.0, 3.0, 6.0, 10.0, 15.0]
+
+# Elementwise operations
+v * v # => [1.0, 4.0, 9.0, 16.0, 25.0]
+
+# Vectorized operations with scalars
+v + 2 # => [3.0, 4.0, 5.0, 6.0, 7.0]
+```
+
+Bottle provides a 2D Matrix class for higher dimensional data.
+
+```crystal
+m = Matrix.new [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+```
+
+Use linear algebra routines backed by BLAS and LAPACK
+
+```crystal
+m.matmul(m) # =>
+
+# [[30.0, 36.0, 42.0]
+#  [66.0, 81.0, 96.0]
+#  [102.0, 126.0, 150.0]]
+```
+
+Apply calculations along axes of a matrix
+
+```crystal
+m.cumsum(1)
+
+# [[1.0, 3.0, 6.0]
+#  [4.0, 9.0, 15.0]
+#  [7.0, 15.0, 24.0]]
 ```
 
 ## Development
 
-TODO: Write development instructions here
+This library is currently in very active development and I would love any help I can get!
 
 ## Contributing
 

@@ -15,14 +15,14 @@ module Bottle::Core::MatrixStats
     if axis.nil?
       return LibGsl.gsl_matrix_max(m.ptr)
     end
-    if axis == 0
+    if axis == 1
       v = Vector.empty(m.nrows)
       (0...m.nrows).each do |i|
         v[i] = m[i].max
       end
       return v
     end
-    if axis == 1
+    if axis == 0
       v = Vector.empty(m.ncols)
       (0...m.ncols).each do |i|
         v[i] = m[..., i].max
@@ -42,14 +42,14 @@ module Bottle::Core::MatrixStats
     if axis.nil?
       return LibGsl.gsl_matrix_min(m.ptr)
     end
-    if axis == 0
+    if axis == 1
       v = Vector.empty(m.nrows)
       (0...m.nrows).each do |i|
         v[i] = m[i].min
       end
       return v
     end
-    if axis == 1
+    if axis == 0
       v = Vector.empty(m.ncols)
       (0...m.ncols).each do |i|
         v[i] = m[..., i].min
@@ -96,14 +96,14 @@ module Bottle::Core::MatrixStats
       LibGsl.gsl_matrix_max_index(m.ptr, pointerof(imin), pointerof(imax))
       return imin * m.ncols + imax
     end
-    if axis == 0
+    if axis == 1
       v = Vector.empty(m.nrows)
       (0...m.nrows).each do |i|
         v[i] = m[i].idxmax
       end
       return v
     end
-    if axis == 1
+    if axis == 0
       v = Vector.empty(m.ncols)
       (0...m.ncols).each do |i|
         v[i] = m[..., i].idxmax
@@ -125,19 +125,37 @@ module Bottle::Core::MatrixStats
       imax = UInt64.new 0
       return LibGsl.gsl_matrix_min_index(m.ptr, pointerof(imin), pointerof(imax))
     end
-    if axis == 0
+    if axis == 1
       v = Vector.empty(m.nrows)
       (0...m.nrows).each do |i|
         v[i] = m[i].idxmin
       end
       return v
     end
-    if axis == 1
+    if axis == 0
       v = Vector.empty(m.ncols)
       (0...m.ncols).each do |i|
         v[i] = m[..., i].idxmin
       end
       return v
+    end
+  end
+
+  def matrix_cumsum(m : Matrix(LibGsl::GslMatrix, Float64), axis : Int32 | Nil = nil)
+    if axis.nil?
+      return m
+    end
+    if axis == 1
+      (0...m.nrows).each do |i|
+        m[i] = m[i].cumsum
+      end
+      return m
+    end
+    if axis == 0
+      (0...m.ncols).each do |i|
+        m[..., i] = m[..., i].cumsum
+      end
+      return m
     end
   end
 end

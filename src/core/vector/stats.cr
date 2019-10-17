@@ -80,4 +80,30 @@ module Bottle::Core::VectorStats
     LibGsl.gsl_vector_minmax_index(a, pointerof(imin), pointerof(imax))
     return imin, imax
   end
+
+  # Computes the cumulative sum of a vector
+  #
+  # ```
+  # v = Vector.new [1, 2, 3, 4]
+  # v.cumsum # => [1, 3, 6, 10]
+  # ```
+  def vector_cumsum(a : Vector)
+    (1...a.size).each do |index|
+      a.data[index * a.stride] += a.data[(index - 1) * a.stride]
+    end
+    return a
+  end
+
+  # Computes the cumulative product of a vector
+  #
+  # ```
+  # v = Vector.new [1, 2, 3, 4]
+  # v.cumprod # => [1, 2, 6, 24]
+  # ```
+  def vector_cumprod(a : Vector)
+    (1...a.size).each do |index|
+      a.data[index * a.stride] *= a.data[(index - 1) * a.stride]
+    end
+    return a
+  end
 end
