@@ -12,9 +12,32 @@ lib LibCblas
   alias LFp = Pointer(Void)
   alias UInt = LibC::SizeT
 
+  enum MatrixLayout : Integer
+    RowMajor = 101
+    ColMajor = 102
+  end
+
+  enum MatrixTranspose
+    NoTrans     = 111
+    Trans       = 112
+    ConjTrans   = 113
+    ConjNoTrans = 114
+  end
+
+  # Level 1
   fun ddot = cblas_ddot(n : Integer, x : Double*, incx : Integer, y : Double*, incy : Integer) : Double
   fun dnrm2 = cblas_dnrm2(n : Integer, x : Double*, incx : Integer) : Double
   fun dscal = cblas_dscal(n : Integer, da : Double, dx : Double*, incx : Integer)
   fun dasum = cblas_dasum(n : Integer, dx : Double*, incx : Integer) : Double
   fun idamax = cblas_idamax(n : Integer, dx : Double*, incx : Integer) : Integer
+
+  # Level 2
+  fun dgemv = cblas_dgemv(order : MatrixLayout, trans : MatrixTranspose, m : Integer,
+    n : Integer, alpha : Double, a : Double*, lda : Integer, x : Double*, incx : Integer, beta : Double, y : Double*, incy : Integer)
+
+  # Level 3
+  fun dgemm = cblas_dgemm(order : MatrixLayout, trans_a : MatrixTranspose, trans_b : MatrixTranspose,
+    m : Integer, n : Integer, k : Integer, alpha : Double, a : Double*, lda : Integer, b : Double*,
+    ldb : Integer, beta : Double, c : Double*, ldc : Integer)
+
 end

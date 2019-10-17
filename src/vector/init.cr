@@ -65,4 +65,8 @@ class Vector(T, D)
     vector = LibGsl.gsl_vector_alloc(n)
     return Vector.new vector, vector.value.data
   end
+
+  def self.random(n : Int32 | UInt64)
+    Vector.new (0...n).map { |_| Random.rand }
+  end
 end
