@@ -32,6 +32,12 @@ class Matrix(T, D)
     Bottle::Core::MatrixIndex.get_submatrix_by_slice(self, rows, cols)
   end
 
+  # Gets a single value from a matrix
+  #
+  # ```
+  # m = Matrix.new [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+  # m[2, 2] # => 9
+  # ```
   def [](row : Int32, col : Int32)
     Bottle::Core::MatrixIndex.get_matrix_value(self, row, col)
   end

@@ -56,8 +56,13 @@ class Vector(T, D)
     @dtype = D
   end
 
-  def self.zeros(n : Int32)
+  def self.zeros(n : Int32 | UInt64)
     vector = LibGsl.gsl_vector_calloc(n)
+    return Vector.new vector, vector.value.data
+  end
+
+  def self.empty(n : Int32 | UInt64)
+    vector = LibGsl.gsl_vector_alloc(n)
     return Vector.new vector, vector.value.data
   end
 end
