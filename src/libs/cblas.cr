@@ -1,16 +1,11 @@
+require "./dtype"
+
 {% if flag?(:darwin) %}
   @[Link(framework: "Accelerate")]
 {% else %}
   @[Link("openblas")]
 {% end %}
 lib LibCblas
-  alias Integer = LibC::Int
-  alias Real = LibC::Float
-  alias Double = LibC::Double
-  alias Logical = LibC::Char
-  alias Ftnlen = LibC::Int
-  alias LFp = Pointer(Void)
-  alias UInt = LibC::SizeT
 
   enum MatrixLayout : Integer
     RowMajor = 101
@@ -25,8 +20,10 @@ lib LibCblas
   end
 
   # Level 1
+  fun srotg = cblas_srotg(da : Real, db : Real, c : Real*, s : Real*)
   fun drotg = cblas_drotg(da : Double, db : Double, c : Double*, s : Double*)
   fun drot = cblas_drot(n : Integer, dx : Double*, incx : Integer, dy : Double*, incy : Integer, c : Double, s : Double)
+  fun srot = cblas_srot(n : Integer, dx : Real*, incx : Integer, dy : Real*, incy : Integer, c : Real*, s : Real*)
   fun ddot = cblas_ddot(n : Integer, x : Double*, incx : Integer, y : Double*, incy : Integer) : Double
   fun dnrm2 = cblas_dnrm2(n : Integer, x : Double*, incx : Integer) : Double
   fun dscal = cblas_dscal(n : Integer, da : Double, dx : Double*, incx : Integer)
