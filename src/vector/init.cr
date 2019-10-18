@@ -56,6 +56,11 @@ class Vector(T, D)
     @dtype = D
   end
 
+  def to_s(io)
+    vals = (0...@size).map { |i| Bottle::Core::VectorIndex.get_vector_element_at_index(@ptr, i) }
+    io << "[" << vals.map { |v| v.round(3) }.join(", ") << "]"
+  end
+
   def self.zeros(n : Int32 | UInt64)
     vector = LibGsl.gsl_vector_calloc(n)
     return Vector.new vector, vector.value.data
@@ -64,5 +69,9 @@ class Vector(T, D)
   def self.empty(n : Int32 | UInt64)
     vector = LibGsl.gsl_vector_alloc(n)
     return Vector.new vector, vector.value.data
+  end
+
+  def self.random(n : Int32 | UInt64)
+    Vector.new (0...n).map { |_| Random.rand }
   end
 end

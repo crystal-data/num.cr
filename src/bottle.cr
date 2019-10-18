@@ -1,11 +1,12 @@
 require "./vector/*"
 require "./matrix/*"
-require "benchmark"
+require "./core/bottle/*"
 
 module Bottle
-  VERSION = "0.1.0"
+  include Bottle::Core
+  extend self
+  VERSION = "0.1.1"
 end
 
-
-m = Matrix.new [[1, 2, 3], [4, 11, 6], [18, 2, 2]]
-puts m.idxmax
+m = Matrix.new [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+puts m.cumsum(1)

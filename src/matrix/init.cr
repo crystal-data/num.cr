@@ -17,6 +17,7 @@ class Matrix(T, D)
   getter nrows
   getter ncols
   getter dtype
+  getter data
 
   def copy
     Bottle::Core::MatrixIndex.copy_matrix(self)
@@ -65,5 +66,23 @@ class Matrix(T, D)
       io << startl << row << endl
     end
     io << "]"
+  end
+
+  def self.empty(nrows, ncols)
+    m = LibGsl.gsl_matrix_alloc(nrows, ncols)
+    return Matrix.new m, m.value.data
+  end
+
+  def self.random(nrows, ncols)
+    d = (0...nrows).map do |_|
+      (0...ncols).map { |_| Random.rand }
+    end
+    return Matrix.new d
+  end
+
+  def transpose
+    m = Matrix.empty(ncols, nrows)
+    LibGsl.gsl_matrix_transpose_memcpy(m.ptr, self.ptr)
+    return m
   end
 end
