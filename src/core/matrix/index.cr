@@ -74,6 +74,10 @@ module Bottle::Core::MatrixIndex
     LibGsl.gsl_matrix_set_col(matrix.ptr, column, vector.ptr)
   end
 
+  def set_matrix_value(matrix : Matrix(LibGsl::GslMatrix, Float64), i : Int32, j : Int32, value)
+    LibGsl.gsl_matrix_set(matrix.ptr, i, j, value)
+  end
+
   # Returns the diagonal of a matrix
   #
   # ```

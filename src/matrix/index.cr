@@ -50,6 +50,10 @@ class Matrix(T, D)
     Bottle::Core::MatrixIndex.set_matrix_column(self, col, v)
   end
 
+  def []=(row : Int32, col : Int32, x : Number)
+    Bottle::Core::MatrixIndex.set_matrix_value(self, row, col, x)
+  end
+
   # Returns the diagonal of a matrix
   #
   # ```
