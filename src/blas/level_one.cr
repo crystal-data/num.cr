@@ -1,12 +1,12 @@
 require "../libs/dtype"
 require "../libs/cblas"
-require "../vector/*"
+require "../flask/*"
 
-macro blas_helper(dtype, matrix_prefix, vector_prefix, matrix_type, vector_type, blas_prefix)
+macro blas_helper(dtype, blas_prefix, cast)
   module LL
     extend self
 
-    def givens(a : Vector({{vector_type}}, {{dtype}}), b : Vector({{vector_type}}, {{dtype}}), da, db, c, s)
+    def givens(a : Flask({{dtype}}), b : Flask({{dtype}}), da, db, c, s)
       LibCblas.{{blas_prefix}}rotg(pointerof(da), pointerof(db), pointerof(c), pointerof(s))
       LibCblas.{{blas_prefix}}rot(a.size, a.data, a.stride, b.data, b.stride, pointerof(c), pointerof(s))
       return a, b
@@ -19,7 +19,7 @@ macro blas_helper(dtype, matrix_prefix, vector_prefix, matrix_type, vector_type,
     # v2 = Vector.new [4.0, 5.0, 6.0]
     # v1.dot(v2) # => 32
     # ```
-    def dot(a : Vector({{vector_type}}, {{dtype}}), b : Vector({{vector_type}}, {{dtype}}))
+    def dot(a : Flask({{dtype}}), b : Flask({{dtype}}))
       LibCblas.{{blas_prefix}}dot(a.size, a.data, a.stride, b.data, b.stride)
     end
 
@@ -29,7 +29,7 @@ macro blas_helper(dtype, matrix_prefix, vector_prefix, matrix_type, vector_type,
     # vec = Vector.new [1.0, 2.0, 3.0]
     # vec.norm # => 3.741657386773941
     # ```
-    def norm(a : Vector({{vector_type}}, {{dtype}}))
+    def norm(a : Flask({{dtype}}))
       LibCblas.{{blas_prefix}}nrm2(a.size, a.data, a.stride)
     end
 
@@ -39,7 +39,7 @@ macro blas_helper(dtype, matrix_prefix, vector_prefix, matrix_type, vector_type,
     # v1 = Vector.new [-1, 1, 2]
     # v2.asum # => 4
     # ```
-    def asum(a : Vector({{vector_type}}, {{dtype}}))
+    def asum(a : Flask({{dtype}}))
       LibCblas.{{blas_prefix}}asum(a.size, a.data, a.stride)
     end
 
@@ -49,12 +49,17 @@ macro blas_helper(dtype, matrix_prefix, vector_prefix, matrix_type, vector_type,
     # v1 = Vector.new [-8, 1, 2]
     # v2.amax # => 0
     # ```
-    def amax(a : Vector({{vector_type}}, {{dtype}}))
+    def amax(a : Flask({{dtype}}))
       LibCblas.i{{blas_prefix}}amax(a.size, a.data, a.stride)
+    end
+
+    def scale(a : Flask({{dtype}}), x : {{dtype}})
+      LibCblas.{{blas_prefix}}scal(a.size, x, a.data, a.stride)
+      return a
     end
 
   end
 end
 
-blas_helper Float64, gsl_matrix, gsl_vector, LibGsl::GslMatrix, LibGsl::GslVector, d
-blas_helper Float32, gsl_matrix_float, gsl_vector_float, LibGsl::GslMatrixFloat, LibGsl::GslVectorFloat, s
+blas_helper Float64, d, _f64
+blas_helper Float32, s, _f32
