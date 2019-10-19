@@ -1,6 +1,6 @@
 require "../libs/dtype"
 require "../libs/gsl"
-require "../vector2/*"
+require "../vector/*"
 require "../core/exceptions"
 
 macro assignment_helper(dtype, matrix_prefix, vector_prefix, matrix_type, vector_type)

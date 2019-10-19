@@ -1,6 +1,6 @@
 require "../libs/dtype"
 require "../libs/gsl"
-require "../vector2/*"
+require "../vector/*"
 
 macro stats_helper(dtype, matrix_prefix, vector_prefix, matrix_type, vector_type)
   module LL

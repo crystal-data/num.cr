@@ -1,5 +1,6 @@
-require "../core/vector/*"
 require "./*"
+require "../gsl/*"
+require "../libs/gsl"
 
 class Vector(T, D)
   # Computes the maximum value of a vector
@@ -9,7 +10,7 @@ class Vector(T, D)
   # v.max # => 4
   # ```
   def max
-    Bottle::Core::VectorStats.vector_max(@ptr)
+    LL.max(self)
   end
 
   # Computes the minimum value of a vector
@@ -19,7 +20,7 @@ class Vector(T, D)
   # v.min # => 1
   # ```
   def min
-    Bottle::Core::VectorStats.vector_min(@ptr)
+    LL.min(self)
   end
 
   # Computes the min and max values of a vector
@@ -29,7 +30,7 @@ class Vector(T, D)
   # v.ptpv # => {1, 4}
   # ```
   def ptpv
-    Bottle::Core::VectorStats.vector_ptpv(@ptr)
+    LL.ptpv(self)
   end
 
   # Computes the "peak to peak" of a vector (max - min)
@@ -39,37 +40,37 @@ class Vector(T, D)
   # v.ptp # => 3
   # ```
   def ptp
-    Bottle::Core::VectorStats.vector_ptp(@ptr)
+    LL.ptp(self)
   end
 
   # Computes the index of the maximum value of a vector
   #
   # ```
   # v = Vector.new [1, 2, 3, 4]
-  # v.idxmax # => 3
+  # v.argmax # => 3
   # ```
-  def idxmax
-    Bottle::Core::VectorStats.vector_idxmax(@ptr)
+  def argmax
+    LL.argmax(self)
   end
 
   # Computes the index of the minimum value of a vector
   #
   # ```
   # v = Vector.new [1, 2, 3, 4]
-  # v.idxmin # => 0
+  # v.argmin # => 0
   # ```
-  def idxmin
-    Bottle::Core::VectorStats.vector_idxmin(@ptr)
+  def argmin
+    LL.argmin(self)
   end
 
   # Computes the indexes of the minimum and maximum values of a vector
   #
   # ```
   # v = Vector.new [1, 2, 3, 4]
-  # v.ptpidx # => {0, 3}
+  # v.argminmax # => {0, 3}
   # ```
-  def ptpidx
-    Bottle::Core::VectorStats.vector_ptpidx(@ptr)
+  def argminmax
+    LL.argminmax(self)
   end
 
   # Computes the cumulative sum of a vector
@@ -79,7 +80,7 @@ class Vector(T, D)
   # v.cumsum # => [1, 3, 6, 10]
   # ```
   def cumsum
-    Bottle::Core::VectorStats.vector_cumsum(self.copy)
+    LL.cumsum(self.copy)
   end
 
   # Computes the cumulative product of a vector
@@ -89,6 +90,6 @@ class Vector(T, D)
   # v.cumprod # => [1, 2, 6, 24]
   # ```
   def cumprod
-    Bottle::Core::VectorStats.vector_cumprod(self.copy)
+    LL.cumprod(self.copy)
   end
 end

@@ -20,15 +20,26 @@ lib LibCblas
   end
 
   # Level 1
-  fun srotg = cblas_srotg(da : Real, db : Real, c : Real*, s : Real*)
-  fun drotg = cblas_drotg(da : Double, db : Double, c : Double*, s : Double*)
-  fun drot = cblas_drot(n : Integer, dx : Double*, incx : Integer, dy : Double*, incy : Integer, c : Double, s : Double)
+  fun srotg = cblas_srotg(da : Real*, db : Real*, c : Real*, s : Real*)
+  fun drotg = cblas_drotg(da : Double*, db : Double*, c : Double*, s : Double*)
+
+  fun drot = cblas_drot(n : Integer, dx : Double*, incx : Integer, dy : Double*, incy : Integer, c : Double*, s : Double*)
   fun srot = cblas_srot(n : Integer, dx : Real*, incx : Integer, dy : Real*, incy : Integer, c : Real*, s : Real*)
+
   fun ddot = cblas_ddot(n : Integer, x : Double*, incx : Integer, y : Double*, incy : Integer) : Double
+  fun sdot = cblas_sdot(n : Integer, x : Real*, incx : Integer, y : Real*, incy : Integer) : Real
+
   fun dnrm2 = cblas_dnrm2(n : Integer, x : Double*, incx : Integer) : Double
+  fun snrm2 = cblas_snrm2(n : Integer, x : Real*, incx : Integer) : Real
+
   fun dscal = cblas_dscal(n : Integer, da : Double, dx : Double*, incx : Integer)
+  fun sscal = cblas_sscal(n : Integer, da : Real*, dx : Real*, incx : Integer)
+
   fun dasum = cblas_dasum(n : Integer, dx : Double*, incx : Integer) : Double
+  fun sasum = cblas_sasum(n : Integer, dx : Real*, incx : Integer) : Real
+
   fun idamax = cblas_idamax(n : Integer, dx : Double*, incx : Integer) : Integer
+  fun isamax = cblas_isamax(n : Integer, dx : Real*, incx : Integer) : Integer
 
   # Level 2
   fun dgemv = cblas_dgemv(order : MatrixLayout, trans : MatrixTranspose, m : Integer,

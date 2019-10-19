@@ -1,6 +1,6 @@
-require "../libs/gsl"
-require "../core/vector/*"
 require "./*"
+require "../gsl/*"
+require "../libs/gsl"
 
 class Vector(T, D)
   # Elementwise addition of a vector to another equally sized vector
@@ -11,7 +11,7 @@ class Vector(T, D)
   # v1 + v2 # => [3.0, 6.0, 9.0]
   # ```
   def +(other : Vector(T, D))
-    Bottle::Core::VectorMath.add(self.copy, other)
+    LL.add(self.copy, other)
   end
 
   # Elementwise addition of a vector to a scalar
@@ -21,8 +21,8 @@ class Vector(T, D)
   # v2 = 2
   # v1 + v2 # => [3.0, 4.0, 5.0]
   # ```
-  def +(other : Number)
-    Bottle::Core::VectorMath.add_constant(self.copy, other.to_f)
+  def +(other : BNum)
+    LL.add(self.copy, other)
   end
 
   # Elementwise subtraction of a vector to another equally sized vector
@@ -33,7 +33,7 @@ class Vector(T, D)
   # v1 - v2 # => [-1.0, -2.0, -3.0]
   # ```
   def -(other : Vector(T, D))
-    Bottle::Core::VectorMath.sub(self.copy, other)
+    LL.sub(self.copy, other)
   end
 
   # Elementwise subtraction of a vector with a scalar
@@ -43,8 +43,8 @@ class Vector(T, D)
   # v2 = 2
   # v1 - v2 # => [-1.0, 0.0, 1.0]
   # ```
-  def -(other : Number)
-    Bottle::Core::VectorMath.sub_constant(self.copy, other.to_f)
+  def -(other : BNum)
+    LL.sub(self.copy, other)
   end
 
   # Elementwise multiplication of a vector to another equally sized vector
@@ -55,7 +55,7 @@ class Vector(T, D)
   # v1 * v2 # => [3.0, 8.0, 18.0]
   # ```
   def *(other : Vector(T, D))
-    Bottle::Core::VectorMath.mul(self.copy, other)
+    LL.mul(self.copy, other)
   end
 
   # Elementwise multiplication of a vector to a scalar
@@ -65,8 +65,8 @@ class Vector(T, D)
   # v2 = 2
   # v1 + v2 # => [2.0, 4.0, 6.0]
   # ```
-  def *(other : Number)
-    Bottle::Core::VectorMath.mul_constant(self.copy, other)
+  def *(other : BNum)
+    LL.mul(self.copy, other)
   end
 
   # Elementwise division of a vector to another equally sized vector
@@ -77,7 +77,7 @@ class Vector(T, D)
   # v1 / v2 # => [0.5, 0.5, 0.5]
   # ```
   def /(other : Vector(T, D))
-    Bottle::Core::VectorMath.div(self.copy, other)
+    LL.div(self.copy, other)
   end
 
   # Elementwise division of a vector to a scalar
@@ -87,7 +87,7 @@ class Vector(T, D)
   # v2 = 2
   # v1 / v2 # => [0.5, 1, 1.5]
   # ```
-  def /(other : Number)
-    Bottle::Core::VectorMath.div_constant(self.copy, other.to_f)
+  def /(other : BNum)
+    LL.div(self.copy, other)
   end
 end

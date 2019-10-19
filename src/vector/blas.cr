@@ -1,7 +1,13 @@
-require "../core/vector/*"
 require "./*"
+require "../gsl/*"
+require "../blas/*"
+require "../libs/gsl"
 
 class Vector(T, D)
+  def givens(other : Vector(T, D), da, db, c, s)
+    LL.givens(self.copy, other.copy, da, db, c, s)
+  end
+
   # Computes the dot product of two vectors
   #
   # ```
@@ -9,8 +15,8 @@ class Vector(T, D)
   # v2 = Vector.new [4.0, 5.0, 6.0]
   # v1.dot(v2) # => 32
   # ```
-  def dot(other : Vector)
-    Bottle::Core::VectorBlas.vector_dot(self, other)
+  def dot(other : Vector(T, D))
+    LL.dot(self, other)
   end
 
   # Computes the euclidean norm of the vector
@@ -20,7 +26,7 @@ class Vector(T, D)
   # vec.norm # => 3.741657386773941
   # ```
   def norm
-    Bottle::Core::VectorBlas.vector_norm(self)
+    LL.norm(self)
   end
 
   # Sum of absolute values
@@ -30,7 +36,7 @@ class Vector(T, D)
   # v2.asum # => 4
   # ```
   def asum
-    Bottle::Core::VectorBlas.vector_absolute_sum(self)
+    LL.asum(self)
   end
 
   # Index of absolute value max
@@ -40,6 +46,6 @@ class Vector(T, D)
   # v2.amax # => 0
   # ```
   def amax
-    Bottle::Core::VectorBlas.vector_absolute_max(self)
+    LL.amax(self)
   end
 end

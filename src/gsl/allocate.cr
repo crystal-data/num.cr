@@ -1,6 +1,5 @@
 require "../libs/dtype"
 require "../libs/gsl"
-require "complex"
 
 macro allocation_helper(dtype, matrix_prefix, vector_prefix, matrix_type, vector_type)
   module LL
