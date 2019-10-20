@@ -3,7 +3,6 @@ require "./*"
 require "../blas/*"
 
 class Flask(T)
-
   # Computes the dot product of two vectors
   #
   # ```

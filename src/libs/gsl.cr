@@ -2,7 +2,6 @@ require "./dtype"
 
 @[Link("gsl")]
 lib LibGsl
-
   # Blocks
   struct GslBlock
     size : UInt

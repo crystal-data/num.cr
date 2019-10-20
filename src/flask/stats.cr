@@ -53,7 +53,7 @@ class Flask(T)
   def argmax
     index = 0
     mx = data[0]
-    data.each_with_index { |e, i|  index = i unless e < mx }
+    data.each_with_index { |e, i| index = i unless e < mx }
     return index
   end
 
@@ -66,7 +66,7 @@ class Flask(T)
   def argmin
     index = 0
     mn = data[0]
-    data.each_with_index { |e, i|  index = i unless e > mn }
+    data.each_with_index { |e, i| index = i unless e > mn }
     return index
   end
 
@@ -78,7 +78,7 @@ class Flask(T)
   # ```
   def cumsum
     ret = self.clone
-    (1...ret.size).each { |index| ret[index] += ret[index -1] }
+    (1...ret.size).each { |index| ret[index] += ret[index - 1] }
     return ret
   end
 
@@ -90,7 +90,7 @@ class Flask(T)
   # ```
   def cumprod
     ret = self.clone
-    (1...ret.size).each { |index| ret[index] *= ret[index -1] }
+    (1...ret.size).each { |index| ret[index] *= ret[index - 1] }
     return ret
   end
 end

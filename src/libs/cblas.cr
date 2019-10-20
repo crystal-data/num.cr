@@ -6,7 +6,6 @@ require "./dtype"
   @[Link("openblas")]
 {% end %}
 lib LibCblas
-
   enum MatrixLayout : Integer
     RowMajor = 101
     ColMajor = 102
@@ -55,6 +54,4 @@ lib LibCblas
   fun sgemm = cblas_sgemm(order : MatrixLayout, trans_a : MatrixTranspose, trans_b : MatrixTranspose,
                           m : Integer, n : Integer, k : Integer, alpha : Real, a : Real*, lda : Integer, b : Real*,
                           ldb : Integer, beta : Real, c : Real*, ldc : Integer)
-
-
 end

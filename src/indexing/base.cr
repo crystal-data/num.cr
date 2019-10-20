@@ -2,6 +2,7 @@ require "../core/exceptions"
 
 module LL
   extend self
+
   # Normalizes a slice range to allow indexing to work with gsl.  This means
   # bounding nil ranges and disallowing inclusive ranges
   def convert_range_to_slice(range : Range(Int32 | Nil, Int32 | Nil), size : Int32)
