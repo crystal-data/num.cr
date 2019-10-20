@@ -69,6 +69,32 @@ class Jug(T)
     end
   end
 
+  def reduce(axis : Indexer, &block : Flask(T) -> U) forall U
+    ary = Flask(U).empty(axis == 0 ? ncols : nrows)
+    if axis == 0
+      each_col_index do |e, i|
+        ary[i] = yield e
+      end
+    else
+      each_row_index do |e, i|
+        ary[i] = yield e
+      end
+    end
+    ary
+  end
+
+  def accumulate(axis : Indexer, &block : Flask(T) -> Nil)
+    if axis == 0
+      each_col_index do |e, c|
+        yield e
+      end
+    else
+      each_row_index do |e, r|
+        yield e
+      end
+    end
+  end
+
   def each(*, all = false, &block)
     each_index(all: all) { |i, j| yield self[i, j] }
   end
@@ -77,7 +103,35 @@ class Jug(T)
     each_index(all: all) { |i, j| yield(self[i, j], i, j) }
   end
 
+  def each_row(*, all = false, &block)
+    nrows.times do |row|
+      yield self[row]
+    end
+  end
+
+  def each_row_index(*, all = false, &block)
+    nrows.times do |row|
+      yield self[row], row
+    end
+  end
+
+  def each_col(*, all = false, &block)
+    ncols.times do |col|
+      yield self[..., col]
+    end
+  end
+
+  def each_col_index(*, all = false, &block)
+    ncols.times do |col|
+      yield self[..., col], col
+    end
+  end
+
   def self.empty(nrows, ncols)
     Jug(T).new Slice(T).new(nrows * ncols), nrows, ncols, ncols, 1
+  end
+
+  def ravel
+    Flask(T).new data, nrows * ncols, jstride
   end
 end

@@ -16,6 +16,18 @@ class Jug(T)
     Flask.new slice, ncols, jstride
   end
 
+  def []=(i : Indexer, row : Flask(T))
+    ncols.times do |j|
+      self[i, j] = row[j]
+    end
+  end
+
+  def []=(i : Range(Nil, Nil), j : Indexer, col : Flask(T))
+    nrows.times do |r|
+      self[r, j] = col[r]
+    end
+  end
+
   # Pours a drop from a Jug
   #
   # ```
@@ -50,7 +62,7 @@ class Jug(T)
     start = Strides.offset(
       x.begin, istride, j, jstride)
     finish = Strides.offset(
-      xi, istride, nrows, jstride)
+      xi, istride, ncols, jstride)
     slice = data[start, finish - start]
 
     Flask(T).new(

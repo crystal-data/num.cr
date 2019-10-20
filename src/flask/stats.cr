@@ -10,38 +10,8 @@ class Flask(T)
   # v.max # => 4
   # ```
   def max
-    data.max
-  end
-
-  # Computes the minimum value of a vector
-  #
-  # ```
-  # v = Flask.new [1, 2, 3, 4]
-  # v.min # => 1
-  # ```
-  def min
-    data.min
-  end
-
-  # Computes the min and max values of a vector
-  #
-  # ```
-  # v = Flask.new [1, 2, 3, 4]
-  # v.ptpv # => {1, 4}
-  # ```
-  def ptpv
-    data.minmax
-  end
-
-  # Computes the "peak to peak" of a vector (max - min)
-  #
-  # ```
-  # v = Flask.new [1, 2, 3, 4]
-  # v.ptp # => 3
-  # ```
-  def ptp
-    mn, mx = data.minmax
-    return mx - mn
+    _, max, _ = max_internal
+    max
   end
 
   # Computes the index of the maximum value of a vector
@@ -51,10 +21,42 @@ class Flask(T)
   # v.argmax # => 3
   # ```
   def argmax
-    index = 0
-    mx = data[0]
-    data.each_with_index { |e, i| index = i unless e < mx }
-    return index
+    _, _, index = max_internal
+    index
+  end
+
+  # Internal method to find the maximum value and the index
+  # of the maximum value for a Flask
+  #
+  # ```
+  # v = Flask.new [1, 2, 3, 4]
+  # v.max_internal # => {true, 4, 3}
+  # ```
+  private def max_internal
+    max = uninitialized T
+    index = uninitialized Int32
+    found = false
+
+    each_with_index do |elem, i|
+      if i == 0 || elem > max
+        max = elem
+        index = i
+      end
+      found = true
+    end
+
+    {found, max, index}
+  end
+
+  # Computes the minimum value of a vector
+  #
+  # ```
+  # v = Flask.new [1, 2, 3, 4]
+  # v.min # => 1
+  # ```
+  def min
+    _, min, _ = min_internal
+    min
   end
 
   # Computes the index of the minimum value of a vector
@@ -64,10 +66,74 @@ class Flask(T)
   # v.argmin # => 0
   # ```
   def argmin
-    index = 0
-    mn = data[0]
-    data.each_with_index { |e, i| index = i unless e > mn }
-    return index
+    _, _, index = min_internal
+    index
+  end
+
+  # Internal method to find the maximum value and the index
+  # of the maximum value for a Flask
+  #
+  # ```
+  # v = Flask.new [1, 2, 3, 4]
+  # v.max_internal # => {true, 4, 3}
+  # ```
+  private def min_internal
+    min = uninitialized T
+    index = uninitialized Int32
+    found = false
+
+    each_with_index do |elem, i|
+      if i == 0 || elem < min
+        min = elem
+        index = i
+      end
+      found = true
+    end
+
+    {found, min, index}
+  end
+
+  # Computes the min and max values of a vector
+  #
+  # ```
+  # v = Flask.new [1, 2, 3, 4]
+  # v.ptpv # => {1, 4}
+  # ```
+  def ptpv
+    _, min, max, _, _ = ptp_internal
+    return {min, max}
+  end
+
+  # Computes the "peak to peak" of a vector (max - min)
+  #
+  # ```
+  # v = Flask.new [1, 2, 3, 4]
+  # v.ptp # => 3
+  # ```
+  def ptp
+    min, max = ptpv
+    return max - min
+  end
+
+  private def ptp_internal
+    min = uninitialized T
+    max = uninitialized T
+    imin = uninitialized Int32
+    imax = uninitialized Int32
+    found = false
+
+    each_with_index do |elem, i|
+      if i == 0 || elem < min
+        min = elem
+        imin = i
+      end
+      if i == 0 || elem > max
+        max = elem
+        imax = i
+      end
+      found = true
+    end
+    {found, min, max, imin, imax}
   end
 
   # Computes the cumulative sum of a vector
@@ -78,8 +144,14 @@ class Flask(T)
   # ```
   def cumsum
     ret = self.clone
-    (1...ret.size).each { |index| ret[index] += ret[index - 1] }
-    return ret
+    ret.cumsum!
+    ret
+  end
+
+  def cumsum!
+    (1...size).each do |i|
+      self[i] += self[i - 1]
+    end
   end
 
   # Computes the cumulative product of a vector
@@ -90,7 +162,13 @@ class Flask(T)
   # ```
   def cumprod
     ret = self.clone
-    (1...ret.size).each { |index| ret[index] *= ret[index - 1] }
-    return ret
+    ret.cumprod!
+    ret
+  end
+
+  def cumprod!
+    (1...size).each do |i|
+      self[i] *= self[i - 1]
+    end
   end
 end

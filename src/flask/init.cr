@@ -85,4 +85,8 @@ class Flask(T)
   def each_with_index(*, all = false, &block)
     each_index(all: all) { |i| yield(self[i], i) }
   end
+
+  def self.empty(n : Indexer)
+    Flask(T).new Slice(T).new(n), n, 1
+  end
 end
