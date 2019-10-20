@@ -60,4 +60,24 @@ class Jug(T)
   # of Vectors, should not be called by outside methods.
   def initialize(@data, @nrows, @ncols, @istride, @jstride)
   end
+
+  def each_index(*, all = false, &block)
+    nrows.times do |i|
+      ncols.times do |j|
+        yield i, j
+      end
+    end
+  end
+
+  def each(*, all = false, &block)
+    each_index(all: all) { |i, j| yield self[i, j] }
+  end
+
+  def each_with_index(*, all = false, &block)
+    each_index(all: all) { |i, j| yield(self[i, j], i, j) }
+  end
+
+  def self.empty(nrows, ncols)
+    Jug(T).new Slice(T).new(nrows * ncols), nrows, ncols, ncols, 1
+  end
 end

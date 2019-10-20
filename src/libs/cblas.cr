@@ -51,4 +51,10 @@ lib LibCblas
   fun dgemm = cblas_dgemm(order : MatrixLayout, trans_a : MatrixTranspose, trans_b : MatrixTranspose,
                           m : Integer, n : Integer, k : Integer, alpha : Double, a : Double*, lda : Integer, b : Double*,
                           ldb : Integer, beta : Double, c : Double*, ldc : Integer)
+
+  fun sgemm = cblas_sgemm(order : MatrixLayout, trans_a : MatrixTranspose, trans_b : MatrixTranspose,
+                          m : Integer, n : Integer, k : Integer, alpha : Real, a : Real*, lda : Integer, b : Real*,
+                          ldb : Integer, beta : Real, c : Real*, ldc : Integer)
+
+
 end

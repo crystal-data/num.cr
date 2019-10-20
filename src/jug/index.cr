@@ -12,10 +12,9 @@ class Jug(T)
   # m[0] # => [1, 2, 3]
   # ```
   def [](i : Indexer)
-    slice = data[*Strides.offset_row(i, ncols, ncols, jstride)]
+    slice = data[*Strides.offset_row(i, istride, ncols, jstride)]
     Flask.new slice, ncols, jstride
   end
-
 
   # Pours a drop from a Jug
   #
@@ -25,6 +24,16 @@ class Jug(T)
   # ```
   def [](i : Indexer, j : Indexer)
     data[Strides.offset(i, istride, j, jstride)]
+  end
+
+  # Pours a drop into a Jug
+  #
+  # ```
+  # m = Jug.new [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+  # m[2, 2] = 100
+  # ```
+  def []=(i : Indexer, j : Indexer, x : T)
+    data[Strides.offset(i, istride, j, jstride)] = x
   end
 
   # Pours a Flask from a Jug column
@@ -81,6 +90,5 @@ class Jug(T)
       istride,
       jstride,
     )
-
   end
 end

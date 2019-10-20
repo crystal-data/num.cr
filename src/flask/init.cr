@@ -86,6 +86,3 @@ class Flask(T)
     each_index(all: all) { |i| yield(self[i], i) }
   end
 end
-
-f = Flask.new [1, 2, 3, 4, 5, 6]
-puts f.reshape(3, 2)

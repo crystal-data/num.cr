@@ -1,4 +1,5 @@
 require "./flask/*"
+require "./jug/*"
 require "benchmark"
 
 module Bottle

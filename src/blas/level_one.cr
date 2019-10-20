@@ -6,12 +6,6 @@ macro blas_helper(dtype, blas_prefix, cast)
   module LL
     extend self
 
-    def givens(a : Flask({{dtype}}), b : Flask({{dtype}}), da, db, c, s)
-      LibCblas.{{blas_prefix}}rotg(pointerof(da), pointerof(db), pointerof(c), pointerof(s))
-      LibCblas.{{blas_prefix}}rot(a.size, a.data, a.stride, b.data, b.stride, pointerof(c), pointerof(s))
-      return a, b
-    end
-
     # Computes the dot product of two vectors
     #
     # ```

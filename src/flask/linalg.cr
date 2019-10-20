@@ -4,11 +4,6 @@ require "../blas/*"
 
 class Flask(T)
 
-  # Computes a givens rotation of two vectors
-  def givens(other : Flask(T), da, db, c, s)
-    LL.givens(self.clone, other.clone, da, db, c, s)
-  end
-
   # Computes the dot product of two vectors
   #
   # ```
