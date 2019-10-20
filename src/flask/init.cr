@@ -1,6 +1,7 @@
 require "../libs/dtype"
 require "./*"
 require "../blas/*"
+require "../jug/*"
 
 class Flask(T)
   getter data : Slice(T)
@@ -41,6 +42,16 @@ class Flask(T)
     return f
   end
 
+  def reshape(rows : Indexer, cols : Indexer)
+    Jug(T).new(
+      data,
+      rows,
+      cols,
+      cols * stride,
+      stride
+    )
+  end
+
   # Initializes a flask from an Indexable of a type.
   # this is the common user facing init function, and
   # allocates a slice and sets its data to the elements
@@ -75,3 +86,6 @@ class Flask(T)
     each_index(all: all) { |i| yield(self[i], i) }
   end
 end
+
+f = Flask.new [1, 2, 3, 4, 5, 6]
+puts f.reshape(3, 2)

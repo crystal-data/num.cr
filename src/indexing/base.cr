@@ -8,13 +8,10 @@ module LL
     if !range.excludes_end?
       raise Bottle::Core::Exceptions::RangeError.new("Vectors do not support indexing with inclusive ranges. Always use '...'")
     end
-
     i = range.begin
     j = range.end
-
     start = (i.nil? ? 0 : i).as(UInt64 | Int32).to_u64
     finish = (j.nil? ? size : j).as(UInt64 | Int32).to_u64
-
-    return start...finish
+    start...finish
   end
 end

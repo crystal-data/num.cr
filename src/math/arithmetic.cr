@@ -41,5 +41,4 @@ module LL
     a.each_index { |i| a[i] /= x }
     return a
   end
-
 end

@@ -1,6 +1,7 @@
 require "./*"
 require "../indexing/base"
 require "../libs/dtype"
+require "../strides/offsets"
 
 class Flask(T)
   # Gets a single element from a Flask at a given index, the core
@@ -11,7 +12,7 @@ class Flask(T)
   # f[0] # => 1
   # ```
   def [](index : Indexer)
-    data[index * stride]
+    data[Strides.offset(index, stride)]
   end
 
   # Gets multiple elements from a Flask at given indexes.  This returns
@@ -45,7 +46,7 @@ class Flask(T)
   # f # => [10, 2, 3]
   # ```
   def []=(index : Indexer, value : Number)
-    data[index * stride] = value
+    data[Strides.offset(index, stride)] = value
   end
 
   # Sets multiple elements of a Flask by the given indexes.
