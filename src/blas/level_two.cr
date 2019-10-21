@@ -1,11 +1,13 @@
 require "../libs/dtype"
 require "../libs/cblas"
-require "../flask/*"
-require "../jug/*"
+require "../core/flask"
+require "../core/jug"
 
-macro blas_helper(dtype, blas_prefix, cast)
-  module LL
-    extend self
+module Bottle
+  macro blas_helper(dtype, blas_prefix, cast)
+    module Bottle::LL
+      extend self
 
+    end
   end
 end

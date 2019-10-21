@@ -1,9 +1,7 @@
-require "./flask/*"
-require "./jug/*"
-require "benchmark"
+require "./core/flask"
+require "./core/jug"
 
 module Bottle
-  include Bottle::Core
   extend self
   VERSION = "0.1.1"
 end

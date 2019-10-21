@@ -30,12 +30,12 @@ describe Flask do
 
     it "correctly allocates an empty flask" do
       n = 10
-      f = Flask(Int32).empty(n)
+      f = Flask.empty(n)
       f.size.should eq(n)
     end
 
     it "empty respects passed dtype" do
-      f = Flask(Float32).empty(10)
+      f = Flask.empty(10, Float32)
       f.should be_a(Flask(Float32))
     end
 

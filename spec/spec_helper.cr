@@ -1,3 +1,3 @@
 require "spec"
-require "../src/jug/*"
-require "../src/flask/*"
+require "../src/core/jug"
+require "../src/core/flask"

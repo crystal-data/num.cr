@@ -1,7 +1,7 @@
-require "../jug/*"
-require "../flask/*"
+require "../core/flask"
+require "../core/jug"
 
-module BottleTest
+module Bottle::Testing
   extend self
 
   def flask_equal(a, b)

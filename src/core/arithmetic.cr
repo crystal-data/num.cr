@@ -1,7 +1,7 @@
-require "../flask/*"
-require "../jug/*"
+require "./flask"
+require "./jug"
 
-module LL
+module Bottle::LL
   extend self
 
   def add(a : Flask, b : Flask)
