@@ -16,12 +16,24 @@ class Jug(T)
     Flask.new slice, ncols, jstride
   end
 
+  # Pours a Flask into a Jug row
+  #
+  # ```
+  # m = Jug.new [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+  # m[2] = [1, 2, 3]
+  # ```
   def []=(i : Indexer, row : Flask(T))
     ncols.times do |j|
       self[i, j] = row[j]
     end
   end
 
+  # Pours a Flask into a Jug column
+  #
+  # ```
+  # m = Jug.new [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+  # m[..., 2] = [1, 2, 3]
+  # ```
   def []=(i : Range(Nil, Nil), j : Indexer, col : Flask(T))
     nrows.times do |r|
       self[r, j] = col[r]
