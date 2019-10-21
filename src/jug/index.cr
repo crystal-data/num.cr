@@ -12,8 +12,8 @@ class Jug(T)
   # m[0] # => [1, 2, 3]
   # ```
   def [](i : Indexer)
-    slice = data[*Strides.offset_row(i, istride, ncols, jstride)]
-    Flask.new slice, ncols, jstride
+    slice = data[*Strides.offset_row(i, tda, ncols, 1)]
+    Flask.new slice, ncols, 1
   end
 
   # Pours a Flask into a Jug row
@@ -47,7 +47,7 @@ class Jug(T)
   # m[2, 2] # => 9
   # ```
   def [](i : Indexer, j : Indexer)
-    data[Strides.offset(i, istride, j, jstride)]
+    data[Strides.offset(i, tda, j, 1)]
   end
 
   # Pours a drop into a Jug
@@ -57,7 +57,7 @@ class Jug(T)
   # m[2, 2] = 100
   # ```
   def []=(i : Indexer, j : Indexer, x : T)
-    data[Strides.offset(i, istride, j, jstride)] = x
+    data[Strides.offset(i, tda, j, 1)] = x
   end
 
   # Pours a Flask from a Jug column
@@ -72,15 +72,15 @@ class Jug(T)
     x_offset = x.end - x.begin
     xi = x.end - 1
     start = Strides.offset(
-      x.begin, istride, j, jstride)
+      x.begin, tda, j, 1)
     finish = Strides.offset(
-      xi, istride, ncols, jstride)
+      xi, tda, ncols, 1)
     slice = data[start, finish - start]
 
     Flask(T).new(
       slice,
       x_offset.to_i32,
-      istride,
+      tda,
     )
   end
 
@@ -100,9 +100,9 @@ class Jug(T)
     xi = x.end - 1
     yi = y.end - 1
     start = Strides.offset(
-      x.begin, istride, y.begin, jstride)
+      x.begin, tda, y.begin, 1)
     finish = Strides.offset(
-      xi, istride, yi, jstride) + 1
+      xi, tda, yi, 1) + 1
     slice = data[start, finish - start]
     rows = x_offset.to_i32
     cols = y_offset.to_i32
@@ -111,8 +111,7 @@ class Jug(T)
       slice,
       rows,
       cols,
-      istride,
-      jstride,
+      tda,
     )
   end
 end

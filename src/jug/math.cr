@@ -84,4 +84,44 @@ class Jug(T)
   def /(other : T)
     LL.div(self.clone, other)
   end
+
+  def >(other : Jug)
+    LL.gt(self, other)
+  end
+
+  def >(other : Number)
+    LL.gt(self, other)
+  end
+
+  def >=(other : Jug)
+    LL.ge(self, other)
+  end
+
+  def >=(other : Number)
+    LL.ge(self, other)
+  end
+
+  def <(other : Jug)
+    LL.lt(self, other)
+  end
+
+  def <(other : Number)
+    LL.lt(self, other)
+  end
+
+  def <=(other : Jug)
+    LL.le(self, other)
+  end
+
+  def <=(other : Number)
+    LL.le(self, other)
+  end
+
+  def ==(other : Jug)
+    LL.eq(self, other)
+  end
+
+  def ==(other : Number)
+    LL.eq(self, other)
+  end
 end

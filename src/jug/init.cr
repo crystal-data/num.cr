@@ -8,8 +8,7 @@ class Jug(T)
   getter data : Slice(T)
   getter nrows : Int32
   getter ncols : Int32
-  getter istride : Int32
-  getter jstride : Int32
+  getter tda : Int32
 
   # Converts a Jug into a string representation.  This currently
   # displays all the values of a Jug, but should re-worked to
@@ -37,7 +36,16 @@ class Jug(T)
   # j.clone # => [[1, 2], [3, 4]]
   # ```
   def clone
-    Jug(T).new data.dup, nrows, ncols, istride, jstride
+    Jug(T).new data.dup, nrows, ncols, tda
+  end
+
+  def self.new(nrows, ncols, &block)
+    data = Slice(T).new(nrows * ncols) do |idx|
+      i = idx // ncols
+      j = idx % ncols
+      yield i, j
+    end
+    new(data, nrows, ncols, ncols)
   end
 
   # Initializes a Jug from an Indexable of a type.
@@ -47,8 +55,7 @@ class Jug(T)
   def initialize(data : Indexable(Indexable(T)))
     @nrows = data.size
     @ncols = data[0].size
-    @istride = ncols
-    @jstride = 1
+    @tda = ncols
     @data = Slice(T).new(nrows * ncols) do |idx|
       i = idx // ncols
       j = idx % ncols
@@ -58,7 +65,7 @@ class Jug(T)
 
   # Primarily a convenience method to allow for cloning
   # of Vectors, should not be called by outside methods.
-  def initialize(@data, @nrows, @ncols, @istride, @jstride)
+  def initialize(@data, @nrows, @ncols, @tda)
   end
 
   # Iterates over each index of a Jug.  The core operation
@@ -181,7 +188,7 @@ class Jug(T)
   #         [0, 0, 0]]
   # ```
   def self.empty(nrows, ncols)
-    Jug(T).new Slice(T).new(nrows * ncols), nrows, ncols, ncols, 1
+    Jug(T).new Slice(T).new(nrows * ncols), nrows, ncols, ncols
   end
 
   # Returns a flattened Flask view of a Jug.
@@ -191,6 +198,6 @@ class Jug(T)
   # j.ravel # => [1, 2, 3, 4, 5, 6]
   # ```
   def ravel
-    Flask(T).new data, nrows * ncols, jstride
+    Flask(T).new data, nrows * ncols, 1
   end
 end

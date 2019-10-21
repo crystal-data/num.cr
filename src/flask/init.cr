@@ -42,16 +42,6 @@ class Flask(T)
     return f
   end
 
-  def reshape(rows : Indexer, cols : Indexer)
-    Jug(T).new(
-      data,
-      rows,
-      cols,
-      cols * stride,
-      stride
-    )
-  end
-
   # Initializes a flask from an Indexable of a type.
   # this is the common user facing init function, and
   # allocates a slice and sets its data to the elements
@@ -60,6 +50,11 @@ class Flask(T)
     @size = data.size
     @stride = 1
     @data = Slice(T).new(size) { |i| data[i] }
+  end
+
+  def self.new(size : Int32, &block)
+    data = Slice(T).new(size) { |i| yield i }
+    new(data, size, 1)
   end
 
   # Primarily a convenience method to allow for cloning
