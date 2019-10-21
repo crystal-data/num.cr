@@ -131,33 +131,77 @@ class Flask(T)
   end
 
   # Initializes a Flask with an uninitialized slice
-  # of data
+  # of data.  This is just another alias for zeros,
+  # since Crystal right now doesn't support slices
+  # pointing to generic memory, but if Crystal does
+  # support this down the road, this will change
+  #
+  # ```crystal
+  # f = Flask.empty(5, dtype = Int32)
+  # f # => [0, 0, 0, 0, 0]
+  # ```
   def self.empty(n : Indexer, dtype : U.class = Float64) forall U
     Flask(U).new Slice(U).new(n), n, 1
   end
 
-  # Initializes a Flask containing all zeros
+  # Pours a flask full of zeros.  Default
+  # dtype is Float64, but any dtype that
+  # can holds zeros is supported.
+  #
+  # ```crystal
+  # f = Flask.zeros(5, dtype = Int32)
+  # f # => [0, 0, 0, 0, 0]
+  # ```
   def self.zeros(n : Indexer, dtype : U.class = Float64) forall U
     Flask(U).new Slice(U).new(n), n, 1
   end
 
+  # Pours a flask full of ones.  Default
+  # dtype is Float64, but any dtype that
+  # can holds zeros is supported.
+  #
+  # ```crystal
+  # f = Flask.ones(5, dtype = Int32)
+  # f # => [1, 1, 1, 1, 1]
+  # ```
   def self.ones(n : Indexer, dtype : U.class = Float64) forall U
     Flask(U).new Slice(U).new(n, U.new(1)), n, 1
   end
 
+  # Pours a flask full of a given scalar.  Default
+  # dtype is Float64, but any dtype that
+  # can holds numbers is supported.
+  #
+  # ```crystal
+  # f = Flask.full(5, 5, dtype = Int32)
+  # f # => [5, 5, 5, 5, 5]
+  # ```
   def self.full(n : Indexer, x : Number, dtype : U.class = Float64) forall U
     Flask(U).new Slice(U).new(n, U.new(x)), n, 1
   end
 
-  # Initializes a flask containing random data using
-  # the provided ranges and size.  The dtype of the ranges
-  # determines the output type of the flask.
+  # Pours a flask full of random data.
+  # The dtype of the flask is inferred
+  # from the values on either end of the
+  # range.
+  #
+  # ```crystal
+  # f = Flask.random(0, 10, 5)
+  # f # => [4, 8, 7, 8, 4]
+  # ```
   def self.random(r : Range(U, U), n : Int32) forall U
     Flask(U).new(n) { |_| Random.rand(r) }
   end
 
-  # Converts a Flask to a different dtype if the cast
-  # can be made.
+  # Pours a flask into a flask of
+  # a different dtype.  The cast will
+  # be successful if the types `new` method
+  # takes the old value
+  #
+  # ```crystal
+  # f = Flask.new [1, 2, 3]
+  # f.astype(Float64) # => [1.0, 2.0, 3.0]
+  # ```
   def astype(dtype : U.class) forall U
     if T == U
       return self
