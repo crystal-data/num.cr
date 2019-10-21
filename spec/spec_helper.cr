@@ -1,2 +1,3 @@
 require "spec"
-require "../src/bottle"
+require "../src/jug/*"
+require "../src/flask/*"

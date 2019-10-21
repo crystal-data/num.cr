@@ -115,6 +115,13 @@ class Flask(T)
     return max - min
   end
 
+  # Internal method to find the minimum and maximum values,
+  # as well as the respective indexes for a flask.
+  #
+  # ```
+  # v = Flask.new [1, 2, 3, 4]
+  # v.ptp_internal # => {true, 1, 4, 0, 3}
+  # ```
   private def ptp_internal
     min = uninitialized T
     max = uninitialized T
@@ -148,6 +155,15 @@ class Flask(T)
     ret
   end
 
+  # Computes the cumulative sum of a vector in place.
+  # Primarily used for reductions along an axis in
+  # a Jug.
+  #
+  # ```
+  # v = Flask.new [1, 2, 3, 4]
+  # v.cumsum!
+  # v # => [1, 3, 6, 10]
+  # ```
   def cumsum!
     (1...size).each do |i|
       self[i] += self[i - 1]
@@ -166,6 +182,15 @@ class Flask(T)
     ret
   end
 
+  # Computes the cumulative product of a vector in place.
+  # Primarily used for reductions along an axis in
+  # a Jug.
+  #
+  # ```
+  # v = Flask.new [1, 2, 3, 4]
+  # v.cumprod!
+  # v # => [1, 2, 6, 24]
+  # ```
   def cumprod!
     (1...size).each do |i|
       self[i] *= self[i - 1]

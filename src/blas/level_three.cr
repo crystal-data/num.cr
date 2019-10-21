@@ -19,12 +19,12 @@ macro blas_helper(dtype, blas_prefix, cast)
         a.ncols,
         1{{cast}},
         a.data,
-        a.istride,
+        a.tda,
         b.data,
-        b.istride,
+        b.tda,
         0{{cast}},
         c.data,
-        c.istride,
+        c.tda,
       )
       return c
     end

@@ -64,8 +64,7 @@ module LL
   end
 
   def div(a : Flask, b : Flask)
-    a.each_index { |i| a[i] /= b[i] }
-    return a
+    Flask(Float64).new(a.size) { |i| Float64.new(a[i] / b[i]) }
   end
 
   def div(a : Jug, b : Jug)
@@ -74,8 +73,7 @@ module LL
   end
 
   def div(a : Flask, x : Number)
-    a.each_index { |i| a[i] /= x }
-    return a
+    Flask(Float64).new(a.size) { |i| Float64.new(a[i] / x) }
   end
 
   def div(a : Jug, x : Number)

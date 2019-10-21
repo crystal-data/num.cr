@@ -2,6 +2,7 @@ require "../libs/dtype"
 require "./*"
 require "../blas/*"
 require "../jug/*"
+require "random"
 
 class Flask(T)
   getter data : Slice(T)
@@ -62,6 +63,28 @@ class Flask(T)
   def initialize(@data : Slice(T), @size, @stride)
   end
 
+  # Applies a reduction operation to a flask to convert
+  # a flask into a scalar. Many common reductions are
+  # aliased on the class, such as sum and prod.  This
+  # is for convenience only, the performance is the
+  # same as writing the reduction.
+  #
+  # ```crystal
+  # f = Flask.new [1, 2, 3]
+  # f.reduce { |i, j| i + j } # => 6
+  # ```
+  def reduce(&block : T -> T)
+    memo = uninitialized T
+    found = false
+
+    each do |elem|
+      memo = found ? (yield memo, elem) : elem
+      found = true
+    end
+
+    found ? memo : raise Enumerable::EmptyError.new
+  end
+
   # Yields each index of a flask, useful for providing a base
   # method to other iterators through a flask
   def each_index(*, all = false, &block)
@@ -81,7 +104,47 @@ class Flask(T)
     each_index(all: all) { |i| yield(self[i], i) }
   end
 
+  # Checks if `false` is returned by any values of the
+  # passed block, otherwise returns true.
+  #
+  # ```crystal
+  # f = Flask.new [1, 5, 9]
+  # f.all { |i| i > 1 } # => false
+  # ```
+  def all?
+    each { |e| return false unless yield e }
+    true
+  end
+
+  # checks if `false` is explicitly in the flask
+  #
+  # ```crystal
+  # f = Flask.new [true, true, true]
+  # f.all? # => true
+  # ```
+  def all?
+    all? &.itself
+  end
+
+  # Initializes a Flask with an uninitialized slice
+  # of data
   def self.empty(n : Indexer)
     Flask(T).new Slice(T).new(n), n, 1
+  end
+
+  # Initializes a flask containing random data using
+  # the provided ranges and size.  The dtype of the ranges
+  # determines the output type of the flask.
+  def self.random(r : Range(U, U), n : Int32) forall U
+    Flask(U).new(n) { |_| Random.rand(r) }
+  end
+
+  # Converts a Flask to a different dtype if the cast
+  # can be made.
+  def astype(dtype : U.class) forall U
+    if T == U
+      return self
+    end
+    Flask(U).new(self.size) { |i| U.new(self[i]) }
   end
 end

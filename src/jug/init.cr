@@ -3,6 +3,7 @@ require "../libs/dtype"
 require "../flask/*"
 require "../strides/offsets"
 require "../indexing/base"
+require "random"
 
 class Jug(T)
   getter data : Slice(T)
@@ -189,6 +190,12 @@ class Jug(T)
   # ```
   def self.empty(nrows, ncols)
     Jug(T).new Slice(T).new(nrows * ncols), nrows, ncols, ncols
+  end
+
+  def self.random(r : Range(U, U), nrows, ncols) forall U
+    Jug(U).new(nrows, ncols) do |_, _|
+      Random.rand(r)
+    end
   end
 
   # Returns a flattened Flask view of a Jug.
