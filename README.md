@@ -1,5 +1,7 @@
 # <img alt="Bottle" src="./static/bottle_logo.png">
 
+[![Build Status](https://travis-ci.org/crystal-data/bottle.svg?branch=master)](https://travis-ci.org/crystal-data/bottle)
+
 Bottle is the core shard needed for scientific computing with Crystal
 
 - **Website:** https://www.crystaldata.org
