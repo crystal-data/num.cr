@@ -97,7 +97,7 @@ class Jug(T)
   # m.reduce(1, &.max) # => [3, 6, 9]
   # ```
   def reduce(axis : Indexer, &block : Flask(T) -> U) forall U
-    ary = Flask(U).empty(axis == 0 ? ncols : nrows)
+    ary = Flask.empty(axis == 0 ? ncols : nrows, dtype = U)
     if axis == 0
       each_col_index do |e, i|
         ary[i] = yield e
@@ -275,7 +275,7 @@ class Jug(T)
   # m[..., 0] # => [1, 4, 7]
   # ```
   def [](i : Range(Indexer?, Indexer?), j : Indexer)
-    x = LL.convert_range_to_slice(
+    x = convert_range_to_slice(
       i, nrows)
     x_offset = x.end - x.begin
     xi = x.end - 1
@@ -299,9 +299,9 @@ class Jug(T)
   # m[...2, ...2] # => [[1, 2], [4, 5]]
   # ```
   def [](i : Range(Indexer?, Indexer?) = ..., j : Range(Indexer?, Indexer?) = ...)
-    x = LL.convert_range_to_slice(
+    x = convert_range_to_slice(
       i, nrows)
-    y = LL.convert_range_to_slice(
+    y = convert_range_to_slice(
       j, ncols)
     x_offset = x.end - x.begin
     y_offset = y.end - y.begin

@@ -3,6 +3,7 @@ require "./arithmetic"
 require "./indexing"
 require "../libs/dtype"
 require "../ma/mask"
+require "./accumulate"
 
 class Flask(T)
   include Bottle::Internal::Dtype
@@ -674,6 +675,10 @@ class Flask(T)
       found = true
     end
     {found, min, max, imin, imax}
+  end
+
+  def accumulate(inplace = false)
+    Accumulate.new(self, inplace)
   end
 
   # Computes the cumulative sum of a vector
