@@ -4,7 +4,7 @@ require "../core/flask"
 
 module Bottle
   macro linalg_helper(dtype, blas_prefix)
-    module LA
+    module LinAlg
       extend self
       def inv(a : Jug({{dtype}}))
         dim = Math.min(a.nrows, a.ncols)

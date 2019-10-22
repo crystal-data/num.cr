@@ -1,7 +1,7 @@
 require "../core/flask"
 require "../core/jug"
 
-class Accumulate(T)
+class Bottle::UFunc::Accumulate(T)
   getter data : Flask(T)
   getter size : Int32
   getter inplace : Bool
@@ -96,7 +96,7 @@ class Accumulate(T)
   end
 end
 
-class Accumulate2D(T)
+class Bottle::UFunc::Accumulate2D(T)
   getter data : Jug(T)
   getter axis : Int32?
   getter inplace : Bool

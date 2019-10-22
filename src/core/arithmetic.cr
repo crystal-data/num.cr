@@ -1,7 +1,7 @@
 require "./flask"
 require "./jug"
 
-module Bottle::LL
+module Bottle::BMath
   extend self
 
   def add(a : Flask, b : Flask)

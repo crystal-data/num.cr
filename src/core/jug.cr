@@ -7,10 +7,9 @@ require "../linalg/*"
 require "../blas/*"
 require "../ufunc/*"
 
-class Jug(T)
-  include Bottle::Internal::Indexing
-  include Bottle::Internal::Dtype
-  include Bottle
+class Bottle::Jug(T)
+  include Helpers::Index
+  include Internal::Dtype
 
   getter data : Slice(T)
   getter nrows : Int32
@@ -300,11 +299,11 @@ class Jug(T)
   end
 
   def matmul(other : Jug(T))
-    LL.matmul(self.clone, other)
+    BLAS.matmul(self.clone, other)
   end
 
   def inv
-    LA.inv(self.clone)
+    LinAlg.inv(self.clone)
   end
 
   def tril(k = 0)
@@ -341,7 +340,7 @@ class Jug(T)
   # j1 + j1 # => [[2, 4], [6, 8]]
   # ```
   def +(other : Jug(T))
-    LL.add(self.clone, other)
+    BMath.add(self.clone, other)
   end
 
   # Elementwise addition of a Flask to a scalar
@@ -351,7 +350,7 @@ class Jug(T)
   # j1 + 2 # => [[3, 4], [5, 6]]
   # ```
   def +(other : T)
-    LL.add(self.clone, other)
+    BMath.add(self.clone, other)
   end
 
   # Elementwise subtraction of a Flask to another equally sized Flask
@@ -361,7 +360,7 @@ class Jug(T)
   # j1 - j1 # => [[0, 0], [0, 0]]
   # ```
   def -(other : Jug(T))
-    LL.sub(self.clone, other)
+    BMath.sub(self.clone, other)
   end
 
   # Elementwise subtraction of a Flask with a scalar
@@ -371,7 +370,7 @@ class Jug(T)
   # j1 - 2 # => [[-1, 0], [1, 2]]
   # ```
   def -(other : T)
-    LL.sub(self.clone, other)
+    BMath.sub(self.clone, other)
   end
 
   # Elementwise multiplication of a Flask to another equally sized Flask
@@ -381,7 +380,7 @@ class Jug(T)
   # j1 * j1 # => [[1, 4], [9, 16]]
   # ```
   def *(other : Jug(T))
-    LL.mul(self.clone, other)
+    BMath.mul(self.clone, other)
   end
 
   # Elementwise multiplication of a Flask to a scalar
@@ -391,7 +390,7 @@ class Jug(T)
   # j1 * 2 # => [[2, 4], [6, 8]]
   # ```
   def *(other : T)
-    LL.mul(self.clone, other)
+    BMath.mul(self.clone, other)
   end
 
   # Elementwise division of a Flask to another equally sized Flask
@@ -401,7 +400,7 @@ class Jug(T)
   # j1 / j1 # => [[1, 1], [1, 1]]
   # ```
   def /(other : Jug(T))
-    LL.div(self.clone, other)
+    BMath.div(self.clone, other)
   end
 
   # Elementwise division of a Flask to a scalar
@@ -411,47 +410,47 @@ class Jug(T)
   # j1 / 2 # => [[0.5, 1.0], [1.5, 2.0]]
   # ```
   def /(other : T)
-    LL.div(self.clone, other)
+    BMath.div(self.clone, other)
   end
 
   def >(other : Jug)
-    MA.gt(self, other)
+    Mask.gt(self, other)
   end
 
   def >(other : Number)
-    MA.gt(self, other)
+    Mask.gt(self, other)
   end
 
   def >=(other : Jug)
-    MA.ge(self, other)
+    Mask.ge(self, other)
   end
 
   def >=(other : Number)
-    MA.ge(self, other)
+    Mask.ge(self, other)
   end
 
   def <(other : Jug)
-    MA.lt(self, other)
+    Mask.lt(self, other)
   end
 
   def <(other : Number)
-    MA.lt(self, other)
+    Mask.lt(self, other)
   end
 
   def <=(other : Jug)
-    MA.le(self, other)
+    Mask.le(self, other)
   end
 
   def <=(other : Number)
-    MA.le(self, other)
+    Mask.le(self, other)
   end
 
   def ==(other : Jug)
-    MA.eq(self, other)
+    Mask.eq(self, other)
   end
 
   def ==(other : Number)
-    MA.eq(self, other)
+    Mask.eq(self, other)
   end
 
   # Accumulates an operation along a row or column of a Jug.

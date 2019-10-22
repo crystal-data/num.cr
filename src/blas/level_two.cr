@@ -5,9 +5,8 @@ require "../core/jug"
 
 module Bottle
   macro blas_helper(dtype, blas_prefix, cast)
-    module Bottle::LL
+    module Bottle::BLAS
       extend self
-
     end
   end
 end

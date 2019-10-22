@@ -1,4 +1,4 @@
-# <img alt="Bottle" src="./static/bottle_logo.png">
+![bottle](https://raw.githubusercontent.com/crystal-data/bottle/master/static/bottle_logo.png)
 
 [![Build Status](https://travis-ci.org/crystal-data/bottle.svg?branch=master)](https://travis-ci.org/crystal-data/bottle)
 
@@ -19,7 +19,7 @@ It provides:
 Contributing
 ------------
 Bottle requires help in many different ways to continue to grow as a shard.
-Work such as high level documentation and code quality checks are needed just
+Contributions such as high level documentation and code quality checks are needed just
 as much as API enhancements.  If you are considering larger scale contributions
 that extend beyond minor enhancements and bug fixes, contact Crystal Data
 in order to be added to the organization to gain access to review and merge

@@ -1,7 +1,7 @@
 require "../core/flask"
 require "../core/jug"
 
-class Outer(T)
+class Bottle::UFunc::Outer(T)
   getter it : Flask(T)
   getter other : Flask(T)
 

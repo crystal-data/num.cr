@@ -6,13 +6,12 @@ require "../ma/mask"
 require "../ufunc/*"
 require "../util/exceptions"
 
-SUPPORTED_TYPES = Set{Float64, Float32, Int32, Bool}
+Bottle::SUPPORTED_TYPES = Set{Float64, Float32, Int32, Bool}
 
-class Flask(T)
-  include Bottle::Internal::Dtype
-  include Bottle::Internal::Indexing
-  include Bottle::Core::Exceptions
-  include Bottle
+class Bottle::Flask(T)
+  include Internal::Dtype
+  include Helpers::Index
+  include Core::Exceptions
 
   getter data : Slice(T)
   getter size : Int32
@@ -432,7 +431,7 @@ class Flask(T)
   # f1 > f2 # => [false, false, true ]
   # ```
   def >(other : Flask)
-    MA.gt(self, other)
+    Mask.gt(self, other)
   end
 
   # Elementwise greater than comparison to a scalar
@@ -443,7 +442,7 @@ class Flask(T)
   # f1 > f2 # => [false, false, true ]
   # ```
   def >(other : Number)
-    MA.gt(self, other)
+    Mask.gt(self, other)
   end
 
   # Elementwise greater equal than comparison to another Flask
@@ -454,7 +453,7 @@ class Flask(T)
   # f1 >= f2 # => [false, true, true ]
   # ```
   def >=(other : Flask)
-    MA.ge(self, other)
+    Mask.ge(self, other)
   end
 
   # Elementwise greater equal than comparison to another Flask
@@ -465,7 +464,7 @@ class Flask(T)
   # f1 >= f2 # => [false, true, true ]
   # ```
   def >=(other : Number)
-    MA.ge(self, other)
+    Mask.ge(self, other)
   end
 
   # Elementwise less than comparison to another Flask
@@ -476,7 +475,7 @@ class Flask(T)
   # f1 < f2 # => [true, false, false]
   # ```
   def <(other : Flask)
-    MA.lt(self, other)
+    Mask.lt(self, other)
   end
 
   # Elementwise less than comparison to a scalar
@@ -487,7 +486,7 @@ class Flask(T)
   # f1 < f2 # => [false, false, true ]
   # ```
   def <(other : Number)
-    MA.lt(self, other)
+    Mask.lt(self, other)
   end
 
   # Elementwise less equal than comparison to another Flask
@@ -498,7 +497,7 @@ class Flask(T)
   # f1 <= f2 # => [true, true, false]
   # ```
   def <=(other : Flask)
-    MA.le(self, other)
+    Mask.le(self, other)
   end
 
   # Elementwise less equal than comparison to a scalar
@@ -509,7 +508,7 @@ class Flask(T)
   # f1 > f2 # => [true, true, false]
   # ```
   def <=(other : Number)
-    MA.le(self, other)
+    Mask.le(self, other)
   end
 
   # Elementwise equal comparison to another Flask
@@ -520,7 +519,7 @@ class Flask(T)
   # f1 == f2 # => [false, true, false ]
   # ```
   def ==(other : Flask)
-    MA.eq(self, other)
+    Mask.eq(self, other)
   end
 
   # Elementwise equal comparison to a scalar
@@ -531,7 +530,7 @@ class Flask(T)
   # f1 > f2 # => [false, true, false]
   # ```
   def ==(other : Number)
-    MA.eq(self, other)
+    Mask.eq(self, other)
   end
 
   # Sum reduction for a Flask

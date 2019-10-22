@@ -3,7 +3,7 @@ require "../core/jug"
 
 module Bottle
   macro mask_helper(operators)
-    module MA
+    module Mask
       extend self
 
       def gt(x : Number, y : Number)
@@ -45,5 +45,6 @@ module Bottle
       {% end %}
     end
   end
+
   mask_helper [gt, ge, lt, le, eq]
 end

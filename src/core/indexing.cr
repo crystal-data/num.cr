@@ -1,6 +1,6 @@
 require "../util/exceptions"
 
-module Bottle::Internal::Indexing
+module Bottle::Helpers::Index
   extend self
 
   # Normalizes a slice range to allow indexing to work with gsl.  This means
