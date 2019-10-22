@@ -5,7 +5,6 @@ Bottle is the core shard needed for scientific computing with Crystal
 - **Website:** https://www.crystaldata.org
 - **Documentation:** https://docs.crystaldata.org/
 - **Source code:** https://github.com/crystaldata/bottle
-- **Contributing:** https://www.numpy.org/devdocs/dev/index.html
 - **Bug reports:** https://github.com/crystaldata/bottle/issues
 
 It provides:
