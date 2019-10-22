@@ -694,10 +694,10 @@ class Bottle::Flask(T)
   end
 
   def accumulate(inplace = false)
-    Accumulate.new(self, inplace)
+    UFunc::Accumulate.new(self, inplace)
   end
 
   def outer(other : Flask(T))
-    Outer.new(self, other)
+    UFunc::Outer.new(self, other)
   end
 end

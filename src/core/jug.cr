@@ -74,6 +74,12 @@ class Bottle::Jug(T)
   def initialize(@data, @nrows, @ncols, @tda)
   end
 
+  def transpose
+    Jug(T).new(ncols, nrows) do |i, j|
+      self[j, i]
+    end
+  end
+
   # Iterates over each index of a Jug.  The core operation
   # to provide support for reduction and accumulation of
   # jugs.

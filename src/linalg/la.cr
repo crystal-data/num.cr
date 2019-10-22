@@ -6,6 +6,28 @@ module Bottle
   macro linalg_helper(dtype, blas_prefix)
     module LinAlg
       extend self
+
+      def lu(a : Jug({{dtype}}))
+        dim = Math.min(a.nrows, a.ncols)
+        ipiv = Pointer(Int32).malloc(dim)
+
+        m = a.nrows
+        n = a.ncols
+        lda = a.tda
+        trans = LibLapack::LapackTranspose::Trans
+
+        LibLapack.{{blas_prefix}}getrf(
+          pointerof(trans),
+          pointerof(m),
+          pointerof(n),
+          a.data,
+          pointerof(lda),
+          ipiv,
+          out info
+        )
+        a
+      end
+
       def inv(a : Jug({{dtype}}))
         dim = Math.min(a.nrows, a.ncols)
         ipiv = Pointer(Int32).malloc(dim)
@@ -39,6 +61,7 @@ module Bottle
 
         return a
       end
+
     end
   end
 

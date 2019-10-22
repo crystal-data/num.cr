@@ -12,8 +12,12 @@ lib LibLapack
   alias Indexer = UInt64 | Int32
   alias BNum = Int32 | Float64 | Float32
 
-  fun dgetrf = dgetrf_(m : Integer*, n : Integer*, a : Double*, lda : Integer*, ipiv : Integer*, info : Integer*) : Integer
-  fun sgetrf = sgetrf_(m : Integer*, n : Integer*, a : Real*, lda : Integer*, ipiv : Integer*, info : Integer*) : Integer
+  enum LapackTranspose
+    Trans = 54
+  end
+
+  fun dgetrf = dgetrf_(trans : LapackTranspose*, m : Integer*, n : Integer*, a : Double*, lda : Integer*, ipiv : Integer*, info : Integer*)
+  fun sgetrf = sgetrf_(trans : Logical*, m : Integer*, n : Integer*, a : Real*, lda : Integer*, ipiv : Integer*, info : Integer*) : Integer
   fun dgetri = dgetri_(n : Integer*, a : Double*, lda : Integer*, ipiv : Integer*,
                        work : Double*, lwork : Integer*, info : Integer*) : Integer
   fun sgetri = sgetri_(n : Integer*, a : Real*, lda : Integer*, ipiv : Integer*,
