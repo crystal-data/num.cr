@@ -1,8 +1,10 @@
 require "../spec_helper"
-require "../../src/util/testing"
+require "../../src/util/*"
+include Bottle
+include Bottle::Core::Exceptions
 
 describe Flask do
-  describe "#initialize" do
+  describe "Flask#initialize" do
     it "correctly identifies integer flask" do
       f = Flask.new [1, 2, 3]
       f.should be_a(Flask(Int32))
@@ -25,7 +27,7 @@ describe Flask do
 
     it "correctly creates flask from block" do
       f = Flask(Int32).new(5) { |i| i }
-      BottleTest.flask_equal(f, Flask.new [0, 1, 2, 3, 4]).should be_true
+      Testing.flask_equal(f, Flask.new [0, 1, 2, 3, 4]).should be_true
     end
 
     it "correctly allocates an empty flask" do
@@ -43,14 +45,14 @@ describe Flask do
       n = 5
       slice = Slice(Int32).new(n) { |i| i }
       f = Flask.new slice, n, 1
-      BottleTest.flask_equal(f, Flask.new [0, 1, 2, 3, 4]).should be_true
+      Testing.flask_equal(f, Flask.new [0, 1, 2, 3, 4]).should be_true
     end
 
     it "creates a valid strided flask" do
       n = 10
       slice = Slice(Int32).new(n) { |i| i }
       f = Flask.new slice, n // 2, 2
-      BottleTest.flask_equal(f, Flask.new [0, 2, 4, 6, 8]).should be_true
+      Testing.flask_equal(f, Flask.new [0, 2, 4, 6, 8]).should be_true
     end
 
     it "random returns correct type from range" do
@@ -60,20 +62,26 @@ describe Flask do
 
     it "reverses a flask" do
       f = Flask.new [1, 2, 3]
-      BottleTest.flask_equal(f.reverse, Flask.new [3, 2, 1]).should be_true
+      Testing.flask_equal(f.reverse, Flask.new [3, 2, 1]).should be_true
     end
 
     it "casts the type of a flask" do
       f = Flask.new [1, 2, 3]
       fasfloat = f.astype(Float64)
-      BottleTest.flask_equal(fasfloat, Flask.new [1.0, 2.0, 3.0]).should be_true
+      Testing.flask_equal(fasfloat, Flask.new [1.0, 2.0, 3.0]).should be_true
     end
 
     it "clones a flask that owns its own memory" do
       f = Flask.new [1, 2, 3]
       g = f.clone
       g[0] = 100
-      BottleTest.flask_equal(f, g).should be_false
+      Testing.flask_equal(f, g).should be_false
+    end
+
+    it "raises a TypeError for bad data types" do
+      expect_raises(TypeError) do
+        Flask.new [{1, 2}, {3, 4}, {5, 6}]
+      end
     end
   end
 end

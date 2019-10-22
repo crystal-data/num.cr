@@ -3,11 +3,15 @@ require "./arithmetic"
 require "./indexing"
 require "../libs/dtype"
 require "../ma/mask"
-require "./accumulate"
+require "../ufunc/*"
+require "../util/exceptions"
+
+SUPPORTED_TYPES = Set{Float64, Float32, Int32, Bool}
 
 class Flask(T)
   include Bottle::Internal::Dtype
   include Bottle::Internal::Indexing
+  include Bottle::Core::Exceptions
   include Bottle
 
   getter data : Slice(T)
@@ -23,7 +27,7 @@ class Flask(T)
   # puts f # => flask[1, 2, 3, 4, 5]
   # ```
   def to_s(io)
-    io << "[" << (0...size).map { |i| self[i].round(3) }.join(", ") << "]"
+    io << "[" << (0...size).map { |i| self[i] }.join(", ") << "]"
   end
 
   # Returns a copy of a flask that owns its own memory
@@ -33,7 +37,7 @@ class Flask(T)
   # f.clone # => [1, 2, 3, 4, 5]
   # ```
   def clone
-    Flask.new data.dup, size, stride
+    Flask.new(size) { |i| self[i] }
   end
 
   # Reverses a copy of the flask and returns the copy.
@@ -53,12 +57,18 @@ class Flask(T)
   # allocates a slice and sets its data to the elements
   # of data
   def initialize(data : Indexable(T))
+    if !SUPPORTED_TYPES.includes?(T)
+      raise TypeError.new("Unsupported dtype #{T} for class Flask")
+    end
     @size = data.size
     @stride = 1
     @data = Slice(T).new(size) { |i| data[i] }
   end
 
-  def self.new(size : Int32, &block)
+  def self.new(size : Int32, &block : Int32 -> T)
+    if !SUPPORTED_TYPES.includes?(T)
+      raise TypeError.new("Unsupported dtype #{T} for class Flask")
+    end
     data = Slice(T).new(size) { |i| yield i }
     new(data, size, 1)
   end
@@ -66,6 +76,9 @@ class Flask(T)
   # Primarily a convenience method to allow for cloning
   # of Vectors, should not be called by outside methods.
   def initialize(@data : Slice(T), @size, @stride)
+    if !SUPPORTED_TYPES.includes?(T)
+      raise TypeError.new("Unsupported dtype #{T} for class Flask")
+    end
   end
 
   # Applies a reduction operation to a flask to convert
@@ -240,8 +253,12 @@ class Flask(T)
   # f[2...4] # => [3, 4]
   # ```
   def [](range : Range(Indexer?, Indexer?))
-    rng = LL.convert_range_to_slice(range, size)
-    Flask.new data[rng.begin, rng.end - rng.begin], size, stride
+    rng = convert_range_to_slice(range, size)
+    Flask.new(
+      data[stride_offset(rng.begin, stride), stride_offset(rng.end - rng.begin, stride)],
+      (rng.end - rng.begin).to_i32,
+      stride
+    )
   end
 
   # Sets a single element from a Flask at a given index
@@ -274,7 +291,7 @@ class Flask(T)
   # f # => [1, 10, 9, 8, 7]
   # ```
   def []=(range : Range(Indexer?, Indexer?), values : Array(Number))
-    range = LL.convert_range_to_slice(range, size)
+    range = convert_range_to_slice(range, size)
     range.each_with_index { |e, i| self[e] = values[i] }
   end
 
@@ -415,7 +432,7 @@ class Flask(T)
   # f1 > f2 # => [false, false, true ]
   # ```
   def >(other : Flask)
-    LL.gt(self, other)
+    MA.gt(self, other)
   end
 
   # Elementwise greater than comparison to a scalar
@@ -426,7 +443,7 @@ class Flask(T)
   # f1 > f2 # => [false, false, true ]
   # ```
   def >(other : Number)
-    LL.gt(self, other)
+    MA.gt(self, other)
   end
 
   # Elementwise greater equal than comparison to another Flask
@@ -437,7 +454,7 @@ class Flask(T)
   # f1 >= f2 # => [false, true, true ]
   # ```
   def >=(other : Flask)
-    LL.ge(self, other)
+    MA.ge(self, other)
   end
 
   # Elementwise greater equal than comparison to another Flask
@@ -448,7 +465,7 @@ class Flask(T)
   # f1 >= f2 # => [false, true, true ]
   # ```
   def >=(other : Number)
-    LL.ge(self, other)
+    MA.ge(self, other)
   end
 
   # Elementwise less than comparison to another Flask
@@ -459,7 +476,7 @@ class Flask(T)
   # f1 < f2 # => [true, false, false]
   # ```
   def <(other : Flask)
-    LL.lt(self, other)
+    MA.lt(self, other)
   end
 
   # Elementwise less than comparison to a scalar
@@ -470,7 +487,7 @@ class Flask(T)
   # f1 < f2 # => [false, false, true ]
   # ```
   def <(other : Number)
-    LL.lt(self, other)
+    MA.lt(self, other)
   end
 
   # Elementwise less equal than comparison to another Flask
@@ -481,7 +498,7 @@ class Flask(T)
   # f1 <= f2 # => [true, true, false]
   # ```
   def <=(other : Flask)
-    LL.le(self, other)
+    MA.le(self, other)
   end
 
   # Elementwise less equal than comparison to a scalar
@@ -492,7 +509,7 @@ class Flask(T)
   # f1 > f2 # => [true, true, false]
   # ```
   def <=(other : Number)
-    LL.le(self, other)
+    MA.le(self, other)
   end
 
   # Elementwise equal comparison to another Flask
@@ -503,7 +520,7 @@ class Flask(T)
   # f1 == f2 # => [false, true, false ]
   # ```
   def ==(other : Flask)
-    LL.eq(self, other)
+    MA.eq(self, other)
   end
 
   # Elementwise equal comparison to a scalar
@@ -514,7 +531,7 @@ class Flask(T)
   # f1 > f2 # => [false, true, false]
   # ```
   def ==(other : Number)
-    LL.eq(self, other)
+    MA.eq(self, other)
   end
 
   # Sum reduction for a Flask
@@ -681,57 +698,7 @@ class Flask(T)
     Accumulate.new(self, inplace)
   end
 
-  # Computes the cumulative sum of a vector
-  #
-  # ```
-  # v = Flask.new [1, 2, 3, 4]
-  # v.cumsum # => [1, 3, 6, 10]
-  # ```
-  def cumsum
-    ret = self.clone
-    ret.cumsum!
-    ret
-  end
-
-  # Computes the cumulative sum of a vector in place.
-  # Primarily used for reductions along an axis in
-  # a Jug.
-  #
-  # ```
-  # v = Flask.new [1, 2, 3, 4]
-  # v.cumsum!
-  # v # => [1, 3, 6, 10]
-  # ```
-  def cumsum!
-    (1...size).each do |i|
-      self[i] += self[i - 1]
-    end
-  end
-
-  # Computes the cumulative product of a vector
-  #
-  # ```
-  # v = Flask.new [1, 2, 3, 4]
-  # v.cumprod # => [1, 2, 6, 24]
-  # ```
-  def cumprod
-    ret = self.clone
-    ret.cumprod!
-    ret
-  end
-
-  # Computes the cumulative product of a vector in place.
-  # Primarily used for reductions along an axis in
-  # a Jug.
-  #
-  # ```
-  # v = Flask.new [1, 2, 3, 4]
-  # v.cumprod!
-  # v # => [1, 2, 6, 24]
-  # ```
-  def cumprod!
-    (1...size).each do |i|
-      self[i] *= self[i - 1]
-    end
+  def outer(other : Flask(T))
+    Outer.new(self, other)
   end
 end

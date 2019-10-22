@@ -4,4 +4,7 @@ module Bottle::Core::Exceptions
 
   class ShapeError < Exception
   end
+
+  class TypeError < Exception
+  end
 end

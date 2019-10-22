@@ -1,4 +1,4 @@
-require "./exceptions"
+require "../util/exceptions"
 
 module Bottle::Internal::Indexing
   extend self

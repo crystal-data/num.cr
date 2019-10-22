@@ -5,6 +5,7 @@ require "../ma/mask"
 require "./arithmetic"
 require "../linalg/*"
 require "../blas/*"
+require "../ufunc/*"
 
 class Jug(T)
   include Bottle::Internal::Indexing
@@ -108,31 +109,6 @@ class Jug(T)
       end
     end
     ary
-  end
-
-  # Accumulates an operation along a row or column of a Jug.
-  # Used to provide cumulative operations such as cumsum or
-  # cumprod.  The most common accumulations have aliases on the
-  # class.  For example, `m.cumsum(0)` is equivalent to
-  # m.accumulate(0, &.cumsum!).  Accumulations are always
-  # done IN PLACE on the Jug, and all aliases on the class
-  # clone the jug first.
-  #
-  # ```crystal
-  # m = Jug.new [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
-  # m.accumulate(1, &.cumsum!)
-  # m # => [[1, 3, 6], [4, 9, 15], [7, 15, 24]]
-  # ```
-  def accumulate(axis : Indexer, &block : Flask(T) -> Nil)
-    if axis == 0
-      each_col_index do |e, c|
-        yield e
-      end
-    else
-      each_row_index do |e, r|
-        yield e
-      end
-    end
   end
 
   # Iterates through each value of a Jug.  Iteration
@@ -441,43 +417,57 @@ class Jug(T)
   end
 
   def >(other : Jug)
-    LL.gt(self, other)
+    MA.gt(self, other)
   end
 
   def >(other : Number)
-    LL.gt(self, other)
+    MA.gt(self, other)
   end
 
   def >=(other : Jug)
-    LL.ge(self, other)
+    MA.ge(self, other)
   end
 
   def >=(other : Number)
-    LL.ge(self, other)
+    MA.ge(self, other)
   end
 
   def <(other : Jug)
-    LL.lt(self, other)
+    MA.lt(self, other)
   end
 
   def <(other : Number)
-    LL.lt(self, other)
+    MA.lt(self, other)
   end
 
   def <=(other : Jug)
-    LL.le(self, other)
+    MA.le(self, other)
   end
 
   def <=(other : Number)
-    LL.le(self, other)
+    MA.le(self, other)
   end
 
   def ==(other : Jug)
-    LL.eq(self, other)
+    MA.eq(self, other)
   end
 
   def ==(other : Number)
-    LL.eq(self, other)
+    MA.eq(self, other)
+  end
+
+  # Accumulates an operation along a row or column of a Jug.
+  # This returns an instance of an Accumulate2D which provides
+  # the definitions for many cumulative operations axis-wise
+  # along a Jug.  This is one of the many ufuncs that Bottle provides
+  #
+  # ```crystal
+  # m = Jug.new [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+  # m.accumulate(axis = 1).add
+  # m # => [[1, 3, 6], [4, 9, 15], [7, 15, 24]]
+  # ```
+  def accumulate(axis : Int32, inplace = false)
+    Accumulate2D.new(self, axis, inplace)
   end
 
   # Computes the maximum value of a vector
@@ -554,37 +544,5 @@ class Jug(T)
 
   def argmin(axis : Indexer)
     reduce(axis, &.argmin)
-  end
-
-  # Computes the cumulative sum of a vector
-  #
-  # ```
-  # v = Flask.new [1, 2, 3, 4]
-  # v.cumsum # => [1, 3, 6, 10]
-  # ```
-  def cumsum
-    self.clone.ravel.cumsum
-  end
-
-  def cumsum(axis : Indexer)
-    ret = self.clone
-    ret.accumulate(axis, &.cumsum!)
-    ret
-  end
-
-  # Computes the cumulative product of a vector
-  #
-  # ```
-  # v = Flask.new [1, 2, 3, 4]
-  # v.cumprod # => [1, 2, 6, 24]
-  # ```
-  def cumprod
-    self.clone.ravel.cumprod
-  end
-
-  def cumprod(axis : Indexer)
-    ret = self.clone
-    accumulate(axis, &.cumprod!)
-    ret
   end
 end
