@@ -6,12 +6,12 @@ require "../ma/mask"
 require "../ufunc/*"
 require "../util/exceptions"
 
-Bottle::SUPPORTED_TYPES = Set{Float64, Float32, Int32, Bool}
-
 class Bottle::Flask(T)
   include Internal::Dtype
   include Helpers::Index
   include Core::Exceptions
+
+  SUPPORTED_TYPES = Set{Float64, Float32, Int32, Bool}
 
   getter data : Slice(T)
   getter size : Int32
