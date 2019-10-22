@@ -8,6 +8,6 @@ module Bottle::Testing
     if a.size != b.size
       return false
     end
-    return (a == b).all?
+    (a == b).all?
   end
 end

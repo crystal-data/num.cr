@@ -27,7 +27,6 @@ module Bottle
       end
 
       {% for op in operators %}
-
         def {{op.id}}(a : Flask, b : Flask)
           Flask(Bool).new(a.size) { |i| {{op.id}}(a[i], b[i]) }
         end
@@ -43,11 +42,8 @@ module Bottle
         def {{op.id}}(a : Jug, x : Number)
           Jug(Bool).new(a.nrows, a.ncols) { |i, j| {{op.id}}(a[i, j], x) }
         end
-
       {% end %}
-
     end
   end
-
   mask_helper [gt, ge, lt, le, eq]
 end

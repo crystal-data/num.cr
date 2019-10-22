@@ -98,7 +98,7 @@ class Jug(T)
   # m.reduce(1, &.max) # => [3, 6, 9]
   # ```
   def reduce(axis : Indexer, &block : Flask(T) -> U) forall U
-    ary = Flask.empty(axis == 0 ? ncols : nrows, dtype = U)
+    ary = Flask.empty(axis == 0 ? ncols : nrows, dtype: U)
     if axis == 0
       each_col_index do |e, i|
         ary[i] = yield e
@@ -320,8 +320,6 @@ class Jug(T)
   end
 
   def self.identity(n : Int32)
-    one = LL.astype(1, T)
-    zero = LL.astype(0, T)
     Jug(T).new(n, n) do |i, j|
       i == j ? T.new(1) : T.new(0)
     end

@@ -49,7 +49,7 @@ class Flask(T)
   def reverse
     f = clone
     f.data.reverse!
-    return f
+    f
   end
 
   # Initializes a flask from an Indexable of a type.
@@ -663,7 +663,7 @@ class Flask(T)
   # ```
   def ptp
     min, max = ptpv
-    return max - min
+    max - min
   end
 
   # Internal method to find the minimum and maximum values,

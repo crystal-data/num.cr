@@ -107,11 +107,11 @@ class Accumulate2D(T)
 
   def apply_along_axis(&block : Flask(T) -> Nil)
     if axis == 0
-      data.each_col_index do |e, c|
+      data.each_col do |e|
         yield e
       end
     else
-      data.each_row_index do |e, r|
+      data.each_row do |e|
         yield e
       end
     end
