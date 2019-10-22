@@ -1,4 +1,4 @@
-# <img alt="Bottle" src="./static/bottlelogo.png" height="60">
+# <img alt="Bottle" src="./static/bottlelogo.png">
 
 Bottle is the core shard needed for scientific computing with Crystal
 
