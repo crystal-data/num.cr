@@ -378,6 +378,12 @@ class Bottle::Vector(T) < Bottle::Internal::BottleObject(T)
     Vector.new data.dup, stride, true
   end
 
+  def sort
+    v = clone
+    v.data.sort!
+    v
+  end
+
   # Casts a Vector to another data dtype.
   # If the Vector is already the given dtype,
   # a copy is not made, otherwise a new Vector
