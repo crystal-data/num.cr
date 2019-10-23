@@ -32,6 +32,9 @@ lib LibCblas
   fun srotg = cblas_srotg(da : Real*, db : Real*, c : Real*, s : Real*)
   fun drotg = cblas_drotg(da : Double*, db : Double*, c : Double*, s : Double*)
 
+  fun saxpy = cblas_saxpy(n : Integer, sa : Real, sx : Real*, incx : Integer, sy : Real*, incy : Integer)
+  fun daxpy = cblas_daxpy(n : Integer, sa : Double, sx : Double*, incx : Integer, sy : Double*, incy : Integer)
+
   fun drot = cblas_drot(n : Integer, dx : Double*, incx : Integer, dy : Double*, incy : Integer, c : Double*, s : Double*)
   fun srot = cblas_srot(n : Integer, dx : Real*, incx : Integer, dy : Real*, incy : Integer, c : Real*, s : Real*)
 

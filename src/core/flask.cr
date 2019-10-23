@@ -13,8 +13,13 @@ class Bottle::Flask(T)
 
   SUPPORTED_TYPES = Set{Float64, Float32, Int32, Bool}
 
+  # Crystal slice pointing to the start of the vector’s data.
   getter data : Slice(T)
+
+  # Number of elements in a Vector
   getter size : Int32
+
+  # Number of steps to take between consecutive values in a Vector
   getter stride : Int32
 
   # Converts a flask into a string representation.  This currently
