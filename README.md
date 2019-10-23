@@ -19,8 +19,8 @@ It provides:
 Roadmap
 
 - [x] Robust `Vector` implementation for one-dimensional data
-- [ ] `Vector` arithmetic implemented, backed by BLAS when possible
-- [ ] `Vector` statistics implemented, backed by BLAS when possible
+- [x] `Vector` arithmetic implemented, backed by BLAS when possible
+- [x] `Vector` statistics implemented, backed by BLAS when possible
 - [ ] `Vector` accumulations and reductions implemented
 - [ ] Robust `Matrix` implementation for two-dimensional data
 - [ ] `Matrix` arithmetic implemented, backed by BLAS when possible

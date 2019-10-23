@@ -1,8 +1,6 @@
 require "./object"
-
-module Bottle
-  SUPPORTED_TYPES = {Float32, Float64, Complex}
-end
+require "../api/math"
+require "../api/stats"
 
 class Bottle::Vector(T) < Bottle::Internal::BottleObject(T)
   # Crystal slice pointing to the start of the vector’s data.
@@ -143,7 +141,7 @@ class Bottle::Vector(T) < Bottle::Internal::BottleObject(T)
   # ```
   private def set_slice(slice, xs)
     i, n = range_to_slice(slice, size)
-    (i...n).each_with_index { |e, i| set(e, xs[i]) }
+    (i...n).each_with_index { |e, idx| set(e, xs[idx]) }
   end
 
   # Selects a single value from a vector. Calculates the offset
@@ -289,6 +287,27 @@ class Bottle::Vector(T) < Bottle::Internal::BottleObject(T)
     each_index(all: all) { |i| yield(self[i], i) }
   end
 
+  # Applies a reduction operation to a Vector to reduce
+  # a flask to a scalar. Many common reductions are
+  # aliased on the class, such as sum and prod.  For
+  # some operations, the alias may take advantage of
+  # a BLAS or LAPACK based method, and performance may
+  # differ from the reduction
+  #
+  # ```crystal
+  # f = Flask.new [1, 2, 3]
+  # f.reduce { |i, j| i + j } # => 6
+  # ```
+  def reduce(&block : T -> T)
+    i = uninitialized T
+    found = false
+    each do |j|
+      i = found ? (yield i, j) : j
+      found = true
+    end
+    found ? i : raise Enumerable::EmptyError.new
+  end
+
   # Initializes a Vector with an uninitialized slice
   # of data.  This is just another alias for zeros,
   # since Crystal right now doesn't support slices
@@ -318,10 +337,10 @@ class Bottle::Vector(T) < Bottle::Internal::BottleObject(T)
   # dtype is Float64, but other dtypes are supported
   #
   # ```crystal
-  # f = Flask.ones(5, dtype: Int32)
+  # f = Vector.ones(5, dtype: Int32)
   # f # => Vector[1, 1, 1, 1, 1]
   # ```
-  def self.ones(n : Indexer, dtype : U.class = Float64) forall U
+  def self.ones(n : Int32, dtype : U.class = Float64) forall U
     Vector.new Slice(U).new(n, U.new(1)), 1, true
   end
 
@@ -336,8 +355,8 @@ class Bottle::Vector(T) < Bottle::Internal::BottleObject(T)
     Vector.new Slice(U).new(n, U.new(x)), 1, true
   end
 
-  # Pours a flask full of random data.
-  # The dtype of the flask is inferred
+  # Pours a Vector full of random data.
+  # The dtype of the Vector is inferred
   # from the values on either end of the
   # range.
   #
@@ -356,7 +375,7 @@ class Bottle::Vector(T) < Bottle::Internal::BottleObject(T)
   # f.clone # => Vector[1, 2, 3, 4, 5]
   # ```
   def clone
-    Vector.new(size) { |i| self[i] }
+    Vector.new data.dup, stride, true
   end
 
   # Casts a Vector to another data dtype.
@@ -385,5 +404,147 @@ class Bottle::Vector(T) < Bottle::Internal::BottleObject(T)
     f = clone
     f.data.reverse!
     f
+  end
+
+  # Elementwise addition of a Vector to another equally sized Vector
+  #
+  # ```
+  # f1 = Vector.new [1.0, 2.0, 3.0]
+  # f2 = Vector.new [2.0, 4.0, 6.0]
+  # f1 + f2 # => [3.0, 6.0, 9.0]
+  # ```
+  def +(other : Vector)
+    B.add(self, other)
+  end
+
+  # Elementwise addition of a Vector to a scalar
+  #
+  # ```
+  # f1 = Vector.new [1.0, 2.0, 3.0]
+  # f2 = 2
+  # f1 + f2 # => [3.0, 4.0, 5.0]
+  # ```
+  def +(other : Number)
+    B.add(self, other)
+  end
+
+  # Elementwise subtraction of a Vector to another equally sized Vector
+  #
+  # ```
+  # f1 = Vector.new [1.0, 2.0, 3.0]
+  # f2 = Vector.new [2.0, 4.0, 6.0]
+  # f1 - f2 # => [-1.0, -2.0, -3.0]
+  # ```
+  def -(other : Vector)
+    B.subtract(self, other)
+  end
+
+  # Elementwise subtraction of a Vector with a scalar
+  #
+  # ```
+  # f1 = Vector.new [1.0, 2.0, 3.0]
+  # f2 = 2
+  # f1 - f2 # => [-1.0, 0.0, 1.0]
+  # ```
+  def -(other : Number)
+    B.subtract(self, other)
+  end
+
+  # Elementwise multiplication of a Vector to another equally sized Vector
+  #
+  # ```
+  # f1 = Vector.new [1.0, 2.0, 3.0]
+  # f2 = Vector.new [2.0, 4.0, 6.0]
+  # f1 * f2 # => [3.0, 8.0, 18.0]
+  # ```
+  def *(other : Vector)
+    B.multiply(self, other)
+  end
+
+  # Elementwise multiplication of a Vector to a scalar
+  #
+  # ```
+  # f1 = Vector.new [1.0, 2.0, 3.0]
+  # f2 = 2
+  # f1 + f2 # => [2.0, 4.0, 6.0]
+  # ```
+  def *(other : Number)
+    B.multiply(self, other)
+  end
+
+  # Elementwise division of a Vector to another equally sized Vector
+  #
+  # ```
+  # f1 = Vector.new [1.0, 2.0, 3.0]
+  # f2 = Vector.new [2.0, 4.0, 6.0]
+  # f1 / f2 # => [0.5, 0.5, 0.5]
+  # ```
+  def /(other : Vector)
+    B.div(self, other)
+  end
+
+  # Elementwise division of a Vector to a scalar
+  #
+  # ```
+  # f1 = Vector.new [1.0, 2.0, 3.0]
+  # f2 = 2
+  # f1 / f2 # => [0.5, 1, 1.5]
+  # ```
+  def /(other : Number)
+    B.div(self, other)
+  end
+
+  def sqrt
+    B.sqrt(self)
+  end
+
+  # Computes the sum of each value of a vector
+  #
+  # ```
+  # v = Flask.new [1, 2, 3, 4]
+  # v.sum # => 10
+  # ```
+  def sum
+    B.sum(self)
+  end
+
+  # Computes the maximum value of a vector
+  #
+  # ```
+  # v = Flask.new [1, 2, 3, 4]
+  # v.max # => 4
+  # ```
+  def max
+    B.max(self)
+  end
+
+  # Computes the index of the maximum value of a vector
+  #
+  # ```
+  # v = Flask.new [1, 2, 3, 4]
+  # v.argmax # => 3
+  # ```
+  def argmax
+    B.argmax(self)
+  end
+
+  # Computes the minimum value of a vector
+  #
+  # ```
+  # v = Flask.new [1, 2, 3, 4]
+  # v.min # => 1
+  # ```
+  def min
+    B.min(self)
+  end
+
+  # Computes the index of the minimum value of a vector
+  #
+  # ```
+  # v = Flask.new [1, 2, 3, 4]
+  # v.argmin # => 0
+  # ```
+  def argmin
+    B.argmin(self)
   end
 end
