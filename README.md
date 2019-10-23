@@ -16,6 +16,20 @@ It provides:
 - data structures that can easily be passed to C libraries
 - powerful linear algebra routines backed by LAPACK and BLAS
 
+Roadmap
+
+- [x] Robust `Vector` implementation for one-dimensional data
+- [ ] `Vector` arithmetic implemented, backed by BLAS when possible
+- [ ] `Vector` statistics implemented, backed by BLAS when possible
+- [ ] `Vector` accumulations and reductions implemented
+- [ ] Robust `Matrix` implementation for two-dimensional data
+- [ ] `Matrix` arithmetic implemented, backed by BLAS when possible
+- [ ] `Matrix` statistics implemented, backed by BLAS when possible
+- [ ] `Matrix` accumulations and reductions along axes implemented
+- [ ] Boolean masks implemented for `Matrix` and `Vector`
+- [ ] Higher level Linear Algebra implementations
+- [ ] Reading and writing data to files
+
 Contributing
 ------------
 Bottle requires help in many different ways to continue to grow as a shard.

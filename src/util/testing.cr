@@ -1,13 +1,15 @@
-require "../core/flask"
-require "../core/jug"
+require "../core/vector"
 
 module Bottle::Testing
   extend self
 
-  def flask_equal(a, b)
+  def vector_equal(a, b)
     if a.size != b.size
       return false
     end
-    (a == b).all?
+    a.size.times do |i|
+      return false unless a[i] == b[i]
+    end
+    true
   end
 end
