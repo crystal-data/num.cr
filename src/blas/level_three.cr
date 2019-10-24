@@ -1,11 +1,11 @@
 require "../libs/dtype"
 require "../libs/cblas"
-require "../core/flask"
-require "../core/jug"
+require "../core/vector"
+require "../core/matrix"
 
 module Bottle
   macro blas_helper(dtype, blas_prefix, cast)
-    module Bottle::BLAS
+    module Bottle::B
       extend self
 
       # Performs matrix multiplication of two Jugs.
@@ -23,8 +23,8 @@ module Bottle
       # [[2.0, 3.0],
       # [6.0, 11.0]]
       # ```
-      def matmul(a : Jug({{dtype}}), b : Jug({{dtype}}))
-        c = Jug({{dtype}}).empty(a.nrows, b.ncols)
+      def dot(a : Matrix({{dtype}}), b : Matrix({{dtype}}))
+        c = Matrix({{dtype}}).empty(a.nrows, b.ncols)
         LibCblas.{{blas_prefix}}gemm(
           LibCblas::MatrixLayout::RowMajor,
           LibCblas::MatrixTranspose::NoTrans,

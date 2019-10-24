@@ -1,6 +1,7 @@
 require "./core/vector"
 require "./core/matrix"
-require "benchmark"
+require "./linalg/*"
+require "./blas/*"
 
 module Bottle
   extend self

@@ -2,6 +2,7 @@ require "./object"
 require "../api/math"
 require "../api/stats"
 require "../api/vectorprint"
+require "../ufunc/*"
 
 class Bottle::Vector(T) < Bottle::Internal::BottleObject(T)
   # Crystal slice pointing to the start of the vector’s data.
@@ -553,5 +554,13 @@ class Bottle::Vector(T) < Bottle::Internal::BottleObject(T)
   # ```
   def argmin
     B.argmin(self)
+  end
+
+  def accumulate(inplace = false)
+    UFunc::Accumulate.new(self, inplace)
+  end
+
+  def outer(other : Vector)
+    UFunc::Outer.new(self, other)
   end
 end

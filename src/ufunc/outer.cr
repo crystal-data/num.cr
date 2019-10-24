@@ -1,15 +1,15 @@
-require "../core/flask"
-require "../core/jug"
+require "../core/vector"
+require "../core/matrix"
 
 class Bottle::UFunc::Outer(T)
-  getter it : Flask(T)
-  getter other : Flask(T)
+  getter it : Vector(T)
+  getter other : Vector(T)
 
-  def initialize(@it : Flask(T), @other : Flask(T))
+  def initialize(@it : Vector(T), @other : Vector(T))
   end
 
   def outer(&block)
-    Jug(T).new(it.size, other.size) do |i, j|
+    Matrix(T).new(it.size, other.size) do |i, j|
       yield i, j
     end
   end

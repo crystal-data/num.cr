@@ -1,15 +1,15 @@
 require "../libs/dtype"
 require "../libs/cblas"
-require "../core/flask"
-require "../core/jug"
+require "../core/vector"
+require "../core/matrix"
 
 module Bottle
   macro blas_helper(dtype, blas_prefix, cast)
-    module Bottle::BLAS
+    module Bottle::B
       extend self
 
-      def outer(a : Flask({{dtype}}), b : Flask({{dtype}}))
-        jug = Jug.empty(a.size, b.size, dtype: {{dtype}})
+      def outer(a : Vector({{dtype}}), b : Vector({{dtype}}))
+        jug = Matrix.empty(a.size, b.size, dtype: {{dtype}})
         LibCblas.{{blas_prefix}}ger(
           LibCblas::MatrixLayout::RowMajor,
           a.size,
@@ -25,7 +25,7 @@ module Bottle
         jug
       end
 
-      def dot(a : Jug({{dtype}}), x : Flask({{dtype}}))
+      def dot(a : Matrix({{dtype}}), x : Vector({{dtype}}))
         flask = Flask.empty(x.size, dtype: {{dtype}})
         LibCblas.{{blas_prefix}}gemv(
           LibCblas::MatrixLayout::RowMajor,

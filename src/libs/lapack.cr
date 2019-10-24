@@ -16,8 +16,8 @@ lib LibLapack
     Trans = 54
   end
 
-  fun dgetrf = dgetrf_(trans : LapackTranspose*, m : Integer*, n : Integer*, a : Double*, lda : Integer*, ipiv : Integer*, info : Integer*)
-  fun sgetrf = sgetrf_(trans : Logical*, m : Integer*, n : Integer*, a : Real*, lda : Integer*, ipiv : Integer*, info : Integer*) : Integer
+  fun dgetrf = dgetrf_(m : Integer*, n : Integer*, a : Double*, lda : Integer*, ipiv : Integer*, info : Integer*)
+  fun sgetrf = sgetrf_(m : Integer*, n : Integer*, a : Real*, lda : Integer*, ipiv : Integer*, info : Integer*) : Integer
   fun dgetri = dgetri_(n : Integer*, a : Double*, lda : Integer*, ipiv : Integer*,
                        work : Double*, lwork : Integer*, info : Integer*) : Integer
   fun sgetri = sgetri_(n : Integer*, a : Real*, lda : Integer*, ipiv : Integer*,

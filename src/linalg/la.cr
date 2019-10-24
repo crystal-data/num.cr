@@ -1,34 +1,18 @@
 require "../libs/lapack"
-require "../core/jug"
-require "../core/flask"
+require "../core/vector"
+require "../core/matrix"
 
 module Bottle
   macro linalg_helper(dtype, blas_prefix)
-    module LinAlg
+    module B::LinAlg
       extend self
 
-      def lu(a : Jug({{dtype}}))
-        dim = Math.min(a.nrows, a.ncols)
-        ipiv = Pointer(Int32).malloc(dim)
+      def inv(a : Matrix({{dtype}}))
+        if a.nrows != a.ncols
+          raise "Matrix must be square"
+        end
 
-        m = a.nrows
-        n = a.ncols
-        lda = a.tda
-        trans = LibLapack::LapackTranspose::Trans
-
-        LibLapack.{{blas_prefix}}getrf(
-          pointerof(trans),
-          pointerof(m),
-          pointerof(n),
-          a.data,
-          pointerof(lda),
-          ipiv,
-          out info
-        )
-        a
-      end
-
-      def inv(a : Jug({{dtype}}))
+        a = a.clone
         dim = Math.min(a.nrows, a.ncols)
         ipiv = Pointer(Int32).malloc(dim)
 

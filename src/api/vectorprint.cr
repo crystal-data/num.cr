@@ -6,13 +6,7 @@ module Bottle::B::Util
   # This is a complete mess and needs to be redone, I was just
   # so tired of debugging ridiculously hard to read outputs
   # and this made my life so much easier.
-  def matrix_print(io, data : Matrix(U), prefix = "Matrix[") forall U
-  end
-
-  # This is a complete mess and needs to be redone, I was just
-  # so tired of debugging ridiculously hard to read outputs
-  # and this made my life so much easier.
-  def vector_print(io, data : Vector(U), prefix = "Vector[") forall U
+  def vector_print(io, data : Vector(U), prefix = "Vector[", override_max = false, maxval : U = U.new(0)) forall U
     too_big = data.size > 1000
     if too_big
       data = data[[0, 1, 2, data.size - 3, data.size - 2, data.size - 1]]
@@ -23,7 +17,7 @@ module Bottle::B::Util
     {% if U == Bool %}
       longest = false
     {% else %}
-      longest = data.max.round(3)
+      longest = !override_max ? data.max.round(3) : maxval.round(3)
     {% end %}
     rj = "#{longest}".size + (U == Int32 || U == Bool ? 2 : 5)
 

@@ -270,10 +270,12 @@ class Bottle::Matrix(T) < Bottle::Internal::BottleObject(T)
   # [     4.0     2.0   1.333     1.0     0.8]
   # ```
   def to_s(io)
+    mx = max
     nrows.times do |i|
-      io << "["
-      B::Util.vector_print(io, self[i], prefix: "")
-      io << "\n"
+      prefix = i == 0 ? "Matrix[[" : "       ["
+      B::Util.vector_print(io, self[i], prefix: prefix, override_max: true, maxval: mx)
+      io << "]" unless i != nrows - 1
+      io << "\n" unless i == nrows - 1
     end
   end
 

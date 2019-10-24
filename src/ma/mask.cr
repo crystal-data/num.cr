@@ -3,48 +3,48 @@ require "../core/jug"
 
 module Bottle
   macro mask_helper(operators)
-    module Mask
+    module B
       extend self
 
-      def gt(x : Number, y : Number)
+      def greater(x : Number, y : Number)
         x > y
       end
 
-      def ge(x : Number, y : Number)
+      def greater_equal(x : Number, y : Number)
         x >= y
       end
 
-      def lt(x : Number, y : Number)
+      def less(x : Number, y : Number)
         x < y
       end
 
-      def le(x : Number, y : Number)
+      def less_equal(x : Number, y : Number)
         x <= y
       end
 
-      def eq(x : Number, y : Number)
+      def equal(x : Number, y : Number)
         x == y
       end
 
       {% for op in operators %}
-        def {{op.id}}(a : Flask, b : Flask)
-          Flask(Bool).new(a.size) { |i| {{op.id}}(a[i], b[i]) }
+        def {{op.id}}(a : Vector, b : Vector)
+          Vector.new(a.size) { |i| {{op.id}}(a[i], b[i]) }
         end
 
-        def {{op.id}}(a : Flask, x : Number)
-          Flask(Bool).new(a.size) { |i| {{op.id}}(a[i], x) }
+        def {{op.id}}(a : Vector, x : Number)
+          Vector.new(a.size) { |i| {{op.id}}(a[i], x) }
         end
 
-        def {{op.id}}(a : Jug, b : Jug)
-          Jug(Bool).new(a.nrows, a.ncols) { |i, j| {{op.id}}(a[i, j], b[i, j]) }
+        def {{op.id}}(a : Matrix, b : Matrix)
+          Matrix.new(a.nrows, a.ncols) { |i, j| {{op.id}}(a[i, j], b[i, j]) }
         end
 
-        def {{op.id}}(a : Jug, x : Number)
-          Jug(Bool).new(a.nrows, a.ncols) { |i, j| {{op.id}}(a[i, j], x) }
+        def {{op.id}}(a : Matrix, x : Number)
+          Matrix.new(a.nrows, a.ncols) { |i, j| {{op.id}}(a[i, j], x) }
         end
       {% end %}
     end
   end
 
-  mask_helper [gt, ge, lt, le, eq]
+  mask_helper [greater, greater_equal, less, less_equal, equal]
 end

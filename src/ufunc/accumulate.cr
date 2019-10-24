@@ -1,18 +1,22 @@
-require "../core/flask"
-require "../core/jug"
+require "../core/vector"
+require "../core/matrix"
 
 class Bottle::UFunc::Accumulate(T)
-  getter data : Flask(T)
+  getter data : Vector(T)
   getter size : Int32
   getter inplace : Bool
 
-  def initialize(data : Flask(T), @inplace = false)
+  def initialize(data : Vector(T), @inplace = false)
     @size = data.size
     if !inplace
       @data = data.clone
     else
       @data = data
     end
+  end
+
+  def to_s(io)
+    io << "<ufunc> accumulate"
   end
 
   # Accumulates sum of a Flask
@@ -97,15 +101,15 @@ class Bottle::UFunc::Accumulate(T)
 end
 
 class Bottle::UFunc::Accumulate2D(T)
-  getter data : Jug(T)
+  getter data : Matrix(T)
   getter axis : Int32?
   getter inplace : Bool
 
-  def initialize(data : Jug(T), @axis, @inplace = false)
+  def initialize(data : Matrix(T), @axis, @inplace = false)
     @data = inplace ? data : data.clone
   end
 
-  def apply_along_axis(&block : Flask(T) -> Nil)
+  def apply_along_axis(&block : Vector(T) -> Nil)
     if axis == 0
       data.each_col do |e|
         yield e
