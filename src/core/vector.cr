@@ -1,6 +1,7 @@
 require "./object"
 require "../api/math"
 require "../api/stats"
+require "../api/vectorprint"
 
 class Bottle::Vector(T) < Bottle::Internal::BottleObject(T)
   # Crystal slice pointing to the start of the vector’s data.
@@ -47,7 +48,7 @@ class Bottle::Vector(T) < Bottle::Internal::BottleObject(T)
   # ```
   def initialize(@data : Slice(T), @stride = 1, @owner = true)
     check_type
-    @size = @data.size // @stride
+    @size = (@data.size - 1) // @stride + 1
   end
 
   # Creates a new `Vector` from a block.  Infers the type
@@ -230,7 +231,7 @@ class Bottle::Vector(T) < Bottle::Internal::BottleObject(T)
   # puts f # => Vector[1, 2, 3, 4, 5]
   # ```
   def to_s(io)
-    io << "Vector[" << (0...size).map { |i| self[i] }.join(", ") << "]"
+    B::Util.vector_print(io, self)
   end
 
   # Lazily yields the index values of a Vector.  This method

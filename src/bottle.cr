@@ -1,4 +1,6 @@
 require "./core/vector"
+require "./api/distributions"
+require "./api/vectorprint"
 
 module Bottle
   extend self
@@ -7,5 +9,6 @@ end
 
 include Bottle
 
-v = Vector.new [1, 2, 3, 4]
-puts B.median(v)
+v = B.vrange(4)
+
+puts v

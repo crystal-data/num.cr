@@ -23,4 +23,16 @@ abstract class Bottle::Internal::BottleObject(T)
     finish = (j.nil? ? size : j).as(UInt64 | Int32).to_i32
     {start, finish}
   end
+
+  protected def check_indexer(x, y)
+    if x.size != y.size
+      raise "Indexers must be the same size"
+    end
+  end
+
+  protected def check_indexer(x, y, z)
+    if x.size != y.size && y.size != z.size
+      raise "Indexers must be the same size"
+    end
+  end
 end
