@@ -272,7 +272,7 @@ class Bottle::Matrix(T) < Bottle::Internal::BottleObject(T)
   def to_s(io)
     nrows.times do |i|
       io << "["
-      B::Util.vector_print(io, self[i], prefix = "")
+      B::Util.vector_print(io, self[i], prefix: "")
       io << "\n"
     end
   end
@@ -470,7 +470,7 @@ class Bottle::Matrix(T) < Bottle::Internal::BottleObject(T)
   # f # => Matrix [[2, 7, 8], [4, 9, 7], [6, 1, 5]]
   # ```
   def self.random(r : Range(U, U), rows : Int32, cols : Int32) forall U
-    new(rows, cols) { |i, j| Random.rand(r) }
+    new(rows, cols) { |_, _| Random.rand(r) }
   end
 
   # Returns a copy of a Matrix that owns its own memory
@@ -493,12 +493,12 @@ class Bottle::Matrix(T) < Bottle::Internal::BottleObject(T)
   # ```
   def ravel
     if tda == ncols
-      return Vector.new data, 1, false
+      Vector.new data, 1, false
     else
       m = Matrix(T).new(nrows, ncols) do |i, j|
         self[i, j]
       end
-      return Vector.new m.data, 1, true
+      Vector.new m.data, 1, true
     end
   end
 

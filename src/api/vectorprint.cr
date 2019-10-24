@@ -37,7 +37,7 @@ module Bottle::B::Util
     io << prefix
 
     if too_big
-      3.times do |i|
+      3.times do |i| # ameba:disable Lint/UnusedArgument
         {% if U == Bool %}
           io << data[i].to_s.rjust(rj)
         {% else %}
@@ -45,7 +45,7 @@ module Bottle::B::Util
         {% end %}
       end
       io << "  ...  "
-      3.times do |i|
+      3.times do |i| # ameba:disable Lint/UnusedArgument
         {% if U == Bool %}
           io << data[i + 3].to_s.rjust(rj)
         {% else %}
@@ -53,8 +53,8 @@ module Bottle::B::Util
         {% end %}
       end
     else
-      (nl + 1).times do |l|
-        epl.times do |e|
+      (nl + 1).times do |l| # ameba:disable Lint/UnusedArgument
+        epl.times do |e|    # ameba:disable Lint/UnusedArgument
           if index < data.size
             {% if U == Bool %}
               io << data[index].to_s.rjust(rj)

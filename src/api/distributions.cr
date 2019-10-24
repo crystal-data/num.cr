@@ -77,7 +77,7 @@ module Bottle::B
   # ```
   def logspace(start, stop, num = 50, endpoint = true, base = 10.0)
     y = linspace(start, stop, num: num, endpoint: endpoint)
-    return power(base, y)
+    power(base, y)
   end
 
   # Return numbers spaced evenly on a log scale (a geometric progression).

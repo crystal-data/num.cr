@@ -28,7 +28,7 @@ module Bottle::B
   # add(j1, j1) # => [[2, 4], [6, 8]]
   # ```
   def add(a : Matrix(U), b : Matrix) forall U
-    return Matrix.new(a.nrows, a.ncols) { |i, j| a[i, j] + b[i, j] }
+    Matrix.new(a.nrows, a.ncols) { |i, j| a[i, j] + b[i, j] }
   end
 
   # Elementwise addition of a Vector to a scalar
@@ -48,7 +48,7 @@ module Bottle::B
   # add(j1, 2) # => [[3, 4], [5, 6]]
   # ```
   def add(a : Matrix(U), x : Number) forall U
-    return Matrix.new(a.nrows, a.ncols) { |i, j| a[i, j] + x }
+    Matrix.new(a.nrows, a.ncols) { |i, j| a[i, j] + x }
   end
 
   # Elementwise subtraction of a Vector to another equally sized Vector
@@ -75,7 +75,7 @@ module Bottle::B
   # subtract(j1, j1) # => [[0, 0], [0, 0]]
   # ```
   def subtract(a : Matrix(U), b : Matrix) forall U
-    return Matrix.new(a.nrows, a.ncols) { |i, j| a[i, j] - b[i, j] }
+    Matrix.new(a.nrows, a.ncols) { |i, j| a[i, j] - b[i, j] }
   end
 
   # Elementwise subtraction of a Vector with a scalar
@@ -95,7 +95,7 @@ module Bottle::B
   # subtract(j1, 2) # => [[-1, 0], [1, 2]]
   # ```
   def subtract(a : Matrix(U), x : Number) forall U
-    return Matrix.new(a.nrows, a.ncols) { |i, j| a[i, j] - x }
+    Matrix.new(a.nrows, a.ncols) { |i, j| a[i, j] - x }
   end
 
   # Elementwise multiplication of a Vector to another equally sized Vector
@@ -116,7 +116,7 @@ module Bottle::B
   # multiply(j1, j1) # => [[1, 4], [9, 16]]
   # ```
   def multiply(a : Matrix(U), b : Matrix) forall U
-    return Matrix.new(a.nrows, a.ncols) { |i, j| a[i, j] * b[i, j] }
+    Matrix.new(a.nrows, a.ncols) { |i, j| a[i, j] * b[i, j] }
   end
 
   # Elementwise multiplication of a Vector to a scalar
@@ -141,7 +141,7 @@ module Bottle::B
   # multiply(j1, 2) # => [[2, 4], [6, 8]]
   # ```
   def multiply(a : Matrix(U), x : Number) forall U
-    return Matrix.new(a.nrows, a.ncols) { |i, j| a[i, j] * x }
+    Matrix.new(a.nrows, a.ncols) { |i, j| a[i, j] * x }
   end
 
   # Elementwise division of a Vector to another equally sized Vector
@@ -162,7 +162,7 @@ module Bottle::B
   # divide(j1, j2) # => [[1, 1], [1, 1]]
   # ```
   def divide(a : Matrix(U), b : Matrix) forall U
-    return Matrix.new(a.nrows, a.ncols) { |i, j| a[i, j] / b[i, j] }
+    Matrix.new(a.nrows, a.ncols) { |i, j| a[i, j] / b[i, j] }
   end
 
   # Elementwise division of a Vector to a scalar
@@ -187,7 +187,7 @@ module Bottle::B
   # divide(j1, 2) # => [[0.5, 1.0], [1.5, 2.0]]
   # ```
   def divide(a : Matrix(U), x : Number) forall U
-    return Matrix.new(a.nrows, a.ncols) { |i, j| a[i, j] / x }
+    Matrix.new(a.nrows, a.ncols) { |i, j| a[i, j] / x }
   end
 
   # Elementwise square root of a Vector
