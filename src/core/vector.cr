@@ -268,7 +268,7 @@ class Bottle::Vector(T) < Bottle::Internal::BottleObject(T)
   # # 5
   # ```
   def each(*, all = false, &block)
-    each_index(all: all) { |i| yield self[i] }
+    each_index(all: all) { |i| yield data[i] }
   end
 
   # Lazily yields a Vector and its index, one element at a time.
