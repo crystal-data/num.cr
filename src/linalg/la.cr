@@ -1,5 +1,5 @@
 require "../libs/lapack"
-require "../core/vector"
+require "../core/tensor"
 require "../core/matrix"
 
 module Bottle

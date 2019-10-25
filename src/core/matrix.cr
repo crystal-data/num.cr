@@ -1,26 +1,19 @@
-require "./object"
+require "./tensor"
 require "../api/math"
 require "../api/stats"
 require "../api/vectorprint"
 
-class Bottle::Matrix(T) < Bottle::Internal::BottleObject(T)
-  # Crystal slice pointing to the start of the matrix’s data.
-  getter data : Slice(T)
-
+class Bottle::Matrix(T)
   # Number of rows in the Matrix
   getter nrows : Int32
 
   # Number of columns in the Matrix
   getter ncols : Int32
 
-  # Flag indicating if a Matrix is a view of another `Matrix`
-  getter owner : Bool
-
-  # Offset between rows in a Matrix
-  getter tda : Int32
+  @tda : Int32
 
   # Creates a new `Matrix` of an arbitrary size from a given
-  # indexable *data*.  The type of the Vector is inferred from
+  # indexable *data*.  The type of the Matrix is inferred from
   # the provided data, as are the size, and stride.
   #
   # ```
@@ -30,12 +23,11 @@ class Bottle::Matrix(T) < Bottle::Internal::BottleObject(T)
   # typeof(v) # => Matrix(Int32)
   # ```
   def initialize(data : Indexable(Indexable(T)))
-    check_type
     @nrows = data.size
     @ncols = data[0].size
     @tda = ncols
     @owner = true
-    @data = Slice(T).new(nrows * ncols) do |idx|
+    @buffer = Pointer(T).malloc(nrows * ncols) do |idx|
       i = idx // ncols
       j = idx % ncols
       data[i][j]
@@ -54,12 +46,11 @@ class Bottle::Matrix(T) < Bottle::Internal::BottleObject(T)
   # m         # => Matrix[[1, 2, 3], [4, 5, 6]]
   # typeof(m) # => Matrix(Int32)
   # ```
-  def initialize(@data : Slice(T), @nrows, @ncols, @tda, @owner)
-    check_type
+  def initialize(@buffer : Pointer(T), @nrows, @ncols, @tda, @owner)
   end
 
-  # Creates a new `Vector` from a block.  Infers the type
-  # of the Vector from the value yielded by the block.
+  # Creates a new `Matrix` from a block.  Infers the type
+  # of the Tensor from the value yielded by the block.
   #
   # ```
   # m = Matrix.new(2, 2) { |i, j| i + j }
@@ -68,7 +59,7 @@ class Bottle::Matrix(T) < Bottle::Internal::BottleObject(T)
   # typeof(m) # => Matrix(Int32)
   # ```
   def self.new(nrows : Int32, ncols : Int32, &block : Int32, Int32 -> T)
-    data = Slice(T).new(nrows * ncols) do |idx|
+    data = Pointer(T).malloc(nrows * ncols) do |idx|
       i = idx // ncols
       j = idx % ncols
       yield i, j
@@ -76,99 +67,18 @@ class Bottle::Matrix(T) < Bottle::Internal::BottleObject(T)
     new(data, nrows, ncols, ncols, true)
   end
 
-  # Selects a single value from a matrix. Calculates the offset
-  # of the element from a given index, and the stride.
-  #
-  # ```
-  # m = Matrix.new [[1, 2, 3], [4, 5, 6]]
-  #
-  # get(0, 0) # => 1
-  # ```
-  private def get(i, j)
-    check_sign(i)
-    @data[i * tda + j]
+  private def check_index_out_of_bounds(i, j)
+    check_index_out_of_bounds(i, j) { raise IndexError.new }
   end
 
-  # Sets a single value of a matrix. Calculates the offset
-  # of the element from a given index, and the stride.
-  #
-  # ```
-  # m = Matrix.new [[1, 2, 3], [4, 5, 6]]
-  #
-  # set(0, 0, 8)
-  # m # => Matrix[[8, 2, 3], [4, 5, 6]]
-  # ```
-  private def set(i, j, x)
-    check_sign(i)
-    @data[i * tda + j] = T.new(x)
-  end
-
-  # Selects a slice from a Matrix. Calculates the offset
-  # of the elements from a given index, and the stride.
-  #
-  # ```
-  # m = Matrix.new [[1, 2, 3], [4, 5, 6]]
-  #
-  # get_n(0, 1, 3) # => Slice[2, 3, 4]
-  # ```
-  private def get_n(i, j, n)
-    check_sign(i)
-    @data[i * tda + j, n]
-  end
-
-  # Sets multiple values of a Matrix. Calculates the offset
-  # of the elements from a given index, and the stride.
-  #
-  # ```
-  # m = Matrix.new [[1, 2, 3], [4, 5, 6]]
-  #
-  # set_n([0, 1], [0, 1], [10, 10])
-  # m # => Matrix[[1, 10, 3], [4, 10, 6]]
-  # ```
-  private def set_n(is, js, xs)
-    check_indexer(is, js, xs)
-    xs.each_with_index { |e, i| set(is[i], js[i], e) }
-  end
-
-  # Gets a single row of a matrix.  The returned vector
-  # shares memory with the Matrix.
-  #
-  # ```
-  # m = Matrix.new [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
-  # get_row(0, 1...) # => Vector[ 2  3]
-  # ```
-  private def get_row(i, jslice)
-    f, l = range_to_slice(jslice, ncols)
-    Vector.new data[i * tda + f, l - f], 1, false
-  end
-
-  # Gets a single column of a matrix.  The returned vector
-  # shares memory with the Matrix.
-  #
-  # ```
-  # m = Matrix.new [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
-  # get_col(..., 0) # => Vector[ 1  4  7]
-  # ```
-  private def get_col(islice, j)
-    f, l = range_to_slice(islice, nrows)
-    start = f * tda + j
-    finish = (l - 1) * tda + (j + 1)
-    Vector.new data[start, finish - start], tda, false
-  end
-
-  # Selects a submatrix of a Matrix from ranges. Calculates
-  # the offset of the elements from a given index, and the stride
-  #
-  # ```
-  # m = Matrix.new [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
-  # get_slice(...2, ...2) # => Matrix[[1, 2], [4, 5]]
-  # ```
-  private def get_slice(islice, jslice)
-    i, ni = range_to_slice(islice, nrows)
-    j, nj = range_to_slice(jslice, ncols)
-    start = i * tda + j
-    finish = (ni - i) * tda + (nj - j) + 1 - start
-    Matrix.new(data[start, finish], ni - i, nj - j, tda, false)
+  private def check_index_out_of_bounds(i, j)
+    i += nrows if i < 0
+    j += ncols if j < 0
+    if (0 <= i < nrows) && (0 <= j < ncols)
+      i * @tda + j
+    else
+      yield
+    end
   end
 
   # Selects a single value from a matrix. Calculates the offset
@@ -180,7 +90,8 @@ class Bottle::Matrix(T) < Bottle::Internal::BottleObject(T)
   # m[0, 0] # => 1
   # ```
   def [](i : Int32, j : Int32)
-    get(i, j)
+    index = check_index_out_of_bounds i, j
+    @buffer[index]
   end
 
   # Sets a single value of a matrix. Calculates the offset
@@ -193,56 +104,32 @@ class Bottle::Matrix(T) < Bottle::Internal::BottleObject(T)
   # m # => Matrix[[8, 2, 3], [4, 5, 6]]
   # ```
   def []=(i : Int32, j : Int32, x : Number)
-    set(i, j, x)
+    index = check_index_out_of_bounds i, j
+    @buffer[index] = T.new(x)
   end
 
-  # Gets a single row of a matrix.  The returned vector
+  # Gets a single row of a matrix.  The returned Tensor
   # shares memory with the Matrix.
   #
   # ```
   # m = Matrix.new [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
-  # m[0] # => Vector[ 1  2  3]
+  # m[0] # => Tensor[ 1  2  3]
   # ```
   def [](i : Int32, j : Range(Int32?, Int32?) = ...)
-    get_row(i, j)
+    start, offset = Indexable.range_to_index_and_count(j, ncols)
+    Tensor.new @buffer + (@tda * i) + start, offset, 1, false
   end
 
-  # Gets a single column of a matrix.  The returned vector
+  # Gets a single column of a matrix.  The returned Tensor
   # shares memory with the Matrix.
   #
   # ```
   # m = Matrix.new [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
-  # m[..., 0] # => Vector[ 1  4  7]
+  # m[..., 0] # => Tensor[ 1  4  7]
   # ```
   def [](i : Range(Int32?, Int32?), j : Int32)
-    get_col(i, j)
-  end
-
-  # Selects multiple non-contiguous elements from a
-  # Matrix.  This method returns a copy since the memory
-  # is not aligned.
-  #
-  # ```
-  # m = Matrix.new [[1, 2, 3], [4, 5, 6]]
-  #
-  # m[[0, 1], [1, 0]] # => Vector[2, 4]
-  # ```
-  def [](is, js)
-    check_indexer(is, js)
-    Vector.new(is.size) { |i| get(is[i], js[i]) }
-  end
-
-  # Sets multiple values of a Matrix. Calculates the offset
-  # of the elements from a given index, and the stride.
-  #
-  # ```
-  # m = Matrix.new [[1, 2, 3], [4, 5, 6]]
-  #
-  # m[[0, 1], [0, 1]] = [10, 10]
-  # m # => Matrix[[1, 10, 3], [4, 10, 6]]
-  # ```
-  def []=(is, js, xs)
-    set_n(is, xs)
+    start, offset = Indexable.range_to_index_and_count(i, nrows)
+    Tensor.new @buffer + (@tda * start) + j, offset, @tda, false
   end
 
   # Selects a submatrix of a Matrix from ranges. Calculates
@@ -253,22 +140,12 @@ class Bottle::Matrix(T) < Bottle::Internal::BottleObject(T)
   # m[...2, ...2] # => Matrix[[1, 2], [4, 5]]
   # ```
   def [](islice : Range(Int32?, Int32?), jslice : Range(Int32?, Int32?))
-    get_slice(islice, jslice)
+    istart, ioffset = Indexable.range_to_index_and_count(islice, nrows)
+    jstart, joffset = Indexable.range_to_index_and_count(jslice, ncols)
+
+    Matrix.new @buffer + (@tda * istart) + jstart, ioffset, joffset, @tda, false
   end
 
-  # Computes the string representation of a Matrix.  This currently
-  # truncates long rows, but needs to truncate long columns as well
-  #
-  # ```
-  # m = Matrix.new(5, 5) { |i, j| i / (j + 1) }
-  # puts m # =>
-  #
-  # [     0.0     0.0     0.0     0.0     0.0]
-  # [     1.0     0.5   0.333    0.25     0.2]
-  # [     2.0     1.0   0.667     0.5     0.4]
-  # [     3.0     1.5     1.0    0.75     0.6]
-  # [     4.0     2.0   1.333     1.0     0.8]
-  # ```
   def to_s(io)
     mx = max
     nrows.times do |i|
@@ -291,7 +168,7 @@ class Bottle::Matrix(T) < Bottle::Internal::BottleObject(T)
   # # 1_0
   # # 1_1
   # ```
-  def each_index(*, all = false, &block)
+  def each_index(&block)
     nrows.times do |i|
       ncols.times do |j|
         yield i, j
@@ -310,8 +187,8 @@ class Bottle::Matrix(T) < Bottle::Internal::BottleObject(T)
   # # 4
   # # 5
   # ```
-  def each(*, all = false, &block : Int32, Int32 -> T)
-    each_index(all: all) { |i, j| yield self[i, j] }
+  def each(&block : Int32, Int32 -> T)
+    each_index { |i, j| yield self[i, j] }
   end
 
   # Lazily yields the values of a Matrix and the respective
@@ -326,33 +203,18 @@ class Bottle::Matrix(T) < Bottle::Internal::BottleObject(T)
   # # 1_0_4
   # # 1_1_5
   # ```
-  def each_with_index(*, all = false, &block)
-    each_index(all: all) { |i, j| yield(self[i, j], i, j) }
+  def each_with_index(&block)
+    each_index { |i, j| yield(self[i, j], i, j) }
   end
 
-  # Lazily yields the rows of a Matrix as vector views
-  #
-  # ```crystal
-  # m = Matrix.new [[1, 2], [4, 5]]
-  # m.each_row { |row| puts row }
-  #
-  # # Vector[  1  2]
-  # # Vector[  4  5]
-  # ```
-  def each_row(*, all = false, &block)
-    nrows.times do |row|
-      yield self[row]
-    end
-  end
-
-  # Lazily yields the rows of a Matrix as vector views
+  # Lazily yields the rows of a Matrix as Tensor views
   #
   # ```crystal
   # m = Matrix.new [[1, 2], [4, 5]]
   # m.each_row_index { |row, i| puts row, i }
   #
-  # # Vector[  1  2], 0
-  # # Vector[  4  5], 1
+  # # Tensor[  1  2], 0
+  # # Tensor[  4  5], 1
   # ```
   def each_row_index(*, all = false, &block)
     nrows.times do |row|
@@ -360,14 +222,14 @@ class Bottle::Matrix(T) < Bottle::Internal::BottleObject(T)
     end
   end
 
-  # Lazily yields the columns of a Matrix as vector views
+  # Lazily yields the columns of a Matrix as Tensor views
   #
   # ```crystal
   # m = Matrix.new [[1, 2], [4, 5]]
   # m.each_col { |col| puts col }
   #
-  # # Vector[  1  4]
-  # # Vector[  2  5]
+  # # Tensor[  1  4]
+  # # Tensor[  2  5]
   # ```
   def each_col(*, all = false, &block)
     ncols.times do |col|
@@ -375,14 +237,14 @@ class Bottle::Matrix(T) < Bottle::Internal::BottleObject(T)
     end
   end
 
-  # Lazily yields the columns of a Matrix as vector views
+  # Lazily yields the columns of a Matrix as Tensor views
   #
   # ```crystal
   # m = Matrix.new [[1, 2], [4, 5]]
   # m.each_col { |col, i| puts col, i }
   #
-  # # Vector[  1  4], 0
-  # # Vector[  2  5], 1
+  # # Tensor[  1  4], 0
+  # # Tensor[  2  5], 1
   # ```
   def each_col_index(*, all = false, &block)
     ncols.times do |col|
@@ -401,8 +263,8 @@ class Bottle::Matrix(T) < Bottle::Internal::BottleObject(T)
   # m = Jug.new [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
   # m.reduce(1, &.max) # => [3, 6, 9]
   # ```
-  def reduce(axis : Int32, &block : Vector(T) -> U) forall U
-    ary = Vector.empty(axis == 0 ? ncols : nrows, dtype: U)
+  def reduce(axis : Int32, &block : Tensor(T) -> U) forall U
+    ary = Tensor.empty(axis == 0 ? ncols : nrows, dtype: U)
     if axis == 0
       each_col_index do |e, i|
         ary[i] = yield e
@@ -426,7 +288,7 @@ class Bottle::Matrix(T) < Bottle::Internal::BottleObject(T)
   # m # => Matrix [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
   # ```
   def self.empty(rows : Int32, cols : Int32, dtype : U.class = Float64) forall U
-    new(Slice(U).new(rows * cols), rows, cols, cols, true)
+    new(Pointer(U).malloc(rows * cols), rows, cols, cols, true)
   end
 
   # Initializes a Matrix full of zeros.  Default
@@ -437,7 +299,7 @@ class Bottle::Matrix(T) < Bottle::Internal::BottleObject(T)
   # m # => Matrix [[0.0, 0.0], [0.0, 0.0]]
   # ```
   def self.zeros(rows : Int32, cols : Int32, dtype : U.class = Float64) forall U
-    new(Slice(U).new(rows * cols), rows, cols, cols, true)
+    new(Pointer(U).malloc(rows * cols), rows, cols, cols, true)
   end
 
   # Initializes a Matrix full of ones.  Default
@@ -448,7 +310,7 @@ class Bottle::Matrix(T) < Bottle::Internal::BottleObject(T)
   # m # => Matrix [[1.0, 1.0], [1.0, 1.0]]
   # ```
   def self.ones(rows : Int32, cols : Int32, dtype : U.class = Float64) forall U
-    new(Slice(U).new(rows * cols, U.new(1)), rows, cols, cols, true)
+    new(Pointer(U).malloc(rows * cols, U.new(1)), rows, cols, cols, true)
   end
 
   # Initializes a Matrix full of a scalar.  Default
@@ -459,7 +321,7 @@ class Bottle::Matrix(T) < Bottle::Internal::BottleObject(T)
   # m # => Matrix [[4.0, 4.0], [4.0, 4.0]]
   # ```
   def self.full(rows : Int32, cols : Int32, x : Number, dtype : U.class = Float64) forall U
-    new(Slice(U).new(rows * cols, U.new(x)), rows, cols, cols, true)
+    new(Pointer(U).malloc(rows * cols, U.new(x)), rows, cols, cols, true)
   end
 
   # Allocates a matrix full of random data
@@ -475,14 +337,8 @@ class Bottle::Matrix(T) < Bottle::Internal::BottleObject(T)
     new(rows, cols) { |_, _| Random.rand(r) }
   end
 
-  # Returns a copy of a Matrix that owns its own memory
-  #
-  # ```
-  # f = Matrix.new [[1, 2], [3, 4]]
-  # f.clone # => Vector[1, 2, 3, 4, 5]
-  # ```
   def clone
-    Matrix.new(data.dup, nrows, ncols, tda, true)
+    Matrix(T).new(nrows, ncols) { |i, j| @buffer[i * tda + j] }
   end
 
   # Returns a flattened version of a Matrix, returns
@@ -494,13 +350,13 @@ class Bottle::Matrix(T) < Bottle::Internal::BottleObject(T)
   # j.owner # => false
   # ```
   def ravel
-    if tda == ncols
-      Vector.new data, 1, false
+    if @tda == ncols
+      Tensor.new @buffer, nrows * ncols, 1, false
     else
       m = Matrix(T).new(nrows, ncols) do |i, j|
         self[i, j]
       end
-      Vector.new m.data, 1, true
+      Tensor.new m.@buffer, nrows * ncols, 1, true
     end
   end
 
@@ -587,7 +443,7 @@ class Bottle::Matrix(T) < Bottle::Internal::BottleObject(T)
   # divide(j1, j2) # => [[1, 1], [1, 1]]
   # ```
   def /(other : Matrix)
-    B.div(self, other)
+    B.divide(self, other)
   end
 
   # Elementwise division of a Matrix to a scalar
@@ -597,7 +453,7 @@ class Bottle::Matrix(T) < Bottle::Internal::BottleObject(T)
   # divide(j1, 2) # => [[0.5, 1.0], [1.5, 2.0]]
   # ```
   def /(other : Number)
-    B.div(self, other)
+    B.divide(self, other)
   end
 
   # Returns the sum of a Matrix, or reduces
@@ -606,8 +462,8 @@ class Bottle::Matrix(T) < Bottle::Internal::BottleObject(T)
   # ```crystal
   # m = Matrix.new [[3, 3, 8], [0, 8, 3], [8, 9, 0]]
   # m.sum    # => 42
-  # m.sum(0) # => Vector[  11  20  11]
-  # m.sum(1) # => Vector[  14  11  17]
+  # m.sum(0) # => Tensor[  11  20  11]
+  # m.sum(1) # => Tensor[  14  11  17]
   # ```
   def sum(axis : Int32? = nil)
     if axis.nil?
@@ -622,8 +478,8 @@ class Bottle::Matrix(T) < Bottle::Internal::BottleObject(T)
   # ```crystal
   # m = Matrix.new [[3, 3, 8], [0, 8, 3], [8, 9, 0]]
   # m.max    # => 9
-  # m.max(0) # => Vector[  8  9  8]
-  # m.max(1) # => Vector[  8  8  9]
+  # m.max(0) # => Tensor[  8  9  8]
+  # m.max(1) # => Tensor[  8  8  9]
   # ```
   def max(axis : Int32? = nil)
     if axis.nil?
@@ -638,8 +494,8 @@ class Bottle::Matrix(T) < Bottle::Internal::BottleObject(T)
   # ```crystal
   # m = Matrix.new [[3, 3, 8], [0, 8, 3], [8, 9, 0]]
   # m.argmax    # => 7
-  # m.argmax(0) # => Vector[  2  2  0]
-  # m.argmax(1) # => Vector[  2  1  1]
+  # m.argmax(0) # => Tensor[  2  2  0]
+  # m.argmax(1) # => Tensor[  2  1  1]
   # ```
   def argmax(axis : Int32? = nil)
     if axis.nil?
@@ -654,8 +510,8 @@ class Bottle::Matrix(T) < Bottle::Internal::BottleObject(T)
   # ```crystal
   # m = Matrix.new [[3, 3, 8], [0, 8, 3], [8, 9, 0]]
   # m.min    # => 0
-  # m.min(0) # => Vector[  0  3  0]
-  # m.min(1) # => Vector[  3  0  0]
+  # m.min(0) # => Tensor[  0  3  0]
+  # m.min(1) # => Tensor[  3  0  0]
   # ```
   def min(axis : Int32? = nil)
     if axis.nil?
@@ -670,8 +526,8 @@ class Bottle::Matrix(T) < Bottle::Internal::BottleObject(T)
   # ```crystal
   # m = Matrix.new [[3, 3, 8], [0, 8, 3], [8, 9, 0]]
   # m.argmin    # => 3
-  # m.argmin(0) # => Vector[  1  0  2]
-  # m.argmin(1) # => Vector[  0  0  2]
+  # m.argmin(0) # => Tensor[  1  0  2]
+  # m.argmin(1) # => Tensor[  0  0  2]
   # ```
   def argmin(axis : Int32? = nil)
     if axis.nil?

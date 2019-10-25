@@ -1,48 +1,48 @@
-require "../core/vector"
+require "../core/tensor"
 require "../blas/level_one"
 
 module Bottle::B
   extend self
 
-  # Computes the total sum of a vector
+  # Computes the total sum of a Tensor
   #
   # ```
-  # v = Vector.new [1, 2, 3, 4]
+  # v = Tensor.new [1, 2, 3, 4]
   # sum(v) # => 10
   # ```
-  def sum(a : Vector)
+  def sum(a : Tensor)
     a.reduce { |i, j| i + j }
   end
 
-  # Computes the average of all vector values
+  # Computes the average of all Tensor values
   #
   # ```
-  # v = Vector.new [1, 2, 3, 4]
+  # v = Tensor.new [1, 2, 3, 4]
   # mean(v) # => 2.5
   # ```
-  def mean(a : Vector)
+  def mean(a : Tensor)
     a.sum / a.size
   end
 
-  # Computes the standard deviation of a vector
+  # Computes the standard deviation of a Tensor
   #
   # ```
-  # v = Vector.new [1, 2, 3, 4]
+  # v = Tensor.new [1, 2, 3, 4]
   # std(v) # => 1.118
   # ```
-  def std(a : Vector)
+  def std(a : Tensor)
     avg = mean(a)
     r = power(a - avg, 2)
     Math.sqrt(r.sum / a.size)
   end
 
-  # Computes the median value of a vector
+  # Computes the median value of a Tensor
   #
   # ```
-  # v = Vector.new [1, 2, 3, 4]
+  # v = Tensor.new [1, 2, 3, 4]
   # median(v) # => 2.5
   # ```
-  def median(a : Vector)
+  def median(a : Tensor)
     n = a.size
     sorted = a.sort
     if n % 2
@@ -52,23 +52,23 @@ module Bottle::B
     B.mean(sorted[[m.floor.to_i32, m.ceil.to_i32]])
   end
 
-  # Computes the maximum value of a vector
+  # Computes the maximum value of a Tensor
   #
   # ```
-  # v = Vector.new [1, 2, 3, 4]
+  # v = Tensor.new [1, 2, 3, 4]
   # max(v) # => 4
   # ```
-  def max(a : Vector)
+  def max(a : Tensor)
     max_helper(a)[0]
   end
 
-  # Computes the index of the maximum value of a vector
+  # Computes the index of the maximum value of a Tensor
   #
   # ```
-  # v = Vector.new [1, 2, 3, 4]
+  # v = Tensor.new [1, 2, 3, 4]
   # argmax(v) # => 3
   # ```
-  def argmax(a : Vector)
+  def argmax(a : Tensor)
     max_helper(a)[1]
   end
 
@@ -76,10 +76,10 @@ module Bottle::B
   # of the maximum value for a Flask
   #
   # ```
-  # v = Vector.new [1, 2, 3, 4]
+  # v = Tensor.new [1, 2, 3, 4]
   # max_helper(v) # => {true, 4, 3}
   # ```
-  private def max_helper(v : Vector(U)) forall U
+  private def max_helper(v : Tensor(U)) forall U
     max = uninitialized U
     index = uninitialized Int32
 
@@ -92,34 +92,34 @@ module Bottle::B
     {max, index}
   end
 
-  # Computes the minimum value of a vector
+  # Computes the minimum value of a Tensor
   #
   # ```
-  # v = Vector.new [1, 2, 3, 4]
+  # v = Tensor.new [1, 2, 3, 4]
   # min(v) # => 1
   # ```
-  def min(a : Vector(U)) forall U
+  def min(a : Tensor(U)) forall U
     min_helper(a)[0]
   end
 
-  # Computes the index of the minimum value of a vector
+  # Computes the index of the minimum value of a Tensor
   #
   # ```
-  # v = Vector.new [1, 2, 3, 4]
+  # v = Tensor.new [1, 2, 3, 4]
   # argmin(v) # => 0
   # ```
-  def argmin(a : Vector(U)) forall U
+  def argmin(a : Tensor(U)) forall U
     min_helper(a)[1]
   end
 
   # Internal method to find the maximum value and the index
-  # of the maximum value for a Vector
+  # of the maximum value for a Tensor
   #
   # ```
-  # v = Vector.new [1, 2, 3, 4]
+  # v = Tensor.new [1, 2, 3, 4]
   # min_helper(v) # => {true, 4, 3}
   # ```
-  private def min_helper(v : Vector(U)) forall U
+  private def min_helper(v : Tensor(U)) forall U
     min = uninitialized U
     index = uninitialized Int32
 
@@ -132,13 +132,13 @@ module Bottle::B
     {min, index}
   end
 
-  # Computes the "peak to peak" of a vector (max - min)
+  # Computes the "peak to peak" of a Tensor (max - min)
   #
   # ```
-  # v = Vector.new [1, 2, 3, 4]
+  # v = Tensor.new [1, 2, 3, 4]
   # v.ptp # => 3
   # ```
-  def ptp(v : Vector)
+  def ptp(v : Tensor)
     min, max, _, _ = ptp_helper(v)
     max - min
   end
@@ -147,10 +147,10 @@ module Bottle::B
   # as well as the respective indexes for a flask.
   #
   # ```
-  # v = Vector.new [1, 2, 3, 4]
+  # v = Tensor.new [1, 2, 3, 4]
   # ptp_helper(v) # => {true, 1, 4, 0, 3}
   # ```
-  private def ptp_helper(v : Vector(U)) forall U
+  private def ptp_helper(v : Tensor(U)) forall U
     min = uninitialized U
     max = uninitialized U
     imin = uninitialized Int32

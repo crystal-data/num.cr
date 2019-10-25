@@ -1,12 +1,12 @@
-require "../core/vector"
+require "../core/Tensor"
 require "../core/matrix"
 
 class Bottle::UFunc::Accumulate(T)
-  getter data : Vector(T)
+  getter data : Tensor(T)
   getter size : Int32
   getter inplace : Bool
 
-  def initialize(data : Vector(T), @inplace = false)
+  def initialize(data : Tensor(T), @inplace = false)
     @size = data.size
     if !inplace
       @data = data.clone
@@ -109,7 +109,7 @@ class Bottle::UFunc::Accumulate2D(T)
     @data = inplace ? data : data.clone
   end
 
-  def apply_along_axis(&block : Vector(T) -> Nil)
+  def apply_along_axis(&block : Tensor(T) -> Nil)
     if axis == 0
       data.each_col do |e|
         yield e

@@ -1,4 +1,4 @@
-require "../blas/level_one"
+require "../core/tensor"
 
 module Bottle::B
   extend self
@@ -9,7 +9,7 @@ module Bottle::B
   # (in other words, the interval including start but excluding stop).
   #
   # ```crystal
-  # B.vrange(1, 5) # => Vector[1, 2, 3, 4]
+  # B.vrange(1, 5) # => Tensor[1, 2, 3, 4]
   # ```
   def vrange(start : Int32, stop : Int32, step : Int32 = 1, dtype : U.class = Int32) forall U
     r = stop - start
@@ -17,7 +17,7 @@ module Bottle::B
     if stop <= start || !num
       raise "vrange must return at least one value"
     end
-    Vector.new(num) { |i| U.new(start + (i * step)) }
+    Tensor.new(num) { |i| U.new(start + (i * step)) }
   end
 
   # Return evenly spaced values within a given interval.
@@ -26,7 +26,7 @@ module Bottle::B
   # (in other words, the interval including start but excluding stop).
   #
   # ```crystal
-  # B.vrange(5) # => Vector[0, 1, 2, 3, 4]
+  # B.vrange(5) # => Tensor[0, 1, 2, 3, 4]
   # ```
   def vrange(stop : Int32, step : Int32 = 1, dtype : U.class = Int32) forall U
     vrange(0, stop, step, dtype)
@@ -38,9 +38,9 @@ module Bottle::B
   # The endpoint of the interval can optionally be excluded.
   #
   # ```crystal
-  # B.linspace(0, 1, 5) # => Vector[0.0, 0.25, 0.5, 0.75, 1.0]
+  # B.linspace(0, 1, 5) # => Tensor[0.0, 0.25, 0.5, 0.75, 1.0]
   #
-  # B.linspace(0, 1, 5, endpoint: false) # => Vector[0.0, 0.2, 0.4, 0.6, 0.8]
+  # B.linspace(0, 1, 5, endpoint: false) # => Tensor[0.0, 0.2, 0.4, 0.6, 0.8]
   # ```
   def linspace(start : Number, stop : Number, num = 50, endpoint = true)
     if num < 0
@@ -73,7 +73,7 @@ module Bottle::B
   # (see `endpoint` below).
   #
   # ```crystal
-  # B.logspace(2.0, 3.0, num = 4) # => Vector[100.0, 215.44346900318845, 464.15888336127773, 1000.0]
+  # B.logspace(2.0, 3.0, num = 4) # => Tensor[100.0, 215.44346900318845, 464.15888336127773, 1000.0]
   # ```
   def logspace(start, stop, num = 50, endpoint = true, base = 10.0)
     y = linspace(start, stop, num: num, endpoint: endpoint)
@@ -85,7 +85,7 @@ module Bottle::B
   # Each output sample is a constant multiple of the previous.
   #
   # ```
-  # geomspace(1, 1000, 4) # => Vector[1.0, 10.0, 100.0, 1000.0]
+  # geomspace(1, 1000, 4) # => Tensor[1.0, 10.0, 100.0, 1000.0]
   # ```
   def geomspace(start, stop, num = 50, endpoint = true)
     if start == 0 || stop == 0

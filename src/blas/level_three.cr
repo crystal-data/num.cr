@@ -1,6 +1,6 @@
 require "../libs/dtype"
 require "../libs/cblas"
-require "../core/vector"
+require "../core/tensor"
 require "../core/matrix"
 
 module Bottle
@@ -33,13 +33,13 @@ module Bottle
           b.ncols,
           a.ncols,
           1{{cast}},
-          a.data,
-          a.tda,
-          b.data,
-          b.tda,
+          a.@buffer,
+          a.@tda,
+          b.@buffer,
+          b.@tda,
           0{{cast}},
-          c.data,
-          c.tda,
+          c.@buffer,
+          c.@tda,
         )
         return c
       end

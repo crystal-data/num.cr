@@ -1,11 +1,15 @@
-require "../core/vector"
+require "../core/tensor"
 require "../core/matrix"
 
 class Bottle::UFunc::Outer(T)
-  getter it : Vector(T)
-  getter other : Vector(T)
+  getter it : Tensor(T)
+  getter other : Tensor(T)
 
-  def initialize(@it : Vector(T), @other : Vector(T))
+  def initialize(@it : Tensor(T), @other : Tensor(T))
+  end
+
+  def to_s(io)
+    io << "<ufunc> outer"
   end
 
   def outer(&block)

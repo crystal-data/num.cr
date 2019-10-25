@@ -1,4 +1,4 @@
-require "../core/vector"
+require "../core/tensor"
 
 module Bottle::B::Util
   extend self
@@ -6,11 +6,8 @@ module Bottle::B::Util
   # This is a complete mess and needs to be redone, I was just
   # so tired of debugging ridiculously hard to read outputs
   # and this made my life so much easier.
-  def vector_print(io, data : Vector(U), prefix = "Vector[", override_max = false, maxval : U = U.new(0)) forall U
+  def vector_print(io, data : Tensor(U), prefix = "Tensor[", override_max = false, maxval : U = U.new(0)) forall U
     too_big = data.size > 1000
-    if too_big
-      data = data[[0, 1, 2, data.size - 3, data.size - 2, data.size - 1]]
-    end
 
     longest = uninitialized U
 
@@ -41,9 +38,9 @@ module Bottle::B::Util
       io << "  ...  "
       3.times do |i| # ameba:disable Lint/UnusedArgument
         {% if U == Bool %}
-          io << data[i + 3].to_s.rjust(rj)
+          io << data[-(3 - i)].to_s.rjust(rj)
         {% else %}
-          io << data[i + 3].round(3).to_s.rjust(rj)
+          io << data[-(3 - i)].round(3).to_s.rjust(rj)
         {% end %}
       end
     else

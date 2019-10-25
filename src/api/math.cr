@@ -1,23 +1,24 @@
-require "../core/vector"
+require "../core/tensor"
+require "../core/matrix"
 require "../blas/level_one"
 
 module Bottle::B
   extend self
 
-  # Elementwise addition of a Vector to another equally sized Vector
+  # Elementwise addition of a Tensor to another equally sized Tensor
   #
   # ```
-  # f1 = Vector.new [1.0, 2.0, 3.0]
-  # f2 = Vector.new [2.0, 4.0, 6.0]
-  # add(f1, f2) # => Vector[3.0, 6.0, 9.0]
+  # f1 = Tensor.new [1.0, 2.0, 3.0]
+  # f2 = Tensor.new [2.0, 4.0, 6.0]
+  # add(f1, f2) # => Tensor[3.0, 6.0, 9.0]
   # ```
-  def add(a : Vector(U), b : Vector) forall U
+  def add(a : Tensor(U), b : Tensor) forall U
     {% if U == Float32 || U == Float64 %}
       a = a.clone
       b = b.astype(U)
       return BLAS.axpy(b, a)
     {% else %}
-      return Vector.new(a.size) { |i| a[i] + b[i] }
+      return Tensor.new(a.size) { |i| a[i] + b[i] }
     {% end %}
   end
 
@@ -31,14 +32,14 @@ module Bottle::B
     Matrix.new(a.nrows, a.ncols) { |i, j| a[i, j] + b[i, j] }
   end
 
-  # Elementwise addition of a Vector to a scalar
+  # Elementwise addition of a Tensor to a scalar
   #
   # ```
-  # f1 = Vector.new [1.0, 2.0, 3.0]
+  # f1 = Tensor.new [1.0, 2.0, 3.0]
   # add(f1, 2) # => [3.0, 4.0, 5.0]
   # ```
-  def add(a : Vector(U), x : Number) forall U
-    Vector.new(a.size) { |i| a[i] + x }
+  def add(a : Tensor(U), x : Number) forall U
+    Tensor.new(a.size) { |i| a[i] + x }
   end
 
   # Elementwise addition of a Matrix to a scalar
@@ -51,20 +52,20 @@ module Bottle::B
     Matrix.new(a.nrows, a.ncols) { |i, j| a[i, j] + x }
   end
 
-  # Elementwise subtraction of a Vector to another equally sized Vector
+  # Elementwise subtraction of a Tensor to another equally sized Tensor
   #
   # ```
-  # f1 = Vector.new [1.0, 2.0, 3.0]
-  # f2 = Vector.new [2.0, 4.0, 6.0]
+  # f1 = Tensor.new [1.0, 2.0, 3.0]
+  # f2 = Tensor.new [2.0, 4.0, 6.0]
   # subtract(f1, f2) # => [-1.0, -2.0, -3.0]
   # ```
-  def subtract(a : Vector(U), b : Vector) forall U
+  def subtract(a : Tensor(U), b : Tensor) forall U
     {% if U == Float32 || U == Float64 %}
       a = a.clone
       b = b.astype(U)
       return BLAS.axpy(b, a, U.new(-1))
     {% else %}
-      return Vector.new(a.size) { |i| a[i] - b[i] }
+      return Tensor.new(a.size) { |i| a[i] - b[i] }
     {% end %}
   end
 
@@ -78,14 +79,14 @@ module Bottle::B
     Matrix.new(a.nrows, a.ncols) { |i, j| a[i, j] - b[i, j] }
   end
 
-  # Elementwise subtraction of a Vector with a scalar
+  # Elementwise subtraction of a Tensor with a scalar
   #
   # ```
-  # f1 = Vector.new [1.0, 2.0, 3.0]
+  # f1 = Tensor.new [1.0, 2.0, 3.0]
   # subtract(f2, 2) # => [-1.0, 0.0, 1.0]
   # ```
-  def subtract(a : Vector(U), x : Number) forall U
-    Vector.new(a.size) { |i| a[i] - x }
+  def subtract(a : Tensor(U), x : Number) forall U
+    Tensor.new(a.size) { |i| a[i] - x }
   end
 
   # Elementwise subtraction of a Matrix with a scalar
@@ -98,15 +99,15 @@ module Bottle::B
     Matrix.new(a.nrows, a.ncols) { |i, j| a[i, j] - x }
   end
 
-  # Elementwise multiplication of a Vector to another equally sized Vector
+  # Elementwise multiplication of a Tensor to another equally sized Tensor
   #
   # ```
-  # f1 = Vector.new [1.0, 2.0, 3.0]
-  # f2 = Vector.new [2.0, 4.0, 6.0]
+  # f1 = Tensor.new [1.0, 2.0, 3.0]
+  # f2 = Tensor.new [2.0, 4.0, 6.0]
   # multiply(f1, f2) # => [3.0, 8.0, 18.0]
   # ```
-  def multiply(a : Vector(U), b : Vector) forall U
-    Vector.new(a.size) { |i| a[i] * b[i] }
+  def multiply(a : Tensor(U), b : Tensor) forall U
+    Tensor.new(a.size) { |i| a[i] * b[i] }
   end
 
   # Elementwise multiplication of a Matrix to another equally sized Matrix
@@ -119,18 +120,18 @@ module Bottle::B
     Matrix.new(a.nrows, a.ncols) { |i, j| a[i, j] * b[i, j] }
   end
 
-  # Elementwise multiplication of a Vector to a scalar
+  # Elementwise multiplication of a Tensor to a scalar
   #
   # ```
-  # f1 = Vector.new [1.0, 2.0, 3.0]
+  # f1 = Tensor.new [1.0, 2.0, 3.0]
   # multiply(f1, 2) # => [2.0, 4.0, 6.0]
   # ```
-  def multiply(a : Vector(U), x : Number) forall U
+  def multiply(a : Tensor(U), x : Number) forall U
     {% if U == Float32 || U == Float64 %}
       a = a.clone
       return BLAS.scale(a, U.new(x))
     {% else %}
-      return Vector.new(a.size) { |i| a[i] * x }
+      return Tensor.new(a.size) { |i| a[i] * x }
     {% end %}
   end
 
@@ -144,15 +145,15 @@ module Bottle::B
     Matrix.new(a.nrows, a.ncols) { |i, j| a[i, j] * x }
   end
 
-  # Elementwise division of a Vector to another equally sized Vector
+  # Elementwise division of a Tensor to another equally sized Tensor
   #
   # ```
-  # f1 = Vector.new [1.0, 2.0, 3.0]
-  # f2 = Vector.new [2.0, 4.0, 6.0]
+  # f1 = Tensor.new [1.0, 2.0, 3.0]
+  # f2 = Tensor.new [2.0, 4.0, 6.0]
   # divide(f1, f2) # => [0.5, 0.5, 0.5]
   # ```
-  def divide(a : Vector(U), b : Vector) forall U
-    Vector.new(a.size) { |i| a[i] / b[i] }
+  def divide(a : Tensor(U), b : Tensor) forall U
+    Tensor.new(a.size) { |i| a[i] / b[i] }
   end
 
   # Elementwise division of a Matrix to another equally sized Matrix
@@ -165,18 +166,18 @@ module Bottle::B
     Matrix.new(a.nrows, a.ncols) { |i, j| a[i, j] / b[i, j] }
   end
 
-  # Elementwise division of a Vector to a scalar
+  # Elementwise division of a Tensor to a scalar
   #
   # ```
-  # f1 = Vector.new [1.0, 2.0, 3.0]
+  # f1 = Tensor.new [1.0, 2.0, 3.0]
   # divide(f1, 2) # => [0.5, 1, 1.5]
   # ```
-  def divide(a : Vector(U), x : Number) forall U
+  def divide(a : Tensor(U), x : Number) forall U
     {% if U == Float32 || U == Float64 %}
       a = a.clone
       return BLAS.scale(a, U.new(1/x))
     {% else %}
-      return Vector.new(a.size) { |i| a[i] / x }
+      return Tensor.new(a.size) { |i| a[i] / x }
     {% end %}
   end
 
@@ -190,14 +191,14 @@ module Bottle::B
     Matrix.new(a.nrows, a.ncols) { |i, j| a[i, j] / x }
   end
 
-  # Elementwise square root of a Vector
+  # Elementwise square root of a Tensor
   #
   # ```
-  # f1 = Vector.new [1.0, 4.0, 9.0]
+  # f1 = Tensor.new [1.0, 4.0, 9.0]
   # sqrt(f1) # => [1.0, 2.0, 3.0]
   # ```
-  def sqrt(a : Vector(U)) forall U
-    Vector.new(a.size) { |i| Math.sqrt(a[i]) }
+  def sqrt(a : Tensor(U)) forall U
+    Tensor.new(a.size) { |i| Math.sqrt(a[i]) }
   end
 
   # Elementwise square root of a Matrix
@@ -210,14 +211,14 @@ module Bottle::B
     Matrix.new(a.ncols, a.nrows) { |i, j| Math.sqrt(a[i, j]) }
   end
 
-  # Raise a vector to a power
+  # Raise a Tensor to a power
   #
   # ```
-  # f1 = Vector.new [1.0, 4.0, 9.0]
+  # f1 = Tensor.new [1.0, 4.0, 9.0]
   # power(f1, 2) # => [1.0, 16.0, 81.0]
   # ```
-  def power(a : Vector(U), x : Number) forall U
-    Vector.new(a.size) { |i| a[i]**x }
+  def power(a : Tensor(U), x : Number) forall U
+    Tensor.new(a.size) { |i| a[i]**x }
   end
 
   # Raise a matrix to a power
@@ -230,14 +231,14 @@ module Bottle::B
     Matrix.new(a.ncols, a.nrows) { |i, j| a[i, j]**x }
   end
 
-  # Raise a scalar to the power of a vector
+  # Raise a scalar to the power of a Tensor
   #
   # ```
-  # f1 = Vector.new [1.0, 4.0, 9.0]
+  # f1 = Tensor.new [1.0, 4.0, 9.0]
   # power(2, f1) # => [2.0, 16.0, 512.0]
   # ```
-  def power(x : Number, a : Vector(U)) forall U
-    Vector.new(a.size) { |i| x**a[i] }
+  def power(x : Number, a : Tensor(U)) forall U
+    Tensor.new(a.size) { |i| x**a[i] }
   end
 
   # Raise a scalar to the power of a matrix

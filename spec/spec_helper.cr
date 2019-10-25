@@ -1,2 +1,2 @@
 require "spec"
-require "../src/core/vector"
+require "../src/core/tensor"

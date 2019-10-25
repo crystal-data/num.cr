@@ -1,140 +1,84 @@
-require "./object"
-require "../api/math"
-require "../api/stats"
 require "../api/vectorprint"
 require "../ufunc/*"
 
-class Tensor(T)
-  # Returns the number of elements in the tensor
-  #
-  # ```
-  # Tensor.new([1, 2, 3]).size # => 3
-  # ```
+# A container that allows accessing elements via a numeric index.
+#
+# Indexing starts at 0. A negative index is assumed to be
+# relative to the end of the container: -1 indicates the last element,
+# -2 is the next to last element, and so on.
+#
+# Types including this module are typically `Array`-like types.
+struct Bottle::Tensor(T)
+  # Returns the number of elements in this object
   getter size : Int32
 
-  getter stride : Int32
+  @capacity : Int32
 
-  # creates an empty Tensor
-  def initialize
-    @size = 0
+  # Creates a new `Tensor` of an arbitrary size from a given
+  # indexable *data*.  The type of the Tensor is inferred from
+  # the provided data, as are the size, and stride.
+  #
+  # ```
+  # v = Tensor.new [1, 2, 3, 4, 5]
+  #
+  # v         # => Tensor[1, 2, 3, 4, 5]
+  # typeof(v) # => Tensor(Int32)
+  # ```
+  def initialize(data : Indexable(T))
+    @size = data.size
+    @buffer = Pointer(T).malloc(size) { |i| data[i] }
     @stride = 1
-    @buffer = Pointer(T).null
+    @capacity = size.to_i
+    @owner = true
   end
 
-  # Creates a new empty `Tensor` backed by a buffer that is
-  # `size` big.
-  #
-  # Since `Tensor`'s have a fixed size, and only allocate their
-  # data once, it is an efficient data structure for numerical
-  # operations since memory rarely needs to be re-allocated
-  #
-  # ```
-  # t = Tensor(Int32).new(5)
-  # t.size # => 5
-  # ```
-  def initialize(capacity : Int)
-    if capacity < 0
-      raise ArgumentError.new("Negative tensor size: #{capacity}")
-    end
-
-    @stride = 1
-    @size = capacity.to_i
-    if capacity == 0
-      @buffer = Pointer(T).null
-    else
-      @buffer = Pointer(T).malloc(capacity)
-    end
+  def initialize(@buffer : Pointer(T), @size, @stride, @owner)
+    @capacity = @size * @stride
   end
 
-  # Creates a new `Tensor` of the given *size* filled with the a *value*
+  # Creates a new `Tensor` from a block.  Infers the type
+  # of the Tensor from the value yielded by the block.
   #
   # ```
-  # Tensor.new(3, 3.0) # => Tensor[3.0, 3.0, 3.0]
+  # v = Tensor.new(5) { |i| i / 2 }
+  #
+  # v         # => Tensor[0.0, 0.5, 1.0, 1.5, 2.0]
+  # typeof(v) # => Tensor(Float64)
   # ```
-  def initialize(size : Int, value : T)
-    if size < 0
-      raise ArgumentError.new("Negative tensor size: #{size}")
-    end
-
-    @size = size.to_i
-    @stride = 1
-
-    if size == 0
-      @buffer = Pointer(T).null
-    else
-      @buffer = Pointer(T).malloc(size, value)
-    end
+  def self.new(size : Int32, &block : Int32 -> T)
+    buffer = Pointer(T).malloc(size) { |i| yield i }
+    new(buffer, size, 1, true)
   end
 
-  def initialize(@buffer : Pointer(T), @size, @stride)
-  end
-
-  # Creates a new `Tensor` of the given *size* and invokes the given block once
-  # for each index of `self`, assigning the block's value in that index.
+  # Returns the element at the given *index*, without doing any bounds check.
   #
-  # ```
-  # Tensor.new(3) { |i| (i + 1) ** 2 } # => Tensor[1, 4, 9]
-  # ```
-  def self.new(size : Int, &block : Int32 -> T)
-    Tensor(T).build(size) do |buffer|
-      size.to_i.times do |i|
-        buffer[i] = yield i
-      end
-      size
-    end
-  end
-
-  # Creates a new `Tensor`, allocating an internal buffer with the given *capacity*,
-  # and yielding that buffer. The given block must return the desired size of the tensor.
+  # Make sure to invoke this method with *index* in `0...size`,
+  # so converting negative indices to positive ones is not needed here.
   #
-  # This method is **unsafe**, but is usually used to initialize the buffer
-  # by passing it to a C function.
+  # Clients never invoke this method directly. Instead, they access
+  # elements with `#[](index)` and `#[]?(index)`.
   #
-  # ```
-  # Tensor.build(3) do |buffer|
-  #   LibSome.fill_buffer_and_return_number_of_elements_filled(buffer)
-  # end
-  # ```
-  def self.build(capacity : Int) : self
-    tns = Tensor(T).new(capacity)
-    tns.size = (yield tns.to_unsafe).to_i
-    tns
-  end
-
-  # Returns a pointer to the internal buffer where `self`'s elements are stored.
-  #
-  # This method is **unsafe** because it returns a pointer, and the pointed might eventually
-  # not be that of `self` if the internal buffer of the tensor is re-allocated
-  #
-  # ```
-  # t = Tensor.new [1, 2, 3]
-  # t.to_unsafe[0] # => 1
-  # ```
-  def to_unsafe : Pointer(T)
-    @buffer
-  end
-
-  # :nodoc:
-  protected def size=(size : Int)
-    @size = size.to_i
-  end
-
-  # Sets the given value at the given index.
-  #
-  # Negative indices can be used to start counting from the end of the tensor.
-  # Raises `IndexError` if trying to set an element outside the array's range.
-  #
-  # ```
-  # tns = Tensor.new [1, 2, 3]
-  # tns[0] = 5
-  # p ary # => Tensor[5,2,3]
-  #
-  # tns[3] = 5 # raises IndexError
-  # ```
+  # This method should only be directly invoked if you are absolutely
+  # sure the index is in bounds, to avoid a bounds check for a small boost
+  # of performance.
   @[AlwaysInline]
-  def []=(index : Int, value : T)
-    index = check_index_out_of_bounds index
-    @buffer[index * stride] = value
+  def unsafe_at(index : Int)
+    @buffer[index]
+  end
+
+  # Returns the element at the given index, if in bounds,
+  # otherwise executes the given block and returns its value.
+  #
+  # ```
+  # a = Tensor.new [1, 2, 3]
+  # a.at(0) { nil } # => 1
+  # a.at(2) { nil } # => nil
+  # ```
+  private def at(index : Int)
+    index = check_index_out_of_bounds(index) do
+      return yield
+    end
+    unsafe_at(index * @stride)
   end
 
   private def check_index_out_of_bounds(index)
@@ -150,34 +94,336 @@ class Tensor(T)
     end
   end
 
-  # Returns all elements that are within the given range.
-  #
-  # Negative indices count backward from the end of the tensor (-1 is the last
-  # element). Additionally, an empty tensor is returned when the starting index
-  # for an element range is at the end of the tensor.
-  #
-  # Raises `IndexError` if the range's start is out of range.
+  # Returns the element at the given index, if in bounds,
+  # otherwise raises `IndexError`.
   #
   # ```
-  # t = Tensor.new [1, 2, 3, 4, 5, 6]
-  # t[1..3]    # => [2, 3, 4]
-  # t[4..7]    # => [5, 6]
-  # t[6..10]   # raise IndexError
-  # t[5..10]   # => []
-  # t[-2...-1] # => [6]
-  # t[2..]     # => [2, 3, 4, 5, 6]
+  # a = Tensor.new [1, 2, 3]
+  # a[0]] # => 1
+  # a[5] # => IndexError
   # ```
-  def [](range : Range)
-    start, offset = Indexable.range_to_index_and_count(range, size)
-    Tensor.new @buffer + start, offset, stride
+  @[AlwaysInline]
+  def [](index : Int)
+    at(index) { raise IndexError.new }
+  end
+
+  @[AlwaysInline]
+  def []=(index : Int, value : Number)
+    index = check_index_out_of_bounds index
+    @buffer[index * @stride] = T.new(value)
+  end
+
+  def [](indexes : Indexable(Int))
+    Tensor.new(indexes.size) { |i| self[i] }
+  end
+
+  def []=(indexes : Indexable(Int), values : Indexable(T))
+    indexes.each_with_index { |e, i| self[e] = values[i] }
+  end
+
+  def [](range : Range(Int32?, Int32?))
+    offset, count = Indexable.range_to_index_and_count(range, size)
+    Tensor.new @buffer + offset * @stride, count, @stride, false
+  end
+
+  def []=(range : Range(Int32?, Int32?), values : Indexable(T))
+    offset, count = Indexable.range_to_index_and_count(range, size)
+    (offset...count).each_with_index { |e, i| self[e] = values[i] }
+  end
+
+  def clone
+    Tensor(T).new(@capacity) { |i| @buffer[i] }
   end
 
   def to_s(io)
-    io << @buffer.to_slice(size)
+    B::Util.vector_print(io, self)
+  end
+
+  # Lazily yields the index values of a `Tensor`.  This method
+  # is used as the core iteration method for `Tensors`
+  #
+  # ```crystal
+  # v = Tensor.new [1, 2, 3, 4, 5]
+  # v.each_index { |i| puts i }
+  #
+  # # 0
+  # # 1
+  # # 2
+  # # 3
+  # # 4
+  # ```
+  def each_index(&block : Int32 -> _)
+    0.step(to: @capacity - 1, by: @stride) do |n|
+      yield n
+    end
+  end
+
+  # Lazily yields a Tensor one element at a time.
+  # The core iteration method for a Tensor
+  #
+  # ```crystal
+  # v = Tensor.new [1, 2, 3, 4, 5]
+  # v.each { |e| puts e }
+  #
+  # # 1
+  # # 2
+  # # 3
+  # # 4
+  # # 5
+  # ```
+  def each(&block)
+    each_index do |i|
+      yield @buffer[i]
+    end
+  end
+
+  # Lazily yields a Vector and its index, one element at a time.
+  # Useful for reduction methods that require both elements to
+  # do work on, and the indices they belong to.
+  #
+  # ```crystal
+  # v = Vector.new [1, 2, 3, 4, 5]
+  # v.each_with_index { |e, i| puts "#{e}_#{i}" }
+  #
+  # # 1_0
+  # # 2_1
+  # # 3_2
+  # # 4_3
+  # # 5_4
+  # ```
+  def each_with_index(&block)
+    each_index { |i| yield(@buffer[i], i) }
+  end
+
+  # Combines all elements in the Tensor by applying a binary operation, specified by a block, so as
+  # to reduce them to a single value.
+  #
+  # For each element in the collection the block is passed an accumulator value (*memo*) and the element. The
+  # result becomes the new value for *memo*. At the end of the iteration, the final value of *memo* is
+  # the return value for the method. The initial value for the accumulator is the first element in the collection.
+  def reduce(memo = T.new(0))
+    each do |elem|
+      memo = yield memo, elem
+    end
+    memo
+  end
+
+  # Initializes a Tensor with an uninitialized slice
+  # of data.
+  #
+  # ```crystal
+  # f = Tensor.empty(5, dtype: Int32)
+  # f # => Tensor[0, 0, 0, 0, 0]
+  # ```
+  def self.empty(n : Int32, dtype : U.class = Float64) forall U
+    Tensor.new Pointer(U).malloc(n), n, 1, true
+  end
+
+  # Initializes a Tensor full of zeros.  Default
+  # dtype is Float64, but other dtypes are supported.
+  #
+  # ```crystal
+  # f = Tensor.zeros(5, dtype: Int32)
+  # f # => Tensor[0, 0, 0, 0, 0]
+  # ```
+  def self.zeros(n : Int32, dtype : U.class = Float64) forall U
+    Tensor.new Pointer(U).malloc(n U.new(0)), n, 1, true
+  end
+
+  # Initializes a Tensor full of ones.  Default
+  # dtype is Float64, but other dtypes are supported
+  #
+  # ```crystal
+  # f = Tensor.ones(5, dtype: Int32)
+  # f # => Tensor[1, 1, 1, 1, 1]
+  # ```
+  def self.ones(n : Int32, dtype : U.class = Float64) forall U
+    Tensor.new Pointer(U).malloc(n, U.new(1)), n, 1, true
+  end
+
+  # Initializes a Tensor full of a given scalar.  Default
+  # dtype is Float64, but other dtypes are supported
+  #
+  # ```crystal
+  # f = Tensor.full(5, 5, dtype: Int32)
+  # f # => Tensor[5, 5, 5, 5, 5]
+  # ```
+  def self.full(n : Int32, x : Number, dtype : U.class = Float64) forall U
+    Tensor.new Pointer(U).malloc(n, U.new(x)), n, 1, true
+  end
+
+  # Pours a Tensor full of random data.
+  # The dtype of the Tensor is inferred
+  # from the values on either end of the
+  # range.
+  #
+  # ```crystal
+  # f = Tensor.random(0, 10, 5)
+  # f # => Tensor[4, 8, 7, 8, 4]
+  # ```
+  def self.random(r : Range(U, U), n : Int32) forall U
+    Tensor.new(n) { |_| Random.rand(r) }
+  end
+
+  # Casts a Tensor to another data dtype.
+  # If the Tensor is already the given dtype,
+  # a copy is not made, otherwise a new Tensor
+  # is returned.
+  #
+  # ```crystal
+  # f = Tensor.new [1, 2, 3]
+  # f.astype(Float64) # => Tensor[1.0, 2.0, 3.0]
+  # ```
+  def astype(dtype : U.class) forall U
+    if T == U
+      return self
+    end
+    Tensor.new(self.size) { |i| U.new(self[i]) }
+  end
+
+  # Elementwise addition of a Tensor to another equally sized Tensor
+  #
+  # ```
+  # f1 = Tensor.new [1.0, 2.0, 3.0]
+  # f2 = Tensor.new [2.0, 4.0, 6.0]
+  # f1 + f2 # => [3.0, 6.0, 9.0]
+  # ```
+  def +(other : Tensor)
+    B.add(self, other)
+  end
+
+  # Elementwise addition of a Tensor to a scalar
+  #
+  # ```
+  # f1 = Tensor.new [1.0, 2.0, 3.0]
+  # f2 = 2
+  # f1 + f2 # => [3.0, 4.0, 5.0]
+  # ```
+  def +(other : Number)
+    B.add(self, other)
+  end
+
+  # Elementwise subtraction of a Tensor to another equally sized Tensor
+  #
+  # ```
+  # f1 = Tensor.new [1.0, 2.0, 3.0]
+  # f2 = Tensor.new [2.0, 4.0, 6.0]
+  # f1 - f2 # => [-1.0, -2.0, -3.0]
+  # ```
+  def -(other : Tensor)
+    B.subtract(self, other)
+  end
+
+  # Elementwise subtraction of a Tensor with a scalar
+  #
+  # ```
+  # f1 = Tensor.new [1.0, 2.0, 3.0]
+  # f2 = 2
+  # f1 - f2 # => [-1.0, 0.0, 1.0]
+  # ```
+  def -(other : Number)
+    B.subtract(self, other)
+  end
+
+  # Elementwise multiplication of a Tensor to another equally sized Tensor
+  #
+  # ```
+  # f1 = Tensor.new [1.0, 2.0, 3.0]
+  # f2 = Tensor.new [2.0, 4.0, 6.0]
+  # f1 * f2 # => [3.0, 8.0, 18.0]
+  # ```
+  def *(other : Tensor)
+    B.multiply(self, other)
+  end
+
+  # Elementwise multiplication of a Tensor to a scalar
+  #
+  # ```
+  # f1 = Tensor.new [1.0, 2.0, 3.0]
+  # f2 = 2
+  # f1 + f2 # => [2.0, 4.0, 6.0]
+  # ```
+  def *(other : Number)
+    B.multiply(self, other)
+  end
+
+  # Elementwise division of a Tensor to another equally sized Tensor
+  #
+  # ```
+  # f1 = Tensor.new [1.0, 2.0, 3.0]
+  # f2 = Tensor.new [2.0, 4.0, 6.0]
+  # f1 / f2 # => [0.5, 0.5, 0.5]
+  # ```
+  def /(other : Tensor)
+    B.div(self, other)
+  end
+
+  # Elementwise division of a Tensor to a scalar
+  #
+  # ```
+  # f1 = Tensor.new [1.0, 2.0, 3.0]
+  # f2 = 2
+  # f1 / f2 # => [0.5, 1, 1.5]
+  # ```
+  def /(other : Number)
+    B.div(self, other)
+  end
+
+  # Computes the sum of each value of a Tensor
+  #
+  # ```
+  # v = Flask.new [1, 2, 3, 4]
+  # v.sum # => 10
+  # ```
+  def sum
+    B.sum(self)
+  end
+
+  # Computes the maximum value of a Tensor
+  #
+  # ```
+  # v = Flask.new [1, 2, 3, 4]
+  # v.max # => 4
+  # ```
+  def max
+    B.max(self)
+  end
+
+  # Computes the index of the maximum value of a Tensor
+  #
+  # ```
+  # v = Flask.new [1, 2, 3, 4]
+  # v.argmax # => 3
+  # ```
+  def argmax
+    B.argmax(self)
+  end
+
+  # Computes the minimum value of a Tensor
+  #
+  # ```
+  # v = Flask.new [1, 2, 3, 4]
+  # v.min # => 1
+  # ```
+  def min
+    B.min(self)
+  end
+
+  # Computes the index of the minimum value of a Tensor
+  #
+  # ```
+  # v = Flask.new [1, 2, 3, 4]
+  # v.argmin # => 0
+  # ```
+  def argmin
+    B.argmin(self)
+  end
+
+  def accumulate(inplace = false)
+    UFunc::Accumulate.new(self, inplace)
+  end
+
+  def outer(other : Tensor)
+    UFunc::Outer.new(self, other)
   end
 end
-
-t = Tensor.new(3) { |i| i + 1 }
-m = t[1...]
-m[1] = 8
-puts t

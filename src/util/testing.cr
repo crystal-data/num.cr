@@ -1,9 +1,9 @@
-require "../core/vector"
+require "../core/tensor"
 
 module Bottle::Testing
   extend self
 
-  def vector_equal(a, b)
+  def tensor_equal(a, b)
     if a.size != b.size
       return false
     end
