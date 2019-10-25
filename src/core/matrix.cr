@@ -10,7 +10,14 @@ class Bottle::Matrix(T)
   # Number of columns in the Matrix
   getter ncols : Int32
 
+  # Number of elements between elements of a row and the following row
   @tda : Int32
+
+  protected def check_type
+    {% unless T == Float32 || T == Float64 || T == Bool || T == Int32 %}
+      {% raise "Bad dtype: #{T}. #{T} is not supported by Bottle" %}
+    {% end %}
+  end
 
   # Creates a new `Matrix` of an arbitrary size from a given
   # indexable *data*.  The type of the Matrix is inferred from
@@ -23,6 +30,7 @@ class Bottle::Matrix(T)
   # typeof(v) # => Matrix(Int32)
   # ```
   def initialize(data : Indexable(Indexable(T)))
+    check_type
     @nrows = data.size
     @ncols = data[0].size
     @tda = ncols
@@ -47,6 +55,7 @@ class Bottle::Matrix(T)
   # typeof(m) # => Matrix(Int32)
   # ```
   def initialize(@buffer : Pointer(T), @nrows, @ncols, @tda, @owner)
+    check_type
   end
 
   # Creates a new `Matrix` from a block.  Infers the type

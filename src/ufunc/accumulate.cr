@@ -1,4 +1,4 @@
-require "../core/Tensor"
+require "../core/tensor"
 require "../core/matrix"
 
 class Bottle::UFunc::Accumulate(T)

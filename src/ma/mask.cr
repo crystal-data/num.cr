@@ -1,5 +1,5 @@
-require "../core/flask"
-require "../core/jug"
+require "../core/tensor"
+require "../core/matrix"
 
 module Bottle
   macro mask_helper(operators)

@@ -14,6 +14,12 @@ struct Bottle::Tensor(T)
 
   @capacity : Int32
 
+  protected def check_type
+    {% unless T == Float32 || T == Float64 || T == Bool || T == Int32 %}
+      {% raise "Bad dtype: #{T}. #{T} is not supported by Bottle" %}
+    {% end %}
+  end
+
   # Creates a new `Tensor` of an arbitrary size from a given
   # indexable *data*.  The type of the Tensor is inferred from
   # the provided data, as are the size, and stride.
@@ -25,6 +31,7 @@ struct Bottle::Tensor(T)
   # typeof(v) # => Tensor(Int32)
   # ```
   def initialize(data : Indexable(T))
+    check_type
     @size = data.size
     @buffer = Pointer(T).malloc(size) { |i| data[i] }
     @stride = 1
@@ -33,6 +40,7 @@ struct Bottle::Tensor(T)
   end
 
   def initialize(@buffer : Pointer(T), @size, @stride, @owner)
+    check_type
     @capacity = @size * @stride
   end
 
