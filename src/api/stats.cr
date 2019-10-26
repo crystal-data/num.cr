@@ -83,7 +83,7 @@ module Bottle::B
     max = uninitialized U
     index = uninitialized Int32
 
-    v.each_with_index do |elem, i|
+    v.each_with_index do |elem, i| # ameba:disable Lint/UnusedArgument
       {% if U == Bool %}
         if i == 0 || elem
           max = elem
@@ -130,7 +130,7 @@ module Bottle::B
     min = uninitialized U
     index = uninitialized Int32
 
-    v.each_with_index do |elem, i|
+    v.each_with_index do |elem, i| # ameba:disable Lint/UnusedArgument
       {% if U == Bool %}
         if i == 0 || !elem
           min = elem
@@ -170,7 +170,7 @@ module Bottle::B
     imin = uninitialized Int32
     imax = uninitialized Int32
 
-    v.each_with_index do |elem, i|
+    v.each_with_index do |elem, i| # ameba:disable Lint/UnusedArgument
       {% if U == Bool %}
         if i == 0 || !elem
           min = elem
