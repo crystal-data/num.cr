@@ -84,10 +84,17 @@ module Bottle::B
     index = uninitialized Int32
 
     v.each_with_index do |elem, i|
-      if i == 0 || elem > max
-        max = elem
-        index = i
-      end
+      {% if U == Bool %}
+        if i == 0 || elem
+          max = elem
+          index = i
+        end
+      {% else %}
+        if i == 0 || elem > max
+          max = elem
+          index = i
+        end
+      {% end %}
     end
     {max, index}
   end
@@ -124,10 +131,17 @@ module Bottle::B
     index = uninitialized Int32
 
     v.each_with_index do |elem, i|
-      if i == 0 || elem < min
-        min = elem
-        index = i
-      end
+      {% if U == Bool %}
+        if i == 0 || !elem
+          min = elem
+          index = i
+        end
+      {% else %}
+        if i == 0 || elem < min
+          min = elem
+          index = i
+        end
+      {% end %}
     end
     {min, index}
   end
@@ -157,14 +171,28 @@ module Bottle::B
     imax = uninitialized Int32
 
     v.each_with_index do |elem, i|
-      if i == 0 || elem < min
-        min = elem
-        imin = i
-      end
-      if i == 0 || elem > max
-        max = elem
-        imax = i
-      end
+      {% if U == Bool %}
+        if i == 0 || !elem
+          min = elem
+          index = i
+        end
+      {% else %}
+        if i == 0 || elem < min
+          min = elem
+          index = i
+        end
+      {% end %}
+      {% if U == Bool %}
+        if i == 0 || elem
+          max = elem
+          index = i
+        end
+      {% else %}
+        if i == 0 || elem > max
+          max = elem
+          index = i
+        end
+      {% end %}
     end
     {min, max, imin, imax}
   end
