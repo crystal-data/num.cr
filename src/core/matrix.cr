@@ -347,7 +347,7 @@ class Bottle::Matrix(T)
   end
 
   def clone
-    Matrix(T).new(nrows, ncols) { |i, j| @buffer[i * tda + j] }
+    Matrix(T).new(nrows, ncols) { |i, j| @buffer[i * @tda + j] }
   end
 
   # Returns a flattened version of a Matrix, returns

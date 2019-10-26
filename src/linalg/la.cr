@@ -18,12 +18,12 @@ module Bottle
 
         m = a.nrows
         n = a.ncols
-        lda = a.tda
+        lda = a.@tda
 
         LibLapack.{{blas_prefix}}getrf(
           pointerof(m),
           pointerof(n),
-          a.data,
+          a.@buffer,
           pointerof(lda),
           ipiv,
           out info
@@ -35,7 +35,7 @@ module Bottle
 
         LibLapack.{{blas_prefix}}getri(
           pointerof(order),
-          a.data,
+          a.@buffer,
           pointerof(lda),
           ipiv,
           work,
