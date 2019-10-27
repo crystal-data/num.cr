@@ -3,6 +3,8 @@ require "./core/matrix"
 require "./api/*"
 require "./linalg/*"
 require "./blas/*"
+require "./libs/*"
+require "benchmark"
 
 module Bottle
   extend self

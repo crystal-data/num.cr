@@ -107,7 +107,7 @@ struct Bottle::Tensor(T)
   #
   # ```
   # a = Tensor.new [1, 2, 3]
-  # a[0]] # => 1
+  # a[0] # => 1
   # a[5] # => IndexError
   # ```
   @[AlwaysInline]
@@ -115,36 +115,94 @@ struct Bottle::Tensor(T)
     at(index) { raise IndexError.new }
   end
 
+  # Sets the element at the given index, if in bounds,
+  # otherwise raises `IndexError`.
+  #
+  # ```
+  # a = Tensor.new [1, 2, 3]
+  # a[0] = 100 # => 1
+  # a[5] = 100 # => IndexError
+  # ```
   @[AlwaysInline]
   def []=(index : Int, value : Number)
     index = check_index_out_of_bounds index
     @buffer[index * @stride] = T.new(value)
   end
 
+  # Returns multiple elements identified by
+  # a list of indexes. A copy is returned since
+  # the memory is not guaranteed to be
+  # contiguous.
+  #
+  # ```
+  # a = Tensor.new [1, 2, 3, 4, 5]
+  # a[[0, 2, 4]] # => Tensor[ 1  3  5]
+  # ```
   def [](indexes : Indexable(Int))
     Tensor.new(indexes.size) { |i| self[i] }
   end
 
+  # Set multiple elements at provided
+  # indexes with an Indexable of values.
+  #
+  # ```
+  # a = Tensor.new [1, 2, 3, 4, 5]
+  # a[[0, 2, 4]] = [10, 10, 10]
+  # ```
   def []=(indexes : Indexable(Int), values : Indexable(T))
     indexes.each_with_index { |e, i| self[e] = values[i] }
   end
 
+  # Returns multiple elements identified by
+  # a range. A view is returned since the
+  # memory is contiguous.
+  #
+  # ```
+  # a = Tensor.new [1, 2, 3, 4, 5]
+  # a[2...] # => Tensor[ 3  4  5]
+  # ```
   def [](range : Range(Int32?, Int32?))
     offset, count = Indexable.range_to_index_and_count(range, size)
     Tensor.new @buffer + offset * @stride, count, @stride, false
   end
 
+  # Set multiple elements at a provide
+  # range.
+  #
+  # ```
+  # a = Tensor.new [1, 2, 3, 4, 5]
+  # a[2...] = [10, 10, 10]
+  # ```
   def []=(range : Range(Int32?, Int32?), values : Indexable(T))
     offset, count = Indexable.range_to_index_and_count(range, size)
     (offset...count).each_with_index { |e, i| self[e] = values[i] }
   end
 
+  # Copies a Tensor, returns the copy.
+  #
+  # ```
+  # a = Tensor.new [1, 2, 3]
+  #
+  # a.clone # => Tensor[ 1  2  3]
+  # ```
   def clone
     Tensor(T).new(@capacity) { |i| @buffer[i] }
   end
 
+  # Appends the string representation of
+  # a `Tensor` to the provided *io*.
+  #
+  # ```
+  # a = Tensor.new [1, 2, 3]
+  #
+  # a.clone # => Tensor[ 1  2  3]
+  # ```
   def to_s(io)
-    B::Util.vector_print(io, self)
+    {% if T == Bool %}
+      B::Util.vector_print(io, self, prefix = "Tensor[", override_max: true, maxval: false)
+    {% else %}
+      B::Util.vector_print(io, self)
+    {% end %}
   end
 
   # Lazily yields the index values of a `Tensor`.  This method
@@ -425,13 +483,5 @@ struct Bottle::Tensor(T)
   # ```
   def argmin
     B.argmin(self)
-  end
-
-  def accumulate(inplace = false)
-    UFunc::Accumulate.new(self, inplace)
-  end
-
-  def outer(other : Tensor)
-    UFunc::Outer.new(self, other)
   end
 end

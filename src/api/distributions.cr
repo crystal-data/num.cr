@@ -9,9 +9,9 @@ module Bottle::B
   # (in other words, the interval including start but excluding stop).
   #
   # ```crystal
-  # B.vrange(1, 5) # => Tensor[1, 2, 3, 4]
+  # B.arange(1, 5) # => Tensor[1, 2, 3, 4]
   # ```
-  def vrange(start : Int32, stop : Int32, step : Int32 = 1, dtype : U.class = Int32) forall U
+  def arange(start : Int32, stop : Int32, step : Int32 = 1, dtype : U.class = Int32) forall U
     r = stop - start
     num = r // step
     if stop <= start || !num
