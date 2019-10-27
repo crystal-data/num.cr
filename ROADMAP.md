@@ -9,342 +9,342 @@ go for it!
 
 Ones and Zeros
 
-[x] `empty`
-[x] `empty_like`
-[x] `eye`
-[x] `identity`
-[x] `ones`
-[x] `ones_like`
-[x] `zeros`
-[x] `zeros_like`
-[x] `full`
-[x] `full_like`
+- [x] `empty`
+- [x] `empty_like`
+- [x] `eye`
+- [x] `identity`
+- [x] `ones`
+- [x] `ones_like`
+- [x] `zeros`
+- [x] `zeros_like`
+- [x] `full`
+- [x] `full_like`
 
 From Existing Data
 
-[ ] `frombuffer`
-[ ] `fromfile`
-[ ] `from_function`
-[x] `from_iter` (Implemented by the `new` from block routines)
-[ ] `fromstring`
-[ ] `loadtxt`
+- [ ] `frombuffer`
+- [ ] `fromfile`
+- [ ] `from_function`
+- [x] `from_iter` (Implemented by the `new` from block routines)
+- [ ] `fromstring`
+- [ ] `loadtxt`
 
 Numerical Ranges
 
-[x] `arange`
-[x] `linspace`
-[x] `logspace`
-[x] `geomspace`
-[ ] `meshgrid`
-[ ] `mgrid`
-[ ] `ogrid`
+- [x] `arange`
+- [x] `linspace`
+- [x] `logspace`
+- [x] `geomspace`
+- [ ] `meshgrid`
+- [ ] `mgrid`
+- [ ] `ogrid`
 
 Building Matrices
 
-[x] `diag`
-[ ] `diagflat`
-[x] `tri`
-[x] `tril`
-[x] `triu`
-[x] `vander`
+- [x] `diag`
+- [ ] `diagflat`
+- [x] `tri`
+- [x] `tril`
+- [x] `triu`
+- [x] `vander`
 
 ### Array Manipulation Routines
 
 Basic Operations
 
-[ ] `copyto`
+- [ ] `copyto`
 
 Changing Array Shape
 
-[x] `reshape`
-[x] `ravel` (Still needs to be added as a standalone method)
-[ ] `flat`
-[ ] `flatten`
+- [x] `reshape`
+- [x] `ravel` (Still needs to be added as a standalone method)
+- [ ] `flat`
+- [ ] `flatten`
 
 Tranpose-like Operations
 
-[x] `transpose`
+- [x] `transpose`
 
 Changing Number of Dimensions
 
-[x] `atleast_1d`
-[x] `atleast_2d`
-[ ] `broadcast`
-[ ] `broadcast_to`
-[ ] `expand_dims`
-[ ] `squeeze`
+- [x] `atleast_1d`
+- [x] `atleast_2d`
+- [ ] `broadcast`
+- [ ] `broadcast_to`
+- [ ] `expand_dims`
+- [ ] `squeeze`
 
 Joining Tensors and Matrices
 
-[ ] `concatenate`
-[ ] `stack`
-[ ] `column_stack`
-[ ] `dstack`
-[ ] `hstack`
-[ ] `vstack`
+- [ ] `concatenate`
+- [ ] `stack`
+- [ ] `column_stack`
+- [ ] `dstack`
+- [ ] `hstack`
+- [ ] `vstack`
 
 Splitting Tensors and Matrices
 
-[ ] `split`
-[ ] `hsplit`
-[ ] `vsplit`
+- [ ] `split`
+- [ ] `hsplit`
+- [ ] `vsplit`
 
 Tilings Tensors and Matrices
 
-[ ] `tile`
-[ ] `repeat`
+- [ ] `tile`
+- [ ] `repeat`
 
 Adding and Removing Elements
 
-[ ] `delete`
-[ ] `insert`
-[ ] `append`
-[ ] `resize`
-[ ] `trim_zeros`
-[ ] `unique`
+- [ ] `delete`
+- [ ] `insert`
+- [ ] `append`
+- [ ] `resize`
+- [ ] `trim_zeros`
+- [ ] `unique`
 
 Rearranging Elements
 
-[ ] `flip`
-[ ] `fliplr`
-[ ] `flipud`
-[x] `reshape`
-[ ] `roll`
-[ ] `rot90`
+- [ ] `flip`
+- [ ] `fliplr`
+- [ ] `flipud`
+- [x] `reshape`
+- [ ] `roll`
+- [ ] `rot90`
 
 ### Binary Operations
 
 Bit Operations
 
-[x] `bitwise_and`
-[x] `bitwise_or`
-[x] `bitwise_xor`
-[ ] `invert`
-[x] `left_shift`
-[x] `right_shift`
+- [x] `bitwise_and`
+- [x] `bitwise_or`
+- [x] `bitwise_xor`
+- [ ] `invert`
+- [x] `left_shift`
+- [x] `right_shift`
 
 ### Indexing Operations
 
 Generating Index Tensors and Matrices
 
-[ ] `nonzero`
-[ ] `where`
-[ ] `indices`
-[ ] `diag_indices`
-[ ] `diag_indices_from`
-[ ] `mask_indices`
-[ ] `tril_indices`
-[ ] `tril_indices_from`
-[ ] `triu_indices`
-[ ] `triu_indices_from`
+- [ ] `nonzero`
+- [ ] `where`
+- [ ] `indices`
+- [ ] `diag_indices`
+- [ ] `diag_indices_from`
+- [ ] `mask_indices`
+- [ ] `tril_indices`
+- [ ] `tril_indices_from`
+- [ ] `triu_indices`
+- [ ] `triu_indices_from`
 
 Indexing Like Operations
 
-[ ] `take`
-[ ] `take_along_axis`
-[ ] `choose`
-[ ] `compress`
-[x] `diag`
-[x] `diagonal`
-[ ] `select`
+- [ ] `take`
+- [ ] `take_along_axis`
+- [ ] `choose`
+- [ ] `compress`
+- [x] `diag`
+- [x] `diagonal`
+- [ ] `select`
 
 Inserting data into Tensors and Matrices
 
-[ ] `place`
-[ ] `put`
-[ ] `put_along_axis`
-[ ] `putmask`
-[ ] `fill_diagonal`
+- [ ] `place`
+- [ ] `put`
+- [ ] `put_along_axis`
+- [ ] `putmask`
+- [ ] `fill_diagonal`
 
 ### Linear Algebra
 
 Matrix and Vector Products
 
-[x] `dot`
-[ ] `multi_dot`
-[ ] `inner`
-[x] `outer`
-[x] `matmul`
-[ ] `einsum` (This is a monster task, would love help)
-[ ] `matrix_power`
-[ ] `kron`
+- [x] `dot`
+- [ ] `multi_dot`
+- [ ] `inner`
+- [x] `outer`
+- [x] `matmul`
+- [ ] `einsum` (This is a monster task, would love help)
+- [ ] `matrix_power`
+- [ ] `kron`
 
 Decompositions
 
-[ ] `cholesky`
-[ ] `qr`
-[ ] `svd`
+- [ ] `cholesky`
+- [ ] `qr`
+- [ ] `svd`
 
 Matrix Eigenvalues
 
-[ ] `eig`
-[ ] `eigh`
-[ ] `eigvals`
-[ ] `eigvalsh`
+- [ ] `eig`
+- [ ] `eigh`
+- [ ] `eigvals`
+- [ ] `eigvalsh`
 
 Norms and the like
 
-[ ] `norm`
-[ ] `cond`
-[ ] `det`
-[ ] `matrix_rank`
-[ ] `slogdet`
-[x] `trace`
+- [ ] `norm`
+- [ ] `cond`
+- [ ] `det`
+- [ ] `matrix_rank`
+- [ ] `slogdet`
+- [x] `trace`
 
 Solving equations and inverting matrices
 
-[ ] `solve`
-[ ] `tensorsolve`
-[ ] `lstsq`
-[x] `inv`
-[ ] `pinv`
-[ ] `tensorinv`
+- [ ] `solve`
+- [ ] `tensorsolve`
+- [ ] `lstsq`
+- [x] `inv`
+- [ ] `pinv`
+- [ ] `tensorinv`
 
 ### Mathematical Functions
 
 Trigonometric Functions
 
-[x] `sin`
-[x] `cos`
-[x] `tan`
-[x] `asin`
-[x] `acos`
-[x] `atan`
-[ ] `hypot`
-[ ] `atan2`
-[ ] `degrees`
-[ ] `radians`
-[ ] `unwrap`
-[ ] `deg2rad`
-[ ] `rad2deg`
+- [x] `sin`
+- [x] `cos`
+- [x] `tan`
+- [x] `asin`
+- [x] `acos`
+- [x] `atan`
+- [ ] `hypot`
+- [ ] `atan2`
+- [ ] `degrees`
+- [ ] `radians`
+- [ ] `unwrap`
+- [ ] `deg2rad`
+- [ ] `rad2deg`
 
 Hyperbolic Functions
 
-[x] `sinh`
-[x] `cosh`
-[x] `tanh`
-[x] `asinh`
-[x] `acosh`
-[x] `atanh`
+- [x] `sinh`
+- [x] `cosh`
+- [x] `tanh`
+- [x] `asinh`
+- [x] `acosh`
+- [x] `atanh`
 
 Rounding
 
-[ ] `around`
-[ ] `round`
-[ ] `rint`
-[ ] `fix`
-[ ] `floor`
-[ ] `ceil`
-[ ] `trunc`
+- [ ] `around`
+- [ ] `round`
+- [ ] `rint`
+- [ ] `fix`
+- [ ] `floor`
+- [ ] `ceil`
+- [ ] `trunc`
 
 Sums, product and differences
 
-[x] `prod`
-[x] `sum`
-[ ] `nanprod`
-[ ] `nansum`
-[x] `cumprod`
-[x] `cumsum`
-[ ] `nancumprod`
-[ ] `nancumsum`
-[ ] `diff`
-[ ] `ediff1d`
-[ ] `gradient`
-[ ] `cross`
-[ ] `trapz`
+- [x] `prod`
+- [x] `sum`
+- [ ] `nanprod`
+- [ ] `nansum`
+- [x] `cumprod`
+- [x] `cumsum`
+- [ ] `nancumprod`
+- [ ] `nancumsum`
+- [ ] `diff`
+- [ ] `ediff1d`
+- [ ] `gradient`
+- [ ] `cross`
+- [ ] `trapz`
 
 Exponents and Logarithms
 
-[x] `exp`
-[x] `expm1`
-[x] `exp2`
-[x] `log`
-[x] `log10`
-[x] `log2`
-[x] `log1p`
-[ ] `logaddexp`
-[ ] `logaddexp2`
+- [x] `exp`
+- [x] `expm1`
+- [x] `exp2`
+- [x] `log`
+- [x] `log10`
+- [x] `log2`
+- [x] `log1p`
+- [ ] `logaddexp`
+- [ ] `logaddexp2`
 
 Special Functions
 
-[x] `i0`
-[ ] `sinc`
+- [x] `i0`
+- [ ] `sinc`
 
 Floating Point Routines
 
-[ ] `signbit`
-[ ] `copysign`
-[x] `frexp`
-[ ] `ldexp`
-[ ] `nextafter`
-[ ] `spacing`
+- [ ] `signbit`
+- [ ] `copysign`
+- [x] `frexp`
+- [ ] `ldexp`
+- [ ] `nextafter`
+- [ ] `spacing`
 
 Rational Routines
 
-[ ] `lcm`
-[ ] `gcd`
+- [ ] `lcm`
+- [ ] `gcd`
 
 Arithmetic Operations
 
-[x] `add`
-[ ] `reciprocal`
-[ ] `positive`
-[ ] `negative`
-[x] `multiply`
-[x] `divide`
-[x] `power`
-[x] `subtract`
-[ ] `true_divide`
-[x] `floor_divide`
-[x] `mod`
-[ ] `modf`
-[x] `remainder`
-[ ] `divmod`
+- [x] `add`
+- [ ] `reciprocal`
+- [ ] `positive`
+- [ ] `negative`
+- [x] `multiply`
+- [x] `divide`
+- [x] `power`
+- [x] `subtract`
+- [ ] `true_divide`
+- [x] `floor_divide`
+- [x] `mod`
+- [ ] `modf`
+- [x] `remainder`
+- [ ] `divmod`
 
 Miscellaneous
 
-[ ] `convolve`
-[ ] `clip`
-[x] `sqrt`
-[x] `cbrt`
-[ ] `square`
-[ ] `absolute`
-[ ] `fabs`
-[ ] `sign`
-[ ] `heaviside`
-[x] `maximum`
-[x] `minimum`
-[ ] `fmax`
-[ ] `fmin`
-[ ] `nan_to_num`
-[ ] `real_if_close`
-[ ] `interp`
+- [ ] `convolve`
+- [ ] `clip`
+- [x] `sqrt`
+- [x] `cbrt`
+- [ ] `square`
+- [ ] `absolute`
+- [ ] `fabs`
+- [ ] `sign`
+- [ ] `heaviside`
+- [x] `maximum`
+- [x] `minimum`
+- [ ] `fmax`
+- [ ] `fmin`
+- [ ] `nan_to_num`
+- [ ] `real_if_close`
+- [ ] `interp`
 
 ### Sorting, Searching and Counting
 
 Sorting
 
-[ ] `sort`
-[ ] `lexsort`
-[ ] `argsort`
-[ ] `msort`
-[ ] `partition`
-[ ] `argpartition`
+- [ ] `sort`
+- [ ] `lexsort`
+- [ ] `argsort`
+- [ ] `msort`
+- [ ] `partition`
+- [ ] `argpartition`
 
 Searching
 
-[x] `argmax`
-[ ] `nanargmax`
-[x] `argmin`
-[ ] `nanargmin`
-[ ] `argwhere`
-[ ] `nonzero`
-[ ] `flatnonzero`
-[ ] `where`
-[ ] `searchsorted`
-[ ] `extract`
+- [x] `argmax`
+- [ ] `nanargmax`
+- [x] `argmin`
+- [ ] `nanargmin`
+- [ ] `argwhere`
+- [ ] `nonzero`
+- [ ] `flatnonzero`
+- [ ] `where`
+- [ ] `searchsorted`
+- [ ] `extract`
 
 Counting
 
-[ ] `count_nonzero`
-[ ] `bincount`
+- [ ] `count_nonzero`
+- [ ] `bincount`
