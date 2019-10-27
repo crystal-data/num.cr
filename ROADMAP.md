@@ -1,5 +1,4 @@
-### This library seeks to provide a public API similar to NumPy, this
-### list keeps track of implemented routines.
+### This library seeks to provide a public API similar to NumPy, this list keeps track of implemented routines.
 
 This is a great place to start looking for ways to contribute.  All of these
 functions would be awesome to have, so if you can implement any or many of them,
@@ -184,7 +183,7 @@ Matrix Eigenvalues
 
 Norms and the like
 
-- [ ] `norm`
+- [x] `norm`
 - [ ] `cond`
 - [ ] `det`
 - [ ] `matrix_rank`
