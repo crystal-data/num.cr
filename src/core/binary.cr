@@ -1,5 +1,5 @@
-require "../core/tensor"
-require "../core/matrix"
+require "./tensor"
+require "./matrix"
 
 # Module for handling bitwise operations
 # along Tensor's and Matrices.
@@ -7,14 +7,18 @@ require "../core/matrix"
 # Only Boolean and Integer arrays are supported for
 # these operations.
 module Bottle::Internal::Binary
+  extend self
+
   macro binary_op(operator, name)
 
     # {{name}}s two tensors with each other elementwise
     #
+    # ```
     # t1 = Tensor.new [true, true, false]
     # t2 = Tensor.new [true, false, true]
     #
     # B.{{name}}(t1, t2)
+    # ```
     def {{name}}(x1 : Tensor(U), x2 : Tensor(U), where : Tensor(Bool)? = nil) forall U
       check_type(U)
       if x1.size != x2.size
@@ -30,10 +34,12 @@ module Bottle::Internal::Binary
     # {{name}}s two tensors with each other elementwise, storing
     # the result in *dest*
     #
+    # ```
     # t1 = Tensor.new [true, false, true]
     # t2 = Tensor.empty(t1.size)
     #
     # B.{{name}}(t1, t1, dest: t2)
+    # ```
     def {{name}}(x1 : Tensor(U), x2 : Tensor(U), dest : Tensor(U), where : Tensor(Bool)? = nil) forall U
       if x1.size != x2.size
         raise "Shapes {#{x1.size}} and {#{x2.size} are not aligned"
@@ -47,10 +53,12 @@ module Bottle::Internal::Binary
 
     # {{name}}s a tensor with a scalar elementwise.
     #
+    # ```
     # t1 = Tensor.new [true, true, false]
     # t2 = 5
     #
     # B.{{name}}(t1, t2)
+    # ```
     def {{name}}(x1 : Tensor(U), x2 : Number, where : Tensor(Bool)? = nil) forall U
       # TODO: Implement masking to use the *where* parameter
       Tensor.new(x1.size) do |i|
@@ -60,10 +68,12 @@ module Bottle::Internal::Binary
 
     # {{name}}s a scalar with a tensor elementwise.
     #
+    # ```
     # x = true
     # t = Tensor.new [true, false, true]
     #
     # B.{{name}}(x, t)
+    # ```
     def {{name}}(x1 : Number, x2 : Tensor(U), where : Tensor(Bool)? = nil) forall U
       {{name}}(x2, x1, where)
     end
@@ -72,7 +82,9 @@ module Bottle::Internal::Binary
     # apply outer operations, reductions, and accumulations
     # to tensors
     #
+    # ```
     # B.{{name}} # => <ufunc> {{name}}
+    # ```
     def {{name}}
       UFunc_{{name}}.new
     end

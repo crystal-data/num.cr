@@ -1,5 +1,5 @@
-require "../core/tensor"
-require "../core/matrix"
+require "./tensor"
+require "./matrix"
 
 # A module primarily responsible for `Tensor`
 # and `Matrix` creation routines.
@@ -498,5 +498,83 @@ module Bottle::Internal::Numeric
     Matrix.new(a.size, n) do |i, j|
       increasing ? a[i]**j : a[i]**(n - (j + 1))
     end
+  end
+
+  # Returns an dense (or fleshed out) mesh-grid when indexed,
+  # so that each returned argument has the same shape. The dimensions
+  # and number of the output arrays are equal to the number of
+  # indexing dimensions.
+  #
+  # ```
+  # mgrid(0...5) # => Tensor [  0  1  2  3  4]
+  # ```
+  def mgrid(a : Range(Int32, Int32))
+    first, last = a.begin, a.end
+    Tensor.new(last - first) { |i| i + first }
+  end
+
+  # Returns an dense (or fleshed out) mesh-grid when indexed,
+  # so that each returned argument has the same shape. The dimensions
+  # and number of the output arrays are equal to the number of
+  # indexing dimensions.
+  #
+  # ```
+  # mgrid(0...2, 0...3)
+  #
+  # # Matrix[[  0  1  2]
+  # #        [  0  1  2]]
+  # # Matrix[[  0  0  0]
+  # #        [  1  1  1]]
+  # ```
+  def mgrid(a : Range(Int32, Int32), b : Range(Int32, Int32))
+    aoffset = a.end - a.begin
+    boffset = b.end - b.begin
+
+    ii = Matrix.new(aoffset, boffset) do |i, _|
+      i + a.begin
+    end
+
+    jj = Matrix.new(aoffset, boffset) do |_, j|
+      j + b.begin
+    end
+    {ii, jj}
+  end
+
+  # Returns an open (i.e. not fleshed out) mesh-grid when indexed,
+  # so that only one dimension of each returned array is greater
+  # than 1. The dimension and number of the output arrays are
+  # equal to the number of indexing dimensions.
+  #
+  # ```
+  # ogrid(0...5) # => Tensor[  0  1  2  3  4]
+  # ```
+  def ogrid(a : Range(Int32, Int32))
+    mgrid(a)
+  end
+
+  # Returns an open (i.e. not fleshed out) mesh-grid when indexed,
+  # so that only one dimension of each returned array is greater
+  # than 1. The dimension and number of the output arrays are
+  # equal to the number of indexing dimensions.
+  #
+  # ```
+  # ogrid(0...2, 0...3)
+  #
+  # # Matrix[[  0]
+  # #        [  1]]
+  # # Matrix[[  0  1  2]]
+  # ```
+  def ogrid(a : Range(Int32, Int32), b : Range(Int32, Int32))
+    aoffset = a.end - a.begin
+    boffset = b.end - b.begin
+
+    ii = Matrix.new(aoffset, 1) do |i, _|
+      i + a.begin
+    end
+
+    jj = Matrix.new(1, boffset) do |_, j|
+      j + b.begin
+    end
+    {ii, jj}
   end
 end

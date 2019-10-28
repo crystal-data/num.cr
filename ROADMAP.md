@@ -23,7 +23,7 @@ From Existing Data
 
 - [ ] `frombuffer`
 - [ ] `fromfile`
-- [ ] `from_function`
+- [ ] `from_function` (Should probably be from proc or something similar)
 - [x] `from_iter` (Implemented by the `new` from block routines)
 - [ ] `fromstring`
 - [ ] `loadtxt`
@@ -35,8 +35,8 @@ Numerical Ranges
 - [x] `logspace`
 - [x] `geomspace`
 - [ ] `meshgrid`
-- [ ] `mgrid`
-- [ ] `ogrid`
+- [x] `mgrid`
+- [x] `ogrid`
 
 Building Matrices
 
@@ -209,13 +209,11 @@ Trigonometric Functions
 - [x] `asin`
 - [x] `acos`
 - [x] `atan`
-- [ ] `hypot`
-- [ ] `atan2`
-- [ ] `degrees`
-- [ ] `radians`
+- [x] `hypot`
+- [x] `atan2`
+- [x] `degrees`
+- [x] `radians`
 - [ ] `unwrap`
-- [ ] `deg2rad`
-- [ ] `rad2deg`
 
 Hyperbolic Functions
 
@@ -240,12 +238,8 @@ Sums, product and differences
 
 - [x] `prod`
 - [x] `sum`
-- [ ] `nanprod`
-- [ ] `nansum`
 - [x] `cumprod`
 - [x] `cumsum`
-- [ ] `nancumprod`
-- [ ] `nancumsum`
 - [ ] `diff`
 - [ ] `ediff1d`
 - [ ] `gradient`
@@ -272,9 +266,9 @@ Special Functions
 Floating Point Routines
 
 - [ ] `signbit`
-- [ ] `copysign`
+- [x] `copysign`
 - [x] `frexp`
-- [ ] `ldexp`
+- [x] `ldexp`
 - [ ] `nextafter`
 - [ ] `spacing`
 

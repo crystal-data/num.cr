@@ -1,5 +1,5 @@
 require "../api/vectorprint"
-require "../ufunc/*"
+require "./ufunc"
 
 # A container that allows accessing elements via a numeric index.
 #

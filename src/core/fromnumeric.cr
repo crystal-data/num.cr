@@ -1,5 +1,5 @@
-require "../core/tensor"
-require "../core/matrix"
+require "./tensor"
+require "./matrix"
 
 # A module primarily responsible for `Tensor`
 # and `Matrix` manipulation routines.
