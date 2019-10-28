@@ -1,6 +1,6 @@
-require "../core/tensor"
+require "./tensor"
 
-module Bottle::B::Util
+module Bottle::Internal::Util
   extend self
 
   # This is a complete mess and needs to be redone, I was just

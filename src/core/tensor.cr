@@ -1,5 +1,6 @@
-require "../api/vectorprint"
+require "./printoptions"
 require "./ufunc"
+require "./matrix"
 
 # A container that allows accessing elements via a numeric index.
 #
@@ -176,6 +177,14 @@ struct Bottle::Tensor(T)
   def []=(range : Range(Int32?, Int32?), values : Indexable(T))
     offset, count = Indexable.range_to_index_and_count(range, size)
     (offset...count).each_with_index { |e, i| self[e] = values[i] }
+  end
+
+  def [](broadcast : Nil)
+    Matrix.new @buffer, 1, @size, @stride * @size, false
+  end
+
+  def [](range : Range(Nil, Nil), broadcast : Nil)
+    Matrix.new @buffer, @size, 1, @stride, false
   end
 
   # Copies a Tensor, returns the copy.

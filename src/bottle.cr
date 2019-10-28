@@ -1,12 +1,6 @@
-require "./core/tensor"
-require "./core/matrix"
-require "./api/*"
-require "./linalg/*"
-require "./blas/*"
-require "./libs/*"
-require "benchmark"
+require "./api"
 
 module Bottle
   extend self
-  VERSION = "0.1.1"
+  VERSION = "0.2.0"
 end

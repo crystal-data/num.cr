@@ -1,7 +1,6 @@
 require "./tensor"
-require "../api/math"
-require "../api/stats"
-require "../api/vectorprint"
+require "./ufunc"
+require "./printoptions"
 
 class Bottle::Matrix(T)
   # Number of rows in the Matrix
