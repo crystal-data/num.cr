@@ -1,7 +1,7 @@
 require "../spec_helper"
 require "../../src/util/*"
 include Bottle
-include Bottle::Core::Exceptions
+include Bottle::Exceptions
 
 describe Tensor do
   describe "Tensor#index" do
