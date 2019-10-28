@@ -22,4 +22,10 @@ lib LibLapack
                        work : Double*, lwork : Integer*, info : Integer*) : Integer
   fun sgetri = sgetri_(n : Integer*, a : Real*, lda : Integer*, ipiv : Integer*,
                        work : Real*, lwork : Integer*, info : Integer*) : Integer
+
+  fun dpotrf = dpotrf_(uplo : Logical*, n : Integer*, a : Double*, lda : Integer*, info : Integer*)
+  fun spotrf = spotrf_(uplo : Logical*, n : Integer*, a : Real*, lda : Integer*, info : Integer*)
+
+  fun dpotrs = dpotrs_(uplo : Logical*, n : Integer*, nhrs : Integer*, a : Double*, lda : Integer*, b : Double*, ldb : Integer*, info : Integer*)
+  fun spotrs = spotrs_(uplo : Logical*, n : Integer*, nhrs : Integer*, a : Real*, lda : Integer*, b : Real*, ldb : Integer*, info : Integer*)
 end

@@ -55,7 +55,7 @@ module Bottle::Internal::LinAlg
         LibCblas::MatrixLayout::RowMajor,
         dx.size,
         dy.size,
-        {{dtype}}.new(1.0),
+        {{dtype}}.new(1),
         dx.@buffer,
         dx.@stride,
         dy.@buffer,
@@ -169,6 +169,67 @@ module Bottle::Internal::LinAlg
       )
 
       return a
+    end
+
+    def lu_factorization(a : Matrix({{dtype}}))
+      a = a.transpose
+      dim = Math.min(a.nrows, a.ncols)
+      ipiv = Pointer(Int32).malloc(dim)
+
+      m = a.nrows
+      n = a.ncols
+      lda = a.@tda
+
+      LibLapack.{{prefix}}getrf(
+        pointerof(m),
+        pointerof(n),
+        a.@buffer,
+        pointerof(lda),
+        ipiv,
+        out info,
+      )
+
+      return a.transpose
+    end
+
+    # Compute the Cholesky decomposition of a matrix.
+    #
+    # Returns the Cholesky decomposition, A = L L^* or A = U^* U of
+    # a Hermitian positive-definite matrix A.
+    #
+    # ```
+    # m = Matrix.new [[2.0, -1.0, 0.0], [-1.0, 2.0, -1.0], [0.0, -1.0, 2.0]]
+    # cholesky(m) # =>
+    # # Matrix[[     1.414    -0.707       0.0]
+    # #        [       0.0     1.225    -0.816]
+    # #        [       0.0       0.0     1.155]]
+    # ```
+    def cholesky(a : Matrix({{dtype}}), uplo : Char = 'U')
+      char = uplo.ord.to_u8
+      n = a.ncols
+      lda = a.@tda
+
+      LibLapack.{{prefix}}potrf(
+        pointerof(char),
+        pointerof(n),
+        a.@buffer,
+        pointerof(lda),
+        out info,
+      )
+
+      if info > 0
+        raise "Leading minor of the provided matrix was not positive definite"
+      end
+
+      if info < 0
+        raise "Invalid argument provided"
+      end
+
+      if uplo == 'U'
+        Bottle::Internal::Numeric.triu(a.transpose)
+      else
+        Bottle::Internal::Numeric.tril(a.transpose)
+      end
     end
   end
 

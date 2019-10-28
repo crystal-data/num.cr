@@ -1,5 +1,6 @@
 require "./tensor"
 require "./matrix"
+require "../util/testing"
 
 module Bottle::Internal::UFunc
   extend self
@@ -22,6 +23,31 @@ module Bottle::Internal::UFunc
       Tensor.new(x1.size) do |i|
         x1[i] {{operator.id}} x2[i]
       end
+    end
+
+    def {{name}}(x1 : Matrix, x2 : Matrix)
+      if Testing.matrix_aligned(x1, x2)
+        return Matrix.new(x1.nrows, x1.nrows) do |i, j|
+          x1[i, j] {{operator.id}} x2[i, j]
+        end
+      elsif Testing.broadcast_columns_first(x1, x2)
+        return Matrix.new(x1.nrows, x2.ncols) do |i, j|
+          x1[i, 0] {{operator.id}} x2[i, j]
+        end
+      elsif Testing.broadcast_columns_second(x1, x2)
+        return Matrix.new(x1.nrows, x1.ncols) do |i, j|
+          x1[i, j] {{operator.id}} x2[i, 0]
+        end
+      elsif Testing.broadcast_rows_first(x1, x2)
+        return Matrix.new(x2.nrows, x1.ncols) do |i, j|
+          x1[0, j] {{operator.id}} x2[i, j]
+        end
+      elsif Testing.broadcast_rows_second(x1, x2)
+        return Matrix.new(x1.nrows, x1.ncols) do |i, j|
+          x1[i, j] {{operator.id}} x2[0, j]
+        end
+      end
+      raise "Matrix shapes are not aligned"
     end
 
     # {{name}}s two tensors with each other elementwise, storing
@@ -59,6 +85,18 @@ module Bottle::Internal::UFunc
       end
     end
 
+    # {{name}}s a matrix with a scalar elementwise
+    #
+    # ```
+    # m = Matrix.new [[1, 2], [3, 4]]
+    # B.{{name}}(m, 5)
+    # ```
+    def {{name}}(x1 : Matrix, x2 : Number)
+      Matrix.new(x1.nrows, x2.ncols) do |i, j|
+        x1[i, j] {{operator.id}} x2
+      end
+    end
+
     # {{name}}s a scalar with a tensor elementwise.
     #
     # ```
@@ -68,7 +106,21 @@ module Bottle::Internal::UFunc
     # B.{{name}}(x, t)
     # ```
     def {{name}}(x1 : Number, x2 : Tensor, where : Tensor? = nil)
-      {{name}}(x2, x1, where)
+      Tensor.new(x1.size) do |i|
+        x2 {{operator.id}} x1[i]
+      end
+    end
+
+    # {{name}}s a scalar with a matrix elementwise
+    #
+    # ```
+    # m = Matrix.new [[1, 2], [3, 4]]
+    # B.{{name}}(m, 5)
+    # ```
+    def {{name}}(x1 : Matrix, x2 : Number)
+      Matrix.new(x1.nrows, x2.ncols) do |i, j|
+        x2 {{operator.id}} x1[i, j]
+      end
     end
 
     # Returns the universal {{name}} function. Used to
