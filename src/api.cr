@@ -6,6 +6,7 @@ require "./core/ufunc"
 require "./linalg/numeric"
 
 module Bottle::B
+  extend self
   include Bottle::Internal::Binary
   include Bottle::Internal::FromNumeric
   include Bottle::Internal::Numeric

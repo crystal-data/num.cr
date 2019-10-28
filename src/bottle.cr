@@ -10,10 +10,10 @@ include Bottle
 t = Tensor.new [1.0, 2.0, 3.0, 4.0, 5.0]
 m = Matrix.new [[1.0, 2.0], [3.0, 4.0]]
 
-puts t[1...]
+puts B.dot(t, t)
 
-puts m[0]
+puts B.matmul(m, m)
 
-puts m[..., 1]
+puts B.inv(m)
 
-puts m[1..., 1...]
+puts B.norm(t)

@@ -13,7 +13,7 @@ module Bottle::Internal::UFunc
     #
     # B.{{name}}(t1, t2)
     # ```
-    def {{name}}(x1 : Tensor, x2 : Tensor, where : Tensor? = nil)
+    def {{name}}(x1 : Tensor, x2 : Tensor)
       if x1.size != x2.size
         raise "Shapes {#{x1.size}} and {#{x2.size} are not aligned"
       end

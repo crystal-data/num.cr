@@ -16,7 +16,7 @@ It provides:
 - data structures that can easily be passed to C libraries
 - powerful linear algebra routines backed by LAPACK and BLAS
 
-Usage:
+## Usage
 
 Bottle provides data structures that facilitate element-wise operations,
 accumulations, and reductions.  While some operations are backed by BLAS
@@ -57,6 +57,36 @@ m[..., 1] # => Tensor[     2.0     4.0]
 m[1..., 1...] # => Matrix[[     4.0]]
 ```
 
+Make use of elementwise, outer, and accumulation operations.
+
+```crystal
+B.divide(t[...2], m[1]) # => Tensor[   0.333     0.5]
+
+B.multiply.outer(t, m[1]) # =>
+# Matrix[[      3.0      4.0]
+#        [      6.0      8.0]
+#        [      9.0     12.0]
+#        [     12.0     16.0]
+#        [     15.0     20.0]]
+
+B.add.accumulate(t) # => Tensor[      1.0      3.0      6.0     10.0     15.0]
+```
+
+Use Linear Algebra Routines backed by BLAS and LAPACK
+
+```crystal
+B.dot(t, t) # => 55.0
+
+B.matmul(m, m) # =>
+# Matrix[[      7.0     10.0]
+#        [     15.0     22.0]]
+
+B.inv(m) # =>
+# Matrix[[    -2.0     1.0]
+#        [     1.5    -0.5]]
+
+B.norm(t) # => 7.416198487095663
+```
 
 
 

@@ -1,5 +1,6 @@
 require "../core/tensor"
 require "../libs/lapack"
+require "../libs/cblas"
 
 module Bottle::Internal::LinAlg
   macro linalg(dtype, prefix)
