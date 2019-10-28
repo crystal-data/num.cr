@@ -1,6 +1,7 @@
 require "./printoptions"
 require "./ufunc"
 require "./matrix"
+require "./statistics"
 
 # A container that allows accessing elements via a numeric index.
 #
@@ -208,9 +209,9 @@ struct Bottle::Tensor(T)
   # ```
   def to_s(io)
     {% if T == Bool %}
-      B::Util.vector_print(io, self, prefix = "Tensor[", override_max: true, maxval: false)
+      Bottle::Internal::Util.vector_print(io, self, prefix = "Tensor[", override_max: true, maxval: false)
     {% else %}
-      B::Util.vector_print(io, self)
+      Bottle::Internal::Util.vector_print(io, self)
     {% end %}
   end
 
@@ -364,7 +365,7 @@ struct Bottle::Tensor(T)
   # f1 + f2 # => [3.0, 6.0, 9.0]
   # ```
   def +(other : Tensor)
-    B.add(self, other)
+    Bottle::Internal::UFunc.add(self, other)
   end
 
   # Elementwise addition of a Tensor to a scalar
@@ -375,7 +376,7 @@ struct Bottle::Tensor(T)
   # f1 + f2 # => [3.0, 4.0, 5.0]
   # ```
   def +(other : Number)
-    B.add(self, other)
+    Bottle::Internal::UFunc.add(self, other)
   end
 
   # Elementwise subtraction of a Tensor to another equally sized Tensor
@@ -386,7 +387,7 @@ struct Bottle::Tensor(T)
   # f1 - f2 # => [-1.0, -2.0, -3.0]
   # ```
   def -(other : Tensor)
-    B.subtract(self, other)
+    Bottle::Internal::UFunc.subtract(self, other)
   end
 
   # Elementwise subtraction of a Tensor with a scalar
@@ -397,7 +398,7 @@ struct Bottle::Tensor(T)
   # f1 - f2 # => [-1.0, 0.0, 1.0]
   # ```
   def -(other : Number)
-    B.subtract(self, other)
+    Bottle::Internal::UFunc.subtract(self, other)
   end
 
   # Elementwise multiplication of a Tensor to another equally sized Tensor
@@ -408,7 +409,7 @@ struct Bottle::Tensor(T)
   # f1 * f2 # => [3.0, 8.0, 18.0]
   # ```
   def *(other : Tensor)
-    B.multiply(self, other)
+    Bottle::Internal::UFunc.multiply(self, other)
   end
 
   # Elementwise multiplication of a Tensor to a scalar
@@ -419,7 +420,7 @@ struct Bottle::Tensor(T)
   # f1 + f2 # => [2.0, 4.0, 6.0]
   # ```
   def *(other : Number)
-    B.multiply(self, other)
+    Bottle::Internal::UFunc.multiply(self, other)
   end
 
   # Elementwise division of a Tensor to another equally sized Tensor
@@ -430,7 +431,7 @@ struct Bottle::Tensor(T)
   # f1 / f2 # => [0.5, 0.5, 0.5]
   # ```
   def /(other : Tensor)
-    B.div(self, other)
+    Bottle::Internal::UFunc.div(self, other)
   end
 
   # Elementwise division of a Tensor to a scalar
@@ -441,7 +442,7 @@ struct Bottle::Tensor(T)
   # f1 / f2 # => [0.5, 1, 1.5]
   # ```
   def /(other : Number)
-    B.div(self, other)
+    Bottle::Internal::UFunc.div(self, other)
   end
 
   # Computes the sum of each value of a Tensor
@@ -451,7 +452,7 @@ struct Bottle::Tensor(T)
   # v.sum # => 10
   # ```
   def sum
-    B.sum(self)
+    Bottle::Internal::Statistics.sum(self)
   end
 
   # Computes the maximum value of a Tensor
@@ -461,7 +462,7 @@ struct Bottle::Tensor(T)
   # v.max # => 4
   # ```
   def max
-    B.max(self)
+    Bottle::Internal::Statistics.max(self)
   end
 
   # Computes the index of the maximum value of a Tensor
@@ -471,7 +472,7 @@ struct Bottle::Tensor(T)
   # v.argmax # => 3
   # ```
   def argmax
-    B.argmax(self)
+    Bottle::Internal::Statistics.argmax(self)
   end
 
   # Computes the minimum value of a Tensor
@@ -481,7 +482,7 @@ struct Bottle::Tensor(T)
   # v.min # => 1
   # ```
   def min
-    B.min(self)
+    Bottle::Internal::Statistics.min(self)
   end
 
   # Computes the index of the minimum value of a Tensor
@@ -491,6 +492,6 @@ struct Bottle::Tensor(T)
   # v.argmin # => 0
   # ```
   def argmin
-    B.argmin(self)
+    Bottle::Internal::Statistics.argmin(self)
   end
 end

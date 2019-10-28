@@ -158,7 +158,7 @@ class Bottle::Matrix(T)
     mx = max
     nrows.times do |i|
       prefix = i == 0 ? "Matrix[[" : "       ["
-      B::Util.vector_print(io, self[i], prefix: prefix, override_max: true, maxval: mx)
+      Bottle::Internal::Util.vector_print(io, self[i], prefix: prefix, override_max: true, maxval: mx)
       io << "]" unless i != nrows - 1
       io << "\n" unless i == nrows - 1
     end

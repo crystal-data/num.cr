@@ -16,19 +16,50 @@ It provides:
 - data structures that can easily be passed to C libraries
 - powerful linear algebra routines backed by LAPACK and BLAS
 
-Roadmap
+Usage:
 
-- [x] Robust `Vector` implementation for one-dimensional data
-- [x] `Vector` arithmetic implemented, backed by BLAS when possible
-- [x] `Vector` statistics implemented, backed by BLAS when possible
-- [ ] `Vector` accumulations and reductions implemented
-- [x] Robust `Matrix` implementation for two-dimensional data
-- [x] `Matrix` arithmetic implemented, backed by BLAS when possible
-- [ ] `Matrix` statistics implemented, backed by BLAS when possible
-- [ ] `Matrix` accumulations and reductions along axes implemented
-- [ ] Boolean masks implemented for `Matrix` and `Vector`
-- [ ] Higher level Linear Algebra implementations
-- [ ] Reading and writing data to files
+Bottle provides data structures that facilitate element-wise operations,
+accumulations, and reductions.  While some operations are backed by BLAS
+and LaPACK, many vectorized operations use iteration written in Crystal.
+The primary goal of this library was to provide a NumPy like interface in
+Crystal, and performance will be revisited constantly as the library is
+improved.
+
+Include `Bottle` to add `Matrix` and `Tensor` to the top level namespace,
+as well as provide access to `B`, Bottle's public API, which provides many
+powerful numerical methods.
+
+```crystal
+include Bottle
+
+t = Tensor.new [1, 2, 3]
+
+B.add(t, t) # => Tensor[  2  4  6]
+```
+
+Bottle provides `Tensor` and `Matrix` classes for efficient data storage.
+
+```crystal
+
+t = Tensor.new [1.0, 2.0, 3.0, 4.0, 5.0]
+m = Matrix.new [[1.0, 2.0], [3.0, 4.0]]
+```
+
+Slice and index these containers to return views into their data.
+
+```crystal
+t[1...] # => Tensor[     2.0     3.0     4.0     5.0]
+
+m[0] # => Tensor[     1.0     2.0]
+
+m[..., 1] # => Tensor[     2.0     4.0]
+
+m[1..., 1...] # => Matrix[[     4.0]]
+```
+
+
+
+
 
 Contributing
 ------------
