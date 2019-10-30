@@ -65,7 +65,7 @@ struct NDTensor(T)
   def to_s(io)
     each_with_index do |el, i|
       io << startline(shape, i).rjust(ndims)
-      io << "#{el}".rjust(6)
+      io << "#{el.round(3)}".rjust(6)
       io << newline(shape, i)
     end
   end
@@ -107,8 +107,8 @@ struct NDTensor(T)
   end
 end
 
-a = NDTensor.sequence([2, 2, 3])
+include Bottle::Internal::UFunc
+a = NDTensor.sequence([3, 3])
+b = NDTensor.sequence([3, 3])
 
-puts a
-
-puts add(a, 5)
+puts add.outer(a, b)

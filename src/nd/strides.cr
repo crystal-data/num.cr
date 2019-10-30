@@ -1,5 +1,4 @@
 def index_to_range(indexer, shape, strides)
-
   sh_ = [] of Int32
   st_ = [] of Int32
 

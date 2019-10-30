@@ -5,7 +5,7 @@
 #
 # ```
 # dim = Shape.new([2, 4, 2])
-# dim._2s # => Strides(@dims=[8, 2, 1])
+# dim._2s       # => Strides(@dims=[8, 2, 1])
 # dim.totalsize # => 16
 # ```
 struct Shape
@@ -29,7 +29,6 @@ struct Shape
   def strides
     cumsum = 1
     Strides.new(([1] + self.reverse[...-1]).map do |i|
-      ret = i * cumsum
       cumsum *= i
     end.reverse)
   end
@@ -43,6 +42,10 @@ struct Shape
   # ```
   def totalsize
     self.reduce { |i, j| i * j }
+  end
+
+  def ==(other : Shape)
+    self.dims == other.dims
   end
 end
 
