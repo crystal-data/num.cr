@@ -108,10 +108,3 @@ module Bottle::Internal::Assemble
     end
   end
 end
-
-include Bottle::Internal::Assemble
-include Bottle
-
-m1 = Matrix.new [[1, 2], [3, 4]]
-m2 = Matrix.new [[1, 2]]
-puts concatenate([m1, m2], axis: 1)

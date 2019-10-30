@@ -1,16 +1,11 @@
-require "./core/binary"
-require "./core/fromnumeric"
-require "./core/numeric"
-require "./core/trig"
-require "./core/ufunc"
-require "./linalg/numeric"
+require "./nd/binary"
+require "./nd/ufunc"
+require "./nd/ndtensor"
+require "./nd/numeric"
 
 module Bottle::B
   extend self
-  include Bottle::Internal::Binary
-  include Bottle::Internal::FromNumeric
-  include Bottle::Internal::Numeric
-  include Bottle::Internal::Trigonometric
-  include Bottle::Internal::UFunc
-  include Bottle::Internal::LinAlg
+  include Bottle::NDimensional::Binary
+  include Bottle::NDimensional::UFunc
+  include Bottle::NDimensional::Numeric
 end

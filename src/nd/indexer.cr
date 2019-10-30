@@ -13,7 +13,7 @@ def newline(shape, index)
   if nl == shape.size
     ("]" * nl)
   else
-    ("]" * nl) + ("\n" * nl)
+    ("]" * nl) + ("\n" * Math.min(nl, 2))
   end
 end
 

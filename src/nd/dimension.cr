@@ -47,6 +47,10 @@ struct Shape
   def ==(other : Shape)
     self.dims == other.dims
   end
+
+  def +(other : Shape)
+    Shape.new(self.dims + other.dims)
+  end
 end
 
 # Tracks of the number of elements between

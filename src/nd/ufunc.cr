@@ -1,7 +1,7 @@
 require "./ndtensor"
 require "../util/testing"
 
-module Bottle::Internal::UFunc
+module Bottle::NDimensional::UFunc
   extend self
 
   macro ufunc(operator, name)
@@ -18,10 +18,8 @@ module Bottle::Internal::UFunc
         raise "Shapes {#{x1.shape}} and {#{x2.shape} are not aligned"
       end
 
-      s1 = x1.strides[-1]
-      s2 = x2.strides[-1]
-      p1 = x1.@ptr
-      p2 = x2.@ptr
+      p1, s1 = x1.unsafe_flat_iter
+      p2, s2 = x2.unsafe_flat_iter
       NDTensor.new(x1.shape.dims) do |i|
         p1[i * s1] {{operator.id}} p2[i * s2]
       end
@@ -35,10 +33,9 @@ module Bottle::Internal::UFunc
     #
     # B.{{name}}(t1, t2)
     # ```
-    def {{name}}(x1 : Tensor, x2 : Number)
-      s1 = x1.strides[-1]
-      ptr = x1.@ptr
-      NDTensor.new(x2.shape.dims) do |i|
+    def {{name}}(x1 : NDTensor, x2 : Number)
+      ptr, s1 = x1.unsafe_flat_iter
+      NDTensor.new(x1.shape.dims) do |i|
         ptr[i * s1] {{operator.id}} x2
       end
     end
@@ -51,9 +48,8 @@ module Bottle::Internal::UFunc
     #
     # B.{{name}}(x, t)
     # ```
-    def {{name}}(x1 : Number, x2 : Tensor, where : Tensor? = nil)
-      s1 = x2.strides[-1]
-      ptr = x2.@ptr
+    def {{name}}(x1 : Number, x2 : NDTensor)
+      ptr, s1 = x2.unsafe_flat_iter
       NDTensor.new(x1.shape.dims) do |i|
         x2 {{operator.id}} ptr[i * s1]
       end
@@ -92,25 +88,16 @@ module Bottle::Internal::UFunc
       # # Matrix[[  2  3]
       # #        [  3  4]]
       # ```
-      def outer(x1 : NDTensor(U), x2 : NDTensor(U)) forall U
+      def outer(x1 : NDTensor, x2 : NDTensor)
         newshape = Shape.new(x1.shape.dims + x2.shape.dims)
 
-        s1 = x1.strides[-1]
-        s2 = x2.strides[-1]
-        p1 = x1.@ptr
-        p2 = x2.@ptr
+        p1, s1 = x1.unsafe_flat_iter
+        p2, s2 = x2.unsafe_flat_iter
         offset = 0
 
-        ptr = Pointer(U).malloc(newshape.totalsize)
-
-        x1.shape.totalsize.times do |i|
-          x2.shape.totalsize.times do |j|
-            ptr[offset] = p1[i] {{operator.id}} p2[j]
-            offset += 1
-          end
+        NDTensor.new(x1.shape, x2.shape) do |i, j|
+          p1[i] {{operator.id}} p2[j]
         end
-
-        NDTensor.new(ptr, newshape)
       end
     end
   end
