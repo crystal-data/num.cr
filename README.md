@@ -88,6 +88,22 @@ B.inv(m) # =>
 B.norm(t) # => 7.416198487095663
 ```
 
+Basic broadcasting operations are supported, and will be enhanced when the library
+supports N-Dimensional Tensors.
+
+```crystal
+slice = t[2...4] # => Tensor[   3.0   4.0]
+
+# row-wise broadcast
+slice[nil] * m # =>
+# Matrix[[      3.0      8.0]
+#        [      9.0     16.0]]
+
+slice[..., nil] * m # =>
+# Matrix[[      3.0      6.0]
+#        [     12.0     16.0]]
+```
+
 
 
 

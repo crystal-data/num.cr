@@ -57,8 +57,8 @@ Changing Array Shape
 
 - [x] `reshape`
 - [x] `ravel` (Still needs to be added as a standalone method)
-- [ ] `flat`
-- [ ] `flatten`
+- [x] `flat`
+- [x] `flatten`
 
 Tranpose-like Operations
 
@@ -68,10 +68,6 @@ Changing Number of Dimensions
 
 - [x] `atleast_1d`
 - [x] `atleast_2d`
-- [ ] `broadcast`
-- [ ] `broadcast_to`
-- [ ] `expand_dims`
-- [ ] `squeeze`
 
 Joining Tensors and Matrices
 

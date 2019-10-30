@@ -1,6 +1,7 @@
 require "./tensor"
 require "./ufunc"
 require "./printoptions"
+require "./fromnumeric"
 
 class Bottle::Matrix(T)
   # Number of rows in the Matrix
@@ -349,6 +350,10 @@ class Bottle::Matrix(T)
     Matrix(T).new(nrows, ncols) { |i, j| @buffer[i * @tda + j] }
   end
 
+  def transpose
+    Internal::FromNumeric.transpose(self)
+  end
+
   # Returns a flattened version of a Matrix, returns
   # a view when possible.
   #
@@ -361,9 +366,7 @@ class Bottle::Matrix(T)
     if @tda == ncols
       Tensor.new @buffer, nrows * ncols, 1, false
     else
-      m = Matrix(T).new(nrows, ncols) do |i, j|
-        self[i, j]
-      end
+      m = clone
       Tensor.new m.@buffer, nrows * ncols, 1, true
     end
   end

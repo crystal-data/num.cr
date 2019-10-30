@@ -167,4 +167,39 @@ module Bottle::Internal::FromNumeric
   def atleast_2d(x : Matrix)
     x
   end
+
+  # Passes a flattened version of a `Matrix` that responds to the
+  # passed *block*
+  #
+  # ```
+  # m = Matrix.new [[1, 2], [3, 4]]
+  # flat(m) { |i| puts i }
+  # # 1
+  # # 2
+  # # 3
+  # # 4
+  # ```
+  def flat(x : Matrix, &block)
+    (x.nrows * x.ncols).times do |val|
+      i = val // x.ncols
+      j = val % x.ncols
+      yield x[i, j]
+    end
+  end
+
+  # Return a copy of a `Tensor` collapsed into one dimension.
+  # Similar to `ravel`, but the data is always copied, whereas
+  # `ravel` will attempt to provide a view.
+  #
+  # ```
+  # m = Matrix.new [[1, 2], [3, 4]]
+  # flatten(m) # => Tensor[  1  2  3  4]
+  # ```
+  def flatten(x : Matrix)
+    Tensor.new(x.nrows * x.ncols) do |val|
+      i = val // x.ncols
+      j = val % x.ncols
+      x[i, j]
+    end
+  end
 end
