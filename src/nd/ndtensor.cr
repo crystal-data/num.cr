@@ -1,23 +1,53 @@
-require "./dimension"
-require "./strides"
+require "./nditer"
 require "./indexer"
 require "./ufunc"
-require "./numeric"
+require "benchmark"
 
-struct Bottle::NDTensor(T)
+@[Flags]
+enum NDArray::ArrayFlags
+  # Contiguous really means C-style contiguious.  The
+  # contiguous part means that there are no 'skipped
+  # elements'.  That is, that a flat_iter over the array will
+  # touch every location in memory from the location of the
+  # first element to that of the last element.  The C-style
+  # part means that the data is laid out such that the last index
+  # is the fastest varying as one scans though the array's
+  # memory.
+  Contiguous
+  # Fortran really means Fortran-style contiguious.  The
+  # contiguous part means that there are no 'skipped
+  # elements'.  That is, that a flat_iter over the array will
+  # touch every location in memory from the location of the
+  # first element to that of the last element.  The Fortran-style
+  # part means that the data is laid out such that the first index
+  # is the fastest varying as one scans though the array's
+  # memory.
+  Fortran
+  # OwnData indicates if this array is the owner of the data
+  # pointed to by its .ptr property.  If not then this is a
+  # view onto some other array's data.
+  OwnData
+end
+
+struct NDArray::Tensor(T)
   # Unsafe pointer to a `Tensor`'s data.
-  @ptr : Pointer(T)
+  @buffer : Pointer(T)
 
-  # Array-like contanier holding the dimensions of a `Tensor`
-  getter shape : Shape
+  @base : Pointer(T)? = nil
+
+  # Array-like container holding the dimensions of a `Tensor`
+  getter shape : Array(Int32)
 
   # Array-like container holding the strides of a `Tensor`
-  getter strides : Strides
+  getter strides : Array(Int32)
 
   # Integer representing the number of dimensions of a `Tensor`
   getter ndims : Int32
 
-  @contiguous : Bool = true
+  # Flags describing the memory layout of the array
+  getter flags : ArrayFlags
+
+  getter size : Int32
 
   # Compile time checking of data types of a `Tensor` to ensure
   # mixing data types is not allowed, not are bad data types
@@ -28,74 +58,76 @@ struct Bottle::NDTensor(T)
     {% end %}
   end
 
-  # Initializes a `Tensor` using a pointer to a buffer of valid
-  # data, and a shape.  This is not a public facing method, and
-  # should only be used by internal calls when a user has passed
-  # valid data to another creation method, primarily `from_vector`
-  #
-  # ```
-  # ptr = Pointer(Int32).malloc(4) { |i| i + 1 }
-  #
-  # t = NDTensor(ptr, Shape.new([2, 2]))
-  # puts t # =>
-  # # [[     1       2]
-  # #  [     3       4]]
-  # ```
-  def initialize(@ptr : Pointer(T), @shape)
-    check_type
-    @ndims = shape.size
-    @strides = shape.strides
-  end
-
-  # Initializes a `Tensor` using a pointer to a buffer of valid
-  # data, and a shape.  This is not a public facing method, and
-  # should only be used by internal calls when a user has passed
-  # valid data to another creation method.
-  #
-  # Passing strides allows for strided subviews of NDTensors, and
-  # so a creation method must exist that can handle them.
-  def initialize(@ptr : Pointer(T), @shape, @strides)
-    check_type
-    @ndims = shape.size
-  end
-
-  # Initializes a `Tensor` from a provided block.  Primarily used for
-  # operations of a `Tensor` that should return a copy, to allow
-  # for simpler computation.
-  #
-  # ```
-  # t = Tensor.new([2, 3]) { |i| i / 2 }
-  # puts t # =>
-  # # [[   0.0     0.5     1.0]
-  # #  [   1.5     2.0     2.5]]
-  # ```
-  def self.new(shape : Array(Int32), &block : Int32 -> T)
-    dims = Shape.new(shape)
-    ptr = Pointer(T).malloc(dims.totalsize) do |i|
+  def self.new(_shape : Array(Int32), &block : Int32 -> U) forall U
+    total = _shape.reduce { |i, j| i * j }
+    ptr = Pointer(U).malloc(total) do |i|
       yield i
     end
-    new(ptr, dims)
+    new(_shape, ArrayFlags::Contiguous, ptr)
   end
 
-  def self.new(x : Shape, y : Shape, &block : Int32, Int32 -> T)
-    dims = x + y
-    t = y.totalsize
-    ptr = Pointer(T).malloc(dims.totalsize) do |idx|
-      i = idx // t
-      j = idx % t
-      yield i, j
+  def initialize(_shape : Array(Int32),
+    order : ArrayFlags = ArrayFlags::Contiguous, ptr : Pointer(T)? = nil)
+    @ndims = _shape.size
+
+    # Empty NDArrays are both allowed, and they have
+    # a shape of [0] and a stride of [1].  This
+    # is inferred from an empty array being passed
+    # to the constructor.
+    if @ndims == 0
+      @shape = [0]
+      @strides = [1]
+
+    # Otherwise, shape is directly copied from the
+    # array that was passed to the constructor.
+    # Strides will always share dimensionality
+    # with the shape of an NDArray.
+    else
+      @shape = _shape.clone
+      @strides = [0] * _shape.size
     end
-    new(ptr, dims)
+    sz = 1
+
+    # For empty arrays, since no elements are initialized
+    # nothing special has to be done about the memory
+    # allocation, but strides must be calculated differently.
+    case order
+
+    # For Fortran ordered arrays strides are calculated from
+    # the beginning of the shape to the end, with strides
+    # monotonically increasing.
+    when ArrayFlags::Fortran
+      @ndims.times do |i|
+        @strides[i] = sz
+        sz *= @shape[i]
+      end
+
+    # Otherwise, row major order is chosen and strides are
+    # calculated from the reversed shape, monotonically
+    # decreasing.
+    else
+      @ndims.times do |i|
+        @strides[@ndims - i - 1] = sz
+        sz *= @shape[@ndims - i - 1]
+      end
+    end
+
+    @size = sz
+
+    # Memory allocation for empty arrays is consistent
+    # regardless of order, and this method will always
+    # return an NDArray that owns its own data.
+    @buffer = ptr.nil? ? Pointer(T).malloc(@size) : ptr
+    @flags = order |= ArrayFlags::OwnData
   end
 
-  def self.from_array(shape : Array(Int32), data : Array(U)) forall U
-    dims = Shape.new(shape)
-    ptr = Pointer(U).malloc(dims.totalsize) { |i| data[i] }
-    new(ptr, dims)
+  def initialize(@buffer, @shape, @strides, @flags, @base)
+    @ndims = @shape.size
+    @size = @shape.reduce { |i, j| i * j }
   end
 
   def each_index(&block)
-    indexes(shape.dims) { |i| yield i }
+    indexes(shape.to_a) { |i| yield i }
   end
 
   def each(&block)
@@ -106,20 +138,28 @@ struct Bottle::NDTensor(T)
     each_index { |i| yield self[i], i }
   end
 
-  def unsafe_flat_iter
-    {@ptr, strides[-1]}
+  def flat
+    FlatIter.new(self).each do |el|
+      yield el
+    end
   end
 
-  def flat
-    dims = Shape.new([shape.totalsize])
-    stride = Strides.new([strides[-1]])
-    NDTensor.new(@ptr, dims, stride)
+  def flat_iter
+    FlatIter.new(self)
+  end
+
+  def unsafe_iter
+    UnsafeIter.new(self)
   end
 
   def to_s(io)
     each_with_index do |el, i|
-      io << startline(shape, i).rjust(ndims)
-      io << "#{el.round(3)}".rjust(6)
+      io << startline(shape, i, ndims)
+      {% if T == Bool %}
+        io << "#{el}".rjust(7)
+      {% else %}
+        io << "#{el.round(3)}".rjust(3)
+      {% end %}
       io << newline(shape, i)
     end
   end
@@ -139,7 +179,7 @@ struct Bottle::NDTensor(T)
     strides.zip(indexer) do |i, j|
       offset += i * j
     end
-    @ptr[offset]
+    @buffer[offset]
   end
 
   def []=(indexer : Array(Int32), value : Number)
@@ -147,124 +187,259 @@ struct Bottle::NDTensor(T)
     strides.zip(indexer) do |i, j|
       offset += i * j
     end
-    @ptr[offset] = T.new(value)
+    @buffer[offset] = T.new(value)
   end
 
   # Returns a view of a NTensor from a list of indices or
-  # ranges.  All dimensions must be explicitly provided currently
-  # so that this overload will be chosen.  Otherwise, there
-  # is possible ambiguity with the other indexer.
+  # ranges.
   #
   # ```
   # t = Tensor.new([2, 4, 4]) { |i| i }
   # ```
-  def [](indexer : Array(Int32 | Range(Int32?, Int32?)))
-    ranges, newshape, newstrides = index_to_range(indexer, shape, strides)
+  def [](*args)
+    # Setting up args to compute the offset, filling
+    # missing dimensions with empty ranges so that
+    # all ranges don't have to be explicitly defined
+    idx = args.to_a
+    fill = ndims - idx.size
+    idx += [...] * fill
 
-    start = 0
+    # These will be mutated since the slice does
+    # not necessarily share the shape of the base.
+    newshape = shape.dup
+    newstrides = strides.dup
+    newflags = flags.dup
 
-    strides.zip(ranges) do |i, j|
-      start += i * j
+    newflags &= ~ArrayFlags::OwnData
+
+    # Compute the new shape, strides and offset of the
+    # data buffer.
+    accessor = idx.map_with_index do |el, i|
+      if el.is_a?(Int32)
+        newshape[i] = 0
+        newstrides[i] = 0
+        el
+      else
+        start, offset = Indexable.range_to_index_and_count(el, shape[i])
+        newshape[i] = offset
+        start
+      end
     end
 
-    NDTensor.new(
-      (@ptr + start),
-      Shape.new(newshape),
-      Strides.new(newstrides)
-    )
+    # Empty dimensions are collapsed from the `Tensor`
+    newshape = newshape.reject { |i| i == 0 }
+    newstrides = newstrides.reject { |i| i == 0 }
+    newbase = @base ? @base : @buffer
+
+    # Pointer is offset.
+    ptr = @buffer
+    strides.zip(accessor) do |i, j|
+      ptr += i * j
+    end
+
+    # Create a tensor and update its flags since slicing can
+    # disrupt continuity of the memory buffer.
+    ret = Tensor(T).new(ptr, newshape, newstrides, newflags, newbase)
+    ret.update_flags(ArrayFlags::All)
+    ret
   end
 
-  # Elementwise addition of a Tensor to another equally sized Tensor
+  def slice(idx : Array(Int32 |Range(Int32, Int32)))
+    # These will be mutated since the slice does
+    # not necessarily share the shape of the base.
+    newshape = shape.dup
+    newstrides = strides.dup
+    newflags = flags.dup
+
+    newflags &= ~ArrayFlags::OwnData
+
+    # Compute the new shape, strides and offset of the
+    # data buffer.
+    accessor = idx.map_with_index do |el, i|
+      if el.is_a?(Int32)
+        newshape[i] = 0
+        newstrides[i] = 0
+        el
+      else
+        start, offset = Indexable.range_to_index_and_count(el, shape[i])
+        newshape[i] = offset
+        start
+      end
+    end
+
+    # Empty dimensions are collapsed from the `Tensor`
+    newshape = newshape.reject { |i| i == 0 }
+    newstrides = newstrides.reject { |i| i == 0 }
+    newbase = @base ? @base : @buffer
+
+    # Pointer is offset.
+    ptr = @buffer
+    strides.zip(accessor) do |i, j|
+      ptr += i * j
+    end
+
+    # Create a tensor and update its flags since slicing can
+    # disrupt continuity of the memory buffer.
+    ret = Tensor(T).new(ptr, newshape, newstrides, newflags, newbase)
+    ret.update_flags(ArrayFlags::All)
+    ret
+  end
+
+  def dup(f : ArrayFlags::None)
+    ret = Tensor(T).new(@shape)
+    newcontig = f & (ArrayFlags::Fortran|ArrayFlags::Contiguous)
+    contig = @flags & (ArrayFlags::Fortran|ArrayFlags::Contiguous)
+
+    if contig && (newcontig == 0 || contig == newcontig)
+      @buffer.copy_to(ret.@buffer, size)
+    elsif ret.size
+      if newcontig != (ret.flags & (ArrayFlags::Fortran|ArrayFlags::Contiguous))
+        flat_iter.zip(ret.flat_iter) do |i, j|
+          j.value = i.value
+        end
+        newstrides = ret.size
+        ndims.times do |i|
+          newstrides /= shape[i]
+          ret.@strides[i] = newstrides
+        end
+      end
+    end
+    ret.update_flags(ArrayFlags::Fortran|ArrayFlags::Contiguous)
+    ret
+  end
+
+  # Shallow copies the `Tensor`.  Shape and strides are copied, but
+  # the underlying data is not.  The returned `Tensor` does
+  # not own its own data, and its base reflects that.
+  def dup_view
+    newshape = @shape.dup
+    newstrides = @strides.dup
+    newflags = @flags.dup
+    newflags &= ~ArrayFlags::OwnData
+    Tensor(T).new(@buffer, newshape, newstrides, newflags, @buffer)
+  end
+
+  # Returns a view of the diagonal of a `Tensor`  only valid if
+  # the `Tensor` has two dimensions.  Offsets are not supported.
+  def diag_view
+    raise "Tensor must be two-dimensional" unless ndims == 2
+    nel = Math.min(@shape[0], @shape[1])
+    newshape = [nel]
+    newstrides = [@strides[0] + @strides[1]]
+    newflags = @flags.dup
+    newbase = @base ? @base : @buffer
+    ret = Tensor(T).new(@buffer, newshape, newstrides, newflags, newbase)
+    ret.update_flags(ArrayFlags::Fortran|ArrayFlags::Contiguous)
+    ret
+  end
+
+  # Asserts if a `Tensor` is fortran contiguous, otherwise known
+  # as stored in column major order.  This is not the default
+  # layout for `Tensor`'s, but can provide performance benefits
+  # when passing to LaPACK routines since otherwise the
+  # `Tensor` must be transposed in memory.
+  def is_fortran_contiguous
+    # Empty Tensors are always both c-contig and f-contig
+    return true unless ndims != 0
+
+    # one-dimensional `Tensors` can be both c and f contiguous,
+    # but not for multi-strided arrays
+    if ndims == 1
+      return @shape[0] == 1 || strides[0] == 1
+    end
+
+    # Otherwise, have to compute based on a fixed
+    # stride offset
+    sd = 1
+    ndims.times do |i|
+      dim = @shape[i]
+      return true unless dim != 0
+      return false unless @strides[i] == sd
+      sd *= dim
+    end
+    true
+  end
+
+  # Asserts if a `Tensor` is c contiguous, otherwise known
+  # as stored in row major order.  This is the default memory
+  # storage for NDArray
+  def is_contiguous
+    # Empty Tensors are always both c-contig and f-contig
+    return true unless ndims != 0
+
+    # one-dimensional `Tensors` can be both c and f contiguous,
+    # but not for multi-strided arrays
+    if ndims == 1
+      return @shape[0] == 1 || @strides[0] == 1
+    end
+
+    # Otherwise, have to compute based on a fixed
+    # stride offset
+    sd = 1
+    (ndims - 1).step(to: 0, by: -1) do |i|
+      dim = @shape[i]
+      return true unless dim != 0
+      return false unless @strides[i] == sd
+      sd *= dim
+    end
+    true
+  end
+
+  # Updates a `Tensor`'s flags by determining its
+  # memory layout.  Multidimension tensors cannot be
+  # both c and f contiguous, but this needs to be checked.
   #
-  # ```
-  # f1 = Tensor.new [1.0, 2.0, 3.0]
-  # f2 = Tensor.new [2.0, 4.0, 6.0]
-  # f1 + f2 # => [3.0, 6.0, 9.0]
-  # ```
-  def +(other : NDTensor)
-    Bottle::NDimensional::UFunc.add(self, other)
+  # This method should really only be called by internal
+  # methods, or once stride tricks are exposed.
+  protected def update_flags(flagmask)
+    if flagmask & ArrayFlags::Fortran
+      if is_fortran_contiguous
+        @flags |= ArrayFlags::Fortran
+
+        # mutually exclusive
+        if ndims > 1
+          @flags &= ~ArrayFlags::Contiguous
+        end
+      else
+        @flags &= ~ArrayFlags::Fortran
+      end
+    end
+
+    if flagmask & ArrayFlags::Contiguous
+      if is_contiguous
+        @flags |= ArrayFlags::Contiguous
+
+        # mutually exclusive
+        if ndims > 1
+          @flags &= ~ArrayFlags::Fortran
+        end
+      else
+        @flags &= ~ArrayFlags::Contiguous
+      end
+    end
   end
 
-  # Elementwise addition of a Tensor to a scalar
-  #
-  # ```
-  # f1 = Tensor.new [1.0, 2.0, 3.0]
-  # f2 = 2
-  # f1 + f2 # => [3.0, 4.0, 5.0]
-  # ```
-  def +(other : Number)
-    Bottle::NDimensional::UFunc.add(self, other)
-  end
+  def reduce_along_axis(axis)
+    if axis < 0
+      axis = ndims + axis
+    end
+    raise "Axis out of range for Tensor" unless axis < ndims
 
-  # Elementwise subtraction of a Tensor to another equally sized Tensor
-  #
-  # ```
-  # f1 = Tensor.new [1.0, 2.0, 3.0]
-  # f2 = Tensor.new [2.0, 4.0, 6.0]
-  # f1 - f2 # => [-1.0, -2.0, -3.0]
-  # ```
-  def -(other : NDTensor)
-    Bottle::NDimensional::UFunc.subtract(self, other)
-  end
+    idx0 = [0] * ndims
+    idx1 = shape.dup
+    idx1[axis] = 0
 
-  # Elementwise subtraction of a Tensor with a scalar
-  #
-  # ```
-  # f1 = Tensor.new [1.0, 2.0, 3.0]
-  # f2 = 2
-  # f1 - f2 # => [-1.0, 0.0, 1.0]
-  # ```
-  def -(other : Number)
-    Bottle::NDimensional::UFunc.subtract(self, other)
-  end
+    ranges = idx0.zip(idx1).map_with_index do |i, idx|
+      idx == axis ? 0 : i[0]...i[1]
+    end
+    ret = slice(ranges).dup
 
-  # Elementwise multiplication of a Tensor to another equally sized Tensor
-  #
-  # ```
-  # f1 = Tensor.new [1.0, 2.0, 3.0]
-  # f2 = Tensor.new [2.0, 4.0, 6.0]
-  # f1 * f2 # => [3.0, 8.0, 18.0]
-  # ```
-  def *(other : NDTensor)
-    Bottle::NDimensional::UFunc.multiply(self, other)
-  end
-
-  # Elementwise multiplication of a Tensor to a scalar
-  #
-  # ```
-  # f1 = Tensor.new [1.0, 2.0, 3.0]
-  # f2 = 2
-  # f1 + f2 # => [2.0, 4.0, 6.0]
-  # ```
-  def *(other : Number)
-    Bottle::NDimensional::UFunc.multiply(self, other)
-  end
-
-  # Elementwise division of a Tensor to another equally sized Tensor
-  #
-  # ```
-  # f1 = Tensor.new [1.0, 2.0, 3.0]
-  # f2 = Tensor.new [2.0, 4.0, 6.0]
-  # f1 / f2 # => [0.5, 0.5, 0.5]
-  # ```
-  def /(other : NDTensor)
-    Bottle::NDimensional::UFunc.div(self, other)
-  end
-
-  # Elementwise division of a Tensor to a scalar
-  #
-  # ```
-  # f1 = Tensor.new [1.0, 2.0, 3.0]
-  # f2 = 2
-  # f1 / f2 # => [0.5, 1, 1.5]
-  # ```
-  def /(other : Number)
-    Bottle::NDimensional::UFunc.div(self, other)
-  end
-
-  def transpose
-    stridesnew = Strides.new(strides.dims.reverse)
-    shapenew = Shape.new(shape.dims.reverse)
-    NDTensor.new(@ptr, shapenew, stridesnew)
+    1.step(to: shape[axis]-1) do |i|
+      ranges[axis] = i
+      slice(ranges).flat_iter.zip(ret.flat_iter) do |i, j|
+        yield i, j
+      end
+    end
+    ret
   end
 end

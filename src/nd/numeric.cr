@@ -6,7 +6,7 @@ require "./ndtensor"
 # This module should be namespaced as part of the
 # external API to provide user facing methods
 # for creation.
-module Bottle::NDimensional::Numeric
+module NDArray::Internal::Numeric
   extend self
 
   # Initializes a `Tensor` with an uninitialized slice
@@ -17,11 +17,7 @@ module Bottle::NDimensional::Numeric
   # f # => Tensor[0, 0, 0, 0, 0]
   # ```
   def empty(shape : Array(Int32), dtype : U.class = Float64) forall U
-    shape = Shape.new(shape)
-    NDTensor.new(
-      Pointer(U).malloc(shape.totalsize),
-      shape
-    )
+    Tensor(U).new(shape)
   end
 
   # Initializes a `Tensor` with an uninitialized slice
@@ -34,12 +30,8 @@ module Bottle::NDimensional::Numeric
   # f = empty_like(t, dtype: Int32)
   # f # => Tensor[0, 0, 0]
   # ```
-  def empty_like(other : NDTensor, dtype : U.class = Float64) forall U
-    shape = other.shape
-    NDTensor.new(
-      Pointer(U).malloc(shape.totalsize),
-      shape
-    )
+  def empty_like(other : Tensor, dtype : U.class = Float64) forall U
+    Tensor(U).new(other.shape)
   end
 
   # Return a `Matrix` with ones on the diagonal and
