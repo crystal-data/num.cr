@@ -1,6 +1,6 @@
 require "./ndtensor"
 
-struct NDArray::Private::FlatIter(T)
+struct FlatIter(T)
   include Iterator(Int32)
 
   @buffer : Pointer(T)
@@ -77,7 +77,7 @@ struct NDArray::Private::FlatIter(T)
   end
 end
 
-struct NDArray::Private::UnsafeIter
+struct UnsafeIter
   include Iterator(Int32)
 
   @buffer : Pointer(T)

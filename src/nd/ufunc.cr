@@ -1,6 +1,6 @@
 require "./ndtensor"
 
-module NDArray::Internal::UFunc
+module Bottle::NDimensional::UFunc
   extend self
 
   macro ufunc(operator, name)
@@ -50,6 +50,55 @@ module NDArray::Internal::UFunc
       ret = x2.unsafe_iter
       Tensor.new(x2.shape) do |_|
         x1 {{operator.id}} ret.next.value
+      end
+    end
+
+    # Returns the universal {{name}} function. Used to
+    # apply outer operations, reductions, and accumulations
+    # to tensors
+    #
+    # B.{{name}} # => <ufunc> {{name}}
+    def {{name}}
+      UFunc_{{name}}.new
+    end
+
+    # :nodoc:
+    struct UFunc_{{name}}
+
+      # A basic string representation of a
+      # universal function.
+      #
+      # TODO: Add the same string representation
+      # to the functions the struct contains
+      def to_s(io)
+        io << "<ufunc> {{ name }}"
+      end
+
+      # Applies an outer operations between two `Tensor`s.
+      # Returns an MxN matrix where M is the size of *x1*,
+      # and N is the size of *x2*
+      #
+      # ```
+      # t = Tensor.new [1, 2]
+      #
+      # p B.add.outer(t, t)
+      #
+      # # Matrix[[  2  3]
+      # #        [  3  4]]
+      # ```
+      def outer(x1 : Tensor(U), x2 : Tensor(V)) forall U, V
+        outer = x1.unsafe_iter
+        inner = x2.unsafe_iter
+        c1 = uninitialized U
+        c2 = uninitialized V
+        Tensor.new(x1.shape + x2.shape) do |i|
+          d = i % x2.size
+          if d == 0
+            c1 = outer.next.value
+            inner = x2.unsafe_iter
+          end
+          c1 {{operator.id}} inner.next.value
+        end
       end
     end
   end

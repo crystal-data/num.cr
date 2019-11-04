@@ -4,7 +4,7 @@ require "./ufunc"
 require "benchmark"
 
 @[Flags]
-enum NDArray::ArrayFlags
+enum ArrayFlags
   # Contiguous really means C-style contiguious.  The
   # contiguous part means that there are no 'skipped
   # elements'.  That is, that a flat_iter over the array will
@@ -29,7 +29,7 @@ enum NDArray::ArrayFlags
   OwnData
 end
 
-struct NDArray::Tensor(T)
+struct Tensor(T)
   # Unsafe pointer to a `Tensor`'s data.
   @buffer : Pointer(T)
 
