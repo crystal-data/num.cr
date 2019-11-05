@@ -9,4 +9,5 @@ end
 include Bottle
 
 t = Tensor.new([2, 2, 3]) { |i| Float64.new(i) }
-puts B.mean(t, 1)
+
+puts B.norm(t[0, 1])

@@ -1,6 +1,7 @@
 require "./nditer"
 require "./indexer"
 require "./ufunc"
+require "../iteration/iter"
 require "benchmark"
 
 @[Flags]
@@ -78,6 +79,7 @@ struct Bottle::Tensor(T)
 
   def initialize(_shape : Array(Int32),
     order : ArrayFlags = ArrayFlags::Contiguous, ptr : Pointer(T)? = nil)
+    check_type
     @ndims = _shape.size
 
     # Empty NDArrays are both allowed, and they have
@@ -132,6 +134,7 @@ struct Bottle::Tensor(T)
   end
 
   def initialize(@buffer, @shape, @strides, @flags, @base)
+    check_type
     @ndims = @shape.size
     @size = @shape.reduce { |i, j| i * j }
   end
@@ -158,17 +161,30 @@ struct Bottle::Tensor(T)
     FlatIter.new(self)
   end
 
+  def trans_iter
+    ContigIter.new(self, transpose: true)
+  end
+
   def unsafe_iter
     UnsafeIter.new(self)
   end
 
+  def ptr_at(idx : Array(Int32))
+    ptr = @buffer
+    strides.zip(idx) do |i, j|
+      ptr += i * j
+    end
+    ptr
+  end
+
   def to_s(io)
+    longest = "#{max.round(3)}".size
     each_with_index do |el, i|
       io << Helpers.startline(shape, i, ndims)
       {% if T == Bool %}
         io << "#{el}".rjust(7)
       {% else %}
-        io << "#{el.round(3)}".rjust(6)
+        io << "#{el.round(3)}".rjust(longest + 4)
       {% end %}
       io << Helpers.newline(shape, i)
     end
@@ -214,6 +230,19 @@ struct Bottle::Tensor(T)
     fill = ndims - idx.size
     idx += [...] * fill
 
+    slice_from_indexers(idx)
+  end
+
+  def []=(idx : Array, assign : Tensor(T))
+    fill = ndims - idx.size
+    idx += [...] * fill
+    old = slice_from_indexers(idx)
+    old.flat_iter.zip(assign.flat_iter) do |i, j|
+      i.value = j.value
+    end
+  end
+
+  private def slice_from_indexers(idx : Array)
     # These will be mutated since the slice does
     # not necessarily share the shape of the base.
     newshape = shape.dup
@@ -255,52 +284,15 @@ struct Bottle::Tensor(T)
   end
 
   def slice(idx : Array(Int32 |Range(Int32, Int32)))
-    # These will be mutated since the slice does
-    # not necessarily share the shape of the base.
-    newshape = shape.dup
-    newstrides = strides.dup
-    newflags = flags.dup
-
-    newflags &= ~ArrayFlags::OwnData
-
-    # Compute the new shape, strides and offset of the
-    # data buffer.
-    accessor = idx.map_with_index do |el, i|
-      if el.is_a?(Int32)
-        newshape[i] = 0
-        newstrides[i] = 0
-        el
-      else
-        start, offset = Indexable.range_to_index_and_count(el, shape[i])
-        newshape[i] = offset
-        start
-      end
-    end
-
-    # Empty dimensions are collapsed from the `Tensor`
-    newshape = newshape.reject { |i| i == 0 }
-    newstrides = newstrides.reject { |i| i == 0 }
-    newbase = @base ? @base : @buffer
-
-    # Pointer is offset.
-    ptr = @buffer
-    strides.zip(accessor) do |i, j|
-      ptr += i * j
-    end
-
-    # Create a tensor and update its flags since slicing can
-    # disrupt continuity of the memory buffer.
-    ret = Tensor(T).new(ptr, newshape, newstrides, newflags, newbase)
-    ret.update_flags(ArrayFlags::All)
-    ret
+    slice_from_indexers(idx)
   end
 
-  def dup(f : ArrayFlags::None)
+  def dup(f : ArrayFlags = ArrayFlags::None)
     ret = Tensor(T).new(@shape)
     newcontig = f & (ArrayFlags::Fortran|ArrayFlags::Contiguous)
     contig = @flags & (ArrayFlags::Fortran|ArrayFlags::Contiguous)
 
-    if contig && (newcontig == 0 || contig == newcontig)
+    if (contig != ArrayFlags::None) && (newcontig == 0 || contig == newcontig)
       @buffer.copy_to(ret.@buffer, size)
     elsif ret.size
       if newcontig != (ret.flags & (ArrayFlags::Fortran|ArrayFlags::Contiguous))
@@ -309,8 +301,12 @@ struct Bottle::Tensor(T)
         end
         newstrides = ret.size
         ndims.times do |i|
-          newstrides /= shape[i]
+          newstrides //= shape[i]
           ret.@strides[i] = newstrides
+        end
+      else
+        trans_iter.zip(ret.flat_iter) do |i, j|
+          j.value = i.value
         end
       end
     end
@@ -564,101 +560,109 @@ struct Bottle::Tensor(T)
     ret
   end
 
-    # Elementwise addition of a Tensor to another equally sized Tensor
-    #
-    # ```
-    # f1 = Tensor.new [1.0, 2.0, 3.0]
-    # f2 = Tensor.new [2.0, 4.0, 6.0]
-    # f1 + f2 # => [3.0, 6.0, 9.0]
-    # ```
-    def +(other : Tensor)
-      Bottle::Internal::UFunc.add(self, other)
-    end
+  def nbytes
+    size * sizeof(T)
+  end
 
-    # Elementwise addition of a Tensor to a scalar
-    #
-    # ```
-    # f1 = Tensor.new [1.0, 2.0, 3.0]
-    # f2 = 2
-    # f1 + f2 # => [3.0, 4.0, 5.0]
-    # ```
-    def +(other : Number)
-      Bottle::Internal::UFunc.add(self, other)
-    end
+  # Elementwise addition of a Tensor to another equally sized Tensor
+  #
+  # ```
+  # f1 = Tensor.new [1.0, 2.0, 3.0]
+  # f2 = Tensor.new [2.0, 4.0, 6.0]
+  # f1 + f2 # => [3.0, 6.0, 9.0]
+  # ```
+  def +(other : Tensor)
+    Bottle::Internal::UFunc.add(self, other)
+  end
 
-    # Elementwise subtraction of a Tensor to another equally sized Tensor
-    #
-    # ```
-    # f1 = Tensor.new [1.0, 2.0, 3.0]
-    # f2 = Tensor.new [2.0, 4.0, 6.0]
-    # f1 - f2 # => [-1.0, -2.0, -3.0]
-    # ```
-    def -(other : Tensor)
-      Bottle::Internal::UFunc.subtract(self, other)
-    end
+  # Elementwise addition of a Tensor to a scalar
+  #
+  # ```
+  # f1 = Tensor.new [1.0, 2.0, 3.0]
+  # f2 = 2
+  # f1 + f2 # => [3.0, 4.0, 5.0]
+  # ```
+  def +(other : Number)
+    Bottle::Internal::UFunc.add(self, other)
+  end
 
-    # Elementwise subtraction of a Tensor with a scalar
-    #
-    # ```
-    # f1 = Tensor.new [1.0, 2.0, 3.0]
-    # f2 = 2
-    # f1 - f2 # => [-1.0, 0.0, 1.0]
-    # ```
-    def -(other : Number)
-      Bottle::Internal::UFunc.subtract(self, other)
-    end
+  # Elementwise subtraction of a Tensor to another equally sized Tensor
+  #
+  # ```
+  # f1 = Tensor.new [1.0, 2.0, 3.0]
+  # f2 = Tensor.new [2.0, 4.0, 6.0]
+  # f1 - f2 # => [-1.0, -2.0, -3.0]
+  # ```
+  def -(other : Tensor)
+    Bottle::Internal::UFunc.subtract(self, other)
+  end
 
-    # Elementwise multiplication of a Tensor to another equally sized Tensor
-    #
-    # ```
-    # f1 = Tensor.new [1.0, 2.0, 3.0]
-    # f2 = Tensor.new [2.0, 4.0, 6.0]
-    # f1 * f2 # => [3.0, 8.0, 18.0]
-    # ```
-    def *(other : Tensor)
-      Bottle::Internal::UFunc.multiply(self, other)
-    end
+  # Elementwise subtraction of a Tensor with a scalar
+  #
+  # ```
+  # f1 = Tensor.new [1.0, 2.0, 3.0]
+  # f2 = 2
+  # f1 - f2 # => [-1.0, 0.0, 1.0]
+  # ```
+  def -(other : Number)
+    Bottle::Internal::UFunc.subtract(self, other)
+  end
 
-    # Elementwise multiplication of a Tensor to a scalar
-    #
-    # ```
-    # f1 = Tensor.new [1.0, 2.0, 3.0]
-    # f2 = 2
-    # f1 + f2 # => [2.0, 4.0, 6.0]
-    # ```
-    def *(other : Number)
-      Bottle::Internal::UFunc.multiply(self, other)
-    end
+  # Elementwise multiplication of a Tensor to another equally sized Tensor
+  #
+  # ```
+  # f1 = Tensor.new [1.0, 2.0, 3.0]
+  # f2 = Tensor.new [2.0, 4.0, 6.0]
+  # f1 * f2 # => [3.0, 8.0, 18.0]
+  # ```
+  def *(other : Tensor)
+    Bottle::Internal::UFunc.multiply(self, other)
+  end
 
-    # Elementwise division of a Tensor to another equally sized Tensor
-    #
-    # ```
-    # f1 = Tensor.new [1.0, 2.0, 3.0]
-    # f2 = Tensor.new [2.0, 4.0, 6.0]
-    # f1 / f2 # => [0.5, 0.5, 0.5]
-    # ```
-    def /(other : Tensor)
-      Bottle::Internal::UFunc.divide(self, other)
-    end
+  # Elementwise multiplication of a Tensor to a scalar
+  #
+  # ```
+  # f1 = Tensor.new [1.0, 2.0, 3.0]
+  # f2 = 2
+  # f1 + f2 # => [2.0, 4.0, 6.0]
+  # ```
+  def *(other : Number)
+    Bottle::Internal::UFunc.multiply(self, other)
+  end
 
-    # Elementwise division of a Tensor to a scalar
-    #
-    # ```
-    # f1 = Tensor.new [1.0, 2.0, 3.0]
-    # f2 = 2
-    # f1 / f2 # => [0.5, 1, 1.5]
-    # ```
-    def /(other : Number)
-      Bottle::Internal::UFunc.divide(self, other)
-    end
+  # Elementwise division of a Tensor to another equally sized Tensor
+  #
+  # ```
+  # f1 = Tensor.new [1.0, 2.0, 3.0]
+  # f2 = Tensor.new [2.0, 4.0, 6.0]
+  # f1 / f2 # => [0.5, 0.5, 0.5]
+  # ```
+  def /(other : Tensor)
+    Bottle::Internal::UFunc.divide(self, other)
+  end
 
-    # Computes the sum of each value of a Tensor
-    #
-    # ```
-    # v = Flask.new [1, 2, 3, 4]
-    # v.sum # => 10
-    # ```
-    def sum
-      Bottle::Internal::Statistics.sum(self)
-    end
+  # Elementwise division of a Tensor to a scalar
+  #
+  # ```
+  # f1 = Tensor.new [1.0, 2.0, 3.0]
+  # f2 = 2
+  # f1 / f2 # => [0.5, 1, 1.5]
+  # ```
+  def /(other : Number)
+    Bottle::Internal::UFunc.divide(self, other)
+  end
+
+  # Computes the sum of each value of a Tensor
+  #
+  # ```
+  # v = Flask.new [1, 2, 3, 4]
+  # v.sum # => 10
+  # ```
+  def sum
+    Bottle::Internal::Statistics.sum(self)
+  end
+
+  def max
+    Bottle::Internal::Statistics.max(self)
+  end
 end

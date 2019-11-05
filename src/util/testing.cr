@@ -1,4 +1,4 @@
-require "../core/tensor"
+require "../core/ndtensor"
 
 module Bottle::Testing
   extend self

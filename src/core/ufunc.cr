@@ -1,6 +1,4 @@
-require "./tensor"
-require "./matrix"
-require "../util/testing"
+require "./ndtensor"
 
 module Bottle::Internal::UFunc
   extend self
@@ -15,58 +13,13 @@ module Bottle::Internal::UFunc
     # B.{{name}}(t1, t2)
     # ```
     def {{name}}(x1 : Tensor, x2 : Tensor)
-      if x1.size != x2.size
-        raise "Shapes {#{x1.size}} and {#{x2.size} are not aligned"
+      if x1.shape != x2.shape
+        raise "Shapes {#{x1.shape}} and {#{x2.shape} are not aligned"
       end
-
-      # TODO: Implement masking to use the *where* parameter
-      Tensor.new(x1.size) do |i|
-        x1[i] {{operator.id}} x2[i]
-      end
-    end
-
-    def {{name}}(x1 : Matrix, x2 : Matrix)
-      if Testing.matrix_aligned(x1, x2)
-        return Matrix.new(x1.nrows, x1.nrows) do |i, j|
-          x1[i, j] {{operator.id}} x2[i, j]
-        end
-      elsif Testing.broadcast_columns_first(x1, x2)
-        return Matrix.new(x1.nrows, x2.ncols) do |i, j|
-          x1[i, 0] {{operator.id}} x2[i, j]
-        end
-      elsif Testing.broadcast_columns_second(x1, x2)
-        return Matrix.new(x1.nrows, x1.ncols) do |i, j|
-          x1[i, j] {{operator.id}} x2[i, 0]
-        end
-      elsif Testing.broadcast_rows_first(x1, x2)
-        return Matrix.new(x2.nrows, x1.ncols) do |i, j|
-          x1[0, j] {{operator.id}} x2[i, j]
-        end
-      elsif Testing.broadcast_rows_second(x1, x2)
-        return Matrix.new(x1.nrows, x1.ncols) do |i, j|
-          x1[i, j] {{operator.id}} x2[0, j]
-        end
-      end
-      raise "Matrix shapes are not aligned"
-    end
-
-    # {{name}}s two tensors with each other elementwise, storing
-    # the result in *dest*
-    #
-    # ```
-    # t1 = Tensor.new [1, 2, 3]
-    # t2 = Tensor.empty(t1.size)
-    #
-    # B.{{name}}(t1, t1, dest: t2)
-    # ```
-    def {{name}}(x1 : Tensor, x2 : Tensor, dest : Tensor, where : Tensor? = nil)
-      if x1.size != x2.size
-        raise "Shapes {#{x1.size}} and {#{x2.size} are not aligned"
-      end
-
-      # TODO: Implement masking to use the *where* parameter
-      x1.size.times do |i|
-        dest[i] = x1[i] {{ operator.id }} x2[i]
+      i1 = x1.unsafe_iter
+      i2 = x2.unsafe_iter
+      Tensor.new(x1.shape) do |_|
+        i1.next.value {{operator.id}} i2.next.value
       end
     end
 
@@ -78,22 +31,10 @@ module Bottle::Internal::UFunc
     #
     # B.{{name}}(t1, t2)
     # ```
-    def {{name}}(x1 : Tensor, x2 : Number, where : Tensor? = nil)
-      # TODO: Implement masking to use the *where* parameter
-      Tensor.new(x1.size) do |i|
-        x1[i] {{operator.id}} x2
-      end
-    end
-
-    # {{name}}s a matrix with a scalar elementwise
-    #
-    # ```
-    # m = Matrix.new [[1, 2], [3, 4]]
-    # B.{{name}}(m, 5)
-    # ```
-    def {{name}}(x1 : Matrix, x2 : Number)
-      Matrix.new(x1.nrows, x2.ncols) do |i, j|
-        x1[i, j] {{operator.id}} x2
+    def {{name}}(x1 : Tensor, x2 : Number)
+      ret = x1.unsafe_iter
+      Tensor.new(x1.shape) do |_|
+        ret.next.value {{operator.id}} x2
       end
     end
 
@@ -105,21 +46,10 @@ module Bottle::Internal::UFunc
     #
     # B.{{name}}(x, t)
     # ```
-    def {{name}}(x1 : Number, x2 : Tensor, where : Tensor? = nil)
-      Tensor.new(x1.size) do |i|
-        x2 {{operator.id}} x1[i]
-      end
-    end
-
-    # {{name}}s a scalar with a matrix elementwise
-    #
-    # ```
-    # m = Matrix.new [[1, 2], [3, 4]]
-    # B.{{name}}(m, 5)
-    # ```
-    def {{name}}(x1 : Matrix, x2 : Number)
-      Matrix.new(x1.nrows, x2.ncols) do |i, j|
-        x2 {{operator.id}} x1[i, j]
+    def {{name}}(x1 : Number, x2 : Tensor)
+      ret = x2.unsafe_iter
+      Tensor.new(x2.shape) do |_|
+        x1 {{operator.id}} ret.next.value
       end
     end
 
@@ -156,26 +86,19 @@ module Bottle::Internal::UFunc
       # # Matrix[[  2  3]
       # #        [  3  4]]
       # ```
-      def outer(x1 : Tensor, x2 : Tensor)
-        Matrix.new(x1.size, x2.size) do |i, j|
-          x1[i] {{operator.id}} x2[j]
+      def outer(x1 : Tensor(U), x2 : Tensor(V)) forall U, V
+        outer = x1.unsafe_iter
+        inner = x2.unsafe_iter
+        c1 = uninitialized U
+        c2 = uninitialized V
+        Tensor.new(x1.shape + x2.shape) do |i|
+          d = i % x2.size
+          if d == 0
+            c1 = outer.next.value
+            inner = x2.unsafe_iter
+          end
+          c1 {{operator.id}} inner.next.value
         end
-      end
-
-      # Applies an accumulation function along
-      # a `Tensor`.  Returns a copy of the `Tensor`
-      #
-      # ```
-      # t = Tensor.new [1, 2, 3, 4, 5]
-      #
-      # t.add.accumulate # => [1, 3, 6, 10, 15]
-      # ```
-      def accumulate(x1 : Tensor)
-        ret = x1.clone
-        (1...x1.size).each do |i|
-          ret[i] = ret[i] {{ operator.id }} ret[i - 1]
-        end
-        ret
       end
     end
   end

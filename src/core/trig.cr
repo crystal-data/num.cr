@@ -1,5 +1,4 @@
-require "./tensor"
-require "./matrix"
+require "./ndtensor"
 
 # A module primarily responsible for `Tensor`
 # and `Matrix` trigonometric routines.
@@ -19,29 +18,10 @@ module Bottle::Internal::Trigonometric
       #
       # B.{{name}}(t1)
       # ```
-      def {{name}}(x1 : Tensor, where : Tensor? = nil)
-
-        # TODO: Implement masking to use the *where* parameter
-        Tensor.new(x1.size) do |i|
-          Math.{{name}}(x1[i])
-        end
-      end
-
-      # Calculates the {{name}} of a `Tensor`, storing
-      # the result in *dest*
-      #
-      # ```
-      # t1 = Tensor.new [1, 2, 3]
-      #
-      # B.{{name}}(t1, dest: t2)
-      # ```
-      def {{name}}(x1 : Tensor, dest : Tensor, where : Tensor? = nil)
-        if x1.size != dest.size
-          raise "Shapes {#{x1.size}} and {#{x2.size} are not aligned"
-        end
-        # TODO: Implement masking to use the *where* parameter
-        x1.size.times do |i|
-          dest[i] = Math.{{name}}(x1[i])
+      def {{name}}(x1 : Tensor)
+        iter = x1.unsafe_iter
+        Tensor.new(x1.shape) do |_|
+          Math.{{name}}(iter.next.value)
         end
       end
     {% end %}
@@ -64,34 +44,17 @@ module Bottle::Internal::Trigonometric
       #
       # B.{{name}}(t1, t2)
       # ```
-      def {{name}}(x1 : Tensor, x2 : Tensor, where : Tensor? = nil)
-        if x1.size != x2.size
+      def {{name}}(x1 : Tensor, x2 : Tensor)
+        if x1.shape != x2.shape
           raise "Shapes {#{x1.size}} and {#{x2.size} are not aligned"
         end
 
-        # TODO: Implement masking to use the *where* parameter
-        Tensor.new(x1.size) do |i|
-          Math.{{name}}(x1[i], x2[i])
-        end
-      end
-
-      # Computes the {{name}} of two Tensors elementwise, storing
-      # the result in *dest*
-      #
-      # ```
-      # t1 = Tensor.new [1, 2, 3]
-      # t2 = Tensor.empty(t1.size)
-      #
-      # B.{{name}}(t1, t1, dest: t2)
-      # ```
-      def {{name}}(x1 : Tensor, x2 : Tensor, dest : Tensor, where : Tensor? = nil)
-        if x1.size != x2.size
-          raise "Shapes {#{x1.size}} and {#{x2.size} are not aligned"
-        end
+        i1 = x1.unsafe_iter
+        i2 = x2.unsafe_iter
 
         # TODO: Implement masking to use the *where* parameter
-        x1.size.times do |i|
-          dest[i] = Math.{{name}}(x1[i], x2[i])
+        Tensor.new(x1.shape) do |i|
+          Math.{{name}}(i1.next.value, i2.next.value)
         end
       end
 
@@ -104,10 +67,10 @@ module Bottle::Internal::Trigonometric
       #
       # B.{{name}}(t1, t2)
       # ```
-      def {{name}}(x1 : Tensor, x2 : Number, where : Tensor? = nil)
-        # TODO: Implement masking to use the *where* parameter
-        Tensor.new(x1.size) do |i|
-          Math.{{name}}(x1[i], x2)
+      def {{name}}(x1 : Tensor, x2 : Number)
+        iter = x1.unsafe_iter
+        Tensor.new(x1.shape) do |i|
+          Math.{{name}}(iter.next.value, x2)
         end
       end
 
@@ -120,7 +83,10 @@ module Bottle::Internal::Trigonometric
       # B.{{name}}(x, t)
       # ```
       def {{name}}(x1 : Number, x2 : Tensor, where : Tensor? = nil)
-        {{name}}(x2, x1, where)
+        iter = x2.unsafe_iter
+        Tensor.new(x2.shape) do |_|
+          Math.{{name}}(x2, iter.next.value)
+        end
       end
 
       # Returns the universal {{name}} function. Used to
@@ -157,25 +123,18 @@ module Bottle::Internal::Trigonometric
         # #        [  3  4]]
         # ```
         def outer(x1 : Tensor, x2 : Tensor)
-          Matrix.new(x1.size, x2.size) do |i, j|
-            Math.{{name}}(x1[i], x2[j])
+          outer = x1.unsafe_iter
+          inner = x2.unsafe_iter
+          c1 = uninitialized U
+          c2 = uninitialized V
+          Tensor.new(x1.shape + x2.shape) do |i|
+            d = i % x2.size
+            if d == 0
+              c1 = outer.next.value
+              inner = x2.unsafe_iter
+            end
+            Math.{{name}}(c1, inner.next.value)
           end
-        end
-
-        # Applies an accumulation function along
-        # a `Tensor`.  Returns a copy of the `Tensor`
-        #
-        # ```
-        # t = Tensor.new [1, 2, 3, 4, 5]
-        #
-        # t.add.accumulate # => [1, 3, 6, 10, 15]
-        # ```
-        def accumulate(x1 : Tensor)
-          ret = x1.clone
-          (1...x1.size).each do |i|
-            ret[i] = Math.{{name}}(ret[i], ret[i - 1])
-          end
-          ret
         end
       end
     {% end %}
@@ -191,8 +150,9 @@ module Bottle::Internal::Trigonometric
   # degrees(t) # => Tensor[      0.0     30.0     60.0     90.0]
   # ```
   def degrees(x1 : Tensor)
-    Tensor.new(x1.size) do |i|
-      x1[i] * (180/Math::PI)
+    iter = x1.unsafe_iter
+    Tensor.new(x1.shape) do |i|
+      iter.next * (180/Math::PI)
     end
   end
 
@@ -204,8 +164,9 @@ module Bottle::Internal::Trigonometric
   # radians(t) # => Tensor[     0.524     1.047     1.571     2.094]
   # ```
   def radians(x1 : Tensor)
+    iter = x1.unsafe_iter
     Tensor.new(x1.size) do |i|
-      x1[i] * (Math::PI/180)
+      iter.next * (Math::PI/180)
     end
   end
 end

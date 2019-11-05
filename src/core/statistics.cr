@@ -1,4 +1,4 @@
-require "../core/tensor"
+require "./ndtensor"
 
 module Bottle::Internal::Statistics
   extend self
@@ -10,7 +10,13 @@ module Bottle::Internal::Statistics
   # sum(v) # => 10
   # ```
   def sum(a : Tensor(U)) forall U
-    a.flat_iter.reduce(U.new(0)) { |i, j| i + j }
+    a.flat_iter.reduce(U.new(0)) { |i, j| i + j.value }
+  end
+
+  def sum(a : Tensor, axis : Int32)
+    a.reduce_along_axis(axis) do |i, j|
+      j.value += i.value
+    end
   end
 
   # Computes the average of all Tensor values
@@ -21,6 +27,13 @@ module Bottle::Internal::Statistics
   # ```
   def mean(a : Tensor)
     a.sum / a.size
+  end
+
+  def mean(a : Tensor, axis : Int32)
+    n = a.shape[axis]
+    a.reduce_along_axis(axis) do |i, j|
+      j.value += i.value / n
+    end
   end
 
   # Computes the standard deviation of a Tensor
@@ -57,45 +70,26 @@ module Bottle::Internal::Statistics
   # v = Tensor.new [1, 2, 3, 4]
   # max(v) # => 4
   # ```
-  def max(a : Tensor)
-    max_helper(a)[0]
-  end
-
-  # Computes the index of the maximum value of a Tensor
-  #
-  # ```
-  # v = Tensor.new [1, 2, 3, 4]
-  # argmax(v) # => 3
-  # ```
-  def argmax(a : Tensor)
-    max_helper(a)[1]
-  end
-
-  # Internal method to find the maximum value and the index
-  # of the maximum value for a Flask
-  #
-  # ```
-  # v = Tensor.new [1, 2, 3, 4]
-  # max_helper(v) # => {true, 4, 3}
-  # ```
-  private def max_helper(v : Tensor(U)) forall U
-    max = uninitialized U
-    index = uninitialized Int32
-
-    v.each_with_index do |elem, i| # ameba:disable Lint/UnusedArgument
-      {% if U == Bool %}
-        if i == 0 || elem
-          max = elem
-          index = i
-        end
-      {% else %}
-        if i == 0 || elem > max
-          max = elem
-          index = i
-        end
-      {% end %}
+  def max(a : Tensor(U)) forall U
+    mx = uninitialized U
+    a.flat_iter.each_with_index do |el, i|
+      c = el.value
+      if i == 0
+        mx = c
+      end
+      if c > mx
+        mx = c
+      end
     end
-    {max, index}
+    mx
+  end
+
+  def max(a : Tensor, axis : Int32)
+    a.reduce_along_axis(axis) do |i, j|
+      if i.value > j.value
+        j.value = i.value
+      end
+    end
   end
 
   # Computes the minimum value of a Tensor
@@ -105,44 +99,25 @@ module Bottle::Internal::Statistics
   # min(v) # => 1
   # ```
   def min(a : Tensor(U)) forall U
-    min_helper(a)[0]
-  end
-
-  # Computes the index of the minimum value of a Tensor
-  #
-  # ```
-  # v = Tensor.new [1, 2, 3, 4]
-  # argmin(v) # => 0
-  # ```
-  def argmin(a : Tensor(U)) forall U
-    min_helper(a)[1]
-  end
-
-  # Internal method to find the maximum value and the index
-  # of the maximum value for a Tensor
-  #
-  # ```
-  # v = Tensor.new [1, 2, 3, 4]
-  # min_helper(v) # => {true, 4, 3}
-  # ```
-  private def min_helper(v : Tensor(U)) forall U
-    min = uninitialized U
-    index = uninitialized Int32
-
-    v.each_with_index do |elem, i| # ameba:disable Lint/UnusedArgument
-      {% if U == Bool %}
-        if i == 0 || !elem
-          min = elem
-          index = i
-        end
-      {% else %}
-        if i == 0 || elem < min
-          min = elem
-          index = i
-        end
-      {% end %}
+    mx = uninitialized U
+    a.flat_iter.each_with_index do |el, i|
+      c = el.value
+      if i == 0
+        mx = c
+      end
+      if c < mx
+        mx = c
+      end
     end
-    {min, index}
+    mx
+  end
+
+  def min(a : Tensor, axis : Int32)
+    a.reduce_along_axis(axis) do |i, j|
+      if i.value < j.value
+        j.value = i.value
+      end
+    end
   end
 
   # Computes the "peak to peak" of a Tensor (max - min)
@@ -152,47 +127,10 @@ module Bottle::Internal::Statistics
   # v.ptp # => 3
   # ```
   def ptp(v : Tensor)
-    min, max, _, _ = ptp_helper(v)
-    max - min
+    max(v) - min(v)
   end
 
-  # Internal method to find the minimum and maximum values,
-  # as well as the respective indexes for a flask.
-  #
-  # ```
-  # v = Tensor.new [1, 2, 3, 4]
-  # ptp_helper(v) # => {true, 1, 4, 0, 3}
-  # ```
-  private def ptp_helper(v : Tensor(U)) forall U
-    min = uninitialized U
-    max = uninitialized U
-    imin = uninitialized Int32
-    imax = uninitialized Int32
-
-    v.each_with_index do |elem, i| # ameba:disable Lint/UnusedArgument
-      {% if U == Bool %}
-        if i == 0 || !elem
-          min = elem
-          index = i
-        end
-      {% else %}
-        if i == 0 || elem < min
-          min = elem
-          index = i
-        end
-      {% end %}
-      {% if U == Bool %}
-        if i == 0 || elem
-          max = elem
-          index = i
-        end
-      {% else %}
-        if i == 0 || elem > max
-          max = elem
-          index = i
-        end
-      {% end %}
-    end
-    {min, max, imin, imax}
+  def ptp(a : Tensor, axis : Int32)
+    max(a, axis) - min(a, axis)
   end
 end
