@@ -35,11 +35,11 @@ include Bottle
 t = Tensor.new([2, 2, 3]) { |i| i }
 
 B.add(t, t) # =>
-# [[[   0   2   4]
-#   [   6   8  10]]
+# [[[ 0,  2,  4],
+#   [ 6,  8, 10]],
 #
-#  [[  12  14  16]
-#   [  18  20  22]]]
+#  [[12, 14, 16],
+#   [18, 20, 22]]]
 ```
 
 Bottle provides an n-dimensional Tensor for efficient data storage.
@@ -47,32 +47,32 @@ Slice and index these containers to return views into their data.
 
 ```crystal
 t[1...] # =>
-# [[[   6   7   8]
-#   [   9  10  11]]]
+# [[[ 6,  7,  8],
+#   [ 9, 10, 11]]]
 
-m[0] # =>
-# [[  0  1  2]
-#  [  3  4  5]]
+t[0] # =>
+# [[0, 1, 2],
+#  [3, 4, 5]]
 
-m[..., 1] # =>
-# [[   3   4   5]
-#  [   9  10  11]]
+t[..., 1] # =>
+# [[ 3,  4,  5],
+#  [ 9, 10, 11]]
 
-m[1..., 1...] # =>
-# [[[   9  10  11]]]
+t[1..., 1...] # =>
+# [[[ 9, 10, 11]]]
 ```
 
 Make use of elementwise, outer, and accumulation operations.
 
 ```crystal
 B.divide(t[0], t[1]) # =>
-# [[    0.0  0.143   0.25]
-#  [  0.333    0.4  0.455]]
+# [[    0.0,   0.143,    0.25],
+#  [  0.333,     0.4,   0.455]]
 
 B.multiply.outer(t[0, 0], t[0, 1]) # =>
-# [[   0   0   0]
-#  [   3   4   5]
-#  [   6   8  10]]
+# [[ 0,  0,  0],
+#  [ 3,  4,  5],
+#  [ 6,  8, 10]]
 ```
 
 Use Linear Algebra Routines backed by BLAS and LAPACK
@@ -81,12 +81,12 @@ Use Linear Algebra Routines backed by BLAS and LAPACK
 B.dot(t[0, 0], t[0, 1]) # => 14.0
 
 B.matmul(t[0, ..., ...2], t[1, ..., ...2]) # =>
-# [[   9.0  10.0]
-#  [  54.0  61.0]]
+# [[   9.0,   10.0],
+#  [  54.0,   61.0]]
 
 B.inv(t[0, ..., ...2]) # =>
-# [[ -1.333  0.333]
-#  [    1.0    0.0]]
+# [[-1.333, 0.333],
+#  [  1.0,   0.0]]
 
 B.norm(t[0, 1]) # => 7.0710678118654755
 ```

@@ -77,6 +77,10 @@ struct Bottle::Tensor(T)
     new([nrows, ncols], ArrayFlags::Contiguous, data)
   end
 
+  def self.random(r : Range(U, U), _shape : Array(Int32)) forall U
+    new(_shape) { |i| Random.rand(r) }
+  end
+
   def initialize(_shape : Array(Int32),
     order : ArrayFlags = ArrayFlags::Contiguous, ptr : Pointer(T)? = nil)
     check_type
@@ -178,16 +182,8 @@ struct Bottle::Tensor(T)
   end
 
   def to_s(io)
-    longest = "#{max.round(3)}".size
-    each_with_index do |el, i|
-      io << Helpers.startline(shape, i, ndims)
-      {% if T == Bool %}
-        io << "#{el}".rjust(7)
-      {% else %}
-        io << "#{el.round(3)}".rjust(longest + 4)
-      {% end %}
-      io << Helpers.newline(shape, i)
-    end
+    printer = ToString::TensorPrint.new(self, io)
+    printer.print
   end
 
   # An indexing method for an array of Integers
@@ -239,6 +235,15 @@ struct Bottle::Tensor(T)
     old = slice_from_indexers(idx)
     old.flat_iter.zip(assign.flat_iter) do |i, j|
       i.value = j.value
+    end
+  end
+
+  def []=(idx : Array, assign : T)
+    fill = ndims - idx.size
+    idx += [...] * fill
+    old = slice_from_indexers(idx)
+    old.flat_iter.each do |i|
+      i.value = assign
     end
   end
 

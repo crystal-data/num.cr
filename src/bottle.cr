@@ -8,6 +8,6 @@ end
 
 include Bottle
 
-t = Tensor.new([2, 2, 3]) { |i| Float64.new(i) }
+t = Tensor.new([2, 2, 3]) { |i| i * 1.0 }
 
-puts B.norm(t[0, 1])
+puts B.inv(t[0, ..., ...2])

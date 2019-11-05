@@ -5,6 +5,8 @@ require "./core/numeric"
 require "./core/statistics"
 require "./core/trig"
 require "./linalg/fixed_dimension"
+require "./core/assemble"
+require "./core/printoptions"
 
 module Bottle::B
   extend self
@@ -14,4 +16,6 @@ module Bottle::B
   include Bottle::Internal::Statistics
   include Bottle::Internal::Trigonometric
   include Bottle::Internal::LinAlg
+  include Bottle::Internal::Assemble
+  include Bottle::Internal::ToString
 end

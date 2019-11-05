@@ -135,6 +135,19 @@ module Bottle::Internal::Numeric
     Tensor(U).new(other.shape) { |i| U.new(x) }
   end
 
+  # Returns a Matrix with the given
+  # `Tensor` set along the diagonal.
+  #
+  # TODO: Support *k* offsets
+  def diag(a : Tensor(U), k : Int32 = 0) forall U
+    if a.ndims > 1
+      raise "Only 1 dimensional Tensors are supported"
+    end
+    Tensor.new(a.shape[0], a.shape[0]) do |i, j|
+      i == j - k ? a[[i]] : U.new(0)
+    end
+  end
+
   # Return evenly spaced values within a given interval.
   #
   # Values are generated within the half-open interval [start, stop)
