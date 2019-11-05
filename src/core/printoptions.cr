@@ -16,7 +16,7 @@ module Bottle::Internal::ToString
 
     def initialize(@t : Tensor(T), @io)
       @ptr = @t.@buffer
-      @obrackets = "[" * @t.ndims
+      @obrackets = "Tensor(" + "[" * @t.ndims
       @idx = [0] * @t.ndims
       @cbrackets = "]" * @t.ndims
       @indent = " " * @t.ndims
@@ -62,6 +62,7 @@ module Bottle::Internal::ToString
       @io << "#{@ptr.value.round(3)}".rjust(maxval)
       until !inc
       end
+      @io << ")"
     end
 
     def inc
@@ -85,7 +86,7 @@ module Bottle::Internal::ToString
         @io << "]" * ii
         @io << ","
         @io << "\n " * ii
-        @io << indent[0...@t.ndims - ii - 1]
+        @io << "       " << indent[0...@t.ndims - ii - 1]
       end
       if first_item > 0
         @io << "[" * first_item

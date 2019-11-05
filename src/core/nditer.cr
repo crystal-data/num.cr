@@ -106,6 +106,8 @@ struct Bottle::Internal::UnsafeIter(T)
 
   @ndims : Int32
 
+  @contiguous : Bool
+
   def initialize(t : Bottle::Tensor(T))
     @buffer = t.@buffer
     @ndims = t.ndims
@@ -115,9 +117,20 @@ struct Bottle::Internal::UnsafeIter(T)
     @next_index = @buffer
     @last_index = @buffer
     @done = false
+    @contiguous = (t.flags & ArrayFlags::Contiguous).value > 0
   end
 
   def next
+    @contiguous ? onednext : ndnext
+  end
+
+  def onednext
+    @last_index = @next_index
+    @next_index += @strides[-1]
+    @last_index
+  end
+
+  def ndnext
     v = @ndims - 1
     next_index = @next_index
     @last_index = next_index

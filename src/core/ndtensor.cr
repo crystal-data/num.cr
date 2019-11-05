@@ -1,8 +1,6 @@
 require "./nditer"
-require "./indexer"
 require "./ufunc"
 require "../iteration/iter"
-require "benchmark"
 
 @[Flags]
 enum Bottle::Internal::ArrayFlags
@@ -139,24 +137,6 @@ struct Bottle::Tensor(T)
     check_type
     @ndims = @shape.size
     @size = @shape.reduce { |i, j| i * j }
-  end
-
-  def each_index(&block)
-    Helpers.indexes(shape.to_a) { |i| yield i }
-  end
-
-  def each(&block)
-    each_index { |i| yield self[i] }
-  end
-
-  def each_with_index(&block)
-    each_index { |i| yield self[i], i }
-  end
-
-  def flat
-    FlatIter.new(self).each do |el|
-      yield el
-    end
   end
 
   def flat_iter
@@ -561,6 +541,23 @@ struct Bottle::Tensor(T)
       end
     end
     ret
+  end
+
+  def reduce_as_matrices
+    if ndims < 3
+      raise "Dimensionality of the Tensor is not high enough to reduce"
+    end
+
+    axis = ndims - 3
+
+    ranges = shape.map_with_index do |a, i|
+      axis == i ? 0 : 0...a
+    end
+
+    shape[axis].times do |i|
+      ranges[axis] = i
+      yield slice(ranges)
+    end
   end
 
   def nbytes
