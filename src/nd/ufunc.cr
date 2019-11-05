@@ -1,6 +1,6 @@
 require "./ndtensor"
 
-module Bottle::NDimensional::UFunc
+module Bottle::Internal::UFunc
   extend self
 
   macro ufunc(operator, name)

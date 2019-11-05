@@ -1,7 +1,7 @@
 require "./ndtensor"
 require "../util/testing"
 
-module Bottle::NDimensional::Binary
+module Bottle::Internal::Binary
   extend self
 
   macro binary_op(operator, name)

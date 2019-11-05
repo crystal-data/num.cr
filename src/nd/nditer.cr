@@ -1,7 +1,7 @@
 require "./ndtensor"
 
-struct FlatIter(T)
-  include Iterator(Int32)
+struct Bottle::Internal::FlatIter(T)
+  include Iterator(T)
 
   @buffer : Pointer(T)
 
@@ -77,8 +77,8 @@ struct FlatIter(T)
   end
 end
 
-struct UnsafeIter
-  include Iterator(Int32)
+struct Bottle::Internal::UnsafeIter(T)
+  include Iterator(T)
 
   @buffer : Pointer(T)
 
@@ -106,7 +106,7 @@ struct UnsafeIter
 
   @ndims : Int32
 
-  def initialize(t : Tensor(T))
+  def initialize(t : Bottle::Tensor(T))
     @buffer = t.@buffer
     @ndims = t.ndims
     @track = Pointer(Int32).malloc(t.ndims, 0)

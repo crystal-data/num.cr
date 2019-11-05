@@ -1,4 +1,4 @@
-require "../core/tensor"
+require "./ndtensor"
 
 module Bottle::Internal::Statistics
   extend self
@@ -10,7 +10,13 @@ module Bottle::Internal::Statistics
   # sum(v) # => 10
   # ```
   def sum(a : Tensor(U)) forall U
-    a.flat_iter.reduce(U.new(0)) { |i, j| i + j }
+    a.flat_iter.reduce(U.new(0)) { |i, j| i + j.value }
+  end
+
+  def sum(a : Tensor, axis : Int32)
+    a.reduce_along_axis(axis) do |i, j|
+      j.value += i.value
+    end
   end
 
   # Computes the average of all Tensor values
@@ -21,6 +27,13 @@ module Bottle::Internal::Statistics
   # ```
   def mean(a : Tensor)
     a.sum / a.size
+  end
+
+  def mean(a : Tensor, axis : Int32)
+    n = a.shape[axis]
+    a.reduce_along_axis(axis) do |i, j|
+      j.value += i.value / n
+    end
   end
 
   # Computes the standard deviation of a Tensor

@@ -6,7 +6,7 @@ require "./ndtensor"
 # This module should be namespaced as part of the
 # external API to provide user facing methods
 # for creation.
-module NDArray::Internal::Numeric
+module Bottle::Internal::Numeric
   extend self
 
   # Initializes a `Tensor` with an uninitialized slice
@@ -44,9 +44,7 @@ module NDArray::Internal::Numeric
   # ```
   def eye(m : Int32, n : Int32? = nil, k : Int32 = 0, dtype : U.class = Float64) forall U
     n = n.nil? ? m : n.as(Int32)
-    m = Shape.new([m])
-    n = Shape.new([n])
-    NDTensor.new(m, n) do |i, j|
+    Tensor.new(m, n) do |i, j|
       i == j - k ? U.new(1) : U.new(0)
     end
   end
@@ -60,8 +58,7 @@ module NDArray::Internal::Numeric
   # m # => [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]]
   # ```
   def identity(n : Int32, dtype : U.class = Float64) forall U
-    n = Shape.new([n])
-    NDTensor.new(n, n) do |i, j|
+    Tensor.new(n, n) do |i, j|
       i == j ? U.new(1) : U.new(0)
     end
   end
@@ -74,11 +71,7 @@ module NDArray::Internal::Numeric
   # f # => Tensor[1, 1, 1, 1, 1]
   # ```
   def ones(shape : Array(Int32), dtype : U.class = Float64) forall U
-    shape = Shape.new(shape)
-    NDTensor.new(
-      Pointer(U).malloc(shape.totalsize, U.new(1)),
-      shape
-    )
+    Tensor(U).new(shape) { |i| U.new(1) }
   end
 
   # Initializes a `Tensor` filled with ones, whose size
@@ -90,12 +83,8 @@ module NDArray::Internal::Numeric
   # f = ones_like(t, dtype: Int32)
   # f # => Tensor[1, 1, 1]
   # ```
-  def ones_like(other : NDTensor, dtype : U.class = Float64) forall U
-    shape = other.shape
-    NDTensor.new(
-      Pointer(U).malloc(shape.totalsize, U.new(1)),
-      shape
-    )
+  def ones_like(other : Tensor, dtype : U.class = Float64) forall U
+    Tensor(U).new(other.shape) { |i| U.new(1) }
   end
 
   # Initializes a `Tensor` of the given `size` and `dtype`,
@@ -106,11 +95,7 @@ module NDArray::Internal::Numeric
   # f # => Tensor[0, 0, 0, 0, 0]
   # ```
   def zeros(shape : Array(Int32), dtype : U.class = Float64) forall U
-    shape = Shape.new(shape)
-    NDTensor.new(
-      Pointer(U).malloc(shape.totalsize, U.new(0)),
-      shape
-    )
+    Tensor(U).new(shape) { |i| U.new(0) }
   end
 
   # Initializes a `Tensor` filled with zeros, whose size
@@ -123,11 +108,7 @@ module NDArray::Internal::Numeric
   # f # => Tensor[0, 0, 0]
   # ```
   def zeros_like(other : NDTensor, dtype : U.class = Float64) forall U
-    shape = other.shape
-    NDTensor.new(
-      Pointer(U).malloc(shape.totalsize, U.new(0)),
-      shape
-    )
+    Tensor(U).new(other.shape) { |i| U.new(1) }
   end
 
   # Initializes a `Tensor` of the given `size` and `dtype`,
@@ -138,11 +119,7 @@ module NDArray::Internal::Numeric
   # f # => Tensor[3, 3, 3, 3, 3]
   # ```
   def full(shape : Array(Int32), x : Number, dtype : U.class = Float64) forall U
-    shape = Shape.new(shape)
-    NDTensor.new(
-      Pointer(U).malloc(shape.totalsize, U.new(x)),
-      shape
-    )
+    Tensor(U).new(shape) { |i| U.new(x) }
   end
 
   # Initializes a `Tensor` filled with the provided value, whose size
@@ -155,11 +132,7 @@ module NDArray::Internal::Numeric
   # f # => Tensor[-1, -1, -1]
   # ```
   def full_like(other : NDTensor, x : Number, dtype : U.class = Float64) forall U
-    shape = other.shape
-    NDTensor.new(
-      Pointer(U).malloc(shape.totalsize, U.new(x)),
-      shape
-    )
+    Tensor(U).new(other.shape) { |i| U.new(x) }
   end
 
   # Return evenly spaced values within a given interval.
@@ -176,7 +149,7 @@ module NDArray::Internal::Numeric
     if stop <= start || !num
       raise "vrange must return at least one value"
     end
-    NDTensor.new([num]) { |i| U.new(start + (i * step)) }
+    Tensor.new([num]) { |i| U.new(start + (i * step)) }
   end
 
   # Return evenly spaced values within a given interval.

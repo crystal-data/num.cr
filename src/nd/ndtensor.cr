@@ -4,7 +4,7 @@ require "./ufunc"
 require "benchmark"
 
 @[Flags]
-enum ArrayFlags
+enum Bottle::Internal::ArrayFlags
   # Contiguous really means C-style contiguious.  The
   # contiguous part means that there are no 'skipped
   # elements'.  That is, that a flat_iter over the array will
@@ -29,7 +29,8 @@ enum ArrayFlags
   OwnData
 end
 
-struct Tensor(T)
+struct Bottle::Tensor(T)
+  include Internal
   # Unsafe pointer to a `Tensor`'s data.
   @buffer : Pointer(T)
 
@@ -64,6 +65,15 @@ struct Tensor(T)
       yield i
     end
     new(_shape, ArrayFlags::Contiguous, ptr)
+  end
+
+  def self.new(nrows : Int32, ncols : Int32, &block : Int32, Int32 -> T)
+    data = Pointer(T).malloc(nrows * ncols) do |idx|
+      i = idx // ncols
+      j = idx % ncols
+      yield i, j
+    end
+    new([nrows, ncols], ArrayFlags::Contiguous, data)
   end
 
   def initialize(_shape : Array(Int32),
@@ -127,7 +137,7 @@ struct Tensor(T)
   end
 
   def each_index(&block)
-    indexes(shape.to_a) { |i| yield i }
+    Helpers.indexes(shape.to_a) { |i| yield i }
   end
 
   def each(&block)
@@ -154,13 +164,13 @@ struct Tensor(T)
 
   def to_s(io)
     each_with_index do |el, i|
-      io << startline(shape, i, ndims)
+      io << Helpers.startline(shape, i, ndims)
       {% if T == Bool %}
         io << "#{el}".rjust(7)
       {% else %}
-        io << "#{el.round(3)}".rjust(3)
+        io << "#{el.round(3)}".rjust(6)
       {% end %}
-      io << newline(shape, i)
+      io << Helpers.newline(shape, i)
     end
   end
 
@@ -419,6 +429,117 @@ struct Tensor(T)
     end
   end
 
+  def reshape(newshape : Array(Int32))
+    if newshape == @shape
+      return self
+    end
+    newsize = 1
+    cur_size = size
+    autosize = -1
+    newshape.each_with_index do |val, i|
+      if val < 0
+        if autosize >= 0
+          raise "Only shape dimension can be automatic"
+        end
+        autosize = i
+      else
+        newsize *= val
+      end
+    end
+
+    if autosize >= 0
+      newshape = newshape.dup
+      newshape[autosize] = newsize // cur_size
+      newsize *= newshape[autosize]
+    end
+
+    if newsize != cur_size
+      raise "Shapes #{@shape} cannot be reshaped to #{newshape}"
+    end
+
+    stride = uninitialized Int32
+    newstrides = [0] * newshape.size
+    newbase = @base ? @base : @buffer
+    newdims = newshape.size
+
+    if @flags & ArrayFlags::Contiguous
+      stride = 1
+      newdims.times do |i|
+        newstrides[newdims - i - 1] = stride
+        stride *= newshape[newdims - i - 1]
+      end
+    else
+      stride = 1
+      newshape.each_with_index do |d, i|
+        newstrides[i] = stride
+        stride *= d
+      end
+    end
+
+    if @flags & (ArrayFlags::Fortran|ArrayFlags::Contiguous)
+      ret = Tensor(T).new(@buffer, newshape, newstrides, @flags.dup, newbase)
+      ret.update_flags(ArrayFlags::Fortran|ArrayFlags::Contiguous)
+      return ret
+    else
+      tmp = self.dup
+      ret = Tensor(T).new(tmp.@buffer, newshape, newstrides, @flags.dup, nil)
+      ret.update_flags(ArrayFlags::Fortran|ArrayFlags::Contiguous)
+      return ret
+    end
+  end
+
+  def transpose(order : Array(Int32) = [] of Int32)
+    newshape = @shape.dup
+    newstrides = @strides.dup
+    newbase = @base ? @base : @buffer
+    if order.size == 0
+      0.step(to: ndims/2) do |i|
+        offset = ndims - i - 1
+        tmp = newstrides[offset]
+        newstrides[offset] = newstrides[i]
+        newstrides[i] = tmp
+
+        tmp = newshape[offset]
+        newshape[offset] = newshape[i]
+        newshape[i] = tmp
+      end
+    else
+      n = order.size
+      if n != ndims
+        raise "Axes don't match array"
+      end
+
+      permutation = [0] * 32
+      reverse_permutation = [0] * 32
+      n.times do |i|
+        reverse_permutation[i] = -1
+      end
+
+      n.times do |i|
+        axis = order[i]
+        if axis < 0
+          axis = ndims + axis
+        end
+        if axis < 0 || axis >= ndims
+          raise "Invalid axis for this array"
+        end
+        if reverse_permutation[axis] != -1
+          raise "Repeated axis in transpose"
+        end
+        reverse_permutation[axis] = i
+        permutation[i] = axis
+      end
+
+      n.times do |i|
+        newshape[i] = @shape[permutation[i]]
+        newstrides[i] = strides[permutation[i]]
+      end
+    end
+    ret = Tensor(T).new(@buffer, newshape, newstrides, @flags.dup, newbase)
+    ret.update_flags(ArrayFlags::Contiguous|ArrayFlags::Fortran)
+    return ret
+  end
+
   def reduce_along_axis(axis)
     if axis < 0
       axis = ndims + axis
@@ -442,4 +563,102 @@ struct Tensor(T)
     end
     ret
   end
+
+    # Elementwise addition of a Tensor to another equally sized Tensor
+    #
+    # ```
+    # f1 = Tensor.new [1.0, 2.0, 3.0]
+    # f2 = Tensor.new [2.0, 4.0, 6.0]
+    # f1 + f2 # => [3.0, 6.0, 9.0]
+    # ```
+    def +(other : Tensor)
+      Bottle::Internal::UFunc.add(self, other)
+    end
+
+    # Elementwise addition of a Tensor to a scalar
+    #
+    # ```
+    # f1 = Tensor.new [1.0, 2.0, 3.0]
+    # f2 = 2
+    # f1 + f2 # => [3.0, 4.0, 5.0]
+    # ```
+    def +(other : Number)
+      Bottle::Internal::UFunc.add(self, other)
+    end
+
+    # Elementwise subtraction of a Tensor to another equally sized Tensor
+    #
+    # ```
+    # f1 = Tensor.new [1.0, 2.0, 3.0]
+    # f2 = Tensor.new [2.0, 4.0, 6.0]
+    # f1 - f2 # => [-1.0, -2.0, -3.0]
+    # ```
+    def -(other : Tensor)
+      Bottle::Internal::UFunc.subtract(self, other)
+    end
+
+    # Elementwise subtraction of a Tensor with a scalar
+    #
+    # ```
+    # f1 = Tensor.new [1.0, 2.0, 3.0]
+    # f2 = 2
+    # f1 - f2 # => [-1.0, 0.0, 1.0]
+    # ```
+    def -(other : Number)
+      Bottle::Internal::UFunc.subtract(self, other)
+    end
+
+    # Elementwise multiplication of a Tensor to another equally sized Tensor
+    #
+    # ```
+    # f1 = Tensor.new [1.0, 2.0, 3.0]
+    # f2 = Tensor.new [2.0, 4.0, 6.0]
+    # f1 * f2 # => [3.0, 8.0, 18.0]
+    # ```
+    def *(other : Tensor)
+      Bottle::Internal::UFunc.multiply(self, other)
+    end
+
+    # Elementwise multiplication of a Tensor to a scalar
+    #
+    # ```
+    # f1 = Tensor.new [1.0, 2.0, 3.0]
+    # f2 = 2
+    # f1 + f2 # => [2.0, 4.0, 6.0]
+    # ```
+    def *(other : Number)
+      Bottle::Internal::UFunc.multiply(self, other)
+    end
+
+    # Elementwise division of a Tensor to another equally sized Tensor
+    #
+    # ```
+    # f1 = Tensor.new [1.0, 2.0, 3.0]
+    # f2 = Tensor.new [2.0, 4.0, 6.0]
+    # f1 / f2 # => [0.5, 0.5, 0.5]
+    # ```
+    def /(other : Tensor)
+      Bottle::Internal::UFunc.divide(self, other)
+    end
+
+    # Elementwise division of a Tensor to a scalar
+    #
+    # ```
+    # f1 = Tensor.new [1.0, 2.0, 3.0]
+    # f2 = 2
+    # f1 / f2 # => [0.5, 1, 1.5]
+    # ```
+    def /(other : Number)
+      Bottle::Internal::UFunc.divide(self, other)
+    end
+
+    # Computes the sum of each value of a Tensor
+    #
+    # ```
+    # v = Flask.new [1, 2, 3, 4]
+    # v.sum # => 10
+    # ```
+    def sum
+      Bottle::Internal::Statistics.sum(self)
+    end
 end
