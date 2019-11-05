@@ -78,11 +78,11 @@ struct Bottle::Tensor(T)
   end
 
   def self.random(r : Range(U, U), _shape : Array(Int32)) forall U
-    new(_shape) { |i| Random.rand(r) }
+    new(_shape) { |_| Random.rand(r) }
   end
 
   def initialize(_shape : Array(Int32),
-    order : ArrayFlags = ArrayFlags::Contiguous, ptr : Pointer(T)? = nil)
+                 order : ArrayFlags = ArrayFlags::Contiguous, ptr : Pointer(T)? = nil)
     check_type
     @ndims = _shape.size
 
@@ -94,10 +94,10 @@ struct Bottle::Tensor(T)
       @shape = [0]
       @strides = [1]
 
-    # Otherwise, shape is directly copied from the
-    # array that was passed to the constructor.
-    # Strides will always share dimensionality
-    # with the shape of an NDArray.
+      # Otherwise, shape is directly copied from the
+      # array that was passed to the constructor.
+      # Strides will always share dimensionality
+      # with the shape of an NDArray.
     else
       @shape = _shape.clone
       @strides = [0] * _shape.size
@@ -108,7 +108,6 @@ struct Bottle::Tensor(T)
     # nothing special has to be done about the memory
     # allocation, but strides must be calculated differently.
     case order
-
     # For Fortran ordered arrays strides are calculated from
     # the beginning of the shape to the end, with strides
     # monotonically increasing.
@@ -117,10 +116,9 @@ struct Bottle::Tensor(T)
         @strides[i] = sz
         sz *= @shape[i]
       end
-
-    # Otherwise, row major order is chosen and strides are
-    # calculated from the reversed shape, monotonically
-    # decreasing.
+      # Otherwise, row major order is chosen and strides are
+      # calculated from the reversed shape, monotonically
+      # decreasing.
     else
       @ndims.times do |i|
         @strides[@ndims - i - 1] = sz
@@ -134,7 +132,7 @@ struct Bottle::Tensor(T)
     # regardless of order, and this method will always
     # return an NDArray that owns its own data.
     @buffer = ptr.nil? ? Pointer(T).malloc(@size) : ptr
-    @flags = order |= ArrayFlags::OwnData
+    @flags = order | ArrayFlags::OwnData
   end
 
   def initialize(@buffer, @shape, @strides, @flags, @base)
@@ -288,19 +286,19 @@ struct Bottle::Tensor(T)
     ret
   end
 
-  def slice(idx : Array(Int32 |Range(Int32, Int32)))
+  def slice(idx : Array(Int32 | Range(Int32, Int32)))
     slice_from_indexers(idx)
   end
 
   def dup(f : ArrayFlags = ArrayFlags::None)
     ret = Tensor(T).new(@shape)
-    newcontig = f & (ArrayFlags::Fortran|ArrayFlags::Contiguous)
-    contig = @flags & (ArrayFlags::Fortran|ArrayFlags::Contiguous)
+    newcontig = f & (ArrayFlags::Fortran | ArrayFlags::Contiguous)
+    contig = @flags & (ArrayFlags::Fortran | ArrayFlags::Contiguous)
 
     if (contig != ArrayFlags::None) && (newcontig == 0 || contig == newcontig)
       @buffer.copy_to(ret.@buffer, size)
     elsif ret.size
-      if newcontig != (ret.flags & (ArrayFlags::Fortran|ArrayFlags::Contiguous))
+      if newcontig != (ret.flags & (ArrayFlags::Fortran | ArrayFlags::Contiguous))
         flat_iter.zip(ret.flat_iter) do |i, j|
           j.value = i.value
         end
@@ -315,7 +313,7 @@ struct Bottle::Tensor(T)
         end
       end
     end
-    ret.update_flags(ArrayFlags::Fortran|ArrayFlags::Contiguous)
+    ret.update_flags(ArrayFlags::Fortran | ArrayFlags::Contiguous)
     ret
   end
 
@@ -340,7 +338,7 @@ struct Bottle::Tensor(T)
     newflags = @flags.dup
     newbase = @base ? @base : @buffer
     ret = Tensor(T).new(@buffer, newshape, newstrides, newflags, newbase)
-    ret.update_flags(ArrayFlags::Fortran|ArrayFlags::Contiguous)
+    ret.update_flags(ArrayFlags::Fortran | ArrayFlags::Contiguous)
     ret
   end
 
@@ -477,15 +475,15 @@ struct Bottle::Tensor(T)
       end
     end
 
-    if @flags & (ArrayFlags::Fortran|ArrayFlags::Contiguous)
+    if @flags & (ArrayFlags::Fortran | ArrayFlags::Contiguous)
       ret = Tensor(T).new(@buffer, newshape, newstrides, @flags.dup, newbase)
-      ret.update_flags(ArrayFlags::Fortran|ArrayFlags::Contiguous)
-      return ret
+      ret.update_flags(ArrayFlags::Fortran | ArrayFlags::Contiguous)
+      ret
     else
       tmp = self.dup
       ret = Tensor(T).new(tmp.@buffer, newshape, newstrides, @flags.dup, nil)
-      ret.update_flags(ArrayFlags::Fortran|ArrayFlags::Contiguous)
-      return ret
+      ret.update_flags(ArrayFlags::Fortran | ArrayFlags::Contiguous)
+      ret
     end
   end
 
@@ -537,8 +535,8 @@ struct Bottle::Tensor(T)
       end
     end
     ret = Tensor(T).new(@buffer, newshape, newstrides, @flags.dup, newbase)
-    ret.update_flags(ArrayFlags::Contiguous|ArrayFlags::Fortran)
-    return ret
+    ret.update_flags(ArrayFlags::Contiguous | ArrayFlags::Fortran)
+    ret
   end
 
   def reduce_along_axis(axis)
@@ -556,10 +554,10 @@ struct Bottle::Tensor(T)
     end
     ret = slice(ranges).dup
 
-    1.step(to: shape[axis]-1) do |i|
+    1.step(to: shape[axis] - 1) do |i|
       ranges[axis] = i
-      slice(ranges).flat_iter.zip(ret.flat_iter) do |i, j|
-        yield i, j
+      slice(ranges).flat_iter.zip(ret.flat_iter) do |ii, jj|
+        yield ii, jj
       end
     end
     ret

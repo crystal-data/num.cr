@@ -2,6 +2,7 @@ require "./ndtensor"
 
 module Bottle::Internal::Assemble
   extend self
+
   def concatenate(alist : Array(Tensor(U)), axis : Int32) forall U
     newshape = alist[0].shape.dup
 

@@ -93,7 +93,7 @@ module Bottle::Internal::ToString
         @io << ", "
       end
       @io << "#{@ptr.value.round(3)}".rjust(maxval)
-      return true
+      true
     end
   end
 end

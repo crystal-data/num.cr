@@ -1,5 +1,6 @@
 module Bottle::Internal::Helpers
   extend self
+
   def indexes(shape : Array(Int32))
     Array.each_product(
       shape.map { |i| (0...i).to_a }) { |p| yield p }

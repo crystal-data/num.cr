@@ -71,7 +71,7 @@ module Bottle::Internal::Numeric
   # f # => Tensor[1, 1, 1, 1, 1]
   # ```
   def ones(shape : Array(Int32), dtype : U.class = Float64) forall U
-    Tensor(U).new(shape) { |i| U.new(1) }
+    Tensor(U).new(shape) { |_| U.new(1) }
   end
 
   # Initializes a `Tensor` filled with ones, whose size
@@ -84,7 +84,7 @@ module Bottle::Internal::Numeric
   # f # => Tensor[1, 1, 1]
   # ```
   def ones_like(other : Tensor, dtype : U.class = Float64) forall U
-    Tensor(U).new(other.shape) { |i| U.new(1) }
+    Tensor(U).new(other.shape) { |_| U.new(1) }
   end
 
   # Initializes a `Tensor` of the given `size` and `dtype`,
@@ -95,7 +95,7 @@ module Bottle::Internal::Numeric
   # f # => Tensor[0, 0, 0, 0, 0]
   # ```
   def zeros(shape : Array(Int32), dtype : U.class = Float64) forall U
-    Tensor(U).new(shape) { |i| U.new(0) }
+    Tensor(U).new(shape) { |_| U.new(0) }
   end
 
   # Initializes a `Tensor` filled with zeros, whose size
@@ -108,7 +108,7 @@ module Bottle::Internal::Numeric
   # f # => Tensor[0, 0, 0]
   # ```
   def zeros_like(other : NDTensor, dtype : U.class = Float64) forall U
-    Tensor(U).new(other.shape) { |i| U.new(1) }
+    Tensor(U).new(other.shape) { |_| U.new(1) }
   end
 
   # Initializes a `Tensor` of the given `size` and `dtype`,
@@ -119,7 +119,7 @@ module Bottle::Internal::Numeric
   # f # => Tensor[3, 3, 3, 3, 3]
   # ```
   def full(shape : Array(Int32), x : Number, dtype : U.class = Float64) forall U
-    Tensor(U).new(shape) { |i| U.new(x) }
+    Tensor(U).new(shape) { |_| U.new(x) }
   end
 
   # Initializes a `Tensor` filled with the provided value, whose size
@@ -132,7 +132,7 @@ module Bottle::Internal::Numeric
   # f # => Tensor[-1, -1, -1]
   # ```
   def full_like(other : NDTensor, x : Number, dtype : U.class = Float64) forall U
-    Tensor(U).new(other.shape) { |i| U.new(x) }
+    Tensor(U).new(other.shape) { |_| U.new(x) }
   end
 
   # Returns a Matrix with the given

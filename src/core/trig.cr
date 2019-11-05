@@ -53,7 +53,7 @@ module Bottle::Internal::Trigonometric
         i2 = x2.unsafe_iter
 
         # TODO: Implement masking to use the *where* parameter
-        Tensor.new(x1.shape) do |i|
+        Tensor.new(x1.shape) do |_|
           Math.{{name}}(i1.next.value, i2.next.value)
         end
       end
@@ -69,7 +69,7 @@ module Bottle::Internal::Trigonometric
       # ```
       def {{name}}(x1 : Tensor, x2 : Number)
         iter = x1.unsafe_iter
-        Tensor.new(x1.shape) do |i|
+        Tensor.new(x1.shape) do |_|
           Math.{{name}}(iter.next.value, x2)
         end
       end
@@ -151,7 +151,7 @@ module Bottle::Internal::Trigonometric
   # ```
   def degrees(x1 : Tensor)
     iter = x1.unsafe_iter
-    Tensor.new(x1.shape) do |i|
+    Tensor.new(x1.shape) do |_|
       iter.next * (180/Math::PI)
     end
   end
@@ -165,7 +165,7 @@ module Bottle::Internal::Trigonometric
   # ```
   def radians(x1 : Tensor)
     iter = x1.unsafe_iter
-    Tensor.new(x1.size) do |i|
+    Tensor.new(x1.size) do |_|
       iter.next * (Math::PI/180)
     end
   end

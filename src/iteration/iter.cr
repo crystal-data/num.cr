@@ -28,7 +28,7 @@ struct Bottle::Internal::ContigIter(T)
     end
     ii = 0
     @idx[ii] += 1
-    while(@idx[ii] == @t.shape[ii])
+    while (@idx[ii] == @t.shape[ii])
       # reset ith to zero  019 -> 010
       @idx[ii] = 0
       # bump up next most significant by one  010 --> 020
@@ -41,7 +41,7 @@ struct Bottle::Internal::ContigIter(T)
       @idx[ii] += 1
     end
     @p_item = @t.ptr_at(@idx)
-    return true
+    true
   end
 
   private def _increment_idx
@@ -61,6 +61,6 @@ struct Bottle::Internal::ContigIter(T)
       @idx[ii] += 1
     end
     @p_item = @t.ptr_at(@idx)
-    return true
+    true
   end
 end
