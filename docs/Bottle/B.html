@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.30.1">
+
+
+<link href="../css/style.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="../js/doc.js"></script>
+<script type="text/javascript">
+  CrystalDoc.base_path = "../";
+</script>
+
+  <meta id="repository-name" content="github.com/crystal-data/bottle">
+  <title>Bottle::B - github.com/crystal-data/bottle</title>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="repository-links">
+      <a href="../index.html">README</a>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent open current" data-id="github.com/crystal-data/bottle/Bottle" data-name="bottle">
+      <a href="../Bottle.html">Bottle</a>
+      
+        <ul>
+  
+  <li class=" current" data-id="github.com/crystal-data/bottle/Bottle/B" data-name="bottle::b">
+      <a href="../Bottle/B.html">B</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/crystal-data/bottle/Bottle/Exceptions" data-name="bottle::exceptions">
+      <a href="../Bottle/Exceptions.html">Exceptions</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Exceptions/RangeError" data-name="bottle::exceptions::rangeerror">
+      <a href="../Bottle/Exceptions/RangeError.html">RangeError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Exceptions/ShapeError" data-name="bottle::exceptions::shapeerror">
+      <a href="../Bottle/Exceptions/ShapeError.html">ShapeError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Exceptions/TypeError" data-name="bottle::exceptions::typeerror">
+      <a href="../Bottle/Exceptions/TypeError.html">TypeError</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/crystal-data/bottle/Bottle/Internal" data-name="bottle::internal">
+      <a href="../Bottle/Internal.html">Internal</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/ArrayFlags" data-name="bottle::internal::arrayflags">
+      <a href="../Bottle/Internal/ArrayFlags.html">ArrayFlags</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/Assemble" data-name="bottle::internal::assemble">
+      <a href="../Bottle/Internal/Assemble.html">Assemble</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/Binary" data-name="bottle::internal::binary">
+      <a href="../Bottle/Internal/Binary.html">Binary</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/Comparison" data-name="bottle::internal::comparison">
+      <a href="../Bottle/Internal/Comparison.html">Comparison</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/ContigIter" data-name="bottle::internal::contigiter(t)">
+      <a href="../Bottle/Internal/ContigIter.html">ContigIter</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/crystal-data/bottle/Bottle/Internal/Dtype" data-name="bottle::internal::dtype">
+      <a href="../Bottle/Internal/Dtype.html">Dtype</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/Dtype/BNum" data-name="bottle::internal::dtype::bnum">
+      <a href="../Bottle/Internal/Dtype/BNum.html">BNum</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/Dtype/Double" data-name="bottle::internal::dtype::double">
+      <a href="../Bottle/Internal/Dtype/Double.html">Double</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/Dtype/Ftnlen" data-name="bottle::internal::dtype::ftnlen">
+      <a href="../Bottle/Internal/Dtype/Ftnlen.html">Ftnlen</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/Dtype/Indexer" data-name="bottle::internal::dtype::indexer">
+      <a href="../Bottle/Internal/Dtype/Indexer.html">Indexer</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/Dtype/Integer" data-name="bottle::internal::dtype::integer">
+      <a href="../Bottle/Internal/Dtype/Integer.html">Integer</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/Dtype/LFp" data-name="bottle::internal::dtype::lfp">
+      <a href="../Bottle/Internal/Dtype/LFp.html">LFp</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/Dtype/Logical" data-name="bottle::internal::dtype::logical">
+      <a href="../Bottle/Internal/Dtype/Logical.html">Logical</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/Dtype/Real" data-name="bottle::internal::dtype::real">
+      <a href="../Bottle/Internal/Dtype/Real.html">Real</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/Dtype/UInt" data-name="bottle::internal::dtype::uint">
+      <a href="../Bottle/Internal/Dtype/UInt.html">UInt</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/FlatIter" data-name="bottle::internal::flatiter(t)">
+      <a href="../Bottle/Internal/FlatIter.html">FlatIter</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/LinAlg" data-name="bottle::internal::linalg">
+      <a href="../Bottle/Internal/LinAlg.html">LinAlg</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/MatrixIter" data-name="bottle::internal::matrixiter(t)">
+      <a href="../Bottle/Internal/MatrixIter.html">MatrixIter</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/Numeric" data-name="bottle::internal::numeric">
+      <a href="../Bottle/Internal/Numeric.html">Numeric</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/Statistics" data-name="bottle::internal::statistics">
+      <a href="../Bottle/Internal/Statistics.html">Statistics</a>
+      
+    </li>
+  
+  <li class="parent " data-id="github.com/crystal-data/bottle/Bottle/Internal/ToString" data-name="bottle::internal::tostring">
+      <a href="../Bottle/Internal/ToString.html">ToString</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/ToString/TensorPrint" data-name="bottle::internal::tostring::tensorprint(t)">
+      <a href="../Bottle/Internal/ToString/TensorPrint.html">TensorPrint</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/Trigonometric" data-name="bottle::internal::trigonometric">
+      <a href="../Bottle/Internal/Trigonometric.html">Trigonometric</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/UFunc" data-name="bottle::internal::ufunc">
+      <a href="../Bottle/Internal/UFunc.html">UFunc</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/UnsafeIter" data-name="bottle::internal::unsafeiter(t)">
+      <a href="../Bottle/Internal/UnsafeIter.html">UnsafeIter</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Tensor" data-name="bottle::tensor(t)">
+      <a href="../Bottle/Tensor.html">Tensor</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">module</span> Bottle::B
+
+</h1>
+
+
+
+
+
+
+
+
+
+  <h2>Included Modules</h2>
+  <ul class="other-types-list">
+  
+    <li class="other-type"><a href="../Bottle/Internal/Assemble.html">Bottle::Internal::Assemble</a></li>
+  
+    <li class="other-type"><a href="../Bottle/Internal/Binary.html">Bottle::Internal::Binary</a></li>
+  
+    <li class="other-type"><a href="../Bottle/Internal/Comparison.html">Bottle::Internal::Comparison</a></li>
+  
+    <li class="other-type"><a href="../Bottle/Internal/LinAlg.html">Bottle::Internal::LinAlg</a></li>
+  
+    <li class="other-type"><a href="../Bottle/Internal/Numeric.html">Bottle::Internal::Numeric</a></li>
+  
+    <li class="other-type"><a href="../Bottle/Internal/Statistics.html">Bottle::Internal::Statistics</a></li>
+  
+    <li class="other-type"><a href="../Bottle/Internal/ToString.html">Bottle::Internal::ToString</a></li>
+  
+    <li class="other-type"><a href="../Bottle/Internal/Trigonometric.html">Bottle::Internal::Trigonometric</a></li>
+  
+    <li class="other-type"><a href="../Bottle/Internal/UFunc.html">Bottle::Internal::UFunc</a></li>
+  
+  </ul>
+
+
+
+  <h2>Extended Modules</h2>
+  <ul class="other-types-list">
+  
+    <li class="other-type"><a href="../Bottle/B.html">Bottle::B</a></li>
+  
+  </ul>
+
+
+
+
+
+
+
+
+  <h2>Defined in:</h2>
+  
+    
+      <a href="https://github.com/crystal-data/bottle/blob/2154701c4fb92fdb37258362accc276a568d0f89/src/api.cr#L12" target="_blank">
+        api.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="methods-inherited">
+  
+    
+
+  <h3>Instance methods inherited from module <code><a href="../Bottle/Internal/Comparison.html">Bottle::Internal::Comparison</a></code></h3>
+  
+  
+    <a href="../Bottle/Internal/Comparison.html#allclose(a:Bottle::Tensor(U),b:Bottle::Tensor(U),rtol=1e-5,atol=1e-8)forallU-instance-method" class="tooltip">
+      <span>allclose(a : Bottle::Tensor(U), b : Bottle::Tensor(U), rtol = <span class="n">1e-5</span>, atol = <span class="n">1e-8</span>) forall U</span>
+    allclose</a>
+    
+  
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+  <h3>Instance methods inherited from module <code><a href="../Bottle/Internal/Assemble.html">Bottle::Internal::Assemble</a></code></h3>
+  
+  
+    <a href="../Bottle/Internal/Assemble.html#concatenate(alist:Array(Bottle::Tensor(U)),axis:Int32)forallU-instance-method" class="tooltip">
+      <span>concatenate(alist : Array(Bottle::Tensor(U)), axis : Int32) forall U</span>
+    concatenate</a>, 
+    
+  
+    <a href="../Bottle/Internal/Assemble.html#hstack(alist:Array(Bottle::Tensor(U)))forallU-instance-method" class="tooltip">
+      <span>hstack(alist : Array(Bottle::Tensor(U))) forall U</span>
+    hstack</a>, 
+    
+  
+    <a href="../Bottle/Internal/Assemble.html#vstack(alist:Array(Bottle::Tensor(U)))forallU-instance-method" class="tooltip">
+      <span>vstack(alist : Array(Bottle::Tensor(U))) forall U</span>
+    vstack</a>
+    
+  
+
+
+    
+
+
+    
+
+
+  
+    
+
+  <h3>Instance methods inherited from module <code><a href="../Bottle/Internal/LinAlg.html">Bottle::Internal::LinAlg</a></code></h3>
+  
+  
+    <a href="../Bottle/Internal/LinAlg.html#dot(dx:Bottle::Tensor(Float64),dy:Bottle::Tensor(Float64))-instance-method" class="tooltip">
+      <span>dot(dx : Bottle::Tensor(Float64), dy : Bottle::Tensor(Float64))<br/>dot(dx : Bottle::Tensor(Float32), dy : Bottle::Tensor(Float32))</span>
+    dot</a>, 
+    
+  
+    <a href="../Bottle/Internal/LinAlg.html#inner(dx:Bottle::Tensor(Float64),dy:Bottle::Tensor(Float64))-instance-method" class="tooltip">
+      <span>inner(dx : Bottle::Tensor(Float64), dy : Bottle::Tensor(Float64))<br/>inner(dx : Bottle::Tensor(Float32), dy : Bottle::Tensor(Float32))</span>
+    inner</a>, 
+    
+  
+    <a href="../Bottle/Internal/LinAlg.html#inv(a:Bottle::Tensor(Float64))-instance-method" class="tooltip">
+      <span>inv(a : Bottle::Tensor(Float64))<br/>inv(a : Bottle::Tensor(Float32))</span>
+    inv</a>, 
+    
+  
+    <a href="../Bottle/Internal/LinAlg.html#matmul(dx:Bottle::Tensor(Float64),dy:Bottle::Tensor(Float64),dest:Bottle::Tensor(Float64)?=nil)-instance-method" class="tooltip">
+      <span>matmul(dx : Bottle::Tensor(Float64), dy : Bottle::Tensor(Float64), dest : Bottle::Tensor(Float64)? = <span class="n">nil</span>)<br/>matmul(dx : Bottle::Tensor(Float32), dy : Bottle::Tensor(Float32), dest : Bottle::Tensor(Float32)? = <span class="n">nil</span>)</span>
+    matmul</a>, 
+    
+  
+    <a href="../Bottle/Internal/LinAlg.html#norm(x:Bottle::Tensor(Float64))-instance-method" class="tooltip">
+      <span>norm(x : Bottle::Tensor(Float64))<br/>norm(x : Bottle::Tensor(Float32))</span>
+    norm</a>, 
+    
+  
+    <a href="../Bottle/Internal/LinAlg.html#outer(dx:Bottle::Tensor(Float64),dy:Bottle::Tensor(Float64))-instance-method" class="tooltip">
+      <span>outer(dx : Bottle::Tensor(Float64), dy : Bottle::Tensor(Float64))<br/>outer(dx : Bottle::Tensor(Float32), dy : Bottle::Tensor(Float32))</span>
+    outer</a>
+    
+  
+
+
+    
+
+
+    
+
+
+  
+    
+
+  <h3>Instance methods inherited from module <code><a href="../Bottle/Internal/Trigonometric.html">Bottle::Internal::Trigonometric</a></code></h3>
+  
+  
+    <a href="../Bottle/Internal/Trigonometric.html#acos(x1:Tensor)-instance-method" class="tooltip">
+      <span>acos(x1 : Tensor)</span>
+    acos</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#acosh(x1:Tensor)-instance-method" class="tooltip">
+      <span>acosh(x1 : Tensor)</span>
+    acosh</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#asin(x1:Tensor)-instance-method" class="tooltip">
+      <span>asin(x1 : Tensor)</span>
+    asin</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#asinh(x1:Tensor)-instance-method" class="tooltip">
+      <span>asinh(x1 : Tensor)</span>
+    asinh</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#atan(x1:Tensor)-instance-method" class="tooltip">
+      <span>atan(x1 : Tensor)</span>
+    atan</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#atan2-instance-method" class="tooltip">
+      <span>atan2<br/>atan2(x1 : Number, x2 : Tensor, where : Tensor? = <span class="n">nil</span>)<br/>atan2(x1 : Tensor, x2 : Number)<br/>atan2(x1 : Tensor, x2 : Tensor)</span>
+    atan2</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#atanh(x1:Tensor)-instance-method" class="tooltip">
+      <span>atanh(x1 : Tensor)</span>
+    atanh</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#besselj(x1:Number,x2:Tensor,where:Tensor?=nil)-instance-method" class="tooltip">
+      <span>besselj(x1 : Number, x2 : Tensor, where : Tensor? = <span class="n">nil</span>)<br/>besselj(x1 : Tensor, x2 : Number)<br/>besselj(x1 : Tensor, x2 : Tensor)<br/>besselj</span>
+    besselj</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#besselj0(x1:Tensor)-instance-method" class="tooltip">
+      <span>besselj0(x1 : Tensor)</span>
+    besselj0</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#besselj1(x1:Tensor)-instance-method" class="tooltip">
+      <span>besselj1(x1 : Tensor)</span>
+    besselj1</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#bessely(x1:Tensor,x2:Number)-instance-method" class="tooltip">
+      <span>bessely(x1 : Tensor, x2 : Number)<br/>bessely(x1 : Number, x2 : Tensor, where : Tensor? = <span class="n">nil</span>)<br/>bessely<br/>bessely(x1 : Tensor, x2 : Tensor)</span>
+    bessely</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#bessely0(x1:Tensor)-instance-method" class="tooltip">
+      <span>bessely0(x1 : Tensor)</span>
+    bessely0</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#bessely1(x1:Tensor)-instance-method" class="tooltip">
+      <span>bessely1(x1 : Tensor)</span>
+    bessely1</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#cbrt(x1:Tensor)-instance-method" class="tooltip">
+      <span>cbrt(x1 : Tensor)</span>
+    cbrt</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#copysign-instance-method" class="tooltip">
+      <span>copysign<br/>copysign(x1 : Number, x2 : Tensor, where : Tensor? = <span class="n">nil</span>)<br/>copysign(x1 : Tensor, x2 : Number)<br/>copysign(x1 : Tensor, x2 : Tensor)</span>
+    copysign</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#cos(x1:Tensor)-instance-method" class="tooltip">
+      <span>cos(x1 : Tensor)</span>
+    cos</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#cosh(x1:Tensor)-instance-method" class="tooltip">
+      <span>cosh(x1 : Tensor)</span>
+    cosh</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#degrees(x1:Tensor)-instance-method" class="tooltip">
+      <span>degrees(x1 : Tensor)</span>
+    degrees</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#erf(x1:Tensor)-instance-method" class="tooltip">
+      <span>erf(x1 : Tensor)</span>
+    erf</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#erfc(x1:Tensor)-instance-method" class="tooltip">
+      <span>erfc(x1 : Tensor)</span>
+    erfc</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#exp(x1:Tensor)-instance-method" class="tooltip">
+      <span>exp(x1 : Tensor)</span>
+    exp</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#exp2(x1:Tensor)-instance-method" class="tooltip">
+      <span>exp2(x1 : Tensor)</span>
+    exp2</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#expm1(x1:Tensor)-instance-method" class="tooltip">
+      <span>expm1(x1 : Tensor)</span>
+    expm1</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#frexp(x1:Tensor)-instance-method" class="tooltip">
+      <span>frexp(x1 : Tensor)</span>
+    frexp</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#gamma(x1:Tensor)-instance-method" class="tooltip">
+      <span>gamma(x1 : Tensor)</span>
+    gamma</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#hypot(x1:Tensor,x2:Tensor)-instance-method" class="tooltip">
+      <span>hypot(x1 : Tensor, x2 : Tensor)<br/>hypot(x1 : Tensor, x2 : Number)<br/>hypot(x1 : Number, x2 : Tensor, where : Tensor? = <span class="n">nil</span>)<br/>hypot</span>
+    hypot</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#ilogb(x1:Tensor)-instance-method" class="tooltip">
+      <span>ilogb(x1 : Tensor)</span>
+    ilogb</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#ldexp(x1:Tensor,x2:Tensor)-instance-method" class="tooltip">
+      <span>ldexp(x1 : Tensor, x2 : Tensor)<br/>ldexp(x1 : Tensor, x2 : Number)<br/>ldexp(x1 : Number, x2 : Tensor, where : Tensor? = <span class="n">nil</span>)<br/>ldexp</span>
+    ldexp</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#lgamma(x1:Tensor)-instance-method" class="tooltip">
+      <span>lgamma(x1 : Tensor)</span>
+    lgamma</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#log(x1:Tensor)-instance-method" class="tooltip">
+      <span>log(x1 : Tensor)</span>
+    log</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#log10(x1:Tensor)-instance-method" class="tooltip">
+      <span>log10(x1 : Tensor)</span>
+    log10</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#log1p(x1:Tensor)-instance-method" class="tooltip">
+      <span>log1p(x1 : Tensor)</span>
+    log1p</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#log2(x1:Tensor)-instance-method" class="tooltip">
+      <span>log2(x1 : Tensor)</span>
+    log2</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#logb(x1:Tensor)-instance-method" class="tooltip">
+      <span>logb(x1 : Tensor)</span>
+    logb</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#radians(x1:Tensor)-instance-method" class="tooltip">
+      <span>radians(x1 : Tensor)</span>
+    radians</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#sin(x1:Tensor)-instance-method" class="tooltip">
+      <span>sin(x1 : Tensor)</span>
+    sin</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#sinh(x1:Tensor)-instance-method" class="tooltip">
+      <span>sinh(x1 : Tensor)</span>
+    sinh</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#sqrt(x1:Tensor)-instance-method" class="tooltip">
+      <span>sqrt(x1 : Tensor)</span>
+    sqrt</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#tan(x1:Tensor)-instance-method" class="tooltip">
+      <span>tan(x1 : Tensor)</span>
+    tan</a>, 
+    
+  
+    <a href="../Bottle/Internal/Trigonometric.html#tanh(x1:Tensor)-instance-method" class="tooltip">
+      <span>tanh(x1 : Tensor)</span>
+    tanh</a>
+    
+  
+
+
+    
+
+
+    
+
+
+  
+    
+
+  <h3>Instance methods inherited from module <code><a href="../Bottle/Internal/Statistics.html">Bottle::Internal::Statistics</a></code></h3>
+  
+  
+    <a href="../Bottle/Internal/Statistics.html#max(a:Tensor,axis:Int32)-instance-method" class="tooltip">
+      <span>max(a : Tensor, axis : Int32)<br/>max(a : Bottle::Tensor(U)) forall U</span>
+    max</a>, 
+    
+  
+    <a href="../Bottle/Internal/Statistics.html#mean(a:Tensor,axis:Int32)-instance-method" class="tooltip">
+      <span>mean(a : Tensor, axis : Int32)<br/>mean(a : Tensor)</span>
+    mean</a>, 
+    
+  
+    <a href="../Bottle/Internal/Statistics.html#median(a:Tensor)-instance-method" class="tooltip">
+      <span>median(a : Tensor)</span>
+    median</a>, 
+    
+  
+    <a href="../Bottle/Internal/Statistics.html#min(a:Tensor,axis:Int32)-instance-method" class="tooltip">
+      <span>min(a : Tensor, axis : Int32)<br/>min(a : Bottle::Tensor(U)) forall U</span>
+    min</a>, 
+    
+  
+    <a href="../Bottle/Internal/Statistics.html#ptp(a:Tensor,axis:Int32)-instance-method" class="tooltip">
+      <span>ptp(a : Tensor, axis : Int32)<br/>ptp(v : Tensor)</span>
+    ptp</a>, 
+    
+  
+    <a href="../Bottle/Internal/Statistics.html#std(a:Tensor)-instance-method" class="tooltip">
+      <span>std(a : Tensor)</span>
+    std</a>, 
+    
+  
+    <a href="../Bottle/Internal/Statistics.html#sum(a:Tensor,axis:Int32)-instance-method" class="tooltip">
+      <span>sum(a : Tensor, axis : Int32)<br/>sum(a : Bottle::Tensor(U)) forall U</span>
+    sum</a>
+    
+  
+
+
+    
+
+
+    
+
+
+  
+    
+
+  <h3>Instance methods inherited from module <code><a href="../Bottle/Internal/Numeric.html">Bottle::Internal::Numeric</a></code></h3>
+  
+  
+    <a href="../Bottle/Internal/Numeric.html#arange(start:Int32,stop:Int32,step:Int32=1,dtype:U.class=Int32)forallU-instance-method" class="tooltip">
+      <span>arange(start : Int32, stop : Int32, step : Int32 = <span class="n">1</span>, dtype : <span class="t">U</span>.<span class="k">class</span> = <span class="t">Int32</span>) forall U<br/>arange(stop : Int32, step : Int32 = <span class="n">1</span>, dtype : <span class="t">U</span>.<span class="k">class</span> = <span class="t">Int32</span>) forall U</span>
+    arange</a>, 
+    
+  
+    <a href="../Bottle/Internal/Numeric.html#diag(a:Bottle::Tensor(U),k:Int32=0)forallU-instance-method" class="tooltip">
+      <span>diag(a : Bottle::Tensor(U), k : Int32 = <span class="n">0</span>) forall U</span>
+    diag</a>, 
+    
+  
+    <a href="../Bottle/Internal/Numeric.html#empty(shape:Array(Int32),dtype:U.class=Float64)forallU-instance-method" class="tooltip">
+      <span>empty(shape : Array(Int32), dtype : <span class="t">U</span>.<span class="k">class</span> = <span class="t">Float64</span>) forall U</span>
+    empty</a>, 
+    
+  
+    <a href="../Bottle/Internal/Numeric.html#empty_like(other:Tensor,dtype:U.class=Float64)forallU-instance-method" class="tooltip">
+      <span>empty_like(other : Tensor, dtype : <span class="t">U</span>.<span class="k">class</span> = <span class="t">Float64</span>) forall U</span>
+    empty_like</a>, 
+    
+  
+    <a href="../Bottle/Internal/Numeric.html#eye(m:Int32,n:Int32?=nil,k:Int32=0,dtype:U.class=Float64)forallU-instance-method" class="tooltip">
+      <span>eye(m : Int32, n : Int32? = <span class="n">nil</span>, k : Int32 = <span class="n">0</span>, dtype : <span class="t">U</span>.<span class="k">class</span> = <span class="t">Float64</span>) forall U</span>
+    eye</a>, 
+    
+  
+    <a href="../Bottle/Internal/Numeric.html#full(shape:Array(Int32),x:Number,dtype:U.class=Float64)forallU-instance-method" class="tooltip">
+      <span>full(shape : Array(Int32), x : Number, dtype : <span class="t">U</span>.<span class="k">class</span> = <span class="t">Float64</span>) forall U</span>
+    full</a>, 
+    
+  
+    <a href="../Bottle/Internal/Numeric.html#full_like(other:NDTensor,x:Number,dtype:U.class=Float64)forallU-instance-method" class="tooltip">
+      <span>full_like(other : NDTensor, x : Number, dtype : <span class="t">U</span>.<span class="k">class</span> = <span class="t">Float64</span>) forall U</span>
+    full_like</a>, 
+    
+  
+    <a href="../Bottle/Internal/Numeric.html#geomspace(start,stop,num=50,endpoint=true)-instance-method" class="tooltip">
+      <span>geomspace(start, stop, num = <span class="n">50</span>, endpoint = <span class="n">true</span>)</span>
+    geomspace</a>, 
+    
+  
+    <a href="../Bottle/Internal/Numeric.html#identity(n:Int32,dtype:U.class=Float64)forallU-instance-method" class="tooltip">
+      <span>identity(n : Int32, dtype : <span class="t">U</span>.<span class="k">class</span> = <span class="t">Float64</span>) forall U</span>
+    identity</a>, 
+    
+  
+    <a href="../Bottle/Internal/Numeric.html#linspace(start:Number,stop:Number,num=50,endpoint=true)-instance-method" class="tooltip">
+      <span>linspace(start : Number, stop : Number, num = <span class="n">50</span>, endpoint = <span class="n">true</span>)</span>
+    linspace</a>, 
+    
+  
+    <a href="../Bottle/Internal/Numeric.html#logspace(start,stop,num=50,endpoint=true,base=10.0)-instance-method" class="tooltip">
+      <span>logspace(start, stop, num = <span class="n">50</span>, endpoint = <span class="n">true</span>, base = <span class="n">10.0</span>)</span>
+    logspace</a>, 
+    
+  
+    <a href="../Bottle/Internal/Numeric.html#ones(shape:Array(Int32),dtype:U.class=Float64)forallU-instance-method" class="tooltip">
+      <span>ones(shape : Array(Int32), dtype : <span class="t">U</span>.<span class="k">class</span> = <span class="t">Float64</span>) forall U</span>
+    ones</a>, 
+    
+  
+    <a href="../Bottle/Internal/Numeric.html#ones_like(other:Tensor,dtype:U.class=Float64)forallU-instance-method" class="tooltip">
+      <span>ones_like(other : Tensor, dtype : <span class="t">U</span>.<span class="k">class</span> = <span class="t">Float64</span>) forall U</span>
+    ones_like</a>, 
+    
+  
+    <a href="../Bottle/Internal/Numeric.html#zeros(shape:Array(Int32),dtype:U.class=Float64)forallU-instance-method" class="tooltip">
+      <span>zeros(shape : Array(Int32), dtype : <span class="t">U</span>.<span class="k">class</span> = <span class="t">Float64</span>) forall U</span>
+    zeros</a>, 
+    
+  
+    <a href="../Bottle/Internal/Numeric.html#zeros_like(other:NDTensor,dtype:U.class=Float64)forallU-instance-method" class="tooltip">
+      <span>zeros_like(other : NDTensor, dtype : <span class="t">U</span>.<span class="k">class</span> = <span class="t">Float64</span>) forall U</span>
+    zeros_like</a>
+    
+  
+
+
+    
+
+
+    
+
+
+  
+    
+
+  <h3>Instance methods inherited from module <code><a href="../Bottle/Internal/UFunc.html">Bottle::Internal::UFunc</a></code></h3>
+  
+  
+    <a href="../Bottle/Internal/UFunc.html#add(x1:Tensor,x2:Number)-instance-method" class="tooltip">
+      <span>add(x1 : Tensor, x2 : Number)<br/>add(x1 : Number, x2 : Tensor)<br/>add(x1 : Tensor, x2 : Tensor)<br/>add</span>
+    add</a>, 
+    
+  
+    <a href="../Bottle/Internal/UFunc.html#divide-instance-method" class="tooltip">
+      <span>divide<br/>divide(x1 : Tensor, x2 : Tensor)<br/>divide(x1 : Number, x2 : Tensor)<br/>divide(x1 : Tensor, x2 : Number)</span>
+    divide</a>, 
+    
+  
+    <a href="../Bottle/Internal/UFunc.html#equal(x1:Tensor,x2:Tensor)-instance-method" class="tooltip">
+      <span>equal(x1 : Tensor, x2 : Tensor)<br/>equal(x1 : Number, x2 : Tensor)<br/>equal(x1 : Tensor, x2 : Number)<br/>equal</span>
+    equal</a>, 
+    
+  
+    <a href="../Bottle/Internal/UFunc.html#floordiv-instance-method" class="tooltip">
+      <span>floordiv<br/>floordiv(x1 : Tensor, x2 : Tensor)<br/>floordiv(x1 : Number, x2 : Tensor)<br/>floordiv(x1 : Tensor, x2 : Number)</span>
+    floordiv</a>, 
+    
+  
+    <a href="../Bottle/Internal/UFunc.html#greater(x1:Tensor,x2:Number)-instance-method" class="tooltip">
+      <span>greater(x1 : Tensor, x2 : Number)<br/>greater(x1 : Number, x2 : Tensor)<br/>greater(x1 : Tensor, x2 : Tensor)<br/>greater</span>
+    greater</a>, 
+    
+  
+    <a href="../Bottle/Internal/UFunc.html#greater_equal(x1:Tensor,x2:Number)-instance-method" class="tooltip">
+      <span>greater_equal(x1 : Tensor, x2 : Number)<br/>greater_equal(x1 : Number, x2 : Tensor)<br/>greater_equal(x1 : Tensor, x2 : Tensor)<br/>greater_equal</span>
+    greater_equal</a>, 
+    
+  
+    <a href="../Bottle/Internal/UFunc.html#less-instance-method" class="tooltip">
+      <span>less<br/>less(x1 : Tensor, x2 : Number)<br/>less(x1 : Number, x2 : Tensor)<br/>less(x1 : Tensor, x2 : Tensor)</span>
+    less</a>, 
+    
+  
+    <a href="../Bottle/Internal/UFunc.html#less_equal(x1:Tensor,x2:Tensor)-instance-method" class="tooltip">
+      <span>less_equal(x1 : Tensor, x2 : Tensor)<br/>less_equal(x1 : Number, x2 : Tensor)<br/>less_equal(x1 : Tensor, x2 : Number)<br/>less_equal</span>
+    less_equal</a>, 
+    
+  
+    <a href="../Bottle/Internal/UFunc.html#modulo-instance-method" class="tooltip">
+      <span>modulo<br/>modulo(x1 : Tensor, x2 : Number)<br/>modulo(x1 : Number, x2 : Tensor)<br/>modulo(x1 : Tensor, x2 : Tensor)</span>
+    modulo</a>, 
+    
+  
+    <a href="../Bottle/Internal/UFunc.html#multiply(x1:Tensor,x2:Tensor)-instance-method" class="tooltip">
+      <span>multiply(x1 : Tensor, x2 : Tensor)<br/>multiply(x1 : Number, x2 : Tensor)<br/>multiply(x1 : Tensor, x2 : Number)<br/>multiply</span>
+    multiply</a>, 
+    
+  
+    <a href="../Bottle/Internal/UFunc.html#power-instance-method" class="tooltip">
+      <span>power<br/>power(x1 : Tensor, x2 : Tensor)<br/>power(x1 : Number, x2 : Tensor)<br/>power(x1 : Tensor, x2 : Number)</span>
+    power</a>, 
+    
+  
+    <a href="../Bottle/Internal/UFunc.html#subtract-instance-method" class="tooltip">
+      <span>subtract<br/>subtract(x1 : Tensor, x2 : Tensor)<br/>subtract(x1 : Number, x2 : Tensor)<br/>subtract(x1 : Tensor, x2 : Number)</span>
+    subtract</a>
+    
+  
+
+
+    
+
+
+    
+
+
+  
+    
+
+  <h3>Instance methods inherited from module <code><a href="../Bottle/Internal/Binary.html">Bottle::Internal::Binary</a></code></h3>
+  
+  
+    <a href="../Bottle/Internal/Binary.html#bitwise_and(x1:Tensor,x2:Tensor)-instance-method" class="tooltip">
+      <span>bitwise_and(x1 : Tensor, x2 : Tensor)<br/>bitwise_and(x1 : Tensor, x2 : Number)<br/>bitwise_and(x1 : Number, x2 : Tensor)</span>
+    bitwise_and</a>, 
+    
+  
+    <a href="../Bottle/Internal/Binary.html#bitwise_or(x1:Tensor,x2:Tensor)-instance-method" class="tooltip">
+      <span>bitwise_or(x1 : Tensor, x2 : Tensor)<br/>bitwise_or(x1 : Tensor, x2 : Number)<br/>bitwise_or(x1 : Number, x2 : Tensor)</span>
+    bitwise_or</a>, 
+    
+  
+    <a href="../Bottle/Internal/Binary.html#bitwise_xor(x1:Tensor,x2:Tensor)-instance-method" class="tooltip">
+      <span>bitwise_xor(x1 : Tensor, x2 : Tensor)<br/>bitwise_xor(x1 : Tensor, x2 : Number)<br/>bitwise_xor(x1 : Number, x2 : Tensor)</span>
+    bitwise_xor</a>, 
+    
+  
+    <a href="../Bottle/Internal/Binary.html#left_shift(x1:Tensor,x2:Tensor)-instance-method" class="tooltip">
+      <span>left_shift(x1 : Tensor, x2 : Tensor)<br/>left_shift(x1 : Tensor, x2 : Number)<br/>left_shift(x1 : Number, x2 : Tensor)</span>
+    left_shift</a>, 
+    
+  
+    <a href="../Bottle/Internal/Binary.html#right_shift(x1:Tensor,x2:Tensor)-instance-method" class="tooltip">
+      <span>right_shift(x1 : Tensor, x2 : Tensor)<br/>right_shift(x1 : Tensor, x2 : Number)<br/>right_shift(x1 : Number, x2 : Tensor)</span>
+    right_shift</a>
+    
+  
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+</div>
+
+</body>
+</html>
