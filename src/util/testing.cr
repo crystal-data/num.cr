@@ -1,43 +1,26 @@
 require "../core/ndtensor"
 
-module Bottle::Testing
+module Bottle::Internal::Comparison
   extend self
 
-  def tensor_equal(a, b)
-    if a.size != b.size
-      return false
+  def allclose(a : Tensor(U), b : Tensor(U), rtol=1e-5, atol=1e-8) forall U
+    if a.shape != b.shape
+      raise "Shape of arguments must match"
     end
-    a.size.times do |i|
-      return false unless a[i] == b[i]
+    iter_a = a.flat_iter
+    iter_b = b.flat_iter
+
+    if (rtol > 0)
+      iter_a.zip(iter_b) do |i, j|
+        c = (i.value - j.value).abs > atol + rtol * j.value.abs
+        return false unless !c
+      end
+    else
+      iter_a.zip(iter_b) do |i, j|
+        c = (i.value - j.value).abs > atol
+        return false unless !c
+      end
     end
     true
-  end
-
-  def row_a(a, b)
-    a.nrows == b.nrows
-  end
-
-  def col_a(a, b)
-    a.ncols == b.ncols
-  end
-
-  def matrix_aligned(a, b)
-    row_a(a, b) && col_a(a, b)
-  end
-
-  def broadcast_columns_first(a, b)
-    row_a(a, b) && a.ncols == 1
-  end
-
-  def broadcast_columns_second(a, b)
-    row_a(a, b) && b.ncols == 1
-  end
-
-  def broadcast_rows_first(a, b)
-    col_a(a, b) && a.nrows == 1
-  end
-
-  def broadcast_rows_second(a, b)
-    col_a(a, b) && b.nrows == 1
   end
 end

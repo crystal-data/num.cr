@@ -7,6 +7,7 @@ require "./core/trig"
 require "./linalg/fixed_dimension"
 require "./core/assemble"
 require "./core/printoptions"
+require "./util/testing"
 
 module Bottle::B
   extend self
@@ -18,4 +19,5 @@ module Bottle::B
   include Bottle::Internal::LinAlg
   include Bottle::Internal::Assemble
   include Bottle::Internal::ToString
+  include Bottle::Internal::Comparison
 end

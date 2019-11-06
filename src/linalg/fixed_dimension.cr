@@ -87,7 +87,7 @@ module Bottle::Internal::LinAlg
     # # Matrix[[      7.0     10.0]
     # #        [     15.0     22.0]]
     # ```
-    def matmul(dx : Tensor({{dtype}}), dy : Tensor({{dtype}}))
+    def matmul(dx : Tensor({{dtype}}), dy : Tensor({{dtype}}), dest : Tensor({{dtype}})? = nil)
       if dx.shape[1] != dy.shape[0]
         raise "Matrices cannot be multiplied together"
       end
@@ -96,7 +96,11 @@ module Bottle::Internal::LinAlg
         raise "Only two dimensional tensors are currently supported"
       end
 
-      m = Tensor({{dtype}}).new([dx.shape[0], dy.shape[1]])
+      if dest.nil?
+        m = Tensor({{dtype}}).new([dx.shape[0], dy.shape[1]])
+      else
+        m = dest.as(Tensor({{dtype}}))
+      end
 
       LibCblas.{{prefix}}gemm(
         LibCblas::MatrixLayout::RowMajor,

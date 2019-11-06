@@ -543,21 +543,8 @@ struct Bottle::Tensor(T)
     ret
   end
 
-  def reduce_as_matrices
-    if ndims < 3
-      raise "Dimensionality of the Tensor is not high enough to reduce"
-    end
-
-    axis = ndims - 3
-
-    ranges = shape.map_with_index do |a, i|
-      axis == i ? 0 : 0...a
-    end
-
-    shape[axis].times do |i|
-      ranges[axis] = i
-      yield slice(ranges)
-    end
+  def matrix_iter
+    MatrixIter.new(self)
   end
 
   def nbytes
