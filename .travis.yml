@@ -4,3 +4,11 @@ install:
 script:
   - crystal spec
   - crystal bin/ameba.cr
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  project_name: bottle
+  on:
+    branch: master
+  local_dir: docs
