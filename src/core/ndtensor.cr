@@ -33,6 +33,9 @@ struct Bottle::Tensor(T)
   # Unsafe pointer to a `Tensor`'s data.
   @buffer : Pointer(T)
 
+  # Pointer to the base data buffer of a `Tensor`'s data.
+  # This will be not null if a `Tensor` does not own
+  # its data, and is a view of another `Tensor`
   @base : Pointer(T)? = nil
 
   # Array-like container holding the dimensions of a `Tensor`
@@ -47,6 +50,7 @@ struct Bottle::Tensor(T)
   # Flags describing the memory layout of the array
   getter flags : ArrayFlags
 
+  # The total number of elements contained in a `Tensor`
   getter size : Int32
 
   # Compile time checking of data types of a `Tensor` to ensure
@@ -58,6 +62,23 @@ struct Bottle::Tensor(T)
     {% end %}
   end
 
+  # Yields a `Tensor` from a provided shape and a block.  The block only
+  # provides the absolute index, not an index dependent on the shape,
+  # so if a user wants to handle an arbitrary shape inside the block
+  # they need to do that themselves.
+  #
+  # ```
+  # t = Tensor.new([2, 2, 3]) { |i| i / 2 }
+  # t # =>
+  # Tensor([[[ 0,  1],
+  #          [ 2,  3]],
+  #
+  #         [[ 4,  5],
+  #          [ 6,  7]],
+  #
+  #         [[ 8,  9],
+  #          [10, 11]]])
+  # ```
   def self.new(_shape : Array(Int32), &block : Int32 -> U) forall U
     total = _shape.reduce { |i, j| i * j }
     ptr = Pointer(U).malloc(total) do |i|
@@ -66,6 +87,20 @@ struct Bottle::Tensor(T)
     new(_shape, ArrayFlags::Contiguous, ptr)
   end
 
+  # Yields a `Tensor` from a provided number of rows and columns.
+  # This can quickly create matrices, useful for several `Tensor` creattion
+  # methods such as the underlying implementation of `eye`, and `diag`.
+  #
+  # This method does provide *i* and *j* variables for the passed block,
+  # so no offset calculations need to be done by the user.
+  #
+  # ```
+  # t = Tensor.new(3, 3) { |i, j| i == j ? 1 : 0 }
+  # t # =>
+  # Tensor([[1, 0, 0],
+  #         [0, 1, 0],
+  #         [0, 0, 1]])
+  # ```
   def self.new(nrows : Int32, ncols : Int32, &block : Int32, Int32 -> T)
     data = Pointer(T).malloc(nrows * ncols) do |idx|
       i = idx // ncols
@@ -75,12 +110,43 @@ struct Bottle::Tensor(T)
     new([nrows, ncols], ArrayFlags::Contiguous, data)
   end
 
+  # A flexible method to create `Tensor`'s of arbitrary shapes
+  # filled with random values of arbitrary types.  Since
+  # Ranges can contain any dtype, the type of tensor is
+  # inferred from the passed range, and a new `Tensor` is
+  # sampled using the provided shape.
+  #
+  # ```
+  # t = Tensor.random(0...10, [2, 2])
+  # t # =>
+  # Tensor([[5, 9],
+  #         [3, 9]])
+  # ```
   def self.random(r : Range(U, U), _shape : Array(Int32)) forall U
     new(_shape) { |_| Random.rand(r) }
   end
 
+  # Creates a `Tensor` from a provided shape and order.
+  # If a pointer to data is passed, no validation ensures
+  # that the memory layout matches the passed order, so
+  # this method is considered "unsafe".
+  #
+  # Primarily used by internal methods, however this can be used to
+  # create empty `Tensors`, although the publicly
+  # facing methods should be preferred.
+  #
+  # ```
+  # t = Tensor(Int32).new([2, 2, 3], order: ArrayFlags::Fortran)
+  # t # =>
+  # Tensor([[[0, 0, 0],
+  #          [0, 0, 0]],
+  #
+  #         [[0, 0, 0],
+  #          [0, 0, 0]]])
+  # ```
   def initialize(_shape : Array(Int32),
-                 order : ArrayFlags = ArrayFlags::Contiguous, ptr : Pointer(T)? = nil)
+                 order : ArrayFlags = ArrayFlags::Contiguous,
+                 ptr : Pointer(T)? = nil)
     check_type
     @ndims = _shape.size
 
@@ -133,24 +199,42 @@ struct Bottle::Tensor(T)
     @flags = order | ArrayFlags::OwnData
   end
 
+  # Internal method to create tensors from low level libraries.
+  # This does no validation on inputs and is very unsafe unless
+  # called by the library.
+  #
+  # Should not be used by the external API.
   def initialize(@buffer, @shape, @strides, @flags, @base)
     check_type
     @ndims = @shape.size
     @size = @shape.reduce { |i, j| i * j }
   end
 
+  # Returns a safe flattened view of the `Tensor.  This method will
+  # raise `STOPITERATION` when the elements of the `Tensor`
+  # have been exhausted.
   def flat_iter
     FlatIter.new(self)
   end
 
+  # Returns a safe transposed view of the `Tensor`.  Primarily
+  # useful for swapping memory layout of an array in the duplication
+  # routine.
   def trans_iter
     ContigIter.new(self, transpose: true)
   end
 
+  # Returns an unsafe iter that does no bounds checking, but instead
+  # keeps incrementing the data pointer of a `Tensor` indefinitely.
+  #
+  # Useful for fast iteration in internal methods, but is highly
+  # unsafe for external API use.
   def unsafe_iter
     UnsafeIter.new(self)
   end
 
+  # Calculate the offset of an element in the `Tensor` from
+  # a provided index and the strides of the `Tensor`
   def ptr_at(idx : Array(Int32))
     ptr = @buffer
     strides.zip(idx) do |i, j|
@@ -159,6 +243,10 @@ struct Bottle::Tensor(T)
     ptr
   end
 
+  # Creates a string representation of a `Tensor`.  The implementation
+  # of this is a bit of a mess, but I am happy with the results currently,
+  # it could however be cleaned up to handle long floating point values
+  # more precisely.
   def to_s(io)
     printer = ToString::TensorPrint.new(self, io)
     printer.print
@@ -171,8 +259,8 @@ struct Bottle::Tensor(T)
   # the array, and needs to return an NTensor slice
   #
   # ```
-  # a = NDArray.sequence([2, 3, 2])
-  # a[[0, 1, 0]] # => 8.0
+  # a = Tensor.new([2, 3, 2]) { |i| i }
+  # a[[0, 1, 0]] # => 8
   # ```
   def [](indexer : Array(Int32))
     offset = 0
@@ -182,12 +270,31 @@ struct Bottle::Tensor(T)
     @buffer[offset]
   end
 
+  # Sets a single value in a `Tensor` based on
+  # the provided index.  Casting will occur
+  # so that the number matches the type of the
+  # Tensor.
+  #
+  # ```
+  # a = B.arange(10)
+  # a[[1]] = 100
+  # a # => Tensor([  0, 100,   2,   3,   4,   5,   6,   7,   8,   9])
+  # ```
   def []=(indexer : Array(Int32), value : Number)
-    offset = 0
-    strides.zip(indexer) do |i, j|
-      offset += i * j
+    if indexer.size < strides.size
+      fill = ndims - indexer.size
+      indexer += [...] * fill
+      old = slice_from_indexers(indexer)
+      old.flat_iter.each do |i|
+        i.value = T.new(value)
+      end
+    else
+      offset = 0
+      strides.zip(indexer) do |i, j|
+        offset += i * j
+      end
+      @buffer[offset] = T.new(value)
     end
-    @buffer[offset] = T.new(value)
   end
 
   # Returns a view of a NTensor from a list of indices or
@@ -203,10 +310,27 @@ struct Bottle::Tensor(T)
     idx = args.to_a
     fill = ndims - idx.size
     idx += [...] * fill
-
     slice_from_indexers(idx)
   end
 
+  # Assigns a `Tensor` to a slice of an array.
+  # The provided tensor must be the same shape
+  # as the slice in order for this method to
+  # work.
+  #
+  # ```
+  # t = Tensor.new([3, 2, 2]) { |i| i }
+  # t[[1]] = Tensor.new([2, 2]) { |i| i * 20 }
+  # t # =>
+  # Tensor([[[ 0,  1],
+  #          [ 2,  3]],
+  #
+  #         [[ 0, 20],
+  #          [40, 60]],
+  #
+  #         [[ 8,  9],
+  #          [10, 11]]])
+  # ```
   def []=(idx : Array, assign : Tensor(T))
     fill = ndims - idx.size
     idx += [...] * fill
@@ -216,6 +340,22 @@ struct Bottle::Tensor(T)
     end
   end
 
+  # Assigns a scalar value to a slice of a `Tensor`.
+  # The value is tiled along the entire slice.
+  #
+  # ```
+  # t = Tensor.new([2, 2, 3]) { |i| i }
+  # t[[1]] = 99
+  # t #=>
+  # Tensor([[[ 0,  1],
+  #          [ 2,  3]],
+  #
+  #         [[99, 99],
+  #          [99, 99]],
+  #
+  #         [[99, 99],
+  #          [99, 99]]])
+  # ```
   def []=(idx : Array, assign : T)
     fill = ndims - idx.size
     idx += [...] * fill
@@ -266,17 +406,39 @@ struct Bottle::Tensor(T)
     ret
   end
 
+  # Slices a `Tensor` from an array of integers or ranges
+  # Primarily used when you can't pass *args to the index
+  # method but still need the functionality.
+  #
+  # ```
+  # t = Tensor.new([2, 2, 3]) { |i| i }
+  # t.slice([0, 0...1, 0...2]) #=>
+  # Tensor([[0, 1]])
+  # ```
   def slice(idx : Array(Int32 | Range(Int32, Int32)))
     slice_from_indexers(idx)
   end
 
+  # Duplicates a `Tensor`, respecting the passed order of memory
+  # provided.  Useful for throwing `Tensor`s down to LAPACK
+  # since they must be in Fortran style order, and this
+  # avoids the copy if they are.
+  #
+  # ```
+  # t = B.arange(5)
+  # t.dup # => Tensor([0, 1, 2, 3, 4])
+  # ```
   def dup(f : ArrayFlags = ArrayFlags::None)
     ret = Tensor(T).new(@shape)
     newcontig = f & (ArrayFlags::Fortran | ArrayFlags::Contiguous)
     contig = @flags & (ArrayFlags::Fortran | ArrayFlags::Contiguous)
 
+    # Memory layout matches, can directly do a memcpy
     if (contig != ArrayFlags::None) && (newcontig == 0 || contig == newcontig)
       @buffer.copy_to(ret.@buffer, size)
+
+      # If the `Tensor` has size, need to copy based on provided strides,
+      # this is still the "easy" path.
     elsif ret.size
       if newcontig != (ret.flags & (ArrayFlags::Fortran | ArrayFlags::Contiguous))
         flat_iter.zip(ret.flat_iter) do |i, j|
@@ -287,12 +449,16 @@ struct Bottle::Tensor(T)
           newstrides //= shape[i]
           ret.@strides[i] = newstrides
         end
+
+        # Why does this have to be transposed :(
       else
         trans_iter.zip(ret.flat_iter) do |i, j|
           j.value = i.value
         end
       end
     end
+    # Rather than set something manually, might as well let the `Tensor`
+    # figure it out.
     ret.update_flags(ArrayFlags::Fortran | ArrayFlags::Contiguous)
     ret
   end
@@ -310,6 +476,10 @@ struct Bottle::Tensor(T)
 
   # Returns a view of the diagonal of a `Tensor`  only valid if
   # the `Tensor` has two dimensions.  Offsets are not supported.
+  #
+  # ```
+  # t = Tensor.new([3, 3]) { |i| i }
+  # t.diag_view # => Tensor([0, 4, 8])
   def diag_view
     raise "Tensor must be two-dimensional" unless ndims == 2
     nel = Math.min(@shape[0], @shape[1])
@@ -408,6 +578,27 @@ struct Bottle::Tensor(T)
     end
   end
 
+  # Fits a `Tensor` into a new shape, not
+  # altering memory if possible.  However, the `Tensor` is
+  # usually copied.
+  #
+  # ```
+  # t = Tensor.new([2, 4, 3]])
+  #
+  # t.reshape([2, 2, 2, 3]) # =>
+  # Tensor([[[[ 0,  1,  2],
+  #           [ 6,  7,  8]],
+  #
+  #          [[ 3,  4,  5],
+  #           [ 9, 10, 11]]],
+  #
+  #
+  #         [[[12, 13, 14],
+  #           [18, 19, 20]],
+  #
+  #          [[15, 16, 17],
+  #           [21, 22, 23]]]])
+  # ```
   def reshape(newshape : Array(Int32))
     if newshape == @shape
       return self
@@ -467,6 +658,22 @@ struct Bottle::Tensor(T)
     end
   end
 
+  # Permute the dimensions of a `Tensor`.  If no order is provided,
+  # the dimensions will be reversed, a "true transpose".  Otherwise,
+  # the dimensions will be permutated in the order provided.
+  #
+  # ```
+  # t = Tensor.new([2, 4, 3]) { |i| i }
+  # t.transpose([2, 0, 1])
+  # Tensor([[[ 0,  3,  6,  9],
+  #          [12, 15, 18, 21]],
+  #
+  #         [[ 1,  4,  7, 10],
+  #          [13, 16, 19, 22]],
+  #
+  #         [[ 2,  5,  8, 11],
+  #          [14, 17, 20, 23]]])
+  # ```
   def transpose(order : Array(Int32) = [] of Int32)
     newshape = @shape.dup
     newstrides = @strides.dup
@@ -543,10 +750,14 @@ struct Bottle::Tensor(T)
     ret
   end
 
+  # Iterates along the final two axes of a `Tensor`, useful
+  # for matrix operations on n-dimensional Tensors.
   def matrix_iter
     MatrixIter.new(self)
   end
 
+  # Total number of bytes taken up by items in the `Tensor`s
+  # data buffer.
   def nbytes
     size * sizeof(T)
   end
@@ -642,13 +853,14 @@ struct Bottle::Tensor(T)
   # Computes the sum of each value of a Tensor
   #
   # ```
-  # v = Flask.new [1, 2, 3, 4]
+  # v = Tensor.new [1, 2, 3, 4]
   # v.sum # => 10
   # ```
   def sum
     Bottle::Internal::Statistics.sum(self)
   end
 
+  # Compuates the maximum value of a `Tensor`
   def max
     Bottle::Internal::Statistics.max(self)
   end

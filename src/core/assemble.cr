@@ -3,6 +3,18 @@ require "./ndtensor"
 module Bottle::Internal::Assemble
   extend self
 
+  # Concatenates an array of `Tensor's` along a provided axis.
+  #
+  # ```
+  # t = Tensor.new([2, 2, 3]) { |i| i }
+  #
+  # concatenate([t, t, t], axis=-1)
+  # Tensor([[[ 0,  1,  2,  0,  1,  2,  0,  1,  2],
+  #          [ 3,  4,  5,  3,  4,  5,  3,  4,  5]],
+  #
+  #         [[ 6,  7,  8,  6,  7,  8,  6,  7,  8],
+  #          [ 9, 10, 11,  9, 10, 11,  9, 10, 11]]])
+  # ```
   def concatenate(alist : Array(Tensor(U)), axis : Int32) forall U
     newshape = alist[0].shape.dup
 
@@ -41,10 +53,52 @@ module Bottle::Internal::Assemble
     ret
   end
 
+  # Concatenates a list of `Tensor`s along axis 0
+  #
+  # ```
+  # t = Tensor.new([2, 2, 3])
+  # vstack([t, t, t])
+  # Tensor([[[ 0,  1,  2],
+  #          [ 3,  4,  5]],
+  #
+  #         [[ 6,  7,  8],
+  #          [ 9, 10, 11]],
+  #
+  #         [[ 0,  1,  2],
+  #          [ 3,  4,  5]],
+  #
+  #         [[ 6,  7,  8],
+  #          [ 9, 10, 11]],
+  #
+  #         [[ 0,  1,  2],
+  #          [ 3,  4,  5]],
+  #
+  #         [[ 6,  7,  8],
+  #          [ 9, 10, 11]]])
+  # ```
   def vstack(alist : Array(Tensor(U))) forall U
     concatenate(alist, 0)
   end
 
+  # Concatenates a list of `Tensor`s along axis 1
+  #
+  # ```
+  # t = Tensor.new([2, 2, 3])
+  # hstack([t, t, t])
+  # Tensor([[[ 0,  1,  2],
+  #          [ 3,  4,  5],
+  #          [ 0,  1,  2],
+  #          [ 3,  4,  5],
+  #          [ 0,  1,  2],
+  #          [ 3,  4,  5]],
+  #
+  #         [[ 6,  7,  8],
+  #          [ 9, 10, 11],
+  #          [ 6,  7,  8],
+  #          [ 9, 10, 11],
+  #          [ 6,  7,  8],
+  #          [ 9, 10, 11]]])
+  # ```
   def hstack(alist : Array(Tensor(U))) forall U
     concatenate(alist, 1)
   end

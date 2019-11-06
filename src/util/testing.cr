@@ -3,7 +3,16 @@ require "../core/ndtensor"
 module Bottle::Internal::Comparison
   extend self
 
-  def allclose(a : Tensor(U), b : Tensor(U), rtol=1e-5, atol=1e-8) forall U
+  # Asserts that two equally shaped `Tensor`s are equal within a provided
+  # tolerance.  Useful for floating point comparison where direct equality might
+  # not work
+  #
+  # ```
+  # t = Tensor.new([2, 2, 3]) { |i| i * 1.0 }
+  # tf = t + 0.00000000001
+  # allclose(t, tf) # => true
+  # ```
+  def allclose(a : Tensor(U), b : Tensor(U), rtol = 1e-5, atol = 1e-8) forall U
     if a.shape != b.shape
       raise "Shape of arguments must match"
     end
