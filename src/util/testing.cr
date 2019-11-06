@@ -21,15 +21,35 @@ module Bottle::Internal::Comparison
 
     if (rtol > 0)
       iter_a.zip(iter_b) do |i, j|
-        c = (i.value - j.value).abs > atol + rtol * j.value.abs
-        return false unless !c
+        c = !((i.value - j.value).abs > atol + rtol * j.value.abs)
+        return false unless c
       end
     else
       iter_a.zip(iter_b) do |i, j|
         c = (i.value - j.value).abs > atol
-        return false unless !c
+        return false unless c
       end
     end
     true
+  end
+end
+
+module Bottle::Internal::Testing
+  extend self
+
+  def assert_compatible_shape(a : Array(Int32), b : Int32)
+    toraise = false
+    if a.size == 0
+      if b != 0
+        toraise = true
+      end
+    else
+      sz = a.reduce { |i, j| i * j }
+      toraise = true unless b == sz
+    end
+    if toraise
+      raise Exceptions::ShapeError.new("An array of size #{b} cannot go
+        into a Tensor of shape #{a}")
+    end
   end
 end

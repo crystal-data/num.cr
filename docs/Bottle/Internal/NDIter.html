@@ -14,7 +14,7 @@
 </script>
 
   <meta id="repository-name" content="github.com/crystal-data/bottle">
-  <title>Bottle::Exceptions::RangeError - github.com/crystal-data/bottle</title>
+  <title>Bottle::Internal::NDIter(T) - github.com/crystal-data/bottle</title>
 </head>
 <body>
 
@@ -46,32 +46,7 @@
       
     </li>
   
-  <li class="parent open current" data-id="github.com/crystal-data/bottle/Bottle/Exceptions" data-name="bottle::exceptions">
-      <a href="../../Bottle/Exceptions.html">Exceptions</a>
-      
-        <ul>
-  
-  <li class=" current" data-id="github.com/crystal-data/bottle/Bottle/Exceptions/RangeError" data-name="bottle::exceptions::rangeerror">
-      <a href="../../Bottle/Exceptions/RangeError.html">RangeError</a>
-      
-    </li>
-  
-  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Exceptions/ShapeError" data-name="bottle::exceptions::shapeerror">
-      <a href="../../Bottle/Exceptions/ShapeError.html">ShapeError</a>
-      
-    </li>
-  
-  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Exceptions/TypeError" data-name="bottle::exceptions::typeerror">
-      <a href="../../Bottle/Exceptions/TypeError.html">TypeError</a>
-      
-    </li>
-  
-</ul>
-
-      
-    </li>
-  
-  <li class="parent " data-id="github.com/crystal-data/bottle/Bottle/Internal" data-name="bottle::internal">
+  <li class="parent open current" data-id="github.com/crystal-data/bottle/Bottle/Internal" data-name="bottle::internal">
       <a href="../../Bottle/Internal.html">Internal</a>
       
         <ul>
@@ -156,6 +131,31 @@
       
     </li>
   
+  <li class="parent " data-id="github.com/crystal-data/bottle/Bottle/Internal/Exceptions" data-name="bottle::internal::exceptions">
+      <a href="../../Bottle/Internal/Exceptions.html">Exceptions</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/Exceptions/RangeError" data-name="bottle::internal::exceptions::rangeerror">
+      <a href="../../Bottle/Internal/Exceptions/RangeError.html">RangeError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/Exceptions/ShapeError" data-name="bottle::internal::exceptions::shapeerror">
+      <a href="../../Bottle/Internal/Exceptions/ShapeError.html">ShapeError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/Exceptions/TypeError" data-name="bottle::internal::exceptions::typeerror">
+      <a href="../../Bottle/Internal/Exceptions/TypeError.html">TypeError</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
   <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/FlatIter" data-name="bottle::internal::flatiter(t)">
       <a href="../../Bottle/Internal/FlatIter.html">FlatIter</a>
       
@@ -176,7 +176,7 @@
       
     </li>
   
-  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/NDIter" data-name="bottle::internal::nditer(t)">
+  <li class=" current" data-id="github.com/crystal-data/bottle/Bottle/Internal/NDIter" data-name="bottle::internal::nditer(t)">
       <a href="../../Bottle/Internal/NDIter.html">NDIter</a>
       
     </li>
@@ -208,6 +208,11 @@
   
   <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/Statistics" data-name="bottle::internal::statistics">
       <a href="../../Bottle/Internal/Statistics.html">Statistics</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/Testing" data-name="bottle::internal::testing">
+      <a href="../../Bottle/Internal/Testing.html">Testing</a>
       
     </li>
   
@@ -285,12 +290,11 @@
 <div class="main-content">
 <h1 class="type-name">
 
-  <span class="kind">class</span> Bottle::Exceptions::RangeError
+  <span class="kind">module</span> Bottle::Internal::NDIter(T)
 
 </h1>
 
 
-  <ul class="superclass-hierarchy"><li class="superclass"><a href="../../Bottle/Exceptions/RangeError.html">Bottle::Exceptions::RangeError</a></li><li class="superclass">Exception</li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
 
 
 
@@ -298,12 +302,31 @@
 
 
 
+  <h2>Included Modules</h2>
+  <ul class="other-types-list">
+  
+    <li class="other-type">Iterator(T)</li>
+  
+  </ul>
 
 
 
 
 
 
+
+  <h2>Direct including types</h2>
+  <ul class="other-types-list">
+  
+    <li class="other-type"><a href="../../Bottle/Internal/SafeNDIter/ND.html">Bottle::Internal::SafeNDIter::ND(T)</a></li>
+  
+    <li class="other-type"><a href="../../Bottle/Internal/SafeNDIter/OneD.html">Bottle::Internal::SafeNDIter::OneD(T)</a></li>
+  
+    <li class="other-type"><a href="../../Bottle/Internal/UnsafeNDIter/ND.html">Bottle::Internal::UnsafeNDIter::ND(T)</a></li>
+  
+    <li class="other-type"><a href="../../Bottle/Internal/UnsafeNDIter/OneD.html">Bottle::Internal::UnsafeNDIter::OneD(T)</a></li>
+  
+  </ul>
 
 
 
@@ -311,8 +334,8 @@
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/crystal-data/bottle/blob/d0f2bf09aed5891f3717d396ce6785f23a698e52/src/util/exceptions.cr#L2" target="_blank">
-        util/exceptions.cr
+      <a href="https://github.com/crystal-data/bottle/blob/d0f2bf09aed5891f3717d396ce6785f23a698e52/src/iteration/strategy.cr#L49" target="_blank">
+        iteration/strategy.cr
       </a>
     
     <br/>
@@ -322,9 +345,36 @@
 
 
 
+  <h2>Constructors</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new(t:Bottle::Tensor(T))-class-method" class="signature"><strong>.new</strong>(t : Bottle::Tensor(T))</a>
+        
+      </li>
+    
+  </ul>
 
 
 
+
+
+  <h2>Instance Method Summary</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#next-instance-method" class="signature"><strong>#next</strong></a>
+        
+          <div class="summary"><p>Returns the next element in this iterator, or <code>Iterator::Stop::INSTANCE</code> if there are no more elements.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#rewind(buffer:Pointer(T))-instance-method" class="signature"><strong>#rewind</strong>(buffer : Pointer(T))</a>
+        
+      </li>
+    
+  </ul>
 
 
 
@@ -352,22 +402,76 @@
 
 
   
-    
-
-
-    
-
-
-    
-
-
-  
 </div>
 
 
+  <h2>Constructor Detail</h2>
+  
+    <div class="entry-detail" id="new(t:Bottle::Tensor(T))-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(t : <a href="../../Bottle/Tensor.html">Bottle::Tensor</a>(T))
+
+        <a class="method-permalink" href="#new(t:Bottle::Tensor(T))-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/d0f2bf09aed5891f3717d396ce6785f23a698e52/src/iteration/strategy.cr#L82" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
 
 
 
+
+
+  <h2>Instance Method Detail</h2>
+  
+    <div class="entry-detail" id="next-instance-method">
+      <div class="signature">
+        abstract 
+        def <strong>next</strong>
+
+        <a class="method-permalink" href="#next-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+            <div class="doc-inherited">
+              Description copied from module Iterator(T)
+            </div>
+          
+          <p>Returns the next element in this iterator, or <code>Iterator::Stop::INSTANCE</code> if there
+are no more elements.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/d0f2bf09aed5891f3717d396ce6785f23a698e52/src/iteration/strategy.cr#L94" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="rewind(buffer:Pointer(T))-instance-method">
+      <div class="signature">
+        
+        def <strong>rewind</strong>(buffer : Pointer(T))
+
+        <a class="method-permalink" href="#rewind(buffer:Pointer(T))-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/d0f2bf09aed5891f3717d396ce6785f23a698e52/src/iteration/strategy.cr#L96" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
 
 
 

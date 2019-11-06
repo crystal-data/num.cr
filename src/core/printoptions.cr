@@ -59,10 +59,14 @@ module Bottle::Internal::ToString
     end
 
     def print
-      @io << "#{@ptr.value.round(3)}".rjust(maxval)
-      until !inc
+      if @t.ndims == 0
+        @io << "[])"
+      else
+        @io << "#{@ptr.value.round(3)}".rjust(maxval)
+        until !inc
+        end
+        @io << ")"
       end
-      @io << ")"
     end
 
     def inc

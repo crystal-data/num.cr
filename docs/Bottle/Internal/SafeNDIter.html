@@ -14,7 +14,7 @@
 </script>
 
   <meta id="repository-name" content="github.com/crystal-data/bottle">
-  <title>Bottle::Exceptions::RangeError - github.com/crystal-data/bottle</title>
+  <title>Bottle::Internal::SafeNDIter(T) - github.com/crystal-data/bottle</title>
 </head>
 <body>
 
@@ -46,32 +46,7 @@
       
     </li>
   
-  <li class="parent open current" data-id="github.com/crystal-data/bottle/Bottle/Exceptions" data-name="bottle::exceptions">
-      <a href="../../Bottle/Exceptions.html">Exceptions</a>
-      
-        <ul>
-  
-  <li class=" current" data-id="github.com/crystal-data/bottle/Bottle/Exceptions/RangeError" data-name="bottle::exceptions::rangeerror">
-      <a href="../../Bottle/Exceptions/RangeError.html">RangeError</a>
-      
-    </li>
-  
-  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Exceptions/ShapeError" data-name="bottle::exceptions::shapeerror">
-      <a href="../../Bottle/Exceptions/ShapeError.html">ShapeError</a>
-      
-    </li>
-  
-  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Exceptions/TypeError" data-name="bottle::exceptions::typeerror">
-      <a href="../../Bottle/Exceptions/TypeError.html">TypeError</a>
-      
-    </li>
-  
-</ul>
-
-      
-    </li>
-  
-  <li class="parent " data-id="github.com/crystal-data/bottle/Bottle/Internal" data-name="bottle::internal">
+  <li class="parent open current" data-id="github.com/crystal-data/bottle/Bottle/Internal" data-name="bottle::internal">
       <a href="../../Bottle/Internal.html">Internal</a>
       
         <ul>
@@ -156,6 +131,31 @@
       
     </li>
   
+  <li class="parent " data-id="github.com/crystal-data/bottle/Bottle/Internal/Exceptions" data-name="bottle::internal::exceptions">
+      <a href="../../Bottle/Internal/Exceptions.html">Exceptions</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/Exceptions/RangeError" data-name="bottle::internal::exceptions::rangeerror">
+      <a href="../../Bottle/Internal/Exceptions/RangeError.html">RangeError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/Exceptions/ShapeError" data-name="bottle::internal::exceptions::shapeerror">
+      <a href="../../Bottle/Internal/Exceptions/ShapeError.html">ShapeError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/Exceptions/TypeError" data-name="bottle::internal::exceptions::typeerror">
+      <a href="../../Bottle/Internal/Exceptions/TypeError.html">TypeError</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
   <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/FlatIter" data-name="bottle::internal::flatiter(t)">
       <a href="../../Bottle/Internal/FlatIter.html">FlatIter</a>
       
@@ -186,7 +186,7 @@
       
     </li>
   
-  <li class="parent " data-id="github.com/crystal-data/bottle/Bottle/Internal/SafeNDIter" data-name="bottle::internal::safenditer(t)">
+  <li class="parent open current" data-id="github.com/crystal-data/bottle/Bottle/Internal/SafeNDIter" data-name="bottle::internal::safenditer(t)">
       <a href="../../Bottle/Internal/SafeNDIter.html">SafeNDIter</a>
       
         <ul>
@@ -208,6 +208,11 @@
   
   <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/Statistics" data-name="bottle::internal::statistics">
       <a href="../../Bottle/Internal/Statistics.html">Statistics</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/Testing" data-name="bottle::internal::testing">
+      <a href="../../Bottle/Internal/Testing.html">Testing</a>
       
     </li>
   
@@ -285,12 +290,12 @@
 <div class="main-content">
 <h1 class="type-name">
 
-  <span class="kind">class</span> Bottle::Exceptions::RangeError
+  <span class="kind">struct</span> Bottle::Internal::SafeNDIter(T)
 
 </h1>
 
 
-  <ul class="superclass-hierarchy"><li class="superclass"><a href="../../Bottle/Exceptions/RangeError.html">Bottle::Exceptions::RangeError</a></li><li class="superclass">Exception</li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../../Bottle/Internal/SafeNDIter.html">Bottle::Internal::SafeNDIter(T)</a></li><li class="superclass">Struct</li><li class="superclass">Value</li><li class="superclass">Object</li></ul>
 
 
 
@@ -311,8 +316,8 @@
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/crystal-data/bottle/blob/d0f2bf09aed5891f3717d396ce6785f23a698e52/src/util/exceptions.cr#L2" target="_blank">
-        util/exceptions.cr
+      <a href="https://github.com/crystal-data/bottle/blob/d0f2bf09aed5891f3717d396ce6785f23a698e52/src/iteration/strategy.cr#L104" target="_blank">
+        iteration/strategy.cr
       </a>
     
     <br/>
@@ -322,11 +327,41 @@
 
 
 
+  <h2>Constructors</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new(t:Bottle::Tensor(T))-class-method" class="signature"><strong>.new</strong>(t : Bottle::Tensor(T))</a>
+        
+      </li>
+    
+  </ul>
 
 
 
 
 
+  <h2>Instance Method Summary</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#strategy:Bottle::Internal::SafeNDIter::OneD(T)%7CBottle::Internal::SafeNDIter::ND(T)-instance-method" class="signature"><strong>#strategy</strong> : Bottle::Internal::SafeNDIter::OneD(T) | Bottle::Internal::SafeNDIter::ND(T)</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+  <h2>Macro Summary</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#method_missing(call)-macro" class="signature"><strong>method_missing</strong>(call)</a>
+        
+      </li>
+    
+  </ul>
 
 
 
@@ -365,11 +400,68 @@
 </div>
 
 
+  <h2>Constructor Detail</h2>
+  
+    <div class="entry-detail" id="new(t:Bottle::Tensor(T))-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(t : <a href="../../Bottle/Tensor.html">Bottle::Tensor</a>(T))
+
+        <a class="method-permalink" href="#new(t:Bottle::Tensor(T))-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/d0f2bf09aed5891f3717d396ce6785f23a698e52/src/iteration/strategy.cr#L123" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
 
 
 
 
 
+  <h2>Instance Method Detail</h2>
+  
+    <div class="entry-detail" id="strategy:Bottle::Internal::SafeNDIter::OneD(T)|Bottle::Internal::SafeNDIter::ND(T)-instance-method">
+      <div class="signature">
+        
+        def <strong>strategy</strong> : <a href="../../Bottle/Internal/SafeNDIter/OneD.html">Bottle::Internal::SafeNDIter::OneD</a>(T) | <a href="../../Bottle/Internal/SafeNDIter/ND.html">Bottle::Internal::SafeNDIter::ND</a>(T)
+
+        <a class="method-permalink" href="#strategy:Bottle::Internal::SafeNDIter::OneD(T)%7CBottle::Internal::SafeNDIter::ND(T)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/d0f2bf09aed5891f3717d396ce6785f23a698e52/src/iteration/strategy.cr#L123" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+  <h2>Macro Detail</h2>
+  
+    <div class="entry-detail" id="method_missing(call)-macro">
+      <div class="signature">
+        
+        macro <strong>method_missing</strong>(call)
+
+        <a class="method-permalink" href="#method_missing(call)-macro">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/d0f2bf09aed5891f3717d396ce6785f23a698e52/src/iteration/strategy.cr#L128" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
 
 
 </div>

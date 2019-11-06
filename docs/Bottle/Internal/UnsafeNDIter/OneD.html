@@ -14,7 +14,7 @@
 </script>
 
   <meta id="repository-name" content="github.com/crystal-data/bottle">
-  <title>Bottle::Internal::ToString::TensorPrint(T) - github.com/crystal-data/bottle</title>
+  <title>Bottle::Internal::UnsafeNDIter::OneD(T) - github.com/crystal-data/bottle</title>
 </head>
 <body>
 
@@ -216,12 +216,12 @@
       
     </li>
   
-  <li class="parent open current" data-id="github.com/crystal-data/bottle/Bottle/Internal/ToString" data-name="bottle::internal::tostring">
+  <li class="parent " data-id="github.com/crystal-data/bottle/Bottle/Internal/ToString" data-name="bottle::internal::tostring">
       <a href="../../../Bottle/Internal/ToString.html">ToString</a>
       
         <ul>
   
-  <li class=" current" data-id="github.com/crystal-data/bottle/Bottle/Internal/ToString/TensorPrint" data-name="bottle::internal::tostring::tensorprint(t)">
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/ToString/TensorPrint" data-name="bottle::internal::tostring::tensorprint(t)">
       <a href="../../../Bottle/Internal/ToString/TensorPrint.html">TensorPrint</a>
       
     </li>
@@ -246,7 +246,7 @@
       
     </li>
   
-  <li class="parent " data-id="github.com/crystal-data/bottle/Bottle/Internal/UnsafeNDIter" data-name="bottle::internal::unsafenditer(t)">
+  <li class="parent open current" data-id="github.com/crystal-data/bottle/Bottle/Internal/UnsafeNDIter" data-name="bottle::internal::unsafenditer(t)">
       <a href="../../../Bottle/Internal/UnsafeNDIter.html">UnsafeNDIter</a>
       
         <ul>
@@ -256,7 +256,7 @@
       
     </li>
   
-  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Internal/UnsafeNDIter/OneD" data-name="bottle::internal::unsafenditer::oned(t)">
+  <li class=" current" data-id="github.com/crystal-data/bottle/Bottle/Internal/UnsafeNDIter/OneD" data-name="bottle::internal::unsafenditer::oned(t)">
       <a href="../../../Bottle/Internal/UnsafeNDIter/OneD.html">OneD</a>
       
     </li>
@@ -290,12 +290,12 @@
 <div class="main-content">
 <h1 class="type-name">
 
-  <span class="kind">class</span> Bottle::Internal::ToString::TensorPrint(T)
+  <span class="kind">struct</span> Bottle::Internal::UnsafeNDIter::OneD(T)
 
 </h1>
 
 
-  <ul class="superclass-hierarchy"><li class="superclass"><a href="../../../Bottle/Internal/ToString/TensorPrint.html">Bottle::Internal::ToString::TensorPrint(T)</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../../../Bottle/Internal/UnsafeNDIter/OneD.html">Bottle::Internal::UnsafeNDIter::OneD(T)</a></li><li class="superclass">Struct</li><li class="superclass">Value</li><li class="superclass">Object</li></ul>
 
 
 
@@ -303,6 +303,13 @@
 
 
 
+
+  <h2>Included Modules</h2>
+  <ul class="other-types-list">
+  
+    <li class="other-type"><a href="../../../Bottle/Internal/NDIter.html">Bottle::Internal::NDIter(T)</a></li>
+  
+  </ul>
 
 
 
@@ -316,8 +323,8 @@
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/crystal-data/bottle/blob/d0f2bf09aed5891f3717d396ce6785f23a698e52/src/core/printoptions.cr#L4" target="_blank">
-        core/printoptions.cr
+      <a href="https://github.com/crystal-data/bottle/blob/d0f2bf09aed5891f3717d396ce6785f23a698e52/src/iteration/strategy.cr#L132" target="_blank">
+        iteration/strategy.cr
       </a>
     
     <br/>
@@ -331,7 +338,7 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#new(t:Bottle::Tensor(T),io)-class-method" class="signature"><strong>.new</strong>(t : Bottle::Tensor(T), io)</a>
+        <a href="#new(t:Bottle::Tensor(T))-class-method" class="signature"><strong>.new</strong>(t : Bottle::Tensor(T))</a>
         
       </li>
     
@@ -345,52 +352,9 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#calc_ptr(idx)-instance-method" class="signature"><strong>#calc_ptr</strong>(idx)</a>
+        <a href="#next-instance-method" class="signature"><strong>#next</strong></a>
         
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#cbrackets:String-instance-method" class="signature"><strong>#cbrackets</strong> : String</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#inc-instance-method" class="signature"><strong>#inc</strong></a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#indent:String-instance-method" class="signature"><strong>#indent</strong> : String</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#last_comma:Int32-instance-method" class="signature"><strong>#last_comma</strong> : Int32</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#maxval:Int32-instance-method" class="signature"><strong>#maxval</strong> : Int32</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#obrackets:String-instance-method" class="signature"><strong>#obrackets</strong> : String</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#print-instance-method" class="signature"><strong>#print</strong></a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#shape:Array(Int32)-instance-method" class="signature"><strong>#shape</strong> : Array(Int32)</a>
-        
-      </li>
-    
-      <li class="entry-summary">
-        <a href="#strides:Array(Int32)-instance-method" class="signature"><strong>#strides</strong> : Array(Int32)</a>
+          <div class="summary"><p>Returns the next element in this iterator, or <code>Iterator::Stop::INSTANCE</code> if there are no more elements.</p></div>
         
       </li>
     
@@ -401,6 +365,69 @@
 
 
 <div class="methods-inherited">
+  
+    
+
+  <h3>Instance methods inherited from module <code><a href="../../../Bottle/Internal/NDIter.html">Bottle::Internal::NDIter(T)</a></code></h3>
+  
+  
+    <a href="../../../Bottle/Internal/NDIter.html#next-instance-method" class="tooltip">
+      <span>next</span>
+    next</a>, 
+    
+  
+    <a href="../../../Bottle/Internal/NDIter.html#rewind(buffer:Pointer(T))-instance-method" class="tooltip">
+      <span>rewind(buffer : Pointer(T))</span>
+    rewind</a>
+    
+  
+
+
+    
+
+  <h3>Constructor methods inherited from module <code><a href="../../../Bottle/Internal/NDIter.html">Bottle::Internal::NDIter(T)</a></code></h3>
+  
+  
+    <a href="../../../Bottle/Internal/NDIter.html#new(t:Bottle::Tensor(T))-class-method" class="tooltip">
+      <span>new(t : Bottle::Tensor(T))</span>
+    new</a>
+    
+  
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
   
     
 
@@ -427,18 +454,18 @@
 
   <h2>Constructor Detail</h2>
   
-    <div class="entry-detail" id="new(t:Bottle::Tensor(T),io)-class-method">
+    <div class="entry-detail" id="new(t:Bottle::Tensor(T))-class-method">
       <div class="signature">
         
-        def self.<strong>new</strong>(t : <a href="../../../Bottle/Tensor.html">Bottle::Tensor</a>(T), io)
+        def self.<strong>new</strong>(t : <a href="../../../Bottle/Tensor.html">Bottle::Tensor</a>(T))
 
-        <a class="method-permalink" href="#new(t:Bottle::Tensor(T),io)-class-method">#</a>
+        <a class="method-permalink" href="#new(t:Bottle::Tensor(T))-class-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/bottle/blob/d0f2bf09aed5891f3717d396ce6785f23a698e52/src/core/printoptions.cr#L17" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/bottle/blob/d0f2bf09aed5891f3717d396ce6785f23a698e52/src/iteration/strategy.cr#L82" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -450,162 +477,28 @@
 
   <h2>Instance Method Detail</h2>
   
-    <div class="entry-detail" id="calc_ptr(idx)-instance-method">
+    <div class="entry-detail" id="next-instance-method">
       <div class="signature">
         
-        def <strong>calc_ptr</strong>(idx)
+        def <strong>next</strong>
 
-        <a class="method-permalink" href="#calc_ptr(idx)-instance-method">#</a>
+        <a class="method-permalink" href="#next-instance-method">#</a>
       </div>
+      
+        <div class="doc">
+          
+            <div class="doc-inherited">
+              Description copied from module Iterator(T)
+            </div>
+          
+          <p>Returns the next element in this iterator, or <code>Iterator::Stop::INSTANCE</code> if there
+are no more elements.</p>
+        </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/bottle/blob/d0f2bf09aed5891f3717d396ce6785f23a698e52/src/core/printoptions.cr#L53" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="cbrackets:String-instance-method">
-      <div class="signature">
-        
-        def <strong>cbrackets</strong> : String
-
-        <a class="method-permalink" href="#cbrackets:String-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/crystal-data/bottle/blob/d0f2bf09aed5891f3717d396ce6785f23a698e52/src/core/printoptions.cr#L12" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="inc-instance-method">
-      <div class="signature">
-        
-        def <strong>inc</strong>
-
-        <a class="method-permalink" href="#inc-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/crystal-data/bottle/blob/d0f2bf09aed5891f3717d396ce6785f23a698e52/src/core/printoptions.cr#L72" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="indent:String-instance-method">
-      <div class="signature">
-        
-        def <strong>indent</strong> : String
-
-        <a class="method-permalink" href="#indent:String-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/crystal-data/bottle/blob/d0f2bf09aed5891f3717d396ce6785f23a698e52/src/core/printoptions.cr#L13" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="last_comma:Int32-instance-method">
-      <div class="signature">
-        
-        def <strong>last_comma</strong> : Int32
-
-        <a class="method-permalink" href="#last_comma:Int32-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/crystal-data/bottle/blob/d0f2bf09aed5891f3717d396ce6785f23a698e52/src/core/printoptions.cr#L14" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="maxval:Int32-instance-method">
-      <div class="signature">
-        
-        def <strong>maxval</strong> : Int32
-
-        <a class="method-permalink" href="#maxval:Int32-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/crystal-data/bottle/blob/d0f2bf09aed5891f3717d396ce6785f23a698e52/src/core/printoptions.cr#L17" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="obrackets:String-instance-method">
-      <div class="signature">
-        
-        def <strong>obrackets</strong> : String
-
-        <a class="method-permalink" href="#obrackets:String-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/crystal-data/bottle/blob/d0f2bf09aed5891f3717d396ce6785f23a698e52/src/core/printoptions.cr#L11" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="print-instance-method">
-      <div class="signature">
-        
-        def <strong>print</strong>
-
-        <a class="method-permalink" href="#print-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/crystal-data/bottle/blob/d0f2bf09aed5891f3717d396ce6785f23a698e52/src/core/printoptions.cr#L61" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="shape:Array(Int32)-instance-method">
-      <div class="signature">
-        
-        def <strong>shape</strong> : Array(Int32)
-
-        <a class="method-permalink" href="#shape:Array(Int32)-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/crystal-data/bottle/blob/d0f2bf09aed5891f3717d396ce6785f23a698e52/src/core/printoptions.cr#L16" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="strides:Array(Int32)-instance-method">
-      <div class="signature">
-        
-        def <strong>strides</strong> : Array(Int32)
-
-        <a class="method-permalink" href="#strides:Array(Int32)-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/crystal-data/bottle/blob/d0f2bf09aed5891f3717d396ce6785f23a698e52/src/core/printoptions.cr#L15" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/bottle/blob/d0f2bf09aed5891f3717d396ce6785f23a698e52/src/iteration/strategy.cr#L135" target="_blank">View source</a>]
         
       </div>
     </div>

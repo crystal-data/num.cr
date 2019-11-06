@@ -1,66 +1,139 @@
 require "../spec_helper"
 require "../../src/util/*"
 include Bottle
-include Bottle::Exceptions
+include Bottle::Internal::Exceptions
+include Bottle::Internal
 
 describe Tensor do
+  describe "Tensor#from_array" do
+    it "Identifies an improperly shaped Array" do
+      expect_raises(ShapeError) do
+        Tensor.from_array([2, 2, 3], [1, 2])
+      end
+    end
+
+    it "Initializes a Tensor from 1D Array" do
+      result = Tensor.from_array([4], [0, 1, 2, 3])
+      expected = Tensor.new([4]) { |i| i }
+      Comparison.allclose(result, expected).should be_true
+    end
+
+    it "Initializes a Tensor from a 2D Array" do
+      result = Tensor.from_array([2, 2], [[0, 1], [2, 3]])
+      expected = Tensor.new([2, 2]) { |i| i }
+      Comparison.allclose(result, expected).should be_true
+    end
+
+    it "Initializes different shape Tensor from array" do
+      result = Tensor.from_array([2, 3], [0, 1, 2, 3, 4, 5])
+      expected = Tensor.new([2, 3]) { |i| i }
+      Comparison.allclose(result, expected).should be_true
+    end
+
+    it "Initializes a Tensor with proper flags" do
+      result = Tensor.from_array([4], [1, 2, 3, 4])
+      result.flags.fortran?.should be_true
+      result.flags.contiguous?.should be_true
+    end
+
+    it "Initializes a 2D Tensor with proper flags" do
+      result = Tensor.from_array([2, 2], [1, 2, 3, 4])
+      result.flags.fortran?.should be_false
+      result.flags.contiguous?.should be_true
+    end
+
+    it "Correctly handles an empty array" do
+      result = Tensor.from_array([] of Int32, [] of Int32)
+      result.shape.should eq [0]
+      result.strides.should eq [1]
+      result.should be_a(Tensor(Int32))
+    end
+
+    it "Initializes a Tensor from jagged nested array" do
+      result = Tensor.from_array([2], [[[[0, [[[[[1]]]]]]]]])
+      expected = Tensor.new([2]) { |i| i }
+      Comparison.allclose(result, expected).should be_true
+    end
+  end
+
+  describe "Tensor#from_block" do
+    it "Creates empty Tensor from empty block" do
+      result = Tensor.new([0]) { |i| i }
+      result.shape.should eq [0]
+      result.strides.should eq [1]
+      result.should be_a(Tensor(Int32))
+    end
+
+    it "Infers float dtype from block" do
+      result = Tensor.new([5]) { |i| i * 1.0 }
+      result.should be_a(Tensor(Float64))
+    end
+
+    it "Correctly lays out memory from block" do
+      result = Tensor.new([5]) { |i| i }
+      result.flags.fortran?.should be_true
+      result.flags.contiguous?.should be_true
+    end
+
+    it "Correctly lays out ND memory from block" do
+      result = Tensor.new([2, 2, 3]) { |i| i }
+      result.flags.fortran?.should be_false
+      result.flags.contiguous?.should be_true
+    end
+  end
+
+  describe "Tensor#matrix_block" do
+    it "Creates empty matrix from empty block" do
+      result = Tensor.new(0, 0) { |i, j| i + j }
+      result.shape.should eq [0]
+      result.strides.should eq [1]
+      result.should be_a(Tensor(Int32))
+    end
+
+    it "Infers dtype from block" do
+      result = Tensor.new(2, 2) { |i, j| i / j }
+      result.should be_a(Tensor(Float64))
+    end
+
+    it "Correctly lays out memory from block" do
+      result = Tensor.new(2, 2) { |i, j| i / j }
+      result.flags.fortran?.should be_false
+      result.flags.contiguous?.should be_true
+    end
+  end
+
+  describe "Tensor#random" do
+    it "Creates empty tensor from empty shape" do
+      result = Tensor.random(0...10, [] of Int32)
+      result.shape.should eq [0]
+      result.strides.should eq [1]
+      result.should be_a(Tensor(Int32))
+    end
+
+    it "Infers dtype from range" do
+      result = Tensor.random(0.0...10.0, [2, 2, 3])
+      result.should be_a(Tensor(Float64))
+    end
+  end
+
   describe "Tensor#initialize" do
-    it "correctly identifies dtype from data" do
-      f = Tensor.new [1, 2, 3]
-      f.should be_a(Tensor(Int32))
+    it "Correctly creates empty tensor" do
+      result = Tensor(Int32).new([] of Int32)
+      result.shape.should eq [0]
+      result.strides.should eq [1]
+      result.should be_a(Tensor(Int32))
     end
 
-    it "correctly creates flask from block" do
-      f = Tensor.new(5) { |i| i }
-      Testing.tensor_equal(f, Tensor.new [0, 1, 2, 3, 4]).should be_true
+    it "Lays out memory in Fortran order" do
+      result = Tensor(Int32).new([2, 2], ArrayFlags::Fortran)
+      result.flags.fortran?.should be_true
+      result.flags.contiguous?.should be_false
     end
 
-    it "correctly allocates an empty flask" do
-      n = 10
-      f = Tensor.empty(n)
-      f.size.should eq(n)
-    end
-
-    it "empty respects passed dtype" do
-      f = Tensor.empty(10, Float32)
-      f.should be_a(Tensor(Float32))
-    end
-
-    it "creates a valid flask from a slice, size and stride" do
-      n = 5
-      slice = Pointer.malloc(n) { |i| i }
-      f = Tensor.new slice, n, 1, true
-      Testing.tensor_equal(f, Tensor.new [0, 1, 2, 3, 4]).should be_true
-    end
-
-    it "creates a valid strided flask" do
-      n = 10
-      slice = Pointer.malloc(n) { |i| i }
-      f = Tensor.new slice, 5, 2, true
-      Testing.tensor_equal(f, Tensor.new [0, 2, 4, 6, 8]).should be_true
-    end
-
-    it "random returns correct type from range" do
-      f = Tensor.random(0...10, 10)
-      f.should be_a(Tensor(Int32))
-    end
-
-    # it "reverses a flask" do
-    #   f = Tensor.new [1, 2, 3]
-    #   Testing.tensor_equal(f.reverse, Tensor.new [3, 2, 1]).should be_true
-    # end
-
-    it "casts the type of a flask" do
-      f = Tensor.new [1, 2, 3]
-      fasfloat = f.astype(Float64)
-      Testing.tensor_equal(fasfloat, Tensor.new [1.0, 2.0, 3.0]).should be_true
-    end
-
-    it "clones a flask that owns its own memory" do
-      f = Tensor.new [1, 2, 3]
-      g = f.clone
-      g[0] = 100
-      Testing.tensor_equal(f, g).should be_false
+    it "Lays out memory in C style order" do
+      result = Tensor(Int32).new([2, 2], ArrayFlags::Contiguous)
+      result.flags.fortran?.should be_false
+      result.flags.contiguous?.should be_true
     end
   end
 end

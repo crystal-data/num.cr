@@ -1,6 +1,9 @@
 require "./nditer"
 require "./ufunc"
 require "../iteration/iter"
+require "../iteration/strategy"
+require "../util/testing"
+require "../util/exceptions"
 
 @[Flags]
 enum Bottle::Internal::ArrayFlags
@@ -87,6 +90,17 @@ struct Bottle::Tensor(T)
     new(_shape, ArrayFlags::Contiguous, ptr)
   end
 
+  def self.from_array(_shape : Array(Int32), _data : Array)
+    flat = _data.flatten
+    ptr = flat.to_unsafe
+    Testing.assert_compatible_shape(_shape, flat.size)
+    if _shape.size == 0
+      Tensor(typeof(flat[0])).new(_shape)
+    else
+      new(_shape) { |i| ptr[i] }
+    end
+  end
+
   # Yields a `Tensor` from a provided number of rows and columns.
   # This can quickly create matrices, useful for several `Tensor` creattion
   # methods such as the underlying implementation of `eye`, and `diag`.
@@ -107,7 +121,11 @@ struct Bottle::Tensor(T)
       j = idx % ncols
       yield i, j
     end
-    new([nrows, ncols], ArrayFlags::Contiguous, data)
+    if nrows == 0 && ncols == 0
+      Tensor(T).new([] of Int32)
+    else
+      new([nrows, ncols], ArrayFlags::Contiguous, data)
+    end
   end
 
   # A flexible method to create `Tensor`'s of arbitrary shapes
@@ -123,7 +141,11 @@ struct Bottle::Tensor(T)
   #         [3, 9]])
   # ```
   def self.random(r : Range(U, U), _shape : Array(Int32)) forall U
-    new(_shape) { |_| Random.rand(r) }
+    if _shape.size == 0
+      Tensor(U).new(_shape)
+    else
+      new(_shape) { |_| Random.rand(r) }
+    end
   end
 
   # Creates a `Tensor` from a provided shape and order.
@@ -197,6 +219,7 @@ struct Bottle::Tensor(T)
     # return an NDArray that owns its own data.
     @buffer = ptr.nil? ? Pointer(T).malloc(@size) : ptr
     @flags = order | ArrayFlags::OwnData
+    update_flags(ArrayFlags::All)
   end
 
   # Internal method to create tensors from low level libraries.
@@ -208,13 +231,14 @@ struct Bottle::Tensor(T)
     check_type
     @ndims = @shape.size
     @size = @shape.reduce { |i, j| i * j }
+    update_flags(ArrayFlags::All)
   end
 
   # Returns a safe flattened view of the `Tensor.  This method will
   # raise `STOPITERATION` when the elements of the `Tensor`
   # have been exhausted.
   def flat_iter
-    FlatIter.new(self)
+    SafeNDIter.new(self).strategy
   end
 
   # Returns a safe transposed view of the `Tensor`.  Primarily
@@ -230,7 +254,7 @@ struct Bottle::Tensor(T)
   # Useful for fast iteration in internal methods, but is highly
   # unsafe for external API use.
   def unsafe_iter
-    UnsafeIter.new(self)
+    UnsafeNDIter.new(self).strategy
   end
 
   # Calculate the offset of an element in the `Tensor` from
@@ -264,7 +288,13 @@ struct Bottle::Tensor(T)
   # ```
   def [](indexer : Array(Int32))
     offset = 0
-    strides.zip(indexer) do |i, j|
+    strides.zip(indexer, shape) do |i, j, k|
+      if j < 0
+        j += k
+      end
+      if j >= k
+        raise IndexError.new("Index out of range")
+      end
       offset += i * j
     end
     @buffer[offset]
@@ -340,6 +370,45 @@ struct Bottle::Tensor(T)
     end
   end
 
+  def []=(*args : *U) forall U
+    {% begin %}
+      aref_set(
+        {% for i in 0...U.size - 1 %}
+          args[{{i}}],
+        {% end %}
+        value: args[{{U.size - 1}}]
+      )
+    {% end %}
+  end
+
+  # Assigns a `Tensor` to a slice of an array.
+  # The provided tensor must be the same shape
+  # as the slice in order for this method to
+  # work.
+  #
+  # ```
+  # t = Tensor.new([3, 2, 2]) { |i| i }
+  # t[[1]] = Tensor.new([2, 2]) { |i| i * 20 }
+  # t # =>
+  # Tensor([[[ 0,  1],
+  #          [ 2,  3]],
+  #
+  #         [[ 0, 20],
+  #          [40, 60]],
+  #
+  #         [[ 8,  9],
+  #          [10, 11]]])
+  # ```
+  def aref_set(*args, value : Tensor(T))
+    idx = args.to_a
+    fill = ndims - idx.size
+    idx += [...] * fill
+    old = slice_from_indexers(idx)
+    old.flat_iter.zip(value.flat_iter) do |i, j|
+      i.value = j.value
+    end
+  end
+
   # Assigns a scalar value to a slice of a `Tensor`.
   # The value is tiled along the entire slice.
   #
@@ -356,12 +425,13 @@ struct Bottle::Tensor(T)
   #         [[99, 99],
   #          [99, 99]]])
   # ```
-  def []=(idx : Array, assign : T)
+  def aref_set(*args, value : Number)
+    idx = args.to_a
     fill = ndims - idx.size
     idx += [...] * fill
     old = slice_from_indexers(idx)
     old.flat_iter.each do |i|
-      i.value = assign
+      i.value = T.new(value)
     end
   end
 
@@ -380,9 +450,18 @@ struct Bottle::Tensor(T)
       if el.is_a?(Int32)
         newshape[i] = 0
         newstrides[i] = 0
+        if el < 0
+          el += shape[i]
+        end
+        if el >= shape[i]
+          raise IndexError.new("Index out of range")
+        end
         el
       else
         start, offset = Indexable.range_to_index_and_count(el, shape[i])
+        if start >= shape[i]
+          raise IndexError.new("Index out of range")
+        end
         newshape[i] = offset
         start
       end
