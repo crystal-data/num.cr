@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.30.1">
+
+
+<link href="../../css/style.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="../../js/doc.js"></script>
+<script type="text/javascript">
+  CrystalDoc.base_path = "../../";
+</script>
+
+  <meta id="repository-name" content="github.com/crystal-data/bottle">
+  <title>Bottle::Core::MatrixMath - github.com/crystal-data/bottle</title>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="repository-links">
+      <a href="../../index.html">README</a>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent open current" data-id="github.com/crystal-data/bottle/Bottle" data-name="bottle">
+      <a href="../../Bottle.html">Bottle</a>
+      
+        <ul>
+  
+  <li class="parent open current" data-id="github.com/crystal-data/bottle/Bottle/Core" data-name="bottle::core">
+      <a href="../../Bottle/Core.html">Core</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="github.com/crystal-data/bottle/Bottle/Core/Exceptions" data-name="bottle::core::exceptions">
+      <a href="../../Bottle/Core/Exceptions.html">Exceptions</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Core/Exceptions/RangeError" data-name="bottle::core::exceptions::rangeerror">
+      <a href="../../Bottle/Core/Exceptions/RangeError.html">RangeError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Core/Exceptions/ShapeError" data-name="bottle::core::exceptions::shapeerror">
+      <a href="../../Bottle/Core/Exceptions/ShapeError.html">ShapeError</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Core/MatrixIndex" data-name="bottle::core::matrixindex">
+      <a href="../../Bottle/Core/MatrixIndex.html">MatrixIndex</a>
+      
+    </li>
+  
+  <li class=" current" data-id="github.com/crystal-data/bottle/Bottle/Core/MatrixMath" data-name="bottle::core::matrixmath">
+      <a href="../../Bottle/Core/MatrixMath.html">MatrixMath</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Core/VectorBlas" data-name="bottle::core::vectorblas">
+      <a href="../../Bottle/Core/VectorBlas.html">VectorBlas</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Core/VectorIndex" data-name="bottle::core::vectorindex">
+      <a href="../../Bottle/Core/VectorIndex.html">VectorIndex</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Core/VectorMath" data-name="bottle::core::vectormath">
+      <a href="../../Bottle/Core/VectorMath.html">VectorMath</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Core/VectorStats" data-name="bottle::core::vectorstats">
+      <a href="../../Bottle/Core/VectorStats.html">VectorStats</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Matrix" data-name="matrix(t, d)">
+      <a href="../../Matrix.html">Matrix</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Vector" data-name="vector(t, d)">
+      <a href="../../Vector.html">Vector</a>
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">module</span> Bottle::Core::MatrixMath
+
+</h1>
+
+
+
+
+
+
+
+
+
+  <h2>Included Modules</h2>
+  <ul class="other-types-list">
+  
+    <li class="other-type"><a href="../../Bottle/Core/Exceptions.html">Bottle::Core::Exceptions</a></li>
+  
+  </ul>
+
+
+
+  <h2>Extended Modules</h2>
+  <ul class="other-types-list">
+  
+    <li class="other-type"><a href="../../Bottle/Core/MatrixMath.html">Bottle::Core::MatrixMath</a></li>
+  
+  </ul>
+
+
+
+
+
+
+
+
+  <h2>Defined in:</h2>
+  
+    
+      <a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/core/matrix/math.cr#L3" target="_blank">
+        core/matrix/math.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+
+
+
+
+  <h2>Instance Method Summary</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#add(a:Matrix(LibGsl::GslMatrix,Float64),b:Matrix(LibGsl::GslMatrix,Float64))-instance-method" class="signature"><strong>#add</strong>(a : Matrix(LibGsl::GslMatrix, Float64), b : Matrix(LibGsl::GslMatrix, Float64))</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#add_constant(a:Matrix(LibGsl::GslMatrix,Float64),x:Number)-instance-method" class="signature"><strong>#add_constant</strong>(a : Matrix(LibGsl::GslMatrix, Float64), x : Number)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#div_constant(a:Matrix(LibGsl::GslMatrix,Float64),x:Number)-instance-method" class="signature"><strong>#div_constant</strong>(a : Matrix(LibGsl::GslMatrix, Float64), x : Number)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#div_elements(a:Matrix(LibGsl::GslMatrix,Float64),b:Matrix(LibGsl::GslMatrix,Float64))-instance-method" class="signature"><strong>#div_elements</strong>(a : Matrix(LibGsl::GslMatrix, Float64), b : Matrix(LibGsl::GslMatrix, Float64))</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#mul_constant(a:Matrix(LibGsl::GslMatrix,Float64),x:Number)-instance-method" class="signature"><strong>#mul_constant</strong>(a : Matrix(LibGsl::GslMatrix, Float64), x : Number)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#mul_elements(a:Matrix(LibGsl::GslMatrix,Float64),b:Matrix(LibGsl::GslMatrix,Float64))-instance-method" class="signature"><strong>#mul_elements</strong>(a : Matrix(LibGsl::GslMatrix, Float64), b : Matrix(LibGsl::GslMatrix, Float64))</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#sub(a:Matrix(LibGsl::GslMatrix,Float64),b:Matrix(LibGsl::GslMatrix,Float64))-instance-method" class="signature"><strong>#sub</strong>(a : Matrix(LibGsl::GslMatrix, Float64), b : Matrix(LibGsl::GslMatrix, Float64))</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#sub_constant(a:Matrix(LibGsl::GslMatrix,Float64),x:Number)-instance-method" class="signature"><strong>#sub_constant</strong>(a : Matrix(LibGsl::GslMatrix, Float64), x : Number)</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+<div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+
+
+
+
+  <h2>Instance Method Detail</h2>
+  
+    <div class="entry-detail" id="add(a:Matrix(LibGsl::GslMatrix,Float64),b:Matrix(LibGsl::GslMatrix,Float64))-instance-method">
+      <div class="signature">
+        
+        def <strong>add</strong>(a : <a href="../../Matrix.html">Matrix</a>(LibGsl::GslMatrix, Float64), b : <a href="../../Matrix.html">Matrix</a>(LibGsl::GslMatrix, Float64))
+
+        <a class="method-permalink" href="#add(a:Matrix(LibGsl::GslMatrix,Float64),b:Matrix(LibGsl::GslMatrix,Float64))-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/core/matrix/math.cr#L7" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="add_constant(a:Matrix(LibGsl::GslMatrix,Float64),x:Number)-instance-method">
+      <div class="signature">
+        
+        def <strong>add_constant</strong>(a : <a href="../../Matrix.html">Matrix</a>(LibGsl::GslMatrix, Float64), x : Number)
+
+        <a class="method-permalink" href="#add_constant(a:Matrix(LibGsl::GslMatrix,Float64),x:Number)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/core/matrix/math.cr#L12" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="div_constant(a:Matrix(LibGsl::GslMatrix,Float64),x:Number)-instance-method">
+      <div class="signature">
+        
+        def <strong>div_constant</strong>(a : <a href="../../Matrix.html">Matrix</a>(LibGsl::GslMatrix, Float64), x : Number)
+
+        <a class="method-permalink" href="#div_constant(a:Matrix(LibGsl::GslMatrix,Float64),x:Number)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/core/matrix/math.cr#L42" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="div_elements(a:Matrix(LibGsl::GslMatrix,Float64),b:Matrix(LibGsl::GslMatrix,Float64))-instance-method">
+      <div class="signature">
+        
+        def <strong>div_elements</strong>(a : <a href="../../Matrix.html">Matrix</a>(LibGsl::GslMatrix, Float64), b : <a href="../../Matrix.html">Matrix</a>(LibGsl::GslMatrix, Float64))
+
+        <a class="method-permalink" href="#div_elements(a:Matrix(LibGsl::GslMatrix,Float64),b:Matrix(LibGsl::GslMatrix,Float64))-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/core/matrix/math.cr#L37" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="mul_constant(a:Matrix(LibGsl::GslMatrix,Float64),x:Number)-instance-method">
+      <div class="signature">
+        
+        def <strong>mul_constant</strong>(a : <a href="../../Matrix.html">Matrix</a>(LibGsl::GslMatrix, Float64), x : Number)
+
+        <a class="method-permalink" href="#mul_constant(a:Matrix(LibGsl::GslMatrix,Float64),x:Number)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/core/matrix/math.cr#L32" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="mul_elements(a:Matrix(LibGsl::GslMatrix,Float64),b:Matrix(LibGsl::GslMatrix,Float64))-instance-method">
+      <div class="signature">
+        
+        def <strong>mul_elements</strong>(a : <a href="../../Matrix.html">Matrix</a>(LibGsl::GslMatrix, Float64), b : <a href="../../Matrix.html">Matrix</a>(LibGsl::GslMatrix, Float64))
+
+        <a class="method-permalink" href="#mul_elements(a:Matrix(LibGsl::GslMatrix,Float64),b:Matrix(LibGsl::GslMatrix,Float64))-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/core/matrix/math.cr#L27" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="sub(a:Matrix(LibGsl::GslMatrix,Float64),b:Matrix(LibGsl::GslMatrix,Float64))-instance-method">
+      <div class="signature">
+        
+        def <strong>sub</strong>(a : <a href="../../Matrix.html">Matrix</a>(LibGsl::GslMatrix, Float64), b : <a href="../../Matrix.html">Matrix</a>(LibGsl::GslMatrix, Float64))
+
+        <a class="method-permalink" href="#sub(a:Matrix(LibGsl::GslMatrix,Float64),b:Matrix(LibGsl::GslMatrix,Float64))-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/core/matrix/math.cr#L17" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="sub_constant(a:Matrix(LibGsl::GslMatrix,Float64),x:Number)-instance-method">
+      <div class="signature">
+        
+        def <strong>sub_constant</strong>(a : <a href="../../Matrix.html">Matrix</a>(LibGsl::GslMatrix, Float64), x : Number)
+
+        <a class="method-permalink" href="#sub_constant(a:Matrix(LibGsl::GslMatrix,Float64),x:Number)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/core/matrix/math.cr#L22" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+</div>
+
+</body>
+</html>

@@ -7,6 +7,6 @@ end
 
 include Bottle
 
-t = Tensor.new([3, 2, 2]) { |i| i }
-t[1] = 5
-puts t
+t = Tensor.new([2, 2, 3]) { |i| i }
+view = t[..., 1]
+puts view.flags

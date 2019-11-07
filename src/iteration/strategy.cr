@@ -4,7 +4,7 @@ require "benchmark"
 module Bottle::Internal::Iteration
   macro contig_iteration_macro(safe)
     @last_index = @next_index
-    @next_index += @strides[@ndims - 1]
+    @next_index += @stride0
     {% if safe %}
       @size -= 1
       if @size < 0
@@ -34,10 +34,10 @@ module Bottle::Internal::Iteration
           @done = true
         end
         @track[i] = 0
-        @next_index -= (shape_i - 1) * stride_i
+        next_index -= (shape_i - 1) * stride_i
         next
       end
-      @next_index += stride_i
+      next_index += stride_i
       break
     end
 
@@ -79,12 +79,15 @@ module Bottle::Internal::NDIter(T)
   # Total number of elements in the `Tensor`
   @size : Int32
 
+  @stride0 : Int32
+
   def initialize(t : Bottle::Tensor(T))
     @buffer = t.@buffer
     @ndims = t.ndims
     @track = Pointer(Int32).malloc(t.ndims, 0)
     @shape = t.shape.to_unsafe
     @strides = t.strides.to_unsafe
+    @stride0 = t.strides[-1]
     @next_index = @buffer
     @last_index = @buffer
     @done = false
@@ -121,7 +124,7 @@ struct Bottle::Internal::SafeNDIter(T)
   getter strategy : OneD(T) | ND(T)
 
   def initialize(t : Bottle::Tensor(T))
-    contiguous = (t.flags & ArrayFlags::Contiguous | ArrayFlags::Fortran).value > 0
+    contiguous = (t.flags & ArrayFlags::Contiguous).value > 0
     @strategy = (contiguous) ? OneD.new(t) : ND.new(t)
   end
 
@@ -148,7 +151,7 @@ struct Bottle::Internal::UnsafeNDIter(T)
   getter strategy : OneD(T) | ND(T)
 
   def initialize(t : Bottle::Tensor(T))
-    contiguous = (t.flags & ArrayFlags::Contiguous | ArrayFlags::Fortran).value > 0
+    contiguous = (t.flags & ArrayFlags::Contiguous).value > 0
     @strategy = (contiguous) ? OneD.new(t) : ND.new(t)
   end
 

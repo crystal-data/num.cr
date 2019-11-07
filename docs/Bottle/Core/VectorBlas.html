@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.30.1">
+
+
+<link href="../../css/style.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="../../js/doc.js"></script>
+<script type="text/javascript">
+  CrystalDoc.base_path = "../../";
+</script>
+
+  <meta id="repository-name" content="github.com/crystal-data/bottle">
+  <title>Bottle::Core::VectorBlas - github.com/crystal-data/bottle</title>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="repository-links">
+      <a href="../../index.html">README</a>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent open current" data-id="github.com/crystal-data/bottle/Bottle" data-name="bottle">
+      <a href="../../Bottle.html">Bottle</a>
+      
+        <ul>
+  
+  <li class="parent open current" data-id="github.com/crystal-data/bottle/Bottle/Core" data-name="bottle::core">
+      <a href="../../Bottle/Core.html">Core</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="github.com/crystal-data/bottle/Bottle/Core/Exceptions" data-name="bottle::core::exceptions">
+      <a href="../../Bottle/Core/Exceptions.html">Exceptions</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Core/Exceptions/RangeError" data-name="bottle::core::exceptions::rangeerror">
+      <a href="../../Bottle/Core/Exceptions/RangeError.html">RangeError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Core/Exceptions/ShapeError" data-name="bottle::core::exceptions::shapeerror">
+      <a href="../../Bottle/Core/Exceptions/ShapeError.html">ShapeError</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Core/MatrixIndex" data-name="bottle::core::matrixindex">
+      <a href="../../Bottle/Core/MatrixIndex.html">MatrixIndex</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Core/MatrixMath" data-name="bottle::core::matrixmath">
+      <a href="../../Bottle/Core/MatrixMath.html">MatrixMath</a>
+      
+    </li>
+  
+  <li class=" current" data-id="github.com/crystal-data/bottle/Bottle/Core/VectorBlas" data-name="bottle::core::vectorblas">
+      <a href="../../Bottle/Core/VectorBlas.html">VectorBlas</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Core/VectorIndex" data-name="bottle::core::vectorindex">
+      <a href="../../Bottle/Core/VectorIndex.html">VectorIndex</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Core/VectorMath" data-name="bottle::core::vectormath">
+      <a href="../../Bottle/Core/VectorMath.html">VectorMath</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Core/VectorStats" data-name="bottle::core::vectorstats">
+      <a href="../../Bottle/Core/VectorStats.html">VectorStats</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Matrix" data-name="matrix(t, d)">
+      <a href="../../Matrix.html">Matrix</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Vector" data-name="vector(t, d)">
+      <a href="../../Vector.html">Vector</a>
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">module</span> Bottle::Core::VectorBlas
+
+</h1>
+
+
+
+
+
+
+
+
+
+
+
+  <h2>Extended Modules</h2>
+  <ul class="other-types-list">
+  
+    <li class="other-type"><a href="../../Bottle/Core/VectorBlas.html">Bottle::Core::VectorBlas</a></li>
+  
+  </ul>
+
+
+
+
+
+
+
+
+  <h2>Defined in:</h2>
+  
+    
+      <a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/core/vector/blas.cr#L5" target="_blank">
+        core/vector/blas.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+
+
+
+
+  <h2>Instance Method Summary</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#vector_absolute_max(vector:Vector(LibGsl::GslVector,Float64))-instance-method" class="signature"><strong>#vector_absolute_max</strong>(vector : Vector(LibGsl::GslVector, Float64))</a>
+        
+          <div class="summary"><p>Index of absolute value max</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#vector_absolute_sum(vector:Vector(LibGsl::GslVector,Float64))-instance-method" class="signature"><strong>#vector_absolute_sum</strong>(vector : Vector(LibGsl::GslVector, Float64))</a>
+        
+          <div class="summary"><p>Sum of absolute values</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#vector_dot(vector:Vector(LibGsl::GslVector,Float64),other:Vector(LibGsl::GslVector,Float64))-instance-method" class="signature"><strong>#vector_dot</strong>(vector : Vector(LibGsl::GslVector, Float64), other : Vector(LibGsl::GslVector, Float64))</a>
+        
+          <div class="summary"><p>Computes the dot product of two vectors</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#vector_norm(vector:Vector(LibGsl::GslVector,Float64))-instance-method" class="signature"><strong>#vector_norm</strong>(vector : Vector(LibGsl::GslVector, Float64))</a>
+        
+          <div class="summary"><p>Computes the euclidean norm of the vector</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#vector_scale(vector:Vector(LibGsl::GslVector,Float64),alpha:Number)-instance-method" class="signature"><strong>#vector_scale</strong>(vector : Vector(LibGsl::GslVector, Float64), alpha : Number)</a>
+        
+          <div class="summary"><p>Elementwise multiplication of a vector to a scalar</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+<div class="methods-inherited">
+  
+</div>
+
+
+
+
+
+
+  <h2>Instance Method Detail</h2>
+  
+    <div class="entry-detail" id="vector_absolute_max(vector:Vector(LibGsl::GslVector,Float64))-instance-method">
+      <div class="signature">
+        
+        def <strong>vector_absolute_max</strong>(vector : <a href="../../Vector.html">Vector</a>(LibGsl::GslVector, Float64))
+
+        <a class="method-permalink" href="#vector_absolute_max(vector:Vector(LibGsl::GslVector,Float64))-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Index of absolute value max</p>
+
+<pre><code>v1 <span class="o">=</span> <span class="t">Vector</span>.<span class="k">new</span> [<span class="n">-8</span>, <span class="n">1</span>, <span class="n">2</span>]
+v2.amax <span class="c"># =&gt; 0</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/core/vector/blas.cr#L57" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="vector_absolute_sum(vector:Vector(LibGsl::GslVector,Float64))-instance-method">
+      <div class="signature">
+        
+        def <strong>vector_absolute_sum</strong>(vector : <a href="../../Vector.html">Vector</a>(LibGsl::GslVector, Float64))
+
+        <a class="method-permalink" href="#vector_absolute_sum(vector:Vector(LibGsl::GslVector,Float64))-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Sum of absolute values</p>
+
+<pre><code>v1 <span class="o">=</span> <span class="t">Vector</span>.<span class="k">new</span> [<span class="n">-1</span>, <span class="n">1</span>, <span class="n">2</span>]
+v2.asum <span class="c"># =&gt; 4</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/core/vector/blas.cr#L47" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="vector_dot(vector:Vector(LibGsl::GslVector,Float64),other:Vector(LibGsl::GslVector,Float64))-instance-method">
+      <div class="signature">
+        
+        def <strong>vector_dot</strong>(vector : <a href="../../Vector.html">Vector</a>(LibGsl::GslVector, Float64), other : <a href="../../Vector.html">Vector</a>(LibGsl::GslVector, Float64))
+
+        <a class="method-permalink" href="#vector_dot(vector:Vector(LibGsl::GslVector,Float64),other:Vector(LibGsl::GslVector,Float64))-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Computes the dot product of two vectors</p>
+
+<pre><code>v1 <span class="o">=</span> <span class="t">Vector</span>.<span class="k">new</span> [<span class="n">1.0</span>, <span class="n">2.0</span>, <span class="n">3.0</span>]
+v2 <span class="o">=</span> <span class="t">Vector</span>.<span class="k">new</span> [<span class="n">4.0</span>, <span class="n">5.0</span>, <span class="n">6.0</span>]
+v1.dot(v2) <span class="c"># =&gt; 32</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/core/vector/blas.cr#L15" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="vector_norm(vector:Vector(LibGsl::GslVector,Float64))-instance-method">
+      <div class="signature">
+        
+        def <strong>vector_norm</strong>(vector : <a href="../../Vector.html">Vector</a>(LibGsl::GslVector, Float64))
+
+        <a class="method-permalink" href="#vector_norm(vector:Vector(LibGsl::GslVector,Float64))-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Computes the euclidean norm of the vector</p>
+
+<pre><code>vec <span class="o">=</span> <span class="t">Vector</span>.<span class="k">new</span> [<span class="n">1.0</span>, <span class="n">2.0</span>, <span class="n">3.0</span>]
+vec.norm <span class="c"># =&gt; 3.741657386773941</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/core/vector/blas.cr#L25" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="vector_scale(vector:Vector(LibGsl::GslVector,Float64),alpha:Number)-instance-method">
+      <div class="signature">
+        
+        def <strong>vector_scale</strong>(vector : <a href="../../Vector.html">Vector</a>(LibGsl::GslVector, Float64), alpha : Number)
+
+        <a class="method-permalink" href="#vector_scale(vector:Vector(LibGsl::GslVector,Float64),alpha:Number)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Elementwise multiplication of a vector to a scalar</p>
+
+<pre><code>v1 <span class="o">=</span> <span class="t">Vector</span>.<span class="k">new</span> [<span class="n">1.0</span>, <span class="n">2.0</span>, <span class="n">3.0</span>]
+v2 <span class="o">=</span> <span class="n">2</span>
+v1 <span class="o">+</span> v2 <span class="c"># =&gt; [2.0, 4.0, 6.0]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/core/vector/blas.cr#L36" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+</div>
+
+</body>
+</html>

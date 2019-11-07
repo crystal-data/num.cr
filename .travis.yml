@@ -4,6 +4,7 @@ install:
 script:
   - crystal spec
   - crystal bin/ameba.cr
+  - crystal docs
 deploy:
   provider: pages
   skip_cleanup: true

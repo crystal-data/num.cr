@@ -68,6 +68,11 @@ describe Tensor do
         t[3...]
       end
     end
+
+    it "A slice of a tensor does not won its own data" do
+      t = Tensor.new([2, 2, 3]) { |i| i }
+      t[1...].flags.own_data?.should be_false
+    end
   end
 
   describe "Tensor#setters" do
@@ -97,6 +102,13 @@ describe Tensor do
       t[0] = t[1]
       expected = Tensor.from_array([2, 2, 3], [6, 7, 8, 9, 10, 11] * 2)
       Comparison.allclose(t, expected).should be_true
+    end
+
+    it "Mutates base when a view of a Tensor is set" do
+      t = Tensor.new([2, 2, 3]) { |i| i }
+      slice = t[...]
+      slice[0] = 99
+      Comparison.allclose(t, slice).should be_true
     end
   end
 end

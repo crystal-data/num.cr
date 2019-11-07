@@ -7,4 +7,7 @@ module Bottle::Internal::Exceptions
 
   class TypeError < Exception
   end
+
+  class ValueError < Exception
+  end
 end

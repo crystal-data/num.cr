@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.30.1">
+
+
+<link href="css/style.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="js/doc.js"></script>
+<script type="text/javascript">
+  CrystalDoc.base_path = "";
+</script>
+
+  <meta id="repository-name" content="github.com/crystal-data/bottle">
+  <title>Vector(T, D) - github.com/crystal-data/bottle</title>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="repository-links">
+      <a href="index.html">README</a>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class="parent " data-id="github.com/crystal-data/bottle/Bottle" data-name="bottle">
+      <a href="Bottle.html">Bottle</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="github.com/crystal-data/bottle/Bottle/Core" data-name="bottle::core">
+      <a href="Bottle/Core.html">Core</a>
+      
+        <ul>
+  
+  <li class="parent " data-id="github.com/crystal-data/bottle/Bottle/Core/Exceptions" data-name="bottle::core::exceptions">
+      <a href="Bottle/Core/Exceptions.html">Exceptions</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Core/Exceptions/RangeError" data-name="bottle::core::exceptions::rangeerror">
+      <a href="Bottle/Core/Exceptions/RangeError.html">RangeError</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Core/Exceptions/ShapeError" data-name="bottle::core::exceptions::shapeerror">
+      <a href="Bottle/Core/Exceptions/ShapeError.html">ShapeError</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Core/MatrixIndex" data-name="bottle::core::matrixindex">
+      <a href="Bottle/Core/MatrixIndex.html">MatrixIndex</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Core/MatrixMath" data-name="bottle::core::matrixmath">
+      <a href="Bottle/Core/MatrixMath.html">MatrixMath</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Core/VectorBlas" data-name="bottle::core::vectorblas">
+      <a href="Bottle/Core/VectorBlas.html">VectorBlas</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Core/VectorIndex" data-name="bottle::core::vectorindex">
+      <a href="Bottle/Core/VectorIndex.html">VectorIndex</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Core/VectorMath" data-name="bottle::core::vectormath">
+      <a href="Bottle/Core/VectorMath.html">VectorMath</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Bottle/Core/VectorStats" data-name="bottle::core::vectorstats">
+      <a href="Bottle/Core/VectorStats.html">VectorStats</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="github.com/crystal-data/bottle/Matrix" data-name="matrix(t, d)">
+      <a href="Matrix.html">Matrix</a>
+      
+    </li>
+  
+  <li class=" current" data-id="github.com/crystal-data/bottle/Vector" data-name="vector(t, d)">
+      <a href="Vector.html">Vector</a>
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">class</span> Vector(T, D)
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="Vector.html">Vector(T, D)</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>Defined in:</h2>
+  
+    
+      <a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/stats.cr#L4" target="_blank">
+        vector/stats.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/math.cr#L5" target="_blank">
+        vector/math.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/init.cr#L5" target="_blank">
+        vector/init.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/indexing.cr#L5" target="_blank">
+        vector/indexing.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/blas.cr#L4" target="_blank">
+        vector/blas.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+  <h2>Constructors</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new(ptr:Pointer(T),data:Pointer(D))-class-method" class="signature"><strong>.new</strong>(ptr : Pointer(T), data : Pointer(D))</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#new(obj:T,data:Pointer(D))-class-method" class="signature"><strong>.new</strong>(obj : T, data : Pointer(D))</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#new(data:Array(A))forallA-class-method" class="signature"><strong>.new</strong>(data : Array(A)) forall A</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+  <h2>Class Method Summary</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#zeros(n:Int32)-class-method" class="signature"><strong>.zeros</strong>(n : Int32)</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+  <h2>Instance Method Summary</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#*(other:Vector(T,D))-instance-method" class="signature"><strong>#*</strong>(other : Vector(T, D))</a>
+        
+          <div class="summary"><p>Elementwise multiplication of a vector to another equally sized vector</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#*(other:Number)-instance-method" class="signature"><strong>#*</strong>(other : Number)</a>
+        
+          <div class="summary"><p>Elementwise multiplication of a vector to a scalar</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#+(other:Vector(T,D))-instance-method" class="signature"><strong>#+</strong>(other : Vector(T, D))</a>
+        
+          <div class="summary"><p>Elementwise addition of a vector to another equally sized vector</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#+(other:Number)-instance-method" class="signature"><strong>#+</strong>(other : Number)</a>
+        
+          <div class="summary"><p>Elementwise addition of a vector to a scalar</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#-(other:Number)-instance-method" class="signature"><strong>#-</strong>(other : Number)</a>
+        
+          <div class="summary"><p>Elementwise subtraction of a vector with a scalar</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#-(other:Vector(T,D))-instance-method" class="signature"><strong>#-</strong>(other : Vector(T, D))</a>
+        
+          <div class="summary"><p>Elementwise subtraction of a vector to another equally sized vector</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#/(other:Number)-instance-method" class="signature"><strong>#/</strong>(other : Number)</a>
+        
+          <div class="summary"><p>Elementwise division of a vector to a scalar</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#/(other:Vector(T,D))-instance-method" class="signature"><strong>#/</strong>(other : Vector(T, D))</a>
+        
+          <div class="summary"><p>Elementwise division of a vector to another equally sized vector</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#[](index:Int32)-instance-method" class="signature"><strong>#[]</strong>(index : Int32)</a>
+        
+          <div class="summary"><p>Gets a single element from a vector at a given index, the core indexing operation of a vector</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#[](indexes:Array(Int32))-instance-method" class="signature"><strong>#[]</strong>(indexes : Array(Int32))</a>
+        
+          <div class="summary"><p>Gets multiple elements from a vector at given indexes.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#[](range:Range(Int32?,Int32?))-instance-method" class="signature"><strong>#[]</strong>(range : Range(Int32?, Int32?))</a>
+        
+          <div class="summary"><p>Returns a view of a vector defined by a given range.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#[]=(range:Range(Int32?,Int32?),values:Array(Number))-instance-method" class="signature"><strong>#[]=</strong>(range : Range(Int32?, Int32?), values : Array(Number))</a>
+        
+          <div class="summary"><p>Sets elements of a vector to given values based on the given range</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#[]=(indexes:Array(Int32),values:Array(Number))-instance-method" class="signature"><strong>#[]=</strong>(indexes : Array(Int32), values : Array(Number))</a>
+        
+          <div class="summary"><p>Sets multiple elements of a vector by the given indexes.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#[]=(index:Int32,value:Number)-instance-method" class="signature"><strong>#[]=</strong>(index : Int32, value : Number)</a>
+        
+          <div class="summary"><p>Sets a single element from a vector at a given index</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#amax-instance-method" class="signature"><strong>#amax</strong></a>
+        
+          <div class="summary"><p>Index of absolute value max</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#asum-instance-method" class="signature"><strong>#asum</strong></a>
+        
+          <div class="summary"><p>Sum of absolute values</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#copy-instance-method" class="signature"><strong>#copy</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#data-instance-method" class="signature"><strong>#data</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#dot(other:Vector)-instance-method" class="signature"><strong>#dot</strong>(other : Vector)</a>
+        
+          <div class="summary"><p>Computes the dot product of two vectors</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#dtype-instance-method" class="signature"><strong>#dtype</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#idxmax-instance-method" class="signature"><strong>#idxmax</strong></a>
+        
+          <div class="summary"><p>Computes the index of the maximum value of a vector</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#idxmin-instance-method" class="signature"><strong>#idxmin</strong></a>
+        
+          <div class="summary"><p>Computes the index of the minimum value of a vector</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#max-instance-method" class="signature"><strong>#max</strong></a>
+        
+          <div class="summary"><p>Computes the maximum value of a vector</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#min-instance-method" class="signature"><strong>#min</strong></a>
+        
+          <div class="summary"><p>Computes the minimum value of a vector</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#norm-instance-method" class="signature"><strong>#norm</strong></a>
+        
+          <div class="summary"><p>Computes the euclidean norm of the vector</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#owner-instance-method" class="signature"><strong>#owner</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#ptp-instance-method" class="signature"><strong>#ptp</strong></a>
+        
+          <div class="summary"><p>Computes the "peak to peak" of a vector (max - min)</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#ptpidx-instance-method" class="signature"><strong>#ptpidx</strong></a>
+        
+          <div class="summary"><p>Computes the indexes of the minimum and maximum values of a vector</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#ptpv-instance-method" class="signature"><strong>#ptpv</strong></a>
+        
+          <div class="summary"><p>Computes the min and max values of a vector</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#ptr-instance-method" class="signature"><strong>#ptr</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#size-instance-method" class="signature"><strong>#size</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#stride-instance-method" class="signature"><strong>#stride</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#to_s(io)-instance-method" class="signature"><strong>#to_s</strong>(io)</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+<div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+  <h2>Constructor Detail</h2>
+  
+    <div class="entry-detail" id="new(ptr:Pointer(T),data:Pointer(D))-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(ptr : Pointer(T), data : Pointer(D))
+
+        <a class="method-permalink" href="#new(ptr:Pointer(T),data:Pointer(D))-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/init.cr#L43" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="new(obj:T,data:Pointer(D))-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(obj : T, data : Pointer(D))
+
+        <a class="method-permalink" href="#new(obj:T,data:Pointer(D))-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/init.cr#L51" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="new(data:Array(A))forallA-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(data : Array(A)) forall A
+
+        <a class="method-permalink" href="#new(data:Array(A))forallA-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/init.cr#L21" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+  <h2>Class Method Detail</h2>
+  
+    <div class="entry-detail" id="zeros(n:Int32)-class-method">
+      <div class="signature">
+        
+        def self.<strong>zeros</strong>(n : Int32)
+
+        <a class="method-permalink" href="#zeros(n:Int32)-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/init.cr#L59" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+  <h2>Instance Method Detail</h2>
+  
+    <div class="entry-detail" id="*(other:Vector(T,D))-instance-method">
+      <div class="signature">
+        
+        def <strong>*</strong>(other : <a href="Vector.html">Vector</a>(T, D))
+
+        <a class="method-permalink" href="#*(other:Vector(T,D))-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Elementwise multiplication of a vector to another equally sized vector</p>
+
+<pre><code>v1 <span class="o">=</span> <span class="t">Vector</span>.<span class="k">new</span> [<span class="n">1.0</span>, <span class="n">2.0</span>, <span class="n">3.0</span>]
+v2 <span class="o">=</span> <span class="t">Vector</span>.<span class="k">new</span> [<span class="n">2.0</span>, <span class="n">4.0</span>, <span class="n">6.0</span>]
+v1 <span class="o">*</span> v2 <span class="c"># =&gt; [3.0, 8.0, 18.0]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/math.cr#L57" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="*(other:Number)-instance-method">
+      <div class="signature">
+        
+        def <strong>*</strong>(other : Number)
+
+        <a class="method-permalink" href="#*(other:Number)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Elementwise multiplication of a vector to a scalar</p>
+
+<pre><code>v1 <span class="o">=</span> <span class="t">Vector</span>.<span class="k">new</span> [<span class="n">1.0</span>, <span class="n">2.0</span>, <span class="n">3.0</span>]
+v2 <span class="o">=</span> <span class="n">2</span>
+v1 <span class="o">+</span> v2 <span class="c"># =&gt; [2.0, 4.0, 6.0]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/math.cr#L68" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="+(other:Vector(T,D))-instance-method">
+      <div class="signature">
+        
+        def <strong>+</strong>(other : <a href="Vector.html">Vector</a>(T, D))
+
+        <a class="method-permalink" href="#+(other:Vector(T,D))-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Elementwise addition of a vector to another equally sized vector</p>
+
+<pre><code>v1 <span class="o">=</span> <span class="t">Vector</span>.<span class="k">new</span> [<span class="n">1.0</span>, <span class="n">2.0</span>, <span class="n">3.0</span>]
+v2 <span class="o">=</span> <span class="t">Vector</span>.<span class="k">new</span> [<span class="n">2.0</span>, <span class="n">4.0</span>, <span class="n">6.0</span>]
+v1 <span class="o">+</span> v2 <span class="c"># =&gt; [3.0, 6.0, 9.0]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/math.cr#L13" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="+(other:Number)-instance-method">
+      <div class="signature">
+        
+        def <strong>+</strong>(other : Number)
+
+        <a class="method-permalink" href="#+(other:Number)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Elementwise addition of a vector to a scalar</p>
+
+<pre><code>v1 <span class="o">=</span> <span class="t">Vector</span>.<span class="k">new</span> [<span class="n">1.0</span>, <span class="n">2.0</span>, <span class="n">3.0</span>]
+v2 <span class="o">=</span> <span class="n">2</span>
+v1 <span class="o">+</span> v2 <span class="c"># =&gt; [3.0, 4.0, 5.0]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/math.cr#L24" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="-(other:Number)-instance-method">
+      <div class="signature">
+        
+        def <strong>-</strong>(other : Number)
+
+        <a class="method-permalink" href="#-(other:Number)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Elementwise subtraction of a vector with a scalar</p>
+
+<pre><code>v1 <span class="o">=</span> <span class="t">Vector</span>.<span class="k">new</span> [<span class="n">1.0</span>, <span class="n">2.0</span>, <span class="n">3.0</span>]
+v2 <span class="o">=</span> <span class="n">2</span>
+v1 <span class="o">-</span> v2 <span class="c"># =&gt; [-1.0, 0.0, 1.0]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/math.cr#L46" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="-(other:Vector(T,D))-instance-method">
+      <div class="signature">
+        
+        def <strong>-</strong>(other : <a href="Vector.html">Vector</a>(T, D))
+
+        <a class="method-permalink" href="#-(other:Vector(T,D))-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Elementwise subtraction of a vector to another equally sized vector</p>
+
+<pre><code>v1 <span class="o">=</span> <span class="t">Vector</span>.<span class="k">new</span> [<span class="n">1.0</span>, <span class="n">2.0</span>, <span class="n">3.0</span>]
+v2 <span class="o">=</span> <span class="t">Vector</span>.<span class="k">new</span> [<span class="n">2.0</span>, <span class="n">4.0</span>, <span class="n">6.0</span>]
+v1 <span class="o">-</span> v2 <span class="c"># =&gt; [-1.0, -2.0, -3.0]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/math.cr#L35" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="/(other:Number)-instance-method">
+      <div class="signature">
+        
+        def <strong>/</strong>(other : Number)
+
+        <a class="method-permalink" href="#/(other:Number)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Elementwise division of a vector to a scalar</p>
+
+<pre><code>v1 <span class="o">=</span> <span class="t">Vector</span>.<span class="k">new</span> [<span class="n">1.0</span>, <span class="n">2.0</span>, <span class="n">3.0</span>]
+v2 <span class="o">=</span> <span class="n">2</span>
+v1 <span class="o">/</span> v2 <span class="c"># =&gt; [0.5, 1, 1.5]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/math.cr#L90" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="/(other:Vector(T,D))-instance-method">
+      <div class="signature">
+        
+        def <strong>/</strong>(other : <a href="Vector.html">Vector</a>(T, D))
+
+        <a class="method-permalink" href="#/(other:Vector(T,D))-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Elementwise division of a vector to another equally sized vector</p>
+
+<pre><code>v1 <span class="o">=</span> <span class="t">Vector</span>.<span class="k">new</span> [<span class="n">1.0</span>, <span class="n">2.0</span>, <span class="n">3.0</span>]
+v2 <span class="o">=</span> <span class="t">Vector</span>.<span class="k">new</span> [<span class="n">2.0</span>, <span class="n">4.0</span>, <span class="n">6.0</span>]
+v1 <span class="o">/</span> v2 <span class="c"># =&gt; [0.5, 0.5, 0.5]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/math.cr#L79" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="[](index:Int32)-instance-method">
+      <div class="signature">
+        
+        def <strong>[]</strong>(index : Int32)
+
+        <a class="method-permalink" href="#[](index:Int32)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Gets a single element from a vector at a given index, the core
+indexing operation of a vector</p>
+
+<pre><code>vec <span class="o">=</span> <span class="t">Vector</span>.<span class="k">new</span> [<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>, <span class="n">5</span>]
+vec[<span class="n">0</span>] <span class="c"># =&gt; 1</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/indexing.cr#L17" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="[](indexes:Array(Int32))-instance-method">
+      <div class="signature">
+        
+        def <strong>[]</strong>(indexes : Array(Int32))
+
+        <a class="method-permalink" href="#[](indexes:Array(Int32))-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Gets multiple elements from a vector at given indexes.  This returns
+a <code><a href="Vector.html#copy-instance-method">#copy</a></code> since there is no way to create a contiguous slice of memory</p>
+
+<pre><code>vec <span class="o">=</span> <span class="t">Vector</span>.<span class="k">new</span> [<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>]
+vec[[<span class="n">1</span>, <span class="n">2</span>]] <span class="c"># =&gt; [2, 3]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/indexing.cr#L28" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="[](range:Range(Int32?,Int32?))-instance-method">
+      <div class="signature">
+        
+        def <strong>[]</strong>(range : Range(Int32?, Int32?))
+
+        <a class="method-permalink" href="#[](range:Range(Int32?,Int32?))-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns a view of a vector defined by a given range.  Currently only
+supports single strided ranges due to limitations of Crystal</p>
+
+<pre><code>vec <span class="o">=</span> <span class="t">Vector</span>.<span class="k">new</span> [<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>, <span class="n">5</span>]
+vec[<span class="n">2</span>...<span class="n">4</span>] <span class="c"># =&gt; [3, 4]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/indexing.cr#L39" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="[]=(range:Range(Int32?,Int32?),values:Array(Number))-instance-method">
+      <div class="signature">
+        
+        def <strong>[]=</strong>(range : Range(Int32?, Int32?), values : Array(Number))
+
+        <a class="method-permalink" href="#[]=(range:Range(Int32?,Int32?),values:Array(Number))-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Sets elements of a vector to given values based on the given range</p>
+
+<pre><code>vec <span class="o">=</span> <span class="t">Vector</span>.<span class="k">new</span> [<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>, <span class="n">5</span>]
+vec[<span class="n">1</span>...] <span class="o">=</span> [<span class="n">10</span>, <span class="n">9</span>, <span class="n">8</span>, <span class="n">7</span>]
+vec <span class="c"># =&gt; [1, 10, 9, 8, 7]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/indexing.cr#L72" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="[]=(indexes:Array(Int32),values:Array(Number))-instance-method">
+      <div class="signature">
+        
+        def <strong>[]=</strong>(indexes : Array(Int32), values : Array(Number))
+
+        <a class="method-permalink" href="#[]=(indexes:Array(Int32),values:Array(Number))-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Sets multiple elements of a vector by the given indexes.</p>
+
+<pre><code>vec <span class="o">=</span> <span class="t">Vector</span>.<span class="k">new</span> [<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>]
+vec[[<span class="n">0</span>, <span class="n">1</span>]] <span class="o">=</span> [<span class="n">10</span>, <span class="n">9</span>]
+vec <span class="c"># =&gt; [10, 9, 3]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/indexing.cr#L61" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="[]=(index:Int32,value:Number)-instance-method">
+      <div class="signature">
+        
+        def <strong>[]=</strong>(index : Int32, value : Number)
+
+        <a class="method-permalink" href="#[]=(index:Int32,value:Number)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Sets a single element from a vector at a given index</p>
+
+<pre><code>vec <span class="o">=</span> <span class="t">Vector</span>.<span class="k">new</span> [<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>]
+vec[<span class="n">0</span>] <span class="o">=</span> <span class="n">10</span>
+vec <span class="c"># =&gt; [10, 2, 3]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/indexing.cr#L50" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="amax-instance-method">
+      <div class="signature">
+        
+        def <strong>amax</strong>
+
+        <a class="method-permalink" href="#amax-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Index of absolute value max</p>
+
+<pre><code>v1 <span class="o">=</span> <span class="t">Vector</span>.<span class="k">new</span> [<span class="n">-8</span>, <span class="n">1</span>, <span class="n">2</span>]
+v2.amax <span class="c"># =&gt; 0</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/blas.cr#L42" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="asum-instance-method">
+      <div class="signature">
+        
+        def <strong>asum</strong>
+
+        <a class="method-permalink" href="#asum-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Sum of absolute values</p>
+
+<pre><code>v1 <span class="o">=</span> <span class="t">Vector</span>.<span class="k">new</span> [<span class="n">-1</span>, <span class="n">1</span>, <span class="n">2</span>]
+v2.asum <span class="c"># =&gt; 4</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/blas.cr#L32" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="copy-instance-method">
+      <div class="signature">
+        
+        def <strong>copy</strong>
+
+        <a class="method-permalink" href="#copy-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/indexing.cr#L6" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="data-instance-method">
+      <div class="signature">
+        
+        def <strong>data</strong>
+
+        <a class="method-permalink" href="#data-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/init.cr#L18" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="dot(other:Vector)-instance-method">
+      <div class="signature">
+        
+        def <strong>dot</strong>(other : <a href="Vector.html">Vector</a>)
+
+        <a class="method-permalink" href="#dot(other:Vector)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Computes the dot product of two vectors</p>
+
+<pre><code>v1 <span class="o">=</span> <span class="t">Vector</span>.<span class="k">new</span> [<span class="n">1.0</span>, <span class="n">2.0</span>, <span class="n">3.0</span>]
+v2 <span class="o">=</span> <span class="t">Vector</span>.<span class="k">new</span> [<span class="n">4.0</span>, <span class="n">5.0</span>, <span class="n">6.0</span>]
+v1.dot(v2) <span class="c"># =&gt; 32</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/blas.cr#L12" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="dtype-instance-method">
+      <div class="signature">
+        
+        def <strong>dtype</strong>
+
+        <a class="method-permalink" href="#dtype-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/init.cr#L19" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="idxmax-instance-method">
+      <div class="signature">
+        
+        def <strong>idxmax</strong>
+
+        <a class="method-permalink" href="#idxmax-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Computes the index of the maximum value of a vector</p>
+
+<pre><code>v <span class="o">=</span> <span class="t">Vector</span>.<span class="k">new</span> [<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>]
+v.idxmax <span class="c"># =&gt; 3</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/stats.cr#L51" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="idxmin-instance-method">
+      <div class="signature">
+        
+        def <strong>idxmin</strong>
+
+        <a class="method-permalink" href="#idxmin-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Computes the index of the minimum value of a vector</p>
+
+<pre><code>v <span class="o">=</span> <span class="t">Vector</span>.<span class="k">new</span> [<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>]
+v.idxmin <span class="c"># =&gt; 0</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/stats.cr#L61" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="max-instance-method">
+      <div class="signature">
+        
+        def <strong>max</strong>
+
+        <a class="method-permalink" href="#max-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Computes the maximum value of a vector</p>
+
+<pre><code>v <span class="o">=</span> <span class="t">Vector</span>.<span class="k">new</span> [<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>]
+v.max <span class="c"># =&gt; 4</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/stats.cr#L11" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="min-instance-method">
+      <div class="signature">
+        
+        def <strong>min</strong>
+
+        <a class="method-permalink" href="#min-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Computes the minimum value of a vector</p>
+
+<pre><code>v <span class="o">=</span> <span class="t">Vector</span>.<span class="k">new</span> [<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>]
+v.min <span class="c"># =&gt; 1</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/stats.cr#L21" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="norm-instance-method">
+      <div class="signature">
+        
+        def <strong>norm</strong>
+
+        <a class="method-permalink" href="#norm-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Computes the euclidean norm of the vector</p>
+
+<pre><code>vec <span class="o">=</span> <span class="t">Vector</span>.<span class="k">new</span> [<span class="n">1.0</span>, <span class="n">2.0</span>, <span class="n">3.0</span>]
+vec.norm <span class="c"># =&gt; 3.741657386773941</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/blas.cr#L22" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="owner-instance-method">
+      <div class="signature">
+        
+        def <strong>owner</strong>
+
+        <a class="method-permalink" href="#owner-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/init.cr#L15" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="ptp-instance-method">
+      <div class="signature">
+        
+        def <strong>ptp</strong>
+
+        <a class="method-permalink" href="#ptp-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Computes the "peak to peak" of a vector (max - min)</p>
+
+<pre><code>v <span class="o">=</span> <span class="t">Vector</span>.<span class="k">new</span> [<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>]
+v.ptp <span class="c"># =&gt; 3</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/stats.cr#L41" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="ptpidx-instance-method">
+      <div class="signature">
+        
+        def <strong>ptpidx</strong>
+
+        <a class="method-permalink" href="#ptpidx-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Computes the indexes of the minimum and maximum values of a vector</p>
+
+<pre><code>v <span class="o">=</span> <span class="t">Vector</span>.<span class="k">new</span> [<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>]
+v.ptpidx <span class="c"># =&gt; {0, 3}</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/stats.cr#L71" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="ptpv-instance-method">
+      <div class="signature">
+        
+        def <strong>ptpv</strong>
+
+        <a class="method-permalink" href="#ptpv-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Computes the min and max values of a vector</p>
+
+<pre><code>v <span class="o">=</span> <span class="t">Vector</span>.<span class="k">new</span> [<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>]
+v.ptpv <span class="c"># =&gt; {1, 4}</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/stats.cr#L31" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="ptr-instance-method">
+      <div class="signature">
+        
+        def <strong>ptr</strong>
+
+        <a class="method-permalink" href="#ptr-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/init.cr#L14" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="size-instance-method">
+      <div class="signature">
+        
+        def <strong>size</strong>
+
+        <a class="method-permalink" href="#size-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/init.cr#L16" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="stride-instance-method">
+      <div class="signature">
+        
+        def <strong>stride</strong>
+
+        <a class="method-permalink" href="#stride-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/init.cr#L17" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="to_s(io)-instance-method">
+      <div class="signature">
+        
+        def <strong>to_s</strong>(io)
+
+        <a class="method-permalink" href="#to_s(io)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/bottle/blob/043cadf8b01670e0e43d673262a472f9ec6488a6/src/vector/stats.cr#L75" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+</div>
+
+</body>
+</html>

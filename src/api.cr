@@ -11,13 +11,5 @@ require "./util/testing"
 
 module Bottle::B
   extend self
-  include Bottle::Internal::Binary
-  include Bottle::Internal::UFunc
-  include Bottle::Internal::Numeric
-  include Bottle::Internal::Statistics
-  include Bottle::Internal::Trigonometric
-  include Bottle::Internal::LinAlg
-  include Bottle::Internal::Assemble
-  include Bottle::Internal::ToString
-  include Bottle::Internal::Comparison
+  include Bottle::Internal
 end

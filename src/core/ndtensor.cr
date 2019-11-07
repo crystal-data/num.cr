@@ -82,12 +82,12 @@ struct Bottle::Tensor(T)
   #         [[ 8,  9],
   #          [10, 11]]])
   # ```
-  def self.new(_shape : Array(Int32), &block : Int32 -> U) forall U
+  def self.new(_shape : Array(Int32), order : ArrayFlags = ArrayFlags::Contiguous, &block : Int32 -> U) forall U
     total = _shape.reduce { |i, j| i * j }
     ptr = Pointer(U).malloc(total) do |i|
       yield i
     end
-    new(_shape, ArrayFlags::Contiguous, ptr)
+    new(_shape, order, ptr)
   end
 
   def self.from_array(_shape : Array(Int32), _data : Array)
@@ -500,44 +500,34 @@ struct Bottle::Tensor(T)
 
   # Duplicates a `Tensor`, respecting the passed order of memory
   # provided.  Useful for throwing `Tensor`s down to LAPACK
-  # since they must be in Fortran style order, and this
-  # avoids the copy if they are.
+  # since they must be in Fortran style order
   #
   # ```
   # t = B.arange(5)
   # t.dup # => Tensor([0, 1, 2, 3, 4])
   # ```
-  def dup(f : ArrayFlags = ArrayFlags::None)
-    ret = Tensor(T).new(@shape)
-    newcontig = f & (ArrayFlags::Fortran | ArrayFlags::Contiguous)
-    contig = @flags & (ArrayFlags::Fortran | ArrayFlags::Contiguous)
-
-    # Memory layout matches, can directly do a memcpy
-    if (contig != ArrayFlags::None) && (newcontig == 0 || contig == newcontig)
+  def dup(order : Char? = nil) forall U
+    contig = uninitialized ArrayFlags
+    case order
+    when 'C'
+      contig = ArrayFlags::Contiguous
+    when 'F'
+      contig = ArrayFlags::Fortran
+    when nil
+      contig = flags & (ArrayFlags::Contiguous | ArrayFlags::Fortran)
+    else
+      raise Exceptions::ValueError.new(
+        "Invalid argument for order.  Valid options or 'C', or 'F'")
+    end
+    ret = Tensor(T).new(shape, contig)
+    if (contig & flags != ArrayFlags::None)
+      ret = Tensor(T).new(shape, contig)
       @buffer.copy_to(ret.@buffer, size)
-
-      # If the `Tensor` has size, need to copy based on provided strides,
-      # this is still the "easy" path.
-    elsif ret.size
-      if newcontig != (ret.flags & (ArrayFlags::Fortran | ArrayFlags::Contiguous))
-        flat_iter.zip(ret.flat_iter) do |i, j|
-          j.value = i.value
-        end
-        newstrides = ret.size
-        ndims.times do |i|
-          newstrides //= shape[i]
-          ret.@strides[i] = newstrides
-        end
-
-        # Why does this have to be transposed :(
-      else
-        trans_iter.zip(ret.flat_iter) do |i, j|
-          j.value = i.value
-        end
+    else
+      ret.flat_iter.zip(flat_iter).each do |i, j|
+        i.value = j.value
       end
     end
-    # Rather than set something manually, might as well let the `Tensor`
-    # figure it out.
     ret.update_flags(ArrayFlags::Fortran | ArrayFlags::Contiguous)
     ret
   end
@@ -560,11 +550,12 @@ struct Bottle::Tensor(T)
   # t = Tensor.new([3, 3]) { |i| i }
   # t.diag_view # => Tensor([0, 4, 8])
   def diag_view
-    raise "Tensor must be two-dimensional" unless ndims == 2
+    raise ShapeError.new("Tensor must be two-dimensional") unless ndims == 2
     nel = Math.min(@shape[0], @shape[1])
     newshape = [nel]
     newstrides = [@strides[0] + @strides[1]]
     newflags = @flags.dup
+    newflags &= ~ArrayFlags::OwnData
     newbase = @base ? @base : @buffer
     ret = Tensor(T).new(@buffer, newshape, newstrides, newflags, newbase)
     ret.update_flags(ArrayFlags::Fortran | ArrayFlags::Contiguous)
@@ -688,7 +679,7 @@ struct Bottle::Tensor(T)
     newshape.each_with_index do |val, i|
       if val < 0
         if autosize >= 0
-          raise "Only shape dimension can be automatic"
+          raise Exceptions::ValueError.new("Only shape dimension can be automatic")
         end
         autosize = i
       else
@@ -698,7 +689,7 @@ struct Bottle::Tensor(T)
 
     if autosize >= 0
       newshape = newshape.dup
-      newshape[autosize] = newsize // cur_size
+      newshape[autosize] = cur_size // newsize
       newsize *= newshape[autosize]
     end
 
@@ -725,13 +716,15 @@ struct Bottle::Tensor(T)
       end
     end
 
-    if @flags & (ArrayFlags::Fortran | ArrayFlags::Contiguous)
-      ret = Tensor(T).new(@buffer, newshape, newstrides, @flags.dup, newbase)
+    if flags.fortran? || flags.contiguous?
+      newflags = @flags.dup
+      newflags &= ~ArrayFlags::OwnData
+      ret = Tensor(T).new(@buffer, newshape, newstrides, newflags, newbase)
       ret.update_flags(ArrayFlags::Fortran | ArrayFlags::Contiguous)
       ret
     else
       tmp = self.dup
-      ret = Tensor(T).new(tmp.@buffer, newshape, newstrides, @flags.dup, nil)
+      ret = Tensor(T).new(tmp.@buffer, newshape, newstrides, tmp.flags.dup, nil)
       ret.update_flags(ArrayFlags::Fortran | ArrayFlags::Contiguous)
       ret
     end
