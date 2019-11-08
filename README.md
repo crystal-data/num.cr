@@ -16,6 +16,14 @@ It provides:
 - data structures that can easily be passed to C libraries
 - powerful linear algebra routines backed by LAPACK and BLAS
 
+## Prerequisites
+
+Bottle relies on OpenBLAS and LAPACK for many underlying computations, and the
+development packages must be present for Bottle to work correctly.
+
+For Debian, use `libopenblas-dev` and `liblapack-dev`.  For other operating
+systems review the relevant installation instructions for that OS.
+
 ## Usage
 
 Bottle provides data structures that facilitate element-wise operations,

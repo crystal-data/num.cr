@@ -155,22 +155,18 @@ module Bottle::Internal::LinAlg
     # # Matrix[[    -2.0     1.0]
     # #        [     1.5    -0.5]]
     # ```
-    def inv(a : Tensor({{dtype}}))
+    def inv_helper(a : Tensor({{dtype}}))
       if a.shape[0] != a.shape[1]
         raise "Matrix must be square"
       end
 
-      if a.ndims > 2
-        raise "Only 2 dimensional square matrices are supported"
-      end
-
-      a = a.dup
+      a = a.dup('F')
       dim = a.shape[0]
       ipiv = Pointer(Int32).malloc(dim)
 
       m = a.shape[0]
       n = a.shape[1]
-      lda = a.strides[0]
+      lda = a.strides[1]
 
       LibLapack.{{prefix}}getrf(
         pointerof(m),
