@@ -39,15 +39,37 @@ powerful numerical methods.
 
 ```crystal
 include Bottle
+```
 
+
+```crystal
 t = Tensor.new([2, 2, 3]) { |i| i }
+```
 
-B.add(t, t) # =>
-# [[[ 0,  2,  4],
-#   [ 6,  8, 10]],
-#
-#  [[12, 14, 16],
-#   [18, 20, 22]]]
+```crystal
+Tensor([[[ 0,  1],
+         [ 2,  3]],
+
+        [[ 4,  5],
+         [ 6,  7]],
+
+        [[ 8,  9],
+         [10, 11]]])
+```
+
+```crystal
+t + t
+```
+
+```crystal
+Tensor([[[ 0,  2],
+         [ 4,  6]],
+
+        [[ 8, 10],
+         [12, 14]],
+
+        [[16, 18],
+         [20, 22]]])
 ```
 
 Bottle provides an n-dimensional Tensor for efficient data storage.
