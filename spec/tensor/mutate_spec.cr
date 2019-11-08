@@ -147,4 +147,41 @@ describe Tensor do
       Comparison.allclose(t, expected).should be_true
     end
   end
+
+  describe "Tensor#transpose" do
+    it "basic tranpose test" do
+      t = get_matrix
+      expected = Tensor.new([3, 3], ArrayFlags::Fortran) { |i| i }
+      result = t.transpose
+      Comparison.allclose(expected, result).should be_true
+    end
+
+    it "transpose returns a view" do
+      t = Tensor.new([3, 3]) { |i| i }
+      view = t.transpose
+      view[...] = 99
+      Comparison.allclose(t, view).should be_true
+    end
+
+    it "explicit order transpose" do
+      t = Tensor.new([2, 2, 3]) { |i| i }
+      expected = Tensor.from_array([3, 2, 2],
+        [0, 3, 6, 9, 1, 4, 7, 10, 2, 5, 8, 11])
+      result = t.transpose([2, 0, 1])
+      Comparison.allclose(result, expected).should be_true
+    end
+
+    it "C to F transpose swaps memory order" do
+      t = Tensor.new([2, 2, 3]) { |i| i }
+      result = t.transpose
+      result.flags.fortran?.should be_true
+    end
+
+    it "F to C transpose swaps memory order" do
+      t = Tensor.new([2, 2, 3]) { |i| i }
+      t = t.dup('F')
+      result = t.transpose
+      result.flags.contiguous?.should be_true
+    end
+  end
 end

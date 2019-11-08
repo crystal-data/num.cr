@@ -5,6 +5,22 @@ module Bottle::Internal::Assemble
 
   # Concatenates an array of `Tensor's` along a provided axis.
   #
+  # Parameters
+  # ----------
+  # alist : Array(Tensor)
+  #   - Array containing Tensors to be concatenated
+  # axis : Int32
+  #   - Axis for concatentation, must be an existing
+  #     axis present in all Tensors, and all Tensors
+  #     must have the same shape off-axis
+  #
+  # Returns
+  # -------
+  # ret : Tensor
+  #   - Result of the concatenation
+  #
+  # Examples
+  # --------
   # ```
   # t = Tensor.new([2, 2, 3]) { |i| i }
   #
@@ -56,6 +72,18 @@ module Bottle::Internal::Assemble
 
   # Concatenates a list of `Tensor`s along axis 0
   #
+  # Parameters
+  # ----------
+  # alist : Array(Tensor)
+  #   - Array containing Tensors to be stacked
+  #
+  # Returns
+  # -------
+  # ret : Tensor
+  #   - Result of the concatenation
+  #
+  # Examples
+  # --------
   # ```
   # t = Tensor.new([2, 2, 3])
   # vstack([t, t, t])
@@ -84,9 +112,22 @@ module Bottle::Internal::Assemble
 
   # Concatenates a list of `Tensor`s along axis 1
   #
+  # Parameters
+  # ----------
+  # alist : Array(Tensor)
+  #   - Array containing Tensors to be stacked
+  #
+  # Returns
+  # -------
+  # ret : Tensor
+  #   - Result of the concatenation
+  #
+  # Examples
+  # --------
   # ```
   # t = Tensor.new([2, 2, 3])
   # hstack([t, t, t])
+  #
   # Tensor([[[ 0,  1,  2],
   #          [ 3,  4,  5],
   #          [ 0,  1,  2],

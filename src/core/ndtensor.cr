@@ -757,47 +757,37 @@ struct Bottle::Tensor(T)
     newstrides = @strides.dup
     newbase = @base ? @base : @buffer
     if order.size == 0
-      0.step(to: ndims/2) do |i|
-        offset = ndims - i - 1
-        tmp = newstrides[offset]
-        newstrides[offset] = newstrides[i]
-        newstrides[i] = tmp
+      order = (0...ndims).to_a.reverse
+    end
+    n = order.size
+    if n != ndims
+      raise "Axes don't match array"
+    end
 
-        tmp = newshape[offset]
-        newshape[offset] = newshape[i]
-        newshape[i] = tmp
-      end
-    else
-      n = order.size
-      if n != ndims
-        raise "Axes don't match array"
-      end
+    permutation = [0] * 32
+    reverse_permutation = [0] * 32
+    n.times do |i|
+      reverse_permutation[i] = -1
+    end
 
-      permutation = [0] * 32
-      reverse_permutation = [0] * 32
-      n.times do |i|
-        reverse_permutation[i] = -1
+    n.times do |i|
+      axis = order[i]
+      if axis < 0
+        axis = ndims + axis
       end
+      if axis < 0 || axis >= ndims
+        raise "Invalid axis for this array"
+      end
+      if reverse_permutation[axis] != -1
+        raise "Repeated axis in transpose"
+      end
+      reverse_permutation[axis] = i
+      permutation[i] = axis
+    end
 
-      n.times do |i|
-        axis = order[i]
-        if axis < 0
-          axis = ndims + axis
-        end
-        if axis < 0 || axis >= ndims
-          raise "Invalid axis for this array"
-        end
-        if reverse_permutation[axis] != -1
-          raise "Repeated axis in transpose"
-        end
-        reverse_permutation[axis] = i
-        permutation[i] = axis
-      end
-
-      n.times do |i|
-        newshape[i] = @shape[permutation[i]]
-        newstrides[i] = strides[permutation[i]]
-      end
+    n.times do |i|
+      newshape[i] = @shape[permutation[i]]
+      newstrides[i] = strides[permutation[i]]
     end
     ret = Tensor(T).new(@buffer, newshape, newstrides, @flags.dup, newbase)
     ret.update_flags(ArrayFlags::Contiguous | ArrayFlags::Fortran)
