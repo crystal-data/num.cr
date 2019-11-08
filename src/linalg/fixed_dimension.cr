@@ -12,7 +12,7 @@ module Bottle::Internal::LinAlg
     #
     # dot(t, t) # => 14.0
     # ```
-    def dot(dx : Tensor({{dtype}}), dy : Tensor({{dtype}}))
+    def dot1d(dx : Tensor({{dtype}}), dy : Tensor({{dtype}}))
       if dx.shape != dy.shape
         raise "Shapes #{dx.shape} and #{dy.shape} are not aligned"
       end
