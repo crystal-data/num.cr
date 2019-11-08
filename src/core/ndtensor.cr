@@ -4,6 +4,8 @@ require "../iteration/iter"
 require "../iteration/strategy"
 require "../util/testing"
 require "../util/exceptions"
+require "./printoptions"
+require "./statistics"
 
 @[Flags]
 enum Bottle::Internal::ArrayFlags
@@ -272,7 +274,7 @@ struct Bottle::Tensor(T)
   # it could however be cleaned up to handle long floating point values
   # more precisely.
   def to_s(io)
-    printer = ToString::TensorPrint.new(self, io)
+    printer = Internal::ToString::TensorPrint.new(self, io)
     printer.print
   end
 
@@ -457,11 +459,15 @@ struct Bottle::Tensor(T)
           raise IndexError.new("Index out of range")
         end
         el
-      else
+      elsif el.is_a?(Range)
         start, offset = Indexable.range_to_index_and_count(el, shape[i])
         if start >= shape[i]
           raise IndexError.new("Index out of range")
         end
+        newshape[i] = offset
+        start
+      else
+        start, offset = Indexable.range_to_index_and_count(..., shape[i])
         newshape[i] = offset
         start
       end

@@ -1,4 +1,5 @@
 require "./ndtensor"
+require "../util/exceptions"
 
 # A module primarily responsible for `Tensor`
 # and `Matrix` creation routines.
@@ -248,5 +249,49 @@ module Bottle::Internal::Numeric
     log_stop = Math.log(stop, 10.0)
 
     logspace(log_start, log_stop, num: num, endpoint: endpoint, base: 10.0) * out_sign
+  end
+
+  def tri(n : Int32, m : Int32? = nil, k : Int32 = 0, dtype = U.class = Float64) forall U
+    Tensor(U).new(n, m.nil? ? n : m.as(Int32)) do |i, j|
+      i >= j - k ? U.new(1) : U.new(0)
+    end
+  end
+
+  macro triangulars(uplo, op)
+    def tri{{uplo}}(t : Tensor(U), k = 0) forall U
+      t = t.dup('C')
+      iter = t.unsafe_iter
+      if t.ndims == 1
+        t[0] = 0
+        return t
+      elsif t.ndims == 2
+        Tensor(U).new(t.shape[0], t.shape[1]) do |i, j|
+          i >= j - k ? iter.next.value : U.new(0)
+        end
+      else
+        t.matrix_iter.each do |n|
+          niter = n.unsafe_iter
+          n[...] = Tensor(U).new(n.shape[0], n.shape[1]) do |i, j|
+            i {{op.id}} j - k ? niter.next.value : U.new(0)
+          end
+        end
+      end
+      t
+    end
+  end
+
+  triangulars(u, :<=)
+  triangulars(l, :>=)
+
+  def vander(x : Tensor(U), n : Int32? = nil, increasing : Bool = false) forall U
+    if x.ndims > 1
+      raise Exceptions::ShapeError.new("Vandermonde matrices must
+        be initialized with a one-dimensional Tensor")
+    end
+    n = n.nil? ? x.size : n.as(Int32)
+    Tensor(U).new(x.size, n) do |i, j|
+      offset = increasing ? j : n - j - 1
+      x[[i]] ** offset
+    end
   end
 end

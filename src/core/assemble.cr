@@ -9,6 +9,7 @@ module Bottle::Internal::Assemble
   # t = Tensor.new([2, 2, 3]) { |i| i }
   #
   # concatenate([t, t, t], axis=-1)
+  #
   # Tensor([[[ 0,  1,  2,  0,  1,  2,  0,  1,  2],
   #          [ 3,  4,  5,  3,  4,  5,  3,  4,  5]],
   #
@@ -58,6 +59,7 @@ module Bottle::Internal::Assemble
   # ```
   # t = Tensor.new([2, 2, 3])
   # vstack([t, t, t])
+  #
   # Tensor([[[ 0,  1,  2],
   #          [ 3,  4,  5]],
   #
