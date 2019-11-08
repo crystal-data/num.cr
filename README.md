@@ -76,49 +76,96 @@ Bottle provides an n-dimensional Tensor for efficient data storage.
 Slice and index these containers to return views into their data.
 
 ```crystal
-t[1...] # =>
-# [[[ 6,  7,  8],
-#   [ 9, 10, 11]]]
+t[1...]
+```
 
-t[0] # =>
-# [[0, 1, 2],
-#  [3, 4, 5]]
+```crystal
+Tensor([[[ 4,  5],
+         [ 6,  7]],
 
+        [[ 8,  9],
+         [10, 11]]])
+```
+
+```crystal
+t[0]
+```
+
+```crystal
+Tensor([[0, 1],
+        [2, 3]])
+```
+
+```crystal
 t[..., 1] # =>
-# [[ 3,  4,  5],
-#  [ 9, 10, 11]]
+```
 
-t[1..., 1...] # =>
-# [[[ 9, 10, 11]]]
+```crystal
+Tensor([[ 2,  3],
+        [ 6,  7],
+        [10, 11]])
+```
+
+```crystal
+t[..., 1...2, 1...2]
+```
+
+```crystal
+Tensor([[[ 3]],
+
+        [[ 7]],
+
+        [[11]]])
 ```
 
 Make use of elementwise, outer, and accumulation operations.
 
 ```crystal
-B.divide(t[0], t[1]) # =>
-# [[    0.0,   0.143,    0.25],
-#  [  0.333,     0.4,   0.455]]
+t[0] / t[-1]
+```
 
-B.multiply.outer(t[0, 0], t[0, 1]) # =>
-# [[ 0,  0,  0],
-#  [ 3,  4,  5],
-#  [ 6,  8, 10]]
+```crystal
+Tensor([[    0.0,   0.111],
+        [    0.2,   0.273]])
+```
+
+```crystal
+B.multiply.outer(t[...2, 1], t[1..., -1])
+```
+
+```crystal
+Tensor([[[[12, 14],
+          [18, 21]],
+
+         [[20, 22],
+          [30, 33]]],
+
+
+        [[[36, 42],
+          [42, 49]],
+
+         [[60, 66],
+          [70, 77]]]])
 ```
 
 Use Linear Algebra Routines backed by BLAS and LAPACK
 
 ```crystal
-B.dot(t[0, 0], t[0, 1]) # => 14.0
+B.matmul(t[0], t[1]) # =>
+```
 
-B.matmul(t[0, ..., ...2], t[1, ..., ...2]) # =>
-# [[   9.0,   10.0],
-#  [  54.0,   61.0]]
+```crystal
+Tensor([[   6.0,    7.0],
+        [  26.0,   31.0]])
+```
 
-B.inv(t[0, ..., ...2]) # =>
-# [[-1.333, 0.333],
-#  [  1.0,   0.0]]
+```crystal
+B.inv(t[0, ..., ...2])
+```
 
-B.norm(t[0, 1]) # => 7.0710678118654755
+```crystal
+Tensor([[ -1.5,   0.5],
+        [  1.0,   0.0]])
 ```
 
 
