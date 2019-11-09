@@ -736,6 +736,28 @@ struct Bottle::Tensor(T)
     end
   end
 
+  # Flatten an array, returning a view if possible.
+  # If the array is either fortran or c-contiguous, a view will be returned,
+  #
+  # otherwise, the array will be reshaped and copied.
+  def ravel
+    newshape = [size]
+    newflags = flags.dup
+    if flags.contiguous?
+      newstrides = [strides[-1]]
+      newbase = @base ? @base : @buffer
+      newflags &= ~ArrayFlags::OwnData
+      Tensor(T).new(@buffer, newshape, newstrides, newflags, newbase)
+    elsif flags.fortran?
+      newstrides = [strides[0]]
+      newbase = @base ? @base : @buffer
+      newflags &= ~ArrayFlags::OwnData
+      Tensor(T).new(@buffer, newshape, newstrides, newflags, newbase)
+    else
+      reshape([-1])
+    end
+  end
+
   # Permute the dimensions of a `Tensor`.  If no order is provided,
   # the dimensions will be reversed, a "true transpose".  Otherwise,
   # the dimensions will be permutated in the order provided.
