@@ -58,6 +58,8 @@ struct Bottle::Tensor(T)
   # The total number of elements contained in a `Tensor`
   getter size : Int32
 
+  getter dtype : T.class = T
+
   # Compile time checking of data types of a `Tensor` to ensure
   # mixing data types is not allowed, not are bad data types
   # allowed into the `Tensor`

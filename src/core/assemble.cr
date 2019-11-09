@@ -145,4 +145,40 @@ module Bottle::Internal::Assemble
   def hstack(alist : Array(Tensor(U))) forall U
     concatenate(alist, 1)
   end
+
+  def dstack(alist : Array(Tensor(U))) forall U
+    shape0 = alist[0].shape
+    if !alist.all? { |t| t.shape == shape0 }
+      raise Exceptions::ShapeError.new("All tensors must be the same shape")
+    end
+
+    if alist[0].ndims == 1
+      alist = alist.map { |t| t.reshape([1, t.size, 1])  }
+      concatenate(alist, 2)
+    elsif alist[0].ndims == 2
+      alist = alist.map { |t| t.reshape(t.shape + [1]) }
+      concatenate(alist, 2)
+    else
+      raise Exceptions::ShapeError.new(
+        "dstack only supports 1 and 2-dimensional tensors")
+    end
+  end
+
+  def column_stack(alist : Array(Tensor(U))) forall U
+    shape0 = alist[0].shape
+    if !alist.all? { |t| t.shape == shape0 }
+      raise Exceptions::ShapeError.new("All tensors must be the same shape")
+    end
+
+    if alist[0].ndims == 1
+      alist = alist.map { |t| t.reshape([t.size, 1])  }
+      concatenate(alist, 1)
+    elsif alist[0].ndims == 2
+      alist = alist.map { |t| t.reshape(t.shape) }
+      concatenate(alist, 1)
+    else
+      raise Exceptions::ShapeError.new(
+        "column_stack only supports 1 and 2-dimensional tensors")
+    end
+  end
 end

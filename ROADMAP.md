@@ -71,12 +71,12 @@ Changing Number of Dimensions
 
 Joining Tensors and Matrices
 
-- [ ] `concatenate`
+- [x] `concatenate`
 - [ ] `stack`
-- [ ] `column_stack`
-- [ ] `dstack`
-- [ ] `hstack`
-- [ ] `vstack`
+- [x] `column_stack`
+- [x] `dstack`
+- [x] `hstack`
+- [x] `vstack`
 
 Splitting Tensors and Matrices
 
@@ -336,4 +336,4 @@ Searching
 Counting
 
 - [ ] `count_nonzero`
-- [ ] `bincount`
+- [x] `bincount`

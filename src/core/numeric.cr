@@ -109,7 +109,7 @@ module Bottle::Internal::Numeric
   # f # => Tensor[0, 0, 0]
   # ```
   def zeros_like(other : NDTensor, dtype : U.class = Float64) forall U
-    Tensor(U).new(other.shape) { |_| U.new(1) }
+    Tensor(U).new(other.shape) { |_| U.new(0) }
   end
 
   # Initializes a `Tensor` of the given `size` and `dtype`,
@@ -293,5 +293,65 @@ module Bottle::Internal::Numeric
       offset = increasing ? j : n - j - 1
       x[[i]] ** offset
     end
+  end
+
+  # Count number of occurrences of each value in array of non-negative ints.
+  #
+  # The number of bins (of size 1) is one larger than the largest value in x.
+  # If minlength is specified, there will be at least this number of bins
+  # in the output array (though it will be longer if necessary, depending
+  # on the contents of x). Each bin gives the number of occurrences of its
+  # index value in x. If weights is specified the input array is weighted
+  # by it, i.e. if a value n is found at position i, out[n] += weight[i]
+  # instead of out[n] += 1.
+  #
+  # ```
+  # t = Tensor.random(0...10, [10])
+  # t # => Tensor([7, 2, 2, 7, 0, 7, 6, 6, 0, 6])
+  # bincount(t) # => Tensor([2, 0, 2, 0, 0, 0, 3, 3, 0, 0])
+  # ```
+  def bincount(x : Tensor(Int32), min_count = 0)
+    if x.ndims != 1
+      raise Exceptions::ShapeError.new("Input must be 1-dimensional")
+    end
+
+    sz = Math.max(min_count, x.size)
+    ret = zeros([sz], dtype: Int32)
+    x.flat_iter.each do |p|
+      ret[[p.value]] += 1
+    end
+    ret
+  end
+
+  # Count number of occurrences of each value in array of non-negative ints.
+  #
+  # The number of bins (of size 1) is one larger than the largest value in x.
+  # If minlength is specified, there will be at least this number of bins
+  # in the output array (though it will be longer if necessary, depending
+  # on the contents of x). Each bin gives the number of occurrences of its
+  # index value in x. If weights is specified the input array is weighted
+  # by it, i.e. if a value n is found at position i, out[n] += weight[i]
+  # instead of out[n] += 1.
+  #
+  # ```
+  # t = Tensor.random(0...10, [10])
+  # t # => Tensor([7, 2, 2, 7, 0, 7, 6, 6, 0, 6])
+  # bincount(t) # => Tensor([2, 0, 2, 0, 0, 0, 3, 3, 0, 0])
+  # ```
+  def bincount(x : Tensor(Int32), weights : Tensor(U), min_count = 0) forall U
+    if x.ndims != 1
+      raise Exceptions::ShapeError.new("Input must be 1-dimensional")
+    end
+
+    if x.shape != weights.shape
+      raise "Weights do not match input"
+    end
+
+    sz = Math.max(min_count, x.size)
+    ret = zeros([sz], dtype: U)
+    x.flat_iter.zip(weights.flat_iter).each do |i, j|
+      ret[[i.value]] += j.value
+    end
+    ret
   end
 end
