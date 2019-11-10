@@ -307,7 +307,7 @@ module Bottle::Internal::Numeric
   #
   # ```
   # t = Tensor.random(0...10, [10])
-  # t # => Tensor([7, 2, 2, 7, 0, 7, 6, 6, 0, 6])
+  # t           # => Tensor([7, 2, 2, 7, 0, 7, 6, 6, 0, 6])
   # bincount(t) # => Tensor([2, 0, 2, 0, 0, 0, 3, 3, 0, 0])
   # ```
   def bincount(x : Tensor(Int32), min_count = 0)
@@ -335,7 +335,7 @@ module Bottle::Internal::Numeric
   #
   # ```
   # t = Tensor.random(0...10, [10])
-  # t # => Tensor([7, 2, 2, 7, 0, 7, 6, 6, 0, 6])
+  # t           # => Tensor([7, 2, 2, 7, 0, 7, 6, 6, 0, 6])
   # bincount(t) # => Tensor([2, 0, 2, 0, 0, 0, 3, 3, 0, 0])
   # ```
   def bincount(x : Tensor(Int32), weights : Tensor(U), min_count = 0) forall U

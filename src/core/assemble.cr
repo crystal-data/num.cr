@@ -153,7 +153,7 @@ module Bottle::Internal::Assemble
     end
 
     if alist[0].ndims == 1
-      alist = alist.map { |t| t.reshape([1, t.size, 1])  }
+      alist = alist.map { |t| t.reshape([1, t.size, 1]) }
       concatenate(alist, 2)
     elsif alist[0].ndims == 2
       alist = alist.map { |t| t.reshape(t.shape + [1]) }
@@ -171,7 +171,7 @@ module Bottle::Internal::Assemble
     end
 
     if alist[0].ndims == 1
-      alist = alist.map { |t| t.reshape([t.size, 1])  }
+      alist = alist.map { |t| t.reshape([t.size, 1]) }
       concatenate(alist, 1)
     elsif alist[0].ndims == 2
       alist = alist.map { |t| t.reshape(t.shape) }

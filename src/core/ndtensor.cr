@@ -64,7 +64,7 @@ struct Bottle::Tensor(T)
   # mixing data types is not allowed, not are bad data types
   # allowed into the `Tensor`
   protected def check_type
-    {% unless T == Float32 || T == Float64 || T == Bool || T == Int32 %}
+    {% unless T == Float32 || T == Float64 || T == Bool || T == Int32 || T == String || T == Char %}
       {% raise "Bad dtype: #{T}. #{T} is not supported by Bottle" %}
     {% end %}
   end
