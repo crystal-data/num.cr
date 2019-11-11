@@ -1,5 +1,3 @@
-require "./ndtensor"
-
 module Bottle::Internal::UFunc
   extend self
 
@@ -12,13 +10,13 @@ module Bottle::Internal::UFunc
     #
     # B.{{name}}(t1, t2)
     # ```
-    def {{name}}(x1 : Tensor, x2 : Tensor)
+    def {{name}}(x1 : BaseArray, x2 : BaseArray) forall U
       if x1.shape != x2.shape
         raise "Shapes {#{x1.shape}} and {#{x2.shape} are not aligned"
       end
       i1 = x1.unsafe_iter
       i2 = x2.unsafe_iter
-      Tensor.new(x1.shape) do |_|
+      x1.basetype.new(x1.shape) do |_|
         i1.next.value {{operator.id}} i2.next.value
       end
     end
@@ -31,9 +29,9 @@ module Bottle::Internal::UFunc
     #
     # B.{{name}}(t1, t2)
     # ```
-    def {{name}}(x1 : Tensor, x2 : Number)
+    def {{name}}(x1 : BaseArray, x2 : Number)
       ret = x1.unsafe_iter
-      Tensor.new(x1.shape) do |_|
+      x1.basetype.new(x1.shape) do |_|
         ret.next.value {{operator.id}} x2
       end
     end
@@ -46,9 +44,9 @@ module Bottle::Internal::UFunc
     #
     # B.{{name}}(x, t)
     # ```
-    def {{name}}(x1 : Number, x2 : Tensor)
+    def {{name}}(x1 : Number, x2 : BaseArray)
       ret = x2.unsafe_iter
-      Tensor.new(x2.shape) do |_|
+      x1.basetype.new(x2.shape) do |_|
         x1 {{operator.id}} ret.next.value
       end
     end
@@ -86,12 +84,12 @@ module Bottle::Internal::UFunc
       # # Matrix[[  2  3]
       # #        [  3  4]]
       # ```
-      def outer(x1 : Tensor(U), x2 : Tensor(V)) forall U, V
+      def outer(x1 : BaseArray(U), x2 : BaseArray(V)) forall U, V
         outer = x1.unsafe_iter
         inner = x2.unsafe_iter
         c1 = uninitialized U
         c2 = uninitialized V
-        Tensor.new(x1.shape + x2.shape) do |i|
+        x1.basetype.new(x1.shape + x2.shape) do |i|
           d = i % x2.size
           if d == 0
             c1 = outer.next.value

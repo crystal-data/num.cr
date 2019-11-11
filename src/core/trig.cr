@@ -18,9 +18,9 @@ module Bottle::Internal::Trigonometric
       #
       # B.{{name}}(t1)
       # ```
-      def {{name}}(x1 : Tensor)
+      def {{name}}(x1 : BaseArray)
         iter = x1.unsafe_iter
-        Tensor.new(x1.shape) do |_|
+        x1.basetype.new(x1.shape) do |_|
           Math.{{name}}(iter.next.value)
         end
       end
@@ -44,7 +44,7 @@ module Bottle::Internal::Trigonometric
       #
       # B.{{name}}(t1, t2)
       # ```
-      def {{name}}(x1 : Tensor, x2 : Tensor)
+      def {{name}}(x1 : BaseArray, x2 : BaseArray)
         if x1.shape != x2.shape
           raise "Shapes {#{x1.size}} and {#{x2.size} are not aligned"
         end
@@ -53,7 +53,7 @@ module Bottle::Internal::Trigonometric
         i2 = x2.unsafe_iter
 
         # TODO: Implement masking to use the *where* parameter
-        Tensor.new(x1.shape) do |_|
+        x1.basetype.new(x1.shape) do |_|
           Math.{{name}}(i1.next.value, i2.next.value)
         end
       end
@@ -67,9 +67,9 @@ module Bottle::Internal::Trigonometric
       #
       # B.{{name}}(t1, t2)
       # ```
-      def {{name}}(x1 : Tensor, x2 : Number)
+      def {{name}}(x1 : BaseArray, x2 : Number)
         iter = x1.unsafe_iter
-        Tensor.new(x1.shape) do |_|
+        x1.basetype.new(x1.shape) do |_|
           Math.{{name}}(iter.next.value, x2)
         end
       end
@@ -82,9 +82,9 @@ module Bottle::Internal::Trigonometric
       #
       # B.{{name}}(x, t)
       # ```
-      def {{name}}(x1 : Number, x2 : Tensor, where : Tensor? = nil)
+      def {{name}}(x1 : Number, x2 : BaseArray)
         iter = x2.unsafe_iter
-        Tensor.new(x2.shape) do |_|
+        x1.basetype.new(x2.shape) do |_|
           Math.{{name}}(x2, iter.next.value)
         end
       end
@@ -122,12 +122,12 @@ module Bottle::Internal::Trigonometric
         # # Matrix[[  2  3]
         # #        [  3  4]]
         # ```
-        def outer(x1 : Tensor, x2 : Tensor)
+        def outer(x1 : BaseArray(U), x2 : BaseArray(V)) forall U, V
           outer = x1.unsafe_iter
           inner = x2.unsafe_iter
           c1 = uninitialized U
           c2 = uninitialized V
-          Tensor.new(x1.shape + x2.shape) do |i|
+          x1.basetype.new(x1.shape + x2.shape) do |i|
             d = i % x2.size
             if d == 0
               c1 = outer.next.value
@@ -149,9 +149,9 @@ module Bottle::Internal::Trigonometric
   #
   # degrees(t) # => Tensor[      0.0     30.0     60.0     90.0]
   # ```
-  def degrees(x1 : Tensor)
+  def degrees(x1 : BaseArray)
     iter = x1.unsafe_iter
-    Tensor.new(x1.shape) do |_|
+    x1.basetype.new(x1.shape) do |_|
       iter.next * (180/Math::PI)
     end
   end
@@ -163,9 +163,9 @@ module Bottle::Internal::Trigonometric
   #
   # radians(t) # => Tensor[     0.524     1.047     1.571     2.094]
   # ```
-  def radians(x1 : Tensor)
+  def radians(x1 : BaseArray)
     iter = x1.unsafe_iter
-    Tensor.new(x1.size) do |_|
+    x1.basetype.new(x1.size) do |_|
       iter.next * (Math::PI/180)
     end
   end

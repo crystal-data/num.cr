@@ -1,4 +1,4 @@
-require "../core/ndtensor"
+require "../base/base"
 
 module Bottle::Internal::Comparison
   extend self
@@ -12,7 +12,7 @@ module Bottle::Internal::Comparison
   # tf = t + 0.00000000001
   # allclose(t, tf) # => true
   # ```
-  def allclose(a : Tensor(U), b : Tensor(U), rtol = 1e-5, atol = 1e-8) forall U
+  def allclose(a : BaseArray(U), b : BaseArray(U), rtol = 1e-5, atol = 1e-8) forall U
     if a.shape != b.shape
       raise "Shape of arguments must match"
     end
