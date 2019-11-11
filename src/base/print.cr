@@ -14,7 +14,7 @@ module Bottle::Internal::ToString
     getter shape : Array(Int32)
     getter maxval : Int32
 
-    def initialize(@t : BaseArray(T), @io, @prefix : String = "Base")
+    def initialize(@t : BaseArray(T), @io, @prefix : String = "Base", @maxval = 5)
       @ptr = @t.@buffer
       @obrackets = prefix + "(" + "[" * @t.ndims
       @idx = [0] * @t.ndims
@@ -23,7 +23,6 @@ module Bottle::Internal::ToString
       @last_comma = 0
       @strides = @t.strides.dup
       @shape = @t.@shape.dup
-      @maxval = 3
 
       if t.@ndims > 2
         0.step(to: @t.ndims / 2) do |i|
@@ -51,11 +50,20 @@ module Bottle::Internal::ToString
       ret
     end
 
+    def handle_value(value)
+      {% if T == Float64 || T == Float32 %}
+        value.round(3)
+      {% else %}
+        value
+      {% end %}
+    end
+
     def print
       if @t.ndims == 0
         @io << "[])"
       else
-        @io << "#{@ptr.value}".rjust(maxval)
+
+        @io << "#{handle_value(@ptr.value)}".rjust(maxval)
         until !inc
         end
         @io << ")"
@@ -90,7 +98,7 @@ module Bottle::Internal::ToString
       else
         @io << ", "
       end
-      @io << "#{@ptr.value}".rjust(maxval)
+      @io << "#{handle_value(@ptr.value)}".rjust(maxval)
       true
     end
   end

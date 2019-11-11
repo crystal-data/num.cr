@@ -56,7 +56,8 @@ class Bottle::Tensor(T) < Bottle::BaseArray(T)
   # it could however be cleaned up to handle long floating point values
   # more precisely.
   def to_s(io)
-    printer = ToString::BasePrinter.new(self, io, "Tensor")
+    maxlength = "#{max.round(3)}".size
+    printer = ToString::BasePrinter.new(self, io, "Tensor", maxlength)
     printer.print
   end
 
