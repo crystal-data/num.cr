@@ -1,12 +1,12 @@
-require "../core/ndtensor"
+require "../base/base"
 require "./fixed_dimension"
 require "../util/exceptions"
 
-module Bottle::Internal::LinAlg
+module Bottle::LinAlg
   macro matrix_reduction_retain_size(operation)
-    def {{operation}}(t : Tensor)
+    def {{operation}}(t : BaseArray)
       if t.ndims < 2
-        raise Exceptions::ShapeError.new("Tensor must be at least 2D")
+        raise Internal::Exceptions::ShapeError.new("Tensor must be at least 2D")
       end
 
       if t.ndims == 2
@@ -23,17 +23,17 @@ module Bottle::Internal::LinAlg
 
   matrix_reduction_retain_size(inv)
 
-  def dot(a : Tensor(U), b : Tensor(U)) forall U
+  def dot(a : BaseArray(U), b : BaseArray(U)) forall U
     if a.ndims == 2 && b.ndims == 2
       matmul(a, b)
     elsif a.ndims == 2 && b.ndims > 2
-      m = Tensor(U).new(b.shape[...-2] + [a.shape[0], b.shape[-1]])
+      m = a.class.new(b.shape[...-2] + [a.shape[0], b.shape[-1]])
       m.matrix_iter.zip(b.matrix_iter) do |dest, src|
         matmul(a, src, dest: dest)
       end
       m
     elsif a.ndims > 2 && b.ndims == 2
-      m = Tensor(U).new(a.shape[...-2] + [a.shape[-2], b.shape[-1]])
+      m = a.class.new(a.shape[...-2] + [a.shape[-2], b.shape[-1]])
       m.matrix_iter.zip(a.matrix_iter) do |dest, src|
         matmul(src, b, dest: dest)
       end
@@ -41,15 +41,15 @@ module Bottle::Internal::LinAlg
     elsif a.ndims > 2 && b.ndims > 2
       newshape = a.shape[...-2]
       if newshape != b.shape[...-2]
-        raise Exceptions::ShapeError.new("Matrices cannot be multiplied")
+        raise Internal::Exceptions::ShapeError.new("Matrices cannot be multiplied")
       end
-      m = Tensor(U).new(newshape + [a.shape[-2], b.shape[-1]])
+      m = a.class.new(newshape + [a.shape[-2], b.shape[-1]])
       m.matrix_iter.zip(a.matrix_iter, b.matrix_iter) do |dest, am, bm|
         matmul(am, bm, dest: dest)
       end
       m
     else
-      raise Exceptions::ValueError.new("Unsupported matrix operation")
+      raise Internal::Exceptions::ValueError.new("Unsupported matrix operation")
     end
   end
 end

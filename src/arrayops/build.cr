@@ -1,6 +1,6 @@
-require "./ndtensor"
+require "../base/base"
 
-module Bottle::Internal::Assemble
+module Bottle::Assemble
   extend self
 
   # Concatenates an array of `Tensor's` along a provided axis.
@@ -32,7 +32,7 @@ module Bottle::Internal::Assemble
   #         [[ 6,  7,  8,  6,  7,  8,  6,  7,  8],
   #          [ 9, 10, 11,  9, 10, 11,  9, 10, 11]]])
   # ```
-  def concatenate(alist : Array(Tensor(U)), axis : Int32) forall U
+  def concatenate(alist : Array(BaseArray(U)), axis : Int32) forall U
     newshape = alist[0].shape.dup
 
     if axis < 0
@@ -55,7 +55,7 @@ module Bottle::Internal::Assemble
       end
       newshape[axis] += v.shape[axis]
     end
-    ret = Tensor(U).new(newshape)
+    ret = alist[0].class.new(newshape)
     lo = [0] * newshape.size
     hi = newshape.dup
     hi[axis] = 0
@@ -106,7 +106,7 @@ module Bottle::Internal::Assemble
   #         [[ 6,  7,  8],
   #          [ 9, 10, 11]]])
   # ```
-  def vstack(alist : Array(Tensor(U))) forall U
+  def vstack(alist : Array(BaseArray(U))) forall U
     concatenate(alist, 0)
   end
 
@@ -142,14 +142,14 @@ module Bottle::Internal::Assemble
   #          [ 6,  7,  8],
   #          [ 9, 10, 11]]])
   # ```
-  def hstack(alist : Array(Tensor(U))) forall U
+  def hstack(alist : Array(BaseArray(U))) forall U
     concatenate(alist, 1)
   end
 
-  def dstack(alist : Array(Tensor(U))) forall U
+  def dstack(alist : Array(BaseArray(U))) forall U
     shape0 = alist[0].shape
     if !alist.all? { |t| t.shape == shape0 }
-      raise Exceptions::ShapeError.new("All tensors must be the same shape")
+      raise Exceptions::ShapeError.new("All arrays must be the same shape")
     end
 
     if alist[0].ndims == 1
@@ -160,14 +160,14 @@ module Bottle::Internal::Assemble
       concatenate(alist, 2)
     else
       raise Exceptions::ShapeError.new(
-        "dstack only supports 1 and 2-dimensional tensors")
+        "dstack only supports 1 and 2-dimensional arrays")
     end
   end
 
-  def column_stack(alist : Array(Tensor(U))) forall U
+  def column_stack(alist : Array(BaseArray(U))) forall U
     shape0 = alist[0].shape
     if !alist.all? { |t| t.shape == shape0 }
-      raise Exceptions::ShapeError.new("All tensors must be the same shape")
+      raise Exceptions::ShapeError.new("All arrays must be the same shape")
     end
 
     if alist[0].ndims == 1
@@ -178,7 +178,7 @@ module Bottle::Internal::Assemble
       concatenate(alist, 1)
     else
       raise Exceptions::ShapeError.new(
-        "column_stack only supports 1 and 2-dimensional tensors")
+        "column_stack only supports 1 and 2-dimensional arrays")
     end
   end
 end

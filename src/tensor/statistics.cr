@@ -1,6 +1,6 @@
-require "./ndtensor"
+require "./tensor"
 
-module Bottle::Internal::Statistics
+module Bottle::Statistics
   extend self
 
   # Computes the total sum of a Tensor

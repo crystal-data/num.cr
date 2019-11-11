@@ -1,8 +1,8 @@
-require "../core/ndtensor"
+require "../base/base"
 require "../libs/lapack"
 require "../libs/cblas"
 
-module Bottle::Internal::LinAlg
+module Bottle::LinAlg
   macro linalg(dtype, prefix)
     # Dot product of two `Tensor`s. Specifically, this is the inner
     # product of two `Tensor`s without the complex conjugate.
@@ -12,7 +12,7 @@ module Bottle::Internal::LinAlg
     #
     # dot(t, t) # => 14.0
     # ```
-    def dot1d(dx : Tensor({{dtype}}), dy : Tensor({{dtype}}))
+    def dot1d(dx : BaseArray({{dtype}}), dy : BaseArray({{dtype}}))
       if dx.shape != dy.shape
         raise "Shapes #{dx.shape} and #{dy.shape} are not aligned"
       end
@@ -37,7 +37,7 @@ module Bottle::Internal::LinAlg
     #
     # inner(t, t) # => 14.0
     # ```
-    def inner(dx : Tensor({{dtype}}), dy : Tensor({{dtype}}))
+    def inner(dx : BaseArray({{dtype}}), dy : BaseArray({{dtype}}))
       dot(dx, dy)
     end
 
@@ -52,7 +52,7 @@ module Bottle::Internal::LinAlg
     # #  [ ...          .
     # #  [aM*b0            aM*bN ]]
     # ```
-    def outer(dx : Tensor({{dtype}}), dy : Tensor({{dtype}}))
+    def outer(dx : BaseArray({{dtype}}), dy : BaseArray({{dtype}}))
       if dx.shape != dy.shape
         raise "Shapes #{dx.shape} and #{dy.shape} are not aligned"
       end
@@ -61,7 +61,7 @@ module Bottle::Internal::LinAlg
         raise "Only one-dimension tensors are supported"
       end
 
-      m = Tensor({{dtype}}).new([dx.shape[0], dy.shape[0]])
+      m = dx.class.new([dx.shape[0], dy.shape[0]])
 
       LibCblas.{{prefix}}ger(
         LibCblas::MatrixLayout::RowMajor,
@@ -78,6 +78,16 @@ module Bottle::Internal::LinAlg
       m
     end
 
+    def validate_matrix_shape(dx, dy)
+      if dx.shape[1] != dy.shape[0]
+        raise "Matrices cannot be multiplied together"
+      end
+
+      if dx.ndims > 2
+        raise "Only two dimensional tensors are currently supported"
+      end
+    end
+
     # Computes the Matrix product of two matrices.
     #
     # ```
@@ -87,21 +97,18 @@ module Bottle::Internal::LinAlg
     # # Matrix[[      7.0     10.0]
     # #        [     15.0     22.0]]
     # ```
-    def matmul(dx : Tensor({{dtype}}), dy : Tensor({{dtype}}), dest : Tensor({{dtype}})? = nil)
-      if dx.shape[1] != dy.shape[0]
-        raise "Matrices cannot be multiplied together"
-      end
+    def matmul(dx : BaseArray({{dtype}}), dy : BaseArray({{dtype}}))
+      validate_matrix_shape(dx, dy)
+      dest = dx.class.new([dx.shape[0], dy.shape[1]])
+      matmul_helper(dx, dy, dest)
+    end
 
-      if dx.ndims > 2
-        raise "Only two dimensional tensors are currently supported"
-      end
+    def matmul(dx : BaseArray({{dtype}}), dy : BaseArray({{dtype}}), dest : BaseArray({{dtype}}))
+      validate_matrix_shape(dx, dy)
+      matmul_helper(dx, dy, dest)
+    end
 
-      if dest.nil?
-        m = Tensor({{dtype}}).new([dx.shape[0], dy.shape[1]])
-      else
-        m = dest.as(Tensor({{dtype}}))
-      end
-
+    def matmul_helper(dx : BaseArray({{dtype}}), dy : BaseArray({{dtype}}), dest : BaseArray({{dtype}}))
       LibCblas.{{prefix}}gemm(
         LibCblas::MatrixLayout::RowMajor,
         LibCblas::MatrixTranspose::NoTrans,
@@ -115,10 +122,10 @@ module Bottle::Internal::LinAlg
         dy.@buffer,
         dy.strides[0],
         {{dtype}}.new(0),
-        m.@buffer,
-        m.strides[0],
+        dest.@buffer,
+        dest.strides[0],
       )
-      m
+      dest
     end
 
     # Returns the euclidean norm of a vector via the function
@@ -155,7 +162,7 @@ module Bottle::Internal::LinAlg
     # # Matrix[[    -2.0     1.0]
     # #        [     1.5    -0.5]]
     # ```
-    def inv_helper(a : Tensor({{dtype}}))
+    def inv_helper(a : BaseArray({{dtype}}))
       if a.shape[0] != a.shape[1]
         raise "Matrix must be square"
       end

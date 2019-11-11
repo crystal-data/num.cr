@@ -1,5 +1,5 @@
 @[Flags]
-enum Bottle::Internal::TensorFlags
+enum Bottle::Internal::ArrayFlags
   # Contiguous really means C-style contiguious.  The
   # contiguous part means that there are no 'skipped
   # elements'.  That is, that a flat_iter over the array will

@@ -1,13 +1,12 @@
-require "./ndtensor"
-require "../util/exceptions"
+require "./tensor"
 
 # A module primarily responsible for `Tensor`
-# and `Matrix` creation routines.
+# creation routines.
 #
 # This module should be namespaced as part of the
 # external API to provide user facing methods
 # for creation.
-module Bottle::Internal::Numeric
+module Bottle::Creation
   extend self
 
   # Initializes a `Tensor` with an uninitialized slice

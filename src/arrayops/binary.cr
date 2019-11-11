@@ -1,7 +1,7 @@
-require "./ndtensor"
+require "../base/base"
 require "../util/testing"
 
-module Bottle::Internal::Binary
+module Bottle::Binary
   extend self
 
   macro binary_op(operator, name)
@@ -13,13 +13,13 @@ module Bottle::Internal::Binary
     #
     # B.{{name}}(t1, t2)
     # ```
-    def {{name}}(x1 : Tensor, x2 : Tensor)
+    def {{name}}(x1 : BaseArray, x2 : BaseArray)
       if x1.shape != x2.shape
         raise "Shapes {#{x1.shape}} and {#{x2.shape} are not aligned"
       end
       i1 = x1.unsafe_iter
       i2 = x2.unsafe_iter
-      Tensor.new(x1.shape) do |_|
+      x1.basetype.new(x1.shape) do |_|
         i1.next.value {{operator.id}} i2.next.value
       end
     end
@@ -32,9 +32,9 @@ module Bottle::Internal::Binary
     #
     # B.{{name}}(t1, t2)
     # ```
-    def {{name}}(x1 : Tensor, x2 : Number)
+    def {{name}}(x1 : BaseArray, x2 : Number)
       ret = x1.unsafe_iter
-      Tensor.new(x1.shape) do |_|
+      x1.basetype.new(x1.shape) do |_|
         ret.next.value {{operator.id}} x2
       end
     end
@@ -47,9 +47,9 @@ module Bottle::Internal::Binary
     #
     # B.{{name}}(x, t)
     # ```
-    def {{name}}(x1 : Number, x2 : Tensor)
+    def {{name}}(x1 : Number, x2 : BaseArray)
       ret = x2.unsafe_iter
-      Tensor.new(x2.shape) do |_|
+      x2.basetype.new(x2.shape) do |_|
         x1 {{operator.id}} ret.next.value
       end
     end

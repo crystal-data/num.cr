@@ -1,5 +1,5 @@
-require "../core/ndtensor"
-require "benchmark"
+require "./base"
+require "./flags"
 
 module Bottle::Internal::Iteration
   macro contig_iteration_macro(safe)
@@ -81,7 +81,7 @@ module Bottle::Internal::NDIter(T)
 
   @stride0 : Int32
 
-  def initialize(t : Bottle::Tensor(T))
+  def initialize(t : BaseArray(T))
     @buffer = t.@buffer
     @ndims = t.ndims
     @track = Pointer(Int32).malloc(t.ndims, 0)
@@ -123,7 +123,7 @@ struct Bottle::Internal::SafeNDIter(T)
 
   getter strategy : OneD(T) | ND(T)
 
-  def initialize(t : Bottle::Tensor(T))
+  def initialize(t : BaseArray(T))
     contiguous = (t.flags & ArrayFlags::Contiguous).value > 0
     @strategy = (contiguous) ? OneD.new(t) : ND.new(t)
   end
@@ -150,7 +150,7 @@ struct Bottle::Internal::UnsafeNDIter(T)
 
   getter strategy : OneD(T) | ND(T)
 
-  def initialize(t : Bottle::Tensor(T))
+  def initialize(t : BaseArray(T))
     contiguous = (t.flags & ArrayFlags::Contiguous).value > 0
     @strategy = (contiguous) ? OneD.new(t) : ND.new(t)
   end

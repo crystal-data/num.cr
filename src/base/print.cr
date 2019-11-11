@@ -1,8 +1,8 @@
-require "./ndtensor"
+require "./base"
 
 module Bottle::Internal::ToString
-  class TensorPrint(T)
-    @t : Tensor(T)
+  class BasePrinter(T)
+    @t : BaseArray(T)
     @idx : Array(Int32)
     @io : IO
     @ptr : Pointer(T)
@@ -14,23 +14,16 @@ module Bottle::Internal::ToString
     getter shape : Array(Int32)
     getter maxval : Int32
 
-    def initialize(@t : Tensor(T), @io)
+    def initialize(@t : BaseArray(T), @io, @prefix : String = "Base")
       @ptr = @t.@buffer
-      @obrackets = "Tensor(" + "[" * @t.ndims
+      @obrackets = prefix + "(" + "[" * @t.ndims
       @idx = [0] * @t.ndims
       @cbrackets = "]" * @t.ndims
       @indent = " " * @t.ndims
       @last_comma = 0
       @strides = @t.strides.dup
       @shape = @t.@shape.dup
-      @maxval = 0
-      {% if T == Bool %}
-        @maxval = 8
-      {% elsif T == Float64 || T == Float32 %}
-        @maxval = "#{@t.max.round(3)}".size + 2
-      {% else %}
-        @maxval = "#{@t.max}".size
-      {% end %}
+      @maxval = 3
 
       if t.@ndims > 2
         0.step(to: @t.ndims / 2) do |i|
@@ -62,7 +55,7 @@ module Bottle::Internal::ToString
       if @t.ndims == 0
         @io << "[])"
       else
-        @io << "#{@ptr.value.round(3)}".rjust(maxval)
+        @io << "#{@ptr.value}".rjust(maxval)
         until !inc
         end
         @io << ")"
@@ -90,14 +83,14 @@ module Bottle::Internal::ToString
         @io << "]" * ii
         @io << ","
         @io << "\n " * ii
-        @io << "       " << indent[0...@t.ndims - ii - 1]
+        @io << " " * (@prefix.size + 1) << indent[0...@t.ndims - ii - 1]
       end
       if first_item > 0
         @io << "[" * first_item
       else
         @io << ", "
       end
-      @io << "#{@ptr.value.round(3)}".rjust(maxval)
+      @io << "#{@ptr.value}".rjust(maxval)
       true
     end
   end
