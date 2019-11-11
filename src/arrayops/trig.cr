@@ -1,4 +1,4 @@
-require "./ndtensor"
+require "../base/base"
 
 # A module primarily responsible for `Tensor`
 # and `Matrix` trigonometric routines.

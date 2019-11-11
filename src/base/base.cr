@@ -107,9 +107,9 @@ abstract class Bottle::BaseArray(T)
   #       [[ 8,  9],
   #        [10, 11]]])
   # ```
-  def self.new(shape : Array(Int32), order : ArrayFlags = ArrayFlags::Contiguous, &block : Int32 -> U) forall U
+  def self.new(shape : Array(Int32), order : ArrayFlags = ArrayFlags::Contiguous, &block : Int32 -> T)
     total = shape.reduce { |i, j| i * j }
-    ptr = Pointer(U).malloc(total) do |i|
+    ptr = Pointer(T).malloc(total) do |i|
       yield i
     end
     new(shape, order, ptr)
@@ -136,7 +136,7 @@ abstract class Bottle::BaseArray(T)
       yield i, j
     end
     if nrows == 0 && ncols == 0
-      self.class.new([] of Int32)
+      raise Exceptions::ShapeError.new("Cannot initialize an empty matrix")
     else
       new([nrows, ncols], ArrayFlags::Contiguous, data)
     end
@@ -316,6 +316,33 @@ abstract class Bottle::BaseArray(T)
       offset += i * j
     end
     @buffer[offset]
+  end
+
+  # Sets a single value in a `Tensor` based on
+  # the provided index.  Casting will occur
+  # so that the number matches the type of the
+  # Tensor.
+  #
+  # ```
+  # a = B.arange(10)
+  # a[[1]] = 100
+  # a # => Tensor([  0, 100,   2,   3,   4,   5,   6,   7,   8,   9])
+  # ```
+  def []=(indexer : Array(Int32), value : Number)
+    if indexer.size < strides.size
+      fill = ndims - indexer.size
+      indexer += [...] * fill
+      old = slice_from_indexers(indexer)
+      old.flat_iter.each do |i|
+        i.value = T.new(value)
+      end
+    else
+      offset = 0
+      strides.zip(indexer) do |i, j|
+        offset += i * j
+      end
+      @buffer[offset] = T.new(value)
+    end
   end
 
   # Returns a view of a NTensor from a list of indices or

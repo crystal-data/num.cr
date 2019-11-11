@@ -1,2 +1,2 @@
 require "spec"
-require "../src/core/ndtensor"
+require "../src/tensor/tensor"

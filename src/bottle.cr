@@ -7,5 +7,5 @@ end
 
 include Bottle
 
-t = Tensor.new([3, 2, 2]) { |i| i }
-puts t[..., ..., 1...].flags
+t = Tensor.new([2, 2]) { |i| i * 1.0 }
+puts B.matmul(t, t)

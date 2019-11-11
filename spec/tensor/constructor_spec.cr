@@ -83,13 +83,6 @@ describe Tensor do
   end
 
   describe "Tensor#matrix_block" do
-    it "Creates empty matrix from empty block" do
-      result = Tensor.new(0, 0) { |i, j| i + j }
-      result.shape.should eq [0]
-      result.strides.should eq [1]
-      result.should be_a(Tensor(Int32))
-    end
-
     it "Infers dtype from block" do
       result = Tensor.new(2, 2) { |i, j| i / j }
       result.should be_a(Tensor(Float64))

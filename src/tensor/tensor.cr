@@ -1,9 +1,11 @@
 require "../base/base"
 require "../base/print"
-require "../core/ufunc"
 require "./statistics"
 require "../arrayops/math"
 require "../arrayops/binary"
+require "./iter"
+
+require "../linalg/reductions"
 
 class Bottle::Tensor(T) < Bottle::BaseArray(T)
   # Compile time checking of data types of a `Tensor` to ensure
@@ -18,6 +20,37 @@ class Bottle::Tensor(T) < Bottle::BaseArray(T)
     {% end %}
   end
 
+  # A flexible method to create `Tensor`'s of arbitrary shapes
+  # filled with random values of arbitrary types.  Since
+  # Ranges can contain any dtype, the type of tensor is
+  # inferred from the passed range, and a new `Tensor` is
+  # sampled using the provided shape.
+  #
+  # ```
+  # t = Tensor.random(0...10, [2, 2])
+  # t # =>
+  # Tensor([[5, 9],
+  #         [3, 9]])
+  # ```
+  def self.random(r : Range(U, U), _shape : Array(Int32)) forall U
+    if _shape.size == 0
+      Tensor(U).new(_shape)
+    else
+      new(_shape) { |_| Random.rand(r) }
+    end
+  end
+
+  def self.from_array(_shape : Array(Int32), _data : Array)
+    flat = _data.flatten
+    ptr = flat.to_unsafe
+    Testing.assert_compatible_shape(_shape, flat.size)
+    if _shape.size == 0
+      Tensor(typeof(flat[0])).new(_shape)
+    else
+      new(_shape) { |i| ptr[i] }
+    end
+  end
+
   # Creates a string representation of a `Tensor`.  The implementation
   # of this is a bit of a mess, but I am happy with the results currently,
   # it could however be cleaned up to handle long floating point values
@@ -25,6 +58,10 @@ class Bottle::Tensor(T) < Bottle::BaseArray(T)
   def to_s(io)
     printer = ToString::BasePrinter.new(self, io, "Tensor")
     printer.print
+  end
+
+  def matrix_iter
+    MatrixIter.new(self)
   end
 
   # Computes the total sum of a Tensor
@@ -211,8 +248,3 @@ class Bottle::Tensor(T) < Bottle::BaseArray(T)
     Binary.right_shift(self, other)
   end
 end
-
-include Bottle::Statistics
-
-t = Bottle::Tensor.new([3, 2, 2]) { |i| i }
-puts t << t
