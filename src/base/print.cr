@@ -62,7 +62,6 @@ module Bottle::Internal::ToString
       if @t.ndims == 0
         @io << "[])"
       else
-
         @io << "#{handle_value(@ptr.value)}".rjust(maxval)
         until !inc
         end

@@ -15,7 +15,8 @@ class Bottle::Tensor(T) < Bottle::BaseArray(T)
 
   protected def check_type
     {% unless T == Float32 || T == Float64 || T == Int16 || T == Int32 || \
-                 T == Int8 || T == UInt16 || T == UInt32 || T == UInt64 || T == UInt8 %}
+                 T == Int8 || T == UInt16 || T == UInt32 || T == UInt64 || \
+                 T == UInt8 || T == Bool %}
       {% raise "Bad dtype: #{T}. #{T} is not supported for Char Arrays" %}
     {% end %}
   end
@@ -56,7 +57,12 @@ class Bottle::Tensor(T) < Bottle::BaseArray(T)
   # it could however be cleaned up to handle long floating point values
   # more precisely.
   def to_s(io)
-    maxlength = "#{max.round(3)}".size
+    maxlength = 0
+    {% if T == Bool %}
+      maxlength = 5
+    {% else %}
+      maxlength = "#{max.round(3)}".size
+    {% end %}
     printer = ToString::BasePrinter.new(self, io, "Tensor", maxlength)
     printer.print
   end
