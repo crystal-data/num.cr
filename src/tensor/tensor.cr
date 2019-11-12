@@ -254,4 +254,28 @@ class Bottle::Tensor(T) < Bottle::BaseArray(T)
   def >>(other)
     Binary.right_shift(self, other)
   end
+
+  def >(other)
+    BMath.greater(self, other)
+  end
+
+  def >=(other)
+    BMath.greater_equal(self, other)
+  end
+
+  def <(other)
+    BMath.less(self, other)
+  end
+
+  def <=(other)
+    BMath.less_equal(self, other)
+  end
+
+  def ==(other)
+    BMath.equal(self, other)
+  end
+
+  def %(other)
+    BMath.modulo(self, other)
+  end
 end

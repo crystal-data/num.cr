@@ -7,7 +7,6 @@ require "./linalg/fixed_dimension"
 require "./linalg/reductions"
 require "./tensor/creation"
 require "./chararray/chararray"
-require "./mask/mask"
 
 module Bottle::B
   extend self
