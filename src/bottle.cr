@@ -2,9 +2,5 @@ require "./api"
 
 module Bottle
   extend self
-  VERSION = "0.2.2"
+  VERSION = "0.2.3"
 end
-include Bottle
-t = Tensor.new([3, 2, 2]) { |i| i }
-
-puts B.multiply.accumulate(t, -1)

@@ -716,6 +716,35 @@ abstract class Bottle::BaseArray(T)
     ret
   end
 
+  def accumulate_along_axis(axis)
+    if axis < 0
+      axis = ndims + axis
+    end
+    raise "Axis out of range for this array" unless axis < ndims
+
+    idx0 = [0] * ndims
+    idx1 = shape.dup
+    idx1[axis] = 0
+
+    arr = dup
+
+    ranges = idx0.zip(idx1).map_with_index do |i, idx|
+      idx == axis ? 0 : i[0]...i[1]
+    end
+
+    ret = arr.slice(ranges)
+
+    1.step(to: shape[axis] - 1) do |i|
+      ranges[axis] = i
+      newret = arr.slice(ranges)
+      newret.flat_iter.zip(ret.flat_iter) do |ii, jj|
+        yield ii, jj
+      end
+      ret = newret
+    end
+    arr
+  end
+
   # Total number of bytes taken up by items in the `Tensor`s
   # data buffer.
   def nbytes
