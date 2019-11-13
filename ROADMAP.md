@@ -35,8 +35,8 @@ Numerical Ranges
 - [x] `logspace`
 - [x] `geomspace`
 - [ ] `meshgrid`
-- [x] `mgrid`
-- [x] `ogrid`
+- [ ] `mgrid`
+- [ ] `ogrid`
 
 Building Matrices
 
