@@ -4,8 +4,7 @@ module Bottle
   extend self
   VERSION = "0.2.2"
 end
-
 include Bottle
+t = Tensor.new([3, 2, 2]) { |i| i }
 
-t = Tensor.new([2, 2, 3]) { |i| i }
-puts t % 2 == 0
+puts B.multiply.accumulate(t, -1)
