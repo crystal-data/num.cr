@@ -98,6 +98,10 @@ module Bottle::BMath
           c1 {{operator.id}} inner.next.value
         end
       end
+
+      def accumulate(x1 : BaseArray(U), axis : Int32) forall U
+        x1.accumulate_along_axis(axis) { |i, j| i.value = i.value {{operator.id}} j.value }
+      end
     end
   end
 
