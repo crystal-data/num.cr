@@ -19,6 +19,45 @@ abstract class Bottle::BaseArray(T)
   getter flags
   getter size
 
+  setter shape
+  setter strides
+
+  private def broadcast_strides(dest_shape, src_shape, dest_strides, src_strides)
+    dims = dest_shape.size
+    start = dims - src_shape.size
+
+    ret = [0] * dest_strides.size
+    (dims - 1).step(to: start, by: -1) do |i|
+      s = src_shape[i - start]
+      case s
+      when 1
+        ret[i] = 0
+      when dest_shape[i]
+        ret[i] = src_strides[i - start]
+      else
+        raise "Cannot broadcast from #{src_shape} to #{dest_shape}"
+      end
+    end
+    ret
+  end
+
+  def broadcast_to(newshape)
+    dim = newshape.size
+    defstrides = [0] * dim
+    sz = 1
+    dim.times do |i|
+      defstrides[dim - i - 1] = sz
+      sz *= newshape[dim - i - 1]
+    end
+
+    newstrides = broadcast_strides(newshape, shape, defstrides, strides)
+    newflags = flags.dup
+    newflags |= ~ArrayFlags::Contiguous
+    newflags |= ~ArrayFlags::Fortran
+
+    Tensor(T).new(@buffer, newshape, newstrides, newflags, @base)
+  end
+
   abstract def check_type
   abstract def basetype
 
