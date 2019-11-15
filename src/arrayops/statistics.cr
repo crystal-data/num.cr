@@ -19,6 +19,30 @@ module Bottle::Statistics
     end
   end
 
+  def all(a : BaseArray(U)) forall U
+    ret = a.astype(Bool)
+    ret.flat_iter.reduce(true) { |i, j| i & j.value }
+  end
+
+  def all(a : BaseArray(U), axis : Int32) forall U
+    ret = a.astype(Bool)
+    ret.reduce_along_axis(axis) do |i, j|
+      j.value &= i.value
+    end
+  end
+
+  def any(a : BaseArray)
+    ret = a.astype(Bool)
+    ret.flat_iter.reduce(true) { |i, j| i | j.value }
+  end
+
+  def any(a : BaseArray(U), axis : Int32) forall U
+    ret = a.astype(Bool)
+    ret.reduce_along_axis(axis) do |i, j|
+      j.value |= i.value
+    end
+  end
+
   # Computes the average of all BaseArray values
   #
   # ```

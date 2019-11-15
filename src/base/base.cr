@@ -732,6 +732,20 @@ abstract class Bottle::BaseArray(T)
     end
   end
 
+  def astype(dtype : U.class) forall U
+    ret = Tensor(U).new(shape)
+    {% if U == Bool %}
+      ret.flat_iter.zip(flat_iter) do |i, j|
+        i.value = (j.value != 0) && (!!j.value)
+      end
+    {% else %}
+      ret.flat_iter.zip(flat_iter) do |i, j|
+        i.value = U.new(j.value)
+      end
+    {% end %}
+    ret
+  end
+
   # Permute the dimensions of a `Tensor`.  If no order is provided,
   # the dimensions will be reversed, a "true transpose".  Otherwise,
   # the dimensions will be permutated in the order provided.
