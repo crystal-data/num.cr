@@ -25,7 +25,7 @@ module Bottle::Internal::ToString
       @shape = @t.@shape.dup
 
       if t.@ndims > 2
-        0.step(to: @t.ndims / 2) do |i|
+        0.step(to: (@t.ndims // 2 - 1)) do |i|
           offset = @t.ndims - i - 1
           tmp = @strides[i]
           @strides[i] = @strides[offset]

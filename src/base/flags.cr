@@ -22,4 +22,8 @@ enum Bottle::Internal::ArrayFlags
   # pointed to by its .ptr property.  If not then this is a
   # view onto some other array's data.
   OwnData
+  # Some views into arrays are created using stride tricks
+  # and aren't safe to write to, since many locations may
+  # be sharing the same memory
+  Write
 end

@@ -22,6 +22,12 @@ abstract class Bottle::BaseArray(T)
   setter shape
   setter strides
 
+  private def can_write
+    unless flags.write?
+      raise Exceptions::WriteError.new("Attempt to write to a read-only Tensor")
+    end
+  end
+
   private def broadcast_strides(dest_shape, src_shape, dest_strides, src_strides)
     dims = dest_shape.size
     start = dims - src_shape.size
@@ -41,6 +47,48 @@ abstract class Bottle::BaseArray(T)
     ret
   end
 
+  private def broadcast_equal(a, b)
+    bc = true
+    a.zip(b) do |i, j|
+      if !(i == j || i == 1 || j == 1)
+        bc = false
+      end
+    end
+    bc
+  end
+
+  private def broadcastable_shape(a, b)
+    a.zip(b).map do |i|
+      Math.max(i[0], i[1])
+    end
+  end
+
+  def broadcastable(other : BaseArray)
+    return [] of Int32 unless shape != other.shape
+
+    sz = shape.size
+    osz = other.shape.size
+
+    if sz == osz
+      if broadcast_equal(shape, other.shape)
+        return broadcastable_shape(shape, other.shape)
+      end
+    else
+      if sz > osz
+        othershape = [1] * (sz - osz) + other.shape
+        if broadcast_equal(shape, othershape)
+          return broadcastable_shape(shape, othershape)
+        end
+      else
+        selfshape = [1] * (osz - sz) + shape
+        if broadcast_equal(selfshape, other.shape)
+          return broadcastable_shape(selfshape, other.shape)
+        end
+      end
+    end
+    raise Exceptions::ShapeError.new("Shapes #{shape} and #{other.shape} are not broadcastable")
+  end
+
   def broadcast_to(newshape)
     dim = newshape.size
     defstrides = [0] * dim
@@ -52,10 +100,12 @@ abstract class Bottle::BaseArray(T)
 
     newstrides = broadcast_strides(newshape, shape, defstrides, strides)
     newflags = flags.dup
-    newflags |= ~ArrayFlags::Contiguous
-    newflags |= ~ArrayFlags::Fortran
+    newflags &= ~ArrayFlags::Contiguous
+    newflags &= ~ArrayFlags::Fortran
+    newflags &= ~ArrayFlags::Write
+    newflags &= ~ArrayFlags::OwnData
 
-    Tensor(T).new(@buffer, newshape, newstrides, newflags, @base)
+    Tensor(T).new(@buffer, newshape, newstrides, newflags, @base, false)
   end
 
   abstract def check_type
@@ -122,11 +172,13 @@ abstract class Bottle::BaseArray(T)
   # called by the library.
   #
   # Should not be used by the external API.
-  def initialize(@buffer, @shape, @strides, @flags, @base)
+  def initialize(@buffer, @shape, @strides, @flags, @base, update_flags = true)
     check_type
     @ndims = @shape.size
     @size = @shape.reduce { |i, j| i * j }
-    update_flags(ArrayFlags::All)
+    if update_flags
+      update_flags(ArrayFlags::All)
+    end
   end
 
   # Yields a `BaseArray` from a provided shape and a block.  The block only
@@ -239,7 +291,7 @@ abstract class Bottle::BaseArray(T)
   #
   # This method should really only be called by internal
   # methods, or once stride tricks are exposed.
-  protected def update_flags(flagmask)
+  protected def update_flags(flagmask, writeable=true)
     if flagmask & ArrayFlags::Fortran
       if is_fortran_contiguous
         @flags |= ArrayFlags::Fortran
@@ -264,6 +316,10 @@ abstract class Bottle::BaseArray(T)
       else
         @flags &= ~ArrayFlags::Contiguous
       end
+    end
+
+    if writeable
+      @flags |= ArrayFlags::Write
     end
   end
 
@@ -368,6 +424,7 @@ abstract class Bottle::BaseArray(T)
   # a # => Tensor([  0, 100,   2,   3,   4,   5,   6,   7,   8,   9])
   # ```
   def []=(indexer : Array(Int32), value : Number)
+    can_write
     if indexer.size < strides.size
       fill = ndims - indexer.size
       indexer += [...] * fill
@@ -419,6 +476,7 @@ abstract class Bottle::BaseArray(T)
   #          [10, 11]]])
   # ```
   def []=(idx : Array, assign : BaseArray(T))
+    can_write
     fill = ndims - idx.size
     idx += [...] * fill
     old = slice_from_indexers(idx)
@@ -428,6 +486,7 @@ abstract class Bottle::BaseArray(T)
   end
 
   def []=(*args : *U) forall U
+    can_write
     {% begin %}
       aref_set(
         {% for i in 0...U.size - 1 %}

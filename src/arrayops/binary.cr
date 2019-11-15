@@ -14,8 +14,10 @@ module Bottle::Binary
     # B.{{name}}(t1, t2)
     # ```
     def {{name}}(x1 : BaseArray, x2 : BaseArray)
-      if x1.shape != x2.shape
-        raise "Shapes {#{x1.shape}} and {#{x2.shape} are not aligned"
+      newshape = x1.broadcastable(x2)
+      if newshape.size != 0
+        x1 = x1.broadcast_to(newshape)
+        x2 = x2.broadcast_to(newshape)
       end
       i1 = x1.unsafe_iter
       i2 = x2.unsafe_iter

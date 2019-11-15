@@ -45,8 +45,10 @@ module Bottle::Trigonometry
       # B.{{name}}(t1, t2)
       # ```
       def {{name}}(x1 : BaseArray, x2 : BaseArray)
-        if x1.shape != x2.shape
-          raise "Shapes {#{x1.size}} and {#{x2.size} are not aligned"
+        newshape = x1.broadcastable(x2)
+        if newshape.size != 0
+          x1 = x1.broadcast_to(newshape)
+          x2 = x2.broadcast_to(newshape)
         end
 
         i1 = x1.unsafe_iter

@@ -3,6 +3,7 @@ require "../arrayops/statistics"
 
 module Bottle::Internal::Macros
   extend self
+
   macro has_numeric_ops(klass)
     # Elementwise addition of a {{klass}}} to another equally
     # sized {{klass}}} or scalar
