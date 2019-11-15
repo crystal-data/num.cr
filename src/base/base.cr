@@ -291,7 +291,7 @@ abstract class Bottle::BaseArray(T)
   #
   # This method should really only be called by internal
   # methods, or once stride tricks are exposed.
-  protected def update_flags(flagmask, writeable=true)
+  protected def update_flags(flagmask, writeable = true)
     if flagmask & ArrayFlags::Fortran
       if is_fortran_contiguous
         @flags |= ArrayFlags::Fortran
