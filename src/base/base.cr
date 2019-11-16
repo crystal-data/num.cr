@@ -108,8 +108,21 @@ abstract class Bottle::BaseArray(T)
     Tensor(T).new(@buffer, newshape, newstrides, newflags, @base, false)
   end
 
-  # This method is *highly* dangerous, but so awesome!  Make sure you
-  # know what you are doing or bad things will happen
+  # as_strided creates a view into the array given the exact strides and
+  # shape. This means it manipulates the internal data structure of
+  # a Tensor and, if done incorrectly, the array elements can point
+  # to invalid memory and can corrupt results or crash your program.
+  # It is advisable to always use the original x.strides when
+  # calculating new strides to avoid reliance on a contiguous
+  # memory layout.
+  #
+  # Furthermore, arrays created with this function often contain self
+  # overlapping memory, so that two elements are identical.
+  # Vectorized write operations on such arrays will typically be
+  # unpredictable. They may even give different results for
+  # small, large, or transposed arrays. Since writing to these
+  # arrays has to be tested and done with great care, you may want
+  # to use writeable=false to avoid accidental write operations.
   def as_strided(shape, strides, writeable=false)
     newflags = flags.dup
     if !writeable
