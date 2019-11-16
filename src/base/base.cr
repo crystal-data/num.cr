@@ -746,6 +746,34 @@ abstract class Bottle::BaseArray(T)
     ret
   end
 
+  def view(dtype : U.class) forall U
+    if T == U
+      return dup_view
+    end
+    newsize = sizeof(T) / sizeof(U)
+    newlast = shape[-1] * newsize
+    intlast = Int32.new newlast
+
+    if newlast != intlast || intlast == 0
+      raise "Cannot view array as #{U}"
+    end
+
+    newshape = shape.dup
+    newstrides = strides.dup
+    newflags = flags.dup
+    ptr = @buffer.unsafe_as(Pointer(U))
+
+    newshape[-1] = Int32.new(newlast)
+
+    sz = 1
+    @ndims.times do |i|
+      newstrides[@ndims - i - 1] = sz
+      sz *= newshape[@ndims - i - 1]
+    end
+
+    Tensor(U).new(ptr, newshape, newstrides, newflags, nil)
+  end
+
   # Permute the dimensions of a `Tensor`.  If no order is provided,
   # the dimensions will be reversed, a "true transpose".  Otherwise,
   # the dimensions will be permutated in the order provided.
