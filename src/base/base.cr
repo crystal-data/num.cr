@@ -172,7 +172,7 @@ abstract class Bottle::BaseArray(T)
   # called by the library.
   #
   # Should not be used by the external API.
-  def initialize(@buffer, @shape, @strides, @flags, @base, update_flags = true)
+  def initialize(@buffer : Pointer(T), @shape, @strides, @flags, @base, update_flags = true)
     check_type
     @ndims = @shape.size
     @size = @shape.reduce { |i, j| i * j }
@@ -231,6 +231,41 @@ abstract class Bottle::BaseArray(T)
     else
       new([nrows, ncols], ArrayFlags::Contiguous, data)
     end
+  end
+
+  private def self.calculate_shape(arr, calc_shape : Array(Int32) = [] of Int32)
+    return calc_shape unless arr.is_a?(Array)
+
+    first_el = arr[0]
+    if first_el.is_a?(Array)
+      lc = first_el.size
+      unless arr.all? do |el|
+        el.is_a?(Array) && el.size == lc
+      end
+        raise Exceptions::ShapeError.new("All subarrays must be the same length")
+      end
+    end
+
+    calc_shape << arr.size
+    calc_shape = calculate_shape(arr[0], calc_shape)
+    calc_shape
+  end
+
+  def self.from_array(array : Array)
+    newshape = calculate_shape(array)
+    dims = newshape.size
+    newstrides = [0] * dims
+
+    sz = 1
+
+    dims.times do |i|
+      newstrides[dims - i - 1] = sz
+      sz *= newshape[dims - i - 1]
+    end
+
+    ptr = array.flatten.to_unsafe
+
+    new(ptr, newshape, newstrides, ArrayFlags::Contiguous, nil)
   end
 
   # Asserts if a `Tensor` is fortran contiguous, otherwise known
