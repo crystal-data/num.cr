@@ -108,6 +108,16 @@ abstract class Bottle::BaseArray(T)
     Tensor(T).new(@buffer, newshape, newstrides, newflags, @base, false)
   end
 
+  # This method is *highly* dangerous, but so awesome!  Make sure you
+  # know what you are doing or bad things will happen
+  def as_strided(shape, strides, writeable=false)
+    newflags = flags.dup
+    if !writeable
+      newflags &= ~ArrayFlags::Write
+    end
+    Tensor(T).new(@buffer, shape, strides, newflags, @base)
+  end
+
   abstract def check_type
   abstract def basetype
 
