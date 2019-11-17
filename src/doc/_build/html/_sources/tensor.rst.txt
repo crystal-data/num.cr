@@ -1,0 +1,29 @@
+.. _tensor:
+
+*************
+Tensor objects
+*************
+
+
+Bottle provides an N-dimensional array type, the `Tensor`, which describes a collection of "items" of the same
+type. The items can be indexed using for
+example N integers.
+
+All Tensors are homogenous: every item takes up the same size
+block of memory, and all blocks are interpreted in exactly the same
+way. How each item in the array is to be interpreted is specified by a
+separate data-type object, one of which is associated
+with every tensor.
+
+An item extracted from an array, *e.g.*, by indexing, is represented
+by a Crystal object whose type is one of the scalar types used in Bottle. The array scalars allow easy manipulation
+of also more complicated arrangements of data.
+
+
+
+.. toctree::
+   :maxdepth: 2
+
+   tensor.ndtensor
+   tensor.dtypes
+   tensor.indexing

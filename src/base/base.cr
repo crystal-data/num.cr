@@ -123,10 +123,10 @@ abstract class Bottle::BaseArray(T)
   # small, large, or transposed arrays. Since writing to these
   # arrays has to be tested and done with great care, you may want
   # to use writeable=false to avoid accidental write operations.
-  def as_strided(shape, strides, writeable=false)
+  def as_strided(shape, strides, writeable = false)
     newflags = flags.dup
     if !writeable
-      newflags &= ~ArrayFlags::Write
+      newflags = ArrayFlags::None
     end
     Tensor(T).new(@buffer, shape, strides, newflags, @base)
   end
@@ -263,8 +263,8 @@ abstract class Bottle::BaseArray(T)
     if first_el.is_a?(Array)
       lc = first_el.size
       unless arr.all? do |el|
-        el.is_a?(Array) && el.size == lc
-      end
+               el.is_a?(Array) && el.size == lc
+             end
         raise Exceptions::ShapeError.new("All subarrays must be the same length")
       end
     end
