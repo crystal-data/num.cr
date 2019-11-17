@@ -33,12 +33,15 @@ is referring to is taken care of by the *"base"* pointer.
 .. code-block:: crystal
 
    x = Tensor.from_array [[1, 2, 3], [4, 5, 6]]
+   puts typeof(x)
+   puts x.shape
+   puts x.dtype
 
-   typeof(x) # => Tensor(Int32)
+.. code-block:: crystal
 
-   x.shape # => [2, 3]
-
-   x.dtype # => Int32
+   Tensor(Int32)
+   [2, 3]
+   Int32
 
 
 The array can be indexed using array-like indexing syntax:
@@ -55,16 +58,17 @@ the tensor:
 .. code-block:: crystal
 
    y = x[...,1]
+   puts y
+   y[0] = 9
+   puts y
+   puts x
 
-   puts y # => Tensor([2, 5])
+.. code-block:: crystal
 
-   y[0] = 9 # this also changes the corresponding element in x
-
-   puts y # => Tensor([9, 5])
-
-   puts x # =>
-   # Tensor([[1, 9, 3],
-   #         [4, 5, 6]])
+   Tensor([2, 5])
+   Tensor([9, 5])
+   Tensor([1, 9, 3],
+          [4, 5, 6])
 
 
 Constructing Tensors
@@ -77,7 +81,7 @@ New tensors can be constructed using the routines detailed in
 .. autosummary::
    :toctree: generated/
 
-   ndarray
+   tensor
 
 .. _tensor.ndtensor.indexing:
 
