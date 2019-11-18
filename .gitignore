@@ -10,5 +10,5 @@
 /shard.lock
 
 # docs
-/_build/
-/doc/_build/
+/_build
+/doc/_build
