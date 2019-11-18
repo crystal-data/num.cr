@@ -9,8 +9,3 @@ Bottle Documentation Version 0.2.2
 This reference manual details functions, modules, and objects
 included in Bottle, describing what they are and what they do.
 For learning how to use Bottle, see the getting started guide.
-
-.. toctree::
-   :maxdepth: 2
-
-   tensor

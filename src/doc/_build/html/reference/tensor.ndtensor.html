@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>The N-dimensional tensor &mdash; Bottle 0.2.2 documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../_static/css/spc-extend.css">
+    <link rel="stylesheet" href="../_static/bottle.css" type="text/css" >
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.2.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" >
+    <link rel="search" title="Search" href="../search.html" >
+    <link rel="top" title="Bottle 0.2.2 documentation" href="../index.html" >
+    <link rel="up" title="Tensor Objects" href="tensor.html" >
+    <link rel="prev" title="Tensor Objects" href="tensor.html" > 
+  </head>
+  <body>
+
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="../index.html">
+      <img style="border: 0;" alt="CrystalData" src="../_static/img/crystal_data_logo.png"></a>
+    </div>
+  </div>
+</div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../contents.html">Bottle 0.2.2 documentation</a></li>
+	
+          <li class="active"><a href="index.html" >Bottle Documentation Version 0.2.2</a></li>
+          <li class="active"><a href="tensor.html" accesskey="U">Tensor Objects</a></li> 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="../genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="tensor.html" title="Tensor Objects"
+           accesskey="P">previous</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="the-n-dimensional-tensor">
+<span id="tensor-ndtensor"></span><h1>The N-dimensional tensor<a class="headerlink" href="#the-n-dimensional-tensor" title="Permalink to this headline">¶</a></h1>
+<p>An <code class="xref py py-class docutils literal notranslate"><span class="pre">tensor</span></code> is a (usually fixed-size) multidimensional
+container of items of the same type and size. The number of dimensions
+and items in an array is defined by its <code class="xref py py-attr docutils literal notranslate"><span class="pre">shape</span></code>,
+which is a <code class="xref py py-class docutils literal notranslate"><span class="pre">array</span></code> of <em>N</em> non-negative integers that specify the
+sizes of each dimension. The type of items in the array is specified by
+a separate <span class="xref std std-ref">data-type object</span>, one of which
+is associated with each Tensor.</p>
+<p>As with other container objects in Crystal, the contents of an
+<code class="xref py py-class docutils literal notranslate"><span class="pre">tensor</span></code> can be accessed and modified by <span class="xref std std-ref">indexing or
+slicing</span> the tensor (using, for example, <em>N</em> integers),
+and via the methods and attributes of the <code class="xref py py-class docutils literal notranslate"><span class="pre">tensor</span></code>.</p>
+<p id="index-0">Different <code class="xref py py-class docutils literal notranslate"><span class="pre">tensors</span></code> can share the same data, so that
+changes made in one <code class="xref py py-class docutils literal notranslate"><span class="pre">tensor</span></code> may be visible in another. That
+is, a tensor can be a <em>“view”</em> to another tensor, and the data it
+is referring to is taken care of by the <em>“base”</em> pointer.</p>
+<div class="admonition-example admonition">
+<p class="admonition-title">Example</p>
+<p>A 2-dimensional tensor of size 2 x 3, composed of 4-byte integer
+elements:</p>
+</div>
+<div class="highlight-crystal notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">Tensor</span><span class="o">.</span><span class="n">from_array</span> <span class="o">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="o">]]</span>
+<span class="nb">puts</span> <span class="k">typeof</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="nb">puts</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
+<span class="nb">puts</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span>
+</pre></div>
+</div>
+<div class="highlight-crystal notranslate"><div class="highlight"><pre><span></span><span class="n">Tensor</span><span class="p">(</span><span class="nb">Int32</span><span class="p">)</span>
+<span class="o">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">]</span>
+<span class="nb">Int32</span>
+</pre></div>
+</div>
+<p>The array can be indexed using array-like indexing syntax:</p>
+<div class="highlight-crystal notranslate"><div class="highlight"><pre><span></span><span class="c1"># The element of x in the *second* row, *third* column, namely, 6.</span>
+<span class="n">x</span><span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="o">]</span>
+</pre></div>
+</div>
+<p>For example <span class="xref std std-ref">slicing</span> can produce views of
+the tensor:</p>
+<div class="highlight-crystal notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">[...</span><span class="p">,</span><span class="mi">1</span><span class="o">]</span>
+<span class="nb">puts</span> <span class="n">y</span>
+<span class="n">y</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="mi">9</span>
+<span class="nb">puts</span> <span class="n">y</span>
+<span class="nb">puts</span> <span class="n">x</span>
+</pre></div>
+</div>
+<div class="highlight-crystal notranslate"><div class="highlight"><pre><span></span><span class="n">Tensor</span><span class="p">(</span><span class="o">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="o">]</span><span class="p">)</span>
+<span class="n">Tensor</span><span class="p">(</span><span class="o">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">5</span><span class="o">]</span><span class="p">)</span>
+<span class="n">Tensor</span><span class="p">(</span><span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">3</span><span class="o">]</span><span class="p">,</span>
+       <span class="o">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="o">]</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="constructing-tensors">
+<h2>Constructing Tensors<a class="headerlink" href="#constructing-tensors" title="Permalink to this headline">¶</a></h2>
+<p>New tensors can be constructed using the routines detailed in
+<span class="xref std std-ref">routines.tensor-creation</span>, and also by using the low-level
+<code class="xref py py-class docutils literal notranslate"><span class="pre">tensor</span></code> constructor:</p>
+</div>
+<div class="section" id="indexing-arrays">
+<span id="tensor-ndtensor-indexing"></span><h2>Indexing arrays<a class="headerlink" href="#indexing-arrays" title="Permalink to this headline">¶</a></h2>
+<p>Arrays can be indexed using an extended Crystal slicing syntax,
+<code class="docutils literal notranslate"><span class="pre">tensor[selection]</span></code>.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p><span class="xref std std-ref">Tensor Indexing</span>.</p>
+</div>
+</div>
+<div class="section" id="internal-memory-layout-of-an-tensor">
+<span id="memory-layout"></span><h2>Internal memory layout of an Tensor<a class="headerlink" href="#internal-memory-layout-of-an-tensor" title="Permalink to this headline">¶</a></h2>
+<p>An instance of class <code class="xref py py-class docutils literal notranslate"><span class="pre">tensor</span></code> consists of a contiguous
+one-dimensional segment of computer memory (owned by the tensor, or by
+some other tensor), combined with an indexing scheme that maps <em>N</em>
+integers into the location of an item in the block.  The ranges in
+which the indices can vary is specified by the <code class="xref py py-obj docutils literal notranslate"><span class="pre">shape</span></code> of the array. How many bytes each item takes and how
+the bytes are interpreted is defined by the <span class="xref std std-ref">dtype</span> associated with the tensor.</p>
+<p id="index-1">A segment of memory is inherently 1-dimensional, and there are many
+different schemes for arranging the items of an <em>N</em>-dimensional tensor
+in a 1-dimensional block. Bottle is flexible, and <code class="xref py py-class docutils literal notranslate"><span class="pre">tensor</span></code>
+objects can accommodate any <em>strided indexing scheme</em>. In a strided
+scheme, the N-dimensional index <span class="math notranslate nohighlight">\((n_0, n_1, ..., n_{N-1})\)</span>
+corresponds to the offset (in bytes):</p>
+<div class="math notranslate nohighlight">
+\[n_{\mathrm{offset}} = \sum_{k=0}^{N-1} s_k n_k\]</div>
+<p>from the beginning of the memory block associated with the
+tensor. Here, <span class="math notranslate nohighlight">\(s_k\)</span> are integers which specify the <code class="xref py py-obj docutils literal notranslate"><span class="pre">strides</span></code> of the tensor. The <span class="xref std std-term">column-major</span> order (used,
+for example, in the Fortran language and in <em>Matlab</em>) and
+<span class="xref std std-term">row-major</span> order (used in C) schemes are just specific kinds of
+strided scheme, and correspond to memory that can be <em>addressed</em> by the strides:</p>
+<div class="math notranslate nohighlight">
+\[s_k^{\mathrm{column}} = \mathrm{itemsize} \prod_{j=0}^{k-1} d_j ,
+\quad  s_k^{\mathrm{row}} = \mathrm{itemsize} \prod_{j=k+1}^{N-1} d_j .\]</div>
+<p id="index-2">where <span class="math notranslate nohighlight">\(d_j\)</span> <cite>= shape[j]</cite>.</p>
+<p>Both the C and Fortran orders are <span class="xref std std-term">contiguous</span>, <em>i.e.,</em>
+single-segment, memory layouts, in which every part of the
+memory block can be accessed by some combination of the indices.</p>
+<p>While a C-style and Fortran-style contiguous tensor, which has the corresponding
+flags set, can be addressed with the above strides, the actual strides may be
+different. This can happen in two cases:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>If <code class="docutils literal notranslate"><span class="pre">shape[k]</span> <span class="pre">==</span> <span class="pre">1</span></code> then for any legal index <code class="docutils literal notranslate"><span class="pre">index[k]</span> <span class="pre">==</span> <span class="pre">0</span></code>.
+This means that in the formula for the offset <span class="math notranslate nohighlight">\(n_k = 0\)</span> and thus
+<span class="math notranslate nohighlight">\(s_k n_k = 0\)</span> and the value of <span class="math notranslate nohighlight">\(s_k\)</span> <cite>= self.strides[k]</cite> is
+arbitrary.</p></li>
+<li><p>If a tensor has no elements (<code class="docutils literal notranslate"><span class="pre">size</span> <span class="pre">==</span> <span class="pre">0</span></code>) there is no legal
+index and the strides are never used. Any tensor with no elements may be
+considered C-style and Fortran-style contiguous.</p></li>
+</ol>
+</div></blockquote>
+<p>Point 1. means that even a high dimensional tensor could be C-style and Fortran-style
+contiguous at the same time.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>It does <em>not</em> generally hold that <code class="docutils literal notranslate"><span class="pre">strides[-1]</span> <span class="pre">==</span> <span class="pre">sizeof(dtype)</span></code>
+for C-style contiguous tensors or <code class="docutils literal notranslate"><span class="pre">strides[0]</span> <span class="pre">==</span> <span class="pre">sizeof(dtype)</span></code> for
+Fortran-style contiguous tensors is true.</p>
+</div>
+<p>Data in new <code class="xref py py-class docutils literal notranslate"><span class="pre">tensors</span></code> is in the <span class="xref std std-term">row-major</span>
+(C) order, unless otherwise specified, but, for example, <span class="xref std std-ref">basic
+array slicing</span> often produces <span class="xref std std-term">views</span>
+in a different scheme.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Several algorithms in Bottle work on arbitrarily strided arrays.
+However, some algorithms require single-segment arrays. When an
+irregularly strided array is passed in to such algorithms, a copy
+is automatically made.</p>
+</div>
+<span class="target" id="tensor-ndtensor-attributes"></span></div>
+</div>
+
+
+          </div>
+        </div>
+          </div>
+      <div class="spc-rightsidebar span3">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../contents.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">The N-dimensional tensor</a><ul>
+<li><a class="reference internal" href="#constructing-tensors">Constructing Tensors</a></li>
+<li><a class="reference internal" href="#indexing-arrays">Indexing arrays</a></li>
+<li><a class="reference internal" href="#internal-memory-layout-of-an-tensor">Internal memory layout of an Tensor</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="tensor.html"
+                        title="previous chapter">Tensor Objects</a></p>
+  <h3>This Page</h3>
+  <div>
+    <a href="../_sources/reference/tensor.ndtensor.rst.txt"
+       rel="nofollow">Show Source</a>
+  </div>
+<div class="this-page-menu">
+</div>
+
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2019, Chris Zimmerman.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 2.2.1.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

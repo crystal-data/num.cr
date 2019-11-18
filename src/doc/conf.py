@@ -1,3 +1,4 @@
+import os
 # Configuration file for the Sphinx documentation builder.
 #
 # This file only contains a selection of the most common options. For a full
@@ -36,6 +37,8 @@ extensions = [
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
+master_doc = 'contents'
+
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
@@ -47,8 +50,22 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
+themedir = os.path.join('crystal-data-sphinx-theme', '_theme')
+if not os.path.isdir(themedir):
+    raise RuntimeError("Get the crystal-data-sphinx-theme first, "
+                       "via git submodule init && git submodule update")
 
-html_theme = 'sphinxdoc'
+html_theme = 'bottle'
+html_theme_path = [themedir]
+
+html_theme_options = {
+    "sidebar": "right",
+    "crystal_data_logo": True,
+}
+
+html_additional_pages = {
+    'index': 'indexcontent.html',
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
