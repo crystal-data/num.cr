@@ -13,3 +13,4 @@ for more advanced help, review the API documentation.
 
    setting-up
    quickstart
+   basics
