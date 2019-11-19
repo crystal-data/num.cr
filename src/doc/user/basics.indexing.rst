@@ -94,4 +94,56 @@ the original.
             [23, 24],
             [30, 31]])
 
-Note that slices of tensors do not copy the internal tensor data but only produce new views of the original data. 
+Note that slices of tensors do not copy the internal tensor data but only produce new views of the original data.
+
+Assigning values to indexed tensors
+-----------------------------------
+
+Tensors support assignment to slices of a tensor, using any of the above index
+operations.  The value being assigned to the index array must be the same shape
+(or broadcastable to the same shape) as the shape produced by the index operation.
+
+For example, a scalar can be assigned to a slice.
+
+.. code-block:: crystal
+
+    x = B.arange(10)
+    x[2...7] = 1
+
+Another tensor of the right size can also be assigned to a view.
+
+    x[2...7] = B.arange(5)
+
+
+Assignments might result in the casting of the provided values.  Tensors
+will always maintain their data type when have values assigned.
+
+.. code-block:: crystal
+
+    x = B.arange(10, dtype: Int32)
+    x[[3]] = 999.6
+    puts x
+
+.. code-block:: crystal
+
+    Tensor([  0,   1,   2, 999,   4,   5,   6,   7,   8,   9])
+
+If a tensor is being assigned to a view of a different shape, the operation
+will fail *unless* the tensor is able to be broadcasted to the proper shape.
+
+.. code-block:: crystal
+
+    t = B.arange(9).reshape([3, 3])
+    puts t
+
+    t[...] = B.arange(3)
+    puts t
+
+.. code-block:: crystal
+
+    Tensor([[0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8]])
+    Tensor([[0, 1, 2],
+            [0, 1, 2],
+            [0, 1, 2]])

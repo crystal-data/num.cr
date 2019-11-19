@@ -30,6 +30,14 @@ abstract class Bottle::BaseArray(T)
     end
   end
 
+  def dtype
+    T
+  end
+
+  def bytesize
+    sizeof(T) // sizeof(UInt8)
+  end
+
   private def broadcast_strides(dest_shape, src_shape, dest_strides, src_strides)
     dims = dest_shape.size
     start = dims - src_shape.size
@@ -131,6 +139,21 @@ abstract class Bottle::BaseArray(T)
       newflags = ArrayFlags::None
     end
     Tensor(T).new(@buffer, shape, strides, newflags, @base)
+  end
+
+  def bc?(axis : Int32)
+    newshape = shape.dup
+    newstrides = strides.dup
+    if axis < ndims
+      newshape.insert(axis, 1)
+      newstrides.insert(axis, 0)
+    elsif axis == ndims
+      newshape << 1
+      newstrides << 0
+    else
+      raise Exceptions::ShapeError.new("Too many dimensions for tensor")
+    end
+    as_strided(newshape, newstrides, true)
   end
 
   abstract def check_type
@@ -580,6 +603,10 @@ abstract class Bottle::BaseArray(T)
     fill = ndims - idx.size
     idx += [...] * fill
     old = slice_from_indexers(idx)
+    if old.shape != value.shape
+      value = value.broadcast_to(old.shape)
+    end
+
     old.flat_iter.zip(value.flat_iter) do |i, j|
       i.value = j.value
     end
