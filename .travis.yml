@@ -19,4 +19,4 @@ matrix:
       project_name: bottle
       on:
         branch: master
-      local_dir: src/doc/_build
+      local_dir: src/doc/_build/html
