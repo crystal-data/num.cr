@@ -12,6 +12,7 @@ matrix:
       - pip install sphinx
     script:
       - make -C src/doc html
+      - touch src/doc/_build/html/.nojekyll
     deploy:
       provider: pages
       skip_cleanup: true
