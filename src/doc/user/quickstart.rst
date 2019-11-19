@@ -28,7 +28,7 @@ axis has a length of 2, the second axis has a length of 3.
 
 
 Bottle's tensor class is called ``Tensor``. The more important attributes of
-an ``ndarray`` object are:
+a ``tensor`` object are:
 
 Tensor.ndims
     the number of axes (dimensions) of the tensor.
