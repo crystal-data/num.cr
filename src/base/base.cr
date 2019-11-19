@@ -18,6 +18,8 @@ abstract class Bottle::BaseArray(T)
   getter ndims
   getter flags
   getter size
+  getter buffer
+  getter base
 
   setter shape
   setter strides

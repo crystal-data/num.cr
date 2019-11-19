@@ -23,6 +23,10 @@ module Bottle::Internal::Macros
       BMath.multiply(self, other)
     end
 
+    def **(other)
+      BMath.power(self, other)
+    end
+
     # Elementwise division of a {{klass}}} to another equally
     # sized {{klass}}} or scalar
     def /(other)
@@ -99,6 +103,12 @@ module Bottle::Internal::Macros
     # sized {{klass}}} or scalar
     def ==(other)
       BMath.equal(self, other)
+    end
+  end
+
+  macro has_reduction_ops(klass)
+    def cumsum(axis : Int32)
+      BMath.add.accumulate(self, axis)
     end
   end
 

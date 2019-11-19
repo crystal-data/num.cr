@@ -75,4 +75,5 @@ class Bottle::Tensor(T) < Bottle::BaseArray(T)
   Macros.has_bitwise_ops(Tensor)
   Macros.has_comparison_ops(Tensor)
   Macros.has_statistical_ops(Tensor)
+  Macros.has_reduction_ops(Tensor)
 end

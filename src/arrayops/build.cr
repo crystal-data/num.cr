@@ -149,7 +149,7 @@ module Bottle::Assemble
   def dstack(alist : Array(BaseArray(U))) forall U
     shape0 = alist[0].shape
     if !alist.all? { |t| t.shape == shape0 }
-      raise Exceptions::ShapeError.new("All arrays must be the same shape")
+      raise Internal::Exceptions::ShapeError.new("All arrays must be the same shape")
     end
 
     if alist[0].ndims == 1
@@ -159,7 +159,7 @@ module Bottle::Assemble
       alist = alist.map { |t| t.reshape(t.shape + [1]) }
       concatenate(alist, 2)
     else
-      raise Exceptions::ShapeError.new(
+      raise Internal::Exceptions::ShapeError.new(
         "dstack only supports 1 and 2-dimensional arrays")
     end
   end
@@ -167,7 +167,7 @@ module Bottle::Assemble
   def column_stack(alist : Array(BaseArray(U))) forall U
     shape0 = alist[0].shape
     if !alist.all? { |t| t.shape == shape0 }
-      raise Exceptions::ShapeError.new("All arrays must be the same shape")
+      raise Internal::Exceptions::ShapeError.new("All arrays must be the same shape")
     end
 
     if alist[0].ndims == 1
@@ -177,7 +177,7 @@ module Bottle::Assemble
       alist = alist.map { |t| t.reshape(t.shape) }
       concatenate(alist, 1)
     else
-      raise Exceptions::ShapeError.new(
+      raise Internal::Exceptions::ShapeError.new(
         "column_stack only supports 1 and 2-dimensional arrays")
     end
   end

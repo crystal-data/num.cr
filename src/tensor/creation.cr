@@ -156,13 +156,13 @@ module Bottle::Creation
   # ```crystal
   # B.arange(1, 5) # => Tensor[1, 2, 3, 4]
   # ```
-  def arange(start : Int32, stop : Int32, step : Int32 = 1, dtype : U.class = Int32) forall U
+  def arange(start : Int32, stop : Int32, step : Number = 1, dtype : U.class = Int32) forall U
     r = stop - start
-    num = r // step
+    num = (r / step).ceil
     if stop <= start || !num
       raise "vrange must return at least one value"
     end
-    Tensor.new([num]) { |i| U.new(start + (i * step)) }
+    Tensor.new([Int32.new(num)]) { |i| U.new(start + (i * step)) }
   end
 
   # Return evenly spaced values within a given interval.
