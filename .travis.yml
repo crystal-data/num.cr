@@ -11,8 +11,8 @@ matrix:
     install:
       - pip install sphinx
     script:
-      - make -C src/doc html
-      - touch src/doc/_build/html/.nojekyll
+      - make -C doc html
+      - touch doc/_build/html/.nojekyll
     deploy:
       provider: pages
       skip_cleanup: true
@@ -20,4 +20,4 @@ matrix:
       project_name: bottle
       on:
         branch: master
-      local_dir: src/doc/_build/html
+      local_dir: doc/_build/html
