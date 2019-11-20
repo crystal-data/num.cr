@@ -12,6 +12,10 @@ class Bottle::Tensor(T) < Bottle::BaseArray(T)
   # allowed into the `Tensor`
   getter basetype = Tensor
 
+  def basetype(t : U.class) forall U
+    return Tensor(U)
+  end
+
   protected def check_type
     {% unless T == Float32 || T == Float64 || T == Int16 || T == Int32 || \
                  T == Int8 || T == UInt16 || T == UInt32 || T == UInt64 || \

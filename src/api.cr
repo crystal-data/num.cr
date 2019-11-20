@@ -3,6 +3,7 @@ require "./arrayops/build"
 require "./arrayops/math"
 require "./arrayops/trig"
 require "./arrayops/io"
+require "./arrayops/search"
 require "./tensor/tensor"
 require "./linalg/fixed_dimension"
 require "./linalg/reductions"
@@ -18,4 +19,5 @@ module Bottle::B
   include Bottle::LinAlg
   include Bottle::Assemble
   include Bottle::InputOutput
+  include Bottle::Search
 end

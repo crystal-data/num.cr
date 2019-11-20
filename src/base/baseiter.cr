@@ -157,3 +157,36 @@ struct Bottle::Internal::UnsafeNDIter(T)
 
   forward_missing_to @strategy
 end
+
+struct Bottle::Internal::IndexIter
+  include Iterator(Array(Int32))
+  @ndims : Int32
+  @track : Array(Int32)
+  @shape : Array(Int32)
+
+  def initialize(shape : Array(Int32))
+    @track = [0] * shape.size
+    @ndims = shape.size
+    @shape = shape
+  end
+
+  def next
+    if @done
+      return stop
+    end
+    last = @track.dup
+
+    (@ndims - 1).step(to: 0, by: -1) do |i|
+      @track[i] += 1
+      if @track[i] == @shape[i]
+        if i == 0
+          @done = true
+        end
+        @track[i] = 0
+        next
+      end
+      break
+    end
+    return last
+  end
+end

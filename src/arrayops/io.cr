@@ -55,30 +55,28 @@ module Bottle::InputOutput
     shape.reduce { |i, j| i * j }
   end
 
-  def load(filename)
-    inf = File.open(filename, "r")
-    toss = Bytes.new(8)
-    header = Bytes.new(2)
-    inf.read_fully(toss)
-    inf.read_fully(header)
-    headersize = IO::Memory.new(header).read_bytes(Int16, IO::ByteFormat::LittleEndian)
-    header = inf.read_string(headersize).downcase.tr("()'", "[]\"").gsub(/,]|],/, "]")
-    jhead = JSON.parse(header)
-
-    desc = jhead["descr"]
-    shape = jhead["shape"]
-    newshape = [0] * shape.size
-    newshape = newshape.map_with_index { |e, i| shape[i].as_i }
-
-    newsize = totalsize(newshape)
-
-    case desc
-    when "<i4"
-      bytes = newsize * 4
-      newdata = Bytes.new(bytes)
-      inf.read_fully(newdata)
-      ptr = newdata.to_unsafe.unsafe_as(Pointer(Int32))
-      return Tensor(Int32).new(newshape) { |i| ptr[i] }
-    end
-  end
+  # def load(filename, dtype : U.class) forall U
+  #   inf = File.open(filename, "r")
+  #   toss = Bytes.new(8)
+  #   header = Bytes.new(2)
+  #   inf.read_fully(toss)
+  #   inf.read_fully(header)
+  #   headersize = IO::Memory.new(header).read_bytes(Int16, IO::ByteFormat::LittleEndian)
+  #   header = inf.read_string(headersize).downcase.tr("()'", "[]\"").gsub(/,]|],/, "]")
+  #   jhead = JSON.parse(header)
+  #
+  #   desc = jhead["descr"]
+  #   shape = jhead["shape"]
+  #   newshape = [0] * shape.size
+  #   newshape = newshape.map_with_index { |e, i| shape[i].as_i }
+  #
+  #   newsize = totalsize(newshape)
+  #
+  #   bytes = newsize * sizeof(desc)
+  #   newdata = Bytes.new(bytes)
+  #   inf.read_fully(newdata)
+  #   ptr = newdata.to_unsafe.unsafe_as(Pointer(desc))
+  #   ret = Tensor(desc).new(newshape) { |i| ptr[i] }
+  #   return ret.astype(U)
+  # end
 end

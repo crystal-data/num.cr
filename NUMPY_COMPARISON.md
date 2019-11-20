@@ -72,7 +72,7 @@ print(Z)
 
 ```crystal
 z = B.zeros([10])
-z[[4]] = 1
+z[4] = 1
 puts z
 ```
 
@@ -122,7 +122,8 @@ nz = np.nonzero([1,2,0,0,4,0])
 print(nz)
 ```
 
-No current equivalent
+t = Tensor.from_array [1, 2, 0, 0, 4, 0]
+puts B.nonzero(t)
 
 #### 11. Create a 3x3 identity matrix (★☆☆)
 

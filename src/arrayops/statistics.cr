@@ -141,4 +141,16 @@ module Bottle::Statistics
   def ptp(a : BaseArray, axis : Int32)
     max(a, axis) - min(a, axis)
   end
+
+  def clip(a : BaseArray(U), min : Number, max : Number) forall U
+    a = a.dup
+    a.flat_iter.each do |i|
+      if i.value < min
+        i.value = U.new(min)
+      elsif i.value > max
+        i.value = U.new(max)
+      end
+    end
+    a
+  end
 end

@@ -419,6 +419,10 @@ abstract class Bottle::BaseArray(T)
     UnsafeNDIter.new(self).strategy
   end
 
+  def index_iter
+    IndexIter.new(shape)
+  end
+
   private def slice_from_indexers(idx : Array)
     # These will be mutated since the slice does
     # not necessarily share the shape of the base.
@@ -447,6 +451,13 @@ abstract class Bottle::BaseArray(T)
           raise IndexError.new("Index out of range")
         end
         newshape[i] = offset
+        start
+      elsif el.is_a?(Tuple(Range(Nil, Nil), Int32)) || el.is_a?(Tuple(Range(Int32?, Int32?), Int32))
+        range, step = el
+        abstep = step.abs
+        start, offset = Indexable.range_to_index_and_count(range, shape[i])
+        newshape[i] = newshape[i] // abstep + newshape[i] % abstep
+        newstrides[i] = step * newstrides[i]
         start
       else
         start, offset = Indexable.range_to_index_and_count(..., shape[i])
