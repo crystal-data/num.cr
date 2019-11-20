@@ -16,15 +16,16 @@ explanations on how assignments work.
 Single Element Indexing
 -----------------------
 
-Single element indexing always is handled by passing an **array** of indices.  Unlike methods
-that return a slice of a tensor, the methods that return or assign to a scalar are special
-to avoid return type ambiguity.
+Indexing operations *always* return Tensors, even indexing operations that resolve to a single value.
+This is to allow complex index operations in N dimensions without worrying about return type
+ambiguity.  If a scalar is needed, calling ``value`` on the result of an index operation will
+return the first scalar associated with the returned tensor.
 
 .. code-block:: crystal
 
     x = B.arange(10)
-    puts x[[2]]
-    puts x[[-2]]
+    puts x[2].value
+    puts x[-2].value
 
 .. code-block:: crystal
 
@@ -32,18 +33,23 @@ to avoid return type ambiguity.
     8
 
 This behavior similarly translates to multi-dimensional tensors.  When accessing a **scalar**
-value, an array must be passed as the single argument.
+value, ``value`` must be called to access a scalar.
 
 .. code-block:: crystal
 
     x = x.reshape([2, 5])
-    puts x[[1, 3]]
-    puts x[[1, -1]]
+    puts x[1, 3].value
+    puts x[1, -1].value
 
 .. code-block:: crystal
 
     8
     9
+
+.. warning::
+    Although an indexing operation that returns a single value returns a tensor, this is **not**
+    a view, it is a tensor that owns its own memory, containing a single element.  Changing
+    the value of the returned tensor will not alter the original tensor.
 
 If a multi-dimensional array is index using ``*args``, the number of indexers must
 not resolve to a scalar, and the number of passed indexers must be less than or
@@ -65,9 +71,9 @@ A common mistake to make is the use of "chained indexing".  For example:
 
 .. code-block:: crystal
 
-    puts x[0][[2]]  # 2
+    puts x[0][1]  # Tensor([2])
 
-However, this allocates an intermediate tensor, which is highly inefficient.  Instead, ``x[[0, 1]]``
+However, this allocates an intermediate tensor, which is highly inefficient.  Instead, ``x[0, 1]``
 should be used.
 
 Other Indexing Options
@@ -112,6 +118,8 @@ For example, a scalar can be assigned to a slice.
 
 Another tensor of the right size can also be assigned to a view.
 
+.. code-block:: crystal
+
     x[2...7] = B.arange(5)
 
 
@@ -121,7 +129,7 @@ will always maintain their data type when have values assigned.
 .. code-block:: crystal
 
     x = B.arange(10, dtype: Int32)
-    x[[3]] = 999.6
+    x[3] = 999.6
     puts x
 
 .. code-block:: crystal

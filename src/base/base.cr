@@ -482,7 +482,7 @@ abstract class Bottle::BaseArray(T)
   # a = Tensor.new([2, 3, 2]) { |i| i }
   # a[[0, 1, 0]] # => 8
   # ```
-  def [](indexer : Array(Int32))
+  private def scalar(indexer : Array(Int32))
     offset = 0
     strides.zip(indexer, shape) do |i, j, k|
       if j < 0
@@ -493,7 +493,11 @@ abstract class Bottle::BaseArray(T)
       end
       offset += i * j
     end
-    @buffer[offset]
+    Tensor(T).new([1]) { |_| @buffer[offset] }
+  end
+
+  def value
+    @buffer.value
   end
 
   # Sets a single value in a `Tensor` based on
@@ -506,7 +510,7 @@ abstract class Bottle::BaseArray(T)
   # a[[1]] = 100
   # a # => Tensor([  0, 100,   2,   3,   4,   5,   6,   7,   8,   9])
   # ```
-  def []=(indexer : Array(Int32), value : Number)
+  private def scalar_set(indexer : Array(Int32), value : Number)
     can_write
     if indexer.size < strides.size
       fill = ndims - indexer.size
@@ -535,9 +539,29 @@ abstract class Bottle::BaseArray(T)
     # missing dimensions with empty ranges so that
     # all ranges don't have to be explicitly defined
     idx = args.to_a
+    if idx.is_a?(Array(Int32)) && idx.size == ndims
+      return scalar(idx)
+    end
     fill = ndims - idx.size
     idx += [...] * fill
     slice_from_indexers(idx)
+  end
+
+  def [](mask : Tensor(Bool))
+    if mask.shape != shape
+      mask = mask.broadcast_to(shape)
+    end
+
+    ret = Pointer(T).malloc(size)
+    elems = 0
+    flat_iter.zip(mask.flat_iter) do |i, j|
+      if j.value
+        ret[elems] = i.value
+        elems += 1
+      end
+    end
+    ret = ret.realloc(elems)
+    Tensor(T).new([elems]) { |i| ret[i] }
   end
 
   # Assigns a `Tensor` to a slice of an array.
@@ -630,11 +654,15 @@ abstract class Bottle::BaseArray(T)
   # ```
   def aref_set(*args, value : Number)
     idx = args.to_a
-    fill = ndims - idx.size
-    idx += [...] * fill
-    old = slice_from_indexers(idx)
-    old.flat_iter.each do |i|
-      i.value = T.new(value)
+    if idx.is_a?(Array(Int32)) && idx.size == ndims
+      scalar_set(idx, value)
+    else
+      fill = ndims - idx.size
+      idx += [...] * fill
+      old = slice_from_indexers(idx)
+      old.flat_iter.each do |i|
+        i.value = T.new(value)
+      end
     end
   end
 
@@ -837,7 +865,11 @@ abstract class Bottle::BaseArray(T)
     if T == U
       return dup_view
     end
-    newsize = sizeof(T) / sizeof(U)
+
+    tsize = T == Bool ? 1 : sizeof(T)
+    usize = U == Bool ? 1 : sizeof(U)
+
+    newsize = tsize / usize
     newlast = shape[-1] * newsize
     intlast = Int32.new newlast
 
