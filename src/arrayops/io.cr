@@ -2,12 +2,12 @@ require "json"
 
 module Bottle::InputOutput
   TYPE_HASH = {
-    UInt8 => "|u1",
-    UInt16 => "<u2",
-    UInt32 => "<u4",
-    Int8 => "|i1",
-    Int16 => "<i2",
-    Int32 => "<i4",
+    UInt8   => "|u1",
+    UInt16  => "<u2",
+    UInt32  => "<u4",
+    Int8    => "|i1",
+    Int16   => "<i2",
+    Int32   => "<i4",
     Float32 => "<f4",
     Float64 => "<f8",
   }

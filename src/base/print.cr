@@ -53,6 +53,8 @@ module Bottle::Internal::ToString
     def handle_value(value)
       {% if T == Float64 || T == Float32 %}
         value.round(3)
+      {% elsif T == Complex %}
+        "#{value.real.round(3)} + #{value.imag.round(3)}"
       {% else %}
         value
       {% end %}

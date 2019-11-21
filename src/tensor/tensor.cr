@@ -5,6 +5,7 @@ require "../arrayops/binary"
 require "../arrayops/statistics"
 require "../macros/numeric"
 require "./iter"
+require "complex"
 
 class Bottle::Tensor(T) < Bottle::BaseArray(T)
   # Compile time checking of data types of a `Tensor` to ensure
@@ -19,7 +20,7 @@ class Bottle::Tensor(T) < Bottle::BaseArray(T)
   protected def check_type
     {% unless T == Float32 || T == Float64 || T == Int16 || T == Int32 || \
                  T == Int8 || T == UInt16 || T == UInt32 || T == UInt64 || \
-                 T == UInt8 || T == Bool %}
+                 T == UInt8 || T == Bool || T == Complex %}
       {% raise "Bad dtype: #{T}. #{T} is not supported for Char Arrays" %}
     {% end %}
   end
@@ -63,6 +64,8 @@ class Bottle::Tensor(T) < Bottle::BaseArray(T)
     maxlength = 0
     {% if T == Bool %}
       maxlength = 5
+    {% elsif T == Complex %}
+      maxlength = 15
     {% else %}
       maxlength = "#{max.round(3)}".size
     {% end %}
@@ -80,4 +83,28 @@ class Bottle::Tensor(T) < Bottle::BaseArray(T)
   Macros.has_comparison_ops(Tensor)
   Macros.has_statistical_ops(Tensor)
   Macros.has_reduction_ops(Tensor)
+
+  def real
+    {% if T == Complex %}
+      ret = Tensor(Float64).new(shape)
+      ret.flat_iter.zip(flat_iter) do |i, j|
+        i.value = j.value.real
+      end
+      ret
+    {% else %}
+      raise Exceptions::TypeError.new("Tensor is not complex")
+    {% end %}
+  end
+
+  def imag
+    {% if T == Complex %}
+      ret = Tensor(Float64).new(shape)
+      ret.flat_iter.zip(flat_iter) do |i, j|
+        i.value = j.value.imag
+      end
+      ret
+    {% else %}
+      raise Exceptions::TypeError.new("Tensor is not complex")
+    {% end %}
+  end
 end

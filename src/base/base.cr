@@ -452,11 +452,11 @@ abstract class Bottle::BaseArray(T)
         end
         newshape[i] = offset
         start
-      elsif el.is_a?(Tuple(Range(Nil, Nil), Int32)) || el.is_a?(Tuple(Range(Int32?, Int32?), Int32))
+      elsif el.is_a?(Tuple)
         range, step = el
         abstep = step.abs
         start, offset = Indexable.range_to_index_and_count(range, shape[i])
-        newshape[i] = newshape[i] // abstep + newshape[i] % abstep
+        newshape[i] = offset // abstep + offset % abstep
         newstrides[i] = step * newstrides[i]
         start
       else

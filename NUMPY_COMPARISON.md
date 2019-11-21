@@ -244,7 +244,11 @@ Z[::2,1::2] = 1
 print(Z)
 ```
 
-No current equivalent
+```crystal
+a = B.zeros([8, 8]).astype(Int16)
+a[{1..., 2},{..., 2}] = 1
+a[{..., 2},{1..., 2}] = 1
+```
 
 #### 20. Consider a (6,7,8) shape array, what is the index (x,y,z) of the 100th element?
 

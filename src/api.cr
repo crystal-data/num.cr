@@ -7,6 +7,7 @@ require "./arrayops/search"
 require "./tensor/tensor"
 require "./linalg/fixed_dimension"
 require "./linalg/reductions"
+require "./fft/real"
 require "./tensor/creation"
 
 module Bottle::B
@@ -20,4 +21,5 @@ module Bottle::B
   include Bottle::Assemble
   include Bottle::InputOutput
   include Bottle::Search
+  include Bottle::FFT
 end
