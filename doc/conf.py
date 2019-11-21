@@ -23,7 +23,7 @@ copyright = '2019, Chris Zimmerman'
 author = 'Chris Zimmerman'
 
 # The full version, including alpha/beta/rc tags
-release = '0.2.2'
+release = '0.2.5'
 
 
 # -- General configuration ---------------------------------------------------
