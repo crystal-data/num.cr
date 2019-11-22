@@ -7,14 +7,14 @@ require "../macros/numeric"
 require "./iter"
 require "complex"
 
-class Bottle::Tensor(T) < Bottle::BaseArray(T)
+struct Bottle::Tensor(T) < Bottle::BaseArray(T)
   # Compile time checking of data types of a `Tensor` to ensure
   # mixing data types is not allowed, not are bad data types
   # allowed into the `Tensor`
   getter basetype = Tensor
 
   def basetype(t : U.class) forall U
-    return Tensor(U)
+    Tensor(U)
   end
 
   protected def check_type
@@ -67,7 +67,7 @@ class Bottle::Tensor(T) < Bottle::BaseArray(T)
     {% elsif T == Complex %}
       maxlength = 15
     {% else %}
-      maxlength = "#{max.round(3)}".size
+      maxlength = "#{max.round(3)}".size + 1
     {% end %}
     printer = ToString::BasePrinter.new(self, io, "Tensor", maxlength)
     printer.print

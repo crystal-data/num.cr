@@ -32,7 +32,7 @@ module Bottle::BMath
     #
     # B.{{name}}(t1, t2)
     # ```
-    def {{name}}(x1 : BaseArray, x2 : Number)
+    def {{name}}(x1 : BaseArray, x2)
       ret = x1.unsafe_iter
       x1.basetype.new(x1.shape) do |_|
         ret.next.value {{operator.id}} x2
@@ -47,7 +47,7 @@ module Bottle::BMath
     #
     # B.{{name}}(x, t)
     # ```
-    def {{name}}(x1 : Number, x2 : BaseArray)
+    def {{name}}(x1, x2 : BaseArray)
       ret = x2.unsafe_iter
       x2.basetype.new(x2.shape) do |_|
         x1 {{operator.id}} ret.next.value

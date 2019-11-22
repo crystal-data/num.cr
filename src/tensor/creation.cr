@@ -264,14 +264,16 @@ module Bottle::Creation
         t[0] = 0
         return t
       elsif t.ndims == 2
-        Tensor(U).new(t.shape[0], t.shape[1]) do |i, j|
-          i >= j - k ? iter.next.value : U.new(0)
+        return Tensor(U).new(t.shape[0], t.shape[1]) do |i, j|
+          val = iter.next
+          i {{op.id}} j - k ? val.value : U.new(0)
         end
       else
         t.matrix_iter.each do |n|
           niter = n.unsafe_iter
           n[...] = Tensor(U).new(n.shape[0], n.shape[1]) do |i, j|
-            i {{op.id}} j - k ? niter.next.value : U.new(0)
+            val = niter.next
+            i {{op.id}} j - k ? val.value : U.new(0)
           end
         end
       end

@@ -3,7 +3,7 @@ require "./baseiter"
 require "./print"
 require "../util/exceptions"
 
-abstract class Bottle::BaseArray(T)
+abstract struct Bottle::BaseArray(T)
   include Internal
   @buffer : Pointer(T)
   @shape : Array(Int32)
@@ -742,7 +742,7 @@ abstract class Bottle::BaseArray(T)
   # t = Tensor.new([3, 3]) { |i| i }
   # t.diag_view # => Tensor([0, 4, 8])
   def diag_view
-    raise ShapeError.new("Tensor must be two-dimensional") unless ndims == 2
+    raise Exceptions::ShapeError.new("Tensor must be two-dimensional") unless ndims == 2
     nel = Math.min(@shape[0], @shape[1])
     newshape = [nel]
     newstrides = [@strides[0] + @strides[1]]

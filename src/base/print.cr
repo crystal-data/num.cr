@@ -54,7 +54,7 @@ module Bottle::Internal::ToString
       {% if T == Float64 || T == Float32 %}
         value.round(3)
       {% elsif T == Complex %}
-        "#{value.real.round(3)} + #{value.imag.round(3)}"
+        "#{value.real.round(3)}i + #{value.imag.round(3)}j"
       {% else %}
         value
       {% end %}

@@ -19,6 +19,10 @@ module Bottle::Statistics
     end
   end
 
+  def prod(a : BaseArray(U)) forall U
+    a.flat_iter.reduce(U.new(1)) { |i, j| i * j.value }
+  end
+
   def all(a : BaseArray(U)) forall U
     ret = a.astype(Bool)
     ret.flat_iter.reduce(true) { |i, j| i & j.value }
