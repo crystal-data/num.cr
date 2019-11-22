@@ -4,14 +4,14 @@ require "./arrayops/math"
 require "./arrayops/trig"
 require "./arrayops/io"
 require "./arrayops/search"
+require "./arrayops/extensions"
 require "./tensor/tensor"
-# require "./linalg/fixed_dimension"
-# require "./linalg/reductions"
 require "./linalg/products"
 require "./linalg/decompositions"
 require "./linalg/eigenvalues"
 require "./linalg/norms"
 require "./fft/real"
+require "./financial/simple"
 require "./tensor/creation"
 
 module Bottle::B
@@ -26,4 +26,5 @@ module Bottle::B
   include Bottle::InputOutput
   include Bottle::Search
   include Bottle::FFT
+  include Bottle::Financial
 end
