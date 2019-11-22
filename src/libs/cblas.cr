@@ -28,6 +28,16 @@ lib LibCblas
     ConjNoTrans = 114
   end
 
+  struct ComplexDouble
+    re : LibC::Double
+    im : LibC::Double
+  end
+
+  struct ComplexFloat
+    re : LibC::Float
+    im : LibC::Float
+  end
+
   # Level 1
   fun srotg = cblas_srotg(da : Real*, db : Real*, c : Real*, s : Real*)
   fun drotg = cblas_drotg(da : Double*, db : Double*, c : Double*, s : Double*)
@@ -40,6 +50,7 @@ lib LibCblas
 
   fun ddot = cblas_ddot(n : Integer, x : Double*, incx : Integer, y : Double*, incy : Integer) : Double
   fun sdot = cblas_sdot(n : Integer, x : Real*, incx : Integer, y : Real*, incy : Integer) : Real
+  fun zdot = cblas_zdotu(n : Integer, x : Double*, incx : Integer, y : Double*, incy : Integer) : ComplexDouble
 
   fun dnrm2 = cblas_dnrm2(n : Integer, x : Double*, incx : Integer) : Double
   fun snrm2 = cblas_snrm2(n : Integer, x : Real*, incx : Integer) : Real
@@ -59,6 +70,8 @@ lib LibCblas
   fun dger = cblas_dger(order : MatrixLayout, m : Integer, n : Integer, alpha : Double, x : Double*,
                         incx : Integer, y : Double*, incy : Integer, a : Double*, lda : Integer)
 
+  fun sger = cblas_sger(order : MatrixLayout, m : Integer, n : Integer, alpha : Real, x : Real*, incx : Integer, y : Real*, incy : Integer, a : Real*, lda : Integer)
+
   # Level 3
   fun dgemm = cblas_dgemm(order : MatrixLayout, trans_a : MatrixTranspose, trans_b : MatrixTranspose,
                           m : Integer, n : Integer, k : Integer, alpha : Double, a : Double*, lda : Integer, b : Double*,
@@ -67,4 +80,8 @@ lib LibCblas
   fun sgemm = cblas_sgemm(order : MatrixLayout, trans_a : MatrixTranspose, trans_b : MatrixTranspose,
                           m : Integer, n : Integer, k : Integer, alpha : Real, a : Real*, lda : Integer, b : Real*,
                           ldb : Integer, beta : Real, c : Real*, ldc : Integer)
+
+  fun zgemm = cblas_zgemm(order : MatrixLayout, trans_a : MatrixTranspose, trans_b : MatrixTranspose,
+                          m : Integer, n : Integer, k : Integer, alpha : Double, a : Double*, lda : Integer, b : Double*,
+                          ldb : Integer, beta : Double, c : Double*, ldc : Integer)
 end

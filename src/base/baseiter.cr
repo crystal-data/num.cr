@@ -187,6 +187,6 @@ struct Bottle::Internal::IndexIter
       end
       break
     end
-    return last
+    last
   end
 end
