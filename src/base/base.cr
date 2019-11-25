@@ -254,6 +254,14 @@ abstract struct Bottle::BaseArray(T)
     new(shape, order, ptr)
   end
 
+  def self.from_proc(shape : Array(Int32), prok : Proc(Int32, U), order : ArrayFlags = ArrayFlags::Contiguous) forall U
+    total = shape.reduce { |i, j| i * j }
+    ptr = Pointer(U).malloc(total) do |i|
+      prok.call(i)
+    end
+    new(shape, order, ptr)
+  end
+
   # Yields a `Tensor` from a provided number of rows and columns.
   # This can quickly create matrices, useful for several `Tensor` creattion
   # methods such as the underlying implementation of `eye`, and `diag`.

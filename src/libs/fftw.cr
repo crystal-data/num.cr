@@ -1,5 +1,3 @@
-require "./dtype"
-
 @[Link("fftw3")]
 lib LibFFTW
   alias Integer = LibC::Int
