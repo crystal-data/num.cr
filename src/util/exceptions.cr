@@ -13,4 +13,7 @@ module Bottle::Internal::Exceptions
 
   class WriteError < Exception
   end
+
+  class LinAlgError < Exception
+  end
 end

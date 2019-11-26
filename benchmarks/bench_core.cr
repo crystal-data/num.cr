@@ -3,7 +3,6 @@ require "../src/bottle"
 
 include Bottle
 r100 = (0...100).to_a
-r50 = (0...50).to_a
 l = [B.arange(1000), B.arange(1000)]
 l10xl10 = B.ones([10, 10])
 
@@ -16,15 +15,11 @@ Benchmark.ips do |bench|
   bench.report("time_dstack") { B.dstack(l) }
   bench.report("time_arange_100") { B.arange(100) }
   bench.report("time_zeros_100") { B.zeros([100]) }
-  bench.report("time_ones_100") { B.ones([100] )}
+  bench.report("time_ones_100") { B.ones([100]) }
   bench.report("time_empty_100") { B.empty([100]) }
   bench.report("time_eye_100") { B.eye(100) }
   bench.report("time_identity_100") { B.identity(100) }
   bench.report("time_eye_3000") { B.eye(3000) }
-  bench.report("eye_indexed_3000") do
-    tmp = B.zeros([3000, 3000])
-    tmp.diag_view[...] = 1
-  end
   bench.report("time_identity_3000") { B.identity(3000) }
   bench.report("time_triu_10x10") { B.triu(l10xl10) }
   bench.report("time_tril_10x10") { B.tril(l10xl10) }

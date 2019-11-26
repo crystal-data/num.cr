@@ -18,9 +18,8 @@ abstract struct Bottle::BaseArray(T)
   getter ndims
   getter flags
   getter size
-  getter buffer
   getter base
-
+  getter buffer
   setter shape
   setter strides
 
@@ -36,6 +35,10 @@ abstract struct Bottle::BaseArray(T)
 
   def bytesize
     sizeof(T) // sizeof(UInt8)
+  end
+
+  def itemsize
+    sizeof(T)
   end
 
   private def broadcast_strides(dest_shape, src_shape, dest_strides, src_strides)
@@ -227,6 +230,16 @@ abstract struct Bottle::BaseArray(T)
     if update_flags
       update_flags(ArrayFlags::All)
     end
+  end
+
+  def initialize(scalar : T)
+    @buffer = Pointer(T).malloc(1, scalar)
+    @ndims = 1
+    @size = 1
+    @shape = [1]
+    @strides = [1]
+    @flags = ArrayFlags::All
+    @base = nil
   end
 
   # Yields a `BaseArray` from a provided shape and a block.  The block only
@@ -423,6 +436,14 @@ abstract struct Bottle::BaseArray(T)
     SafeNDIter.new(self).strategy
   end
 
+  def flat_iter_indexed
+    i = -1
+    flat_iter.each do |el|
+      i += 1
+      yield el, i
+    end
+  end
+
   def unsafe_iter
     UnsafeNDIter.new(self).strategy
   end
@@ -512,7 +533,7 @@ abstract struct Bottle::BaseArray(T)
       end
       offset += i * j
     end
-    Tensor(T).new([1]) { |_| @buffer[offset] }
+    Tensor(T).new(@buffer[offset])
   end
 
   def value
@@ -968,6 +989,21 @@ abstract struct Bottle::BaseArray(T)
     ret = self.class.new(@buffer, newshape, newstrides, @flags.dup, newbase)
     ret.update_flags(ArrayFlags::Contiguous | ArrayFlags::Fortran)
     ret
+  end
+
+  def permute_along_axis(axis)
+    if ndims == 1
+      yield self
+    else
+      if axis < 0
+        axis = ndims + axis
+      end
+      raise "Axis out of range for this array" unless axis < ndims
+
+      PermuteIter.new(self, axis).each do |perm|
+        yield slice(perm)
+      end
+    end
   end
 
   def reduce_along_axis(axis)

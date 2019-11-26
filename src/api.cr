@@ -14,6 +14,7 @@ require "./linalg/norms"
 require "./fft/real"
 require "./financial/simple"
 require "./tensor/creation"
+require "./sparse/coo"
 
 module Bottle::B
   extend self
@@ -28,4 +29,5 @@ module Bottle::B
   include Bottle::Search
   include Bottle::FFT
   include Bottle::Financial
+  include Bottle::Sparse
 end

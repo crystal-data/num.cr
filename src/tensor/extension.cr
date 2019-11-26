@@ -117,7 +117,7 @@ struct Bottle::Tensor(T)
           "trtri" => {4 => ARG_MATRIX},
           "trtrs" => {6 => ARG_MATRIX, 8 => ARG_MATRIX},
           "syev"  => {4 => ARG_MATRIX, 6 => ARG_MATRIX},
-          "gecon" => {3 => ARG_MATRIX}
+          "gecon" => {3 => ARG_MATRIX},
         }
 
         lapack_args_complex = {
@@ -159,7 +159,7 @@ struct Bottle::Tensor(T)
           "sytrf" => {"cwork" => WORK_DETECT},
           "sytri" => {"cwork" => WORK_PARAM1},
           "syev"  => {"cwork" => WORK_DETECT, "rwork" => WORK_PARAM1},
-          "gecon" => {"cwork" => WORK_DETECT, "rwork" => WORK_PARAM1}
+          "gecon" => {"cwork" => WORK_DETECT, "rwork" => WORK_PARAM1},
         }
       %}
 
