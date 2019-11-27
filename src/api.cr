@@ -7,10 +7,6 @@ require "./arrayops/search"
 require "./arrayops/extensions"
 require "./tensor/tensor"
 require "./tensor/linalg"
-require "./linalg/products"
-require "./linalg/decompositions"
-require "./linalg/eigenvalues"
-require "./linalg/norms"
 require "./fft/real"
 require "./financial/simple"
 require "./tensor/creation"
@@ -23,7 +19,6 @@ module Bottle::B
   include Bottle::Creation
   include Bottle::Statistics
   include Bottle::Trigonometry
-  include Bottle::LinAlg
   include Bottle::Assemble
   include Bottle::InputOutput
   include Bottle::Search

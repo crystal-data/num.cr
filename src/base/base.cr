@@ -772,10 +772,10 @@ abstract struct Bottle::BaseArray(T)
   # t.diag_view # => Tensor([0, 4, 8])
   def diag_view
     raise Exceptions::ShapeError.new("Tensor must be two-dimensional") unless ndims == 2
-    nel = Math.min(@shape[0], @shape[1])
+    nel = shape.min
     newshape = [nel]
-    newstrides = [@strides[0] + @strides[1]]
-    newflags = @flags.dup
+    newstrides = [strides.sum]
+    newflags = flags.dup
     newflags &= ~ArrayFlags::OwnData
     newbase = @base ? @base : @buffer
     ret = self.class.new(@buffer, newshape, newstrides, newflags, newbase)
