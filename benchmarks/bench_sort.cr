@@ -1,6 +1,8 @@
 require "benchmark"
 require "../src/bottle"
 
+puts "*******************SORTING***********************"
+
 def test_iter(n)
   t = Bottle::Tensor.random(0.0...1.0, [n, n]).dup('F')
 

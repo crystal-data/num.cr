@@ -9,6 +9,7 @@ l10xl10 = B.ones([10, 10])
 Benchmark.ips do |bench|
   puts "*******************CREATION METHODS***********************"
   bench.report("time_tensor_empty") { Tensor(Int32).new([] of Int32) }
+  bench.report("time_tensor_scalar") { Tensor.new(1) }
   bench.report("time_tensor_1el") { Tensor.from_array [1] }
   bench.report("time_tensor_100") { Tensor.from_array r100 }
   bench.report("time_vstack") { B.vstack(l) }

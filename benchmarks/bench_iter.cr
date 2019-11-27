@@ -1,6 +1,8 @@
 require "../src/bottle"
 require "benchmark"
 
+puts "*******************NDITERATION***********************"
+
 def test_iter(n)
   t = Bottle::Tensor.random(0.0...1.0, [n, n])
 
