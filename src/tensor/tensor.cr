@@ -6,6 +6,7 @@ require "../arrayops/statistics"
 require "../macros/numeric"
 require "./iter"
 require "complex"
+require "../libs/cblas"
 
 struct Bottle::Tensor(T) < Bottle::BaseArray(T)
   # Compile time checking of data types of a `Tensor` to ensure
@@ -15,6 +16,14 @@ struct Bottle::Tensor(T) < Bottle::BaseArray(T)
 
   def basetype(t : U.class) forall U
     Tensor(U)
+  end
+
+  def to_unsafe
+    {% if T == Complex %}
+      buffer.unsafe_as(Pointer(LibCblas::ComplexDouble))
+    {% else %}
+      buffer
+    {% end %}
   end
 
   protected def check_type
@@ -73,8 +82,54 @@ struct Bottle::Tensor(T) < Bottle::BaseArray(T)
     printer.print
   end
 
+  def inspect(io)
+    io << "Tensor(shape=#{shape}, dtype#{T})"
+  end
+
   def matrix_iter
     MatrixIter.new(self)
+  end
+
+  private def triu2d(a : Tensor(T), k)
+    m, n = a.shape
+    a.flat_iter_indexed do |el, idx|
+      i = idx // n
+      j = idx % n
+      if i > j - k
+        el.value = T.new(0)
+      end
+    end
+  end
+
+  private def tril2d(a : Tensor(T), k)
+    m, n = a.shape
+    a.flat_iter_indexed do |el, idx|
+      i = idx // n
+      j = idx % n
+      if i < j - k
+        el.value = T.new(0)
+      end
+    end
+  end
+
+  def triu!(k = 0)
+    if ndims == 2
+      triu2d(self, k)
+    else
+      matrix_iter.each do |subm|
+        triu2d(subm, k)
+      end
+    end
+  end
+
+  def tril!(k = 0)
+    if ndims == 2
+      tril2d(self, k)
+    else
+      matrix_iter.each do |subm|
+        tril2d(subm, k)
+      end
+    end
   end
 
   Macros.has_numeric_ops(Tensor)

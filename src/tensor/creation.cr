@@ -258,7 +258,6 @@ module Bottle::Creation
 
   macro triangulars(uplo, op)
     def tri{{uplo}}(t : Tensor(U), k = 0) forall U
-      t = t.dup('C')
       iter = t.unsafe_iter
       if t.ndims == 1
         t[0] = 0
@@ -269,6 +268,7 @@ module Bottle::Creation
           i {{op.id}} j - k ? val.value : U.new(0)
         end
       else
+        t = t.dup('C')
         t.matrix_iter.each do |n|
           niter = n.unsafe_iter
           n[...] = Tensor(U).new(n.shape[0], n.shape[1]) do |i, j|

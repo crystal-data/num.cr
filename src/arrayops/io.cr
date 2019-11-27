@@ -55,28 +55,48 @@ module Bottle::InputOutput
     shape.reduce { |i, j| i * j }
   end
 
-  # def load(filename, dtype : U.class) forall U
-  #   inf = File.open(filename, "r")
-  #   toss = Bytes.new(8)
-  #   header = Bytes.new(2)
-  #   inf.read_fully(toss)
-  #   inf.read_fully(header)
-  #   headersize = IO::Memory.new(header).read_bytes(Int16, IO::ByteFormat::LittleEndian)
-  #   header = inf.read_string(headersize).downcase.tr("()'", "[]\"").gsub(/,]|],/, "]")
-  #   jhead = JSON.parse(header)
-  #
-  #   desc = jhead["descr"]
-  #   shape = jhead["shape"]
-  #   newshape = [0] * shape.size
-  #   newshape = newshape.map_with_index { |e, i| shape[i].as_i }
-  #
-  #   newsize = totalsize(newshape)
-  #
-  #   bytes = newsize * sizeof(desc)
-  #   newdata = Bytes.new(bytes)
-  #   inf.read_fully(newdata)
-  #   ptr = newdata.to_unsafe.unsafe_as(Pointer(desc))
-  #   ret = Tensor(desc).new(newshape) { |i| ptr[i] }
-  #   return ret.astype(U)
-  # end
+  macro read_cast_return(dtype)
+    newdata = Bytes.new(sizeof({{dtype}}) * newsize)
+    inf.read_fully(newdata)
+    ptr = newdata.to_unsafe.unsafe_as(Pointer({{dtype}}))
+    Tensor(U).new(newshape) { |i| U.new(ptr[i]) }
+  end
+
+  def load(filename, dtype : U.class = Float64) forall U
+    inf = File.open(filename, "r")
+    toss = Bytes.new(8)
+    header = Bytes.new(2)
+    inf.read_fully(toss)
+    inf.read_fully(header)
+    headersize = IO::Memory.new(header).read_bytes(Int16, IO::ByteFormat::LittleEndian)
+    header = inf.read_string(headersize).downcase.tr("()'", "[]\"").gsub(/,]|],/, "]")
+    jhead = JSON.parse(header)
+
+    desc = jhead["descr"]
+    shape = jhead["shape"]
+    newshape = [0] * shape.size
+    newshape = newshape.map_with_index { |_, i| shape[i].as_i }
+
+    newsize = totalsize(newshape)
+    case desc
+    when "|u1"
+      read_cast_return UInt8
+    when "<u2"
+      read_cast_return UInt16
+    when "<u4"
+      read_cast_return UInt32
+    when "|i1"
+      read_cast_return Int8
+    when "<i2"
+      read_cast_return Int16
+    when "<i4"
+      read_cast_return Int32
+    when "<f4"
+      read_cast_return Float32
+    when "<f8"
+      read_cast_return Float64
+    else
+      raise "Dtype #{desc} is not currently supported by Bottle"
+    end
+  end
 end

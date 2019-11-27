@@ -47,6 +47,15 @@ module Bottle::Statistics
     end
   end
 
+  def sort(a : BaseArray(U), axis : Int32) forall U
+    ret = a.dup
+    ret.permute_along_axis(axis) do |perm|
+      ii = perm.dup.to_unsafe.to_slice(perm.size).sort
+      perm[...] = a.basetype.new(perm.shape) { |i| ii[i] }
+    end
+    ret
+  end
+
   # Computes the average of all BaseArray values
   #
   # ```
