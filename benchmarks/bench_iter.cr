@@ -10,6 +10,7 @@ def test_iter(n)
   Benchmark.ips do |bench|
     bench.report("REDUCTION") { t.sum }
     bench.report("REDUCE ALONG AXIS") { t.sum(0) }
+    bench.report("REDUCE FAST ALONG AXIS") { t.sumfast(0) }
     bench.report("ELEMENTWISE") { t + t }
     bench.report("ACCUMULATE") { t.cumsum(0) }
     if n < 1000

@@ -133,6 +133,10 @@ module Bottle::Internal::Macros
       Statistics.sum(self, axis)
     end
 
+    def sumfast(axis : Int32)
+      Statistics.sumfast(self, axis)
+    end
+
     # Computes the average of all Tensor values
     #
     # ```

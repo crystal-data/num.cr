@@ -19,6 +19,12 @@ module Bottle::Statistics
     end
   end
 
+  def sumfast(a : BaseArray, axis : Int32)
+    a.reduce_fast(axis) do |i, j|
+      i.value += j.value
+    end
+  end
+
   def prod(a : BaseArray(U)) forall U
     a.flat_iter.reduce(U.new(1)) { |i, j| i * j.value }
   end

@@ -1030,6 +1030,25 @@ abstract struct Bottle::BaseArray(T)
     ret
   end
 
+  def reduce_fast(axis)
+    newshape = shape.dup
+    newstrides = strides.dup
+    ptr = buffer
+    newshape.delete_at(axis)
+    newstrides.delete_at(axis)
+
+    ret = Tensor(T).new(buffer, newshape, newstrides, flags, nil).dup
+
+    1.step(to: shape[axis] - 1) do |i|
+      ptr += strides[axis]
+      tmp = Tensor.new(ptr, newshape, newstrides, flags, nil)
+      ret.flat_iter.zip(tmp.flat_iter) do |x, y|
+        yield x, y
+      end
+    end
+    ret
+  end
+
   def accumulate_along_axis(axis)
     if axis < 0
       axis = ndims + axis
