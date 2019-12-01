@@ -1,5 +1,4 @@
 require "./api"
-require "benchmark"
 
 module Bottle
   extend self

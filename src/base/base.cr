@@ -1,5 +1,6 @@
 require "./flags"
 require "./baseiter"
+require "./iter"
 require "./print"
 require "../util/exceptions"
 
@@ -433,7 +434,11 @@ abstract struct Bottle::BaseArray(T)
   end
 
   def flat_iter
-    SafeNDIter.new(self).strategy
+    if flags.contiguous?
+      SafeFlat.new(buffer, size, 1)
+    else
+      SafeND.new(buffer, shape, strides, ndims)
+    end
   end
 
   def flat_iter_indexed
@@ -445,7 +450,11 @@ abstract struct Bottle::BaseArray(T)
   end
 
   def unsafe_iter
-    UnsafeNDIter.new(self).strategy
+    if flags.contiguous?
+      UnsafeFlat.new(buffer, size, 1)
+    else
+      UnsafeND.new(buffer, shape, strides, ndims)
+    end
   end
 
   def index_iter
