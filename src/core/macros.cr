@@ -1,8 +1,9 @@
+require "./converters"
+require "./exceptions"
 require "../base/base"
 require "../tensor/tensor"
-require "./converters"
 
-module Bottle::Internal::Core
+module Bottle::Internal
   # Broadcast two tensors against each other.  This will possibly
   # change the shape and strides of both passed tensors, so this
   # cannot be used on in-place operations.  To broadcast the inputs
@@ -12,10 +13,12 @@ module Bottle::Internal::Core
   # Raises ShapeError if the two shapes cannot be broadcast against
   # each other
   macro broadcast(a, b)
-    bshape = {{a}}.broadcastable({{b}})
-    if bshape.size > 1
-      {{a}} = {{a}}.broadcast_to(bshape)
-      {{b}} = {{b}}.broadcast_to(bshape)
+    if {{a}}.shape != {{b}}.shape
+      bshape = {{a}}.broadcastable({{b}})
+      if bshape.size > 1
+        {{a}} = {{a}}.broadcast_to(bshape)
+        {{b}} = {{b}}.broadcast_to(bshape)
+      end
     end
   end
 
@@ -26,7 +29,9 @@ module Bottle::Internal::Core
   # Raises ShapeError if the two shapes cannot be broadcast against
   # each other
   macro broadcast_rhs(a, b)
-    {{b}} = {{b}}.broadcast_to({{a}}.shape)
+    if {{a}}.shape != {{b}}.shape
+      {{b}} = {{b}}.broadcast_to({{a}}.shape)
+    end
   end
 
   # Takes in numerical arguments, arrays, numbers, anything that can be
@@ -42,6 +47,19 @@ module Bottle::Internal::Core
     {% end %}
   end
 
+  macro clipaxis(axis, size)
+    if {{axis}} < 0
+      {{axis}} += {{size}}
+    end
+    if {{axis}} < 0 || {{axis}} > {{size}}
+      raise "Axis out of range"
+    end
+  end
+
+  # Returns an outer iterator across two n-dimensional tensors.  This loops
+  # over the elements of each tensor in order, returning the outer
+  # relationships.  This is used to add outer functionality to any
+  # particular function.
   private def outiter(a, b)
     index = 0
     a.flat_iter.each do |i|
@@ -52,6 +70,13 @@ module Bottle::Internal::Core
     end
   end
 
+  # Defines an operation to be applied elementwise to a Tensor.
+  # Inputs will be broadcast against each other, and type coercing will
+  # happen if the operation is in place, otherwise the type will be
+  # inferred.
+  #
+  # Also extends a function to support an outer operation, operating
+  # across all combinations of elements of two arrays.
   macro elementwise(operator, name)
     def {{name}}(a, b)
       upcast_if a, b
@@ -82,7 +107,9 @@ module Bottle::Internal::Core
     end
   end
 
-  macro stdlib_wrap(func)
+  # Wraps a function from the standard library to be applied elementwise
+  # to a single Tensor.
+  macro stdlibwrap(func)
     def {{func}}(a, b)
       upcast_if a, b
       broadcast a, b
@@ -112,7 +139,10 @@ module Bottle::Internal::Core
     end
   end
 
-  macro stdlib_wrap_oned(func)
+  # Wraps a function from the standard library that takes more than one
+  # tensor as an argument.  All of these functions will upcast scalars
+  # to tensors.
+  macro stdlibwrap1d(func)
     def {{func}}(a)
       upcast_if a
       iter = a.unsafe_iter
