@@ -14,7 +14,7 @@ module Bottle::Statistics
   end
 
   def sum(a : BaseArray, axis : Int32)
-    a.reduce_along_axis(axis) do |i, j|
+    a.reduce_fast(axis) do |i, j|
       j.value += i.value
     end
   end
@@ -36,7 +36,7 @@ module Bottle::Statistics
 
   def all(a : BaseArray(U), axis : Int32) forall U
     ret = a.astype(Bool)
-    ret.reduce_along_axis(axis) do |i, j|
+    ret.fast_reduce(axis) do |i, j|
       j.value &= i.value
     end
   end
@@ -48,7 +48,7 @@ module Bottle::Statistics
 
   def any(a : BaseArray(U), axis : Int32) forall U
     ret = a.astype(Bool)
-    ret.reduce_along_axis(axis) do |i, j|
+    ret.fast_reduce(axis) do |i, j|
       j.value |= i.value
     end
   end
@@ -74,7 +74,7 @@ module Bottle::Statistics
 
   def mean(a : BaseArray, axis : Int32)
     n = a.shape[axis]
-    a.reduce_along_axis(axis) do |i, j|
+    a.fast_reduce(axis) do |i, j|
       j.value += i.value / n
     end
   end

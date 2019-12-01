@@ -53,13 +53,13 @@ module Bottle::Internal::Core
   end
 
   macro elementwise(operator, name)
-    def {{name}}(a, b) forall U, V
+    def {{name}}(a, b)
       upcast_if a, b
       broadcast a, b
       itera = a.unsafe_iter
       iterb = b.unsafe_iter
 
-      a.basetype.new(a.shape) do |_|
+      Tensor.new(a.shape) do |_|
         itera.next.value {{operator.id}} iterb.next.value
       end
     end
@@ -78,6 +78,46 @@ module Bottle::Internal::Core
       buf = ret.buffer
       outer(a, b) do |i, j, idx|
         buf[idx] = i.value {{operator.id}} j.value
+      end
+    end
+  end
+
+  macro stdlib_wrap(func)
+    def {{func}}(a, b)
+      upcast_if a, b
+      broadcast a, b
+      itera = a.unsafe_iter
+      iterb = b.unsafe_iter
+
+      Tensor.new(a.shape) do |_|
+        Math.{{func}}(itera.next.value, iterb.next.value)
+      end
+    end
+
+    def {{func}}!(a : Tensor(U), b) forall U
+      upcast_if b
+      broadcast_rhs a, b
+      a.flat_iter.zip(b.flat_iter) do |i, j|
+        i.value = U.new(Math.{{func}}(i.value, j.value))
+      end
+    end
+
+    def {{func}}_outer(a : Tensor, b : Tensor)
+      typeout = typeof(Math.{{func}}(a.value, b.value))
+      ret = Tensor(typeout).new(a.shape + b.shape)
+      buf = ret.buffer
+      outer(a, b) do |i, j, idx|
+        buf[idx] = Math.{{func}}(i.value, j.value)
+      end
+    end
+  end
+
+  macro stdlib_wrap_oned(func)
+    def {{func}}(a)
+      upcast_if a
+      iter = a.unsafe_iter
+      Tensor.new(x1.shape) do |_|
+        Math.{{name}}(iter.next.value)
       end
     end
   end

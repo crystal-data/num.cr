@@ -108,7 +108,7 @@ module Bottle::Internal::Macros
 
   macro has_reduction_ops(klass)
     def cumsum(axis : Int32)
-      BMath.add.accumulate(self, axis)
+      self.accumulate_fast(axis) { |i, j| i.value += j.value }
     end
   end
 
@@ -131,10 +131,6 @@ module Bottle::Internal::Macros
     # ```
     def sum(axis : Int32)
       Statistics.sum(self, axis)
-    end
-
-    def sumfast(axis : Int32)
-      Statistics.sumfast(self, axis)
     end
 
     # Computes the average of all Tensor values

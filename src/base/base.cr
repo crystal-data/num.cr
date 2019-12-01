@@ -1031,6 +1031,10 @@ abstract struct Bottle::BaseArray(T)
   end
 
   def reduce_fast(axis)
+    if axis < 0
+      axis = ndims + axis
+    end
+    raise "Axis out of range for this array" unless axis < ndims
     newshape = shape.dup
     newstrides = strides.dup
     ptr = buffer
@@ -1047,6 +1051,30 @@ abstract struct Bottle::BaseArray(T)
       end
     end
     ret
+  end
+
+  def accumulate_fast(axis)
+    if axis < 0
+      axis = ndims + axis
+    end
+    raise "Axis out of range for this array" unless axis < ndims
+    arr = dup
+    newshape = shape.dup
+    newstrides = strides.dup
+    ptr = arr.buffer
+    newshape.delete_at(axis)
+    newstrides.delete_at(axis)
+
+    ret = Tensor(T).new(buffer, newshape, newstrides, flags, nil)
+    1.step(to: shape[axis] - 1) do |i|
+      ptr += strides[axis]
+      tmp = Tensor.new(ptr, newshape, newstrides, flags, nil)
+      tmp.flat_iter.zip(ret.flat_iter) do |ii, jj|
+        yield ii, jj
+      end
+      ret = tmp
+    end
+    arr
   end
 
   def accumulate_along_axis(axis)

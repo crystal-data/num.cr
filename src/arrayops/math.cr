@@ -75,6 +75,17 @@ module Bottle::BMath
         io << "<ufunc> {{ name }}"
       end
 
+
+      private def outiter(a, b)
+        index = 0
+        a.flat_iter.each do |i|
+          b.flat_iter.each do |j|
+            yield i, j, index
+            index += 1
+          end
+        end
+      end
+
       # Applies an outer operations between two `Tensor`s.
       # Returns an MxN matrix where M is the size of *x1*,
       # and N is the size of *x2*
@@ -87,18 +98,11 @@ module Bottle::BMath
       # # Matrix[[  2  3]
       # #        [  3  4]]
       # ```
-      def outer(x1 : BaseArray(U), x2 : BaseArray(V)) forall U, V
-        outer = x1.unsafe_iter
-        inner = x2.unsafe_iter
-        c1 = uninitialized U
-        c2 = uninitialized V
-        x1.basetype.new(x1.shape + x2.shape) do |i|
-          d = i % x2.size
-          if d == 0
-            c1 = outer.next.value
-            inner = x2.unsafe_iter
-          end
-          c1 {{operator.id}} inner.next.value
+      def outer(x1 : Tensor, x2 : Tensor) forall U, V
+        ret = Tensor(typeof(a.value {{operator.id}} b.value)).new(a.shape + b.shape)
+        buf = ret.buffer
+        outer(a, b) do |i, j, idx|
+          buf[idx] = i.value {{operator.id}} j.value
         end
       end
 
