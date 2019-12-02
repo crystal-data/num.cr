@@ -158,7 +158,7 @@ module Bottle::Internal
     def {{func}}(a)
       upcast_if a
       iter = a.unsafe_iter
-      Tensor.new(x1.shape) do |_|
+      Tensor.new(a.shape) do |_|
         Math.{{func}}(iter.next.value)
       end
     end

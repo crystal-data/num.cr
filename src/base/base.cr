@@ -2,7 +2,7 @@ require "./flags"
 require "./baseiter"
 require "./iter"
 require "./print"
-require "../util/exceptions"
+require "../core/exceptions"
 
 abstract struct Bottle::BaseArray(T)
   include Internal

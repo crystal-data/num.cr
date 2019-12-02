@@ -38,7 +38,6 @@ module Bottle::BMath
   stdlibwrap1d exp
   stdlibwrap1d exp2
   stdlibwrap1d expm1
-  stdlibwrap1d frexp
   stdlibwrap1d gamma
   stdlibwrap1d ilogb
   stdlibwrap1d lgamma

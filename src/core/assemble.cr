@@ -54,6 +54,17 @@ module Bottle::Assemble
     ret
   end
 
+  def concatenate(alist : Array(BaseArray(U))) forall U
+    totalsize = alist.reduce(0) { |i, j| i + j.size }
+    ret = alist[0].class.new([totalsize])
+    offset = 0
+    alist.each do |a|
+      ret[offset...(offset + a.size)] = a
+      offset += a.size
+    end
+    ret
+  end
+
   # Concatenates a list of `Tensor`s along axis 0
   #
   # Parameters
@@ -91,6 +102,7 @@ module Bottle::Assemble
   #          [ 9, 10, 11]]])
   # ```
   def vstack(alist : Array(BaseArray(U))) forall U
+    alist = alist.map { |t| atleast_2d(t) }
     concatenate(alist, 0)
   end
 
@@ -127,7 +139,11 @@ module Bottle::Assemble
   #          [ 9, 10, 11]]])
   # ```
   def hstack(alist : Array(BaseArray(U))) forall U
-    concatenate(alist, 1)
+    if alist.all? { |t| t.ndims == 1 }
+      concatenate(alist)
+    else
+      concatenate(alist, 1)
+    end
   end
 
   def dstack(alist : Array(BaseArray(U))) forall U
@@ -154,7 +170,7 @@ module Bottle::Assemble
   def column_stack(alist : Array(BaseArray(U))) forall U
     first = alist[0]
     shape = first.shape
-    assert_shape(first, alist)
+    assert_shape(shape, alist)
 
     case first.ndims
     when 1
@@ -166,6 +182,40 @@ module Bottle::Assemble
       concatenate(alist, 1)
     else
       raise ShapeError.new("dstack was given arrays with more than two dimensions")
+    end
+  end
+
+  def atleast_1d(inp : Number)
+    Tensor.new(inp)
+  end
+
+  def atleast_1d(inp : Tensor)
+    inp
+  end
+
+  def atleast_2d(inp : Number)
+    Tensor.new([1, 1]) { |i| inp }
+  end
+
+  def atleast_2d(inp : Tensor)
+    if inp.ndims > 1
+      inp
+    else
+      inp.reshape([1, inp.size])
+    end
+  end
+
+  def atleast_3d(inp : Number)
+    Tensor.new([1, 1, 1]) { |i| inp }
+  end
+
+  def atleast_3d(inp : Tensor)
+    if inp.ndims > 2
+      inp
+    else
+      dim = 3 - inp.ndims
+      newshape = [1] * dim + inp.shape
+      inp.reshape(newshape)
     end
   end
 end

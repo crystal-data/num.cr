@@ -1,4 +1,5 @@
 require "../base/base"
+require "./exceptions"
 
 module Bottle::Internal
   include Exceptions
