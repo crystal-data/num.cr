@@ -10,6 +10,7 @@ require "./core/math"
 require "./core/reductions"
 require "./core/search"
 require "./io"
+require "./extensions/number"
 
 module Bottle::B
   extend self

@@ -16,7 +16,7 @@ module Bottle::Internal
   macro broadcast(a, b)
     if {{a}}.shape != {{b}}.shape
       bshape = {{a}}.broadcastable({{b}})
-      if bshape.size > 1
+      if bshape.size >= 1
         {{a}} = {{a}}.broadcast_to(bshape)
         {{b}} = {{b}}.broadcast_to(bshape)
       end
@@ -84,9 +84,6 @@ module Bottle::Internal
       broadcast a, b
       itera = a.unsafe_iter
       iterb = b.unsafe_iter
-
-      puts a
-      puts b
 
       Tensor.new(a.shape) do |_|
         itera.next.value {{operator.id}} iterb.next.value
