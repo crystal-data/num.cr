@@ -1,6 +1,8 @@
 require "./macros"
 
-module Bottle::Internal
+module Bottle::BMath
+  include Internal
+  extend self
   elementwise(:+, add)
   elementwise(:-, subtract)
   elementwise(:*, multiply)

@@ -4,6 +4,7 @@ require "../base/base"
 require "../tensor/tensor"
 
 module Bottle::Internal
+  include Convert
   # Broadcast two tensors against each other.  This will possibly
   # change the shape and strides of both passed tensors, so this
   # cannot be used on in-place operations.  To broadcast the inputs
@@ -84,6 +85,9 @@ module Bottle::Internal
       itera = a.unsafe_iter
       iterb = b.unsafe_iter
 
+      puts a
+      puts b
+
       Tensor.new(a.shape) do |_|
         itera.next.value {{operator.id}} iterb.next.value
       end
@@ -98,8 +102,7 @@ module Bottle::Internal
     end
 
     def {{name}}_outer(a : Tensor, b : Tensor)
-      typeout = typeof(a.value {{operator.id}} b.value)
-      ret = Tensor(typeout).new(a.shape + b.shape)
+      ret = Tensor(typeof(a.value {{operator.id}} b.value)).new(a.shape + b.shape)
       buf = ret.buffer
       outer(a, b) do |i, j, idx|
         buf[idx] = i.value {{operator.id}} j.value
@@ -130,8 +133,7 @@ module Bottle::Internal
     end
 
     def {{func}}_outer(a : Tensor, b : Tensor)
-      typeout = typeof(Math.{{func}}(a.value, b.value))
-      ret = Tensor(typeout).new(a.shape + b.shape)
+      ret = Tensor(typeof(Math.{{func}}(a.value, b.value))).new(a.shape + b.shape)
       buf = ret.buffer
       outer(a, b) do |i, j, idx|
         buf[idx] = Math.{{func}}(i.value, j.value)
@@ -147,8 +149,18 @@ module Bottle::Internal
       upcast_if a
       iter = a.unsafe_iter
       Tensor.new(x1.shape) do |_|
-        Math.{{name}}(iter.next.value)
+        Math.{{func}}(iter.next.value)
       end
+    end
+  end
+
+  macro reducescalar(operator, initial, arg)
+    {{arg}}.flat_iter.reduce(U.new({{initial}})) { |i, j| i {{operator.id}} j.value }
+  end
+
+  macro reduceaxis(operator, arg)
+    {{arg}}.reduce_fast(axis) do |i, j|
+      j.value {{operator.id}}= i.value
     end
   end
 end

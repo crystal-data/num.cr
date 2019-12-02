@@ -3,7 +3,8 @@ require "./exceptions"
 require "./common"
 require "../base/base"
 
-module Bottle::Internal
+module Bottle::Assemble
+  include Internal
   # Concatenates an array of `Tensor's` along a provided axis.
   #
   # Parameters

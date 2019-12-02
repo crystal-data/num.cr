@@ -1,6 +1,7 @@
 require "../base/base"
 
 module Bottle::Internal
+  include Exceptions
   private def assert_shape_off_axis(ts, axis, shape)
     ts.each do |t|
       if t.shape.size != shape.size

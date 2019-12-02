@@ -1,4 +1,4 @@
-module Bottle::Internal
+module Bottle::Exceptions
   class RangeError < Exception
   end
 
