@@ -79,14 +79,27 @@ module Bottle::Internal
   # Also extends a function to support an outer operation, operating
   # across all combinations of elements of two arrays.
   macro elementwise(operator, name)
-    def {{name}}(a, b)
-      upcast_if a, b
+    def {{name}}(a : Tensor, b : Tensor)
       broadcast a, b
       itera = a.unsafe_iter
       iterb = b.unsafe_iter
 
       Tensor.new(a.shape) do |_|
         itera.next.value {{operator.id}} iterb.next.value
+      end
+    end
+
+    def {{name}}(a : Tensor, b : Number)
+      itera = a.unsafe_iter
+      Tensor.new(a.shape) do |_|
+        itera.next.value {{operator.id}} b
+      end
+    end
+
+    def {{name}}(a : Number, b : Tensor)
+      iterb = b.unsafe_iter
+      Tensor.new(a.shape) do |_|
+        a {{operator.id}} iterb.next.value
       end
     end
 
