@@ -1039,7 +1039,7 @@ abstract struct Bottle::BaseArray(T)
     ret
   end
 
-  def reduce_fast(axis)
+  def reduce_fast(axis, keepdims = false)
     if axis < 0
       axis = ndims + axis
     end
@@ -1047,8 +1047,14 @@ abstract struct Bottle::BaseArray(T)
     newshape = shape.dup
     newstrides = strides.dup
     ptr = buffer
-    newshape.delete_at(axis)
-    newstrides.delete_at(axis)
+
+    if !keepdims
+      newshape.delete_at(axis)
+      newstrides.delete_at(axis)
+    else
+      newshape[axis] = 1
+      newstrides[axis] = 0
+    end
 
     ret = Tensor(T).new(buffer, newshape, newstrides, flags, nil).dup
 

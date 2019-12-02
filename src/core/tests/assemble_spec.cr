@@ -1,4 +1,4 @@
-require "../../testinc"
+require "../../__test__"
 
 describe Bottle::Assemble do
   describe "Assemble#atleast_1d" do

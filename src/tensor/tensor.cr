@@ -158,6 +158,10 @@ struct Bottle::Tensor(T) < Bottle::BaseArray(T)
     BMath.divide(self, other)
   end
 
+  def //(other)
+    BMath.floordiv(self, other)
+  end
+
   # Elementwise modulus of a {{klass}}} to another equally
   # sized {{klass}}} or scalar
   def %(other)

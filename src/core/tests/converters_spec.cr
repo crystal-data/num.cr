@@ -1,4 +1,4 @@
-require "../../testinc"
+require "../../__test__"
 
 struct Foo(T) < BaseArray(T)
   def check_type

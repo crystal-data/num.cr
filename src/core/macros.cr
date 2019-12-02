@@ -168,9 +168,13 @@ module Bottle::Internal
     {{arg}}.flat_iter.reduce(U.new({{initial}})) { |i, j| i {{operator.id}} j.value }
   end
 
+  macro reducebool(operator, initial, arg)
+    {{arg}}.flat_iter.reduce({{initial}}) { |i, j| i {{operator.id}} j.value }
+  end
+
   macro reduceaxis(operator, arg)
-    {{arg}}.reduce_fast(axis) do |i, j|
-      j.value {{operator.id}}= i.value
+    {{arg}}.reduce_fast(axis, keepdims) do |i, j|
+      i.value {{operator.id}}= j.value
     end
   end
 end

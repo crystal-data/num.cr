@@ -8,7 +8,7 @@ module Bottle::Statistics
     reducescalar :+, 0, a
   end
 
-  def sum(a : Tensor, axis : Int32)
+  def sum(a : Tensor, axis : Int32, keepdims = false)
     reduceaxis :+, a
   end
 
@@ -16,26 +16,26 @@ module Bottle::Statistics
     reducescalar :*, 1, a
   end
 
-  def prod(a : Tensor, axis : Int32)
+  def prod(a : Tensor, axis : Int32, keepdims = false)
     reduceaxis :*, a
   end
 
   def all(a : BaseArray(U)) forall U
     ret = a.astype(Bool)
-    reducescalar :&, true, ret
+    reducebool :&, true, ret
   end
 
-  def all(a : BaseArray(U), axis : Int32) forall U
+  def all(a : BaseArray(U), axis : Int32, keepdims = false) forall U
     ret = a.astype(Bool)
     reduceaxis :&, ret
   end
 
   def any(a : BaseArray)
     ret = a.astype(Bool)
-    reducescalar :|, true, ret
+    reducebool :|, true, ret
   end
 
-  def any(a : BaseArray(U), axis : Int32) forall U
+  def any(a : BaseArray(U), axis : Int32, keepdims = false) forall U
     ret = a.astype(Bool)
     reduceaxis :|, ret
   end
@@ -59,11 +59,8 @@ module Bottle::Statistics
     a.sum / a.size
   end
 
-  def mean(a : BaseArray, axis : Int32)
-    n = a.shape[axis]
-    a.fast_reduce(axis) do |i, j|
-      j.value += i.value / n
-    end
+  def mean(a : BaseArray(U), axis : Int32, keepdims = false) forall U
+    sum(a, axis, keepdims) / a.shape[axis]
   end
 
   # Computes the standard deviation of a BaseArray
@@ -98,10 +95,10 @@ module Bottle::Statistics
     mx
   end
 
-  def max(a : BaseArray, axis : Int32)
-    a.reduce_along_axis(axis) do |i, j|
-      if i.value > j.value
-        j.value = i.value
+  def max(a : BaseArray, axis : Int32, keepdims = false)
+    a.reduce_fast(axis, keepdims) do |i, j|
+      if j.value > i.value
+        i.value = j.value
       end
     end
   end
@@ -126,10 +123,10 @@ module Bottle::Statistics
     mx
   end
 
-  def min(a : BaseArray, axis : Int32)
-    a.reduce_along_axis(axis) do |i, j|
-      if i.value < j.value
-        j.value = i.value
+  def min(a : BaseArray, axis : Int32, keepdims = false)
+    a.reduce_fast(axis, keepdims) do |i, j|
+      if j.value < i.value
+        i.value = j.value
       end
     end
   end
