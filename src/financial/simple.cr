@@ -1,5 +1,5 @@
 require "../tensor/tensor"
-require "../arrayops/trig"
+require "../core/math"
 
 # Credit to https://github.com/drum445 for implementing most of these, they
 # worked right out of the game with vectorized methods.
@@ -59,7 +59,7 @@ module Bottle::Financial
     else
       num = pmt * (1 + rate * pay_when) - fv * rate
       den = pv * rate + pmt * (1 + rate * pay_when)
-      Trigonometry.log10(num / den) / Trigonometry.log10(1 + rate)
+      BMath.log10(num / den) / BMath.log10(1 + rate)
     end
   end
 end

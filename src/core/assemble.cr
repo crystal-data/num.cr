@@ -1,8 +1,10 @@
+require "./macros"
+require "./exceptions"
+require "./common"
 require "../base/base"
 
 module Bottle::Assemble
-  extend self
-
+  include Internal
   # Concatenates an array of `Tensor's` along a provided axis.
   #
   # Parameters
@@ -34,38 +36,31 @@ module Bottle::Assemble
   # ```
   def concatenate(alist : Array(BaseArray(U)), axis : Int32) forall U
     newshape = alist[0].shape.dup
-
-    if axis < 0
-      axis += newshape.size
-    end
-
-    if axis < 0 || axis > newshape.size
-      raise "Axis out of range"
-    end
-
+    clipaxis axis, newshape.size
     newshape[axis] = 0
-    alist.each do |v|
-      if (v.shape.size != newshape.size)
-        raise "All inputs must have the same number of axes"
-      end
-      newshape.size.times do |i|
-        if (i != axis && v.shape[i] != newshape[i])
-          raise "All inputs must have the same shape off-axis"
-        end
-      end
-      newshape[axis] += v.shape[axis]
-    end
+    shape = assert_shape_off_axis(alist, axis, newshape)
     ret = alist[0].class.new(newshape)
     lo = [0] * newshape.size
-    hi = newshape.dup
+    hi = shape.dup
     hi[axis] = 0
-    alist.each do |v|
-      if (v.shape[axis] != 0)
-        hi[axis] += v.shape[axis]
+    alist.each do |a|
+      if a.shape[axis] != 0
+        hi[axis] += a.shape[axis]
         ranges = lo.zip(hi).map { |i, j| i...j }
-        ret[ranges] = v
+        ret[ranges] = a
         lo[axis] = hi[axis]
       end
+    end
+    ret
+  end
+
+  def concatenate(alist : Array(BaseArray(U))) forall U
+    totalsize = alist.reduce(0) { |i, j| i + j.size }
+    ret = alist[0].class.new([totalsize])
+    offset = 0
+    alist.each do |a|
+      ret[offset...(offset + a.size)] = a
+      offset += a.size
     end
     ret
   end
@@ -107,6 +102,7 @@ module Bottle::Assemble
   #          [ 9, 10, 11]]])
   # ```
   def vstack(alist : Array(BaseArray(U))) forall U
+    alist = alist.map { |t| atleast_2d(t) }
     concatenate(alist, 0)
   end
 
@@ -143,42 +139,83 @@ module Bottle::Assemble
   #          [ 9, 10, 11]]])
   # ```
   def hstack(alist : Array(BaseArray(U))) forall U
-    concatenate(alist, 1)
+    if alist.all? { |t| t.ndims == 1 }
+      concatenate(alist)
+    else
+      concatenate(alist, 1)
+    end
   end
 
   def dstack(alist : Array(BaseArray(U))) forall U
-    shape0 = alist[0].shape
-    if !alist.all? { |t| t.shape == shape0 }
-      raise Internal::Exceptions::ShapeError.new("All arrays must be the same shape")
-    end
+    first = alist[0]
+    shape = first.shape
+    assert_shape(shape, alist)
 
-    if alist[0].ndims == 1
-      alist = alist.map { |t| t.reshape([1, t.size, 1]) }
+    case first.ndims
+    when 1
+      alist = alist.map do |a|
+        a.reshape([1, a.size, 1])
+      end
       concatenate(alist, 2)
-    elsif alist[0].ndims == 2
-      alist = alist.map { |t| t.reshape(t.shape + [1]) }
+    when 2
+      alist = alist.map do |a|
+        a.reshape(a.shape + [1])
+      end
       concatenate(alist, 2)
     else
-      raise Internal::Exceptions::ShapeError.new(
-        "dstack only supports 1 and 2-dimensional arrays")
+      raise ShapeError.new("dstack was given arrays with more than two dimensions")
     end
   end
 
   def column_stack(alist : Array(BaseArray(U))) forall U
-    shape0 = alist[0].shape
-    if !alist.all? { |t| t.shape == shape0 }
-      raise Internal::Exceptions::ShapeError.new("All arrays must be the same shape")
-    end
+    first = alist[0]
+    shape = first.shape
+    assert_shape(shape, alist)
 
-    if alist[0].ndims == 1
-      alist = alist.map { |t| t.reshape([t.size, 1]) }
+    case first.ndims
+    when 1
+      alist = alist.map do |a|
+        a.reshape([a.size, 1])
+      end
       concatenate(alist, 1)
-    elsif alist[0].ndims == 2
-      alist = alist.map { |t| t.reshape(t.shape) }
+    when 2
       concatenate(alist, 1)
     else
-      raise Internal::Exceptions::ShapeError.new(
-        "column_stack only supports 1 and 2-dimensional arrays")
+      raise ShapeError.new("dstack was given arrays with more than two dimensions")
+    end
+  end
+
+  def atleast_1d(inp : Number)
+    Tensor.new(inp)
+  end
+
+  def atleast_1d(inp : Tensor)
+    inp
+  end
+
+  def atleast_2d(inp : Number)
+    Tensor.new([1, 1]) { |i| inp }
+  end
+
+  def atleast_2d(inp : Tensor)
+    if inp.ndims > 1
+      inp
+    else
+      inp.reshape([1, inp.size])
+    end
+  end
+
+  def atleast_3d(inp : Number)
+    Tensor.new([1, 1, 1]) { |i| inp }
+  end
+
+  def atleast_3d(inp : Tensor)
+    if inp.ndims > 2
+      inp
+    else
+      dim = 3 - inp.ndims
+      newshape = [1] * dim + inp.shape
+      inp.reshape(newshape)
     end
   end
 end

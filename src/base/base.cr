@@ -1,7 +1,8 @@
 require "./flags"
 require "./baseiter"
+require "./iter"
 require "./print"
-require "../util/exceptions"
+require "../core/exceptions"
 
 abstract struct Bottle::BaseArray(T)
   include Internal
@@ -433,7 +434,11 @@ abstract struct Bottle::BaseArray(T)
   end
 
   def flat_iter
-    SafeNDIter.new(self).strategy
+    if flags.contiguous?
+      SafeFlat.new(buffer, size, 1)
+    else
+      SafeND.new(buffer, shape, strides, ndims)
+    end
   end
 
   def flat_iter_indexed
@@ -445,7 +450,11 @@ abstract struct Bottle::BaseArray(T)
   end
 
   def unsafe_iter
-    UnsafeNDIter.new(self).strategy
+    if flags.contiguous?
+      UnsafeFlat.new(buffer, size, 1)
+    else
+      UnsafeND.new(buffer, shape, strides, ndims)
+    end
   end
 
   def index_iter
@@ -1028,6 +1037,59 @@ abstract struct Bottle::BaseArray(T)
       end
     end
     ret
+  end
+
+  def reduce_fast(axis, keepdims = false)
+    if axis < 0
+      axis = ndims + axis
+    end
+    raise "Axis out of range for this array" unless axis < ndims
+    newshape = shape.dup
+    newstrides = strides.dup
+    ptr = buffer
+
+    if !keepdims
+      newshape.delete_at(axis)
+      newstrides.delete_at(axis)
+    else
+      newshape[axis] = 1
+      newstrides[axis] = 0
+    end
+
+    ret = Tensor(T).new(buffer, newshape, newstrides, flags, nil).dup
+
+    1.step(to: shape[axis] - 1) do |i|
+      ptr += strides[axis]
+      tmp = Tensor.new(ptr, newshape, newstrides, flags, nil)
+      ret.flat_iter.zip(tmp.flat_iter) do |x, y|
+        yield x, y
+      end
+    end
+    ret
+  end
+
+  def accumulate_fast(axis)
+    if axis < 0
+      axis = ndims + axis
+    end
+    raise "Axis out of range for this array" unless axis < ndims
+    arr = dup
+    newshape = shape.dup
+    newstrides = strides.dup
+    ptr = arr.buffer
+    newshape.delete_at(axis)
+    newstrides.delete_at(axis)
+
+    ret = Tensor(T).new(buffer, newshape, newstrides, flags, nil)
+    1.step(to: shape[axis] - 1) do |i|
+      ptr += strides[axis]
+      tmp = Tensor.new(ptr, newshape, newstrides, flags, nil)
+      tmp.flat_iter.zip(ret.flat_iter) do |ii, jj|
+        yield ii, jj
+      end
+      ret = tmp
+    end
+    arr
   end
 
   def accumulate_along_axis(axis)
