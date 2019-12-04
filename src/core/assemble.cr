@@ -35,6 +35,7 @@ module Bottle::Assemble
   #          [ 9, 10, 11,  9, 10, 11,  9, 10, 11]]])
   # ```
   def concatenate(alist : Array(BaseArray(U)), axis : Int32) forall U
+    raise_zerod alist
     newshape = alist[0].shape.dup
     clipaxis axis, newshape.size
     newshape[axis] = 0
@@ -139,6 +140,7 @@ module Bottle::Assemble
   #          [ 9, 10, 11]]])
   # ```
   def hstack(alist : Array(BaseArray(U))) forall U
+    assert_all_1d alist
     if alist.all? { |t| t.ndims == 1 }
       concatenate(alist)
     else
@@ -147,6 +149,7 @@ module Bottle::Assemble
   end
 
   def dstack(alist : Array(BaseArray(U))) forall U
+    assert_all_1d alist
     first = alist[0]
     shape = first.shape
     assert_shape(shape, alist)
@@ -168,6 +171,7 @@ module Bottle::Assemble
   end
 
   def column_stack(alist : Array(BaseArray(U))) forall U
+    assert_all_1d alist
     first = alist[0]
     shape = first.shape
     assert_shape(shape, alist)
@@ -186,11 +190,15 @@ module Bottle::Assemble
   end
 
   def atleast_1d(inp : Number)
-    Tensor.new(inp)
+    Tensor.new([1]) { |i| inp }
   end
 
   def atleast_1d(inp : Tensor)
-    inp
+    if inp.ndims == 0
+      Tensor.new([1]) { |i| inp.value }
+    else
+      inp
+    end
   end
 
   def atleast_2d(inp : Number)
@@ -200,6 +208,8 @@ module Bottle::Assemble
   def atleast_2d(inp : Tensor)
     if inp.ndims > 1
       inp
+    elsif inp.ndims == 0
+      Tensor.new([1, 1]) { |i| inp.value }
     else
       inp.reshape([1, inp.size])
     end

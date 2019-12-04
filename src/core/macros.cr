@@ -48,6 +48,16 @@ module Bottle::Internal
     {% end %}
   end
 
+  macro assert_all_1d(items)
+    {{items}} = {{items}}.map { |el| atleast_1d(el) }
+  end
+
+  macro raise_zerod(items)
+    if {{items}}.any? { |i| i.ndims == 0 }
+      raise Exceptions::ShapeError.new("Zero dimensional arrays cannot be concatenated")
+    end
+  end
+
   macro clipaxis(axis, size)
     if {{axis}} < 0
       {{axis}} += {{size}}
@@ -90,9 +100,13 @@ module Bottle::Internal
     end
 
     def {{name}}(a : Tensor, b : Number)
-      itera = a.unsafe_iter
-      Tensor.new(a.shape) do |_|
-        itera.next.value {{operator.id}} b
+      if a.ndims == 0
+        Tensor.new(a.value {{operator.id}} b)
+      else
+        itera = a.unsafe_iter
+        Tensor.new(a.shape) do |_|
+          itera.next.value {{operator.id}} b
+        end
       end
     end
 
@@ -114,9 +128,10 @@ module Bottle::Internal
     def {{name}}_outer(a : Tensor, b : Tensor)
       ret = Tensor(typeof(a.value {{operator.id}} b.value)).new(a.shape + b.shape)
       buf = ret.buffer
-      outer(a, b) do |i, j, idx|
+      outiter(a, b) do |i, j, idx|
         buf[idx] = i.value {{operator.id}} j.value
       end
+      ret
     end
   end
 

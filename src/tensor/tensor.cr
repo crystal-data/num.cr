@@ -6,7 +6,7 @@ require "./iter"
 require "complex"
 require "../libs/cblas"
 
-struct Bottle::Tensor(T) < Bottle::BaseArray(T)
+class Bottle::Tensor(T) < Bottle::BaseArray(T)
   # Compile time checking of data types of a `Tensor` to ensure
   # mixing data types is not allowed, not are bad data types
   # allowed into the `Tensor`

@@ -13,7 +13,7 @@ module Bottle::Internal::LapackHelper
   WORK_PARAM2         = 5
 end
 
-struct Bottle::Tensor(T)
+class Bottle::Tensor(T)
   include Bottle::Internal::LapackHelper
 
   private macro of_real_type(size)

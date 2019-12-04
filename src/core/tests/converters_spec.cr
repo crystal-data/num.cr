@@ -1,6 +1,6 @@
 require "../../__test__"
 
-struct Foo(T) < BaseArray(T)
+class Foo(T) < BaseArray(T)
   def check_type
     T
   end

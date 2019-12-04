@@ -4,66 +4,110 @@ require "./iter"
 require "./print"
 require "../core/exceptions"
 
-abstract struct Bottle::BaseArray(T)
+abstract class Bottle::BaseArray(T)
   include Internal
-  @buffer : Pointer(T)
-  @shape : Array(Int32)
-  @strides : Array(Int32)
-  @ndims : Int32
-  @flags : ArrayFlags
-  @size : Int32
-  @base : Pointer(T)? = nil
 
-  getter shape
-  getter strides
-  getter ndims
-  getter flags
-  getter size
-  getter base
-  getter buffer
-  setter shape
-  setter strides
+  # Buffer pointing to the start of the array's data buffer
+  getter buffer : Pointer(T)
 
+  # Array of the array's dimensions
+  property shape : Array(Int32)
+
+  # Number of steps in each dimension to traverse the array
+  property strides : Array(Int32)
+
+  # Number of array dimensions
+  getter ndims : Int32
+
+  # Information about the memory layout of the array
+  getter flags : ArrayFlags
+
+  # The total number of elements in the array
+  getter size : Int32
+
+  # Base object if memory is from another array
+  getter base : BaseArray(T)? = nil
+
+  # Checked on each attempt to write to an array, this value ensures that
+  # arrays can only be edited if they are supposed to be, forbidding access
+  # if for the example the array is a strided view where many elements share
+  # the same memory locations.
   private def can_write
     unless flags.write?
-      raise Exceptions::WriteError.new("Attempt to write to a read-only Tensor")
+      raise Exceptions::WriteError.new("Attempt to write to a read-only container")
     end
   end
 
+  # The type of elements contained in an array's data buffer, this ideally
+  # should be a non-union data type.
   def dtype
     T
   end
 
+  # The total size in bytes of each element of the array.  This is primarily
+  # used for outputting an array to a .npy file, or reading a file from
+  # an npy file into an array.
   def bytesize
-    sizeof(T) // sizeof(UInt8)
+    itemsize // sizeof(UInt8)
   end
 
+  # The size, in bytes, of each element in an array.
   def itemsize
     sizeof(T)
   end
 
+  # Finds the strides that must be present in order to broadcast an existing
+  # array to a new array, or raises that the array cannot be broadcasted into
+  # the provided shape.
+  #
+  # This method is primarily used by unsafe methods, such as `broadcast_to`.
+  # When using this method, the resulting array's flags should ideally be
+  # set to readonly, since many locations can share memory.  This method is
+  # a safer alternative to `as_strided`
   private def broadcast_strides(dest_shape, src_shape, dest_strides, src_strides)
+
+    # Find where the strides need to begin to match the input
+    # shape/strides to the new shape
     dims = dest_shape.size
     start = dims - src_shape.size
 
-    ret = [0] * dest_strides.size
+    ret = [0] * dims
     (dims - 1).step(to: start, by: -1) do |i|
       s = src_shape[i - start]
       case s
+        # Zero strides in a dimension is the easiest way to "trick"
+        # the nditerator to traverse that dimension multiple times
+        # and produce the same value.  This does however mean that
+        # the iterator will produce many instances of the same pointer
+        # when iterating through a broadcasted array.
+        #
+        # This is the reason for the read only flag on an array.
       when 1
         ret[i] = 0
       when dest_shape[i]
+        # Otherwise the broadcasted strides will be computed from
+        # the source strides, this path will always be chosen when
+        # trying to broadcast to an identically shaped array for example.
         ret[i] = src_strides[i - start]
       else
-        raise "Cannot broadcast from #{src_shape} to #{dest_shape}"
+        # Since the zero shaped dimensions will appear with invalid broadcasts,
+        # raise here to indicate that the two shapes are incompatible.
+        raise Exceptions::ShapeError.new("Cannot broadcast from #{src_shape} to #{dest_shape}")
       end
     end
     ret
   end
 
+  # This method checks if two shapes are broadcastable with each other
+  # in their current form.  There are several manipulations that can
+  # be done on shapes to make them broadcastable eventually, so this
+  # may be checked several times when broadcasting.
   private def broadcast_equal(a, b)
     bc = true
     a.zip(b) do |i, j|
+      # Shapes can be broadcast against each other if for every dimension
+      # the following is true: the dimensions are equal among the two shapes,
+      # or either of the dimensions is equal to 1
       if !(i == j || i == 1 || j == 1)
         bc = false
       end
@@ -71,23 +115,47 @@ abstract struct Bottle::BaseArray(T)
     bc
   end
 
+  # Once an array is determined to be broadcastable, the resulting
+  # shape is simply the maximum value found at each dimension of the
+  # two shapes.
   private def broadcastable_shape(a, b)
     a.zip(b).map do |i|
       Math.max(i[0], i[1])
     end
   end
 
+  # Determines if two shapes are broadcastable against each other.
+  # The rules for checking this property are well defined:
+  #
+  # Two dimensions are compatible if:
+  #   - they are equal
+  #   - one of them is equal to 1
+  #
+  # If the axes of the array are different lengths, dimensions of
+  # size one can be appended to one or the other in order to make
+  # the arrays broadcastable against each other and satisfy the
+  # rules for broadcastable dimensions.
   def broadcastable(other : BaseArray)
+    # Fast track instances where the two shapes already match, no
+    # need in pointlessly calculating the same shape that
+    # already exists
     return [] of Int32 unless shape != other.shape
 
     sz = shape.size
     osz = other.shape.size
 
+    # If the sizes already match, the rules are well defined
+    # to make a broadcast.
     if sz == osz
+      # Check the shapes, return the new shape, both arrays will
+      # be broadcasted, so this can't be used for in-place operations,
+      # only one of the arrays can be broadcasted in that case.
       if broadcast_equal(shape, other.shape)
         return broadcastable_shape(shape, other.shape)
       end
     else
+      # Both of these paths prepend ones to the smaller shape
+      # in order to match broadcasting rules.
       if sz > osz
         othershape = [1] * (sz - osz) + other.shape
         if broadcast_equal(shape, othershape)
@@ -100,9 +168,15 @@ abstract struct Bottle::BaseArray(T)
         end
       end
     end
+    # If no broadcasting is possible, raise a ShapeError.  No other
+    # result makes sense, operation has to fail.
     raise Exceptions::ShapeError.new("Shapes #{shape} and #{other.shape} are not broadcastable")
   end
 
+  # Broadcasts an array to a new shape. A readonly view on the original array
+  # with the given shape. It is typically not contiguous. Furthermore,
+  # more than one element of a broadcasted array may refer to a single
+  # memory location.
   def broadcast_to(newshape)
     dim = newshape.size
     defstrides = [0] * dim
@@ -113,11 +187,7 @@ abstract struct Bottle::BaseArray(T)
     end
 
     newstrides = broadcast_strides(newshape, shape, defstrides, strides)
-    newflags = flags.dup
-    newflags &= ~ArrayFlags::Contiguous
-    newflags &= ~ArrayFlags::Fortran
-    newflags &= ~ArrayFlags::Write
-    newflags &= ~ArrayFlags::OwnData
+    newflags = ArrayFlags::None
 
     Tensor(T).new(@buffer, newshape, newstrides, newflags, @base, false)
   end
@@ -145,6 +215,9 @@ abstract struct Bottle::BaseArray(T)
     Tensor(T).new(@buffer, shape, strides, newflags, @base)
   end
 
+  # Until I figure out how to add broadcasting as an indexing operation,
+  # this is how you expand the dimensions of a Tensor to make operations
+  # easier to conduct on tensors with mismatching shapes.
   def bc?(axis : Int32)
     newshape = shape.dup
     newstrides = strides.dup
@@ -160,7 +233,17 @@ abstract struct Bottle::BaseArray(T)
     as_strided(newshape, newstrides, true)
   end
 
+  # All children must define a function that checks data for
+  # valid dtypes.  For example, the Tensor class only holds
+  # specific numeric types.
   abstract def check_type
+
+  # The basetype of an array, useful for passing subclasses
+  # through numeric methods, and needing to create new
+  # instances of those subclsases.
+  #
+  # This is primarily used when self.class does not work, and
+  # the same basetype but a different generic type must be returned.
   abstract def basetype
 
   def initialize(_shape : Array(Int32),
@@ -233,12 +316,15 @@ abstract struct Bottle::BaseArray(T)
     end
   end
 
+  # Crates a scalar tensor, that acts like a scalar while still being
+  # a Tensor.  This was primarily added so that indexing operations
+  # could return single elements without having a union return type.
   def initialize(scalar : T)
     @buffer = Pointer(T).malloc(1, scalar)
-    @ndims = 1
+    @ndims = 0
     @size = 1
-    @shape = [1]
-    @strides = [1]
+    @shape = [] of Int32
+    @strides = [] of Int32
     @flags = ArrayFlags::All
     @base = nil
   end
@@ -507,7 +593,7 @@ abstract struct Bottle::BaseArray(T)
     # Empty dimensions are collapsed from the `Tensor`
     newshape = newshape.reject { |i| i == 0 }
     newstrides = newstrides.reject { |i| i == 0 }
-    newbase = @base ? @base : @buffer
+    newbase = @base ? @base : self
 
     # Pointer is offset.
     ptr = @buffer
@@ -570,7 +656,13 @@ abstract struct Bottle::BaseArray(T)
       end
     else
       offset = 0
-      strides.zip(indexer) do |i, j|
+      strides.zip(indexer, shape) do |i, j, k|
+        if j < 0
+          j += k
+        end
+        if j >= k
+          raise IndexError.new("Index out of range")
+        end
         offset += i * j
       end
       @buffer[offset] = T.new(value)
@@ -843,7 +935,7 @@ abstract struct Bottle::BaseArray(T)
 
     stride = uninitialized Int32
     newstrides = [0] * newshape.size
-    newbase = @base ? @base : @buffer
+    newbase = @base ? @base : self
     newdims = newshape.size
 
     if @flags & ArrayFlags::Contiguous
@@ -883,12 +975,12 @@ abstract struct Bottle::BaseArray(T)
     newflags = flags.dup
     if flags.contiguous?
       newstrides = [strides[-1]]
-      newbase = @base ? @base : @buffer
+      newbase = @base ? @base : self
       newflags &= ~ArrayFlags::OwnData
       self.class.new(@buffer, newshape, newstrides, newflags, newbase)
     elsif flags.fortran?
       newstrides = [strides[0]]
-      newbase = @base ? @base : @buffer
+      newbase = @base ? @base : self
       newflags &= ~ArrayFlags::OwnData
       self.class.new(@buffer, newshape, newstrides, newflags, newbase)
     else
@@ -961,7 +1053,7 @@ abstract struct Bottle::BaseArray(T)
   def transpose(order : Array(Int32) = [] of Int32)
     newshape = @shape.dup
     newstrides = @strides.dup
-    newbase = @base ? @base : @buffer
+    newbase = @base ? @base : self
     if order.size == 0
       order = (0...ndims).to_a.reverse
     end
@@ -1015,30 +1107,6 @@ abstract struct Bottle::BaseArray(T)
     end
   end
 
-  def reduce_along_axis(axis)
-    if axis < 0
-      axis = ndims + axis
-    end
-    raise "Axis out of range for this array" unless axis < ndims
-
-    idx0 = [0] * ndims
-    idx1 = shape.dup
-    idx1[axis] = 0
-
-    ranges = idx0.zip(idx1).map_with_index do |i, idx|
-      idx == axis ? 0 : i[0]...i[1]
-    end
-    ret = slice(ranges).dup
-
-    1.step(to: shape[axis] - 1) do |i|
-      ranges[axis] = i
-      slice(ranges).flat_iter.zip(ret.flat_iter) do |ii, jj|
-        yield ii, jj
-      end
-    end
-    ret
-  end
-
   def reduce_fast(axis, keepdims = false)
     if axis < 0
       axis = ndims + axis
@@ -1088,35 +1156,6 @@ abstract struct Bottle::BaseArray(T)
         yield ii, jj
       end
       ret = tmp
-    end
-    arr
-  end
-
-  def accumulate_along_axis(axis)
-    if axis < 0
-      axis = ndims + axis
-    end
-    raise "Axis out of range for this array" unless axis < ndims
-
-    idx0 = [0] * ndims
-    idx1 = shape.dup
-    idx1[axis] = 0
-
-    arr = dup
-
-    ranges = idx0.zip(idx1).map_with_index do |i, idx|
-      idx == axis ? 0 : i[0]...i[1]
-    end
-
-    ret = arr.slice(ranges)
-
-    1.step(to: shape[axis] - 1) do |i|
-      ranges[axis] = i
-      newret = arr.slice(ranges)
-      newret.flat_iter.zip(ret.flat_iter) do |ii, jj|
-        yield ii, jj
-      end
-      ret = newret
     end
     arr
   end

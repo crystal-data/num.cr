@@ -2,7 +2,7 @@ require "./extension"
 require "./tensor"
 require "./creation"
 
-struct Bottle::Tensor(T) < Bottle::BaseArray(T)
+class Bottle::Tensor(T) < Bottle::BaseArray(T)
   private def raise_fortran_inplace(flags)
     unless flags.fortran?
       raise Exceptions::LinAlgError.new("Tensor must be Fortran Contiguous to apply the operation in-place")
