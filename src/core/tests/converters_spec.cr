@@ -4,6 +4,7 @@ class Foo(T) < BaseArray(T)
   def check_type
     T
   end
+
   def basetype
     Foo
   end

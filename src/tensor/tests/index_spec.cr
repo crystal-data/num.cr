@@ -1,8 +1,4 @@
-require "../spec_helper"
-require "../../src/util/*"
-include Bottle
-include Bottle::Internal::Exceptions
-include Bottle::Internal
+require "../../__test__"
 
 describe Tensor do
   describe "Tensor#getters" do
@@ -31,28 +27,28 @@ describe Tensor do
       t = Tensor.new([2, 2, 3]) { |i| i }
       result = t[0]
       expected = Tensor.new([2, 3]) { |i| i }
-      Comparison.allclose(result, expected).should be_true
+      assert_array_equal result, expected
     end
 
     it "Selects a single dimension with negative index" do
       t = Tensor.new([2, 2, 3]) { |i| i }
       result = t[-1]
       expected = Tensor.new([2, 3]) { |i| i + 6 }
-      Comparison.allclose(result, expected).should be_true
+      assert_array_equal result, expected
     end
 
     it "Slices a tensor along a dimension" do
       t = Tensor.new([2, 2, 3]) { |i| i }
       result = t[1...]
       expected = Tensor.new([1, 2, 3]) { |i| i + 6 }
-      Comparison.allclose(result, expected).should be_true
+      assert_array_equal result, expected
     end
 
     it "Slices a tensor using a negative index in a slice" do
       t = Tensor.new([2, 2, 3]) { |i| i }
       result = t[...-1]
       expected = Tensor.new([1, 2, 3]) { |i| i }
-      Comparison.allclose(result, expected).should be_true
+      assert_array_equal result, expected
     end
 
     it "Slicing a Tensor raises an index error with bad dimension" do
@@ -80,35 +76,35 @@ describe Tensor do
       t = Tensor.new([5]) { |i| i }
       t[0] = 100
       expected = Tensor.from_array([5], [100, 1, 2, 3, 4])
-      Comparison.allclose(t, expected).should be_true
+      assert_array_equal t, expected
     end
 
     it "Sets a slice of a 1D tensor" do
       t = Tensor.new([5]) { |i| i }
       t[1...] = Tensor.from_array([4], [99, 99, 99, 99])
       expected = Tensor.from_array([5], [0, 99, 99, 99, 99])
-      Comparison.allclose(t, expected).should be_true
+      assert_array_equal t, expected
     end
 
     it "Sets all values of a view to a scalar" do
       t = Tensor.new([2, 2]) { |i| i }
       t[0] = 100
       expected = Tensor.from_array([2, 2], [100, 100, 2, 3])
-      Comparison.allclose(t, expected).should be_true
+      assert_array_equal t, expected
     end
 
     it "Sets a more complex slice of ND Tensor" do
       t = Tensor.new([2, 2, 3]) { |i| i }
       t[0] = t[1]
       expected = Tensor.from_array([2, 2, 3], [6, 7, 8, 9, 10, 11] * 2)
-      Comparison.allclose(t, expected).should be_true
+      assert_array_equal t, expected
     end
 
     it "Mutates base when a view of a Tensor is set" do
       t = Tensor.new([2, 2, 3]) { |i| i }
       slice = t[...]
       slice[0] = 99
-      Comparison.allclose(t, slice).should be_true
+      assert_array_equal t, slice
     end
   end
 end

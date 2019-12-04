@@ -4,20 +4,5 @@ matrix:
     install:
       - shards install
     script:
-      - crystal spec
+      - crystal spec src/
       - crystal bin/ameba.cr
-
-    language: python
-    install:
-      - pip install sphinx
-    script:
-      - make -C doc html
-      - touch doc/_build/html/.nojekyll
-    deploy:
-      provider: pages
-      skip_cleanup: true
-      github_token: $GITHUB_TOKEN
-      project_name: bottle
-      on:
-        branch: master
-      local_dir: doc/_build/html

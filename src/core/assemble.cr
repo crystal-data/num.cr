@@ -5,6 +5,7 @@ require "../base/base"
 
 module Bottle::Assemble
   include Internal
+
   # Concatenates an array of `Tensor's` along a provided axis.
   #
   # Parameters
@@ -190,33 +191,33 @@ module Bottle::Assemble
   end
 
   def atleast_1d(inp : Number)
-    Tensor.new([1]) { |i| inp }
+    Tensor.new([1]) { |_| inp }
   end
 
   def atleast_1d(inp : Tensor)
     if inp.ndims == 0
-      Tensor.new([1]) { |i| inp.value }
+      Tensor.new([1]) { |_| inp.value }
     else
       inp
     end
   end
 
   def atleast_2d(inp : Number)
-    Tensor.new([1, 1]) { |i| inp }
+    Tensor.new([1, 1]) { |_| inp }
   end
 
   def atleast_2d(inp : Tensor)
     if inp.ndims > 1
       inp
     elsif inp.ndims == 0
-      Tensor.new([1, 1]) { |i| inp.value }
+      Tensor.new([1, 1]) { |_| inp.value }
     else
       inp.reshape([1, inp.size])
     end
   end
 
   def atleast_3d(inp : Number)
-    Tensor.new([1, 1, 1]) { |i| inp }
+    Tensor.new([1, 1, 1]) { |_| inp }
   end
 
   def atleast_3d(inp : Tensor)

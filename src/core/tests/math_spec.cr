@@ -45,7 +45,7 @@ describe Bottle::BMath do
     test_trig [1, 2, 3, 4, 5], [
       acos, acosh, asin, asinh, atan, atanh, besselj0, besselj1, bessely0,
       bessely1, cbrt, cos, cosh, erf, erfc, exp, exp2, expm1, gamma, ilogb,
-      lgamma, log, log10, log1p, log2, logb, sin, sinh, sqrt, tan, tanh
+      lgamma, log, log10, log1p, log2, logb, sin, sinh, sqrt, tan, tanh,
     ]
   end
 end

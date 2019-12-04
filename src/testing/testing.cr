@@ -2,6 +2,7 @@ require "../tensor/tensor"
 require "spec"
 
 module Bottle::Testing
+  extend self
   # Asserts that two equally shaped `Tensor`s are equal within a provided
   # tolerance.  Useful for floating point comparison where direct equality might
   # not work
@@ -44,5 +45,21 @@ module Bottle::Testing
 
   def assert_array_equal(a, b)
     allclose(a, b).should be_true
+  end
+
+  def assert_compatible_shape(a : Array(Int32), b : Int32)
+    toraise = false
+    if a.size == 0
+      if b != 0
+        toraise = true
+      end
+    else
+      sz = a.reduce { |i, j| i * j }
+      toraise = true unless b == sz
+    end
+    if toraise
+      raise Exceptions::ShapeError.new("An array of size #{b} cannot go
+        into a Tensor of shape #{a}")
+    end
   end
 end

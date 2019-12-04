@@ -5,6 +5,7 @@ require "../tensor/tensor"
 
 module Bottle::Internal
   include Convert
+
   # Broadcast two tensors against each other.  This will possibly
   # change the shape and strides of both passed tensors, so this
   # cannot be used on in-place operations.  To broadcast the inputs
@@ -99,7 +100,7 @@ module Bottle::Internal
       end
     end
 
-    def {{name}}(a : Tensor, b : Number)
+    def {{name}}(a : Tensor, b : Number | Complex)
       if a.ndims == 0
         Tensor.new(a.value {{operator.id}} b)
       else
@@ -110,9 +111,9 @@ module Bottle::Internal
       end
     end
 
-    def {{name}}(a : Number, b : Tensor)
+    def {{name}}(a : Number | Complex, b : Tensor)
       iterb = b.unsafe_iter
-      Tensor.new(a.shape) do |_|
+      Tensor.new(b.shape) do |_|
         a {{operator.id}} iterb.next.value
       end
     end

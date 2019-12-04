@@ -1,8 +1,4 @@
-require "../spec_helper"
-require "../../src/util/*"
-include Bottle
-include Bottle::Internal::Exceptions
-include Bottle::Internal
+require "../../__test__"
 
 describe Tensor do
   describe "Tensor#from_array" do
@@ -15,19 +11,19 @@ describe Tensor do
     it "Initializes a Tensor from 1D Array" do
       result = Tensor.from_array([4], [0, 1, 2, 3])
       expected = Tensor.new([4]) { |i| i }
-      Comparison.allclose(result, expected).should be_true
+      assert_array_equal result, expected
     end
 
     it "Initializes a Tensor from a 2D Array" do
       result = Tensor.from_array([2, 2], [[0, 1], [2, 3]])
       expected = Tensor.new([2, 2]) { |i| i }
-      Comparison.allclose(result, expected).should be_true
+      assert_array_equal result, expected
     end
 
     it "Initializes different shape Tensor from array" do
       result = Tensor.from_array([2, 3], [0, 1, 2, 3, 4, 5])
       expected = Tensor.new([2, 3]) { |i| i }
-      Comparison.allclose(result, expected).should be_true
+      assert_array_equal result, expected
     end
 
     it "Initializes a Tensor with proper flags" do
@@ -52,7 +48,7 @@ describe Tensor do
     it "Initializes a Tensor from jagged nested array" do
       result = Tensor.from_array([2], [[[[0, [[[[[1]]]]]]]]])
       expected = Tensor.new([2]) { |i| i }
-      Comparison.allclose(result, expected).should be_true
+      assert_array_equal result, expected
     end
   end
 

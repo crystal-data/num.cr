@@ -65,7 +65,6 @@ abstract class Bottle::BaseArray(T)
   # set to readonly, since many locations can share memory.  This method is
   # a safer alternative to `as_strided`
   private def broadcast_strides(dest_shape, src_shape, dest_strides, src_strides)
-
     # Find where the strides need to begin to match the input
     # shape/strides to the new shape
     dims = dest_shape.size
@@ -75,13 +74,13 @@ abstract class Bottle::BaseArray(T)
     (dims - 1).step(to: start, by: -1) do |i|
       s = src_shape[i - start]
       case s
-        # Zero strides in a dimension is the easiest way to "trick"
-        # the nditerator to traverse that dimension multiple times
-        # and produce the same value.  This does however mean that
-        # the iterator will produce many instances of the same pointer
-        # when iterating through a broadcasted array.
-        #
-        # This is the reason for the read only flag on an array.
+      # Zero strides in a dimension is the easiest way to "trick"
+      # the nditerator to traverse that dimension multiple times
+      # and produce the same value.  This does however mean that
+      # the iterator will produce many instances of the same pointer
+      # when iterating through a broadcasted array.
+      #
+      # This is the reason for the read only flag on an array.
       when 1
         ret[i] = 0
       when dest_shape[i]
@@ -862,7 +861,8 @@ abstract class Bottle::BaseArray(T)
     newstrides = @strides.dup
     newflags = @flags.dup
     newflags &= ~ArrayFlags::OwnData
-    self.class.new(@buffer, newshape, newstrides, newflags, @buffer)
+    newbase = @base ? @base : self
+    self.class.new(@buffer, newshape, newstrides, newflags, newbase)
   end
 
   # Returns a view of the diagonal of a `Tensor`  only valid if
@@ -878,7 +878,7 @@ abstract class Bottle::BaseArray(T)
     newstrides = [strides.sum]
     newflags = flags.dup
     newflags &= ~ArrayFlags::OwnData
-    newbase = @base ? @base : @buffer
+    newbase = @base ? @base : self
     ret = self.class.new(@buffer, newshape, newstrides, newflags, newbase)
     ret.update_flags(ArrayFlags::Fortran | ArrayFlags::Contiguous)
     ret
@@ -1126,7 +1126,7 @@ abstract class Bottle::BaseArray(T)
 
     ret = Tensor(T).new(buffer, newshape, newstrides, flags, nil).dup
 
-    1.step(to: shape[axis] - 1) do |i|
+    1.step(to: shape[axis] - 1) do |_|
       ptr += strides[axis]
       tmp = Tensor.new(ptr, newshape, newstrides, flags, nil)
       ret.flat_iter.zip(tmp.flat_iter) do |x, y|
@@ -1149,7 +1149,7 @@ abstract class Bottle::BaseArray(T)
     newstrides.delete_at(axis)
 
     ret = Tensor(T).new(buffer, newshape, newstrides, flags, nil)
-    1.step(to: shape[axis] - 1) do |i|
+    1.step(to: shape[axis] - 1) do |_|
       ptr += strides[axis]
       tmp = Tensor.new(ptr, newshape, newstrides, flags, nil)
       tmp.flat_iter.zip(ret.flat_iter) do |ii, jj|

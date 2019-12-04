@@ -5,6 +5,7 @@ require "../core/reductions"
 require "./iter"
 require "complex"
 require "../libs/cblas"
+require "../testing/testing"
 
 class Bottle::Tensor(T) < Bottle::BaseArray(T)
   # Compile time checking of data types of a `Tensor` to ensure

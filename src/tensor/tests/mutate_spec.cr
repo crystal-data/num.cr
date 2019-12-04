@@ -1,8 +1,4 @@
-require "../spec_helper"
-require "../../src/util/*"
-include Bottle
-include Bottle::Internal::Exceptions
-include Bottle::Internal
+require "../../__test__"
 
 def get_tensor
   Tensor.new([2, 2, 3]) { |i| i }
@@ -17,7 +13,7 @@ describe Tensor do
     it "duplicating an array equals base" do
       t = get_tensor
       result = t.dup
-      Comparison.allclose(t, result).should be_true
+      assert_array_equal result, t
     end
 
     it "duplicating an array with Fortran ordering works" do
@@ -35,13 +31,13 @@ describe Tensor do
     it "duplicate C array with F ordering equals base" do
       t = get_tensor
       result = t.dup('F')
-      Comparison.allclose(t, result).should be_true
+      assert_array_equal result, t
     end
 
     it "duplicate F array with C ordering equals base" do
       t = Tensor.new([2, 2, 3], ArrayFlags::Fortran) { |i| i }
       result = t.dup('C')
-      Comparison.allclose(t, result).should be_true
+      assert_array_equal result, t
     end
 
     it "duplicate owns data" do
@@ -53,7 +49,7 @@ describe Tensor do
     it "dup view matches base" do
       t = get_tensor
       view = t.dup_view
-      Comparison.allclose(t, view).should be_true
+      assert_array_equal t, view
     end
 
     it "dup view doesn't own its own data" do
@@ -66,21 +62,21 @@ describe Tensor do
       t = get_tensor
       view = t.dup_view
       view[1] = 99
-      Comparison.allclose(t, view).should be_true
+      assert_array_equal t, view
     end
 
     it "dup view is the same as full slice" do
       t = get_tensor
       view = t.dup_view
       view2 = t[...]
-      Comparison.allclose(view2, view).should be_true
+      assert_array_equal view, view2
     end
 
     it "diag view correct output C array" do
       t = get_matrix
       view = t.diag_view
       expected = Tensor.from_array([3], [0, 4, 8])
-      Comparison.allclose(view, expected).should be_true
+      assert_array_equal view, expected
     end
 
     it "diag view can mutate array" do
@@ -88,7 +84,7 @@ describe Tensor do
       view = t.diag_view
       view[...] = 99
       expected = Tensor.from_array([3, 3], [[99, 1, 2], [3, 99, 5], [6, 7, 99]])
-      Comparison.allclose(t, expected).should be_true
+      assert_array_equal t, expected
     end
 
     it "diag view does not own memory" do
@@ -110,14 +106,14 @@ describe Tensor do
       t = get_tensor
       r = t.reshape([6, 2])
       expected = Tensor.new([6, 2]) { |i| i }
-      Comparison.allclose(r, expected).should be_true
+      assert_array_equal r, expected
     end
 
     it "reshape can infer a dimension" do
       t = get_tensor
       r = t.reshape([6, -1])
       expected = Tensor.new([6, 2]) { |i| i }
-      Comparison.allclose(r, expected).should be_true
+      assert_array_equal r, expected
     end
 
     it "reshape raises on multiple inferred dimensions" do
@@ -144,7 +140,7 @@ describe Tensor do
       t = get_tensor
       t.reshape([2, -1])[...] = 99
       expected = Tensor.new(t.shape) { |_| 99 }
-      Comparison.allclose(t, expected).should be_true
+      assert_array_equal t, expected
     end
   end
 
@@ -153,14 +149,14 @@ describe Tensor do
       t = get_matrix
       expected = Tensor.new([3, 3], ArrayFlags::Fortran) { |i| i }
       result = t.transpose
-      Comparison.allclose(expected, result).should be_true
+      assert_array_equal result, expected
     end
 
     it "transpose returns a view" do
       t = Tensor.new([3, 3]) { |i| i }
       view = t.transpose
       view[...] = 99
-      Comparison.allclose(t, view).should be_true
+      assert_array_equal t, view
     end
 
     it "explicit order transpose" do
@@ -168,7 +164,7 @@ describe Tensor do
       expected = Tensor.from_array([3, 2, 2],
         [0, 3, 6, 9, 1, 4, 7, 10, 2, 5, 8, 11])
       result = t.transpose([2, 0, 1])
-      Comparison.allclose(result, expected).should be_true
+      assert_array_equal result, expected
     end
 
     it "C to F transpose swaps memory order" do
