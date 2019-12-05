@@ -1,8 +1,8 @@
 require "../tensor/tensor"
-require "spec"
 
 module Bottle::Testing
   extend self
+
   # Asserts that two equally shaped `Tensor`s are equal within a provided
   # tolerance.  Useful for floating point comparison where direct equality might
   # not work

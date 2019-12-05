@@ -6,14 +6,13 @@ puts "*******************NDITERATION***********************"
 def test_iter(n)
   t = Bottle::Tensor.random(0.0...1.0, [n, n])
 
-  puts "*********N = #{n}*************"
   Benchmark.ips do |bench|
-    bench.report("REDUCTION") { t.sum }
-    bench.report("REDUCE ALONG AXIS") { t.sum(0) }
-    bench.report("ELEMENTWISE") { t + t }
-    bench.report("ACCUMULATE") { t.cumsum(0) }
+    bench.report("REDUCTION #{n}x#{n}") { t.sum }
+    bench.report("REDUCE ALONG AXIS #{n}x#{n}") { t.sum(0) }
+    bench.report("ELEMENTWISE #{n}x#{n}") { t + t }
+    bench.report("ACCUMULATE #{n}x#{n}") { t.cumsum(0) }
     if n < 1000
-      bench.report("OUTER") { t.bc?(2) + t }
+      bench.report("OUTER #{n}x#{n}") { t.bc?(2) + t }
     end
   end
 end

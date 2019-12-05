@@ -7,7 +7,6 @@ l = [B.arange(1000), B.arange(1000)]
 l10xl10 = B.ones([10, 10])
 
 Benchmark.ips do |bench|
-  puts "*******************CREATION METHODS***********************"
   bench.report("time_tensor_empty") { Tensor(Int32).new([] of Int32) }
   bench.report("time_tensor_scalar") { Tensor.new(1) }
   bench.report("time_tensor_1el") { Tensor.from_array [1] }
@@ -32,7 +31,6 @@ alarge = B.ones([1000000])
 blarge = B.ones([1000000])
 
 Benchmark.ips do |bench|
-  puts "*******************ARITHMETIC***********************"
   bench.report("time_mid") { amid * 2 + bmid }
   bench.report("time_mid2") { amid + bmid - 2 }
   bench.report("time_large") { alarge * 2 + blarge }

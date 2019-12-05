@@ -6,7 +6,6 @@ puts "*******************SORTING***********************"
 def test_iter(n)
   t = Bottle::Tensor.random(0.0...1.0, [n, n]).dup('F')
 
-  puts "*********N = #{n}*************"
   Benchmark.ips do |bench|
     bench.report("Sort axis 0") { B.sort(t, 0) }
     bench.report("Sort axis 1") { B.sort(t, 1) }

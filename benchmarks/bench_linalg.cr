@@ -6,17 +6,16 @@ puts "*******************LINEAR ALGEBRA***********************"
 def test_linalg(n)
   t = Bottle::Tensor.random(0.0...1.0, [n, n])
 
-  puts "*********N = #{n}*************"
   Benchmark.ips do |bench|
-    bench.report("QR") { t.qr }
-    bench.report("SVD") { t.svd }
-    bench.report("INV") { t.inv }
-    bench.report("EIGVALSH") { t.eigvalsh }
-    bench.report("EIGVALS") { t.eigvals }
-    bench.report("NORM") { t.norm }
-    bench.report("DET") { t.det }
-    bench.report("HESSENBERG") { t.hessenberg }
-    bench.report("MATMUL") { t.matmul(t) }
+    bench.report("QR #{n}x#{n}") { t.qr }
+    bench.report("SVD #{n}x#{n}") { t.svd }
+    bench.report("INV #{n}x#{n}") { t.inv }
+    bench.report("EIGVALSH #{n}x#{n}") { t.eigvalsh }
+    bench.report("EIGVALS #{n}x#{n}") { t.eigvals }
+    bench.report("NORM #{n}x#{n}") { t.norm }
+    bench.report("DET #{n}x#{n}") { t.det }
+    bench.report("HESSENBERG #{n}x#{n}") { t.hessenberg }
+    bench.report("MATMUL #{n}x#{n}") { t.matmul(t) }
   end
 end
 
