@@ -1136,6 +1136,25 @@ abstract class Bottle::BaseArray(T)
     ret
   end
 
+  def apply_last_axis
+    if ndims == 0
+      raise Exceptions::ShapeError.new("Array has no axes")
+    elsif ndims == 1
+      yield self
+    else
+      n = shape[...-1].reduce { |i, j| i * j }
+      newshape = shape[-1...]
+      newstrides = strides[-1...]
+      newbase = @base.nil? ? @base : self
+      ptr = buffer
+      0.step(to: n - 1) do |_|
+        tmp = self.class.new(ptr, newshape, newstrides, ArrayFlags::None, newbase)
+        yield tmp
+        ptr += newstrides[0] * newshape[0]
+      end
+    end
+  end
+
   def accumulate_fast(axis)
     if axis < 0
       axis = ndims + axis

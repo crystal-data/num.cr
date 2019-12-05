@@ -1,8 +1,6 @@
 require "../src/bottle"
 require "benchmark"
 
-puts "*******************LINEAR ALGEBRA***********************"
-
 def test_linalg(n)
   t = Bottle::Tensor.random(0.0...1.0, [n, n])
 
