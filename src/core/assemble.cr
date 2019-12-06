@@ -1,10 +1,15 @@
 require "./macros"
 require "./exceptions"
 require "./common"
+require "./converters"
+require "../tensor/creation"
 require "../base/base"
 
 module Bottle::Assemble
   include Internal
+  include Creation
+  include Convert
+  extend self
 
   # Concatenates an array of `Tensor's` along a provided axis.
   #
@@ -206,6 +211,11 @@ module Bottle::Assemble
     Tensor.new([1, 1]) { |_| inp }
   end
 
+  def atleast_2d(inp : Array)
+    t = Tensor.from_array inp
+    atleast_2d(t)
+  end
+
   def atleast_2d(inp : Tensor)
     if inp.ndims > 1
       inp
@@ -227,6 +237,86 @@ module Bottle::Assemble
       dim = 3 - inp.ndims
       newshape = [1] * dim + inp.shape
       inp.reshape(newshape)
+    end
+  end
+
+  def kron(a : Tensor, b : Tensor)
+    o = multiply_outer(a, b)
+    l1 = (0...o.shape[0]).map { |i| o[i] }
+    o2 = concatenate(l1, 1)
+    l2 = (0...o2.shape[0]).map { |i| o2[i] }
+    return concatenate(l2, 1)
+  end
+
+  def block_diag(*arrs)
+    arrs = arrs.to_a.map { |a| B.atleast_2d(a) }
+    shapes = arrs.to_a.map { |a| a.shape }
+    m, n = Tensor.from_array(shapes).sum(0)
+    r, c = 0, 0
+    ret = B.zeros([m.value, n.value])
+    shapes.each_with_index do |(rr, cc), i|
+      ret[r...(r + rr), c...(c + cc)] = arrs[i]
+      r += rr
+      c += cc
+    end
+    ret
+  end
+
+  def helmert(n, full = false)
+    dg = arange(n)
+    z = zeros([n, n])
+    z.diag_view[...] = dg
+    h = tril(ones([n, n]), -1) - z
+    d = arange(n) * arange(1, n + 1)
+    h[0] = 1
+    d[0] = n
+    h_full = h / sqrt(d).bc?(1)
+    if full
+      h_full
+    else
+      h_full[1...]
+    end
+  end
+
+  def hankel(c, r = nil)
+    c = astensor(c).ravel
+    if r.nil?
+      ur = zeros_like(c, dtype: c.dtype)
+    else
+      ur = astensor(r).ravel.astype(c.dtype)
+    end
+
+    vals = concatenate([c, ur[1...]])
+    out_shp = [c.size, ur.size]
+    n = vals.strides[0]
+    vals.as_strided(out_shp, [n, n]).dup
+  end
+
+  def hadamard(n, dtype : U.class = Int32) forall U
+    if n < 1
+      lg2 = 0
+    else
+      lg2 = Int32.new(Math.log(n, 2))
+    end
+
+    h = atleast_2d(1).astype(dtype)
+
+    lg2.times do |_|
+      h = vstack([hstack([h, h]), hstack([h, -1 * h])])
+    end
+    h
+  end
+
+  def leslie(f, s)
+    f = atleast_1d(f)
+    s = atleast_1d(s).astype(f.dtype)
+
+    tmp = f[0] + s[0]
+    n = f.size
+    a = zeros([n, n], dtype: tmp.dtype)
+    a[0] = f
+    (1...n).zip(0...(n - 1)) do |i, j|
+      puts i, j
     end
   end
 end

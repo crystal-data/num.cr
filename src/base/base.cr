@@ -2,6 +2,7 @@ require "./flags"
 require "./baseiter"
 require "./iter"
 require "./print"
+require "../core/assemble"
 require "../core/exceptions"
 
 abstract class Bottle::BaseArray(T)
@@ -762,7 +763,7 @@ abstract class Bottle::BaseArray(T)
   #         [[ 8,  9],
   #          [10, 11]]])
   # ```
-  def aref_set(*args, value : Tensor(T))
+  def aref_set(*args, value : BaseArray)
     idx = args.to_a
     fill = ndims - idx.size
     idx += [...] * fill
@@ -772,7 +773,7 @@ abstract class Bottle::BaseArray(T)
     end
 
     old.flat_iter.zip(value.flat_iter) do |i, j|
-      i.value = j.value
+      i.value = T.new(j.value)
     end
   end
 
@@ -815,7 +816,7 @@ abstract class Bottle::BaseArray(T)
   # t.slice([0, 0...1, 0...2]) #=>
   # Tensor([[0, 1]])
   # ```
-  def slice(idx : Array(Int32 | Range(Int32, Int32)))
+  def slice(idx : Array)
     slice_from_indexers(idx)
   end
 

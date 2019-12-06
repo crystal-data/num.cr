@@ -107,7 +107,7 @@ module Bottle::Creation
   # f = zeros_like(t, dtype: Int32)
   # f # => Tensor[0, 0, 0]
   # ```
-  def zeros_like(other : NDTensor, dtype : U.class = Float64) forall U
+  def zeros_like(other : Tensor, dtype : U.class = Float64) forall U
     Tensor(U).new(other.shape) { |_| U.new(0) }
   end
 

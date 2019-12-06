@@ -82,11 +82,33 @@ class Bottle::Tensor(T) < Bottle::BaseArray(T)
   end
 
   def inspect(io)
-    io << "Tensor(shape=#{shape}, dtype#{T})"
+    io << "Tensor(shape=#{shape}, dtype=#{T})"
   end
 
   def matrix_iter
     MatrixIter.new(self)
+  end
+
+  def apply_along_axis(axis = -1)
+    if axis < 0
+      axis += ndims
+    end
+    if axis < 0 || axis >= ndims
+      raise Exceptions::ShapeError.new("Dimension out of range for Tensor")
+    end
+    if ndims == 1
+      yield self
+    else
+      ts = shape.dup
+      ts.delete_at(axis)
+      iterations = ts.reduce { |i, j| i * j }
+      s0 = shape[-1]
+      buff = to_unsafe
+      iterations.times do |_|
+        yield Tensor(T).new(buff, [shape[axis]], [strides[axis]], flags, self, false)
+        buff += strides[-1]
+      end
+    end
   end
 
   private def triu2d(a : Tensor(T), k)
