@@ -1,9 +1,11 @@
 require "./flags"
 require "./baseiter"
-require "./iter"
 require "./print"
 require "../core/assemble"
 require "../core/exceptions"
+require "../iter/flat"
+require "../iter/nd"
+require "../iter/axes"
 
 abstract class Bottle::BaseArray(T)
   include Internal
@@ -521,9 +523,9 @@ abstract class Bottle::BaseArray(T)
 
   def flat_iter
     if flags.contiguous?
-      SafeFlat.new(buffer, size, 1)
+      Iter::ContigFlatIter.new(self)
     else
-      SafeND.new(buffer, shape, strides, ndims)
+      Iter::NDFlatIter.new(self)
     end
   end
 
@@ -537,14 +539,18 @@ abstract class Bottle::BaseArray(T)
 
   def unsafe_iter
     if flags.contiguous?
-      UnsafeFlat.new(buffer, size, 1)
+      Iter::UnsafeContigFlatIter.new(self)
     else
-      UnsafeND.new(buffer, shape, strides, ndims)
+      Iter::UnsafeNDFlatIter.new(self)
     end
   end
 
   def index_iter
     IndexIter.new(shape)
+  end
+
+  def axis_iter(axis : Int32)
+    Iter::AxisIter.new(self, axis)
   end
 
   private def slice_from_indexers(idx : Array)

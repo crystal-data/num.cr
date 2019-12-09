@@ -16,4 +16,7 @@ module Bottle::Exceptions
 
   class LinAlgError < Exception
   end
+
+  class AxisError < Exception
+  end
 end
