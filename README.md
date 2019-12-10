@@ -1,13 +1,13 @@
 ![num.cr](https://raw.githubusercontent.com/crystal-data/bottle/rename/static/numcr_logo.png)
 
-[![Build Status](https://travis-ci.org/crystal-data/bottle.svg?branch=master)](https://travis-ci.org/crystal-data/bottle) [![Join the chat at https://gitter.im/crystal-data/bottle](https://badges.gitter.im/crystal-data/bottle.svg)](https://gitter.im/crystal-data/bottle?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/crystal-data/bottle](https://badges.gitter.im/crystal-data/bottle.svg)](https://gitter.im/crystal-data/bottle?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Bottle is the core shard needed for scientific computing with Crystal
 
-- **Website:** https://crystal-data.github.io/bottle
-- **API Documentation:** https://crystal-data.github.io/bottle/
-- **Source code:** https://github.com/crystaldata/bottle
-- **Bug reports:** https://github.com/crystaldata/bottle/issues
+- **Website:** https://crystal-data.github.io/num.cr
+- **API Documentation:** https://crystal-data.github.io/num.cr/
+- **Source code:** https://github.com/crystaldata/num.cr
+- **Bug reports:** https://github.com/crystaldata/num.cr/issues
 
 It provides:
 
@@ -18,15 +18,15 @@ It provides:
 
 ## Prerequisites
 
-Bottle relies on OpenBLAS and LAPACK for many underlying computations, and the
-development packages must be present for Bottle to work correctly.
+Num.cr relies on OpenBLAS and LAPACK for many underlying computations, and the
+development packages must be present for Num.cr to work correctly.
 
 For Debian, use `libopenblas-dev` and `liblapack-dev`.  For other operating
 systems review the relevant installation instructions for that OS.
 
 ## Usage
 
-Bottle provides data structures that facilitate element-wise operations,
+Num.cr provides data structures that facilitate element-wise operations,
 accumulations, and reductions.  While some operations are backed by BLAS
 and LaPACK, many vectorized operations use iteration written in Crystal.
 The primary goal of this library was to provide a NumPy like interface in
@@ -36,11 +36,11 @@ improved.
 
 ## Getting Started
 
-To learn how to use the basic functionality of Bottle, check out the [quickstart guide](https://crystal-data.github.io/bottle/user/quickstart.html).
+To learn how to use the basic functionality of Num.cr, check out the [quickstart guide](https://crystal-data.github.io/num.cr/user/quickstart.html).
 
 Contributing
 ------------
-Bottle requires help in many different ways to continue to grow as a shard.
+Num.cr requires help in many different ways to continue to grow as a shard.
 Contributions such as high level documentation and code quality checks are needed just
 as much as API enhancements.  If you are considering larger scale contributions
 that extend beyond minor enhancements and bug fixes, contact Crystal Data
