@@ -6,8 +6,8 @@ macro extend_crystal_arithmetic(dtypes, operators)
   {% for dtype in dtypes %}
   struct {{dtype}}
     {% for operator in operators %}
-      def {{operator[:sym].id}}(other : Bottle::BaseArray)
-        Bottle::BMath.{{operator[:name]}}(self, other)
+      def {{operator[:sym].id}}(other : Num::BaseArray)
+        Num::BMath.{{operator[:name]}}(self, other)
       end
     {% end %}
   end

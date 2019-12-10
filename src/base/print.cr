@@ -1,7 +1,7 @@
 require "./base"
 require "../iter/nd"
 
-module Bottle::Internal::ToString
+module Num::Internal::ToString
   class BasePrinter(T)
     @t : BaseArray(T)
     @idx : Array(Int32)

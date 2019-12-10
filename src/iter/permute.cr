@@ -1,6 +1,6 @@
 require "../base/base"
 
-struct Bottle::Internal::PermuteIter(T)
+struct Num::Internal::PermuteIter(T)
   include Iterator(T)
 
   @shape : Array(Int32)

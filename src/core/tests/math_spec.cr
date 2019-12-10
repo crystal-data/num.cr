@@ -4,7 +4,7 @@ macro test_elementwise(first, second, output, operation, description)
   it {{description}} do
     a = Tensor.from_array {{first}}
     b = Tensor.from_array {{second}}
-    res = B.{{operation}}(a, b)
+    res = N.{{operation}}(a, b)
     assert_array_equal res, Tensor.from_array {{output}}
   end
 end
@@ -14,13 +14,13 @@ macro test_trig(first, operations)
     it "applies the stdlibs {{operation}} operation to a tensor" do
       desired = Tensor.from_array({{first}}.map { |el| Math.{{operation}}(el) })
       inp = Tensor.from_array {{first}}
-      res = B.{{operation}}(inp)
+      res = N.{{operation}}(inp)
       assert_array_equal res, desired
     end
   {% end %}
 end
 
-describe Bottle::BMath do
+describe Num::BMath do
   describe "elementwise" do
     test_elementwise [1, 2], [3, 4], [4, 6], add, "adds two similarly shaped tensors"
     test_elementwise [1, 2], [3, 4], [-2, -2], subtract, "subtracts two similarly shaped tensors"

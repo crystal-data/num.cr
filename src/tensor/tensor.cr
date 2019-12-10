@@ -7,7 +7,7 @@ require "complex"
 require "../libs/cblas"
 require "../testing/testing"
 
-class Bottle::Tensor(T) < Bottle::BaseArray(T)
+class Num::Tensor(T) < Num::BaseArray(T)
   # Compile time checking of data types of a `Tensor` to ensure
   # mixing data types is not allowed, not are bad data types
   # allowed into the `Tensor`

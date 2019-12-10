@@ -11,7 +11,7 @@ import numpy as np
 ```
 
 ```crystal
-require "Bottle"
+require "num"
 ```
 
 #### 2. Print the numpy version and the configuration (★☆☆)

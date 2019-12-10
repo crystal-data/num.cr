@@ -4,65 +4,65 @@ macro reduce_operation_axis(arr, output, axis, operation)
   it "reduces along axis {{axis}} using {{operation}}" do
     t = Tensor.from_array {{arr}}
     desired = Tensor.from_array {{output}}
-    res = B.{{operation}}(t, axis: {{axis}})
+    res = N.{{operation}}(t, axis: {{axis}})
     assert_array_equal res, desired
   end
 end
 
-describe Bottle::Statistics do
+describe Num::Statistics do
   describe "reduction to scalars" do
     it "sum reduces to scalar" do
-      t = B.arange(100_000, dtype: Float64)
+      t = N.arange(100_000, dtype: Float64)
       t.sum.should eq 4999950000.0
     end
 
     it "strided sum reduces to scalar" do
-      t = B.arange(100).reshape([10, 10])[..., 1]
+      t = N.arange(100).reshape([10, 10])[..., 1]
       t.sum.should eq 460
     end
 
     it "prod reduces to scalar" do
-      t = B.arange(1, 10, dtype: Float64)
-      B.prod(t).should eq 362880.0
+      t = N.arange(1, 10, dtype: Float64)
+      N.prod(t).should eq 362880.0
     end
 
     it "strided prod reduces to scalar" do
-      t = (B.arange(10, 110)//10).reshape([10, 10])[..., 1]
-      B.prod(t).should eq 3628800
+      t = (N.arange(10, 110)//10).reshape([10, 10])[..., 1]
+      N.prod(t).should eq 3628800
     end
 
     it "all reduces to boolean" do
       t = Tensor.from_array [true, true, true, false]
-      B.all(t).should be_false
+      N.all(t).should be_false
     end
 
     it "any reduces to scalar" do
       t = Tensor.from_array [false, true, false, false]
-      B.any(t).should be_true
+      N.any(t).should be_true
     end
 
     it "mean reduces to scalar" do
-      t = B.arange(1, 10)
-      B.mean(t).should eq 5.0
+      t = N.arange(1, 10)
+      N.mean(t).should eq 5.0
     end
 
     it "std reduces to scalar" do
-      t = B.arange(2)
-      B.std(t).should eq 0.5
+      t = N.arange(2)
+      N.std(t).should eq 0.5
     end
 
     it "max reduces to scalar" do
-      t = B.arange(100)
-      B.max(t).should eq 99
+      t = N.arange(100)
+      N.max(t).should eq 99
     end
 
     it "min reduces to scalar" do
-      t = B.arange(100)
-      B.min(t).should eq 0
+      t = N.arange(100)
+      N.min(t).should eq 0
     end
 
     it "ptp reduces to scalar" do
-      t = B.arange(100)
+      t = N.arange(100)
     end
   end
 

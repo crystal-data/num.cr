@@ -1,6 +1,6 @@
 require "../base/base"
 
-struct Bottle::Iter::AxisIter(T)
+struct Num::Iter::AxisIter(T)
   include Iterator(T)
   @shape : Array(Int32)
   @strides : Array(Int32)

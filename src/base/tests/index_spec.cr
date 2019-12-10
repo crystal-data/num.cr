@@ -1,6 +1,6 @@
 require "../../__test__"
 
-describe Bottle::BaseArray do
+describe Num::BaseArray do
   describe "BaseArray#indexing" do
     it "accesses scalar value" do
       m = MockArray.new([3, 2, 2]) { |i| i }

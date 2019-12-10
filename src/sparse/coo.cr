@@ -1,7 +1,7 @@
 require "../tensor/tensor"
 
-struct Bottle::Sparse::CooMatrix(T)
-  include Bottle::Internal
+struct Num::Sparse::CooMatrix(T)
+  include Internal
   getter shape : Array(Int32)
   getter ndims : Int32 = 2
   getter nnz : Int32 = 0

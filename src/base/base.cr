@@ -1,5 +1,7 @@
 require "./flags"
 require "./print"
+require "./transform"
+require "./stride_tricks"
 require "../core/assemble"
 require "../core/exceptions"
 require "../iter/flat"
@@ -8,7 +10,7 @@ require "../iter/axes"
 require "../iter/index"
 require "../iter/permute"
 
-abstract class Bottle::BaseArray(T)
+abstract class Num::BaseArray(T)
   include Internal
 
   # Buffer pointing to the start of the array's data buffer
@@ -31,215 +33,6 @@ abstract class Bottle::BaseArray(T)
 
   # Base object if memory is from another array
   getter base : BaseArray(T)? = nil
-
-  # Checked on each attempt to write to an array, this value ensures that
-  # arrays can only be edited if they are supposed to be, forbidding access
-  # if for the example the array is a strided view where many elements share
-  # the same memory locations.
-  private def can_write
-    unless flags.write?
-      raise Exceptions::WriteError.new("Attempt to write to a read-only container")
-    end
-  end
-
-  # The type of elements contained in an array's data buffer, this ideally
-  # should be a non-union data type.
-  def dtype
-    T
-  end
-
-  # The total size in bytes of each element of the array.  This is primarily
-  # used for outputting an array to a .npy file, or reading a file from
-  # an npy file into an array.
-  def bytesize
-    itemsize // sizeof(UInt8)
-  end
-
-  # The size, in bytes, of each element in an array.
-  def itemsize
-    {% if T == Bool %}
-      1
-    {% else %}
-      sizeof(T)
-    {% end %}
-  end
-
-  # Finds the strides that must be present in order to broadcast an existing
-  # array to a new array, or raises that the array cannot be broadcasted into
-  # the provided shape.
-  #
-  # This method is primarily used by unsafe methods, such as `broadcast_to`.
-  # When using this method, the resulting array's flags should ideally be
-  # set to readonly, since many locations can share memory.  This method is
-  # a safer alternative to `as_strided`
-  private def broadcast_strides(dest_shape, src_shape, dest_strides, src_strides)
-    # Find where the strides need to begin to match the input
-    # shape/strides to the new shape
-    dims = dest_shape.size
-    start = dims - src_shape.size
-
-    ret = [0] * dims
-    (dims - 1).step(to: start, by: -1) do |i|
-      s = src_shape[i - start]
-      case s
-      # Zero strides in a dimension is the easiest way to "trick"
-      # the nditerator to traverse that dimension multiple times
-      # and produce the same value.  This does however mean that
-      # the iterator will produce many instances of the same pointer
-      # when iterating through a broadcasted array.
-      #
-      # This is the reason for the read only flag on an array.
-      when 1
-        ret[i] = 0
-      when dest_shape[i]
-        # Otherwise the broadcasted strides will be computed from
-        # the source strides, this path will always be chosen when
-        # trying to broadcast to an identically shaped array for example.
-        ret[i] = src_strides[i - start]
-      else
-        # Since the zero shaped dimensions will appear with invalid broadcasts,
-        # raise here to indicate that the two shapes are incompatible.
-        raise Exceptions::ShapeError.new("Cannot broadcast from #{src_shape} to #{dest_shape}")
-      end
-    end
-    ret
-  end
-
-  # This method checks if two shapes are broadcastable with each other
-  # in their current form.  There are several manipulations that can
-  # be done on shapes to make them broadcastable eventually, so this
-  # may be checked several times when broadcasting.
-  private def broadcast_equal(a, b)
-    bc = true
-    a.zip(b) do |i, j|
-      # Shapes can be broadcast against each other if for every dimension
-      # the following is true: the dimensions are equal among the two shapes,
-      # or either of the dimensions is equal to 1
-      if !(i == j || i == 1 || j == 1)
-        bc = false
-      end
-    end
-    bc
-  end
-
-  # Once an array is determined to be broadcastable, the resulting
-  # shape is simply the maximum value found at each dimension of the
-  # two shapes.
-  private def broadcastable_shape(a, b)
-    a.zip(b).map do |i|
-      Math.max(i[0], i[1])
-    end
-  end
-
-  # Determines if two shapes are broadcastable against each other.
-  # The rules for checking this property are well defined:
-  #
-  # Two dimensions are compatible if:
-  #   - they are equal
-  #   - one of them is equal to 1
-  #
-  # If the axes of the array are different lengths, dimensions of
-  # size one can be appended to one or the other in order to make
-  # the arrays broadcastable against each other and satisfy the
-  # rules for broadcastable dimensions.
-  def broadcastable(other : BaseArray)
-    # Fast track instances where the two shapes already match, no
-    # need in pointlessly calculating the same shape that
-    # already exists
-    return [] of Int32 unless shape != other.shape
-
-    sz = shape.size
-    osz = other.shape.size
-
-    # If the sizes already match, the rules are well defined
-    # to make a broadcast.
-    if sz == osz
-      # Check the shapes, return the new shape, both arrays will
-      # be broadcasted, so this can't be used for in-place operations,
-      # only one of the arrays can be broadcasted in that case.
-      if broadcast_equal(shape, other.shape)
-        return broadcastable_shape(shape, other.shape)
-      end
-    else
-      # Both of these paths prepend ones to the smaller shape
-      # in order to match broadcasting rules.
-      if sz > osz
-        othershape = [1] * (sz - osz) + other.shape
-        if broadcast_equal(shape, othershape)
-          return broadcastable_shape(shape, othershape)
-        end
-      else
-        selfshape = [1] * (osz - sz) + shape
-        if broadcast_equal(selfshape, other.shape)
-          return broadcastable_shape(selfshape, other.shape)
-        end
-      end
-    end
-    # If no broadcasting is possible, raise a ShapeError.  No other
-    # result makes sense, operation has to fail.
-    raise Exceptions::ShapeError.new("Shapes #{shape} and #{other.shape} are not broadcastable")
-  end
-
-  # Broadcasts an array to a new shape. A readonly view on the original array
-  # with the given shape. It is typically not contiguous. Furthermore,
-  # more than one element of a broadcasted array may refer to a single
-  # memory location.
-  def broadcast_to(newshape)
-    dim = newshape.size
-    defstrides = [0] * dim
-    sz = 1
-    dim.times do |i|
-      defstrides[dim - i - 1] = sz
-      sz *= newshape[dim - i - 1]
-    end
-
-    newstrides = broadcast_strides(newshape, shape, defstrides, strides)
-    newflags = ArrayFlags::None
-
-    self.class.new(@buffer, newshape, newstrides, newflags, @base, false)
-  end
-
-  # as_strided creates a view into the array given the exact strides and
-  # shape. This means it manipulates the internal data structure of
-  # a Tensor and, if done incorrectly, the array elements can point
-  # to invalid memory and can corrupt results or crash your program.
-  # It is advisable to always use the original x.strides when
-  # calculating new strides to avoid reliance on a contiguous
-  # memory layout.
-  #
-  # Furthermore, arrays created with this function often contain self
-  # overlapping memory, so that two elements are identical.
-  # Vectorized write operations on such arrays will typically be
-  # unpredictable. They may even give different results for
-  # small, large, or transposed arrays. Since writing to these
-  # arrays has to be tested and done with great care, you may want
-  # to use writeable=false to avoid accidental write operations.
-  def as_strided(shape, strides, writeable = false)
-    newflags = flags.dup
-    if !writeable
-      newflags = ArrayFlags::None
-    end
-    newbase = @base.nil? ? self : @base
-    self.class.new(@buffer, shape, strides, newflags, newbase)
-  end
-
-  # Until I figure out how to add broadcasting as an indexing operation,
-  # this is how you expand the dimensions of a Tensor to make operations
-  # easier to conduct on tensors with mismatching shapes.
-  def bc?(axis : Int32)
-    newshape = shape.dup
-    newstrides = strides.dup
-    if axis < ndims
-      newshape.insert(axis, 1)
-      newstrides.insert(axis, 0)
-    elsif axis == ndims
-      newshape << 1
-      newstrides << 0
-    else
-      raise Exceptions::ShapeError.new("Too many dimensions for tensor")
-    end
-    as_strided(newshape, newstrides, true)
-  end
 
   # All children must define a function that checks data for
   # valid dtypes.  For example, the Tensor class only holds
@@ -362,14 +155,6 @@ abstract class Bottle::BaseArray(T)
     new(shape, order, ptr)
   end
 
-  def self.from_proc(shape : Array(Int32), prok : Proc(Int32, U), order : ArrayFlags = ArrayFlags::Contiguous) forall U
-    total = shape.reduce { |i, j| i * j }
-    ptr = Pointer(U).malloc(total) do |i|
-      prok.call(i)
-    end
-    new(shape, order, ptr)
-  end
-
   # Yields a `Tensor` from a provided number of rows and columns.
   # This can quickly create matrices, useful for several `Tensor` creattion
   # methods such as the underlying implementation of `eye`, and `diag`.
@@ -397,22 +182,13 @@ abstract class Bottle::BaseArray(T)
     end
   end
 
-  private def self.calculate_shape(arr, calc_shape : Array(Int32) = [] of Int32)
-    return calc_shape unless arr.is_a?(Array)
-
-    first_el = arr[0]
-    if first_el.is_a?(Array)
-      lc = first_el.size
-      unless arr.all? do |el|
-               el.is_a?(Array) && el.size == lc
-             end
-        raise Exceptions::ShapeError.new("All subarrays must be the same length")
-      end
+  # Yields an Array from a proc, applying the function on each index of the Array
+  def self.from_proc(shape : Array(Int32), prok : Proc(Int32, U), order : ArrayFlags = ArrayFlags::Contiguous) forall U
+    total = shape.reduce { |i, j| i * j }
+    ptr = Pointer(U).malloc(total) do |i|
+      prok.call(i)
     end
-
-    calc_shape << arr.size
-    calc_shape = calculate_shape(arr[0], calc_shape)
-    calc_shape
+    new(shape, order, ptr)
   end
 
   def self.from_array(array : Array)
@@ -432,101 +208,83 @@ abstract class Bottle::BaseArray(T)
     new(ptr, newshape, newstrides, ArrayFlags::Contiguous, nil)
   end
 
-  # Asserts if a `Tensor` is fortran contiguous, otherwise known
-  # as stored in column major order.  This is not the default
-  # layout for `Tensor`'s, but can provide performance benefits
-  # when passing to LaPACK routines since otherwise the
-  # `Tensor` must be transposed in memory.
-  def is_fortran_contiguous
-    # Empty Tensors are always both c-contig and f-contig
-    return true unless ndims != 0
-
-    # one-dimensional `Tensors` can be both c and f contiguous,
-    # but not for multi-strided arrays
-    if ndims == 1
-      return @shape[0] == 1 || strides[0] == 1
+  # Returns a view of a Tensor from a list of indices or
+  # ranges.
+  def [](*args)
+    # Setting up args to compute the offset, filling
+    # missing dimensions with empty ranges so that
+    # all ranges don't have to be explicitly defined
+    idx = args.to_a
+    if idx.is_a?(Array(Int32)) && idx.size == ndims
+      return scalar(idx)
     end
-
-    # Otherwise, have to compute based on a fixed
-    # stride offset
-    sd = 1
-    ndims.times do |i|
-      dim = @shape[i]
-      return true unless dim != 0
-      return false unless @strides[i] == sd
-      sd *= dim
-    end
-    true
+    fill = ndims - idx.size
+    idx += [...] * fill
+    slice_from_indexers(idx)
   end
 
-  # Asserts if a `Tensor` is c contiguous, otherwise known
-  # as stored in row major order.  This is the default memory
-  # storage for NDArray
-  def is_contiguous
-    # Empty Tensors are always both c-contig and f-contig
-    return true unless ndims != 0
-
-    # one-dimensional `Tensors` can be both c and f contiguous,
-    # but not for multi-strided arrays
-    if ndims == 1
-      return @shape[0] == 1 || @strides[0] == 1
-    end
-
-    # Otherwise, have to compute based on a fixed
-    # stride offset
-    sd = 1
-    (ndims - 1).step(to: 0, by: -1) do |i|
-      dim = @shape[i]
-      return true unless dim != 0
-      return false unless @strides[i] == sd
-      sd *= dim
-    end
-    true
-  end
-
-  # Updates a `Tensor`'s flags by determining its
-  # memory layout.  Multidimension tensors cannot be
-  # both c and f contiguous, but this needs to be checked.
+  # Assigns a `Tensor` to a slice of an array.
+  # The provided tensor must be the same shape
+  # as the slice in order for this method to
+  # work.
   #
-  # This method should really only be called by internal
-  # methods, or once stride tricks are exposed.
-  protected def update_flags(flagmask, writeable = true)
-    if flagmask & ArrayFlags::Fortran
-      if is_fortran_contiguous
-        @flags |= ArrayFlags::Fortran
-
-        # mutually exclusive
-        if ndims > 1
-          @flags &= ~ArrayFlags::Contiguous
-        end
-      else
-        @flags &= ~ArrayFlags::Fortran
-      end
-    end
-
-    if flagmask & ArrayFlags::Contiguous
-      if is_contiguous
-        @flags |= ArrayFlags::Contiguous
-
-        # mutually exclusive
-        if ndims > 1
-          @flags &= ~ArrayFlags::Fortran
-        end
-      else
-        @flags &= ~ArrayFlags::Contiguous
-      end
-    end
-
-    if writeable
-      @flags |= ArrayFlags::Write
+  # ```
+  # t = Tensor.new([3, 2, 2]) { |i| i }
+  # t[[1]] = Tensor.new([2, 2]) { |i| i * 20 }
+  # t # =>
+  # Tensor([[[ 0,  1],
+  #          [ 2,  3]],
+  #
+  #         [[ 0, 20],
+  #          [40, 60]],
+  #
+  #         [[ 8,  9],
+  #          [10, 11]]])
+  # ```
+  def []=(idx : Array, assign : BaseArray(T))
+    can_write
+    fill = ndims - idx.size
+    idx += [...] * fill
+    old = slice_from_indexers(idx)
+    old.flat_iter.zip(assign.flat_iter) do |i, j|
+      i.value = j.value
     end
   end
 
+  # Sets a view of an array from a list of indices or ranges
+  def []=(*args : *U) forall U
+    can_write
+    {% begin %}
+      aref_set(
+        {% for i in 0...U.size - 1 %}
+          args[{{i}}],
+        {% end %}
+        value: args[{{U.size - 1}}]
+      )
+    {% end %}
+  end
+
+  # Slices a `Tensor` from an array of integers or ranges
+  # Primarily used when you can't pass *args to the index
+  # method but still need the functionality.
+  #
+  # ```
+  # t = Tensor.new([2, 2, 3]) { |i| i }
+  # t.slice([0, 0...1, 0...2]) #=>
+  # Tensor([[0, 1]])
+  # ```
+  def slice(idx : Array)
+    slice_from_indexers(idx)
+  end
+
+  # String representation of an n-dimensional array
   def to_s(io)
     printer = ToString::BasePrinter.new(self, io)
     printer.print
   end
 
+  # A flat iterator of the items in the array.  Always iterates
+  # in c-contiguous order.
   def flat_iter
     if flags.contiguous?
       Iter::ContigFlatIter.new(self)
@@ -535,6 +293,7 @@ abstract class Bottle::BaseArray(T)
     end
   end
 
+  # A flat iterator with a flat index.
   def flat_iter_indexed
     i = -1
     flat_iter.each do |el|
@@ -543,6 +302,7 @@ abstract class Bottle::BaseArray(T)
     end
   end
 
+  # An iterator that never yields a STOP
   def unsafe_iter
     if flags.contiguous?
       Iter::UnsafeContigFlatIter.new(self)
@@ -551,14 +311,221 @@ abstract class Bottle::BaseArray(T)
     end
   end
 
+  # Iterator along the indices of an array
   def index_iter
     IndexIter.new(shape)
   end
 
-  def axis_iter(axis : Int32)
-    Iter::AxisIter.new(self, axis)
+  # The value of an array's data pointer
+  def value
+    @buffer.value
   end
 
+  # The type of elements contained in an array's data buffer, this ideally
+  # should be a non-union data type.
+  def dtype
+    T
+  end
+
+  # The total size in bytes of each element of the array.  This is primarily
+  # used for outputting an array to a .npy file, or reading a file from
+  # an npy file into an array.
+  def bytesize
+    itemsize // sizeof(UInt8)
+  end
+
+  # The size, in bytes, of each element in an array.
+  def itemsize
+    {% if T == Bool %}
+      1
+    {% else %}
+      sizeof(T)
+    {% end %}
+  end
+
+  # Total number of bytes taken up by items in the `Tensor`s
+  # data buffer.
+  def nbytes
+    size * sizeof(T)
+  end
+
+  # Duplicates a BaseArray, respecting the passed order of memory
+  # provided.  Useful for throwing `Tensor`s down to LAPACK
+  # since they must be in Fortran style order
+  def dup(order : Char? = nil)
+    Transform.dup(self, order)
+  end
+
+  # Shallow copies the `Tensor`.  Shape and strides are copied, but
+  # the underlying data is not.  The returned `Tensor` does
+  # not own its own data, and its base reflects that.
+  def dup_view
+    Transform.dup_view(self)
+  end
+
+  # Returns a view of the diagonal of a `Tensor`  only valid if
+  # the `Tensor` has two dimensions.  Offsets are not supported.
+  def diag_view
+    Transform.diag_view(self)
+  end
+
+  # New view of array with the same data.
+  def view(dtype : U.class) forall U
+    StrideTricks.view(self, dtype)
+  end
+
+  # Fits a `Tensor` into a new shape, not
+  # altering memory if possible.  However, the `Tensor` is
+  # usually copied.
+  def reshape(newshape : Array(Int32))
+    Transform.reshape(self, newshape)
+  end
+
+  # Fits a `Tensor` into a new shape, not
+  # altering memory if possible.  However, the `Tensor` is
+  # usually copied.
+  def reshape(*args)
+    Transform.reshape(self, *args)
+  end
+
+  # Flatten an array, returning a view if possible.
+  # If the array is either fortran or c-contiguous, a view will be returned,
+  def ravel
+    Transform.ravel(self)
+  end
+
+  # Copy of the array, cast to a specified type.
+  def astype(dtype : U.class) forall U
+    Transform.astype(self, dtype)
+  end
+
+  # Permute the dimensions of a `Tensor`.  If no order is provided,
+  # the dimensions will be reversed, a "true transpose".  Otherwise,
+  # the dimensions will be permutated in the order provided.
+  def transpose(order : Array(Int32))
+    Transform.transpose(self, order)
+  end
+
+  # Permute the dimensions of a `Tensor`.  If no order is provided,
+  # the dimensions will be reversed, a "true transpose".  Otherwise,
+  # the dimensions will be permutated in the order provided.
+  def transpose(*args)
+    Transform.transpose(self, *args)
+  end
+
+  def tolist
+    (0...shape[0]).map { |e| self[e] }
+  end
+
+  # Permutes an array along an axis, yielding the tensors at each
+  # index of two varying axes.
+  def permute_along_axis(axis)
+    if ndims == 1
+      yield self
+    else
+      if axis < 0
+        axis = ndims + axis
+      end
+      raise "Axis out of range for this array" unless axis < ndims
+
+      PermuteIter.new(self, axis).each do |perm|
+        yield slice(perm)
+      end
+    end
+  end
+
+  # Reduces a tensor along an axis
+  def reduce_fast(axis, keepdims = false)
+    if axis < 0
+      axis = ndims + axis
+    end
+    raise "Axis out of range for this array" unless axis < ndims
+    newshape = shape.dup
+    newstrides = strides.dup
+    ptr = buffer
+
+    if !keepdims
+      newshape.delete_at(axis)
+      newstrides.delete_at(axis)
+    else
+      newshape[axis] = 1
+      newstrides[axis] = 0
+    end
+
+    ret = self.class.new(buffer, newshape, newstrides, flags, nil).dup
+
+    1.step(to: shape[axis] - 1) do |_|
+      ptr += strides[axis]
+      tmp = self.class.new(ptr, newshape, newstrides, flags, nil)
+      ret.flat_iter.zip(tmp.flat_iter) do |x, y|
+        yield x, y
+      end
+    end
+    ret
+  end
+
+  # Apply an operation along the last axis of a tensor
+  def apply_last_axis
+    if ndims == 0
+      raise Exceptions::ShapeError.new("Array has no axes")
+    elsif ndims == 1
+      yield self
+    else
+      n = shape[...-1].reduce { |i, j| i * j }
+      newshape = shape[-1...]
+      newstrides = strides[-1...]
+      newbase = @base.nil? ? @base : self
+      ptr = buffer
+      0.step(to: n - 1) do |_|
+        tmp = self.class.new(ptr, newshape, newstrides, ArrayFlags::None, newbase)
+        yield tmp
+        ptr += newstrides[0] * newshape[0]
+      end
+    end
+  end
+
+  # Accumulate an operation along an axis of a tensor
+  def accumulate_fast(axis)
+    if axis < 0
+      axis = ndims + axis
+    end
+    raise "Axis out of range for this array" unless axis < ndims
+    arr = dup
+    newshape = shape.dup
+    newstrides = strides.dup
+    ptr = arr.buffer
+    newshape.delete_at(axis)
+    newstrides.delete_at(axis)
+
+    ret = self.class.new(buffer, newshape, newstrides, flags, nil)
+    1.step(to: shape[axis] - 1) do |_|
+      ptr += strides[axis]
+      tmp = self.class.new(ptr, newshape, newstrides, flags, nil)
+      tmp.flat_iter.zip(ret.flat_iter) do |ii, jj|
+        yield ii, jj
+      end
+      ret = tmp
+    end
+    arr
+  end
+
+  def broadcastable(other : BaseArray)
+    StrideTricks.broadcastable(self, other)
+  end
+
+  def broadcast_to(newshape : Array(Int32))
+    StrideTricks.broadcast_to(self, newshape)
+  end
+
+  def as_strided(shape : Array(Int32), strides : Array(Int32), writeable = false)
+    StrideTricks.as_strided(self, shape, strides, writeable)
+  end
+
+  protected def update_flags(flagmask : ArrayFlags = ArrayFlags::Contiguous, writeable = true)
+    @flags = FlagChecks.update_flags(self, flags, flagmask, ndims, writeable)
+  end
+
+  # Computes the slice of an array from an array of indexers.
   private def slice_from_indexers(idx : Array)
     # These will be mutated since the slice does
     # not necessarily share the shape of the base.
@@ -620,6 +587,68 @@ abstract class Bottle::BaseArray(T)
     ret
   end
 
+  # Assigns a `Tensor` to a slice of an array.
+  # The provided tensor must be the same shape
+  # as the slice in order for this method to
+  # work.
+  #
+  # ```
+  # t = Tensor.new([3, 2, 2]) { |i| i }
+  # t[[1]] = Tensor.new([2, 2]) { |i| i * 20 }
+  # t # =>
+  # Tensor([[[ 0,  1],
+  #          [ 2,  3]],
+  #
+  #         [[ 0, 20],
+  #          [40, 60]],
+  #
+  #         [[ 8,  9],
+  #          [10, 11]]])
+  # ```
+  private def aref_set(*args, value : BaseArray)
+    idx = args.to_a
+    fill = ndims - idx.size
+    idx += [...] * fill
+    old = slice_from_indexers(idx)
+    if old.shape != value.shape
+      value = value.broadcast_to(old.shape)
+    end
+
+    old.flat_iter.zip(value.flat_iter) do |i, j|
+      i.value = T.new(j.value)
+    end
+  end
+
+  # Assigns a scalar value to a slice of a `Tensor`.
+  # The value is tiled along the entire slice.
+  #
+  # ```
+  # t = Tensor.new([2, 2, 3]) { |i| i }
+  # t[[1]] = 99
+  # t #=>
+  # Tensor([[[ 0,  1],
+  #          [ 2,  3]],
+  #
+  #         [[99, 99],
+  #          [99, 99]],
+  #
+  #         [[99, 99],
+  #          [99, 99]]])
+  # ```
+  private def aref_set(*args, value : Number)
+    idx = args.to_a
+    if idx.is_a?(Array(Int32)) && idx.size == ndims
+      scalar_set(idx, value)
+    else
+      fill = ndims - idx.size
+      idx += [...] * fill
+      old = slice_from_indexers(idx)
+      old.flat_iter.each do |i|
+        i.value = T.new(value)
+      end
+    end
+  end
+
   # An indexing method for an array of Integers
   # that produce a scalar. To disallow ambiguity
   # of return type, this method must be passed
@@ -641,10 +670,6 @@ abstract class Bottle::BaseArray(T)
       offset += i * j
     end
     self.class.new(@buffer[offset])
-  end
-
-  def value
-    @buffer.value
   end
 
   # Sets a single value in a `Tensor` based on
@@ -681,520 +706,32 @@ abstract class Bottle::BaseArray(T)
     end
   end
 
-  # Returns a view of a NTensor from a list of indices or
-  # ranges.
-  #
-  # ```
-  # t = BaseArray.new([2, 4, 4]) { |i| i }
-  # ```
-  def [](*args)
-    # Setting up args to compute the offset, filling
-    # missing dimensions with empty ranges so that
-    # all ranges don't have to be explicitly defined
-    idx = args.to_a
-    if idx.is_a?(Array(Int32)) && idx.size == ndims
-      return scalar(idx)
-    end
-    fill = ndims - idx.size
-    idx += [...] * fill
-    slice_from_indexers(idx)
-  end
+  # Calculates the shape of a standard library array
+  private def self.calculate_shape(arr, calc_shape : Array(Int32) = [] of Int32)
+    return calc_shape unless arr.is_a?(Array)
 
-  def [](mask : BaseArray(Bool))
-    if mask.shape != shape
-      mask = mask.broadcast_to(shape)
-    end
-
-    ret = Pointer(T).malloc(size)
-    elems = 0
-    flat_iter.zip(mask.flat_iter) do |i, j|
-      if j.value
-        ret[elems] = i.value
-        elems += 1
-      end
-    end
-    ret = ret.realloc(elems)
-    self.class.new([elems]) { |i| ret[i] }
-  end
-
-  # Assigns a `Tensor` to a slice of an array.
-  # The provided tensor must be the same shape
-  # as the slice in order for this method to
-  # work.
-  #
-  # ```
-  # t = Tensor.new([3, 2, 2]) { |i| i }
-  # t[[1]] = Tensor.new([2, 2]) { |i| i * 20 }
-  # t # =>
-  # Tensor([[[ 0,  1],
-  #          [ 2,  3]],
-  #
-  #         [[ 0, 20],
-  #          [40, 60]],
-  #
-  #         [[ 8,  9],
-  #          [10, 11]]])
-  # ```
-  def []=(idx : Array, assign : BaseArray(T))
-    can_write
-    fill = ndims - idx.size
-    idx += [...] * fill
-    old = slice_from_indexers(idx)
-    old.flat_iter.zip(assign.flat_iter) do |i, j|
-      i.value = j.value
-    end
-  end
-
-  def []=(*args : *U) forall U
-    can_write
-    {% begin %}
-      aref_set(
-        {% for i in 0...U.size - 1 %}
-          args[{{i}}],
-        {% end %}
-        value: args[{{U.size - 1}}]
-      )
-    {% end %}
-  end
-
-  # Assigns a `Tensor` to a slice of an array.
-  # The provided tensor must be the same shape
-  # as the slice in order for this method to
-  # work.
-  #
-  # ```
-  # t = Tensor.new([3, 2, 2]) { |i| i }
-  # t[[1]] = Tensor.new([2, 2]) { |i| i * 20 }
-  # t # =>
-  # Tensor([[[ 0,  1],
-  #          [ 2,  3]],
-  #
-  #         [[ 0, 20],
-  #          [40, 60]],
-  #
-  #         [[ 8,  9],
-  #          [10, 11]]])
-  # ```
-  def aref_set(*args, value : BaseArray)
-    idx = args.to_a
-    fill = ndims - idx.size
-    idx += [...] * fill
-    old = slice_from_indexers(idx)
-    if old.shape != value.shape
-      value = value.broadcast_to(old.shape)
-    end
-
-    old.flat_iter.zip(value.flat_iter) do |i, j|
-      i.value = T.new(j.value)
-    end
-  end
-
-  # Assigns a scalar value to a slice of a `Tensor`.
-  # The value is tiled along the entire slice.
-  #
-  # ```
-  # t = Tensor.new([2, 2, 3]) { |i| i }
-  # t[[1]] = 99
-  # t #=>
-  # Tensor([[[ 0,  1],
-  #          [ 2,  3]],
-  #
-  #         [[99, 99],
-  #          [99, 99]],
-  #
-  #         [[99, 99],
-  #          [99, 99]]])
-  # ```
-  def aref_set(*args, value : Number)
-    idx = args.to_a
-    if idx.is_a?(Array(Int32)) && idx.size == ndims
-      scalar_set(idx, value)
-    else
-      fill = ndims - idx.size
-      idx += [...] * fill
-      old = slice_from_indexers(idx)
-      old.flat_iter.each do |i|
-        i.value = T.new(value)
-      end
-    end
-  end
-
-  # Slices a `Tensor` from an array of integers or ranges
-  # Primarily used when you can't pass *args to the index
-  # method but still need the functionality.
-  #
-  # ```
-  # t = Tensor.new([2, 2, 3]) { |i| i }
-  # t.slice([0, 0...1, 0...2]) #=>
-  # Tensor([[0, 1]])
-  # ```
-  def slice(idx : Array)
-    slice_from_indexers(idx)
-  end
-
-  # Duplicates a `Tensor`, respecting the passed order of memory
-  # provided.  Useful for throwing `Tensor`s down to LAPACK
-  # since they must be in Fortran style order
-  #
-  # ```
-  # t = B.arange(5)
-  # t.dup # => Tensor([0, 1, 2, 3, 4])
-  # ```
-  def dup(order : Char? = nil) forall U
-    contig = uninitialized ArrayFlags
-    case order
-    when 'C'
-      contig = ArrayFlags::Contiguous
-    when 'F'
-      contig = ArrayFlags::Fortran
-    when nil
-      contig = flags & (ArrayFlags::Contiguous | ArrayFlags::Fortran)
-    else
-      raise Exceptions::ValueError.new(
-        "Invalid argument for order.  Valid options or 'C', or 'F'")
-    end
-    ret = self.class.new(shape, contig)
-    if (contig & flags != ArrayFlags::None)
-      ret = self.class.new(shape, contig)
-      @buffer.copy_to(ret.@buffer, size)
-    else
-      ret.flat_iter.zip(flat_iter).each do |i, j|
-        i.value = j.value
-      end
-    end
-    ret.update_flags(ArrayFlags::Fortran | ArrayFlags::Contiguous)
-    ret
-  end
-
-  # Shallow copies the `Tensor`.  Shape and strides are copied, but
-  # the underlying data is not.  The returned `Tensor` does
-  # not own its own data, and its base reflects that.
-  def dup_view
-    newshape = @shape.dup
-    newstrides = @strides.dup
-    newflags = @flags.dup
-    newflags &= ~ArrayFlags::OwnData
-    newbase = @base ? @base : self
-    self.class.new(@buffer, newshape, newstrides, newflags, newbase)
-  end
-
-  # Returns a view of the diagonal of a `Tensor`  only valid if
-  # the `Tensor` has two dimensions.  Offsets are not supported.
-  #
-  # ```
-  # t = Tensor.new([3, 3]) { |i| i }
-  # t.diag_view # => Tensor([0, 4, 8])
-  def diag_view
-    raise Exceptions::ShapeError.new("Tensor must be two-dimensional") unless ndims == 2
-    nel = shape.min
-    newshape = [nel]
-    newstrides = [strides.sum]
-    newflags = flags.dup
-    newflags &= ~ArrayFlags::OwnData
-    newbase = @base ? @base : self
-    ret = self.class.new(@buffer, newshape, newstrides, newflags, newbase)
-    ret.update_flags(ArrayFlags::Fortran | ArrayFlags::Contiguous)
-    ret
-  end
-
-  # Fits a `Tensor` into a new shape, not
-  # altering memory if possible.  However, the `Tensor` is
-  # usually copied.
-  #
-  # ```
-  # t = Tensor.new([2, 4, 3]])
-  #
-  # t.reshape([2, 2, 2, 3]) # =>
-  # Tensor([[[[ 0,  1,  2],
-  #           [ 6,  7,  8]],
-  #
-  #          [[ 3,  4,  5],
-  #           [ 9, 10, 11]]],
-  #
-  #
-  #         [[[12, 13, 14],
-  #           [18, 19, 20]],
-  #
-  #          [[15, 16, 17],
-  #           [21, 22, 23]]]])
-  # ```
-  def reshape(newshape : Array(Int32))
-    if newshape == @shape
-      return self
-    end
-    newsize = 1
-    cur_size = size
-    autosize = -1
-    newshape.each_with_index do |val, i|
-      if val < 0
-        if autosize >= 0
-          raise Exceptions::ValueError.new("Only shape dimension can be automatic")
-        end
-        autosize = i
-      else
-        newsize *= val
+    first_el = arr[0]
+    if first_el.is_a?(Array)
+      lc = first_el.size
+      unless arr.all? do |el|
+               el.is_a?(Array) && el.size == lc
+             end
+        raise Exceptions::ShapeError.new("All subarrays must be the same length")
       end
     end
 
-    if autosize >= 0
-      newshape = newshape.dup
-      newshape[autosize] = cur_size // newsize
-      newsize *= newshape[autosize]
-    end
-
-    if newsize != cur_size
-      raise "Shapes #{@shape} cannot be reshaped to #{newshape}"
-    end
-
-    stride = uninitialized Int32
-    newstrides = [0] * newshape.size
-    newbase = @base ? @base : self
-    newdims = newshape.size
-
-    if @flags & ArrayFlags::Contiguous
-      stride = 1
-      newdims.times do |i|
-        newstrides[newdims - i - 1] = stride
-        stride *= newshape[newdims - i - 1]
-      end
-    else
-      stride = 1
-      newshape.each_with_index do |d, i|
-        newstrides[i] = stride
-        stride *= d
-      end
-    end
-
-    if flags.fortran? || flags.contiguous?
-      newflags = @flags.dup
-      newflags &= ~ArrayFlags::OwnData
-      ret = self.class.new(@buffer, newshape, newstrides, newflags, newbase)
-      ret.update_flags(ArrayFlags::Fortran | ArrayFlags::Contiguous)
-      ret
-    else
-      tmp = self.dup
-      ret = self.class.new(tmp.@buffer, newshape, newstrides, tmp.flags.dup, nil)
-      ret.update_flags(ArrayFlags::Fortran | ArrayFlags::Contiguous)
-      ret
-    end
+    calc_shape << arr.size
+    calc_shape = calculate_shape(arr[0], calc_shape)
+    calc_shape
   end
 
-  # Flatten an array, returning a view if possible.
-  # If the array is either fortran or c-contiguous, a view will be returned,
-  #
-  # otherwise, the array will be reshaped and copied.
-  def ravel
-    newshape = [size]
-    newflags = flags.dup
-    if flags.contiguous?
-      newstrides = [strides[-1]]
-      newbase = @base ? @base : self
-      newflags &= ~ArrayFlags::OwnData
-      self.class.new(@buffer, newshape, newstrides, newflags, newbase)
-    elsif flags.fortran?
-      newstrides = [strides[0]]
-      newbase = @base ? @base : self
-      newflags &= ~ArrayFlags::OwnData
-      self.class.new(@buffer, newshape, newstrides, newflags, newbase)
-    else
-      reshape([-1])
+  # Checked on each attempt to write to an array, this value ensures that
+  # arrays can only be edited if they are supposed to be, forbidding access
+  # if for the example the array is a strided view where many elements share
+  # the same memory locations.
+  private def can_write
+    unless flags.write?
+      raise Exceptions::WriteError.new("Attempt to write to a read-only container")
     end
-  end
-
-  def astype(dtype : U.class) forall U
-    ret = Tensor(U).new(shape)
-    {% if U == Bool %}
-      ret.flat_iter.zip(flat_iter) do |i, j|
-        i.value = (j.value != 0) && (!!j.value)
-      end
-    {% else %}
-      ret.flat_iter.zip(flat_iter) do |i, j|
-        i.value = U.new(j.value)
-      end
-    {% end %}
-    ret
-  end
-
-  def view(dtype : U.class) forall U
-    if T == U
-      return dup_view
-    end
-
-    tsize = T == Bool ? 1 : sizeof(T)
-    usize = U == Bool ? 1 : sizeof(U)
-
-    newsize = tsize / usize
-    newlast = shape[-1] * newsize
-    intlast = Int32.new newlast
-
-    if newlast != intlast || intlast == 0
-      raise "Cannot view array as #{U}"
-    end
-
-    newshape = shape.dup
-    newstrides = strides.dup
-    newflags = flags.dup
-    ptr = @buffer.unsafe_as(Pointer(U))
-
-    newshape[-1] = Int32.new(newlast)
-
-    sz = 1
-    @ndims.times do |i|
-      newstrides[@ndims - i - 1] = sz
-      sz *= newshape[@ndims - i - 1]
-    end
-
-    basetype(U).new(ptr, newshape, newstrides, newflags, nil)
-  end
-
-  # Permute the dimensions of a `Tensor`.  If no order is provided,
-  # the dimensions will be reversed, a "true transpose".  Otherwise,
-  # the dimensions will be permutated in the order provided.
-  #
-  # ```
-  # t = Tensor.new([2, 4, 3]) { |i| i }
-  # t.transpose([2, 0, 1])
-  # Tensor([[[ 0,  3,  6,  9],
-  #          [12, 15, 18, 21]],
-  #
-  #         [[ 1,  4,  7, 10],
-  #          [13, 16, 19, 22]],
-  #
-  #         [[ 2,  5,  8, 11],
-  #          [14, 17, 20, 23]]])
-  # ```
-  def transpose(order : Array(Int32) = [] of Int32)
-    newshape = @shape.dup
-    newstrides = @strides.dup
-    newbase = @base ? @base : self
-    if order.size == 0
-      order = (0...ndims).to_a.reverse
-    end
-    n = order.size
-    if n != ndims
-      raise "Axes don't match array"
-    end
-
-    permutation = [0] * 32
-    reverse_permutation = [0] * 32
-    n.times do |i|
-      reverse_permutation[i] = -1
-    end
-
-    n.times do |i|
-      axis = order[i]
-      if axis < 0
-        axis = ndims + axis
-      end
-      if axis < 0 || axis >= ndims
-        raise "Invalid axis for this array"
-      end
-      if reverse_permutation[axis] != -1
-        raise "Repeated axis in transpose"
-      end
-      reverse_permutation[axis] = i
-      permutation[i] = axis
-    end
-
-    n.times do |i|
-      newshape[i] = @shape[permutation[i]]
-      newstrides[i] = strides[permutation[i]]
-    end
-    ret = self.class.new(@buffer, newshape, newstrides, @flags.dup, newbase)
-    ret.update_flags(ArrayFlags::Contiguous | ArrayFlags::Fortran)
-    ret
-  end
-
-  def permute_along_axis(axis)
-    if ndims == 1
-      yield self
-    else
-      if axis < 0
-        axis = ndims + axis
-      end
-      raise "Axis out of range for this array" unless axis < ndims
-
-      PermuteIter.new(self, axis).each do |perm|
-        yield slice(perm)
-      end
-    end
-  end
-
-  def reduce_fast(axis, keepdims = false)
-    if axis < 0
-      axis = ndims + axis
-    end
-    raise "Axis out of range for this array" unless axis < ndims
-    newshape = shape.dup
-    newstrides = strides.dup
-    ptr = buffer
-
-    if !keepdims
-      newshape.delete_at(axis)
-      newstrides.delete_at(axis)
-    else
-      newshape[axis] = 1
-      newstrides[axis] = 0
-    end
-
-    ret = self.class.new(buffer, newshape, newstrides, flags, nil).dup
-
-    1.step(to: shape[axis] - 1) do |_|
-      ptr += strides[axis]
-      tmp = self.class.new(ptr, newshape, newstrides, flags, nil)
-      ret.flat_iter.zip(tmp.flat_iter) do |x, y|
-        yield x, y
-      end
-    end
-    ret
-  end
-
-  def apply_last_axis
-    if ndims == 0
-      raise Exceptions::ShapeError.new("Array has no axes")
-    elsif ndims == 1
-      yield self
-    else
-      n = shape[...-1].reduce { |i, j| i * j }
-      newshape = shape[-1...]
-      newstrides = strides[-1...]
-      newbase = @base.nil? ? @base : self
-      ptr = buffer
-      0.step(to: n - 1) do |_|
-        tmp = self.class.new(ptr, newshape, newstrides, ArrayFlags::None, newbase)
-        yield tmp
-        ptr += newstrides[0] * newshape[0]
-      end
-    end
-  end
-
-  def accumulate_fast(axis)
-    if axis < 0
-      axis = ndims + axis
-    end
-    raise "Axis out of range for this array" unless axis < ndims
-    arr = dup
-    newshape = shape.dup
-    newstrides = strides.dup
-    ptr = arr.buffer
-    newshape.delete_at(axis)
-    newstrides.delete_at(axis)
-
-    ret = self.class.new(buffer, newshape, newstrides, flags, nil)
-    1.step(to: shape[axis] - 1) do |_|
-      ptr += strides[axis]
-      tmp = self.class.new(ptr, newshape, newstrides, flags, nil)
-      tmp.flat_iter.zip(ret.flat_iter) do |ii, jj|
-        yield ii, jj
-      end
-      ret = tmp
-    end
-    arr
-  end
-
-  # Total number of bytes taken up by items in the `Tensor`s
-  # data buffer.
-  def nbytes
-    size * sizeof(T)
   end
 end

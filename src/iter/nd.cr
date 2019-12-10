@@ -1,6 +1,6 @@
 require "../base/base"
 
-struct Bottle::Iter::NDFlatIter(T)
+struct Num::Iter::NDFlatIter(T)
   include Iterator(T)
   @ptr : Pointer(T)
   @shape : Pointer(Int32)
@@ -48,7 +48,7 @@ struct Bottle::Iter::NDFlatIter(T)
   end
 end
 
-struct Bottle::Iter::UnsafeNDFlatIter(T)
+struct Num::Iter::UnsafeNDFlatIter(T)
   include Iterator(T)
   @ptr : Pointer(T)
   @shape : Pointer(Int32)

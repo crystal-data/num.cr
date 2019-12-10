@@ -1,6 +1,6 @@
 require "./macros"
 
-module Bottle::Statistics
+module Num::Statistics
   include Internal
   extend self
 

@@ -5,7 +5,7 @@ require "./converters"
 require "../tensor/creation"
 require "../base/base"
 
-module Bottle::Assemble
+module Num::Assemble
   include Internal
   include Creation
   include Convert

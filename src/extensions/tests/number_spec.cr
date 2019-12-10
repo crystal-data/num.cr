@@ -26,7 +26,7 @@ macro test_complex_extension(arr, value, operators)
   {% end %}
 end
 
-describe Bottle::BaseArray do
+describe Num::BaseArray do
   describe "BaseArray#NumberExtensions" do
     test_numerical_extension [1, 2, 3, 4], 3, [
       Float32,

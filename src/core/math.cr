@@ -1,6 +1,6 @@
 require "./macros"
 
-module Bottle::BMath
+module Num::BMath
   include Internal
   extend self
   elementwise(:+, add)

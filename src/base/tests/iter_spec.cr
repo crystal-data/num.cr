@@ -1,6 +1,6 @@
 require "../../__test__"
 
-describe Bottle::BaseArray do
+describe Num::BaseArray do
   describe "BaseArray#safeiters" do
     # it "contiguous array returns contig iter" do
     #   m = MockArray.new([3, 3]) { |i| i }

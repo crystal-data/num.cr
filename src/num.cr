@@ -1,6 +1,5 @@
 require "./api"
 
-module Bottle
-  extend self
+module Num
   VERSION = "0.2.5"
 end

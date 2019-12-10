@@ -11,16 +11,20 @@ require "./core/reductions"
 require "./core/search"
 require "./io"
 require "./extensions/number"
+require "./base/transform"
+require "./base/stride_tricks"
 
-module Bottle::B
+module Num::N
   extend self
-  include Bottle::BMath
-  include Bottle::Creation
-  include Bottle::Statistics
-  include Bottle::Assemble
-  include Bottle::InputOutput
-  include Bottle::Search
-  include Bottle::FFT
-  include Bottle::Financial
-  include Bottle::Sparse
+  include Num::BMath
+  include Num::Creation
+  include Num::Statistics
+  include Num::Assemble
+  include Num::InputOutput
+  include Num::Search
+  include Num::FFT
+  include Num::Financial
+  include Num::Sparse
+  include Num::Transform
+  include Num::StrideTricks
 end

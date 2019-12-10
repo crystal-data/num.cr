@@ -1,6 +1,6 @@
 require "../base/base"
 
-struct Bottle::Iter::IndexIter
+struct Num::Iter::IndexIter
   include Iterator(Array(Int32))
   @ndims : Int32
   @track : Array(Int32)

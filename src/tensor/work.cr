@@ -1,4 +1,4 @@
-module Bottle
+module Num
   # Work arrays pool for lapack routines
   # It isn't thread safe for now because crystal isn't multithreaded
   class WorkPool

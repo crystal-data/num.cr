@@ -1,7 +1,7 @@
 require "../base/base"
 require "./exceptions"
 
-module Bottle::Internal
+module Num::Internal
   include Exceptions
 
   private def assert_shape_off_axis(ts, axis, shape)

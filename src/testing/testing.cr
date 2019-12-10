@@ -1,6 +1,6 @@
 require "../tensor/tensor"
 
-module Bottle::Testing
+module Num::Testing
   extend self
 
   # Asserts that two equally shaped `Tensor`s are equal within a provided

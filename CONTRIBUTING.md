@@ -1,10 +1,10 @@
 # Contributing to bottle
 
-Bottle requires help in many different ways to continue to grow as a shard. Contributions such as high level documentation and code quality checks are needed just as much as API enhancements. If you are considering larger scale contributions that extend beyond minor enhancements and bug fixes, contact Crystal Data in order to be added to the organization to gain access to review and merge permissions.
+Num.cr requires help in many different ways to continue to grow as a shard. Contributions such as high level documentation and code quality checks are needed just as much as API enhancements. If you are considering larger scale contributions that extend beyond minor enhancements and bug fixes, contact Crystal Data in order to be added to the organization to gain access to review and merge permissions.
 
 ## Getting Started
 
-If you are looking to contribute to the *bottle* codebase, the best place to start is the [GitHub "issues" tab](https://github.com/crystal-data/bottle/issues). This is also a great place for filing bug reports and making suggestions for ways in which we can improve the code and documentation.
+If you are looking to contribute to the *num.cr* codebase, the best place to start is the [GitHub "issues" tab](https://github.com/crystal-data/bottle/issues). This is also a great place for filing bug reports and making suggestions for ways in which we can improve the code and documentation.
 
 ## Filing Issues
 
