@@ -14,6 +14,11 @@ struct Bottle::Iter::NDFlatIter(T)
     @strides = arr.strides.to_unsafe
     @track = Pointer(Int32).malloc(arr.ndims, 0)
     @dim = arr.ndims - 1
+    arr.ndims.times do |i|
+      if @strides[i] < 0
+        @ptr += (@shape[i] - 1) * @strides[i].abs
+      end
+    end
     @done = false
   end
 
@@ -57,6 +62,11 @@ struct Bottle::Iter::UnsafeNDFlatIter(T)
     @strides = arr.strides.to_unsafe
     @track = Pointer(Int32).malloc(arr.ndims, 0)
     @dim = arr.ndims - 1
+    arr.ndims.times do |i|
+      if @strides[i] < 0
+        @ptr += (@shape[i] - 1) * @strides[i].abs
+      end
+    end
   end
 
   def next

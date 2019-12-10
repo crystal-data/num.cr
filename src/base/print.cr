@@ -1,4 +1,5 @@
 require "./base"
+require "../iter/nd"
 
 module Bottle::Internal::ToString
   class BasePrinter(T)
@@ -6,6 +7,7 @@ module Bottle::Internal::ToString
     @idx : Array(Int32)
     @io : IO
     @ptr : Pointer(T)
+    @iter : Iter::UnsafeNDFlatIter(T)
     getter obrackets : String
     getter cbrackets : String
     getter indent : String
@@ -15,6 +17,7 @@ module Bottle::Internal::ToString
     getter maxval : Int32
 
     def initialize(@t : BaseArray(T), @io, @prefix : String = "Base", @maxval = 5)
+      @iter = Iter::UnsafeNDFlatIter.new(@t)
       @ptr = @t.@buffer
       @obrackets = prefix + "(" + "[" * @t.ndims
       @idx = [0] * @t.ndims
@@ -63,12 +66,12 @@ module Bottle::Internal::ToString
     def print
       if @t.ndims == 0
         if @t.size == 1
-          @io << "#{@ptr.value})"
+          @io << "#{@iter.next.value})"
         else
           @io << "[])"
         end
       else
-        @io << "#{handle_value(@ptr.value)}".rjust(maxval)
+        @io << "#{handle_value(@iter.next.value)}".rjust(maxval)
         until !inc
         end
         @io << ")"
@@ -79,7 +82,7 @@ module Bottle::Internal::ToString
       first_item = 0
       ii = 0
       @idx[ii] += 1
-      @ptr = calc_ptr(@idx)
+      @ptr = @iter.next
       while (@idx[ii] == shape[ii])
         @idx[ii] = 0
         ii += 1
@@ -89,7 +92,7 @@ module Bottle::Internal::ToString
         end
         first_item += 1
         @idx[ii] += 1
-        @ptr = calc_ptr(@idx)
+        # @ptr = @iter.next
       end
 
       if (ii != 0)

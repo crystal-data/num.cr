@@ -1,11 +1,12 @@
 require "./flags"
-require "./baseiter"
 require "./print"
 require "../core/assemble"
 require "../core/exceptions"
 require "../iter/flat"
 require "../iter/nd"
 require "../iter/axes"
+require "../iter/index"
+require "../iter/permute"
 
 abstract class Bottle::BaseArray(T)
   include Internal
@@ -56,7 +57,11 @@ abstract class Bottle::BaseArray(T)
 
   # The size, in bytes, of each element in an array.
   def itemsize
-    sizeof(T)
+    {% if T == Bool %}
+      1
+    {% else %}
+      sizeof(T)
+    {% end %}
   end
 
   # Finds the strides that must be present in order to broadcast an existing
@@ -191,7 +196,7 @@ abstract class Bottle::BaseArray(T)
     newstrides = broadcast_strides(newshape, shape, defstrides, strides)
     newflags = ArrayFlags::None
 
-    Tensor(T).new(@buffer, newshape, newstrides, newflags, @base, false)
+    self.class.new(@buffer, newshape, newstrides, newflags, @base, false)
   end
 
   # as_strided creates a view into the array given the exact strides and
@@ -214,7 +219,8 @@ abstract class Bottle::BaseArray(T)
     if !writeable
       newflags = ArrayFlags::None
     end
-    Tensor(T).new(@buffer, shape, strides, newflags, @base)
+    newbase = @base.nil? ? self : @base
+    self.class.new(@buffer, shape, strides, newflags, newbase)
   end
 
   # Until I figure out how to add broadcasting as an indexing operation,
@@ -634,7 +640,7 @@ abstract class Bottle::BaseArray(T)
       end
       offset += i * j
     end
-    Tensor(T).new(@buffer[offset])
+    self.class.new(@buffer[offset])
   end
 
   def value
@@ -694,7 +700,7 @@ abstract class Bottle::BaseArray(T)
     slice_from_indexers(idx)
   end
 
-  def [](mask : Tensor(Bool))
+  def [](mask : BaseArray(Bool))
     if mask.shape != shape
       mask = mask.broadcast_to(shape)
     end
@@ -708,7 +714,7 @@ abstract class Bottle::BaseArray(T)
       end
     end
     ret = ret.realloc(elems)
-    Tensor(T).new([elems]) { |i| ret[i] }
+    self.class.new([elems]) { |i| ret[i] }
   end
 
   # Assigns a `Tensor` to a slice of an array.
@@ -1038,7 +1044,7 @@ abstract class Bottle::BaseArray(T)
       sz *= newshape[@ndims - i - 1]
     end
 
-    Tensor(U).new(ptr, newshape, newstrides, newflags, nil)
+    basetype(U).new(ptr, newshape, newstrides, newflags, nil)
   end
 
   # Permute the dimensions of a `Tensor`.  If no order is provided,
@@ -1131,11 +1137,11 @@ abstract class Bottle::BaseArray(T)
       newstrides[axis] = 0
     end
 
-    ret = Tensor(T).new(buffer, newshape, newstrides, flags, nil).dup
+    ret = self.class.new(buffer, newshape, newstrides, flags, nil).dup
 
     1.step(to: shape[axis] - 1) do |_|
       ptr += strides[axis]
-      tmp = Tensor.new(ptr, newshape, newstrides, flags, nil)
+      tmp = self.class.new(ptr, newshape, newstrides, flags, nil)
       ret.flat_iter.zip(tmp.flat_iter) do |x, y|
         yield x, y
       end
@@ -1174,10 +1180,10 @@ abstract class Bottle::BaseArray(T)
     newshape.delete_at(axis)
     newstrides.delete_at(axis)
 
-    ret = Tensor(T).new(buffer, newshape, newstrides, flags, nil)
+    ret = self.class.new(buffer, newshape, newstrides, flags, nil)
     1.step(to: shape[axis] - 1) do |_|
       ptr += strides[axis]
-      tmp = Tensor.new(ptr, newshape, newstrides, flags, nil)
+      tmp = self.class.new(ptr, newshape, newstrides, flags, nil)
       tmp.flat_iter.zip(ret.flat_iter) do |ii, jj|
         yield ii, jj
       end
