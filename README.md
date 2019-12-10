@@ -2,12 +2,12 @@
 
 [![Join the chat at https://gitter.im/crystal-data/bottle](https://badges.gitter.im/crystal-data/bottle.svg)](https://gitter.im/crystal-data/bottle?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Bottle is the core shard needed for scientific computing with Crystal
+Num.cr is the core shard needed for scientific computing with Crystal
 
 - **Website:** https://crystal-data.github.io/num.cr
 - **API Documentation:** https://crystal-data.github.io/num.cr/
-- **Source code:** https://github.com/crystaldata/num.cr
-- **Bug reports:** https://github.com/crystaldata/num.cr/issues
+- **Source code:** https://github.com/crystal-data/num.cr
+- **Bug reports:** https://github.com/crystal-data/num.cr/issues
 
 It provides:
 
