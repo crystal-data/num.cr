@@ -3,7 +3,7 @@ require "../libs/fftw"
 require "../libs/cblas"
 require "complex"
 
-module Bottle::FFT
+module Num::FFT
   def upscale_and_shape(t : Tensor, ptrsize : Int32, n : Int32? = nil)
     t = t.astype(Float64)
     ns = t.shape.dup

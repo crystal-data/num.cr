@@ -18,8 +18,8 @@ macro test_bad_broadcast(ashape, bshape)
   end
 end
 
-describe Bottle::BaseArray do
-  describe "Bottle#broadcast_to" do
+describe Num::BaseArray do
+  describe "Num#broadcast_to" do
     it "broadcasts values for 1d array" do
       m = MockArray.new([3]) { |i| i }
       b = m.broadcast_to([3, 3])
@@ -42,7 +42,7 @@ describe Bottle::BaseArray do
     end
   end
 
-  describe "Bottle#broadcastable" do
+  describe "Num#broadcastable" do
     it "returns an empty shape for arrays that already have the same shape" do
       m = MockArray.new([2, 2]) { |i| i }
       shape = m.broadcastable(m)
@@ -60,7 +60,7 @@ describe Bottle::BaseArray do
     test_bad_broadcast [2, 1], [8, 4, 3]
   end
 
-  describe "Bottle#as_strided" do
+  describe "Num#as_strided" do
     it "creates a valid strided rolling view" do
       m = MockArray.new([8]) { |i| i }
       n = m.strides[0]

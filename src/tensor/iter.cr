@@ -1,6 +1,6 @@
 require "./tensor"
 
-struct Bottle::Internal::MatrixIter(T)
+struct Num::Internal::MatrixIter(T)
   include Iterator(T)
   getter tns : Tensor(T)
   getter axis : Int32

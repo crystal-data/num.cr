@@ -1,4 +1,4 @@
-module Bottle::Exceptions
+module Num::Exceptions
   class RangeError < Exception
   end
 
@@ -15,5 +15,8 @@ module Bottle::Exceptions
   end
 
   class LinAlgError < Exception
+  end
+
+  class AxisError < Exception
   end
 end

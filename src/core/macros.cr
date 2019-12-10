@@ -3,7 +3,7 @@ require "./exceptions"
 require "../base/base"
 require "../tensor/tensor"
 
-module Bottle::Internal
+module Num::Internal
   include Convert
 
   # Broadcast two tensors against each other.  This will possibly

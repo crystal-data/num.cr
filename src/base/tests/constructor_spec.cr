@@ -1,6 +1,6 @@
 require "../../__test__"
 
-describe Bottle::BaseArray do
+describe Num::BaseArray do
   describe "BaseArray#constructor" do
     it "Creates a valid empty array" do
       m = MockArray(Int32).new([] of Int32)

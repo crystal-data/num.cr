@@ -1,7 +1,7 @@
 require "../libs/lapack"
 require "./work"
 
-module Bottle::Internal::LapackHelper
+module Num::Internal::LapackHelper
   ARG_NORMAL          = 0
   ARG_MATRIX          = 1
   ARG_INTOUT          = 2
@@ -13,8 +13,8 @@ module Bottle::Internal::LapackHelper
   WORK_PARAM2         = 5
 end
 
-class Bottle::Tensor(T)
-  include Bottle::Internal::LapackHelper
+class Num::Tensor(T)
+  include Num::Internal::LapackHelper
 
   private macro of_real_type(size)
     {% if T == Complex %}

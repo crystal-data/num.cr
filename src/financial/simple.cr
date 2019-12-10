@@ -4,7 +4,7 @@ require "../core/math"
 # Credit to https://github.com/drum445 for implementing most of these, they
 # worked right out of the game with vectorized methods.
 
-module Bottle::Financial
+module Num::Financial
   def fv(rate, nper, pmt, pv, pay_when = 0)
     if rate == 0
       -1 * (pv + pmt * nper)

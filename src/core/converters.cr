@@ -1,6 +1,6 @@
 require "../base/base"
 
-module Bottle::Convert
+module Num::Convert
   # Converts input data, in any form that can be converted to a tensor,
   # into a tensor.
   #

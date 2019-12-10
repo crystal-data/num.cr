@@ -3,10 +3,10 @@ require "./testing/testing"
 require "./core/exceptions"
 require "spec"
 require "complex"
-include Bottle
-include Bottle::Internal
-include Bottle::Testing
-include Bottle::Exceptions
+include Num
+include Num::Internal
+include Num::Testing
+include Num::Exceptions
 
 class MockArray(T) < BaseArray(T)
   def check_type

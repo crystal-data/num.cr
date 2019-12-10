@@ -1,6 +1,6 @@
 require "json"
 
-module Bottle::InputOutput
+module Num::InputOutput
   TYPE_HASH = {
     UInt8   => "|u1",
     UInt16  => "<u2",

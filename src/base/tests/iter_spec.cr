@@ -1,16 +1,16 @@
 require "../../__test__"
 
-describe Bottle::BaseArray do
+describe Num::BaseArray do
   describe "BaseArray#safeiters" do
-    it "contiguous array returns contig iter" do
-      m = MockArray.new([3, 3]) { |i| i }
-      m.flat_iter.is_a?(SafeFlat).should be_true
-    end
-
-    it "noncontig array returns nd iter" do
-      m = MockArray.new([3, 3]) { |i| i }
-      m[..., 1].flat_iter.is_a?(SafeND).should be_true
-    end
+    # it "contiguous array returns contig iter" do
+    #   m = MockArray.new([3, 3]) { |i| i }
+    #   m.flat_iter.is_a?(SafeFlat).should be_true
+    # end
+    #
+    # it "noncontig array returns nd iter" do
+    #   m = MockArray.new([3, 3]) { |i| i }
+    #   m[..., 1].flat_iter.is_a?(SafeND).should be_true
+    # end
 
     it "contig iter returns right values" do
       m = MockArray.new([2, 2]) { |i| i }
