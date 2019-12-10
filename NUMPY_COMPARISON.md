@@ -23,7 +23,7 @@ np.show_config()
 ```
 
 ```crystal
-p Bottle::Version
+p Num::Version
 ```
 
 #### 3. Create a null vector of size 10 (★☆☆)
@@ -35,7 +35,7 @@ print(Z)
 ```
 
 ```crystal
-z = B.zeros([10])
+z = N.zeros([10])
 puts z
 ```
 
@@ -48,7 +48,7 @@ print("%d bytes" % (Z.size * Z.itemsize))
 ```
 
 ```crystal
-z = np.zeros([10, 10])
+z = N.zeros([10, 10])
 puts z.nbytes
 ```
 
@@ -71,7 +71,7 @@ print(Z)
 ```
 
 ```crystal
-z = B.zeros([10])
+z = N.zeros([10])
 z[4] = 1
 puts z
 ```
@@ -85,7 +85,7 @@ print(Z)
 ```
 
 ```crystal
-z = B.arange(10, 50)
+z = N.arange(10, 50)
 puts z
 ```
 
@@ -98,7 +98,11 @@ Z = Z[::-1]
 print(Z)
 ```
 
-No current equivalent
+```crystal
+z = N.arange(50)
+z = z[{..., -1}]
+puts z
+```
 
 #### 9.  Create a 3x3 matrix with values ranging from 0 to 8 (★☆☆)
 
@@ -109,7 +113,7 @@ print(Z)
 ```
 
 ```crystal
-z = B.arange(9).reshape([3, 3])
+z = N.arange(9).reshape([3, 3])
 # OR
 z = Tensor.new([3, 3]) { |i| i }
 ```
@@ -123,7 +127,7 @@ print(nz)
 ```
 
 t = Tensor.from_array [1, 2, 0, 0, 4, 0]
-puts B.nonzero(t)
+puts N.nonzero(t)
 
 #### 11. Create a 3x3 identity matrix (★☆☆)
 
@@ -230,7 +234,7 @@ print(Z)
 ```
 
 ```crystal
-z = B.diag(np.arange(1, 5), k: -1)
+z = N.diag(np.arange(1, 5), k: -1)
 puts z
 ```
 
@@ -245,7 +249,7 @@ print(Z)
 ```
 
 ```crystal
-a = B.zeros([8, 8]).astype(Int16)
+a = N.zeros([8, 8]).astype(Int16)
 a[{1..., 2},{..., 2}] = 1
 a[{..., 2},{1..., 2}] = 1
 ```
@@ -280,7 +284,7 @@ print(Z)
 
 ```crystal
 z = Tensor.random(0...10, [5, 5])
-puts (z - B.mean(z)) / B.std(z)
+puts (z - N.mean(z)) / N.std(z)
 ```
 
 #### 23. Create a custom dtype that describes a color as four unsigned bytes (RGBA) (★☆☆)
@@ -308,7 +312,7 @@ print(Z)
 ```
 
 ```crystal
-z = B.matmul(B.ones([5, 3]), B.ones([3, 2]))
+z = N.matmul(N.ones([5, 3]), N.ones([3, 2]))
 puts z
 ```
 
