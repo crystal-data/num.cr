@@ -187,6 +187,16 @@ module Num::Internal
     end
   end
 
+  macro on_number(func)
+    def {{func}}(a)
+      upcast_if a
+      iter = a.unsafe_iter
+      Tensor.new(a.shape) do |_|
+        iter.next.value.{{func}}
+      end
+    end
+  end
+
   macro reducescalar(operator, initial, arg)
     {{arg}}.flat_iter.reduce(U.new({{initial}})) { |i, j| i {{operator.id}} j.value }
   end

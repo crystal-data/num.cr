@@ -57,4 +57,5 @@ module Num::BMath
   stdlibwrap copysign
   stdlibwrap hypot
   stdlibwrap ldexp
+  on_number abs
 end
