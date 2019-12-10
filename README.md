@@ -1,4 +1,4 @@
-![num.cr](https://raw.githubusercontent.com/crystal-data/bottle/master/static/bottle_logo.png)
+![num.cr](https://raw.githubusercontent.com/crystal-data/bottle/master/static/numcr_logo.png)
 
 [![Build Status](https://travis-ci.org/crystal-data/bottle.svg?branch=master)](https://travis-ci.org/crystal-data/bottle) [![Join the chat at https://gitter.im/crystal-data/bottle](https://badges.gitter.im/crystal-data/bottle.svg)](https://gitter.im/crystal-data/bottle?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
