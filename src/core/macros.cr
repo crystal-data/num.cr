@@ -178,6 +178,13 @@ module Num::Internal
         Math.{{func}}(iter.next.value)
       end
     end
+
+    def {{func}}(a : Tensor(Complex))
+      iter = a.unsafe_iter
+      Tensor.new(a.shape) do |_|
+        iter.next.value.{{func}}
+      end
+    end
   end
 
   macro reducescalar(operator, initial, arg)
