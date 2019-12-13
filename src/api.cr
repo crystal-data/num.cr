@@ -13,6 +13,8 @@ require "./io"
 require "./extensions/number"
 require "./base/transform"
 require "./base/stride_tricks"
+require "./base/manipulate"
+require "./base/arrayprint"
 
 module Num::N
   extend self
@@ -27,4 +29,6 @@ module Num::N
   include Num::Sparse
   include Num::Transform
   include Num::StrideTricks
+  include Num::Manipulate
+  include Num::ArrayPrint
 end

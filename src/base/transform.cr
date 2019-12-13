@@ -253,4 +253,11 @@ module Num::Transform
   def transpose(arr : BaseArray, *args)
     transpose(arr, args.to_a)
   end
+
+  def swapaxes(arr : BaseArray, axis1 : Int32, axis2 : Int32)
+    order = (0...arr.ndims).to_a
+    order[axis1] = axis2
+    order[axis2] = axis1
+    transpose(arr, order)
+  end
 end

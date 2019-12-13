@@ -1,5 +1,5 @@
 require "../base/base"
-require "../base/print"
+require "../base/arrayprint"
 require "../core/math"
 require "../core/reductions"
 require "./iter"
@@ -25,7 +25,7 @@ class Num::Tensor(T) < Num::BaseArray(T)
     {% end %}
   end
 
-  protected def check_type
+  def check_type
     {% unless T == Float32 || T == Float64 || T == Int16 || T == Int32 || \
                  T == Int8 || T == UInt16 || T == UInt32 || T == UInt64 || \
                  T == UInt8 || T == Bool || T == Complex %}
@@ -69,16 +69,7 @@ class Num::Tensor(T) < Num::BaseArray(T)
   # it could however be cleaned up to handle long floating point values
   # more precisely.
   def to_s(io)
-    maxlength = 0
-    {% if T == Bool %}
-      maxlength = 5
-    {% elsif T == Complex %}
-      maxlength = 15
-    {% else %}
-      maxlength = "#{max.round(3)}".size + 1
-    {% end %}
-    printer = ToString::BasePrinter.new(self, io, "Tensor", maxlength)
-    printer.print
+    io << "Tensor(" << ArrayPrint.array2string(self, prefix: "Tensor(") << ")"
   end
 
   def inspect(io)
@@ -102,7 +93,6 @@ class Num::Tensor(T) < Num::BaseArray(T)
       ts = shape.dup
       ts.delete_at(axis)
       iterations = ts.reduce { |i, j| i * j }
-      s0 = shape[-1]
       buff = to_unsafe
       iterations.times do |_|
         yield Tensor(T).new(buff, [shape[axis]], [strides[axis]], flags, self, false)

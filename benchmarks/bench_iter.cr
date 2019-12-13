@@ -1,17 +1,14 @@
-require "../src/bottle"
+require "../src/num"
 require "benchmark"
 
 def test_iter(n)
-  t = Bottle::Tensor.random(0.0...1.0, [n, n])
+  t = Num::Tensor.random(0.0...1.0, [n, n])
 
   Benchmark.ips do |bench|
     bench.report("REDUCTION #{n}x#{n}") { t.sum }
     bench.report("REDUCE ALONG AXIS #{n}x#{n}") { t.sum(0) }
     bench.report("ELEMENTWISE #{n}x#{n}") { t + t }
     bench.report("ACCUMULATE #{n}x#{n}") { t.cumsum(0) }
-    if n < 1000
-      bench.report("OUTER #{n}x#{n}") { t.bc?(2) + t }
-    end
   end
 end
 

@@ -75,6 +75,12 @@ module Num::Statistics
     Math.sqrt(r.sum / a.size)
   end
 
+  def std(a : BaseArray, axis : Int32, keepdims = false)
+    avg = mean(a, axis, keepdims: true)
+    r = power(a - avg, 2)
+    N.sqrt(N.sum(r, axis, keepdims) / r.shape[axis])
+  end
+
   # Computes the maximum value of a BaseArray
   #
   # ```

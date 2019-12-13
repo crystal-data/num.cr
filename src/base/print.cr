@@ -15,6 +15,8 @@ module Num::Internal::ToString
     getter strides : Array(Int32)
     getter shape : Array(Int32)
     getter maxval : Int32
+    getter yielded : Int32 = 0
+    getter nperline : Int32
 
     def initialize(@t : BaseArray(T), @io, @prefix : String = "Base", @maxval = 5)
       @iter = Iter::UnsafeNDFlatIter.new(@t)
@@ -26,6 +28,8 @@ module Num::Internal::ToString
       @last_comma = 0
       @strides = @t.strides.dup
       @shape = @t.@shape.dup
+
+      @nperline = 75 // @maxval
 
       if t.@ndims > 2
         0.step(to: (@t.ndims // 2 - 1)) do |i|
@@ -107,6 +111,7 @@ module Num::Internal::ToString
         @io << ", "
       end
       @io << "#{handle_value(@ptr.value)}".rjust(maxval)
+      @yielded += 1
       true
     end
   end

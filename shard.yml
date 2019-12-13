@@ -4,7 +4,7 @@ version: 0.2.5
 authors:
   - Chris Zimmerman <chris-zimmerman@live.com>
 
-crystal: 0.31.1
+crystal: 0.32.0
 
 license: MIT
 

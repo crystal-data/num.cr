@@ -1,2 +1,2 @@
 require "benchmark"
-require "../src/bottle"
+require "../src/num"

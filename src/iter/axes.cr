@@ -4,6 +4,7 @@ struct Num::Iter::AxisIter(T)
   include Iterator(T)
   @shape : Array(Int32)
   @strides : Array(Int32)
+  @inc : Int32
   @ptr : Pointer(T)
   @tmp : BaseArray(T)
   @total : Int32
@@ -21,6 +22,7 @@ struct Num::Iter::AxisIter(T)
     @shape = arr.shape.dup
     @strides = arr.strides.dup
     @ptr = arr.buffer
+    @inc = arr.strides[axis]
 
     if keepdims
       @shape[axis] = 1
@@ -30,20 +32,60 @@ struct Num::Iter::AxisIter(T)
       @strides.delete_at(axis)
     end
 
-    @tmp = arr.class.new(@ptr, @shape, @strides, Bottle::Internal::ArrayFlags::None, nil).dup
+    @tmp = arr.class.new(@ptr, @shape, @strides, Num::Internal::ArrayFlags::None, nil)
 
-    @total = @shape[axis]
+    @total = arr.shape[axis]
   end
 
   def next
-    if @yielded > @total
+    if @yielded >= @total
       stop
     else
       ret = @tmp
       @yielded += 1
-      @ptr += @strides[@axis] * @shape[@axis]
-      @tmp = Tensor.new(@ptr, @shape, @strides, Bottle::Internal::ArrayFlags::None, nil)
+      @ptr += @inc
+      @tmp = Tensor.new(@ptr, @shape, @strides, Num::Internal::ArrayFlags::None, nil)
       ret
     end
+  end
+end
+
+struct Num::Iter::UnsafeAxisIter(T)
+  include Iterator(T)
+  @shape : Array(Int32)
+  @strides : Array(Int32)
+  @inc : Int32
+  @ptr : Pointer(T)
+  @tmp : BaseArray(T)
+  @axis : Int32
+
+  def initialize(arr : BaseArray(T), @axis : Int32 = -1, keepdims = false)
+    if @axis < 0
+      @axis += arr.ndims
+    end
+    unless @axis < arr.ndims
+      raise Exceptions::AxisError.new("Axis out of range for array")
+    end
+
+    @shape = arr.shape.dup
+    @strides = arr.strides.dup
+    @ptr = arr.buffer
+    @inc = arr.strides[axis]
+
+    if keepdims
+      @shape[axis] = 1
+      @strides[axis] = 0
+    else
+      @shape.delete_at(axis)
+      @strides.delete_at(axis)
+    end
+    @tmp = arr.class.new(@ptr, @shape, @strides, Num::Internal::ArrayFlags::None, nil)
+  end
+
+  def next
+    ret = @tmp
+    @ptr += @inc
+    @tmp = Tensor.new(@ptr, @shape, @strides, Num::Internal::ArrayFlags::None, nil)
+    ret
   end
 end

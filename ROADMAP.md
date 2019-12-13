@@ -23,7 +23,7 @@ From Existing Data
 
 - [ ] `frombuffer`
 - [ ] `fromfile`
-- [ ] `from_function` (Should probably be from proc or something similar)
+- [x] `from_function` (this is from_proc)
 - [x] `from_iter` (Implemented by the `new` from block routines)
 - [ ] `fromstring`
 - [ ] `loadtxt`
@@ -72,7 +72,7 @@ Changing Number of Dimensions
 Joining Tensors and Matrices
 
 - [x] `concatenate`
-- [ ] `stack`
+- [x] `stack`
 - [x] `column_stack`
 - [x] `dstack`
 - [x] `hstack`
@@ -80,14 +80,14 @@ Joining Tensors and Matrices
 
 Splitting Tensors and Matrices
 
-- [ ] `split`
-- [ ] `hsplit`
-- [ ] `vsplit`
+- [x] `split`
+- [x] `hsplit`
+- [x] `vsplit`
 
 Tilings Tensors and Matrices
 
-- [ ] `tile`
-- [ ] `repeat`
+- [x] `tile`
+- [x] `repeat`
 
 Adding and Removing Elements
 
@@ -122,8 +122,8 @@ Bit Operations
 
 Generating Index Tensors and Matrices
 
-- [ ] `nonzero`
-- [ ] `where`
+- [x] `nonzero`
+- [x] `where`
 - [ ] `indices`
 - [ ] `diag_indices`
 - [ ] `diag_indices_from`
@@ -166,29 +166,29 @@ Matrix and Vector Products
 
 Decompositions
 
-- [ ] `cholesky`
-- [ ] `qr`
-- [ ] `svd`
+- [x] `cholesky`
+- [x] `qr`
+- [x] `svd`
 
 Matrix Eigenvalues
 
-- [ ] `eig`
-- [ ] `eigh`
-- [ ] `eigvals`
-- [ ] `eigvalsh`
+- [x] `eig`
+- [x] `eigh`
+- [x] `eigvals`
+- [x] `eigvalsh`
 
 Norms and the like
 
 - [x] `norm`
-- [ ] `cond`
-- [ ] `det`
+- [x] `cond`
+- [x] `det`
 - [ ] `matrix_rank`
 - [ ] `slogdet`
 - [x] `trace`
 
 Solving equations and inverting matrices
 
-- [ ] `solve`
+- [x] `solve`
 - [ ] `tensorsolve`
 - [ ] `lstsq`
 - [x] `inv`

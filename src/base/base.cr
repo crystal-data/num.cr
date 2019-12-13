@@ -1,5 +1,5 @@
 require "./flags"
-require "./print"
+require "./arrayprint"
 require "./transform"
 require "./stride_tricks"
 require "../core/assemble"
@@ -279,8 +279,7 @@ abstract class Num::BaseArray(T)
 
   # String representation of an n-dimensional array
   def to_s(io)
-    printer = ToString::BasePrinter.new(self, io)
-    printer.print
+    io << "BaseArray(" << ArrayPrint.array2string(self, prefix: "BaseArray(") << ")"
   end
 
   # A flat iterator of the items in the array.  Always iterates
@@ -314,6 +313,14 @@ abstract class Num::BaseArray(T)
   # Iterator along the indices of an array
   def index_iter
     IndexIter.new(shape)
+  end
+
+  def axis_iter(axis, keepdims = false)
+    Iter::AxisIter.new(self, axis, keepdims)
+  end
+
+  def unsafe_axis_iter(axis, keepdims = false)
+    Iter::UnsafeAxisIter.new(self, axis, keepdims)
   end
 
   # The value of an array's data pointer
@@ -464,6 +471,24 @@ abstract class Num::BaseArray(T)
     ret
   end
 
+  def yield_along_axis(axis)
+    if axis < 0
+      axis = ndims + axis
+    end
+    raise "Axis out of range for this array" unless axis < ndims
+    newshape = shape.dup
+    newstrides = strides.dup
+    newshape.delete_at(axis)
+    newstrides.delete_at(axis)
+    ptr = buffer
+
+    shape[axis].times do |_|
+      tmp = self.class.new(ptr, newshape, newstrides, flags, nil)
+      ptr += strides[axis]
+      yield tmp
+    end
+  end
+
   # Apply an operation along the last axis of a tensor
   def apply_last_axis
     if ndims == 0
@@ -509,6 +534,24 @@ abstract class Num::BaseArray(T)
     arr
   end
 
+  # Until I figure out how to add broadcasting as an indexing operation,
+  # this is how you expand the dimensions of a Tensor to make operations
+  # easier to conduct on tensors with mismatching shapes.
+  def bc(axis : Int32)
+    newshape = shape.dup
+    newstrides = strides.dup
+    if axis < ndims
+      newshape.insert(axis, 1)
+      newstrides.insert(axis, 0)
+    elsif axis == ndims
+      newshape << 1
+      newstrides << 0
+    else
+      raise Exceptions::ShapeError.new("Too many dimensions for tensor")
+    end
+    as_strided(newshape, newstrides, true)
+  end
+
   def broadcastable(other : BaseArray)
     StrideTricks.broadcastable(self, other)
   end
@@ -527,6 +570,9 @@ abstract class Num::BaseArray(T)
 
   # Computes the slice of an array from an array of indexers.
   private def slice_from_indexers(idx : Array)
+    if idx.is_a?(Array(Int32)) && (idx.size == ndims)
+      return scalar(idx)
+    end
     # These will be mutated since the slice does
     # not necessarily share the shape of the base.
     newshape = shape.dup
