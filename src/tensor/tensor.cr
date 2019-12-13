@@ -73,7 +73,7 @@ class Num::Tensor(T) < Num::BaseArray(T)
   end
 
   def inspect(io)
-    io << "Tensor(shape=#{shape}, dtype=#{T})"
+    to_s(io)
   end
 
   def matrix_iter

@@ -6,3 +6,12 @@ matrix:
     script:
       - crystal spec src/
       - crystal bin/ameba.cr
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  project_name: crystal-data/num.cr
+  on:
+    branch: master
+  local_dir: docs
