@@ -1,6 +1,7 @@
 ![num.cr](https://raw.githubusercontent.com/crystal-data/bottle/rename/static/numcr_logo.png)
 
 [![Join the chat at https://gitter.im/crystal-data/bottle](https://badges.gitter.im/crystal-data/bottle.svg)](https://gitter.im/crystal-data/bottle?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build Status](https://travis-ci.com/crystal-data/num.cr.svg?branch=master)](https://travis-ci.com/crystal-data/num.cr)
 
 Num.cr is the core shard needed for scientific computing with Crystal
 
