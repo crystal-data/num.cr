@@ -2,6 +2,8 @@
 
 [![Join the chat at https://gitter.im/crystal-data/bottle](https://badges.gitter.im/crystal-data/bottle.svg)](https://gitter.im/crystal-data/bottle?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+https://travis-ci.com/crystal-data/num.cr.svg?branch=master
+
 Num.cr is the core shard needed for scientific computing with Crystal
 
 - **Website:** https://crystal-data.github.io/num.cr
