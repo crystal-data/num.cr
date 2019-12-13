@@ -1,4 +1,5 @@
 require "./macros"
+require "./common"
 
 module Num::Statistics
   include Internal
@@ -159,6 +160,22 @@ module Num::Statistics
       elsif i.value > max
         i.value = U.new(max)
       end
+    end
+    a
+  end
+
+  def diff(a : Tensor, n : Int32 = 1, axis : Int32 = -1)
+    axis = normalize_axis(axis, a.ndims)
+    nd = a.ndims
+    if nd == 0
+      raise ValueError.new("diff requires input that is at least one dimensional")
+    end
+
+    s1 = (0...nd).map_with_index { |e, i| i == axis ? (1...) : (...) }
+    s2 = (0...nd).map_with_index { |e, i| i == axis ? (...-1) : (...) }
+
+    n.times do |_|
+      a = a.slice(s1) - a.slice(s2)
     end
     a
   end

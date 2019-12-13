@@ -27,4 +27,14 @@ module Num::Internal
       end
     end
   end
+
+  def normalize_axis(axis, ndims)
+    if axis < 0
+      axis += ndims
+    end
+    if axis >= ndims || (axis < 0)
+      raise ValueError.new("Axis out of range for array")
+    end
+    axis
+  end
 end

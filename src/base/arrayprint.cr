@@ -49,11 +49,11 @@ module Num::ArrayPrint
     end
   end
 
-  def get_formatter(a : BaseArray(Float32) | BaseArray(Float64))
+  private def get_formatter(a : BaseArray(Float32) | BaseArray(Float64))
     FloatFormatter.new(a)
   end
 
-  def get_formatter(a : BaseArray)
+  private def get_formatter(a : BaseArray)
     IntFormatter.new(a)
   end
 
@@ -76,6 +76,7 @@ module Num::ArrayPrint
   end
 
   def array2string(a, separator = ", ", prefix = "")
+    a = a.dup('C')
     if a.size > 1000
       summary_insert = "..."
       data = leading_trailing(a, 3)
@@ -100,7 +101,7 @@ module Num::ArrayPrint
     {s, line}
   end
 
-  def recursor(a, index, hanging_indent, curr_width, summary_insert, edge_items, formatter, separator = ", ")
+  private def recursor(a, index, hanging_indent, curr_width, summary_insert, edge_items, formatter, separator = ", ")
     axis = index.size
     axes_left = a.ndims - axis
 

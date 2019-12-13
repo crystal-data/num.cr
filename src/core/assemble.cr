@@ -6,10 +6,10 @@ require "../tensor/creation"
 require "../base/base"
 
 module Num::Assemble
+  extend self
   include Internal
   include Creation
   include Convert
-  extend self
 
   # Concatenates an array of `Tensor's` along a provided axis.
   #

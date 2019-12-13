@@ -93,6 +93,16 @@ module Num::Manipulate
     tile_inner(ary, n)
   end
 
+  def flip(ary : BaseArray)
+    indexer = [{..., -1}] * ary.ndims
+    ary.slice(indexer)
+  end
+
+  def flip(ary : BaseArray, axis : Int32)
+    indexer = (0...ary.ndims).map_with_index { |e, i| i == axis ? {..., -1} : (...) }
+    ary.slice(indexer)
+  end
+
   private def tile_inner(ary, reps)
     shape_out = ary.shape.zip(reps).map { |i, j| i * j }
     n = ary.size
