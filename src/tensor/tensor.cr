@@ -149,6 +149,10 @@ class Num::Tensor(T) < Num::BaseArray(T)
     BMath.add(self, other)
   end
 
+  def -
+    self * -1
+  end
+
   # Elementwise subtraction of a {{klass}}} to another equally
   # sized {{klass}}} or scalar
   def -(other)
