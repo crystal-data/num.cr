@@ -13,5 +13,5 @@ deploy:
   github_token: $GITHUB_TOKEN
   project_name: crystal-data/num.cr
   on:
-    branch: master
+    branch: github-pages
   local_dir: docs
