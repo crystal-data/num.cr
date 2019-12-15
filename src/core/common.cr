@@ -37,4 +37,8 @@ module Num::Internal
     end
     axis
   end
+
+  def normalize_axies_list(axes, ndims)
+    axes.map { |e| normalize_axis(axis, ndims) }
+  end
 end

@@ -2,6 +2,7 @@ require "./base"
 require "./flags"
 require "./transform"
 require "../core/exceptions"
+require "../core/common"
 
 module Num::Manipulate
   include Transform
@@ -99,8 +100,74 @@ module Num::Manipulate
   end
 
   def flip(ary : BaseArray, axis : Int32)
-    indexer = (0...ary.ndims).map_with_index { |e, i| i == axis ? {..., -1} : (...) }
+    indexer = (0...ary.ndims).map { |i| i == axis ? {..., -1} : (...) }
     ary.slice(indexer)
+  end
+
+  def fliplr(m : BaseArray)
+    if m.ndims < 2
+      raise Exceptions::ValueError.new("Input must be >= 2-d.")
+    end
+    m[..., {..., -1}]
+  end
+
+  def rot90(m, k = 1, axes = [0, 1])
+    if axes.size != 2
+      raise Exceptions::ValueError.new("axes must include 2 dimensions")
+    end
+
+    if axes[0] == axes[1] || (axes[0] - axes[1]).abs == m.ndims
+      raise Exceptions::ValueError.new("Axes must be different")
+    end
+
+    if axes[0] >= m.ndims || axes[0] < -m.ndims || axes[1] > m.ndims || axes[1] < -m.ndims
+      raise Exceptions::ValueError.new("Axes #{axes} out of range for ndim=#{m.ndims}")
+    end
+
+    k %= 4
+
+    if k == 0
+      return m[...]
+    end
+
+    if k == 2
+      return flip(flip(m, axes[0]), axes[1])
+    end
+
+    axes_list = (0...m.ndims).to_a
+    axes_list[axes[0]], axes_list[axes[1]] = axes_list[axes[1]], axes_list[axes[0]]
+
+    if k == 1
+      transpose(flip(m, axes[1]), axes_list)
+    else
+      flip(transpose(m, axes_list), axes[1])
+    end
+  end
+
+  def trim_zeros(filt, trim : Char | String = "fb")
+    first = 0
+    trim = trim.to_s.upcase
+    if trim.includes?('F')
+      filt.flat_iter.each do |i|
+        if i.value != 0
+          break
+        else
+          first += 1
+        end
+      end
+    end
+
+    last = filt.shape[0]
+    if trim.includes?('B')
+      filt[{..., -1}].flat_iter.each do |i|
+        if i.value != 0
+          break
+        else
+          last -= 1
+        end
+      end
+    end
+    filt[first...last]
   end
 
   private def tile_inner(ary, reps)

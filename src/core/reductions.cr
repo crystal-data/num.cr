@@ -171,8 +171,8 @@ module Num::Statistics
       raise ValueError.new("diff requires input that is at least one dimensional")
     end
 
-    s1 = (0...nd).map_with_index { |e, i| i == axis ? (1...) : (...) }
-    s2 = (0...nd).map_with_index { |e, i| i == axis ? (...-1) : (...) }
+    s1 = (0...nd).map { |i| i == axis ? (1...) : (...) }
+    s2 = (0...nd).map { |i| i == axis ? (...-1) : (...) }
 
     n.times do |_|
       a = a.slice(s1) - a.slice(s2)
