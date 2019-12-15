@@ -1,4 +1,4 @@
-require "../../__test__"
+require "../spec_helper"
 
 describe Num::BaseArray do
   describe "BaseArray#indexing" do

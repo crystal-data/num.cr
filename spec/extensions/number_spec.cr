@@ -1,4 +1,4 @@
-require "../../__test__"
+require "../spec_helper"
 
 macro test_numerical_extension(arr, value, dtypes, operators)
   {% for operator in operators %}

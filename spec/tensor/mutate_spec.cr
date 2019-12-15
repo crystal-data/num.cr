@@ -1,4 +1,4 @@
-require "../../__test__"
+require "../spec_helper"
 
 def get_tensor
   Tensor.new([2, 2, 3]) { |i| i }

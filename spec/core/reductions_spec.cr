@@ -1,4 +1,4 @@
-require "../../__test__"
+require "../spec_helper"
 
 macro reduce_operation_axis(arr, output, axis, operation)
   it "reduces along axis {{axis}} using {{operation}}" do

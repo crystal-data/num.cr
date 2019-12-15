@@ -1,4 +1,4 @@
-require "../../__test__"
+require "../spec_helper"
 
 describe Num::Assemble do
   describe "Assemble#atleast_1d" do

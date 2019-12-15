@@ -1,4 +1,4 @@
-require "../../__test__"
+require "../spec_helper"
 
 class Foo(T) < BaseArray(T)
   def check_type

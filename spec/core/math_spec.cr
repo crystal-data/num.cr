@@ -1,4 +1,4 @@
-require "../../__test__"
+require "../spec_helper"
 
 macro test_elementwise(first, second, output, operation, description)
   it {{description}} do

@@ -1,4 +1,4 @@
-require "../../__test__"
+require "../spec_helper"
 
 macro test_broadcast(ashape, bshape, oshape)
   it "broadcasts {{ashape}} and {{bshape}} to {{oshape}}" do

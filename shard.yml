@@ -12,3 +12,5 @@ development_dependencies:
   ameba:
     github: crystal-ameba/ameba
     version: ~> 0.10.1
+  coverage:
+    github: anykeyh/crystal-coverage

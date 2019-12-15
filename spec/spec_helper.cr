@@ -1,6 +1,6 @@
-require "./api"
-require "./testing/testing"
-require "./core/exceptions"
+require "../src/api"
+require "../src/testing/testing"
+require "../src/core/exceptions"
 require "spec"
 require "complex"
 include Num

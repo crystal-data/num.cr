@@ -1,4 +1,4 @@
-require "../../__test__"
+require "../spec_helper"
 
 describe Tensor do
   describe "Tensor#from_array" do
