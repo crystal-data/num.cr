@@ -223,6 +223,23 @@ abstract class Num::BaseArray(T)
     slice_from_indexers(idx)
   end
 
+  def [](*args : Array(Int32))
+    tp = args.to_a.transpose
+    sliced = tp.map do |idx|
+      slice_or_scalar(idx)
+    end
+    Assemble.stack(sliced)
+  end
+
+  private def slice_or_scalar(idx)
+    if idx.is_a?(Array(Int32)) && idx.size == ndims
+      return scalar(idx)
+    end
+    fill = ndims - idx.size
+    idx += [...] * fill
+    slice_from_indexers(idx)
+  end
+
   # Assigns a `Tensor` to a slice of an array.
   # The provided tensor must be the same shape
   # as the slice in order for this method to
@@ -705,6 +722,13 @@ abstract class Num::BaseArray(T)
   # a[[0, 1, 0]] # => 8
   # ```
   private def scalar(indexer : Array(Int32))
+    ptr = buffer
+    ndims.times do |i|
+      if strides[i] < 0
+        ptr += (shape[i] - 1) * strides[i].abs
+      end
+    end
+
     offset = 0
     strides.zip(indexer, shape) do |i, j, k|
       if j < 0
@@ -715,7 +739,7 @@ abstract class Num::BaseArray(T)
       end
       offset += i * j
     end
-    self.class.new(@buffer[offset])
+    self.class.new(ptr[offset])
   end
 
   # Sets a single value in a `Tensor` based on

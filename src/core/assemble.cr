@@ -165,10 +165,13 @@ module Num::Assemble
   end
 
   def stack(alist : Array(BaseArray(U)), axis : Int32 = 0) forall U
-    assert_all_1d alist
     first = alist[0]
     shape = first.shape
     assert_shape(shape, alist)
+    if alist.all? { |e| e.ndims == 0 }
+      return concatenate(alist)
+    end
+    assert_all_1d alist
     expanded_arrays = alist.map { |e| e.bc(axis) }
     concatenate(expanded_arrays, axis)
   end

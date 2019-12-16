@@ -76,7 +76,6 @@ module Num::ArrayPrint
   end
 
   def array2string(a, separator = ", ", prefix = "")
-    a = a.dup('C')
     if a.size > 1000
       summary_insert = "..."
       data = leading_trailing(a, 3)
