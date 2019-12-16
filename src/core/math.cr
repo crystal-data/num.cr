@@ -58,4 +58,8 @@ module Num::BMath
   stdlibwrap hypot
   stdlibwrap ldexp
   on_number abs
+
+  def outer(a : Tensor, b : Tensor)
+    multiply(a.ravel.bc(1), b.ravel.bc(0))
+  end
 end

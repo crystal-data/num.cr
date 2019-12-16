@@ -1,4 +1,5 @@
 require "./base"
+require "../core/assemble"
 
 module Num::ArrayPrint
   extend self
@@ -63,7 +64,7 @@ module Num::ArrayPrint
       return a.slice(index)
     end
     if a.shape[axis] > 2 * edgeitems
-      N.concatenate(
+      Num::Assemble.concatenate(
         [
           leading_trailing(a, edgeitems, index + [...edgeitems]),
           leading_trailing(a, edgeitems, index + [(-1 * edgeitems)...]),

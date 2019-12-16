@@ -33,7 +33,7 @@ module Num::Statistics
 
   def any(a : BaseArray)
     ret = a.astype(Bool)
-    reducebool :|, true, ret
+    reducebool :|, false, ret
   end
 
   def any(a : BaseArray(U), axis : Int32, keepdims = false) forall U

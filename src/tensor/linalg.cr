@@ -57,7 +57,6 @@ class Num::Tensor(T) < Num::BaseArray(T)
   # ```
   def cholesky!(*, lower = true)
     assert_square_matrix(self)
-    raise_fortran_inplace(flags)
     char = lower ? 'L' : 'U'
     lapack(potrf, char.ord.to_u8, shape[0], to_unsafe, shape[0])
     lower ? tril! : triu!

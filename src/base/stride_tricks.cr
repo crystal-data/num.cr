@@ -5,7 +5,7 @@ module Num::StrideTricks
 
   def view(arr : BaseArray(T), dtype : U.class) forall T, U
     if T == U
-      return dup_view
+      return arr.dup_view
     end
 
     tsize = T == Bool ? 1 : sizeof(T)
