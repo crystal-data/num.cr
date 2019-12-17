@@ -76,6 +76,10 @@ class Num::Tensor(T) < Num::BaseArray(T)
     to_s(io)
   end
 
+  def pretty_print(pp)
+    pp.text ArrayPrint.array2string(self, separator: " ")
+  end
+
   def matrix_iter
     MatrixIter.new(self)
   end

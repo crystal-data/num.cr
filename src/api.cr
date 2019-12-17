@@ -17,6 +17,7 @@ require "./base/stride_tricks"
 require "./base/manipulate"
 require "./base/arrayprint"
 require "./core/routines"
+require "./einsum/parser"
 
 module Num::N
   extend self
@@ -35,4 +36,5 @@ module Num::N
   include Num::ArrayPrint
   include Num::Logical
   include Num::Routines
+  include Num::Einsum
 end

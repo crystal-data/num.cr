@@ -360,7 +360,7 @@ class Num::Tensor(T)
         typ = :z.id
       end
     %}
-    LibCblas.{{typ}}{{storage}}{{name}}(LibCblas::COL_MAJOR, {{*args}})
+    LibCblas.{{typ}}{{storage}}{{name}}(LibCblas::ROW_MAJOR, {{*args}})
   end
 
   private macro blas_const(x)

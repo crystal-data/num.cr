@@ -1,11 +1,7 @@
-require "../tensor/tensor"
-
 module Num::Einsum
-  extend self
-  EINSUM_SYMBOLS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-  EINSUM_SYMBOLS_SET = EINSUM_SYMBOLS.each_char.to_set
+  EINSUM_SYMBOLS_BASE = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-  private def _parse_einsum_input(operands, *args : Tensor)
+  private def parse_einsum_input(operands, *args : Tensor)
     subscripts = operands.gsub(" ", "")
     subscripts.each_char do |c|
       if ".,->".includes?(c)
@@ -120,86 +116,5 @@ module Num::Einsum
     end
 
     return {input_subscripts, output_subscript, args.to_a}
-  end
-
-  private def _compute_size_by_dict(indices, idx_dict)
-    if indices.is_a?(String)
-      indices = indices.each_char.to_set
-    end
-    ret = 1
-    indices.each do |i|
-      ret *= idx_dict[i]
-    end
-    ret
-  end
-
-  private def _flop_count(idx_contraction, inner, num_terms, size_dictionary)
-    overall = _compute_size_by_dict(idx_contraction, size_dictionary)
-    op_factor = {1, num_terms - 1}.max
-    if inner
-      op_factor += 1
-    end
-
-    overall * op_factor
-  end
-
-  private def _greedy_path(input_sets, output_set, idx_dict, memory_limit)
-    if input_sets.size == 1
-      return [[0]]
-    elsif input_sets.size == 2
-      return [[0, 1]]
-    end
-  end
-
-  private def _find_contraction(positions, input_sets, output_set)
-    idx_contract = Set(Char).new
-    idx_remain = output_set.clone
-    remaining = [] of Set(Char)
-  end
-
-  def einsum_path(operands, *args : Tensor, path_type = "greedy")
-    input_subscripts, output_subscript, operands = _parse_einsum_input(operands, *args)
-
-    input_list = input_subscripts.split(',')
-    input_sets = input_list.map { |x| x.each_char.to_set }
-    output_set = output_subscript.each_char.to_set
-    indices = input_subscripts.gsub(",", "").each_char.to_set
-
-    dimension_dict = Hash(Char, Int32).new
-    broadcast_indices = (0...input_list.size).map { |_| [] of Char }
-
-    input_list.each_with_index do |term, tnum|
-      sh = operands[tnum].shape
-      if sh.size != term.size
-        raise "Einstein sum subscript #{input_subscripts[tnum]} does not contain the correct number of indices for operand #{tnum}"
-      end
-
-      term.each_char_with_index do |char, cnum|
-        dim = sh[cnum]
-
-        if dim == 1
-          broadcast_indices[tnum] << char
-        end
-
-        if dimension_dict.has_key?(char)
-          if dimension_dict[char] == 1
-            dimension_dict[char] = dim
-          elsif dim != 1 && dim != dimension_dict[char]
-            raise "Size of label #{char} for operand #{tnum} does not match previous terms #{dim}"
-          end
-        else
-          dimension_dict[char] = dim
-        end
-      end
-    end
-
-    broadcast_indices_set = broadcast_indices.map { |e| e.to_set }
-    size_list = (input_list + [output_subscript]).map { |term| _compute_size_by_dict(term, dimension_dict) }
-
-    max_size = size_list.max
-
-    inner_product = ((input_sets.map &.size).sum - indices.size) > 0
-    naive_cost = _flop_count(indices, inner_product, input_list.size, dimension_dict)
-    path = _greedy_path(input_sets, output_set, dimension_dict, max_size)
   end
 end
