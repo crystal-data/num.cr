@@ -1,7 +1,6 @@
 require "../tensor/tensor"
 
 module Num::Einsum
-
   def preprocess(x : Tensor, axes : Array(Int32), flip : Bool)
     axes = axes.map do |i|
       i >= 0 ? i : i + x.ndims
@@ -19,7 +18,7 @@ module Num::Einsum
     end
 
     prod_free = free_dims.product
-    prod_axes = axes.map {|a| x.shape[a]}.product
+    prod_axes = axes.map { |a| x.shape[a] }.product
 
     perm = flip ? axes + free : free + axes
     new_shape = flip ? [prod_axes, prod_free] : [prod_free, prod_axes]
@@ -68,7 +67,7 @@ module Num::Einsum
     end
 
     new_shape_a = [notin.map { |ax| as_[ax] }.product, n2]
-    olda = notin.map { |ax| as_[ax]  }
+    olda = notin.map { |ax| as_[ax] }
 
     notin = (0...ndb).to_a
     notin.select! { |e| !axes_b.includes?(e) }
@@ -79,7 +78,7 @@ module Num::Einsum
     end
 
     new_shape_b = [n2, notin.map { |ax| bs[ax] }.product]
-    oldb = notin.map { |ax| bs[ax]  }
+    oldb = notin.map { |ax| bs[ax] }
 
     at = a.transpose(newaxes_a).reshape(new_shape_a)
     bt = b.transpose(newaxes_b).reshape(new_shape_b)

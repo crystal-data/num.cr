@@ -1,7 +1,6 @@
 require "./optimizers"
 
 module Num::Einsum
-
   struct EinsumParse
     getter operand_indices : Array(String)
     getter output_indices : String
@@ -26,7 +25,7 @@ module Num::Einsum
         requested_output_indices = outp
       else
         input_indices = Hash(Char, Int32).new
-        inp.join().each_char do |c|
+        inp.join.each_char do |c|
           if input_indices.has_key?(c)
             input_indices[c] += 1
           else
@@ -34,7 +33,7 @@ module Num::Einsum
           end
         end
         unique_indices = input_indices.select { |k, v| v == 1 }.keys
-        requested_output_indices = unique_indices.sort.join()
+        requested_output_indices = unique_indices.sort.join
       end
       from_indices(operand_indices, requested_output_indices)
     end
@@ -48,7 +47,7 @@ module Num::Einsum
       distinct_output_indices = Hash(Char, Int32).new
 
       if output_indices.is_a?(Array(Char))
-        output_indices = output_indices.join()
+        output_indices = output_indices.join
       end
 
       output_indices.each_char do |c|
@@ -152,13 +151,13 @@ module Num::Einsum
     operands.map { |e| e.shape }
   end
 
-  def validate_and_size(input_string : String, *operands : Tensor)
+  def validate_and_size(input_string : String, operands : Array(Tensor))
     contraction = validate(input_string)
     SizedContraction.from_contraction_and_operands(contraction, operands.to_a)
   end
 
-  def validate_and_optimize_order(input_string : String, *operands : Tensor)
-    sc = validate_and_size(input_string, *operands)
+  def validate_and_optimize_order(input_string : String, operands : Array(Tensor))
+    sc = validate_and_size(input_string, operands)
     generate_optimized_order(sc)
   end
 end

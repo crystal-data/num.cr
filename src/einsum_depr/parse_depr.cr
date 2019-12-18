@@ -2,7 +2,7 @@ require "../tensor/tensor"
 
 module Num::Einsum
   extend self
-  EINSUM_SYMBOLS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  EINSUM_SYMBOLS     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
   EINSUM_SYMBOLS_SET = EINSUM_SYMBOLS.each_char.to_set
 
   private def _parse_einsum_input(operands, *args : Tensor)
@@ -26,7 +26,7 @@ module Num::Einsum
     if subscripts.includes?('.')
       used = subscripts.gsub('.', "").gsub(',', "").gsub("->", "")
       unused = (EINSUM_SYMBOLS_SET - used.each_char.to_set).to_a
-      ellipse_inds = unused.join()
+      ellipse_inds = unused.join
       longest = 0
 
       if subscripts.includes?("->")
@@ -88,7 +88,7 @@ module Num::Einsum
           end
         end
 
-        normal_inds = (output_subscript.each_char.to_set - out_ellipse.each_char.to_set).to_a.sort.join()
+        normal_inds = (output_subscript.each_char.to_set - out_ellipse.each_char.to_set).to_a.sort.join
         subscripts += "->" + out_ellipse + normal_inds
       end
     end

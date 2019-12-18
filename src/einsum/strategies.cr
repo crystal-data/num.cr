@@ -125,11 +125,52 @@ module Num::Einsum
     op.contract_singleton(operand)
   end
 
-  def einsum(input_string, *operands)
-    co = validate_and_optimize_order(input_string, *operands)
+  private def multiple_einsum_dispatch(sc : SizedContraction, lhs, rhs)
+    strategy = PairSummary.new(sc).get_strategy
+    case strategy
+    when PairMethod::HadamardProductGeneral
+      op = HadamardProductGeneral.new(sc)
+    when PairMethod::ScalarMatrixProductGeneral
+      op = ScalarMatrixProductGeneral.new(sc)
+      # when PairMethod::MatrixScalarProductGeneral
+      #   op = MatrixScalarProductGeneral.new(sc)
+    when PairMethod::TensordotGeneral
+      puts "tensordotter"
+      op = TensordotGeneral.new(sc)
+    else
+      raise "not quite done yet ;)"
+    end
+    op.contract_pair(lhs, rhs)
+  end
+
+  def einsum(input_string, operands : Array(U)) forall U
+    co = validate_and_optimize_order(input_string, operands)
     case co.ctype
     when ContractionOrderType::Singleton
       single_einsum_dispatch(co.item[0].sized_contraction, operands[0])
+    else
+      intermediate_results = [] of U
+      steps = co.item.unsafe_as(Array(Pair))
+      steps.each do |i|
+        lhs_t = i.operand_nums.lhs
+        case lhs_t.flag
+        when OperandType::Input
+          lhs = operands[lhs_t.value]
+        else
+          lhs = intermediate_results[lhs_t.value]
+        end
+
+        rhs_t = i.operand_nums.rhs
+        case rhs_t.flag
+        when OperandType::Input
+          rhs = operands[rhs_t.value]
+        else
+          rhs = intermediate_results[rhs_t.value]
+        end
+        ir = multiple_einsum_dispatch(i.sized_contraction, lhs, rhs)
+        intermediate_results << ir
+      end
+      intermediate_results.pop
     end
   end
 end

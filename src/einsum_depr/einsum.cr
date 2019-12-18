@@ -2,7 +2,7 @@ require "../tensor/tensor"
 
 module Num::Einsum
   extend self
-  EINSUM_SYMBOLS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  EINSUM_SYMBOLS     = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
   EINSUM_SYMBOLS_SET = EINSUM_SYMBOLS.each_char.to_set
 
   private def _parse_einsum_input(operands, *args : Tensor)
@@ -26,7 +26,7 @@ module Num::Einsum
     if subscripts.includes?('.')
       used = subscripts.gsub('.', "").gsub(',', "").gsub("->", "")
       unused = (EINSUM_SYMBOLS_SET - used.each_char.to_set).to_a
-      ellipse_inds = unused.join()
+      ellipse_inds = unused.join
       longest = 0
 
       if subscripts.includes?("->")
@@ -88,7 +88,7 @@ module Num::Einsum
           end
         end
 
-        normal_inds = (output_subscript.each_char.to_set - out_ellipse.each_char.to_set).to_a.sort.join()
+        normal_inds = (output_subscript.each_char.to_set - out_ellipse.each_char.to_set).to_a.sort.join
         subscripts += "->" + out_ellipse + normal_inds
       end
     end
@@ -135,12 +135,14 @@ module Num::Einsum
 
   struct OperandNumber(T)
     getter item : Int32
+
     def initialize(@item)
     end
   end
 
   struct Singleton
     getter sized_contraction : SizedContraction
+
     def initialize(@sized_contraction)
     end
   end
@@ -148,6 +150,7 @@ module Num::Einsum
   struct OperandNumPair(T)
     getter lhs : OperandNumber(T)
     getter rhs : OperandNumber(T)
+
     def initialize(@lhs : OperandNumber(T), @rhs : OperandNumber(T))
     end
   end
@@ -155,18 +158,21 @@ module Num::Einsum
   struct Pair(T)
     getter sized_contraction : SizedContraction
     getter operand_nums : OperandNumPair(T)
+
     def initialize(@sized_contraction, @operand_nums : OperandNumPair(T))
     end
   end
 
   struct Pairs(T)
     getter items : Array(Pair(T))
+
     def initialize(@items : Array(Pair(T)))
     end
   end
 
   struct ContractionOrder(T)
     getter item : T
+
     def initialize(@item : T)
     end
   end
@@ -239,7 +245,7 @@ module Num::Einsum
         requested_output_indices = outp
       else
         input_indices = Hash(Char, Int32).new
-        inp.join().each_char do |c|
+        inp.join.each_char do |c|
           if input_indices.has_key?(c)
             input_indices[c] += 1
           else
