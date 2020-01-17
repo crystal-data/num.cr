@@ -1,6 +1,6 @@
 require "../base/base"
 
-struct Num::Iter::NDFlatIter(T)
+struct NumInternal::NDFlatIter(T)
   include Iterator(T)
   @ptr : Pointer(T)
   @shape : Pointer(Int32)
@@ -8,7 +8,7 @@ struct Num::Iter::NDFlatIter(T)
   @track : Pointer(Int32)
   @dim : Int32
 
-  def initialize(arr : BaseArray(T))
+  def initialize(arr : Num::BaseArray(T))
     @ptr = arr.buffer
     @shape = arr.shape.to_unsafe
     @strides = arr.strides.to_unsafe
@@ -48,7 +48,7 @@ struct Num::Iter::NDFlatIter(T)
   end
 end
 
-struct Num::Iter::UnsafeNDFlatIter(T)
+struct NumInternal::UnsafeNDFlatIter(T)
   include Iterator(T)
   @ptr : Pointer(T)
   @shape : Pointer(Int32)
@@ -56,7 +56,7 @@ struct Num::Iter::UnsafeNDFlatIter(T)
   @track : Pointer(Int32)
   @dim : Int32
 
-  def initialize(arr : BaseArray(T))
+  def initialize(arr : Num::BaseArray(T))
     @ptr = arr.buffer
     @shape = arr.shape.to_unsafe
     @strides = arr.strides.to_unsafe

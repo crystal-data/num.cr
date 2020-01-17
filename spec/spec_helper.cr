@@ -1,18 +1,6 @@
-require "../src/api"
-require "../src/testing/testing"
-require "../src/core/exceptions"
 require "spec"
-require "complex"
-include Num
-include Num::Internal
-include Num::Testing
-include Num::Exceptions
+require "../src/num"
 
-class MockArray(T) < BaseArray(T)
-  def check_type
-  end
-
-  def basetype
-    MockArray
-  end
+def assert_array_equal(a, b)
+  Num.allclose(a, b).should be_true
 end

@@ -53,14 +53,14 @@ describe Tensor do
 
     it "Slicing a Tensor raises an index error with bad dimension" do
       t = Tensor.new([2, 2, 3]) { |i| i }
-      expect_raises(IndexError) do
+      expect_raises(NumInternal::IndexError) do
         t[3, ...]
       end
     end
 
     it "Slicing a tensor with a bad slice raises an index error" do
       t = Tensor.new([2, 2, 3]) { |i| i }
-      expect_raises(IndexError) do
+      expect_raises(NumInternal::IndexError) do
         t[3...]
       end
     end

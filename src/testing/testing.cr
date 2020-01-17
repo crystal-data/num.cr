@@ -1,6 +1,6 @@
 require "../tensor/tensor"
 
-module Num::Testing
+module Num
   extend self
 
   # Asserts that two equally shaped `Tensor`s are equal within a provided
@@ -14,10 +14,10 @@ module Num::Testing
   # ```
   def allclose(a : BaseArray(U), b : BaseArray(U), rtol = 1e-5, atol = 1e-8) forall U
     if a.shape != b.shape
-      raise "Shape of arguments must match"
+      raise NumInternal::ShapeError.new "Shape of arguments must match"
     end
-    iter_a = a.flat_iter
-    iter_b = b.flat_iter
+    iter_a = a.iter
+    iter_b = b.iter
 
     if (rtol > 0)
       iter_a.zip(iter_b) do |i, j|
@@ -37,7 +37,7 @@ module Num::Testing
     if a.shape != b.shape
       raise "Shape of arguments must match"
     end
-    a.flat_iter.zip(b.flat_iter) do |i, j|
+    a.iter.zip(b.iter) do |i, j|
       return false unless i.value == j.value
     end
     true
@@ -58,7 +58,7 @@ module Num::Testing
       toraise = true unless b == sz
     end
     if toraise
-      raise Exceptions::ShapeError.new("An array of size #{b} cannot go
+      raise NumInternal::ShapeError.new("An array of size #{b} cannot go
         into a Tensor of shape #{a}")
     end
   end

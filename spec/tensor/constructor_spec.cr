@@ -3,7 +3,7 @@ require "../spec_helper"
 describe Tensor do
   describe "Tensor#from_array" do
     it "Identifies an improperly shaped Array" do
-      expect_raises(ShapeError) do
+      expect_raises(NumInternal::ShapeError) do
         Tensor.from_array([2, 2, 3], [1, 2])
       end
     end
@@ -114,13 +114,13 @@ describe Tensor do
     end
 
     it "Lays out memory in Fortran order" do
-      result = Tensor(Int32).new([2, 2], ArrayFlags::Fortran)
+      result = Tensor(Int32).new([2, 2], 'F')
       result.flags.fortran?.should be_true
       result.flags.contiguous?.should be_false
     end
 
     it "Lays out memory in C style order" do
-      result = Tensor(Int32).new([2, 2], ArrayFlags::Contiguous)
+      result = Tensor(Int32).new([2, 2], 'C')
       result.flags.fortran?.should be_false
       result.flags.contiguous?.should be_true
     end

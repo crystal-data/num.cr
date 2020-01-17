@@ -1,6 +1,6 @@
 require "../base/base"
 
-struct Num::Iter::IndexIter
+struct NumInternal::IndexIter
   include Iterator(Array(Int32))
   @ndims : Int32
   @track : Array(Int32)

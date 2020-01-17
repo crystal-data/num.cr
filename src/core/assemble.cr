@@ -1,39 +1,54 @@
+# Copyright (c) 2020 Crystal Data Contributors
+#
+# MIT License
+#
+# Permission is hereby granted, free of charge, to any person obtaining
+# a copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, sublicense, and/or sell copies of the Software, and to
+# permit persons to whom the Software is furnished to do so, subject to
+# the following conditions:
+#
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+# LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+# OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+# WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 require "./macros"
-require "./exceptions"
 require "./common"
-require "./converters"
-require "../tensor/creation"
-require "../base/base"
 
-module Num::Assemble
+module Num
   extend self
-  include Internal
-  include Creation
-  include Convert
 
-  # Concatenates an array of `Tensor's` along a provided axis.
-  #
-  # ```
-  # t = Tensor.new([2, 2, 3]) { |i| i }
-  #
-  # concatenate([t, t, t], axis=-1)
-  #
-  # Tensor([[[ 0,  1,  2,  0,  1,  2,  0,  1,  2],
-  #          [ 3,  4,  5,  3,  4,  5,  3,  4,  5]],
-  #
-  #         [[ 6,  7,  8,  6,  7,  8,  6,  7,  8],
-  #          [ 9, 10, 11,  9, 10, 11,  9, 10, 11]]])
-  # ```
+  # Join a sequence of arrays along an existing axis.
+  # The arrays must have the same shape, except in the dimension corresponding
+  # to axis (the first, by default).
   def concatenate(alist : Array(BaseArray(U)), axis : Int32) forall U
-    raise_zerod alist
+    # This particular method does not allow zero dimensional items, even
+    # if they can be upcast, since they can't match a shape off axis, and
+    # concatenation must occur along an existing axis.
+    NumInternal.raise_zerod alist
     newshape = alist[0].shape.dup
-    clipaxis axis, newshape.size
+
+    # Just a check for negative axes, so that negative axes can be
+    # inferred.
+    axis = NumInternal.clip_axis axis, newshape.size
     newshape[axis] = 0
-    shape = assert_shape_off_axis(alist, axis, newshape)
+
+    # All arrays must share a shape of the axis of concatenation
+    shape = NumInternal.assert_shape_off_axis(alist, axis, newshape)
     ret = alist[0].class.new(newshape)
     lo = [0] * newshape.size
     hi = shape.dup
     hi[axis] = 0
+
+    # Basic slice looping and assignment, then updating the offset.
     alist.each do |a|
       if a.shape[axis] != 0
         hi[axis] += a.shape[axis]
@@ -46,14 +61,6 @@ module Num::Assemble
   end
 
   # Concatenates an array of one dimensional tensors.
-  #
-  # ```
-  # t = Tensor.new([3]) { |i| i }
-  #
-  # concatenate([t, t, t])
-  #
-  # Tensor([ 0,  1,  2,  0,  1,  2,  0,  1,  2])
-  # ```
   def concatenate(alist : Array(BaseArray(U))) forall U
     totalsize = alist.reduce(0) { |i, j| i + j.size }
     ret = alist[0].class.new([totalsize])
@@ -66,56 +73,15 @@ module Num::Assemble
   end
 
   # Concatenates a list of `Tensor`s along axis 0
-  #
-  # ```
-  # t = Tensor.new([2, 2, 3])
-  # vstack([t, t, t])
-  #
-  # Tensor([[[ 0,  1,  2],
-  #          [ 3,  4,  5]],
-  #
-  #         [[ 6,  7,  8],
-  #          [ 9, 10, 11]],
-  #
-  #         [[ 0,  1,  2],
-  #          [ 3,  4,  5]],
-  #
-  #         [[ 6,  7,  8],
-  #          [ 9, 10, 11]],
-  #
-  #         [[ 0,  1,  2],
-  #          [ 3,  4,  5]],
-  #
-  #         [[ 6,  7,  8],
-  #          [ 9, 10, 11]]])
-  # ```
   def vstack(alist : Array(BaseArray(U))) forall U
     alist = alist.map { |t| atleast_2d(t) }
     concatenate(alist, 0)
   end
 
   # Concatenates a list of `Tensor`s along axis 1
-  #
-  # ```
-  # t = Tensor.new([2, 2, 3])
-  # hstack([t, t, t])
-  #
-  # Tensor([[[ 0,  1,  2],
-  #          [ 3,  4,  5],
-  #          [ 0,  1,  2],
-  #          [ 3,  4,  5],
-  #          [ 0,  1,  2],
-  #          [ 3,  4,  5]],
-  #
-  #         [[ 6,  7,  8],
-  #          [ 9, 10, 11],
-  #          [ 6,  7,  8],
-  #          [ 9, 10, 11],
-  #          [ 6,  7,  8],
-  #          [ 9, 10, 11]]])
-  # ```
   def hstack(alist : Array(BaseArray(U))) forall U
-    assert_all_1d alist
+    alist = alist.map { |e| Num.atleast_1d(e) }
+    NumInternal.less_than_3d(alist)
     if alist.all? { |t| t.ndims == 1 }
       concatenate(alist)
     else
@@ -124,10 +90,10 @@ module Num::Assemble
   end
 
   def dstack(alist : Array(BaseArray(U))) forall U
-    assert_all_1d alist
+    alist = alist.map { |e| Num.atleast_1d(e) }
     first = alist[0]
     shape = first.shape
-    assert_shape(shape, alist)
+    NumInternal.assert_shape(shape, alist)
 
     case first.ndims
     when 1
@@ -141,15 +107,15 @@ module Num::Assemble
       end
       concatenate(alist, 2)
     else
-      raise ShapeError.new("dstack was given arrays with more than two dimensions")
+      raise NumInternal::ShapeError.new("dstack was given arrays with more than two dimensions")
     end
   end
 
   def column_stack(alist : Array(BaseArray(U))) forall U
-    assert_all_1d alist
+    alist = alist.map { |e| Num.atleast_1d(e) }
     first = alist[0]
     shape = first.shape
-    assert_shape(shape, alist)
+    NumInternal.assert_shape(shape, alist)
 
     case first.ndims
     when 1
@@ -160,7 +126,7 @@ module Num::Assemble
     when 2
       concatenate(alist, 1)
     else
-      raise ShapeError.new("dstack was given arrays with more than two dimensions")
+      raise NumInternal::ShapeError.new("dstack was given arrays with more than two dimensions")
     end
   end
 

@@ -1,7 +1,7 @@
 require "../libs/lapack"
 require "./work"
 
-module Num::Internal::LapackHelper
+module NumInternal::LapackHelper
   ARG_NORMAL          = 0
   ARG_MATRIX          = 1
   ARG_INTOUT          = 2
@@ -13,9 +13,7 @@ module Num::Internal::LapackHelper
   WORK_PARAM2         = 5
 end
 
-class Num::Tensor(T)
-  include Num::Internal::LapackHelper
-
+class Tensor(T)
   private macro of_real_type(size)
     {% if T == Complex %}
       Tensor(Float64).new([size])

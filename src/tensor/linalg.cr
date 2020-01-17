@@ -2,7 +2,7 @@ require "./extension"
 require "./tensor"
 require "./creation"
 
-class Num::Tensor(T) < Num::BaseArray(T)
+class Tensor(T) < Num::BaseArray(T)
   private def raise_fortran_inplace(flags)
     unless flags.fortran?
       raise Exceptions::LinAlgError.new("Tensor must be Fortran Contiguous to apply the operation in-place")

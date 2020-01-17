@@ -1,44 +1,43 @@
 require "./macros"
 require "./common"
 
-module Num::Statistics
-  include Internal
+module Num
   extend self
 
   def sum(a : Tensor(U)) forall U
-    reducescalar :+, 0, a
+    NumInternal.reducescalar :+, 0, a
   end
 
   def sum(a : Tensor, axis : Int32, keepdims = false)
-    reduceaxis :+, a
+    NumInternal.reduceaxis :+, a
   end
 
   def prod(a : Tensor(U)) forall U
-    reducescalar :*, 1, a
+    NumInternal.reducescalar :*, 1, a
   end
 
   def prod(a : Tensor, axis : Int32, keepdims = false)
-    reduceaxis :*, a
+    NumInternal.reduceaxis :*, a
   end
 
   def all(a : BaseArray(U)) forall U
     ret = a.astype(Bool)
-    reducebool :&, true, ret
+    NumInternal.reducebool :&, true, ret
   end
 
   def all(a : BaseArray(U), axis : Int32, keepdims = false) forall U
     ret = a.astype(Bool)
-    reduceaxis :&, ret
+    NumInternal.reduceaxis :&, ret
   end
 
   def any(a : BaseArray)
     ret = a.astype(Bool)
-    reducebool :|, false, ret
+    NumInternal.reducebool :|, false, ret
   end
 
   def any(a : BaseArray(U), axis : Int32, keepdims = false) forall U
     ret = a.astype(Bool)
-    reduceaxis :|, ret
+    NumInternal.reduceaxis :|, ret
   end
 
   def sort(a : BaseArray(U), axis : Int32) forall U
@@ -90,7 +89,7 @@ module Num::Statistics
   # ```
   def max(a : BaseArray(U)) forall U
     mx = uninitialized U
-    a.flat_iter.each_with_index do |el, i|
+    a.iter.each_with_index do |el, i|
       c = el.value
       if i == 0
         mx = c
@@ -118,7 +117,7 @@ module Num::Statistics
   # ```
   def min(a : BaseArray(U)) forall U
     mx = uninitialized U
-    a.flat_iter.each_with_index do |el, i|
+    a.iter.each_with_index do |el, i|
       c = el.value
       if i == 0
         mx = c
@@ -154,7 +153,7 @@ module Num::Statistics
 
   def clip(a : BaseArray(U), min : Number, max : Number) forall U
     a = a.dup
-    a.flat_iter.each do |i|
+    a.iter.each do |i|
       if i.value < min
         i.value = U.new(min)
       elsif i.value > max

@@ -1,4 +1,4 @@
-module Num::Exceptions
+module NumInternal
   class RangeError < Exception
   end
 
@@ -18,5 +18,8 @@ module Num::Exceptions
   end
 
   class AxisError < Exception
+  end
+
+  class IndexError < Exception
   end
 end

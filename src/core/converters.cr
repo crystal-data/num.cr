@@ -1,6 +1,6 @@
 require "../base/base"
 
-module Num::Convert
+module Num
   # Converts input data, in any form that can be converted to a tensor,
   # into a tensor.
   #
@@ -18,7 +18,7 @@ module Num::Convert
   # Data will not be copied unless necessary.  Base classes will not
   # be maintained, all inputs will be coerced to Tensors or raise.
   def astensor(a : BaseArray(U)) forall U
-    Tensor(U).new(a.buffer, a.shape, a.strides, a.flags, nil)
+    Tensor(U).new(a.buffer, a.shape, a.strides, a.flags)
   end
 
   # Converts input data, in any form that can be converted to a tensor,

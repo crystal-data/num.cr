@@ -6,7 +6,7 @@ require "./tensor"
 # This module should be namespaced as part of the
 # external API to provide user facing methods
 # for creation.
-module Num::Creation
+module Num
   extend self
 
   # Initializes a `Tensor` with an uninitialized slice

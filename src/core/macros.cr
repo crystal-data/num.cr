@@ -3,9 +3,7 @@ require "./exceptions"
 require "../base/base"
 require "../tensor/tensor"
 
-module Num::Internal
-  include Convert
-
+module NumInternal
   # Broadcast two tensors against each other.  This will possibly
   # change the shape and strides of both passed tensors, so this
   # cannot be used on in-place operations.  To broadcast the inputs
@@ -16,7 +14,7 @@ module Num::Internal
   # each other
   macro broadcast(a, b)
     if {{a}}.shape != {{b}}.shape
-      bshape = {{a}}.broadcastable({{b}})
+      bshape = NumInternal.broadcastable({{a}}, {{b}})
       if bshape.size >= 1
         {{a}} = {{a}}.broadcast_to(bshape)
         {{b}} = {{b}}.broadcast_to(bshape)
@@ -55,7 +53,7 @@ module Num::Internal
 
   macro raise_zerod(items)
     if {{items}}.any? { |i| i.ndims == 0 }
-      raise Exceptions::ShapeError.new("Zero dimensional arrays cannot be concatenated")
+      raise NumInternal::ShapeError.new("Zero dimensional arrays cannot be concatenated")
     end
   end
 
@@ -91,7 +89,7 @@ module Num::Internal
   # across all combinations of elements of two arrays.
   macro elementwise(operator, name)
     def {{name}}(a : Tensor, b : Tensor)
-      broadcast a, b
+      NumInternal.broadcast a, b
       itera = a.unsafe_iter
       iterb = b.unsafe_iter
 
@@ -119,7 +117,7 @@ module Num::Internal
     end
 
     def {{name}}!(a : Tensor(U), b) forall U
-      upcast_if b
+      NumInternal.upcast_if b
       broadcast_rhs a, b
       a.flat_iter.zip(b.flat_iter) do |i, j|
         i.value = U.new(i.value {{operator.id}} j.value)
@@ -140,8 +138,8 @@ module Num::Internal
   # to a single Tensor.
   macro stdlibwrap(func)
     def {{func}}(a, b)
-      upcast_if a, b
-      broadcast a, b
+      NumInternal.upcast_if a, b
+      NumInternal.broadcast a, b
       itera = a.unsafe_iter
       iterb = b.unsafe_iter
 
@@ -151,8 +149,8 @@ module Num::Internal
     end
 
     def {{func}}!(a : Tensor(U), b) forall U
-      upcast_if b
-      broadcast_rhs a, b
+      NumInternal.upcast_if b
+      NUmInternal.broadcast_rhs a, b
       a.flat_iter.zip(b.flat_iter) do |i, j|
         i.value = U.new(Math.{{func}}(i.value, j.value))
       end
@@ -172,7 +170,7 @@ module Num::Internal
   # to tensors.
   macro stdlibwrap1d(func)
     def {{func}}(a)
-      upcast_if a
+      NumInternal.upcast_if a
       iter = a.unsafe_iter
       Tensor.new(a.shape) do |_|
         Math.{{func}}(iter.next.value)
@@ -198,11 +196,11 @@ module Num::Internal
   end
 
   macro reducescalar(operator, initial, arg)
-    {{arg}}.flat_iter.reduce(U.new({{initial}})) { |i, j| i {{operator.id}} j.value }
+    {{arg}}.iter.reduce(U.new({{initial}})) { |i, j| i {{operator.id}} j.value }
   end
 
   macro reducebool(operator, initial, arg)
-    {{arg}}.flat_iter.reduce({{initial}}) { |i, j| i {{operator.id}} j.value }
+    {{arg}}.iter.reduce({{initial}}) { |i, j| i {{operator.id}} j.value }
   end
 
   macro reduceaxis(operator, arg)

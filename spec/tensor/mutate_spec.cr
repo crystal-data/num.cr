@@ -35,7 +35,7 @@ describe Tensor do
     end
 
     it "duplicate F array with C ordering equals base" do
-      t = Tensor.new([2, 2, 3], ArrayFlags::Fortran) { |i| i }
+      t = Tensor.new([2, 2, 3], 'F') { |i| i }
       result = t.dup('C')
       assert_array_equal result, t
     end
@@ -95,7 +95,7 @@ describe Tensor do
 
     it "diag view raises shape error for nd tensors" do
       t = get_tensor
-      expect_raises(ShapeError) do
+      expect_raises(NumInternal::ShapeError) do
         t.diag_view
       end
     end
@@ -118,7 +118,7 @@ describe Tensor do
 
     it "reshape raises on multiple inferred dimensions" do
       t = get_tensor
-      expect_raises(ValueError) do
+      expect_raises(NumInternal::ValueError) do
         t.reshape([2, -1, -1])
       end
     end
@@ -147,7 +147,7 @@ describe Tensor do
   describe "Tensor#transpose" do
     it "basic tranpose test" do
       t = get_matrix
-      expected = Tensor.new([3, 3], ArrayFlags::Fortran) { |i| i }
+      expected = Tensor.new([3, 3], 'F') { |i| i }
       result = t.transpose
       assert_array_equal result, expected
     end

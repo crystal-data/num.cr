@@ -20,45 +20,31 @@
 # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+module NumInternal
+  extend self
 
-require "../spec_helper"
-
-describe Num::BaseArray do
-  describe "BaseArray#reshape" do
-    it "reshapes a tensor to 2d" do
-      a = Num::BaseArray.from_array [1, 2, 3, 4]
-      expected = Num::BaseArray.from_array [[1, 2], [3, 4]]
-      res = a.reshape(2, 2)
-      assert_array_equal res, expected
-    end
-
-    it "infer reshape dimension" do
-      a = Num::BaseArray.from_array [1, 2, 3, 4]
-      expected = Num::BaseArray.from_array [[1, 2], [3, 4]]
-      res = a.reshape(-1, 2)
-      assert_array_equal res, expected
-    end
-
-    it "raise on bad reshape" do
-      a = Num::BaseArray.new([10]) { |i| i }
-      expect_raises(NumInternal::ShapeError) do
-        a.reshape(3, 3)
+  def shape_to_strides(shape : Array(Int32), order : Char = 'C')
+    ndims = shape.size
+    strides = [0] * ndims
+    sz = 1
+    case order
+    # For Fortran ordered arrays strides are calculated from
+    # the beginning of the shape to the end, with strides
+    # monotonically increasing.
+    when 'F'
+      ndims.times do |i|
+        strides[i] = sz
+        sz *= shape[i]
+      end
+      # Otherwise, row major order is chosen and strides are
+      # calculated from the reversed shape, monotonically
+      # decreasing.
+    else
+      ndims.times do |i|
+        strides[ndims - i - 1] = sz
+        sz *= shape[ndims - i - 1]
       end
     end
-
-    it "raises on infer two dimensions" do
-      a = Num::BaseArray.new([12]) { |i| i }
-      expect_raises(NumInternal::ValueError) do
-        a.reshape(2, -1, -1)
-      end
-    end
-  end
-
-  describe "BaseArray#ravel" do
-    it "flattens array" do
-      desired = Num::BaseArray.new([12]) { |i| i }
-      result = desired.reshape(3, 2, 2).ravel
-      assert_array_equal desired, result
-    end
+    strides
   end
 end
