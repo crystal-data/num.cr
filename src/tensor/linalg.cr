@@ -2,7 +2,7 @@ require "./extension"
 require "./tensor"
 require "./creation"
 
-class Num::Tensor(T) < Num::BaseArray(T)
+class Tensor(T) < Num::BaseArray(T)
   private def raise_fortran_inplace(flags)
     unless flags.fortran?
       raise Exceptions::LinAlgError.new("Tensor must be Fortran Contiguous to apply the operation in-place")
@@ -361,9 +361,15 @@ class Num::Tensor(T) < Num::BaseArray(T)
   end
 
   def matmul(other : Tensor(T))
-    dest = Tensor(T).new([shape[0], other.shape[1]])
+    a = flags.contiguous? ? self : dup
+    b = other.flags.contiguous? ? other : other.dup
+    m = a.shape[0]
+    n = b.shape[1]
+    k = a.shape[1]
+    dest = Tensor(T).new([m, n])
     no = LibCblas::CblasTranspose::CblasNoTrans
-    blas(ge, mm, no, no, shape[0], other.shape[1], shape[1], 1.0, buffer, shape[0], other.buffer, other.shape[0], 1.0, dest.buffer, dest.shape[0])
+
+    blas(ge, mm, no, no, m, n, k, blas_const(1.0), a.buffer, a.shape[1], b.buffer, b.shape[1], blas_const(0.0), dest.buffer, dest.shape[1])
     dest
   end
 end

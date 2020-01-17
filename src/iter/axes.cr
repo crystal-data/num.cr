@@ -1,17 +1,17 @@
 require "../base/base"
 
-struct Num::Iter::AxisIter(T)
+struct NumInternal::AxisIter(T)
   include Iterator(T)
   @shape : Array(Int32)
   @strides : Array(Int32)
   @inc : Int32
   @ptr : Pointer(T)
-  @tmp : BaseArray(T)
+  @tmp : Num::BaseArray(T)
   @total : Int32
   @yielded : Int32 = 0
   @axis : Int32
 
-  def initialize(arr : BaseArray(T), @axis : Int32 = -1, keepdims = false)
+  def initialize(arr : Num::BaseArray(T), @axis : Int32 = -1, keepdims = false)
     if @axis < 0
       @axis += arr.ndims
     end
@@ -50,16 +50,16 @@ struct Num::Iter::AxisIter(T)
   end
 end
 
-struct Num::Iter::UnsafeAxisIter(T)
+struct NumInternal::UnsafeAxisIter(T)
   include Iterator(T)
   @shape : Array(Int32)
   @strides : Array(Int32)
   @inc : Int32
   @ptr : Pointer(T)
-  @tmp : BaseArray(T)
+  @tmp : Num::BaseArray(T)
   @axis : Int32
 
-  def initialize(arr : BaseArray(T), @axis : Int32 = -1, keepdims = false)
+  def initialize(arr : Num::BaseArray(T), @axis : Int32 = -1, keepdims = false)
     if @axis < 0
       @axis += arr.ndims
     end

@@ -20,45 +20,28 @@
 # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+require "complex"
 
-require "../spec_helper"
+module NumInternal
+  extend self
 
-describe Num::BaseArray do
-  describe "BaseArray#reshape" do
-    it "reshapes a tensor to 2d" do
-      a = Num::BaseArray.from_array [1, 2, 3, 4]
-      expected = Num::BaseArray.from_array [[1, 2], [3, 4]]
-      res = a.reshape(2, 2)
-      assert_array_equal res, expected
-    end
-
-    it "infer reshape dimension" do
-      a = Num::BaseArray.from_array [1, 2, 3, 4]
-      expected = Num::BaseArray.from_array [[1, 2], [3, 4]]
-      res = a.reshape(-1, 2)
-      assert_array_equal res, expected
-    end
-
-    it "raise on bad reshape" do
-      a = Num::BaseArray.new([10]) { |i| i }
-      expect_raises(NumInternal::ShapeError) do
-        a.reshape(3, 3)
-      end
-    end
-
-    it "raises on infer two dimensions" do
-      a = Num::BaseArray.new([12]) { |i| i }
-      expect_raises(NumInternal::ValueError) do
-        a.reshape(2, -1, -1)
-      end
-    end
+  def format(value : Int, pad : Int32 = 0)
+    "#{value}".rjust(pad)
   end
 
-  describe "BaseArray#ravel" do
-    it "flattens array" do
-      desired = Num::BaseArray.new([12]) { |i| i }
-      result = desired.reshape(3, 2, 2).ravel
-      assert_array_equal desired, result
-    end
+  def format(value : Float, pad : Int32 = 0)
+    sprintf("%g", value).ljust(pad)
+  end
+
+  def format(value : Complex, pad : Int32 = 0)
+    "#{format(value.real)}+#{format(value.imag)}j".ljust(pad)
+  end
+
+  def format(value : String, pad : Int32 = 0)
+    value.rjust(pad)
+  end
+
+  def format(value : Bool, pad : Int32 = 0)
+    value.to_s.rjust(pad)
   end
 end

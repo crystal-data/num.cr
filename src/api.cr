@@ -15,24 +15,5 @@ require "./extensions/number"
 require "./base/transform"
 require "./base/stride_tricks"
 require "./base/manipulate"
-require "./base/arrayprint"
+require "./print"
 require "./core/routines"
-
-module Num::N
-  extend self
-  include Num::BMath
-  include Num::Creation
-  include Num::Statistics
-  include Num::Assemble
-  include Num::InputOutput
-  include Num::Search
-  include Num::FFT
-  include Num::Financial
-  include Num::Sparse
-  include Num::Transform
-  include Num::StrideTricks
-  include Num::Manipulate
-  include Num::ArrayPrint
-  include Num::Logical
-  include Num::Routines
-end

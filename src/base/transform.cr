@@ -93,7 +93,7 @@ module Num::Transform
   # ```
   def reshape(arr : BaseArray, newshape : Array(Int32))
     if newshape == arr.shape
-      return arr
+      return arr.dup
     end
     newsize = 1
     cur_size = arr.size
@@ -119,37 +119,43 @@ module Num::Transform
       raise Exceptions::ShapeError.new "Shapes #{arr.shape} cannot be reshaped to #{newshape}"
     end
 
-    stride = uninitialized Int32
-    newstrides = [0] * newshape.size
-    newbase = arr.base ? arr.base : arr
-    newdims = newshape.size
+    iter = arr.unsafe_iter
 
-    if arr.flags & Internal::ArrayFlags::Contiguous
-      stride = 1
-      newdims.times do |i|
-        newstrides[newdims - i - 1] = stride
-        stride *= newshape[newdims - i - 1]
-      end
-    else
-      stride = 1
-      newshape.each_with_index do |d, i|
-        newstrides[i] = stride
-        stride *= d
-      end
+    Tensor.new(newshape) do |_|
+      iter.next.value
     end
 
-    if arr.flags.fortran? || arr.flags.contiguous?
-      newflags = arr.flags.dup
-      newflags &= ~Internal::ArrayFlags::OwnData
-      ret = arr.class.new(arr.buffer, newshape, newstrides, newflags, newbase)
-      ret.update_flags(Internal::ArrayFlags::Fortran | Internal::ArrayFlags::Contiguous)
-      ret
-    else
-      tmp = arr.dup
-      ret = arr.class.new(tmp.buffer, newshape, newstrides, tmp.flags.dup, nil)
-      ret.update_flags(Internal::ArrayFlags::Fortran | Internal::ArrayFlags::Contiguous)
-      ret
-    end
+    # stride = uninitialized Int32
+    # newstrides = [0] * newshape.size
+    # newbase = arr.base ? arr.base : arr
+    # newdims = newshape.size
+    #
+    # if arr.flags.contiguous?
+    #   stride = 1
+    #   newdims.times do |i|
+    #     newstrides[newdims - i - 1] = stride
+    #     stride *= newshape[newdims - i - 1]
+    #   end
+    # else
+    #   stride = 1
+    #   newshape.each_with_index do |d, i|
+    #     newstrides[i] = stride
+    #     stride *= d
+    #   end
+    # end
+    #
+    # if arr.flags.fortran? || arr.flags.contiguous?
+    #   newflags = arr.flags.dup
+    #   newflags &= ~Internal::ArrayFlags::OwnData
+    #   ret = arr.class.new(arr.buffer, newshape, newstrides, newflags, newbase)
+    #   ret.update_flags(Internal::ArrayFlags::Fortran | Internal::ArrayFlags::Contiguous)
+    #   ret
+    # else
+    #   tmp = arr.dup
+    #   ret = arr.class.new(tmp.buffer, newshape, newstrides, tmp.flags.dup, nil)
+    #   ret.update_flags(Internal::ArrayFlags::Fortran | Internal::ArrayFlags::Contiguous)
+    #   ret
+    # end
   end
 
   def reshape(arr : BaseArray, *args)
@@ -245,7 +251,9 @@ module Num::Transform
       newshape[i] = arr.shape[permutation[i]]
       newstrides[i] = arr.strides[permutation[i]]
     end
-    ret = arr.class.new(arr.buffer, newshape, newstrides, arr.flags.dup, newbase)
+    newflags = arr.flags.dup
+    newflags &= ~Internal::ArrayFlags::OwnData
+    ret = arr.class.new(arr.buffer, newshape, newstrides, newflags, newbase)
     ret.update_flags(Internal::ArrayFlags::Contiguous | Internal::ArrayFlags::Fortran)
     ret
   end
