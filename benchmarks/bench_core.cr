@@ -35,7 +35,7 @@ Benchmark.ips do |bench|
   bench.report("time_mid") { amid * 2 + bmid }
   bench.report("time mid map") { amid.map2(bmid) { |i, j| i * 2 + j } }
   bench.report("time_mid2") { amid + bmid - 2 }
-  bench.report("time mid2 map") { amid.map2(bmid) { |i, j| i + j - 2} }
+  bench.report("time mid2 map") { amid.map2(bmid) { |i, j| i + j - 2 } }
   bench.report("time_large") { alarge * 2 + blarge }
   bench.report("time large map") { alarge.map2(blarge) { |i, j| i * 2 + j } }
   bench.report("time_large2") { alarge + blarge - 2 }
