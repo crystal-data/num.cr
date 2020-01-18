@@ -23,6 +23,51 @@
 require "../base"
 
 macro iter_macro(n, vars)
+  struct NumInternal::ContigFlatIter{{n}}({% for v in vars %}{{v[:typ]}},{% end %})
+    include Iterator(Tuple({% for v in vars %}{{v[:typ]}}, {% end %}))
+
+    @size : Int32
+    @offset : Int32
+
+    {% for v in vars %}
+      # tracks a single pointer to a single arrays data
+      @ptr_{{v[:sym].id}} : Pointer({{v[:typ]}})
+    {% end %}
+
+    def initialize(
+      {% for v in vars %}
+        {{v[:sym].id}} : Num::BaseArray({{v[:typ]}}),
+      {% end %}
+    )
+
+      {% for v in vars %}
+        @ptr_{{v[:sym].id}} = {{v[:sym].id}}.buffer
+      {% end %}
+
+      @offset = 0
+      @size = {{vars[0][:sym].id}}.size
+    end
+
+    def next
+      {% for v in vars %}
+        ret_{{v[:sym].id}} = @ptr_{{v[:sym].id}}
+      {% end %}
+
+      if @offset < @size
+        @offset += 1
+        {% for v in vars %}
+          @ptr_{{v[:sym].id}} += 1
+        {% end %}
+        {
+          {% for v in vars %}
+            ret_{{v[:sym].id}},
+          {% end %}
+        }
+      else
+        stop
+      end
+    end
+  end
   # The primary N-dimensional iterator through any ndarrays.
   # this will always iterate in row-major order, regardless of the
   # underlying strides or memory layout of the array.

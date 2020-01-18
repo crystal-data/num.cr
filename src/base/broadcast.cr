@@ -141,6 +141,26 @@ module NumInternal
     end
   end
 
+  def broadcast2(a : Num::BaseArray(U), b : Num::BaseArray(U)) forall U, V
+    t = {a, b}
+    if a.shape == b.shape
+      return t
+    end
+
+    nd = t.max_of { |i| i.ndims }
+    shape = [0] * nd
+
+    2.times do |i|
+      diff = nd - t[i].shape.size
+      tshape = [1] * diff + t[i].shape
+      shape = shape.map_with_index do |e, i|
+        e > tshape[i] ? e : tshape[i]
+      end
+    end
+
+    return {bcast_if(t[0], shape), bcast_if(t[1], shape)}
+  end
+
   broadcast_n [{sym: :a, typ: T}, {sym: :b, typ: U}]
   broadcast_n [{sym: :a, typ: T}, {sym: :b, typ: U}, {sym: :c, typ: V}]
   broadcast_n [{sym: :a, typ: T}, {sym: :b, typ: U}, {sym: :c, typ: V}, {sym: :d, typ: W}]

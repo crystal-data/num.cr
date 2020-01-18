@@ -280,6 +280,22 @@ class Num::BaseArray(T)
     end
   end
 
+  def iter2(other : BaseArray(U)) forall U
+    if flags.contiguous? && other.flags.contiguous?
+      NumInternal::ContigFlatIter2.new(self, other)
+    else
+      NumInternal::NDFlatIter2.new(self, other)
+    end
+  end
+
+  def iter3(o1 : BaseArray(U), o2 : BaseArray(V)) forall U, V
+    if flags.contiguous? && o1.flags.contiguous? && o2.flags.contiguous?
+      NumInternal::ContigFlatIter3.new(self, o1, o2)
+    else
+      NumInternal::NDFlatIter3.new(self, o1, o2)
+    end
+  end
+
   def unsafe_iter
     if flags.contiguous?
       NumInternal::UnsafeContigFlatIter.new(self)
@@ -336,7 +352,7 @@ class Num::BaseArray(T)
   # array.
   def map2!(other : BaseArray) forall U
     other = other.broadcast_to(shape)
-    NumInternal::NDFlatIter2.new(self, other).each do |i, j|
+    self.iter2(other).each do |i, j|
       {% if T == String %}
         i.value = (yield i.value, j.value).to_s
       {% elsif T == Bool %}
@@ -351,9 +367,9 @@ class Num::BaseArray(T)
   # will occur, and the arrays will be broadcast against each other
   # before returning.
   def map2(other : BaseArray(U), &block : T, U -> V) forall U, V
-    a, b = NumInternal.broadcast(self, other)
+    a, b = NumInternal.broadcast2(self, other)
     ret = basetype(V).new(a.shape, 'C')
-    NumInternal::NDFlatIter3.new(ret, a, b).each do |i, j, k|
+    ret.iter3(a, b).each do |i, j, k|
       i.value = yield(j.value, k.value)
     end
     ret
@@ -657,11 +673,11 @@ class Num::BaseArray(T)
     newshape.delete_at(axis)
     newstrides.delete_at(axis)
 
-    ret = self.class.new(buffer, newshape, newstrides, flags, nil)
+    ret = self.class.new(buffer, newshape, newstrides, flags)
     1.step(to: shape[axis] - 1) do |_|
       ptr += strides[axis]
-      tmp = self.class.new(ptr, newshape, newstrides, flags, nil)
-      tmp.flat_iter.zip(ret.flat_iter) do |ii, jj|
+      tmp = self.class.new(ptr, newshape, newstrides, flags)
+      tmp.iter.zip(ret.iter) do |ii, jj|
         yield ii, jj
       end
       ret = tmp

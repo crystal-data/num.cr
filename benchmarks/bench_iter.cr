@@ -2,12 +2,15 @@ require "../src/num"
 require "benchmark"
 
 def test_iter(n)
-  t = Num::Tensor.random(0.0...1.0, [n, n])
+  t = Tensor.random(0.0...1.0, [n, n])
+  v = Tensor.random(0.0...1.0, [n, n])
+  a = 0.0
 
   Benchmark.ips do |bench|
-    bench.report("REDUCTION #{n}x#{n}") { t.sum }
+    bench.report("REDUCTION #{n}x#{n}") { a += t.sum }
     bench.report("REDUCE ALONG AXIS #{n}x#{n}") { t.sum(0) }
     bench.report("ELEMENTWISE #{n}x#{n}") { t + t }
+    bench.report("ELEMENTWISE MAP #{n}x#{n}") { t.map2(t) { |i, j| i + j } }
     bench.report("ACCUMULATE #{n}x#{n}") { t.cumsum(0) }
   end
 end
