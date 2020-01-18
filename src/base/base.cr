@@ -584,7 +584,7 @@ class Num::BaseArray(T)
       end
       raise "Axis out of range for this array" unless axis < ndims
 
-      PermuteIter.new(self, axis).each do |perm|
+      NumInternal::PermuteIter.new(self, axis).each do |perm|
         yield slice(perm)
       end
     end

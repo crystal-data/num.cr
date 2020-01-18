@@ -65,7 +65,7 @@ class Tensor(T) < Num::BaseArray(T)
   end
 
   def matrix_iter
-    MatrixIter.new(self)
+    NumInternal::MatrixIter.new(self)
   end
 
   def apply_along_axis(axis = -1)

@@ -1,6 +1,6 @@
 require "../tensor/tensor"
 
-module Num::Logical
+module Num
   extend self
 
   def isfinite(x : Tensor(Float32) | Tensor(Float64))

@@ -2,15 +2,15 @@ require "../libs/lapack"
 require "./work"
 
 module NumInternal::LapackHelper
-  ARG_NORMAL          = 0
-  ARG_MATRIX          = 1
-  ARG_INTOUT          = 2
-  WORK_NONE           = 0
-  WORK_DETECT         = 1
-  WORK_DETECT_SPECIAL = 2
-  WORK_EMPTY          = 3
-  WORK_PARAM1         = 4
-  WORK_PARAM2         = 5
+  ARG_NORMAL  = 0
+  NumInternal::ARG_MATRIX = 1
+  NumInternal::ARG_INTOUT = 2
+  WORK_NONE   = 0
+  NumInternal::WORK_DETECT = 1
+  NumInternal::WORK_DETECT_SPECIAL = 2
+  NumInternal::WORK_EMPTY = 3
+  NumInternal::WORK_PARAM1 = 4
+  NumInternal::WORK_PARAM2 = 5
 end
 
 class Tensor(T)
@@ -73,91 +73,91 @@ class Tensor(T)
   macro lapack(name, *args, worksize = nil)
       {%
         lapack_args = {
-          "gbtrf" => {5 => ARG_MATRIX, 7 => ARG_MATRIX},
-          "gebal" => {3 => ARG_MATRIX, 5 => ARG_INTOUT, 6 => ARG_INTOUT, 7 => ARG_MATRIX},
-          "gees"  => {3 => ARG_MATRIX, 5 => ARG_MATRIX, 7 => ARG_INTOUT, 8 => ARG_MATRIX, 9 => ARG_MATRIX, 10 => ARG_MATRIX},
-          "geev"  => {4 => ARG_MATRIX, 6 => ARG_MATRIX, 7 => ARG_MATRIX, 8 => ARG_MATRIX, 10 => ARG_MATRIX},
-          "gehrd" => {4 => ARG_MATRIX, 6 => ARG_MATRIX},
-          "gels"  => {5 => ARG_MATRIX, 7 => ARG_MATRIX},
-          "gelsd" => {4 => ARG_MATRIX, 6 => ARG_MATRIX, 8 => ARG_MATRIX, 10 => ARG_INTOUT},
-          "gelsy" => {4 => ARG_MATRIX, 6 => ARG_MATRIX, 8 => ARG_MATRIX, 10 => ARG_INTOUT},
-          "geqp3" => {3 => ARG_MATRIX, 5 => ARG_MATRIX, 6 => ARG_MATRIX},
-          "geqrf" => {3 => ARG_MATRIX, 5 => ARG_MATRIX},
-          "gerqf" => {3 => ARG_MATRIX, 5 => ARG_MATRIX},
-          "gelqf" => {3 => ARG_MATRIX, 5 => ARG_MATRIX},
-          "geqlf" => {3 => ARG_MATRIX, 5 => ARG_MATRIX},
-          "gesdd" => {4 => ARG_MATRIX, 6 => ARG_MATRIX, 7 => ARG_MATRIX, 9 => ARG_MATRIX},
-          "gesv"  => {3 => ARG_MATRIX, 5 => ARG_MATRIX, 6 => ARG_MATRIX},
-          "getrf" => {3 => ARG_MATRIX, 5 => ARG_MATRIX},
-          "getri" => {2 => ARG_MATRIX, 4 => ARG_MATRIX},
-          "getrs" => {4 => ARG_MATRIX, 6 => ARG_MATRIX, 7 => ARG_MATRIX},
-          "gges"  => {4 => ARG_MATRIX, 6 => ARG_MATRIX, 8 => ARG_MATRIX, 10 => ARG_INTOUT, 11 => ARG_MATRIX, 12 => ARG_MATRIX, 13 => ARG_MATRIX, 14 => ARG_MATRIX, 16 => ARG_MATRIX},
-          "ggev"  => {4 => ARG_MATRIX, 6 => ARG_MATRIX, 8 => ARG_MATRIX, 9 => ARG_MATRIX, 10 => ARG_MATRIX, 11 => ARG_MATRIX, 13 => ARG_MATRIX},
-          "heevr" => {5 => ARG_MATRIX, 12 => ARG_INTOUT, 13 => ARG_MATRIX, 14 => ARG_MATRIX, 16 => ARG_MATRIX},
-          "hegvd" => {5 => ARG_MATRIX, 7 => ARG_MATRIX, 9 => ARG_MATRIX},
-          "hesv"  => {4 => ARG_MATRIX, 6 => ARG_MATRIX, 7 => ARG_MATRIX},
-          "hetrf" => {3 => ARG_MATRIX, 5 => ARG_MATRIX},
-          "hetri" => {3 => ARG_MATRIX, 5 => ARG_MATRIX},
-          "orghr" => {4 => ARG_MATRIX, 6 => ARG_MATRIX},
-          "orgqr" => {4 => ARG_MATRIX, 6 => ARG_MATRIX},
-          "orgrq" => {4 => ARG_MATRIX, 6 => ARG_MATRIX},
-          "orglq" => {4 => ARG_MATRIX, 6 => ARG_MATRIX},
-          "orgql" => {4 => ARG_MATRIX, 6 => ARG_MATRIX},
-          "posv"  => {4 => ARG_MATRIX, 6 => ARG_MATRIX},
-          "potrf" => {3 => ARG_MATRIX},
-          "potri" => {3 => ARG_MATRIX},
-          "potrs" => {4 => ARG_MATRIX, 6 => ARG_MATRIX},
-          "syevr" => {5 => ARG_MATRIX, 12 => ARG_INTOUT, 13 => ARG_MATRIX, 14 => ARG_MATRIX, 16 => ARG_MATRIX},
-          "sygvd" => {5 => ARG_MATRIX, 7 => ARG_MATRIX, 9 => ARG_MATRIX},
-          "sysv"  => {4 => ARG_MATRIX, 6 => ARG_MATRIX, 7 => ARG_MATRIX},
-          "sytrf" => {3 => ARG_MATRIX, 5 => ARG_MATRIX},
-          "sytri" => {3 => ARG_MATRIX, 5 => ARG_MATRIX},
-          "trtri" => {4 => ARG_MATRIX},
-          "trtrs" => {6 => ARG_MATRIX, 8 => ARG_MATRIX},
-          "syev"  => {4 => ARG_MATRIX, 6 => ARG_MATRIX},
-          "gecon" => {3 => ARG_MATRIX},
+          "gbtrf" => {5 => NumInternal::ARG_MATRIX, 7 => NumInternal::ARG_MATRIX},
+          "gebal" => {3 => NumInternal::ARG_MATRIX, 5 => NumInternal::ARG_INTOUT, 6 => NumInternal::ARG_INTOUT, 7 => NumInternal::ARG_MATRIX},
+          "gees"  => {3 => NumInternal::ARG_MATRIX, 5 => NumInternal::ARG_MATRIX, 7 => NumInternal::ARG_INTOUT, 8 => NumInternal::ARG_MATRIX, 9 => NumInternal::ARG_MATRIX, 10 => NumInternal::ARG_MATRIX},
+          "geev"  => {4 => NumInternal::ARG_MATRIX, 6 => NumInternal::ARG_MATRIX, 7 => NumInternal::ARG_MATRIX, 8 => NumInternal::ARG_MATRIX, 10 => NumInternal::ARG_MATRIX},
+          "gehrd" => {4 => NumInternal::ARG_MATRIX, 6 => NumInternal::ARG_MATRIX},
+          "gels"  => {5 => NumInternal::ARG_MATRIX, 7 => NumInternal::ARG_MATRIX},
+          "gelsd" => {4 => NumInternal::ARG_MATRIX, 6 => NumInternal::ARG_MATRIX, 8 => NumInternal::ARG_MATRIX, 10 => NumInternal::ARG_INTOUT},
+          "gelsy" => {4 => NumInternal::ARG_MATRIX, 6 => NumInternal::ARG_MATRIX, 8 => NumInternal::ARG_MATRIX, 10 => NumInternal::ARG_INTOUT},
+          "geqp3" => {3 => NumInternal::ARG_MATRIX, 5 => NumInternal::ARG_MATRIX, 6 => NumInternal::ARG_MATRIX},
+          "geqrf" => {3 => NumInternal::ARG_MATRIX, 5 => NumInternal::ARG_MATRIX},
+          "gerqf" => {3 => NumInternal::ARG_MATRIX, 5 => NumInternal::ARG_MATRIX},
+          "gelqf" => {3 => NumInternal::ARG_MATRIX, 5 => NumInternal::ARG_MATRIX},
+          "geqlf" => {3 => NumInternal::ARG_MATRIX, 5 => NumInternal::ARG_MATRIX},
+          "gesdd" => {4 => NumInternal::ARG_MATRIX, 6 => NumInternal::ARG_MATRIX, 7 => NumInternal::ARG_MATRIX, 9 => NumInternal::ARG_MATRIX},
+          "gesv"  => {3 => NumInternal::ARG_MATRIX, 5 => NumInternal::ARG_MATRIX, 6 => NumInternal::ARG_MATRIX},
+          "getrf" => {3 => NumInternal::ARG_MATRIX, 5 => NumInternal::ARG_MATRIX},
+          "getri" => {2 => NumInternal::ARG_MATRIX, 4 => NumInternal::ARG_MATRIX},
+          "getrs" => {4 => NumInternal::ARG_MATRIX, 6 => NumInternal::ARG_MATRIX, 7 => NumInternal::ARG_MATRIX},
+          "gges"  => {4 => NumInternal::ARG_MATRIX, 6 => NumInternal::ARG_MATRIX, 8 => NumInternal::ARG_MATRIX, 10 => NumInternal::ARG_INTOUT, 11 => NumInternal::ARG_MATRIX, 12 => NumInternal::ARG_MATRIX, 13 => NumInternal::ARG_MATRIX, 14 => NumInternal::ARG_MATRIX, 16 => NumInternal::ARG_MATRIX},
+          "ggev"  => {4 => NumInternal::ARG_MATRIX, 6 => NumInternal::ARG_MATRIX, 8 => NumInternal::ARG_MATRIX, 9 => NumInternal::ARG_MATRIX, 10 => NumInternal::ARG_MATRIX, 11 => NumInternal::ARG_MATRIX, 13 => NumInternal::ARG_MATRIX},
+          "heevr" => {5 => NumInternal::ARG_MATRIX, 12 => NumInternal::ARG_INTOUT, 13 => NumInternal::ARG_MATRIX, 14 => NumInternal::ARG_MATRIX, 16 => NumInternal::ARG_MATRIX},
+          "hegvd" => {5 => NumInternal::ARG_MATRIX, 7 => NumInternal::ARG_MATRIX, 9 => NumInternal::ARG_MATRIX},
+          "hesv"  => {4 => NumInternal::ARG_MATRIX, 6 => NumInternal::ARG_MATRIX, 7 => NumInternal::ARG_MATRIX},
+          "hetrf" => {3 => NumInternal::ARG_MATRIX, 5 => NumInternal::ARG_MATRIX},
+          "hetri" => {3 => NumInternal::ARG_MATRIX, 5 => NumInternal::ARG_MATRIX},
+          "orghr" => {4 => NumInternal::ARG_MATRIX, 6 => NumInternal::ARG_MATRIX},
+          "orgqr" => {4 => NumInternal::ARG_MATRIX, 6 => NumInternal::ARG_MATRIX},
+          "orgrq" => {4 => NumInternal::ARG_MATRIX, 6 => NumInternal::ARG_MATRIX},
+          "orglq" => {4 => NumInternal::ARG_MATRIX, 6 => NumInternal::ARG_MATRIX},
+          "orgql" => {4 => NumInternal::ARG_MATRIX, 6 => NumInternal::ARG_MATRIX},
+          "posv"  => {4 => NumInternal::ARG_MATRIX, 6 => NumInternal::ARG_MATRIX},
+          "potrf" => {3 => NumInternal::ARG_MATRIX},
+          "potri" => {3 => NumInternal::ARG_MATRIX},
+          "potrs" => {4 => NumInternal::ARG_MATRIX, 6 => NumInternal::ARG_MATRIX},
+          "syevr" => {5 => NumInternal::ARG_MATRIX, 12 => NumInternal::ARG_INTOUT, 13 => NumInternal::ARG_MATRIX, 14 => NumInternal::ARG_MATRIX, 16 => NumInternal::ARG_MATRIX},
+          "sygvd" => {5 => NumInternal::ARG_MATRIX, 7 => NumInternal::ARG_MATRIX, 9 => NumInternal::ARG_MATRIX},
+          "sysv"  => {4 => NumInternal::ARG_MATRIX, 6 => NumInternal::ARG_MATRIX, 7 => NumInternal::ARG_MATRIX},
+          "sytrf" => {3 => NumInternal::ARG_MATRIX, 5 => NumInternal::ARG_MATRIX},
+          "sytri" => {3 => NumInternal::ARG_MATRIX, 5 => NumInternal::ARG_MATRIX},
+          "trtri" => {4 => NumInternal::ARG_MATRIX},
+          "trtrs" => {6 => NumInternal::ARG_MATRIX, 8 => NumInternal::ARG_MATRIX},
+          "syev"  => {4 => NumInternal::ARG_MATRIX, 6 => NumInternal::ARG_MATRIX},
+          "gecon" => {3 => NumInternal::ARG_MATRIX},
         }
 
         lapack_args_complex = {
-          "gees" => {3 => ARG_MATRIX, 5 => ARG_MATRIX, 7 => ARG_INTOUT, 8 => ARG_MATRIX, 9 => ARG_MATRIX},
-          "geev" => {4 => ARG_MATRIX, 6 => ARG_MATRIX, 7 => ARG_MATRIX, 9 => ARG_MATRIX},
-          "gges" => {4 => ARG_MATRIX, 6 => ARG_MATRIX, 8 => ARG_MATRIX, 10 => ARG_INTOUT, 11 => ARG_MATRIX, 12 => ARG_MATRIX, 13 => ARG_MATRIX, 15 => ARG_MATRIX},
-          "ggev" => {4 => ARG_MATRIX, 6 => ARG_MATRIX, 8 => ARG_MATRIX, 9 => ARG_MATRIX, 10 => ARG_MATRIX, 12 => ARG_MATRIX},
+          "gees" => {3 => NumInternal::ARG_MATRIX, 5 => NumInternal::ARG_MATRIX, 7 => NumInternal::ARG_INTOUT, 8 => NumInternal::ARG_MATRIX, 9 => NumInternal::ARG_MATRIX},
+          "geev" => {4 => NumInternal::ARG_MATRIX, 6 => NumInternal::ARG_MATRIX, 7 => NumInternal::ARG_MATRIX, 9 => NumInternal::ARG_MATRIX},
+          "gges" => {4 => NumInternal::ARG_MATRIX, 6 => NumInternal::ARG_MATRIX, 8 => NumInternal::ARG_MATRIX, 10 => NumInternal::ARG_INTOUT, 11 => NumInternal::ARG_MATRIX, 12 => NumInternal::ARG_MATRIX, 13 => NumInternal::ARG_MATRIX, 15 => NumInternal::ARG_MATRIX},
+          "ggev" => {4 => NumInternal::ARG_MATRIX, 6 => NumInternal::ARG_MATRIX, 8 => NumInternal::ARG_MATRIX, 9 => NumInternal::ARG_MATRIX, 10 => NumInternal::ARG_MATRIX, 12 => NumInternal::ARG_MATRIX},
         }
 
         lapack_worksize = {
-          "gees"  => {"cwork" => WORK_DETECT, "rwork" => WORK_PARAM1, "bwork" => WORK_EMPTY},
-          "geev"  => {"cwork" => WORK_DETECT, "rwork" => WORK_PARAM1},
-          "gehrd" => {"cwork" => WORK_DETECT},
-          "gels"  => {"cwork" => WORK_DETECT},
-          "gelsd" => {"cwork" => WORK_DETECT, "rwork" => WORK_DETECT_SPECIAL, "iwork" => WORK_DETECT_SPECIAL},
-          "gelsy" => {"cwork" => WORK_DETECT, "rwork" => WORK_PARAM1},
-          "geqp3" => {"cwork" => WORK_DETECT, "rwork" => WORK_PARAM1},
-          "geqrf" => {"cwork" => WORK_DETECT},
-          "gerqf" => {"cwork" => WORK_DETECT},
-          "gelqf" => {"cwork" => WORK_DETECT},
-          "geqlf" => {"cwork" => WORK_DETECT},
-          "gesdd" => {"cwork" => WORK_DETECT, "rwork" => WORK_PARAM1, "iwork" => WORK_PARAM2},
-          "getri" => {"cwork" => WORK_DETECT},
-          "gges"  => {"cwork" => WORK_DETECT, "rwork" => WORK_PARAM1, "bwork" => WORK_EMPTY},
-          "ggev"  => {"cwork" => WORK_DETECT, "rwork" => WORK_PARAM1},
-          "heevr" => {"cwork" => WORK_DETECT, "rwork" => WORK_DETECT, "iwork" => WORK_DETECT},
-          "hegvd" => {"cwork" => WORK_DETECT, "rwork" => WORK_DETECT, "iwork" => WORK_DETECT},
-          "hesv"  => {"cwork" => WORK_DETECT},
-          "hetrf" => {"cwork" => WORK_DETECT},
-          "hetri" => {"cwork" => WORK_PARAM1},
-          "orghr" => {"cwork" => WORK_DETECT},
-          "orgqr" => {"cwork" => WORK_DETECT},
-          "orgrq" => {"cwork" => WORK_DETECT},
-          "orglq" => {"cwork" => WORK_DETECT},
-          "orgql" => {"cwork" => WORK_DETECT},
-          "syevr" => {"cwork" => WORK_DETECT, "iwork" => WORK_DETECT},
-          "sygvd" => {"cwork" => WORK_DETECT, "iwork" => WORK_DETECT},
-          "sysv"  => {"cwork" => WORK_DETECT},
-          "sytrf" => {"cwork" => WORK_DETECT},
-          "sytri" => {"cwork" => WORK_PARAM1},
-          "syev"  => {"cwork" => WORK_DETECT, "rwork" => WORK_PARAM1},
-          "gecon" => {"cwork" => WORK_DETECT, "rwork" => WORK_PARAM1},
+          "gees"  => {"cwork" => NumInternal::WORK_DETECT, "rwork" => NumInternal::WORK_PARAM1, "bwork" => NumInternal::WORK_EMPTY},
+          "geev"  => {"cwork" => NumInternal::WORK_DETECT, "rwork" => NumInternal::WORK_PARAM1},
+          "gehrd" => {"cwork" => NumInternal::WORK_DETECT},
+          "gels"  => {"cwork" => NumInternal::WORK_DETECT},
+          "gelsd" => {"cwork" => NumInternal::WORK_DETECT, "rwork" => NumInternal::WORK_DETECT_SPECIAL, "iwork" => NumInternal::WORK_DETECT_SPECIAL},
+          "gelsy" => {"cwork" => NumInternal::WORK_DETECT, "rwork" => NumInternal::WORK_PARAM1},
+          "geqp3" => {"cwork" => NumInternal::WORK_DETECT, "rwork" => NumInternal::WORK_PARAM1},
+          "geqrf" => {"cwork" => NumInternal::WORK_DETECT},
+          "gerqf" => {"cwork" => NumInternal::WORK_DETECT},
+          "gelqf" => {"cwork" => NumInternal::WORK_DETECT},
+          "geqlf" => {"cwork" => NumInternal::WORK_DETECT},
+          "gesdd" => {"cwork" => NumInternal::WORK_DETECT, "rwork" => NumInternal::WORK_PARAM1, "iwork" => NumInternal::WORK_PARAM2},
+          "getri" => {"cwork" => NumInternal::WORK_DETECT},
+          "gges"  => {"cwork" => NumInternal::WORK_DETECT, "rwork" => NumInternal::WORK_PARAM1, "bwork" => NumInternal::WORK_EMPTY},
+          "ggev"  => {"cwork" => NumInternal::WORK_DETECT, "rwork" => NumInternal::WORK_PARAM1},
+          "heevr" => {"cwork" => NumInternal::WORK_DETECT, "rwork" => NumInternal::WORK_DETECT, "iwork" => NumInternal::WORK_DETECT},
+          "hegvd" => {"cwork" => NumInternal::WORK_DETECT, "rwork" => NumInternal::WORK_DETECT, "iwork" => NumInternal::WORK_DETECT},
+          "hesv"  => {"cwork" => NumInternal::WORK_DETECT},
+          "hetrf" => {"cwork" => NumInternal::WORK_DETECT},
+          "hetri" => {"cwork" => NumInternal::WORK_PARAM1},
+          "orghr" => {"cwork" => NumInternal::WORK_DETECT},
+          "orgqr" => {"cwork" => NumInternal::WORK_DETECT},
+          "orgrq" => {"cwork" => NumInternal::WORK_DETECT},
+          "orglq" => {"cwork" => NumInternal::WORK_DETECT},
+          "orgql" => {"cwork" => NumInternal::WORK_DETECT},
+          "syevr" => {"cwork" => NumInternal::WORK_DETECT, "iwork" => NumInternal::WORK_DETECT},
+          "sygvd" => {"cwork" => NumInternal::WORK_DETECT, "iwork" => NumInternal::WORK_DETECT},
+          "sysv"  => {"cwork" => NumInternal::WORK_DETECT},
+          "sytrf" => {"cwork" => NumInternal::WORK_DETECT},
+          "sytri" => {"cwork" => NumInternal::WORK_PARAM1},
+          "syev"  => {"cwork" => NumInternal::WORK_DETECT, "rwork" => NumInternal::WORK_PARAM1},
+          "gecon" => {"cwork" => NumInternal::WORK_DETECT, "rwork" => NumInternal::WORK_PARAM1},
         }
       %}
 
@@ -182,15 +182,15 @@ class Tensor(T)
 
       {% for arg, index in args %}
         {% argtype = func_args[index + 1] %}
-        {% if argtype == ARG_MATRIX %}
-        {% elsif argtype == ARG_INTOUT %}
+        {% if argtype == NumInternal::ARG_MATRIX %}
+        {% elsif argtype == NumInternal::ARG_INTOUT %}
           {{arg}} = 0
         {% else %}
         %var{index} = {{arg}}
         {% end %}
       {% end %}
 
-      {% if func_worksize && (func_worksize.values.includes?(WORK_DETECT) || func_worksize.values.includes?(WORK_DETECT_SPECIAL)) %}
+      {% if func_worksize && (func_worksize.values.includes?(NumInternal::WORK_DETECT) || func_worksize.values.includes?(NumInternal::WORK_DETECT_SPECIAL)) %}
         #let's detect sizes
         #1. init vars
         {% if func_worksize["cwork"] %}
@@ -211,9 +211,9 @@ class Tensor(T)
         LibLapack.{{typ}}{{name}}(
           {% for arg, index in args %}
           {% argtype = func_args[index + 1] %}
-          {% if argtype == ARG_MATRIX %}
+          {% if argtype == NumInternal::ARG_MATRIX %}
             {{arg}},
-          {% elsif argtype == ARG_INTOUT %}
+          {% elsif argtype == NumInternal::ARG_INTOUT %}
             pointerof({{arg}}),
           {% else %}
            pointerof(%var{index}),
@@ -223,19 +223,19 @@ class Tensor(T)
           {% if func_worksize %}
             {% if func_worksize["cwork"] %}
               {% if T == Complex %} pointerof(%cresult).as(LibCblas::ComplexDouble*) {% else %}pointerof(%cresult) {% end %},
-               {% if func_worksize["cwork"] == WORK_DETECT %}
+               {% if func_worksize["cwork"] == NumInternal::WORK_DETECT %}
                  pointerof(%csize),
                {% end %}
             {% end %}
             {% if T == Complex && func_worksize["rwork"] %}
               pointerof(%rresult),
-               {% if func_worksize["rwork"] == WORK_DETECT %}
+               {% if func_worksize["rwork"] == NumInternal::WORK_DETECT %}
                  pointerof(%rsize),
                {% end %}
             {% end %}
             {% if func_worksize["iwork"] %}
               pointerof(%iresult),
-               {% if func_worksize["iwork"] == WORK_DETECT %}
+               {% if func_worksize["iwork"] == NumInternal::WORK_DETECT %}
                  pointerof(%isize),
                {% end %}
             {% end %}
@@ -246,13 +246,13 @@ class Tensor(T)
 
           pointerof(%info))
          #3. set sizes
-         {% if func_worksize["cwork"] == WORK_DETECT %}
+         {% if func_worksize["cwork"] == NumInternal::WORK_DETECT %}
            %csize = {% if T == Complex %} %cresult.real.to_i {% else %}%cresult.to_i {% end %}
          {% end %}
-         {% if T == Complex && func_worksize["rwork"] == WORK_DETECT || func_worksize["rwork"] == WORK_DETECT_SPECIAL %}
+         {% if T == Complex && func_worksize["rwork"] == NumInternal::WORK_DETECT || func_worksize["rwork"] == NumInternal::WORK_DETECT_SPECIAL %}
            %rsize = %rresult.to_i
          {% end %}
-         {% if func_worksize["iwork"] == WORK_DETECT || func_worksize["iwork"] == WORK_DETECT_SPECIAL %}
+         {% if func_worksize["iwork"] == NumInternal::WORK_DETECT || func_worksize["iwork"] == NumInternal::WORK_DETECT_SPECIAL %}
            %isize = %iresult
          {% end %}
       {% end %}
@@ -261,27 +261,27 @@ class Tensor(T)
       {% if func_worksize %}
         %asize = 0
         {% if func_worksize["cwork"] %}
-          {% if func_worksize["cwork"] == WORK_PARAM1 %}
+          {% if func_worksize["cwork"] == NumInternal::WORK_PARAM1 %}
             %csize = {{worksize[0]}}
-          {% elsif func_worksize["cwork"] == WORK_PARAM2 %}
+          {% elsif func_worksize["cwork"] == NumInternal::WORK_PARAM2 %}
             %csize = {{worksize[1]}}
           {% end %}
           %asize += %csize*sizeof(T)
         {% end %}
 
         {% if T == Complex && func_worksize["rwork"] %}
-          {% if func_worksize["rwork"] == WORK_PARAM1 %}
+          {% if func_worksize["rwork"] == NumInternal::WORK_PARAM1 %}
             %rsize = {{worksize[0]}}
-          {% elsif func_worksize["rwork"] == WORK_PARAM2 %}
+          {% elsif func_worksize["rwork"] == NumInternal::WORK_PARAM2 %}
             %rsize = {{worksize[1]}}
           {% end %}
           %asize += %rsize*{% if T == Complex %} sizeof(Float64) {% else %} sizeof(T) {% end %}
         {% end %}
 
         {% if func_worksize["iwork"] %}
-          {% if func_worksize["iwork"] == WORK_PARAM1 %}
+          {% if func_worksize["iwork"] == NumInternal::WORK_PARAM1 %}
             %isize = {{worksize[0]}}
-          {% elsif func_worksize["iwork"] == WORK_PARAM2 %}
+          {% elsif func_worksize["iwork"] == NumInternal::WORK_PARAM2 %}
             %isize = {{worksize[1]}}
           {% end %}
           %asize += %isize*sizeof(Int32)
@@ -307,9 +307,9 @@ class Tensor(T)
        LibLapack.{{typ}}{{name}}(
          {% for arg, index in args %}
          {% argtype = func_args[index + 1] %}
-         {% if argtype == ARG_MATRIX %}
+         {% if argtype == NumInternal::ARG_MATRIX %}
            {{arg}},
-         {% elsif argtype == ARG_INTOUT %}
+         {% elsif argtype == NumInternal::ARG_INTOUT %}
            pointerof({{arg}}),
          {% else %}
           pointerof(%var{index}),
@@ -319,19 +319,19 @@ class Tensor(T)
          {% if func_worksize %}
            {% if func_worksize["cwork"] %}
               %cbuf,
-              {% if func_worksize["cwork"] == WORK_DETECT %}
+              {% if func_worksize["cwork"] == NumInternal::WORK_DETECT %}
                 pointerof(%csize),
               {% end %}
            {% end %}
            {% if T == Complex && func_worksize["rwork"] %}
               %rbuf,
-              {% if func_worksize["rwork"] == WORK_DETECT %}
+              {% if func_worksize["rwork"] == NumInternal::WORK_DETECT %}
                 pointerof(%rsize),
               {% end %}
            {% end %}
            {% if func_worksize["iwork"] %}
               %ibuf,
-              {% if func_worksize["iwork"] == WORK_DETECT %}
+              {% if func_worksize["iwork"] == NumInternal::WORK_DETECT %}
                 pointerof(%isize),
               {% end %}
            {% end %}

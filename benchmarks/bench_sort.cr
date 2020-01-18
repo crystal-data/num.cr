@@ -1,12 +1,12 @@
 require "benchmark"
-require "../src/bottle"
+require "../src/num"
 
 def test_iter(n)
-  t = Num::Tensor.random(0.0...1.0, [n, n]).dup('F')
+  t = Tensor.random(0.0...1.0, [n, n]).dup('F')
 
   Benchmark.ips do |bench|
-    bench.report("Sort axis 0 #{n}x#{n}") { B.sort(t, 0) }
-    bench.report("Sort axis 1 #{n}x#{n}") { B.sort(t, 1) }
+    bench.report("Sort axis 0 #{n}x#{n}") { Num.sort(t, 0) }
+    bench.report("Sort axis 1 #{n}x#{n}") { Num.sort(t, 1) }
   end
 end
 

@@ -5,37 +5,37 @@ require "./creation"
 class Tensor(T) < Num::BaseArray(T)
   private def raise_fortran_inplace(flags)
     unless flags.fortran?
-      raise Exceptions::LinAlgError.new("Tensor must be Fortran Contiguous to apply the operation in-place")
+      raise NumInternal::LinAlgError.new("Tensor must be Fortran Contiguous to apply the operation in-place")
     end
   end
 
   private def assert_square_matrix(a)
     if a.ndims != 2 || a.shape[0] != a.shape[1]
-      raise Exceptions::ShapeError.new("Input must be a square matrix")
+      raise NumInternal::ShapeError.new("Input must be a square matrix")
     end
   end
 
   private def assert_matrix(a)
     if a.ndims != 2
-      raise Exceptions::ShapeError.new("Input must be a matrix")
+      raise NumInternal::ShapeError.new("Input must be a matrix")
     end
   end
 
   private def vector_shape_match(a, b)
     if a.shape != b.shape
-      raise Exceptions::ShapeError.new("Shapes do not match")
+      raise NumInternal::ShapeError.new("Shapes do not match")
     end
   end
 
   private def matrix_shape_match(a, b)
     if a.shape[-1] != b.shape[-2]
-      raise Exceptions::ShapeError.new("Matrices are not compatible")
+      raise NumInternal::ShapeError.new("Matrices are not compatible")
     end
   end
 
   private def insist_1d(a, b)
     if a.ndims != 1 || b.ndims != 1
-      raise Exceptions::ShapeError.new("Inputs must be 1D")
+      raise NumInternal::ShapeError.new("Inputs must be 1D")
     end
   end
 
@@ -117,7 +117,7 @@ class Tensor(T) < Num::BaseArray(T)
     k = {m, n}.min
     a = dup('F')
     tau = qr_setup(a, m, n, k)[0]
-    r = Creation.triu(a)
+    r = Num.triu(a)
     lapack(orgqr, m, n, k, a.to_unsafe, m, tau.to_unsafe)
     {a, r}
   end
@@ -278,7 +278,7 @@ class Tensor(T) < Num::BaseArray(T)
     ipiv = Pointer(Int32).malloc(n)
 
     lapack(getrf, m, n, a.to_unsafe, n, ipiv)
-    ldet = Statistics.prod(a.diag_view)
+    ldet = Num.prod(a.diag_view)
     detp = 1
     n.times do |j|
       if j + 1 != ipiv[j]
@@ -357,7 +357,7 @@ class Tensor(T) < Num::BaseArray(T)
     lapack(gebal, 'B'.ord.to_u8, n, a.to_unsafe, n, ilo, ihi, s.to_unsafe)
     tau = Tensor(T).new([n])
     lapack(gehrd, n, ilo, ihi, a.buffer, n, tau.buffer)
-    Creation.triu(a, -1)
+    Num.triu(a, -1)
   end
 
   def matmul(other : Tensor(T))
@@ -368,7 +368,6 @@ class Tensor(T) < Num::BaseArray(T)
     k = a.shape[1]
     dest = Tensor(T).new([m, n])
     no = LibCblas::CblasTranspose::CblasNoTrans
-
     blas(ge, mm, no, no, m, n, k, blas_const(1.0), a.buffer, a.shape[1], b.buffer, b.shape[1], blas_const(0.0), dest.buffer, dest.shape[1])
     dest
   end

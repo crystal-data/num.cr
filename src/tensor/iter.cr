@@ -1,6 +1,6 @@
 require "./tensor"
 
-struct Num::Internal::MatrixIter(T)
+struct NumInternal::MatrixIter(T)
   include Iterator(T)
   getter tns : Tensor(T)
   getter axis : Int32

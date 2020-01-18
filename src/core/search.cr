@@ -1,7 +1,7 @@
 require "./macros"
 require "./common"
 
-module Num::Search
+module Num
   def where(condition : BaseArray(Bool), x : BaseArray(U), y : BaseArray(U)) forall U
     broadcast_rhs condition, x
     broadcast_rhs condition, y

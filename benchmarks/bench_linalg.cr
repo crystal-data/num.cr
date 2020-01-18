@@ -2,7 +2,7 @@ require "../src/num"
 require "benchmark"
 
 def test_linalg(n)
-  t = Num::Tensor.random(0.0...1.0, [n, n])
+  t = Tensor.random(0.0...1.0, [n, n])
 
   Benchmark.ips do |bench|
     bench.report("QR #{n}x#{n}") { t.qr }

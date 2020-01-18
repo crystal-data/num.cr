@@ -1,6 +1,6 @@
 require "../tensor/tensor"
 
-module Num::Routines
+module Num
   def average(a)
     mean(a)
   end
