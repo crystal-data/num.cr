@@ -152,7 +152,6 @@ class Num::BaseArray(T)
 
   def self.from_array(array : Array)
     newshape = calculate_shape(array)
-    dims = newshape.size
     newstrides = NumInternal.shape_to_strides(newshape)
     ptr = array.flatten.to_unsafe
     new(ptr, newshape, newstrides)
@@ -225,6 +224,7 @@ class Num::BaseArray(T)
   def []=(idx : Array, assign : BaseArray)
     write?
     old = self.slice(idx)
+    # ameba:disable Lint/UnusedArgument
     old.map2!(assign) do |_, j|
       {% if T == String %}
         j.to_s
@@ -352,6 +352,7 @@ class Num::BaseArray(T)
   # array.
   def map2!(other : BaseArray) forall U
     other = other.broadcast_to(shape)
+    # ameba:disable Lint/UnusedArgument
     self.iter2(other).each do |i, j|
       {% if T == String %}
         i.value = (yield i.value, j.value).to_s
@@ -485,9 +486,6 @@ class Num::BaseArray(T)
     if newsize != cur_size
       raise NumInternal::ShapeError.new "Shapes #{shape} cannot be reshaped to #{newshape}"
     end
-
-    stride = uninitialized Int32
-    newdims = newshape.size
 
     if flags & NumInternal::ArrayFlags::Contiguous
       newstrides = NumInternal.shape_to_strides(newshape, 'C')
@@ -650,7 +648,6 @@ class Num::BaseArray(T)
       n = shape[...-1].reduce { |i, j| i * j }
       newshape = shape[-1...]
       newstrides = strides[-1...]
-      newbase = @base.nil? ? @base : self
       ptr = buffer
       0.step(to: n - 1) do |_|
         tmp = self.class.new(ptr, newshape, newstrides, ArrayFlags::None)
@@ -745,11 +742,11 @@ class Num::BaseArray(T)
       i += 1
       condition
     end
-    newshape.reject! { |i| i == 0 }
+    newshape.reject! { |j| j == 0 }
 
     ptr = @buffer
-    accessor.zip(strides) do |i, j|
-      ptr += i * j
+    accessor.zip(strides) do |a, j|
+      ptr += a * j
     end
 
     self.class.new(ptr, newshape, newstrides, newflags)

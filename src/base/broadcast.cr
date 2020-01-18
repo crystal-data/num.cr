@@ -153,8 +153,8 @@ module NumInternal
     2.times do |i|
       diff = nd - t[i].shape.size
       tshape = [1] * diff + t[i].shape
-      shape = shape.map_with_index do |e, i|
-        e > tshape[i] ? e : tshape[i]
+      shape = shape.map_with_index do |e, j|
+        e > tshape[j] ? e : tshape[j]
       end
     end
 
@@ -166,7 +166,7 @@ module NumInternal
   broadcast_n [{sym: :a, typ: T}, {sym: :b, typ: U}, {sym: :c, typ: V}, {sym: :d, typ: W}]
 
   def bcast_if(item : Num::BaseArray, shape : Array(Int32))
-    return shape == item.shape ? item : item.broadcast_to(shape)
+    shape == item.shape ? item : item.broadcast_to(shape)
   end
 
   # as_strided creates a view into the array given the exact strides and

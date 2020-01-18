@@ -3,7 +3,6 @@ require "benchmark"
 
 def test_iter(n)
   t = Tensor.random(0.0...1.0, [n, n])
-  v = Tensor.random(0.0...1.0, [n, n])
   a = 0.0
 
   Benchmark.ips do |bench|

@@ -58,7 +58,7 @@ module NumInternal
   end
 
   def normalize_axies_list(axes, ndims)
-    axes.map { |e| normalize_axis(axis, ndims) }
+    axes.map { |e| normalize_axis(e, ndims) }
   end
 
   def raise_zerod(items)

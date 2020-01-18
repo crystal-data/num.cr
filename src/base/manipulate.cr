@@ -4,8 +4,7 @@ require "./transform"
 require "../core/exceptions"
 require "../core/common"
 
-module Num::Manipulate
-  include Transform
+module Num
   extend self
 
   def array_split(ary : BaseArray, ind : Int32, axis : Int32 = 0)
@@ -30,7 +29,7 @@ module Num::Manipulate
   def split(ary : BaseArray, ind : Int32, axis : Int32 = 0)
     n = ary.shape[axis]
     if n % ind != 0
-      raise Exceptions::ValueError.new("Array split does not result in an equal division")
+      raise NumInternal::ValueError.new("Array split does not result in an equal division")
     end
     array_split(ary, ind, axis)
   end
@@ -50,7 +49,7 @@ module Num::Manipulate
 
   def vsplit(ary : BaseArray, ind)
     unless ary.ndims >= 2
-      raise Exceptions::ValueError.new("vsplit only works on arrays of 2 or more dimensions")
+      raise NumInternal::ValueError.new("vsplit only works on arrays of 2 or more dimensions")
     end
     split(ary, ind, 0)
   end
@@ -106,22 +105,23 @@ module Num::Manipulate
 
   def fliplr(m : BaseArray)
     if m.ndims < 2
-      raise Exceptions::ValueError.new("Input must be >= 2-d.")
+      raise NumInternal::ValueError.new("Input must be >= 2-d.")
     end
     m[..., {..., -1}]
   end
 
+  # ameba:disable Metrics/CyclomaticComplexity
   def rot90(m, k = 1, axes = [0, 1])
     if axes.size != 2
-      raise Exceptions::ValueError.new("axes must include 2 dimensions")
+      raise NumInternal::ValueError.new("axes must include 2 dimensions")
     end
 
     if axes[0] == axes[1] || (axes[0] - axes[1]).abs == m.ndims
-      raise Exceptions::ValueError.new("Axes must be different")
+      raise NumInternal::ValueError.new("Axes must be different")
     end
 
     if axes[0] >= m.ndims || axes[0] < -m.ndims || axes[1] > m.ndims || axes[1] < -m.ndims
-      raise Exceptions::ValueError.new("Axes #{axes} out of range for ndim=#{m.ndims}")
+      raise NumInternal::ValueError.new("Axes #{axes} out of range for ndim=#{m.ndims}")
     end
 
     k %= 4
