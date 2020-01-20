@@ -23,7 +23,7 @@ Benchmark.ips do |bench|
   bench.report("time_identity_3000") { Num.identity(3000) }
   bench.report("time_triu_10x10") { Num.triu(l10xl10) }
   bench.report("time_tril_10x10") { Num.tril(l10xl10) }
-  # bench.report("time_kron_10x10") { Num.kron(l10xl10, l10xl10) }
+bench.report("time_kron_10x10") { Num.kron(l10xl10, l10xl10) }
 end
 
 amid = Num.ones([50000])

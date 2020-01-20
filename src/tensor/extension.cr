@@ -2,15 +2,15 @@ require "../libs/lapack"
 require "./work"
 
 module NumInternal::LapackHelper
-  ARG_NORMAL  = 0
-  NumInternal::ARG_MATRIX = 1
-  NumInternal::ARG_INTOUT = 2
-  WORK_NONE   = 0
-  NumInternal::WORK_DETECT = 1
-  NumInternal::WORK_DETECT_SPECIAL = 2
-  NumInternal::WORK_EMPTY = 3
-  NumInternal::WORK_PARAM1 = 4
-  NumInternal::WORK_PARAM2 = 5
+  ARG_NORMAL          = 0
+  ARG_MATRIX          = 1
+  ARG_INTOUT          = 2
+  WORK_NONE           = 0
+  WORK_DETECT         = 1
+  WORK_DETECT_SPECIAL = 2
+  WORK_EMPTY          = 3
+  WORK_PARAM1         = 4
+  WORK_PARAM2         = 5
 end
 
 class Tensor(T)

@@ -10,6 +10,7 @@ require "../iter/axes"
 require "../iter/index"
 require "../iter/permute"
 require "../iter/macros"
+require "../iter/strided"
 require "./helpers"
 require "./broadcast"
 
@@ -280,6 +281,10 @@ class Num::BaseArray(T)
     end
   end
 
+  def strided_iter
+    NumInternal::StridedIter.new(self)
+  end
+
   def iter2(other : BaseArray(U)) forall U
     if flags.contiguous? && other.flags.contiguous?
       NumInternal::ContigFlatIter2.new(self, other)
@@ -341,7 +346,7 @@ class Num::BaseArray(T)
   # dtype
   def map(&block : T -> U) forall U
     ret = basetype(U).new(shape, 'C')
-    NumInternal::NDFlatIter2.new(ret, self).each do |i, j|
+    self.iter2.new(ret, self).each do |i, j|
       i.value = yield j.value
     end
     ret
@@ -745,6 +750,13 @@ class Num::BaseArray(T)
     newshape.reject! { |j| j == 0 }
 
     ptr = @buffer
+
+    @ndims.times do |k|
+      if @strides[k] < 0
+        ptr += (@shape[k] - 1) * @strides[k].abs
+      end
+    end
+
     accessor.zip(strides) do |a, j|
       ptr += a * j
     end

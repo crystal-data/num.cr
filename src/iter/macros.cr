@@ -79,13 +79,14 @@ macro iter_macro(n, vars)
     # its iteration, as well as understanding the strides in each
     # dimension
     @shape : Pointer(Int32)
-    @track : Pointer(Int32)
+    @coord : Pointer(Int32)
     @dim : Int32
 
     {% for v in vars %}
       # tracks a single pointer to a single arrays data
       @ptr_{{v[:sym].id}} : Pointer({{v[:typ]}})
       @strides_{{v[:sym].id}} : Pointer(Int32)
+      @backstrides_{{v[:sym].id}} : Pointer(Int32)
     {% end %}
 
     def initialize(
@@ -94,12 +95,13 @@ macro iter_macro(n, vars)
       {% end %}
     )
       @shape = {{vars[0][:sym].id}}.shape.to_unsafe
-      @track = Pointer(Int32).malloc({{vars[0][:sym].id}}.ndims, 0)
+      @coord = Pointer(Int32).malloc({{vars[0][:sym].id}}.ndims, 0)
       @dim = {{vars[0][:sym].id}}.ndims - 1
 
       {% for v in vars %}
         @ptr_{{v[:sym].id}} = {{v[:sym].id}}.buffer
         @strides_{{v[:sym].id}} = {{v[:sym].id}}.strides.to_unsafe
+        @backstrides_{{v[:sym].id}} = Pointer(Int32).malloc(@dim+1) { |i| @strides_{{v[:sym].id}}[i] * (@shape[i] - 1) }
       {% end %}
 
       # If the strides of an array are negative, the pointer has to
@@ -128,31 +130,22 @@ macro iter_macro(n, vars)
         ret_{{v[:sym].id}} = @ptr_{{v[:sym].id}}
       {% end %}
 
-      @dim.step(to: 0, by: -1) do |i|
-        @track[i] += 1
-
-
-        # Better to cache these here so they don't have to be continuously
-        # looked up inside the inner loop
-        shape_i = @shape[i]
-        {% for v in vars %}
-          stride_i{{v[:sym].id}} = @strides_{{v[:sym].id}}[i]
-        {% end %}
-
-        if @track[i] == shape_i
-          if i == 0
+      @dim.step(to: 0, by: -1) do |k|
+        if @coord[k] < @shape[k] - 1
+          @coord[k] += 1
+          {% for v in vars %}
+            @ptr_{{v[:sym].id}} += @strides_{{v[:sym].id}}[k]
+          {% end %}
+          break
+        else
+          if k == 0
             @done = true
           end
-          @track[i] = 0
+          @coord[k] = 0
           {% for v in vars %}
-            @ptr_{{v[:sym].id}} -= (shape_i - 1) * stride_i{{v[:sym].id}}
+            @ptr_{{v[:sym].id}} -= @backstrides_{{v[:sym].id}}[k]
           {% end %}
-          next
         end
-        {% for v in vars %}
-          @ptr_{{v[:sym].id}} += stride_i{{v[:sym].id}}
-        {% end %}
-        break
       end
       {
         {% for v in vars %}

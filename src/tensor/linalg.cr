@@ -361,6 +361,8 @@ class Tensor(T) < Num::BaseArray(T)
   end
 
   def matmul(other : Tensor(T))
+    assert_matrix(self)
+    assert_matrix(other)
     a = flags.contiguous? ? self : dup
     b = other.flags.contiguous? ? other : other.dup
     m = a.shape[0]

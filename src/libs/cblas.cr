@@ -1,7 +1,13 @@
-{% if flag?(:darwin) %}
+{% if flag?(:openblas) %}
+  @[Link("openblas")]
+{% elsif flag?(:accelerate) %}
+  @[Link(framework: "Accelerate")]
+{% elsif flag?(:mkl) %}
+  @[Link("mkl")]
+{% elsif flag?(:darwin) %}
   @[Link(framework: "Accelerate")]
 {% else %}
-  @[Link("openblas")]
+  @[Link("cblas")]
 {% end %}
 lib LibCblas
   struct ComplexDouble
