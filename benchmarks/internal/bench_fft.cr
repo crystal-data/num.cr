@@ -1,4 +1,4 @@
-require "../src/num"
+require "../../src/num"
 require "benchmark"
 require "complex"
 

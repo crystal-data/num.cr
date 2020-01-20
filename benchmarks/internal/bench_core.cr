@@ -1,5 +1,5 @@
 require "benchmark"
-require "../src/num"
+require "../../src/num"
 
 include Num
 r100 = (0...100).to_a

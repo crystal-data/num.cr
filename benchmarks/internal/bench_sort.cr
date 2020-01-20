@@ -1,5 +1,5 @@
 require "benchmark"
-require "../src/num"
+require "../../src/num"
 
 def test_iter(n)
   t = Tensor.random(0.0...1.0, [n, n]).dup('F')
