@@ -2,8 +2,6 @@
   @[Link("openblas")]
 {% elsif flag?(:accelerate) %}
   @[Link(framework: "Accelerate")]
-{% elsif flag?(:mkl) %}
-  @[Link("mkl")]
 {% elsif flag?(:darwin) %}
   @[Link(framework: "Accelerate")]
 {% else %}
