@@ -7,11 +7,17 @@ matrix:
       - crystal spec src/
       - crystal bin/ameba.cr
 
-deploy:
-  provider: pages
-  skip_cleanup: true
-  github_token: $GITHUB_TOKEN
-  project_name: crystal-data/num.cr
-  on:
-    branch: github-pages
-  local_dir: docs
+    language: python
+    install:
+      - pip install sphinx
+    script:
+      - make -C src/doc html
+      - touch src/doc/_build/html/.nojekyll
+    deploy:
+      provider: pages
+      skip_cleanup: true
+      github_token: $GITHUB_TOKEN
+      project_name: bottle
+      on:
+        branch: master
+      local_dir: src/doc/_build/html
