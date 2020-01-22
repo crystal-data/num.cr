@@ -1,11 +1,11 @@
 .. _user:
 
 #################
-Bottle User Guide
+Num.cr User Guide
 #################
 
 This guide is meant to provide a gentle introduction to installing
-and using the basic features of the Bottle shard.  If you are looking
+and using the basic features of the Num.cr shard.  If you are looking
 for more advanced help, review the API documentation.
 
 .. toctree::
@@ -13,4 +13,3 @@ for more advanced help, review the API documentation.
 
    setting-up
    quickstart
-   basics

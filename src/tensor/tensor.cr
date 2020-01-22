@@ -68,6 +68,18 @@ class Tensor(T) < Num::BaseArray(T)
     NumInternal::MatrixIter.new(self)
   end
 
+  # Creates a string representation of a `Tensor`.  The implementation
+  # of this is a bit of a mess, but I am happy with the results currently,
+  # it could however be cleaned up to handle long floating point values
+  # more precisely.
+  def to_s(io)
+    io << "Tensor(" << NumInternal.array_to_string(self, prefix: "Tensor(") << ")"
+  end
+
+  def inspect(io)
+    to_s(io)
+  end
+
   def apply_along_axis(axis = -1)
     if axis < 0
       axis += ndims

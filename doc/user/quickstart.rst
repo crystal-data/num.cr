@@ -12,9 +12,9 @@ introduction <https://crystal-lang.org/reference/>`__.
 The Basics
 ==========
 
-Bottle's main object is the homogeneous multidimensional tensor. It is a
+Num.cr's main object is the homogeneous multidimensional tensor. It is a
 table of elements (usually numbers), all of the same type, indexed by
-integers. In Bottle dimensions are called *axes*.
+integers. In Num.cr dimensions are called *axes*.
 
 For example, the coordinates of a point in 3D space ``[1, 2, 1]`` has
 one axis. That axis has 3 elements in it, so we say it has a length
@@ -27,7 +27,7 @@ axis has a length of 2, the second axis has a length of 3.
             [ 0.0, 1.0, 2.0]])
 
 
-Bottle's tensor class is called ``Tensor``. The more important attributes of
+Num.cr's tensor class is called ``Tensor``. The more important attributes of
 a ``tensor`` object are:
 
 Tensor.ndims
@@ -50,7 +50,7 @@ An example
 
 .. code-block:: crystal
 
-    t = B.arange(15).reshape([3, 5])
+    t = Num.arange(15).reshape([3, 5])
 
     puts t
     puts t.shape
@@ -71,9 +71,9 @@ An example
     [3, 5]
     2
     15
-    Bottle::Tensor(Int32)
+    Tensor(Int32)
     Tensor([6, 7, 8])
-    Bottle::Tensor(Int32)
+    Tensor(Int32)
 
 Tensor Creation
 ---------------
@@ -113,7 +113,7 @@ complex shapes.
              [100, 121]]])
 
 Often, the elements of an tensor are originally unknown, but its size of known.  Hence,
-Bottle offers many routines to create tensors with initial placeholder data.  These
+Num.cr offers many routines to create tensors with initial placeholder data.  These
 minimize the number of tensors that need to grow to fit data, which is an
 expensive operation.
 
@@ -123,9 +123,9 @@ allocated data buffer.
 
 .. code-block:: crystal
 
-    puts B.zeros([3, 4])
-    puts B.ones([2, 3, 4], dtype: UInt8)
-    puts B.empty([2, 3])
+    puts Num.zeros([3, 4])
+    puts Num.ones([2, 3, 4], dtype: UInt8)
+    puts Num.empty([2, 3])
 
 .. code-block:: crystal
 
@@ -142,13 +142,13 @@ allocated data buffer.
     Tensor([[0.0, 0.0, 0.0],
             [0.0, 0.0, 0.0]])
 
-To create sequences of numbers, Bottle provides functions similar to ranges that return
+To create sequences of numbers, Num.cr provides functions similar to ranges that return
 tensors instead of iterators.
 
 .. code-block:: crystal
 
-    puts B.arange(10, 30, 5)
-    puts B.arange(0, 2, 0.3, dtype: Float64)
+    puts Num.arange(10, 30, 5)
+    puts Num.arange(0, 2, 0.3, dtype: Float64)
 
 .. code-block:: crystal
 
@@ -162,7 +162,7 @@ step.
 
 .. code-block:: crystal
 
-    puts B.linspace(0, 2, 9)
+    puts Num.linspace(0, 2, 9)
 
 .. code-block:: crystal
 
@@ -177,12 +177,12 @@ with the result.
 .. code-block:: crystal
 
     a = Tensor.from_array [20, 30, 40, 50]
-    b = B.arange(4)
+    b = Num.arange(4)
     puts b
     c = a - b
     puts c
     puts b ** 2
-    puts B.sin(a) * 10
+    puts Num.sin(a) * 10
     puts a < 35
 
 .. code-block:: crystal
@@ -218,7 +218,7 @@ and ``axis`` parameter, you can apply an operation along a specified access of a
 
 .. code-block:: crystal
 
-    b = B.arange(12).reshape([3, 4])
+    b = Num.arange(12).reshape([3, 4])
     puts b
 
     puts b.sum(axis: 0)
@@ -240,20 +240,20 @@ and ``axis`` parameter, you can apply an operation along a specified access of a
 Universal Functions
 -------------------
 
-Bottle provides familiar mathematical functions such as sin, cos, and exp.  These functions
+Num.cr provides familiar mathematical functions such as sin, cos, and exp.  These functions
 operate elementwise on tensors, producing tensors as output.
 
 .. code-block:: crystal
 
-    t = B.arange(3)
+    t = Num.arange(3)
     puts t
 
-    puts B.exp(t)
-    puts B.sqrt(t)
+    puts Num.exp(t)
+    puts Num.sqrt(t)
 
     c = Tensor.from_array [2.0, -1.0, 4.0]
 
-    puts B.add(t, c)
+    puts Num.add(t, c)
 
 .. code-block:: crystal
 
@@ -270,7 +270,7 @@ Crystal arrays.
 
 .. code-block:: crystal
 
-    a = B.arange(10) ** 3
+    a = Num.arange(10) ** 3
     puts a
 
     puts a[[2]]
@@ -283,7 +283,7 @@ Crystal arrays.
     Tensor([ 8, 27, 64])
 
 **N-Dimensional** tensors can have a single index operation per axis. These indices are provided
-as *args.
+as `*args`.
 
 .. code-block:: crystal
 
@@ -292,7 +292,7 @@ as *args.
     end
     puts a
 
-    puts a[[2, 3]]
+    puts a[2, 3].value
     puts a[...5, 1]
     puts a[..., 1]
     puts a[1...3, ...]
@@ -392,9 +392,9 @@ the off-axis dimensions of the tensors.
     puts a
     puts b
 
-    puts B.vstack([a, b])
-    puts B.hstack([a, b])
-    puts B.column_stack([a, b])
+    puts Num.vstack([a, b])
+    puts Num.hstack([a, b])
+    puts Num.column_stack([a, b])
 
 .. code-block:: crystal
 
@@ -425,7 +425,7 @@ Simple assignments make no copy of tensors or their data
 
 .. code-block:: crystal
 
-    a = B.arange(12).reshape([3, 4])
+    a = Num.arange(12).reshape([3, 4])
     b = a  # no copy of the tensors data is made
 
 
@@ -443,7 +443,7 @@ of another tensors data, and therefore the objects will not be the same.
     puts c.flags.own_data?
 
     c = c.reshape([2, 6])
-    c[[0, 4]] = 12345
+    c[0, 4] = 12345
     puts a
 
 .. code-block:: crystal
@@ -479,7 +479,7 @@ The ``dup`` method makes a copy of a tensor and its data
     d = a.dup
     puts d.buffer == a.buffer
 
-    d[[0, 0]] = 9999
+    d[0, 0] = 9999
     puts a
 
 .. code-block:: crystal

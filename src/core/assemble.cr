@@ -29,6 +29,29 @@ module Num
   # Join a sequence of arrays along an existing axis.
   # The arrays must have the same shape, except in the dimension corresponding
   # to axis (the first, by default).
+  #
+  # Parameters:
+  # - alist : Array(BaseArray(U))
+  #   The arrays to concatenate
+  # - axis : Int32
+  #   The axis along which to concatenate
+  #
+  # Return:
+  # - BaseArray(U) - The concatenated arrays
+  #
+  # Example:
+  # ```
+  # a = Num.zeros([3, 3])
+  # b = Num.ones([3, 3])
+  # puts Num.concatenate([a, b], 1)
+  # ```
+  #
+  # Output
+  # ```
+  # Tensor([[0, 0, 0, 1, 1, 1],
+  #         [0, 0, 0, 1, 1, 1],
+  #         [0, 0, 0, 1, 1, 1]])
+  # ```
   def concatenate(alist : Array(BaseArray(U)), axis : Int32) forall U
     # This particular method does not allow zero dimensional items, even
     # if they can be upcast, since they can't match a shape off axis, and
