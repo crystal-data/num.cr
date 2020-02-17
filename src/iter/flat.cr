@@ -20,9 +20,9 @@ struct NumInternal::ContigFlatIter(T)
     if @offset < @size
       @offset += 1
       @ptr += @step
-      ret
+      return ret
     else
-      stop
+      return stop
     end
   end
 end

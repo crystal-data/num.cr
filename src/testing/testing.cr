@@ -20,12 +20,12 @@ module Num
     iter_b = b.iter
 
     if (rtol > 0)
-      iter_a.zip(iter_b) do |i, j|
+      iter_a.zip(iter_b).each do |i, j|
         c = !((i.value - j.value).abs > atol + rtol * j.value.abs)
         return false unless c
       end
     else
-      iter_a.zip(iter_b) do |i, j|
+      iter_a.zip(iter_b).each do |i, j|
         c = (i.value - j.value).abs > atol
         return false unless c
       end
@@ -37,7 +37,7 @@ module Num
     if a.shape != b.shape
       raise "Shape of arguments must match"
     end
-    a.iter.zip(b.iter) do |i, j|
+    a.iter.zip(b.iter).each do |i, j|
       return false unless i.value == j.value
     end
     true
