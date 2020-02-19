@@ -14,3 +14,5 @@ development_dependencies:
     version: ~> 0.10.1
   coverage:
     github: anykeyh/crystal-coverage
+  opencl:
+    github: crystal-data/opencl.cr
