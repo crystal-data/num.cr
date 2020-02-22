@@ -1,7 +1,7 @@
 require "opencl"
 
 module NumInternal
-  private struct ClInfo
+  private class ClInfo
     getter device : LibCL::ClDeviceId
     getter context : LibCL::ClContext
     getter queue : LibCL::ClCommandQueue
