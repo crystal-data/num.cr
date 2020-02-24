@@ -45,55 +45,8 @@ class ClTensor(T)
     )
     Tensor(T).new(ptr, @shape, @strides)
   end
-
-  def layout_on_device
-    ClTensorLayout(T).new(self)
-  end
 end
 
-class ClTensorLayout(T)
-  getter rank : Int32
-  getter shape : LibCL::ClMem
-  getter strides : LibCL::ClMem
-  getter data : LibCL::ClMem
-  getter size : Int32
-
-  def initialize(t : ClTensor(T))
-    @rank = t.rank
-    @data = t.buffer
-    @size = t.size
-
-    @shape = Cl.buffer(NumInternal::ClContext.instance.context, UInt64.new(@rank), dtype: Int32)
-    @strides = Cl.buffer(NumInternal::ClContext.instance.context, UInt64.new(@rank), dtype: Int32)
-
-    bytes = t.rank * sizeof(Int32)
-
-    LibCL.cl_enqueue_write_buffer(
-      ClContext.instance.queue,
-      @shape,
-      LibCL::CL_FALSE,
-      0,
-      bytes,
-      t.shape,
-      0, nil, nil,
-    )
-
-    LibCL.cl_enqueue_write_buffer(
-      ClContext.instance.queue,
-      @strides,
-      LibCL::CL_TRUE,
-      0,
-      bytes,
-      t.shape,
-      0, nil, nil,
-    )
-  end
-
-  def free
-    @shape.free
-    @strides.free
-  end
-end
 
 module NumInternal
   extend self

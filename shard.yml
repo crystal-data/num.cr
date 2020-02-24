@@ -9,10 +9,5 @@ crystal: 0.32.0
 license: MIT
 
 development_dependencies:
-  ameba:
-    github: crystal-ameba/ameba
-    version: ~> 0.10.1
-  coverage:
-    github: anykeyh/crystal-coverage
   opencl:
     github: crystal-data/opencl.cr
