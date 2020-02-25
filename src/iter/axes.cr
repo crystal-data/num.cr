@@ -16,7 +16,7 @@ struct NumInternal::AxisIter(T)
       @axis += arr.ndims
     end
     unless @axis < arr.ndims
-      raise Exceptions::AxisError.new("Axis out of range for array")
+      raise NumInternal::AxisError.new("Axis out of range for array")
     end
 
     @shape = arr.shape.dup
@@ -32,7 +32,7 @@ struct NumInternal::AxisIter(T)
       @strides.delete_at(axis)
     end
 
-    @tmp = arr.class.new(@ptr, @shape, @strides, Num::Internal::ArrayFlags::None, nil)
+    @tmp = arr.class.new(@ptr, @shape, @strides, NumInternal::ArrayFlags::None)
 
     @total = arr.shape[axis]
   end
@@ -44,7 +44,7 @@ struct NumInternal::AxisIter(T)
       ret = @tmp
       @yielded += 1
       @ptr += @inc
-      @tmp = Tensor.new(@ptr, @shape, @strides, Num::Internal::ArrayFlags::None, nil)
+      @tmp = Tensor.new(@ptr, @shape, @strides, NumInternal::ArrayFlags::None)
       ret
     end
   end
@@ -64,7 +64,7 @@ struct NumInternal::UnsafeAxisIter(T)
       @axis += arr.ndims
     end
     unless @axis < arr.ndims
-      raise Exceptions::AxisError.new("Axis out of range for array")
+      raise NumInternal::AxisError.new("Axis out of range for array")
     end
 
     @shape = arr.shape.dup
@@ -79,13 +79,13 @@ struct NumInternal::UnsafeAxisIter(T)
       @shape.delete_at(axis)
       @strides.delete_at(axis)
     end
-    @tmp = arr.class.new(@ptr, @shape, @strides, Num::Internal::ArrayFlags::None, nil)
+    @tmp = arr.class.new(@ptr, @shape, @strides, Num::Internal::ArrayFlags::None)
   end
 
   def next
     ret = @tmp
     @ptr += @inc
-    @tmp = Tensor.new(@ptr, @shape, @strides, Num::Internal::ArrayFlags::None, nil)
+    @tmp = Tensor.new(@ptr, @shape, @strides, Num::Internal::ArrayFlags::None)
     ret
   end
 end

@@ -258,11 +258,11 @@ class Num::BaseArray(T)
   def astype(dtype : U.class) forall U
     ret = self.basetype(U).new(@shape)
     {% if U == Bool %}
-      ret.iter.zip(iter) do |i, j|
+      ret.iter.zip(iter).each do |i, j|
         i.value = (j.value != 0) && (!!j.value)
       end
     {% else %}
-      ret.iter.zip(iter) do |i, j|
+      ret.iter.zip(iter).each do |i, j|
         i.value = U.new(j.value)
       end
     {% end %}
@@ -618,7 +618,7 @@ class Num::BaseArray(T)
     1.step(to: shape[axis] - 1) do |_|
       ptr += strides[axis]
       tmp = self.class.new(ptr, newshape, newstrides, flags)
-      ret.iter.zip(tmp.iter) do |x, y|
+      ret.iter.zip(tmp.iter).each do |x, y|
         yield x, y
       end
     end
