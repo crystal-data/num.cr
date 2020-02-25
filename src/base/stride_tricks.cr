@@ -4,10 +4,6 @@ module Num::StrideTricks
   extend self
 
   def view(arr : BaseArray(T), dtype : U.class) forall T, U
-    if T == U
-      return arr.dup_view
-    end
-
     tsize = T == Bool ? 1 : sizeof(T)
     usize = U == Bool ? 1 : sizeof(U)
 
@@ -32,7 +28,7 @@ module Num::StrideTricks
       sz *= newshape[arr.ndims - i - 1]
     end
 
-    arr.basetype(U).new(ptr, newshape, newstrides, newflags, nil)
+    arr.basetype(U).new(ptr, newshape, newstrides, newflags)
   end
 
   # Determines if two shapes are broadcastable against each other.

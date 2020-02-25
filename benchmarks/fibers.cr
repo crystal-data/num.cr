@@ -1,6 +1,5 @@
 require "../src/num"
 
-
 a = Tensor.new([100000000]) { |i| i }
 b = Tensor.new([100000000]) { |i| i }
 ret = Num.empty([100000000], dtype: Int32)
@@ -12,7 +11,7 @@ ch_out = Channel({Int32, Int32}).new
   spawn do
     loop do
       x, y, i = ch_in.receive
-      ch_out.send({x+y, i})
+      ch_out.send({x + y, i})
     end
   end
 end

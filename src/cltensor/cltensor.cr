@@ -47,7 +47,6 @@ class ClTensor(T)
   end
 end
 
-
 module NumInternal
   extend self
 

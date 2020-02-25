@@ -177,6 +177,10 @@ class Num::BaseArray(T)
     self.class.new(@buffer, newshape, newstrides, newflags)
   end
 
+  def view(dtype : U.class) forall U
+    StrideTricks.view(self, dtype)
+  end
+
   # Returns a view of the diagonal of a `Tensor`  only valid if
   # the `Tensor` has two dimensions.  Offsets are not supported.
   def diag_view
