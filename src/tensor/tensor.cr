@@ -6,6 +6,8 @@ require "./iter"
 require "complex"
 require "../libs/cblas"
 require "../testing/testing"
+require "../cltensor/cltensor"
+require "../cltensor/global"
 
 class Tensor(T) < Num::BaseArray(T)
   # Compile time checking of data types of a `Tensor` to ensure
@@ -23,6 +25,12 @@ class Tensor(T) < Num::BaseArray(T)
     {% else %}
       buffer
     {% end %}
+  end
+
+  def opencl
+    gpu = Cl.buffer(NumInternal::ClContext.instance.context, UInt64.new(@size))
+    Cl.write(NumInternal::ClContext.instance.queue, @buffer, gpu, UInt64.new(@size * sizeof(T)))
+    ClTensor(T).new(@shape, @strides, gpu)
   end
 
   def check_type
