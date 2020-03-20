@@ -8,7 +8,7 @@ a large collection of routines for fast operations on these tensors.
 These operations include mathematical, logical, sorting, selecting, basic linear
 algebra, basic statistical operations, and more.
 
-At the core of the Bottle shard is the `Tensor` class.  This allows
+At the core of the Num.cr shard is the `Tensor` class.  This allows
 for N-Dimensional representation of data.  There are key differences between
 the `Tensor`, and a basic `Crystal` array.
 

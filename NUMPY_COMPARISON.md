@@ -1,5 +1,5 @@
 
-# Numpy, compared with Bottle
+# Numpy, compared with Num.cr
 
 This is a collection of many common exercises in `numpy`, mirrored in `crystal`
 
