@@ -17,7 +17,7 @@ matrix:
       provider: pages
       skip_cleanup: true
       github_token: $GITHUB_TOKEN
-      project_name: bottle
+      project_name: num.cr
       on:
         branch: master
       local_dir: doc/_build/html

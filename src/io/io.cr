@@ -96,7 +96,7 @@ module Num::InputOutput
     when "<f8"
       read_cast_return Float64
     else
-      raise "Dtype #{desc} is not currently supported by Bottle"
+      raise "Dtype #{desc} is not currently supported by Num.cr"
     end
   end
 end
