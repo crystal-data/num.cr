@@ -23,7 +23,7 @@
 
 require "../spec_helper"
 
-class Foo(T) < Num::BaseArray(T)
+class Foo(T) < AnyArray(T)
   def check_type
     T
   end

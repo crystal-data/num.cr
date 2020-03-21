@@ -1,4 +1,4 @@
-require "../base/base"
+require "../array/array"
 
 struct NumInternal::NDFlatIter(T)
   include Iterator(T)
@@ -8,8 +8,8 @@ struct NumInternal::NDFlatIter(T)
   @track : Pointer(Int32)
   @dim : Int32
 
-  def initialize(arr : Num::BaseArray(T))
-    @ptr = arr.buffer
+  def initialize(arr : AnyArray(T))
+    @ptr = arr.to_unsafe
     @shape = arr.shape.to_unsafe
     @strides = arr.strides.to_unsafe
     @track = Pointer(Int32).malloc(arr.ndims, 0)
@@ -56,8 +56,8 @@ struct NumInternal::UnsafeNDFlatIter(T)
   @track : Pointer(Int32)
   @dim : Int32
 
-  def initialize(arr : Num::BaseArray(T))
-    @ptr = arr.buffer
+  def initialize(arr : AnyArray(T))
+    @ptr = arr.to_unsafe
     @shape = arr.shape.to_unsafe
     @strides = arr.strides.to_unsafe
     @track = Pointer(Int32).malloc(arr.ndims, 0)

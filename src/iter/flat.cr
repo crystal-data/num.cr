@@ -1,5 +1,4 @@
-require "../base/base"
-require "../tensor/tensor"
+require "../array/array"
 
 struct NumInternal::ContigFlatIter(T)
   include Iterator(T)
@@ -8,8 +7,8 @@ struct NumInternal::ContigFlatIter(T)
   @step : Int32
   @offset : Int32
 
-  def initialize(arr : Num::BaseArray(T))
-    @ptr = arr.buffer
+  def initialize(arr : AnyArray(T))
+    @ptr = arr.to_unsafe
     @size = arr.size
     @step = arr.strides.size == 0 ? 0 : arr.strides[-1]
     @offset = 0
@@ -34,8 +33,8 @@ struct NumInternal::UnsafeContigFlatIter(T)
   @step : Int32
   @offset : Int32
 
-  def initialize(arr : Num::BaseArray(T))
-    @ptr = arr.buffer
+  def initialize(arr : Num::AnyArray(T))
+    @ptr = arr.to_unsafe
     @size = arr.size
     @step = arr.strides[-1]
     @offset = 0

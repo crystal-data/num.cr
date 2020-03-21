@@ -21,34 +21,37 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "../spec_helper"
+require "../base/storage"
 
-require "../spec_helper"
+struct NumInternal::CpuStorage(T) < NumInternal::StorageBase(T)
+  @raw : Pointer(T)
+  getter offset : Int32 = 0
+  getter size : Int32
 
-describe AnyArray do
-  describe "BaseArray#safeiters" do
-    # it "contiguous array returns contig iter" do
-    #   m = AnyArray.new([3, 3]) { |i| i }
-    #   m.flat_iter.is_a?(SafeFlat).should be_true
-    # end
-    #
-    # it "noncontig array returns nd iter" do
-    #   m = AnyArray.new([3, 3]) { |i| i }
-    #   m[..., 1].flat_iter.is_a?(SafeND).should be_true
-    # end
+  def initialize(@size : Int32)
+    @raw = Pointer(T).malloc(@size)
+  end
 
-    it "contig iter returns right values" do
-      m = AnyArray.new([2, 2]) { |i| i }
-      expected = [] of Int32
-      m.iter.each { |e| expected << e.value }
-      expected.should eq [0, 1, 2, 3]
-    end
+  def initialize(@size : Int32, initial : T)
+    @raw = Pointer(T).malloc(@size, initial)
+  end
 
-    it "nd iter returns the right values" do
-      m = AnyArray.new([2, 2]) { |i| i }
-      res = [] of Int32
-      m[..., 1].iter.each { |e| res << e.value }
-      res.should eq [1, 3]
-    end
+  def initialize(@raw : Pointer(T), @size : Int32, @offset : Int32 = 0)
+  end
+
+  def dtype
+    T
+  end
+
+  def clone
+    CpuStorage(T).new(@raw.clone, @size, @offset)
+  end
+
+  def to_unsafe
+    @raw
+  end
+
+  def free
+    @raw.free
   end
 end
