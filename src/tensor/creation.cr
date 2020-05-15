@@ -156,13 +156,13 @@ module Num
   # ```crystal
   # B.arange(1, 5) # => Tensor[1, 2, 3, 4]
   # ```
-  def arange(start : Int32, stop : Int32, step : Number = 1, dtype : U.class = Int32) forall U
-    r = stop - start
-    num = (r / step).ceil
+  def arange(start : Number, stop : Number, step : Number = 1, dtype : U.class = step.class) forall U
+    diff = stop - start
+    num = (diff / step).ceil
     if stop <= start || !num
-      raise "vrange must return at least one value"
+      raise "The method arange must return at least one value and the upper limit may not be less than the lower limit."
     end
-    Tensor.new([Int32.new(num)]) { |i| U.new(start + (i * step)) }
+    Tensor.new([num.to_i]) { |i| U.new(start + (i * step)) }
   end
 
   # Return evenly spaced values within a given interval.
@@ -173,7 +173,7 @@ module Num
   # ```crystal
   # B.arange(5) # => Tensor[0, 1, 2, 3, 4]
   # ```
-  def arange(stop : Int32, step : Int32 = 1, dtype : U.class = Int32) forall U
+  def arange(stop : Number, step : Number = 1, dtype : U.class = step.class) forall U
     arange(0, stop, step, dtype)
   end
 
