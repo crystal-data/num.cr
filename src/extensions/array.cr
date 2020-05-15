@@ -1,4 +1,4 @@
-require "./tensor"
+require "../tensor/tensor"
 
 class Array(T)
   def to_tensor
