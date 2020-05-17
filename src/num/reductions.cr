@@ -40,7 +40,7 @@ module Num
   end
 
   def prod(a : Tensor, axis : Int32, keepdims = false)
-    a.reduce_fast(axis, keepdims) { |i, j| i * j}
+    a.reduce_fast(axis, keepdims) { |i, j| i * j }
   end
 
   def all(a : Tensor)

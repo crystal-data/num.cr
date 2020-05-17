@@ -35,6 +35,11 @@ struct NumInternal::ClStorage(T) < NumInternal::StorageBase(T)
     @raw = Cl.buffer(Num::ClContext.instance.context, UInt64.new(@size), dtype: T)
   end
 
+  def initialize(@size : Int32, value : T, @offset : Int32 = 0)
+    @raw = Cl.buffer(Num::ClContext.instance.context, UInt64.new(@size), dtype: T)
+    Cl.fill(Num::ClContext.instance.queue, @raw, value, UInt64.new(size))
+  end
+
   def dtype
     T
   end

@@ -116,7 +116,6 @@ class AnyArray(T) < NumInternal::AnyTensor(T)
       @strides = [1]
     end
 
-
     @flags = Num::ArrayFlags::All
     update_flags
   end

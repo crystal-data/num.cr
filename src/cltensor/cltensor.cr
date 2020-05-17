@@ -47,12 +47,13 @@ class ClTensor(T) < NumInternal::AnyTensor(T)
   end
 
   def check_type
-    {% if T != Float32 || T != Float64 %}
-      raise "Invalid type #{T} for ClTensor"
+    {% unless T == Float32 || T == Float64 %}
+      {% raise "Bad dtype: #{T}. #{T} is not supported for ClTensors" %}
     {% end %}
   end
 
   def initialize(@shape : Array(Int32))
+    check_type
     @size = @shape.product
     @ndims = @shape.size
     @strides = NumInternal.shape_to_strides(@shape)
@@ -60,9 +61,18 @@ class ClTensor(T) < NumInternal::AnyTensor(T)
   end
 
   def initialize(@storage : NumInternal::ClStorage(T), @shape : Array(Int32))
+    check_type
     @size = @shape.product
     @strides = NumInternal.shape_to_strides(@shape)
     @ndims = @shape.size
+  end
+
+  def initialize(@shape : Array(Int32), value : T)
+    check_type
+    @size = @shape.product
+    @ndims = @shape.size
+    @strides = NumInternal.shape_to_strides(@shape)
+    @storage = NumInternal::ClStorage(T).new(@size, value, 0)
   end
 
   def clone

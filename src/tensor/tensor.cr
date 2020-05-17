@@ -29,7 +29,6 @@ require "../cltensor/global"
 require "../num/math"
 
 class Tensor(T) < AnyArray(T)
-
   def basetype(t : U.class) forall U
     Tensor(U)
   end
@@ -38,7 +37,7 @@ class Tensor(T) < AnyArray(T)
     {% unless T == Float32 || T == Float64 || T == Int16 || T == Int32 || \
                  T == Int8 || T == UInt16 || T == UInt32 || T == UInt64 || \
                  T == UInt8 || T == Bool || T == Complex %}
-      {% raise "Bad dtype: #{T}. #{T} is not supported for Char Arrays" %}
+      {% raise "Bad dtype: #{T}. #{T} is not supported for Tensors" %}
     {% end %}
   end
 

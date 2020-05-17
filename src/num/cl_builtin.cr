@@ -35,11 +35,65 @@ module Num
     "
   end
 
+  private def gen_cl_apply3_inpl(kern_name : String, ctype : String, op : String) : String
+    "
+    __kernel void #{kern_name}(__global #{ctype} *a, __global const #{ctype} *b) {
+        int gid = get_global_id(0);
+        a[gid] = a[gid] #{op} b[gid];
+    }
+    "
+  end
+
+  private def gen_cl_apply2(kern_name : String, ctype : String, op : String, rhs : Number) : String
+    "
+    __kernel void #{kern_name}(__global const #{ctype} *a, __global #{ctype} *b) {
+        int gid = get_global_id(0);
+        b[gid] = a[gid] #{op} #{rhs};
+    }
+    "
+  end
+
+  private def gen_cl_apply2_inpl(kern_name : String, ctype : String, op : String, rhs : Number) : String
+    "
+    __kernel void #{kern_name}(__global #{ctype} *a) {
+        int gid = get_global_id(0);
+        a[gid] = a[gid] #{op} #{rhs};
+    }
+    "
+  end
+
+  private def gen_cl_apply2_lhs(kern_name : String, ctype : String, op : String, lhs : Number) : String
+    "
+    __kernel void #{kern_name}(__global const #{ctype} *a, __global #{ctype} *b) {
+        int gid = get_global_id(0);
+        b[gid] = #{lhs} #{op} a[gid];
+    }
+    "
+  end
+
+  private def gen_cl_apply2_lhs_inpl(kern_name : String, ctype : String, op : String, lhs : Number) : String
+    "
+    __kernel void #{kern_name}(__global #{ctype} *a) {
+        int gid = get_global_id(0);
+        a[gid] = #{lhs} #{op} a[gid]
+    }
+    "
+  end
+
   private def gen_cl_math_fn1(kern_name : String, ctype : String, fn : String) : String
     "
     __kernel void #{kern_name}(__global const #{ctype} *a, __global #{ctype} *b) {
         int gid = get_global_id(0);
         b[gid] = #{fn}(a[gid]);
+    }
+    "
+  end
+
+  private def gen_cl_math_fn1_inpl(kern_name : String, ctype : String, fn : String) : String
+    "
+    __kernel void #{kern_name}(__global #{ctype} *a) {
+        int gid = get_global_id(0);
+        a[gid] = #{fn}(a[gid]);
     }
     "
   end
@@ -57,6 +111,49 @@ module Num
       Cl.run(Num::ClContext.instance.queue, cl_proc, result.size)
       result
     end
+
+    def {{fn.id}}!(a : ClTensor({{dtype}}), b : ClTensor({{dtype}}))
+      cl_kernel = gen_cl_apply3_inpl({{cname}}, {{ctype}}, {{op}})
+      program = Cl.create_and_build(Num::ClContext.instance.context, cl_kernel, Num::ClContext.instance.device)
+
+      cl_proc = Cl.create_kernel(program, {{cname}})
+
+      Cl.args(cl_proc, a.to_unsafe, b.to_unsafe)
+      Cl.run(Num::ClContext.instance.queue, cl_proc, a.size)
+    end
+
+    def {{fn.id}}(a : ClTensor({{dtype}}), b : {{dtype}})
+      result = ClTensor({{dtype}}).new(a.shape)
+
+      cl_kernel = gen_cl_apply2({{cname}}, {{ctype}}, {{op}}, b)
+      program = Cl.create_and_build(Num::ClContext.instance.context, cl_kernel, Num::ClContext.instance.device)
+
+      cl_proc = Cl.create_kernel(program, {{cname}})
+      Cl.args(cl_proc, a.to_unsafe, result.to_unsafe)
+      Cl.run(Num::ClContext.instance.queue, cl_proc, result.size)
+      result
+    end
+
+    def {{fn.id}}!(a : ClTensor({{dtype}}), b : {{dtype}})
+      cl_kernel = gen_cl_apply2_inpl({{cname}}, {{ctype}}, {{op}}, b)
+      program = Cl.create_and_build(Num::ClContext.instance.context, cl_kernel, Num::ClContext.instance.device)
+
+      cl_proc = Cl.create_kernel(program, {{cname}})
+      Cl.args(cl_proc, a.to_unsafe)
+      Cl.run(Num::ClContext.instance.queue, cl_proc, a.size)
+    end
+
+    def {{fn.id}}(b : {{dtype}}, a : ClTensor({{dtype}}))
+      result = ClTensor({{dtype}}).new(a.shape)
+
+      cl_kernel = gen_cl_apply2_lhs({{cname}}, {{ctype}}, {{op}}, b)
+      program = Cl.create_and_build(Num::ClContext.instance.context, cl_kernel, Num::ClContext.instance.device)
+
+      cl_proc = Cl.create_kernel(program, {{cname}})
+      Cl.args(cl_proc, a.to_unsafe, result.to_unsafe)
+      Cl.run(Num::ClContext.instance.queue, cl_proc, result.size)
+      result
+    end
   end
 
   macro gen_cl_math_fn_op(dtype, ctype, fn, cname, op)
@@ -71,10 +168,22 @@ module Num
       Cl.run(Num::ClContext.instance.queue, cl_proc, result.size)
       result
     end
+
+    def {{fn.id}}!(a : ClTensor({{dtype}}))
+      cl_kernel = gen_cl_math_fn1_inpl({{cname}}, {{ctype}}, {{op}})
+      program = Cl.create_and_build(Num::ClContext.instance.context, cl_kernel, Num::ClContext.instance.device)
+      cl_proc = Cl.create_kernel(program, {{cname}})
+
+      Cl.args(cl_proc, a.to_unsafe)
+      Cl.run(Num::ClContext.instance.queue, cl_proc, a.size)
+    end
   end
 
   gen_cl_infix_op(Float64, "double", "add", "add_vector", "+")
   gen_cl_infix_op(Float32, "float", "add", "add_vector", "+")
+
+  gen_cl_infix_op(Float64, "double", "subtract", "subtract_vector", "-")
+  gen_cl_infix_op(Float32, "float", "subtract", "subtract_vector", "-")
 
   gen_cl_infix_op(Float64, "double", "multiply", "multiply_vector", "*")
   gen_cl_infix_op(Float32, "float", "multiply", "multiply_vector", "*")

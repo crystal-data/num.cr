@@ -30,6 +30,14 @@ module Num
   RowMajor = OrderType::RowMajor
   ColMajor = OrderType::ColMajor
 
+  enum StorageType
+    CPU
+    GPU
+  end
+
+  CPU = StorageType::CPU
+  GPU = StorageType::GPU
+
   @[Flags]
   enum ArrayFlags
     # Contiguous really means C-style contiguious.  The

@@ -39,4 +39,7 @@ module NumInternal
 
   class WriteError < Exception
   end
+
+  class TypeError < Exception
+  end
 end
