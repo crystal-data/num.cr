@@ -43,4 +43,85 @@ that extend beyond minor enhancements and bug fixes, contact Crystal Data
 in order to be added to the organization to gain access to review and merge
 permissions.
 
-## Getting started with Num.cr in 10 minutes
+## Installation
+
+Add this to your applications `shard.yml`
+
+```
+dependencies:
+  num:
+    github: crystal-data/num.cr
+```
+
+## Getting started with Num.cr
+
+The core data structure of Num.cr is the `Tensor`, a flexible N-dimensional data structure.
+There are many ways to initialize a `Tensor`, or a `ClTensor` if you need GPU accelerated
+operations.
+
+```
+[1, 2, 3].to_tensor
+Tensor.from_array [1, 2, 3]
+Tensor(UInt8).zeros([3, 3, 2])
+Tensor.random(0.0...1.0, [2, 2, 2])
+
+ClTensor(Float32).zeros_like(some_tensor)
+ClTensor(Float64).full([3, 4, 5], 3.8)
+```
+
+Tensors support numerous mathematical operations and manipulation routines, including
+operations requiring broadcasting to other shapes.
+
+```
+a = [1, 2, 3, 4].to_tensor
+b = [[3, 4, 5, 6], [5, 6, 7, 8]].to_tensor
+
+# Convert a Tensor to a GPU backed Tensor
+acl = a.astype(Float64).opencl
+
+puts Num.add(a, b)
+
+# a is broadcast to b's shape
+# [[ 4,  6,  8, 10],
+#  [ 6,  8, 10, 12]]
+
+puts a.reshape(2, 2)
+
+# [[1, 2],
+#  [3, 4]]
+
+puts b.transpose
+
+# [[3, 5],
+#  [4, 6],
+#  [5, 7],
+#  [6, 8]]
+
+puts Num.cos(acl).cpu
+
+# [0.540302 , -0.416147, -0.989992, -0.653644]
+```
+
+Both CPU backed Tensors and GPU backed Tensors support linear algebra routines
+backed by optimized BLAS libraries.
+
+```
+a = [[1, 2], [3, 4]].to_tensor.astype(Float32)
+b = [[3, 4], [5, 6]].to_tensor.astype(Float32)
+
+acl = a.opencl
+bcl = b.opencl
+
+puts a.inv
+
+# [[-2  , 1   ],
+#  [1.5 , -0.5]]
+
+puts acl.matmul(bcl).cpu
+
+# [[13, 16],
+#  [29, 36]]
+```
+
+Review the documentation for full implementation details, and if something is missing,
+open an issue to add it!
