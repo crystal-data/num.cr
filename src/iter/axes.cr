@@ -1,4 +1,4 @@
-require "../base/base"
+require "../array/array"
 
 struct NumInternal::AxisIter(T)
   include Iterator(T)
@@ -6,12 +6,12 @@ struct NumInternal::AxisIter(T)
   @strides : Array(Int32)
   @inc : Int32
   @ptr : Pointer(T)
-  @tmp : Num::BaseArray(T)
+  @tmp : AnyArray(T)
   @total : Int32
   @yielded : Int32 = 0
   @axis : Int32
 
-  def initialize(arr : Num::BaseArray(T), @axis : Int32 = -1, keepdims = false)
+  def initialize(arr : AnyArray(T), @axis : Int32 = -1, keepdims = false)
     if @axis < 0
       @axis += arr.ndims
     end
@@ -21,7 +21,7 @@ struct NumInternal::AxisIter(T)
 
     @shape = arr.shape.dup
     @strides = arr.strides.dup
-    @ptr = arr.buffer
+    @ptr = arr.to_unsafe
     @inc = arr.strides[axis]
 
     if keepdims
@@ -32,7 +32,7 @@ struct NumInternal::AxisIter(T)
       @strides.delete_at(axis)
     end
 
-    @tmp = arr.class.new(@ptr, @shape, @strides, NumInternal::ArrayFlags::None)
+    @tmp = arr.class.new(@ptr, @shape, @strides)
 
     @total = arr.shape[axis]
   end
@@ -44,7 +44,7 @@ struct NumInternal::AxisIter(T)
       ret = @tmp
       @yielded += 1
       @ptr += @inc
-      @tmp = Tensor.new(@ptr, @shape, @strides, NumInternal::ArrayFlags::None)
+      @tmp = Tensor.new(@ptr, @shape, @strides)
       ret
     end
   end
@@ -56,10 +56,10 @@ struct NumInternal::UnsafeAxisIter(T)
   @strides : Array(Int32)
   @inc : Int32
   @ptr : Pointer(T)
-  @tmp : Num::BaseArray(T)
+  @tmp : AnyArray(T)
   @axis : Int32
 
-  def initialize(arr : Num::BaseArray(T), @axis : Int32 = -1, keepdims = false)
+  def initialize(arr : AnyArray(T), @axis : Int32 = -1, keepdims = false)
     if @axis < 0
       @axis += arr.ndims
     end
@@ -69,7 +69,7 @@ struct NumInternal::UnsafeAxisIter(T)
 
     @shape = arr.shape.dup
     @strides = arr.strides.dup
-    @ptr = arr.buffer
+    @ptr = arr.to_unsafe
     @inc = arr.strides[axis]
 
     if keepdims
@@ -79,13 +79,13 @@ struct NumInternal::UnsafeAxisIter(T)
       @shape.delete_at(axis)
       @strides.delete_at(axis)
     end
-    @tmp = arr.class.new(@ptr, @shape, @strides, Num::Internal::ArrayFlags::None)
+    @tmp = arr.class.new(@ptr, @shape, @strides)
   end
 
   def next
     ret = @tmp
     @ptr += @inc
-    @tmp = Tensor.new(@ptr, @shape, @strides, Num::Internal::ArrayFlags::None)
+    @tmp = Tensor.new(@ptr, @shape, @strides)
     ret
   end
 end

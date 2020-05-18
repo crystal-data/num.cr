@@ -13,7 +13,7 @@ module NumInternal::LapackHelper
   WORK_PARAM2         = 5
 end
 
-class Tensor(T)
+class Tensor(T) < AnyArray(T)
   private macro of_real_type(size)
     {% if T == Complex %}
       Tensor(Float64).new([size])

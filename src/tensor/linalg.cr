@@ -1,8 +1,8 @@
 require "./extension"
 require "./tensor"
-require "./creation"
+require "../base/exceptions"
 
-class Tensor(T) < Num::BaseArray(T)
+class Tensor(T) < AnyArray(T)
   private def raise_fortran_inplace(flags)
     unless flags.fortran?
       raise NumInternal::LinAlgError.new("Tensor must be Fortran Contiguous to apply the operation in-place")
@@ -79,7 +79,7 @@ class Tensor(T) < Num::BaseArray(T)
   # #         [   0.0, -0.816,  1.155]])
   # ```
   def cholesky(*, lower = true)
-    ret = dup('F')
+    ret = dup(Num::ColMajor)
     ret.cholesky!
     ret
   end
@@ -115,7 +115,7 @@ class Tensor(T) < Num::BaseArray(T)
     assert_matrix(self)
     m, n = shape
     k = {m, n}.min
-    a = dup('F')
+    a = dup(Num::ColMajor)
     tau = qr_setup(a, m, n, k)[0]
     r = Num.triu(a)
     lapack(orgqr, m, n, k, a.to_unsafe, m, tau.to_unsafe)
@@ -145,7 +145,7 @@ class Tensor(T) < Num::BaseArray(T)
   # ```
   def svd
     assert_matrix(self)
-    a = dup('F')
+    a = dup(Num::ColMajor)
     m, n = a.shape
     mn = {m, n}.min
     mx = {m, n}.max
@@ -171,7 +171,7 @@ class Tensor(T) < Num::BaseArray(T)
   # ```
   def eigh
     assert_square_matrix(self)
-    a = dup('F')
+    a = dup(Num::ColMajor)
     n = a.shape[0]
     w = Tensor(T).new([n])
     lapack(syev, 'V'.ord.to_u8, 'L'.ord.to_u8, n, a.to_unsafe, n, w.to_unsafe, worksize: 3 * n - 1)
@@ -192,7 +192,7 @@ class Tensor(T) < Num::BaseArray(T)
   # ```
   def eig
     assert_square_matrix(self)
-    a = dup('F')
+    a = dup(Num::ColMajor)
     n = a.shape[0]
     wr = Tensor(T).new([n])
     wl = wr.dup
@@ -216,7 +216,7 @@ class Tensor(T) < Num::BaseArray(T)
   # ```
   def eigvalsh
     assert_square_matrix(self)
-    a = dup('F')
+    a = dup(Num::ColMajor)
     n = a.shape[0]
     w = Tensor(T).new([n])
     lapack(syev, 'N'.ord.to_u8, 'L'.ord.to_u8, n, a.to_unsafe, n, w.to_unsafe, worksize: 3 * n - 1)
@@ -236,7 +236,7 @@ class Tensor(T) < Num::BaseArray(T)
   # ```
   def eigvals
     assert_square_matrix(self)
-    a = dup('F')
+    a = dup(Num::ColMajor)
     n = a.shape[0]
     wr = Tensor(T).new([n])
     wl = wr.dup
@@ -259,7 +259,7 @@ class Tensor(T) < Num::BaseArray(T)
   # ```
   def norm(*, order = 'F')
     assert_matrix(self)
-    a = dup('F')
+    a = dup(Num::ColMajor)
     m = a.shape[0]
     worksize = order == 'I' ? m : 0
     lapack_util(lange, worksize, order.ord.to_u8, m, m, tensor(a.to_unsafe), m)
@@ -273,7 +273,7 @@ class Tensor(T) < Num::BaseArray(T)
   # ```
   def det
     assert_square_matrix(self)
-    a = dup('F')
+    a = dup(Num::ColMajor)
     m, n = a.shape
     ipiv = Pointer(Int32).malloc(n)
 
@@ -302,7 +302,7 @@ class Tensor(T) < Num::BaseArray(T)
   # ```
   def inv
     assert_square_matrix(self)
-    a = dup('F')
+    a = dup(Num::ColMajor)
     n = a.shape[0]
     ipiv = Pointer(Int32).malloc(n)
     lapack(getrf, n, n, a.to_unsafe, n, ipiv)
@@ -324,8 +324,8 @@ class Tensor(T) < Num::BaseArray(T)
   # ```
   def solve(x : Tensor(T))
     assert_square_matrix(self)
-    a = dup('F')
-    x = x.dup('F')
+    a = dup(Num::ColMajor)
+    x = x.dup(Num::ColMajor)
     n = a.shape[0]
     m = x.ndims > 1 ? x.shape[1] : x.shape[0]
     ipiv = Pointer(Int32).malloc(n)
@@ -344,7 +344,7 @@ class Tensor(T) < Num::BaseArray(T)
   # where Q is unitary/orthogonal and H has only zero elements below the first sub-diagonal.
   def hessenberg
     assert_square_matrix(self)
-    a = dup('F')
+    a = dup(Num::ColMajor)
 
     if a.shape[0] < 2
       return a

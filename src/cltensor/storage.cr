@@ -21,34 +21,34 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "../spec_helper"
+require "../base/storage"
+require "../base/exceptions"
+require "./global"
+require "opencl"
 
-require "../spec_helper"
+struct NumInternal::ClStorage(T) < NumInternal::StorageBase(T)
+  @raw : LibCL::ClMem
+  getter size : Int32
+  getter offset : Int32
 
-describe AnyArray do
-  describe "BaseArray#safeiters" do
-    # it "contiguous array returns contig iter" do
-    #   m = AnyArray.new([3, 3]) { |i| i }
-    #   m.flat_iter.is_a?(SafeFlat).should be_true
-    # end
-    #
-    # it "noncontig array returns nd iter" do
-    #   m = AnyArray.new([3, 3]) { |i| i }
-    #   m[..., 1].flat_iter.is_a?(SafeND).should be_true
-    # end
+  def initialize(@size : Int32, @offset : Int32 = 0)
+    @raw = Cl.buffer(Num::ClContext.instance.context, UInt64.new(@size), dtype: T)
+  end
 
-    it "contig iter returns right values" do
-      m = AnyArray.new([2, 2]) { |i| i }
-      expected = [] of Int32
-      m.iter.each { |e| expected << e.value }
-      expected.should eq [0, 1, 2, 3]
-    end
+  def initialize(@size : Int32, value : T, @offset : Int32 = 0)
+    @raw = Cl.buffer(Num::ClContext.instance.context, UInt64.new(@size), dtype: T)
+    Cl.fill(Num::ClContext.instance.queue, @raw, value, UInt64.new(size))
+  end
 
-    it "nd iter returns the right values" do
-      m = AnyArray.new([2, 2]) { |i| i }
-      res = [] of Int32
-      m[..., 1].iter.each { |e| res << e.value }
-      res.should eq [1, 3]
-    end
+  def dtype
+    T
+  end
+
+  def free
+    Cl.release_buffer(@raw)
+  end
+
+  def to_unsafe
+    @raw
   end
 end

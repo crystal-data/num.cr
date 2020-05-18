@@ -21,34 +21,46 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "../spec_helper"
-
-require "../spec_helper"
-
-describe AnyArray do
-  describe "BaseArray#safeiters" do
-    # it "contiguous array returns contig iter" do
-    #   m = AnyArray.new([3, 3]) { |i| i }
-    #   m.flat_iter.is_a?(SafeFlat).should be_true
-    # end
-    #
-    # it "noncontig array returns nd iter" do
-    #   m = AnyArray.new([3, 3]) { |i| i }
-    #   m[..., 1].flat_iter.is_a?(SafeND).should be_true
-    # end
-
-    it "contig iter returns right values" do
-      m = AnyArray.new([2, 2]) { |i| i }
-      expected = [] of Int32
-      m.iter.each { |e| expected << e.value }
-      expected.should eq [0, 1, 2, 3]
+class Tensor(T) < AnyArray(T)
+  private def triu2d(a : AnyArray(T), k)
+    m, n = a.shape
+    a.iter_flat_indexed do |el, idx|
+      i = idx // n
+      j = idx % n
+      if i > j - k
+        el.value = T.new(0)
+      end
     end
+  end
 
-    it "nd iter returns the right values" do
-      m = AnyArray.new([2, 2]) { |i| i }
-      res = [] of Int32
-      m[..., 1].iter.each { |e| res << e.value }
-      res.should eq [1, 3]
+  private def tril2d(a : AnyArray(T), k)
+    m, n = a.shape
+    a.iter_flat_indexed do |el, idx|
+      i = idx // n
+      j = idx % n
+      if i < j - k
+        el.value = T.new(0)
+      end
+    end
+  end
+
+  def triu!(k = 0)
+    if ndims == 2
+      triu2d(self, k)
+    else
+      matrix_iter.each do |subm|
+        triu2d(subm, k)
+      end
+    end
+  end
+
+  def tril!(k = 0)
+    if ndims == 2
+      tril2d(self, k)
+    else
+      matrix_iter.each do |subm|
+        tril2d(subm, k)
+      end
     end
   end
 end
