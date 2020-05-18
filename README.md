@@ -59,7 +59,7 @@ The core data structure of Num.cr is the `Tensor`, a flexible N-dimensional data
 There are many ways to initialize a `Tensor`, or a `ClTensor` if you need GPU accelerated
 operations.
 
-```
+```crystal
 [1, 2, 3].to_tensor
 Tensor.from_array [1, 2, 3]
 Tensor(UInt8).zeros([3, 3, 2])
@@ -72,7 +72,7 @@ ClTensor(Float64).full([3, 4, 5], 3.8)
 Tensors support numerous mathematical operations and manipulation routines, including
 operations requiring broadcasting to other shapes.
 
-```
+```crystal
 a = [1, 2, 3, 4].to_tensor
 b = [[3, 4, 5, 6], [5, 6, 7, 8]].to_tensor
 
@@ -105,7 +105,7 @@ puts Num.cos(acl).cpu
 Both CPU backed Tensors and GPU backed Tensors support linear algebra routines
 backed by optimized BLAS libraries.
 
-```
+```crystal
 a = [[1, 2], [3, 4]].to_tensor.astype(Float32)
 b = [[3, 4], [5, 6]].to_tensor.astype(Float32)
 
