@@ -33,7 +33,7 @@ struct NumInternal::UnsafeContigFlatIter(T)
   @step : Int32
   @offset : Int32
 
-  def initialize(arr : Num::AnyArray(T))
+  def initialize(arr : AnyArray(T))
     @ptr = arr.to_unsafe
     @size = arr.size
     @step = arr.strides[-1]

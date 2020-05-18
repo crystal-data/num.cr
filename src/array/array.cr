@@ -34,6 +34,7 @@ require "./storage"
 require "./broadcast"
 require "./print"
 require "complex"
+require "json"
 
 class AnyArray(T) < NumInternal::AnyTensor(T)
   # Stores an arrays data buffer
@@ -197,6 +198,30 @@ class AnyArray(T) < NumInternal::AnyTensor(T)
     newstrides = NumInternal.shape_to_strides(newshape)
     ptr = array.flatten.to_unsafe
     new(ptr, newshape, newstrides)
+  end
+
+  def self.from_json(string_or_io, shape : Array(Int32))
+    ret = new(shape)
+    ret_iter = NumInternal::UnsafeContigFlatIter.new(ret)
+    parser = JSON::PullParser.new(string_or_io)
+    parser.read_array do
+      ret_iter.next.value = T.new(parser)
+    end
+    ret
+  end
+
+  def to_a
+    arr = Array(T).new(@size)
+    iter.each do |el|
+      arr << el.value
+    end
+    arr
+  end
+
+  def to_json(json : JSON::Builder)
+    json.array do
+      iter.each &.value.to_json(json)
+    end
   end
 
   # Calculates the shape of a standard library array
