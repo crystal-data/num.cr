@@ -120,6 +120,22 @@ class AnyArray(T) < NumInternal::AnyTensor(T)
     update_flags
   end
 
+  def initialize(@shape : Array(Int32), value : T, order : Num::OrderType = Num::RowMajor)
+    check_type
+    @size = @shape.product
+    @ndims = @shape.size
+    @storage = NumInternal::CpuStorage(T).new(@size, initial: value)
+    @strides = NumInternal.shape_to_strides(@shape, order)
+
+    if @shape == [] of UInt32
+      @shape = [0]
+      @strides = [1]
+    end
+
+    @flags = Num::ArrayFlags::All
+    update_flags
+  end
+
   # Initialization method for a generic buffer, shape and strides.
   # This method updates flags on the passed array, if the array
   # is read only, its flags need to be updated later
@@ -400,7 +416,7 @@ class AnyArray(T) < NumInternal::AnyTensor(T)
       end
     {% else %}
       ret.map2!(self) do |_, j|
-        U.new(j.value)
+        U.new(j)
       end
     {% end %}
     ret

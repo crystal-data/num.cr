@@ -22,37 +22,43 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require "../array/array"
-require "../libs/cblas"
-require "../cltensor/cltensor"
-require "../cltensor/storage"
-require "../cltensor/global"
-require "../num/math"
+require "../base/array"
 
 class Tensor(T) < AnyArray(T)
-  def basetype(t : U.class) forall U
-    Tensor(U)
-  end
-
-  def check_type
-    {% unless T == Float32 || T == Float64 || T == Int16 || T == Int32 || \
-                 T == Int8 || T == UInt16 || T == UInt32 || T == UInt64 || \
-                 T == UInt8 || T == Bool || T == Complex %}
-      {% raise "Bad dtype: #{T}. #{T} is not supported for Tensors" %}
-    {% end %}
-  end
-
-  def opencl
-    if @flags.contiguous?
-      writer = self
+  # A flexible method to create `Tensor`'s of arbitrary shapes
+  # filled with random values of arbitrary types.  Since
+  # Ranges can contain any dtype, the type of tensor is
+  # inferred from the passed range, and a new `Tensor` is
+  # sampled using the provided shape.
+  def self.random(r : Range(U, U), _shape : Array(Int32)) forall U
+    if _shape.size == 0
+      Tensor(U).new(_shape)
     else
-      writer = dup(Num::RowMajor)
+      new(_shape) { |_| Random.rand(r) }
     end
-    gpu = NumInternal::ClStorage(T).new(@size)
-    Cl.write(Num::ClContext.instance.queue, writer.to_unsafe, gpu.to_unsafe, UInt64.new(@size * sizeof(T)))
-    ClTensor(T).new(gpu, @shape)
   end
 
-  def **(other)
-    Num.power(self, other)
+  def self.zeros(shape : Array(Int32))
+    Tensor(T).new(shape, T.new(0))
+  end
+
+  def self.zeros_like(other : NumInternal::AnyTensor)
+    Tensor(T).new(other.shape, T.new(0))
+  end
+
+  def self.ones(shape : Array(Int32))
+    Tensor(T).new(shape, T.new(1))
+  end
+
+  def self.ones_like(other : NumInternal::AnyTensor)
+    Tensor(T).new(other.shape, T.new(1))
+  end
+
+  def self.full(shape : Array(Int32), value : Number)
+    Tensor(T).new(shape, T.new(value))
+  end
+
+  def self.full_like(other : NumInternal::AnyTensor, value : Number)
+    Tensor(T).new(other.shape, T.new(value))
   end
 end

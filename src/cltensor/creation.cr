@@ -22,37 +22,30 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require "../array/array"
-require "../libs/cblas"
-require "../cltensor/cltensor"
-require "../cltensor/storage"
-require "../cltensor/global"
-require "../num/math"
+require "../base/array"
 
-class Tensor(T) < AnyArray(T)
-  def basetype(t : U.class) forall U
-    Tensor(U)
+class ClTensor(T) < NumInternal::AnyTensor(T)
+  def self.zeros(shape : Array(Int32))
+    ClTensor(T).new(shape, T.new(0))
   end
 
-  def check_type
-    {% unless T == Float32 || T == Float64 || T == Int16 || T == Int32 || \
-                 T == Int8 || T == UInt16 || T == UInt32 || T == UInt64 || \
-                 T == UInt8 || T == Bool || T == Complex %}
-      {% raise "Bad dtype: #{T}. #{T} is not supported for Tensors" %}
-    {% end %}
+  def self.zeros_like(other : NumInternal::AnyTensor)
+    ClTensor(T).new(other.shape, T.new(0))
   end
 
-  def opencl
-    if @flags.contiguous?
-      writer = self
-    else
-      writer = dup(Num::RowMajor)
-    end
-    gpu = NumInternal::ClStorage(T).new(@size)
-    Cl.write(Num::ClContext.instance.queue, writer.to_unsafe, gpu.to_unsafe, UInt64.new(@size * sizeof(T)))
-    ClTensor(T).new(gpu, @shape)
+  def self.ones(shape : Array(Int32))
+    ClTensor(T).new(shape, T.new(1))
   end
 
-  def **(other)
-    Num.power(self, other)
+  def self.ones_like(other : NumInternal::AnyTensor)
+    ClTensor(T).new(other.shape, T.new(1))
+  end
+
+  def self.full(shape : Array(Int32), value : Number)
+    ClTensor(T).new(shape, T.new(value))
+  end
+
+  def self.full_like(other : NumInternal::AnyTensor, value : Number)
+    ClTensor(T).new(other.shape, T.new(value))
   end
 end
