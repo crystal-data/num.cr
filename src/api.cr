@@ -1,6 +1,7 @@
 require "./tensor/tensor"
 require "./tensor/creation"
 require "./tensor/linalg"
+require "./tensor/manipulate"
 require "./num/math"
 require "./num/cl_builtin"
 require "./num/build"

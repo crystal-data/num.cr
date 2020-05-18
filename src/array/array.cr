@@ -29,6 +29,7 @@ require "../iter/flat"
 require "../iter/nd"
 require "../iter/macro"
 require "../iter/axes"
+require "../iter/matrix"
 require "./storage"
 require "./broadcast"
 require "./print"
@@ -301,6 +302,25 @@ class AnyArray(T) < NumInternal::AnyTensor(T)
       NumInternal::ContigFlatIter.new(self)
     else
       NumInternal::NDFlatIter.new(self)
+    end
+  end
+
+  def matrix_iter
+    NumInternal::MatrixIter.new(self)
+  end
+
+  def iter_flat_indexed
+    i = 0
+    if flags.contiguous?
+      NumInternal::ContigFlatIter.new(self).each do |el|
+        yield el, i
+        i += 1
+      end
+    else
+      NumInternal::NDFlatIter.new(self).each do |el|
+        yield el, i
+        i += 1
+      end
     end
   end
 
