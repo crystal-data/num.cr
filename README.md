@@ -19,11 +19,11 @@ It provides:
 
 ## Prerequisites
 
-Num.cr relies on OpenBLAS and LAPACK for many underlying computations, and the
-development packages must be present for Num.cr to work correctly.
-
-For Debian, use `libopenblas-dev` and `liblapack-dev`.  For other operating
-systems review the relevant installation instructions for that OS.
+Num.cr relies on various BLAS and LAPACK implementations to provide performant linear
+algebra routines.  The defaults are OpenBLAS and Lapacke.  On Darwin, the Accelerate
+framework is used by default.  Num.cr also allows for computing run on a GPU, backed
+by OpenCL, with BLAS operations backed by ClBlast.  Please review the relevant installation
+instructions for these libraries if you would like to take advantage of their features.
 
 ## Usage
 
@@ -34,11 +34,6 @@ The primary goal of this library was to provide a NumPy like interface in
 Crystal, and performance will be revisited constantly as the library is
 improved.
 
-
-## Getting Started
-
-To learn how to use the basic functionality of Num.cr, check out the [quickstart guide](https://crystal-data.github.io/num.cr/user/quickstart.html).
-
 Contributing
 ------------
 Num.cr requires help in many different ways to continue to grow as a shard.
@@ -47,3 +42,5 @@ as much as API enhancements.  If you are considering larger scale contributions
 that extend beyond minor enhancements and bug fixes, contact Crystal Data
 in order to be added to the organization to gain access to review and merge
 permissions.
+
+## Getting started with Num.cr in 10 minutes

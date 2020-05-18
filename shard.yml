@@ -8,6 +8,6 @@ crystal: 0.32.0
 
 license: MIT
 
-development_dependencies:
+dependencies:
   opencl:
     github: crystal-data/opencl.cr
