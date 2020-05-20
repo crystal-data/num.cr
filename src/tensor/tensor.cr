@@ -55,4 +55,68 @@ class Tensor(T) < AnyArray(T)
   def **(other)
     Num.power(self, other)
   end
+
+  def +(other)
+    Num.add(self, other)
+  end
+
+  def -(other)
+    Num.subtract(self, other)
+  end
+
+  def *(other)
+    Num.multiply(self, other)
+  end
+
+  def /(other)
+    Num.divide(self, other)
+  end
+
+  def //(other)
+    Num.floordiv(self, other)
+  end
+
+  def <<(other)
+    Num.left_shift(self, other)
+  end
+
+  def >>(other)
+    Num.right_shift(self, other)
+  end
+
+  def &(other)
+    Num.bitwise_and(self, other)
+  end
+
+  def |(other)
+    Num.bitwise_or(self, other)
+  end
+
+  def ^(other)
+    Num.bitwise_xor(self, other)
+  end
+
+  def ==(other)
+    Num.equal(self, other)
+  end
+
+  def !=(other)
+    Num.not_equal(self, other)
+  end
+
+  def <(other)
+    Num.less(self, other)
+  end
+
+  def <=(other)
+    Num.less_equal(self, other)
+  end
+
+  def >(other)
+    Num.greater(self, other)
+  end
+
+  def >=(other)
+    Num.greater_equal(self, other)
+  end
 end

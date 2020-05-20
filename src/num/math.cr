@@ -150,4 +150,6 @@ module Num
   stdlibwrap copysign
   stdlibwrap hypot
   stdlibwrap ldexp
+  stdlibwrap max
+  stdlibwrap min
 end
