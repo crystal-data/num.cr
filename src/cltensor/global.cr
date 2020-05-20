@@ -36,4 +36,10 @@ class Num::ClContext
   {% else %}
     class_getter instance : NumInternal::ClInfo { NumInternal::ClInfo.new(*Cl.first_gpu_defaults) }
   {% end %}
+
+  def self.set_device(device)
+    context = Cl.create_context([device])
+    queue = Cl.command_queue_for(context, device)
+    @@instance = NumInternal::ClInfo.new(device, context, queue)
+  end
 end
