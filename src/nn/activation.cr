@@ -13,7 +13,7 @@ module Num
     Num.max(0, z)
   end
 
-  def tanh(z : Tensor)
+  def tanh_nn(z : Tensor)
     Num.tanh(z)
   end
 
