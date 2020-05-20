@@ -31,5 +31,9 @@ struct NumInternal::ClInfo
 end
 
 class Num::ClContext
-  class_getter instance : NumInternal::ClInfo { NumInternal::ClInfo.new(*Cl.single_device_defaults) }
+  {% if flag?(:opencl_any) %}
+    class_getter instance : NumInternal::ClInfo { NumInternal::ClInfo.new(*Cl.single_device_defaults) }
+  {% else %}
+    class_getter instance : NumInternal::ClInfo { NumInternal::ClInfo.new(*Cl.first_gpu_defaults) }
+  {% end %}
 end

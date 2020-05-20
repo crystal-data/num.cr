@@ -25,6 +25,8 @@ require "./storage"
 require "../base/array"
 require "../base/routines"
 require "../base/exceptions"
+require "../num/cl_builtin"
+require "../tensor/tensor"
 
 class ClTensor(T) < NumInternal::AnyTensor(T)
   getter storage : NumInternal::ClStorage(T)
@@ -91,5 +93,21 @@ class ClTensor(T) < NumInternal::AnyTensor(T)
       0_u32, nil, nil
     )
     Tensor(T).new(ptr, @shape, @strides)
+  end
+
+  def +(other)
+    Num.add(self, other)
+  end
+
+  def -(other)
+    Num.subtract(self, other)
+  end
+
+  def *(other)
+    Num.multiply(self, other)
+  end
+
+  def /(other)
+    Num.divide(self, other)
   end
 end
