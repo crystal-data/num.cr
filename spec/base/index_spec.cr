@@ -75,5 +75,13 @@ describe AnyArray do
       expected = AnyArray.from_array [[0, 1], [4, 5], [8, 9]]
       assert_array_equal slice, expected
     end
+
+    it "cannot assign a sequence to an array" do
+      m = AnyArray.new([2, 4]) { |i| i }
+      n = AnyArray.new([1, 4]) { |i| i }
+      expect_raises(NumInternal::ShapeError) do
+        m[1] = n
+      end
+    end
   end
 end
