@@ -403,7 +403,7 @@ class AnyArray(T) < NumInternal::AnyTensor(T)
       {% elsif T == Bool %}
         i.value = (yield i.value, j.value) ? true : false
       {% else %}
-        i.value = T.new(yield i.value, j.value)
+        i.value = T.new(yield(i.value, j.value))
       {% end %}
     end
   end
@@ -753,6 +753,9 @@ class AnyArray(T) < NumInternal::AnyTensor(T)
   # Sets an array's values based on another array.
   private def aref_set(*args, value : AnyArray(T))
     old = self[*args]
+    if value.ndims > old.ndims
+      raise NumInternal::ShapeError.new("Setting an array with a sequence")
+    end
     old.map2!(value) { |_, j| T.new(j) }
   end
 

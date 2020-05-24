@@ -46,12 +46,20 @@ class Tensor(T) < AnyArray(T)
     Tensor(T).new(other.shape, T.new(0))
   end
 
+  def zeros_like
+    Tensor(T).new(@shape, T.new(0))
+  end
+
   def self.ones(shape : Array(Int32))
     Tensor(T).new(shape, T.new(1))
   end
 
   def self.ones_like(other : NumInternal::AnyTensor)
     Tensor(T).new(other.shape, T.new(1))
+  end
+
+  def ones_like
+    Tensor(T).new(@shape, T.new(1))
   end
 
   def self.full(shape : Array(Int32), value : Number)
