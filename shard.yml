@@ -1,10 +1,10 @@
 name: num
-version: 0.3.1
+version: 0.3.2
 
 authors:
   - Chris Zimmerman <chris-zimmerman@live.com>
 
-crystal: 0.32.0
+crystal: 0.34.0
 
 license: MIT
 
