@@ -146,7 +146,7 @@ describe Num do
 
   describe "Assemble#concatenate" do
     it "test returns copy" do
-      a = Num.eye(3)
+      a = Tensor(Int32).eye(3)
       b = Num.concatenate([a], 0)
       b[0, 0] = 2
       (b[0, 0].value != a[0, 0].value).should be_true
@@ -188,14 +188,14 @@ describe Num do
     end
 
     it "test 1d tensors" do
-      a = Num.arange(3)
-      b = Num.arange(3) ** 2
+      a = Tensor.range(3)
+      b = Tensor.range(3) ** 2
       desired = Tensor.from_array [[[0, 0], [1, 1], [2, 4]]]
       assert_array_equal Num.dstack([a, b]), desired
     end
 
     it "test 2d tensors" do
-      a = Num.arange(4).reshape([2, 2])
+      a = Tensor.range(4).reshape([2, 2])
       desired = Tensor.from_array [[[0, 0], [1, 1]], [[2, 2], [3, 3]]]
       assert_array_equal Num.dstack([a, a]), desired
     end
@@ -217,14 +217,14 @@ describe Num do
     end
 
     it "test 1d tensors" do
-      a = Num.arange(3)
-      b = Num.arange(3) ** 2
+      a = Tensor.range(3)
+      b = Tensor.range(3) ** 2
       desired = Tensor.from_array [[0, 0], [1, 1], [2, 4]]
       assert_array_equal Num.column_stack([a, b]), desired
     end
 
     it "test 2d tensors" do
-      a = Num.arange(4).reshape([2, 2])
+      a = Tensor.range(4).reshape([2, 2])
       desired = Tensor.from_array [[0, 1, 0, 1], [2, 3, 2, 3]]
       assert_array_equal Num.column_stack([a, a]), desired
     end
