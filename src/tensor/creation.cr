@@ -61,4 +61,50 @@ class Tensor(T) < AnyArray(T)
   def self.full_like(other : NumInternal::AnyTensor, value : Number)
     Tensor(T).new(other.shape, T.new(value))
   end
+
+  def self.range(start : T, stop : T, step : T)
+    if start > stop && step > 0
+      raise NumInternal::ValueError.new("Range must return at at least one value")
+    end
+    r = (stop - start)
+    num = (r / step).ceil.abs
+    Tensor.new([Int32.new(num)]) { |i| T.new(start + (i * step)) }
+  end
+
+  def self.range(stop : T)
+    Tensor.range(T.new(0), stop, T.new(1))
+  end
+
+  def self.range(start : T, stop : T)
+    Tensor.range(start, stop, T.new(1))
+  end
+
+  def self.from_range(rng : Range(T, T))
+    last = rng.excludes_end? ? rng.end : rng.end + T.new(1)
+    self.range(rng.begin, last, T.new(1))
+  end
+
+  def self.eye(m : Int, n : Int? = nil, k : Int = 0)
+    n = n.nil? ? m : n.as(Int32)
+    Tensor.new(Int32.new(m), n) do |i, j|
+      i == j - k ? T.new(1) : T.new(0)
+    end
+  end
+
+  def self.identity(n : Int)
+    n32 = Int32.new(n)
+    Tensor.new(n32, n32) do |i, j|
+      i == j ? T.new(1) : T.new(0)
+    end
+  end
+
+  def self.diag(a : Tensor(T), k : Int32 = 0)
+    if a.ndims > 1
+      raise "Only 1 dimensional Tensors are supported"
+    end
+    iter = NumInternal::UnsafeNDFlatIter.new(a)
+    Tensor(T).new(a.shape[0], a.shape[0]) do |i, j|
+      i == j - k ? iter.next.value : T.new(0)
+    end
+  end
 end

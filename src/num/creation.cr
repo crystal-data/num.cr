@@ -9,31 +9,6 @@ require "../tensor/tensor"
 module Num
   extend self
 
-  # Initializes a `Tensor` with an uninitialized slice
-  # of data.
-  #
-  # ```crystal
-  # f = empty(5, dtype: Int32)
-  # f # => Tensor[0, 0, 0, 0, 0]
-  # ```
-  def empty(shape : Array(Int32), dtype : U.class = Float64) forall U
-    Tensor(U).new(shape)
-  end
-
-  # Initializes a `Tensor` with an uninitialized slice
-  # of data that is the same size as a given
-  # `Tensor`.
-  #
-  # ```crystal
-  # t = Tensor.new [1, 2, 3]
-  #
-  # f = empty_like(t, dtype: Int32)
-  # f # => Tensor[0, 0, 0]
-  # ```
-  def empty_like(other : Tensor, dtype : U.class = Float64) forall U
-    Tensor(U).new(other.shape)
-  end
-
   # Return a `Matrix` with ones on the diagonal and
   # zeros elsewhere.
   #
