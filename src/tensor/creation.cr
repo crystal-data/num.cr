@@ -79,6 +79,52 @@ class Tensor(T) < AnyArray(T)
     Tensor.range(start, stop, T.new(1))
   end
 
+  def self.linear_space(start : Number, stop : Number, num = 50, endpoint = true)
+    raise NumInternal::ValueError.new "Number of samples must be non-negative" unless num > 0
+    div = endpoint ? num - 1 : num
+    start = start * 1.0
+    stop = stop * 1.0
+    y = Tensor.range(Float64.new(num))
+    delta = stop - start
+    if num > 1
+      step = delta / div
+      if step == 0
+        raise NumInternal::ValueError.new "Cannot have a step of 0"
+      end
+      y = y * step
+    else
+      y = y * delta
+    end
+    y += start
+    if endpoint && num > 1
+      y[y.shape[0] - 1] = stop
+    end
+    y
+  end
+
+  def self.logarithmic_space(start, stop, num = 50, endpoint = true, base = 10.0)
+    y = Tensor.linear_space(start, stop, num: num, endpoint: endpoint)
+    base ** y
+  end
+
+  def self.geometric_space(start, stop, num = 50, endpoint = true)
+    if start == 0 || stop == 0
+      raise NumInternal::ValueError.new "Geometric sequence cannot include zero"
+    end
+
+    out_sign = 1.0
+
+    if start < 0 && stop < 0
+      start, stop = -start, -stop
+      out_sign = -out_sign
+    end
+
+    log_start = Math.log(start, 10.0)
+    log_stop = Math.log(stop, 10.0)
+
+    Tensor.logarithmic_space(log_start, log_stop, num: num, endpoint: endpoint, base: 10.0) * out_sign
+  end
+
   def self.from_range(rng : Range(T, T))
     last = rng.excludes_end? ? rng.end : rng.end + T.new(1)
     self.range(rng.begin, last, T.new(1))
@@ -105,6 +151,24 @@ class Tensor(T) < AnyArray(T)
     iter = NumInternal::UnsafeNDFlatIter.new(a)
     Tensor(T).new(a.shape[0], a.shape[0]) do |i, j|
       i == j - k ? iter.next.value : T.new(0)
+    end
+  end
+
+  def self.vander(x : Tensor(T), n : Int32? = nil, increasing : Bool = false)
+    if x.ndims > 1
+      raise NumInternal::ShapeError.new("Vandermonde matrices must
+        be initialized with a one-dimensional Tensor")
+    end
+    n = n.nil? ? x.size : n.as(Int32)
+    Tensor(T).new(x.size, n) do |i, j|
+      offset = increasing ? j : n - j - 1
+      x[i].value ** offset
+    end
+  end
+
+  def self.tri(n : Int32, m : Int32? = nil, k : Int32 = 0)
+    Tensor(T).new(n, m.nil? ? n : m.as(Int32)) do |i, j|
+      i >= j - k ? T.new(1) : T.new(0)
     end
   end
 end

@@ -54,6 +54,12 @@ class Tensor(T) < AnyArray(T)
     end
   end
 
+  def triu(k = 0)
+    ret = dup
+    ret.triu!
+    ret
+  end
+
   def tril!(k = 0)
     if ndims == 2
       tril2d(self, k)
@@ -62,5 +68,46 @@ class Tensor(T) < AnyArray(T)
         tril2d(subm, k)
       end
     end
+  end
+
+  def tril(k = 0)
+    ret = dup
+    ret.tril!
+    ret
+  end
+
+  def bincount(min_count = 0)
+    if @ndims != 1
+      raise NumInternal::ShapeError.new("Input must be 1-dimensional")
+    end
+    sz = Math.max(min_count, Num.max(self) + 1)
+    ret = Pointer(Int32).malloc(sz)
+    iter.each do |i|
+      val = i.value
+      if val < 0
+        raise NumInternal::ValueError.new "All values must be positive"
+      end
+      ret[i.value] += 1
+    end
+    Tensor.new(ret, [sz], [1])
+  end
+
+  def bincount(weights : Tensor(U), min_count = 0) forall U
+    if @ndims != 1
+      raise NumInternal::ShapeError.new("Input must be 1-dimensional")
+    end
+    if @shape != weights.shape
+      raise "Weights do not match input"
+    end
+    sz = Math.max(min_count, Num.max(self) + 1)
+    ret = Pointer(U).malloc(sz)
+    iter2(weights).each do |i, j|
+      iv, jv = {i.value, j.value}
+      if iv < 0
+        raise NumInternal::ValueError.new("All values must be positive")
+      end
+      ret[iv] += jv
+    end
+    Tensor.new(ret, [sz], [1])
   end
 end
