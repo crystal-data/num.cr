@@ -131,7 +131,7 @@ module NumInternal
 
   # Finds the maximum width of a string representation of an element of
   # an ndarray
-  private def max_width(a : AnyArray)
+  def max_width(a : AnyArray)
     mx = 0
     a.iter.each do |i|
       val = format(i.value)

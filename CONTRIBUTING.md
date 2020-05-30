@@ -9,3 +9,21 @@ If you are looking to contribute to the *num.cr* codebase, the best place to sta
 ## Filing Issues
 
 If you notice a bug in the code or documentation, or have suggestions for how we can improve either, feel free to create an issue on the [GitHub "issues" tab](https://github.com/crystal-data/num.cr/issues) using [GitHub's "issue" form](https://github.com/crystal-data/num.cr/issues/new). The form contains some questions that will help us best address your issue.
+
+## Documenting code
+
+I am trying to standardize docstrings in the application.  For *user facing methods only*, please use the following format:
+
+```
+# Description of method here
+#
+# Example
+# ```
+# Example Code goes here
+# ```
+#
+# Output
+# ```
+# Output goes here
+# ```
+```

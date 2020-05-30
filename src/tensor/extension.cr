@@ -1,6 +1,7 @@
 require "../libs/lapack"
 require "./work"
 
+# :nodoc:
 module NumInternal::LapackHelper
   ARG_NORMAL          = 0
   ARG_MATRIX          = 1
@@ -40,6 +41,7 @@ class Tensor(T) < AnyArray(T)
     {% end %}
   end
 
+  # :nodoc:
   macro lapack_util(name, worksize, *args)
     Num::WORK_POOL.reallocate(worksize*{% if T == Complex %} sizeof(Float64) {% else %} sizeof(T) {% end %})
     %buf = alloc_real_type(worksize)
@@ -70,6 +72,7 @@ class Tensor(T) < AnyArray(T)
     %result
   end
 
+  # :nodoc:
   macro lapack(name, *args, worksize = nil)
       {%
         lapack_args = {
@@ -348,6 +351,7 @@ class Tensor(T) < AnyArray(T)
     raise "LAPACK.{{typ}}{{name}} returned #{%info}" if %info != 0
   end
 
+  # :nodoc:
   macro blas(storage, name, *args)
     {%
       if T == Float32

@@ -330,6 +330,20 @@ class AnyArray(T) < NumInternal::AnyTensor(T)
     end
   end
 
+  def each
+    NumInternal::NDFlatIter.new(self).each do |el|
+      yield el.value
+    end
+  end
+
+  def each_with_index
+    i = 0
+    NumInternal::NDFlatIter.new(self).each do |el|
+      yield el.value, i
+      i += 1
+    end
+  end
+
   def matrix_iter
     NumInternal::MatrixIter.new(self)
   end
@@ -454,6 +468,9 @@ class AnyArray(T) < NumInternal::AnyTensor(T)
   end
 
   def astype(dtype : U.class) forall U
+    {% if U == Bool && T == Bool %}
+      return dup
+    {% end %}
     ret = self.basetype(U).new(@shape)
     {% if U == Bool %}
       ret.map2!(self) do |_, j|
