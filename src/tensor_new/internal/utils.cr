@@ -20,11 +20,46 @@
 # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+#
+require "./exceptions"
 
-require "../tensor_new/tensor"
+module Num::Internal
+  extend self
 
-struct Array(T)
-  def to_tensor : Tensor(T)
-    Tensor.from_array self
+  # :nodoc:
+  def shape_to_strides(
+    shape : Array(Int32),
+    layout : Num::OrderType = Num::RowMajor
+  ) : Array(Int32)
+    accum = 1
+    ret = shape.clone
+    case layout
+    when Num::RowMajor
+      (shape.size - 1).step(to: 0, by: -1) do |i|
+        ret[i] = accum
+        accum *= shape[i]
+      end
+    else
+      shape.size.times do |i|
+        ret[i] = accum
+        accum *= shape[i]
+      end
+    end
+    ret
+  end
+
+  # :nodoc:
+  def calculate_array_shape(arr, calc_shape : Array(Int32) = [] of Int32)
+    return calc_shape unless arr.is_a?(Array)
+    first_el = arr[0]
+    if first_el.is_a?(Array)
+      lc = first_el.size
+      unless arr.all? { |el| el.is_a?(Array) && el.size == lc }
+        raise Num::Internal::ShapeError.new("All subarrays must be the same length")
+      end
+    end
+    calc_shape << arr.size
+    calc_shape = calculate_array_shape(arr[0], calc_shape)
+    calc_shape
   end
 end

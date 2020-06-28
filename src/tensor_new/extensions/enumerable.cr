@@ -20,11 +20,15 @@
 # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+require "../tensor"
 
-require "../tensor_new/tensor"
-
-struct Array(T)
+module Enumerable(T)
   def to_tensor : Tensor(T)
-    Tensor.from_array self
+    t = Tensor(T).new([@size])
+    iter = t.unsafe_iter
+    each do |e|
+      iter.next.value = e
+    end
+    t
   end
 end

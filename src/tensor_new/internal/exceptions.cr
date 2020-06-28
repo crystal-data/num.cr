@@ -21,10 +21,25 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "../tensor_new/tensor"
+module Num::Internal
+  class NotImplementedError < Exception
+  end
 
-struct Array(T)
-  def to_tensor : Tensor(T)
-    Tensor.from_array self
+  class IndexError < Exception
+  end
+
+  class ValueError < Exception
+  end
+
+  class ShapeError < Exception
+  end
+
+  class AxisError < Exception
+  end
+
+  class WriteError < Exception
+  end
+
+  class TypeError < Exception
   end
 end

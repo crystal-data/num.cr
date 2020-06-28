@@ -21,10 +21,10 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "../tensor_new/tensor"
+class Num::Rand
+  class_getter generator = Random.new
 
-struct Array(T)
-  def to_tensor : Tensor(T)
-    Tensor.from_array self
+  def self.set_seed(seed)
+    @@generator = Random.new(seed)
   end
 end

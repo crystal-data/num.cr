@@ -21,9 +21,9 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "../tensor_new/tensor"
+require "../tensor"
 
-struct Array(T)
+class Array(T)
   def to_tensor : Tensor(T)
     Tensor.from_array self
   end
