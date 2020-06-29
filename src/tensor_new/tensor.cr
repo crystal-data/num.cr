@@ -737,7 +737,7 @@ class Tensor(T)
       {% end %}
     )
     {% if T == Bool %}
-      {{lhs}}.value = value == 0
+      {{lhs}}.value = (value ? true : false) && value != 0
     {% else %}
       {{lhs}}.value = T.new(value)
     {% end %}
@@ -761,7 +761,7 @@ class Tensor(T)
   # a = Tensor.new([3]) { |i| i }
   # a.map { |e| e + 5 } # => [5, 6, 7]
   # ```
-  def map(&block : T -> U) : Tensor(U)
+  def map(&block : T -> U) : Tensor(U) forall U
     t = Tensor(U).new(@shape)
     t.iter(self).each do |i, j|
       i.value = yield j.value
@@ -1018,11 +1018,7 @@ class Tensor(T)
   def as_type(u : U.class) : Tensor(U) forall U
     r = Tensor(U).new(@shape)
     r.map!(self) do |_, j|
-      {% if U == Bool %}
-        j != 0
-      {% else %}
-        U.new(j)
-      {% end %}
+      j
     end
     r
   end
@@ -1277,6 +1273,7 @@ class Tensor(T)
     end
   end
 
+  # :nodoc:
   def unsafe_iter
     Num::Internal::UnsafeNDFlatIter.new(self)
   end
@@ -1306,6 +1303,39 @@ class Tensor(T)
     else
       Num::Internal::NDFlatIter4.new(self, a, b, c)
     end
+  end
+
+  # :nodoc:
+  def reduce_axis(axis : Int, dims : Bool = false)
+    if axis < 0
+      axis = self.rank + axis
+    end
+
+    if axis >= self.rank
+      raise Num::Internal::AxisError.new("Axis out of range for Tensor")
+    end
+
+    new_shape = @shape.dup
+    new_strides = @strides.dup
+    ptr = @buffer
+
+    if dims
+      new_shape[axis] = 1
+      new_strides[axis] = 0
+    else
+      new_shape.delete_at(axis)
+      new_strides.delete_at(axis)
+    end
+
+    t = Tensor(T).new(@buffer, new_shape, new_strides, @flags).dup
+
+    1.step(to: @shape[axis] - 1) do
+      ptr += @strides[axis]
+      t.map!(Tensor(T).new(ptr, new_shape, new_strides)) do |x, y|
+        yield x, y
+      end
+    end
+    t
   end
 
   private def update_flags(m = Num::ArrayFlags::All)
@@ -1448,7 +1478,7 @@ class Tensor(T)
       raise Num::Internal::ShapeError.new("Setting a Tensor with a sequence")
     end
     s.map!(t) do |_, j|
-      T.new(j)
+      j
     end
   end
 

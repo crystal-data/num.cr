@@ -103,7 +103,7 @@ module Num
     end
 
     # :ditto:
-    def {{fn.id}}(a : Tensor)
+    def {{fn.id}}!(a : Tensor)
       a.map! do |i|
         Math.{{fn.id}}(i)
       end
