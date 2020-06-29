@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.34.0">
+<meta name="crystal_docs.project_version" content="HEAD">
+<meta name="crystal_docs.project_name" content="num">
+
+
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/doc.js"></script>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+
+  <meta id="repository-name" content="num">
+  <title>num HEAD</title>
+  <script type="text/javascript">
+  CrystalDocs.base_path = "";
+  </script>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="index.html">
+          num
+        </a>
+      </h1>
+
+      <span class="project-version">
+        HEAD
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class=" " data-id="num/toplevel" data-name="top level namespace">
+      <a href="toplevel.html">Top Level Namespace</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/AnyArray" data-name="anyarray(t)">
+      <a href="AnyArray.html">AnyArray</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Array" data-name="array(t)">
+      <a href="Array.html">Array</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/ClTensor" data-name="cltensor(t)">
+      <a href="ClTensor.html">ClTensor</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Complex" data-name="complex">
+      <a href="Complex.html">Complex</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Float32" data-name="float32">
+      <a href="Float32.html">Float32</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Float64" data-name="float64">
+      <a href="Float64.html">Float64</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Int16" data-name="int16">
+      <a href="Int16.html">Int16</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Int32" data-name="int32">
+      <a href="Int32.html">Int32</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Int8" data-name="int8">
+      <a href="Int8.html">Int8</a>
+      
+    </li>
+  
+  <li class="parent " data-id="num/Num" data-name="num">
+      <a href="Num.html">Num</a>
+      
+        <ul>
+  
+  <li class=" " data-id="num/Num/ArrayFlags" data-name="num::arrayflags">
+      <a href="Num/ArrayFlags.html">ArrayFlags</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/ClContext" data-name="num::clcontext">
+      <a href="Num/ClContext.html">ClContext</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/OrderType" data-name="num::ordertype">
+      <a href="Num/OrderType.html">OrderType</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/StorageType" data-name="num::storagetype">
+      <a href="Num/StorageType.html">StorageType</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/WorkPool" data-name="num::workpool">
+      <a href="Num/WorkPool.html">WorkPool</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="num/NumInternal" data-name="numinternal">
+      <a href="NumInternal.html">NumInternal</a>
+      
+        <ul>
+  
+  <li class=" " data-id="num/NumInternal/AnyTensor" data-name="numinternal::anytensor(t)">
+      <a href="NumInternal/AnyTensor.html">AnyTensor</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/AxisError" data-name="numinternal::axiserror">
+      <a href="NumInternal/AxisError.html">AxisError</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/AxisIter" data-name="numinternal::axisiter(t)">
+      <a href="NumInternal/AxisIter.html">AxisIter</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/ClInfo" data-name="numinternal::clinfo">
+      <a href="NumInternal/ClInfo.html">ClInfo</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/ClStorage" data-name="numinternal::clstorage(t)">
+      <a href="NumInternal/ClStorage.html">ClStorage</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/ContigFlatIter" data-name="numinternal::contigflatiter(t)">
+      <a href="NumInternal/ContigFlatIter.html">ContigFlatIter</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/ContigFlatIter2" data-name="numinternal::contigflatiter2(t, u)">
+      <a href="NumInternal/ContigFlatIter2.html">ContigFlatIter2</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/ContigFlatIter3" data-name="numinternal::contigflatiter3(t, u, v)">
+      <a href="NumInternal/ContigFlatIter3.html">ContigFlatIter3</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/ContigFlatIter4" data-name="numinternal::contigflatiter4(t, u, v, w)">
+      <a href="NumInternal/ContigFlatIter4.html">ContigFlatIter4</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/CpuStorage" data-name="numinternal::cpustorage(t)">
+      <a href="NumInternal/CpuStorage.html">CpuStorage</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/IndexError" data-name="numinternal::indexerror">
+      <a href="NumInternal/IndexError.html">IndexError</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/LapackHelper" data-name="numinternal::lapackhelper">
+      <a href="NumInternal/LapackHelper.html">LapackHelper</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/MatrixIter" data-name="numinternal::matrixiter(t)">
+      <a href="NumInternal/MatrixIter.html">MatrixIter</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/NDFlatIter" data-name="numinternal::ndflatiter(t)">
+      <a href="NumInternal/NDFlatIter.html">NDFlatIter</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/NDFlatIter2" data-name="numinternal::ndflatiter2(t, u)">
+      <a href="NumInternal/NDFlatIter2.html">NDFlatIter2</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/NDFlatIter3" data-name="numinternal::ndflatiter3(t, u, v)">
+      <a href="NumInternal/NDFlatIter3.html">NDFlatIter3</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/NDFlatIter4" data-name="numinternal::ndflatiter4(t, u, v, w)">
+      <a href="NumInternal/NDFlatIter4.html">NDFlatIter4</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/NotImplementedError" data-name="numinternal::notimplementederror">
+      <a href="NumInternal/NotImplementedError.html">NotImplementedError</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/ShapeError" data-name="numinternal::shapeerror">
+      <a href="NumInternal/ShapeError.html">ShapeError</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/StorageBase" data-name="numinternal::storagebase(t)">
+      <a href="NumInternal/StorageBase.html">StorageBase</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/TypeError" data-name="numinternal::typeerror">
+      <a href="NumInternal/TypeError.html">TypeError</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/UnsafeAxisIter" data-name="numinternal::unsafeaxisiter(t)">
+      <a href="NumInternal/UnsafeAxisIter.html">UnsafeAxisIter</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/UnsafeContigFlatIter" data-name="numinternal::unsafecontigflatiter(t)">
+      <a href="NumInternal/UnsafeContigFlatIter.html">UnsafeContigFlatIter</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/UnsafeNDFlatIter" data-name="numinternal::unsafendflatiter(t)">
+      <a href="NumInternal/UnsafeNDFlatIter.html">UnsafeNDFlatIter</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/ValueError" data-name="numinternal::valueerror">
+      <a href="NumInternal/ValueError.html">ValueError</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/WriteError" data-name="numinternal::writeerror">
+      <a href="NumInternal/WriteError.html">WriteError</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="num/Tensor" data-name="tensor(t)">
+      <a href="Tensor.html">Tensor</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/UInt16" data-name="uint16">
+      <a href="UInt16.html">UInt16</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/UInt32" data-name="uint32">
+      <a href="UInt32.html">UInt32</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/UInt8" data-name="uint8">
+      <a href="UInt8.html">UInt8</a>
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<p><img src="https://raw.githubusercontent.com/crystal-data/bottle/rename/static/numcr_logo.png" alt="num.cr"/></p>
+
+<p><a href="https://gitter.im/crystal-data/bottle?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge" target="_blank"><img src="https://badges.gitter.im/crystal-data/bottle.svg" alt="Join the chat at https://gitter.im/crystal-data/bottle"/></a>
+<a href="https://travis-ci.com/crystal-data/num.cr" target="_blank"><img src="https://travis-ci.com/crystal-data/num.cr.svg?branch=master" alt="Build Status"/></a></p>
+
+<p>Num.cr is the core shard needed for scientific computing with Crystal</p>
+
+<ul><li><strong>Website:</strong> https://crystal-data.github.io/num.cr</li><li><strong>API Documentation:</strong> https://crystal-data.github.io/num.cr/</li><li><strong>Source code:</strong> https://github.com/crystal-data/num.cr</li><li><strong>Bug reports:</strong> https://github.com/crystal-data/num.cr/issues</li></ul>
+
+<p>It provides:</p>
+
+<ul><li>An n-dimensional <code><a href="Tensor.html">Tensor</a></code> data structure</li><li>sophisticated reduction and accumulation routines</li><li>data structures that can easily be passed to C libraries</li><li>powerful linear algebra routines backed by LAPACK and BLAS</li></ul>
+
+<h2><a id="prerequisites" class="anchor" href="#prerequisites">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Prerequisites</h2>
+
+<p>Num.cr relies on various BLAS and LAPACK implementations to provide performant linear
+algebra routines.  The defaults are OpenBLAS and Lapacke.  On Darwin, the Accelerate
+framework is used by default.  Num.cr also allows for computing run on a GPU, backed
+by OpenCL, with BLAS operations backed by ClBlast.  Please review the relevant installation
+instructions for these libraries if you would like to take advantage of their features.</p>
+
+<h2><a id="usage" class="anchor" href="#usage">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Usage</h2>
+
+<p>Num.cr provides data structures that facilitate element-wise operations,
+accumulations, and reductions.  While some operations are backed by BLAS
+and LaPACK, many vectorized operations use iteration written in Crystal.
+The primary goal of this library was to provide a NumPy like interface in
+Crystal, and performance will be revisited constantly as the library is
+improved.</p>
+
+<h2><a id="contributing" class="anchor" href="#contributing">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Contributing</h2>
+
+<p>Num.cr requires help in many different ways to continue to grow as a shard.
+Contributions such as high level documentation and code quality checks are needed just
+as much as API enhancements.  If you are considering larger scale contributions
+that extend beyond minor enhancements and bug fixes, contact Crystal Data
+in order to be added to the organization to gain access to review and merge
+permissions.</p>
+
+<h2><a id="installation" class="anchor" href="#installation">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Installation</h2>
+
+<p>Add this to your applications <code>shard.yml</code></p>
+
+<pre><code>dependencies:
+  num:
+    github: crystal<span class="o">-</span>data<span class="s">/num.cr</span></code></pre>
+
+<h2><a id="getting-started-with-num.cr" class="anchor" href="#getting-started-with-num.cr">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Getting started with Num.cr</h2>
+
+<p>The core data structure of Num.cr is the <code><a href="Tensor.html">Tensor</a></code>, a flexible N-dimensional data structure.
+There are many ways to initialize a <code><a href="Tensor.html">Tensor</a></code>, or a <code><a href="ClTensor.html">ClTensor</a></code> if you need GPU accelerated
+operations.</p>
+
+<pre><code class="language-crystal">[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>].to_tensor
+<span class="t">Tensor</span>.from_array [<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>]
+<span class="t">Tensor</span>(<span class="t">UInt8</span>).zeros([<span class="n">3</span>, <span class="n">3</span>, <span class="n">2</span>])
+<span class="t">Tensor</span>.random(<span class="n">0.0</span>...<span class="n">1.0</span>, [<span class="n">2</span>, <span class="n">2</span>, <span class="n">2</span>])
+
+<span class="t">ClTensor</span>(<span class="t">Float32</span>).zeros_like(some_tensor)
+<span class="t">ClTensor</span>(<span class="t">Float64</span>).full([<span class="n">3</span>, <span class="n">4</span>, <span class="n">5</span>], <span class="n">3.8</span>)</code></pre>
+
+<p>Tensors support numerous mathematical operations and manipulation routines, including
+operations requiring broadcasting to other shapes.</p>
+
+<pre><code class="language-crystal">a <span class="o">=</span> [<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>].to_tensor
+b <span class="o">=</span> [[<span class="n">3</span>, <span class="n">4</span>, <span class="n">5</span>, <span class="n">6</span>], [<span class="n">5</span>, <span class="n">6</span>, <span class="n">7</span>, <span class="n">8</span>]].to_tensor
+
+<span class="c"># Convert a Tensor to a GPU backed Tensor</span>
+acl <span class="o">=</span> a.astype(<span class="t">Float64</span>).opencl
+
+puts <span class="t">Num</span>.add(a, b)
+
+<span class="c"># a is broadcast to b&#39;s shape</span>
+<span class="c"># [[ 4,  6,  8, 10],</span>
+<span class="c">#  [ 6,  8, 10, 12]]</span>
+
+puts a.reshape(<span class="n">2</span>, <span class="n">2</span>)
+
+<span class="c"># [[1, 2],</span>
+<span class="c">#  [3, 4]]</span>
+
+puts b.transpose
+
+<span class="c"># [[3, 5],</span>
+<span class="c">#  [4, 6],</span>
+<span class="c">#  [5, 7],</span>
+<span class="c">#  [6, 8]]</span>
+
+puts <span class="t">Num</span>.cos(acl).cpu
+
+<span class="c"># [0.540302 , -0.416147, -0.989992, -0.653644]</span></code></pre>
+
+<p>Both CPU backed Tensors and GPU backed Tensors support linear algebra routines
+backed by optimized BLAS libraries.</p>
+
+<pre><code class="language-crystal">a <span class="o">=</span> [[<span class="n">1</span>, <span class="n">2</span>], [<span class="n">3</span>, <span class="n">4</span>]].to_tensor.astype(<span class="t">Float32</span>)
+b <span class="o">=</span> [[<span class="n">3</span>, <span class="n">4</span>], [<span class="n">5</span>, <span class="n">6</span>]].to_tensor.astype(<span class="t">Float32</span>)
+
+acl <span class="o">=</span> a.opencl
+bcl <span class="o">=</span> b.opencl
+
+puts a.inv
+
+<span class="c"># [[-2  , 1   ],</span>
+<span class="c">#  [1.5 , -0.5]]</span>
+
+puts acl.matmul(bcl).cpu
+
+<span class="c"># [[13, 16],</span>
+<span class="c">#  [29, 36]]</span></code></pre>
+
+<p>Review the documentation for full implementation details, and if something is missing,
+open an issue to add it!</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,2594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.34.0">
+<meta name="crystal_docs.project_version" content="HEAD">
+<meta name="crystal_docs.project_name" content="num">
+
+
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/doc.js"></script>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+
+  <meta id="repository-name" content="num">
+  <title>Tensor(T) - num HEAD</title>
+  <script type="text/javascript">
+    CrystalDocs.base_path = "";
+  </script>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="index.html">
+          num
+        </a>
+      </h1>
+
+      <span class="project-version">
+        HEAD
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class=" " data-id="num/toplevel" data-name="top level namespace">
+      <a href="toplevel.html">Top Level Namespace</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/AnyArray" data-name="anyarray(t)">
+      <a href="AnyArray.html">AnyArray</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Array" data-name="array(t)">
+      <a href="Array.html">Array</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/ClTensor" data-name="cltensor(t)">
+      <a href="ClTensor.html">ClTensor</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Complex" data-name="complex">
+      <a href="Complex.html">Complex</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Float32" data-name="float32">
+      <a href="Float32.html">Float32</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Float64" data-name="float64">
+      <a href="Float64.html">Float64</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Int16" data-name="int16">
+      <a href="Int16.html">Int16</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Int32" data-name="int32">
+      <a href="Int32.html">Int32</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Int8" data-name="int8">
+      <a href="Int8.html">Int8</a>
+      
+    </li>
+  
+  <li class="parent " data-id="num/Num" data-name="num">
+      <a href="Num.html">Num</a>
+      
+        <ul>
+  
+  <li class=" " data-id="num/Num/ArrayFlags" data-name="num::arrayflags">
+      <a href="Num/ArrayFlags.html">ArrayFlags</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/ClContext" data-name="num::clcontext">
+      <a href="Num/ClContext.html">ClContext</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/OrderType" data-name="num::ordertype">
+      <a href="Num/OrderType.html">OrderType</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/StorageType" data-name="num::storagetype">
+      <a href="Num/StorageType.html">StorageType</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/WorkPool" data-name="num::workpool">
+      <a href="Num/WorkPool.html">WorkPool</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="num/NumInternal" data-name="numinternal">
+      <a href="NumInternal.html">NumInternal</a>
+      
+        <ul>
+  
+  <li class=" " data-id="num/NumInternal/AnyTensor" data-name="numinternal::anytensor(t)">
+      <a href="NumInternal/AnyTensor.html">AnyTensor</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/AxisError" data-name="numinternal::axiserror">
+      <a href="NumInternal/AxisError.html">AxisError</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/AxisIter" data-name="numinternal::axisiter(t)">
+      <a href="NumInternal/AxisIter.html">AxisIter</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/ClInfo" data-name="numinternal::clinfo">
+      <a href="NumInternal/ClInfo.html">ClInfo</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/ClStorage" data-name="numinternal::clstorage(t)">
+      <a href="NumInternal/ClStorage.html">ClStorage</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/ContigFlatIter" data-name="numinternal::contigflatiter(t)">
+      <a href="NumInternal/ContigFlatIter.html">ContigFlatIter</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/ContigFlatIter2" data-name="numinternal::contigflatiter2(t, u)">
+      <a href="NumInternal/ContigFlatIter2.html">ContigFlatIter2</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/ContigFlatIter3" data-name="numinternal::contigflatiter3(t, u, v)">
+      <a href="NumInternal/ContigFlatIter3.html">ContigFlatIter3</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/ContigFlatIter4" data-name="numinternal::contigflatiter4(t, u, v, w)">
+      <a href="NumInternal/ContigFlatIter4.html">ContigFlatIter4</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/CpuStorage" data-name="numinternal::cpustorage(t)">
+      <a href="NumInternal/CpuStorage.html">CpuStorage</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/IndexError" data-name="numinternal::indexerror">
+      <a href="NumInternal/IndexError.html">IndexError</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/LapackHelper" data-name="numinternal::lapackhelper">
+      <a href="NumInternal/LapackHelper.html">LapackHelper</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/MatrixIter" data-name="numinternal::matrixiter(t)">
+      <a href="NumInternal/MatrixIter.html">MatrixIter</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/NDFlatIter" data-name="numinternal::ndflatiter(t)">
+      <a href="NumInternal/NDFlatIter.html">NDFlatIter</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/NDFlatIter2" data-name="numinternal::ndflatiter2(t, u)">
+      <a href="NumInternal/NDFlatIter2.html">NDFlatIter2</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/NDFlatIter3" data-name="numinternal::ndflatiter3(t, u, v)">
+      <a href="NumInternal/NDFlatIter3.html">NDFlatIter3</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/NDFlatIter4" data-name="numinternal::ndflatiter4(t, u, v, w)">
+      <a href="NumInternal/NDFlatIter4.html">NDFlatIter4</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/NotImplementedError" data-name="numinternal::notimplementederror">
+      <a href="NumInternal/NotImplementedError.html">NotImplementedError</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/ShapeError" data-name="numinternal::shapeerror">
+      <a href="NumInternal/ShapeError.html">ShapeError</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/StorageBase" data-name="numinternal::storagebase(t)">
+      <a href="NumInternal/StorageBase.html">StorageBase</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/TypeError" data-name="numinternal::typeerror">
+      <a href="NumInternal/TypeError.html">TypeError</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/UnsafeAxisIter" data-name="numinternal::unsafeaxisiter(t)">
+      <a href="NumInternal/UnsafeAxisIter.html">UnsafeAxisIter</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/UnsafeContigFlatIter" data-name="numinternal::unsafecontigflatiter(t)">
+      <a href="NumInternal/UnsafeContigFlatIter.html">UnsafeContigFlatIter</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/UnsafeNDFlatIter" data-name="numinternal::unsafendflatiter(t)">
+      <a href="NumInternal/UnsafeNDFlatIter.html">UnsafeNDFlatIter</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/ValueError" data-name="numinternal::valueerror">
+      <a href="NumInternal/ValueError.html">ValueError</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/WriteError" data-name="numinternal::writeerror">
+      <a href="NumInternal/WriteError.html">WriteError</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" current" data-id="num/Tensor" data-name="tensor(t)">
+      <a href="Tensor.html">Tensor</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/UInt16" data-name="uint16">
+      <a href="UInt16.html">UInt16</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/UInt32" data-name="uint32">
+      <a href="UInt32.html">UInt32</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/UInt8" data-name="uint8">
+      <a href="UInt8.html">UInt8</a>
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">class</span> Tensor(T)
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="Tensor.html">Tensor(T)</a></li><li class="superclass"><a href="AnyArray.html">AnyArray(T)</a></li><li class="superclass"><a href="NumInternal/AnyTensor.html">NumInternal::AnyTensor(T)</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/creation.cr#L27" target="_blank">
+        tensor/creation.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/extension.cr#L16" target="_blank">
+        tensor/extension.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/linalg.cr#L5" target="_blank">
+        tensor/linalg.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/manipulate.cr#L24" target="_blank">
+        tensor/manipulate.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/tensor.cr#L31" target="_blank">
+        tensor/tensor.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+  <h2>
+    <a id="constructors" class="anchor" href="#constructors">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructors
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new(shape:Array(Int32),order:Num::OrderType=Num::RowMajor,&block:Int32-%3ET)-class-method" class="signature"><strong>.new</strong>(shape : Array(Int32), order : Num::OrderType = <span class="t">Num</span><span class="t">::</span><span class="t">RowMajor</span>, &block : Int32 -> T)</a>
+        
+          <div class="summary"><p>Yields an array from a provided shape and a block.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#new(scalar:T)-class-method" class="signature"><strong>.new</strong>(scalar : T)</a>
+        
+          <div class="summary"><p>Crates a scalar tensor, that acts like a scalar while still being a Tensor.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#new(shape:Array(Int32),value:T,order:Num::OrderType=Num::RowMajor)-class-method" class="signature"><strong>.new</strong>(shape : Array(Int32), value : T, order : Num::OrderType = <span class="t">Num</span><span class="t">::</span><span class="t">RowMajor</span>)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#new(shape:Array(Int32),order:Num::OrderType=Num::RowMajor)-class-method" class="signature"><strong>.new</strong>(shape : Array(Int32), order : Num::OrderType = <span class="t">Num</span><span class="t">::</span><span class="t">RowMajor</span>)</a>
+        
+          <div class="summary"><p>Initializes an ndarray from a provided shape and memory layout.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#new(buffer:Pointer(T),shape,strides,flags=Num::ArrayFlags::All)-class-method" class="signature"><strong>.new</strong>(buffer : Pointer(T), shape, strides, flags = <span class="t">Num</span><span class="t">::</span><span class="t">ArrayFlags</span><span class="t">::</span><span class="t">All</span>)</a>
+        
+          <div class="summary"><p>Initialization method for a generic buffer, shape and strides.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#new(nrows:Int32,ncols:Int32,&block:Int32,Int32-%3ET)-class-method" class="signature"><strong>.new</strong>(nrows : Int32, ncols : Int32, &block : Int32, Int32 -> T)</a>
+        
+          <div class="summary"><p>Yields an array from a provided number of rows and columns.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+  <h2>
+    <a id="class-method-summary" class="anchor" href="#class-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Class Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#diag(a:Tensor(T),k:Int32=0)-class-method" class="signature"><strong>.diag</strong>(a : Tensor(T), k : Int32 = <span class="n">0</span>)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#eye(m:Int,n:Int?=nil,k:Int=0)-class-method" class="signature"><strong>.eye</strong>(m : Int, n : Int? = <span class="n">nil</span>, k : Int = <span class="n">0</span>)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#from_range(rng:Range(T,T))-class-method" class="signature"><strong>.from_range</strong>(rng : Range(T, T))</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#full(shape:Array(Int32),value:Number)-class-method" class="signature"><strong>.full</strong>(shape : Array(Int32), value : Number)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#full_like(other:NumInternal::AnyTensor,value:Number)-class-method" class="signature"><strong>.full_like</strong>(other : NumInternal::AnyTensor, value : Number)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#geometric_space(start,stop,num=50,endpoint=true)-class-method" class="signature"><strong>.geometric_space</strong>(start, stop, num = <span class="n">50</span>, endpoint = <span class="n">true</span>)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#identity(n:Int)-class-method" class="signature"><strong>.identity</strong>(n : Int)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#linear_space(start:Number,stop:Number,num=50,endpoint=true)-class-method" class="signature"><strong>.linear_space</strong>(start : Number, stop : Number, num = <span class="n">50</span>, endpoint = <span class="n">true</span>)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#logarithmic_space(start,stop,num=50,endpoint=true,base=10.0)-class-method" class="signature"><strong>.logarithmic_space</strong>(start, stop, num = <span class="n">50</span>, endpoint = <span class="n">true</span>, base = <span class="n">10.0</span>)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#ones(shape:Array(Int32))-class-method" class="signature"><strong>.ones</strong>(shape : Array(Int32))</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#ones_like(other:NumInternal::AnyTensor)-class-method" class="signature"><strong>.ones_like</strong>(other : NumInternal::AnyTensor)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#random(r:Range(U,U),_shape:Array(Int32))forallU-class-method" class="signature"><strong>.random</strong>(r : Range(U, U), _shape : Array(Int32)) forall U</a>
+        
+          <div class="summary"><p>A flexible method to create <code><a href="Tensor.html">Tensor</a></code>'s of arbitrary shapes filled with random values of arbitrary types.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#range(stop:T)-class-method" class="signature"><strong>.range</strong>(stop : T)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#range(start:T,stop:T)-class-method" class="signature"><strong>.range</strong>(start : T, stop : T)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#range(start:T,stop:T,step:T)-class-method" class="signature"><strong>.range</strong>(start : T, stop : T, step : T)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#tri(n:Int32,m:Int32?=nil,k:Int32=0)-class-method" class="signature"><strong>.tri</strong>(n : Int32, m : Int32? = <span class="n">nil</span>, k : Int32 = <span class="n">0</span>)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#vander(x:Tensor(T),n:Int32?=nil,increasing:Bool=false)-class-method" class="signature"><strong>.vander</strong>(x : Tensor(T), n : Int32? = <span class="n">nil</span>, increasing : Bool = <span class="n">false</span>)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#zeros(shape:Array(Int32))-class-method" class="signature"><strong>.zeros</strong>(shape : Array(Int32))</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#zeros_like(other:NumInternal::AnyTensor)-class-method" class="signature"><strong>.zeros_like</strong>(other : NumInternal::AnyTensor)</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#!=(other)-instance-method" class="signature"><strong>#!=</strong>(other)</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if this object is not equal to <em>other</em>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#&(other)-instance-method" class="signature"><strong>#&</strong>(other)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#*(other)-instance-method" class="signature"><strong>#*</strong>(other)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#**(other)-instance-method" class="signature"><strong>#**</strong>(other)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#+(other)-instance-method" class="signature"><strong>#+</strong>(other)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#-(other)-instance-method" class="signature"><strong>#-</strong>(other)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#/(other)-instance-method" class="signature"><strong>#/</strong>(other)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#//(other)-instance-method" class="signature"><strong>#//</strong>(other)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#%3C(other)-instance-method" class="signature"><strong>#<</strong>(other)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#%3C%3C(other)-instance-method" class="signature"><strong>#<<</strong>(other)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#%3C=(other)-instance-method" class="signature"><strong>#<=</strong>(other)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#==(other)-instance-method" class="signature"><strong>#==</strong>(other)</a>
+        
+          <div class="summary"><p>Returns <code>false</code> (other can only be a <code>Value</code> here).</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#%3E(other)-instance-method" class="signature"><strong>#></strong>(other)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#%3E=(other)-instance-method" class="signature"><strong>#>=</strong>(other)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#%3E%3E(other)-instance-method" class="signature"><strong>#>></strong>(other)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#%5E(other)-instance-method" class="signature"><strong>#^</strong>(other)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#basetype(t:U.class)forallU-instance-method" class="signature"><strong>#basetype</strong>(t : <span class="t">U</span>.<span class="k">class</span>) forall U</a>
+        
+          <div class="summary"><p>Returns the basetype of an array with the ability to override the generic type</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#bincount(min_count=0)-instance-method" class="signature"><strong>#bincount</strong>(min_count = <span class="n">0</span>)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#bincount(weights:Tensor(U),min_count=0)forallU-instance-method" class="signature"><strong>#bincount</strong>(weights : Tensor(U), min_count = <span class="n">0</span>) forall U</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#check_type-instance-method" class="signature"><strong>#check_type</strong></a>
+        
+          <div class="summary"><p>This should be overwritten by all base classes.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#cholesky(*,lower=true)-instance-method" class="signature"><strong>#cholesky</strong>(*, lower = <span class="n">true</span>)</a>
+        
+          <div class="summary"><p>Cholesky decomposition.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#cholesky!(*,lower=true)-instance-method" class="signature"><strong>#cholesky!</strong>(*, lower = <span class="n">true</span>)</a>
+        
+          <div class="summary"><p>Cholesky decomposition.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#det-instance-method" class="signature"><strong>#det</strong></a>
+        
+          <div class="summary"><p>Compute the determinant of an array.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#eig-instance-method" class="signature"><strong>#eig</strong></a>
+        
+          <div class="summary"><p>Compute the eigenvalues and right eigenvectors of a square array.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#eigh-instance-method" class="signature"><strong>#eigh</strong></a>
+        
+          <div class="summary"><p>Compute the eigenvalues and right eigenvectors of a square array.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#eigvals-instance-method" class="signature"><strong>#eigvals</strong></a>
+        
+          <div class="summary"><p>Compute the eigenvalues of a general matrix.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#eigvalsh-instance-method" class="signature"><strong>#eigvalsh</strong></a>
+        
+          <div class="summary"><p>Compute the eigenvalues of a general matrix.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#hessenberg-instance-method" class="signature"><strong>#hessenberg</strong></a>
+        
+          <div class="summary"><p>Compute Hessenberg form of a matrix.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#inv-instance-method" class="signature"><strong>#inv</strong></a>
+        
+          <div class="summary"><p>Compute the (multiplicative) inverse of a matrix.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#matmul(other:Tensor(T))-instance-method" class="signature"><strong>#matmul</strong>(other : Tensor(T))</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#norm(*,order=&#39;F&#39;)-instance-method" class="signature"><strong>#norm</strong>(*, order = <span class="s">&#39;F&#39;</span>)</a>
+        
+          <div class="summary"><p>Matrix or vector norm.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#opencl-instance-method" class="signature"><strong>#opencl</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#qr-instance-method" class="signature"><strong>#qr</strong></a>
+        
+          <div class="summary"><p>Compute the qr factorization of a matrix.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#solve(x:Tensor(T))-instance-method" class="signature"><strong>#solve</strong>(x : Tensor(T))</a>
+        
+          <div class="summary"><p>Solve a linear matrix equation, or system of linear scalar equations.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#svd-instance-method" class="signature"><strong>#svd</strong></a>
+        
+          <div class="summary"><p>Singular Value Decomposition.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#tril(k=0)-instance-method" class="signature"><strong>#tril</strong>(k = <span class="n">0</span>)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#tril!(k=0)-instance-method" class="signature"><strong>#tril!</strong>(k = <span class="n">0</span>)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#triu(k=0)-instance-method" class="signature"><strong>#triu</strong>(k = <span class="n">0</span>)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#triu!(k=0)-instance-method" class="signature"><strong>#triu!</strong>(k = <span class="n">0</span>)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#%7C(other)-instance-method" class="signature"><strong>#|</strong>(other)</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+  <h2>
+    <a id="macro-summary" class="anchor" href="#macro-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Macro Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#blas(storage,name,*args)-macro" class="signature"><strong>blas</strong>(storage, name, *args)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#lapack(name,*args,worksize=nil)-macro" class="signature"><strong>lapack</strong>(name, *args, worksize = <span class="n">nil</span>)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#lapack_util(name,worksize,*args)-macro" class="signature"><strong>lapack_util</strong>(name, worksize, *args)</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+<div class="methods-inherited">
+  
+    
+
+  <h3>Instance methods inherited from class <code><a href="AnyArray.html">AnyArray(T)</a></code></h3>
+  
+  
+    <a href="AnyArray.html#[](idx:Array)-instance-method" class="tooltip">
+      <span>[](idx : Array)<br/>[](*args)</span>
+    []</a>, 
+    
+  
+    <a href="AnyArray.html#[]=(idx:Array,assign:AnyArray(T))-instance-method" class="tooltip">
+      <span>[]=(idx : Array, assign : AnyArray(T))<br/>[]=(*args : <span class="o">*</span><span class="t">U</span>) forall U</span>
+    []=</a>, 
+    
+  
+    <a href="AnyArray.html#as_strided(shape:Array(Int32),strides:Array(Int32))-instance-method" class="tooltip">
+      <span>as_strided(shape : Array(Int32), strides : Array(Int32))</span>
+    as_strided</a>, 
+    
+  
+    <a href="AnyArray.html#astype(dtype:U.class)forallU-instance-method" class="tooltip">
+      <span>astype(dtype : <span class="t">U</span>.<span class="k">class</span>) forall U</span>
+    astype</a>, 
+    
+  
+    <a href="AnyArray.html#axis(axis=-1,keepdims=false)-instance-method" class="tooltip">
+      <span>axis(axis = <span class="n">-1</span>, keepdims = <span class="n">false</span>)</span>
+    axis</a>, 
+    
+  
+    <a href="AnyArray.html#basetype(dtype:U.class)forallU-instance-method" class="tooltip">
+      <span>basetype(dtype : <span class="t">U</span>.<span class="k">class</span>) forall U</span>
+    basetype</a>, 
+    
+  
+    <a href="AnyArray.html#broadcast_to(shape:Array(Int32))-instance-method" class="tooltip">
+      <span>broadcast_to(shape : Array(Int32))</span>
+    broadcast_to</a>, 
+    
+  
+    <a href="AnyArray.html#check_type-instance-method" class="tooltip">
+      <span>check_type</span>
+    check_type</a>, 
+    
+  
+    <a href="AnyArray.html#clone-instance-method" class="tooltip">
+      <span>clone</span>
+    clone</a>, 
+    
+  
+    <a href="AnyArray.html#diag_view-instance-method" class="tooltip">
+      <span>diag_view</span>
+    diag_view</a>, 
+    
+  
+    <a href="AnyArray.html#dtype-instance-method" class="tooltip">
+      <span>dtype</span>
+    dtype</a>, 
+    
+  
+    <a href="AnyArray.html#dup(order:Num::OrderType?=nil)-instance-method" class="tooltip">
+      <span>dup(order : Num::OrderType? = <span class="n">nil</span>)</span>
+    dup</a>, 
+    
+  
+    <a href="AnyArray.html#dup_view-instance-method" class="tooltip">
+      <span>dup_view</span>
+    dup_view</a>, 
+    
+  
+    <a href="AnyArray.html#flags:Num::ArrayFlags-instance-method" class="tooltip">
+      <span>flags : Num::ArrayFlags</span>
+    flags</a>, 
+    
+  
+    <a href="AnyArray.html#free-instance-method" class="tooltip">
+      <span>free</span>
+    free</a>, 
+    
+  
+    <a href="AnyArray.html#inspect(io)-instance-method" class="tooltip">
+      <span>inspect(io)</span>
+    inspect</a>, 
+    
+  
+    <a href="AnyArray.html#iter-instance-method" class="tooltip">
+      <span>iter</span>
+    iter</a>, 
+    
+  
+    <a href="AnyArray.html#iter2(other:AnyArray(U))forallU-instance-method" class="tooltip">
+      <span>iter2(other : AnyArray(U)) forall U</span>
+    iter2</a>, 
+    
+  
+    <a href="AnyArray.html#iter3(o1:AnyArray(U),o2:AnyArray(V))forallU,V-instance-method" class="tooltip">
+      <span>iter3(o1 : AnyArray(U), o2 : AnyArray(V)) forall U, V</span>
+    iter3</a>, 
+    
+  
+    <a href="AnyArray.html#iter_flat_indexed(&)-instance-method" class="tooltip">
+      <span>iter_flat_indexed(&)</span>
+    iter_flat_indexed</a>, 
+    
+  
+    <a href="AnyArray.html#map(&block:T-%3EU)forallU-instance-method" class="tooltip">
+      <span>map(&block : T -> U) forall U</span>
+    map</a>, 
+    
+  
+    <a href="AnyArray.html#map!(&)-instance-method" class="tooltip">
+      <span>map!(&)</span>
+    map!</a>, 
+    
+  
+    <a href="AnyArray.html#map2(other:AnyArray(U),&block:T,U-%3EV)forallU,V-instance-method" class="tooltip">
+      <span>map2(other : AnyArray(U), &block : T, U -> V) forall U, V</span>
+    map2</a>, 
+    
+  
+    <a href="AnyArray.html#map2!(other:AnyArray,&)forallU-instance-method" class="tooltip">
+      <span>map2!(other : AnyArray, &) forall U</span>
+    map2!</a>, 
+    
+  
+    <a href="AnyArray.html#map3(o1:AnyArray(U),o2:AnyArray(V),&block:T,U,V-%3EW)forallU,V,W-instance-method" class="tooltip">
+      <span>map3(o1 : AnyArray(U), o2 : AnyArray(V), &block : T, U, V -> W) forall U, V, W</span>
+    map3</a>, 
+    
+  
+    <a href="AnyArray.html#map3!(o1:AnyArray,o2:AnyArray,&)-instance-method" class="tooltip">
+      <span>map3!(o1 : AnyArray, o2 : AnyArray, &)</span>
+    map3!</a>, 
+    
+  
+    <a href="AnyArray.html#matrix_iter-instance-method" class="tooltip">
+      <span>matrix_iter</span>
+    matrix_iter</a>, 
+    
+  
+    <a href="AnyArray.html#ravel-instance-method" class="tooltip">
+      <span>ravel</span>
+    ravel</a>, 
+    
+  
+    <a href="AnyArray.html#reduce_fast(axis,keepdims=false,&)-instance-method" class="tooltip">
+      <span>reduce_fast(axis, keepdims = <span class="n">false</span>, &)</span>
+    reduce_fast</a>, 
+    
+  
+    <a href="AnyArray.html#reshape(newshape:Array(Int32))-instance-method" class="tooltip">
+      <span>reshape(newshape : Array(Int32))<br/>reshape(*args)</span>
+    reshape</a>, 
+    
+  
+    <a href="AnyArray.html#size:Int32-instance-method" class="tooltip">
+      <span>size : Int32</span>
+    size</a>, 
+    
+  
+    <a href="AnyArray.html#storage:NumInternal::CpuStorage(T)-instance-method" class="tooltip">
+      <span>storage : NumInternal::CpuStorage(T)</span>
+    storage</a>, 
+    
+  
+    <a href="AnyArray.html#swapaxes(arr:BaseArray,axis1:Int32,axis2:Int32)-instance-method" class="tooltip">
+      <span>swapaxes(arr : BaseArray, axis1 : Int32, axis2 : Int32)</span>
+    swapaxes</a>, 
+    
+  
+    <a href="AnyArray.html#to_a-instance-method" class="tooltip">
+      <span>to_a</span>
+    to_a</a>, 
+    
+  
+    <a href="AnyArray.html#to_json(json:JSON::Builder)-instance-method" class="tooltip">
+      <span>to_json(json : JSON::Builder)</span>
+    to_json</a>, 
+    
+  
+    <a href="AnyArray.html#to_s-instance-method" class="tooltip">
+      <span>to_s<br/>to_s(io)</span>
+    to_s</a>, 
+    
+  
+    <a href="AnyArray.html#to_unsafe-instance-method" class="tooltip">
+      <span>to_unsafe</span>
+    to_unsafe</a>, 
+    
+  
+    <a href="AnyArray.html#transpose(order:Array(Int32)=[]ofInt32)-instance-method" class="tooltip">
+      <span>transpose(order : Array(Int32) = <span class="o">[]</span> <span class="k">of</span> <span class="t">Int32</span>)<br/>transpose(arr : BaseArray, *args)</span>
+    transpose</a>, 
+    
+  
+    <a href="AnyArray.html#value-instance-method" class="tooltip">
+      <span>value</span>
+    value</a>, 
+    
+  
+    <a href="AnyArray.html#write?-instance-method" class="tooltip">
+      <span>write?</span>
+    write?</a>
+    
+  
+
+
+    
+
+  <h3>Constructor methods inherited from class <code><a href="AnyArray.html">AnyArray(T)</a></code></h3>
+  
+  
+    <a href="AnyArray.html#new(buffer:Pointer(T),shape,strides,flags=Num::ArrayFlags::All)-class-method" class="tooltip">
+      <span>new(buffer : Pointer(T), shape, strides, flags = <span class="t">Num</span><span class="t">::</span><span class="t">ArrayFlags</span><span class="t">::</span><span class="t">All</span>)<br/>new(shape : Array(Int32), order : Num::OrderType = <span class="t">Num</span><span class="t">::</span><span class="t">RowMajor</span>)<br/>new(shape : Array(Int32), value : T, order : Num::OrderType = <span class="t">Num</span><span class="t">::</span><span class="t">RowMajor</span>)<br/>new(scalar : T)<br/>new(shape : Array(Int32), order : Num::OrderType = <span class="t">Num</span><span class="t">::</span><span class="t">RowMajor</span>, &block : Int32 -> T)<br/>new(nrows : Int32, ncols : Int32, &block : Int32, Int32 -> T)</span>
+    new</a>
+    
+  
+
+
+    
+
+  <h3>Class methods inherited from class <code><a href="AnyArray.html">AnyArray(T)</a></code></h3>
+  
+  
+    <a href="AnyArray.html#from_array(array:Array)-class-method" class="tooltip">
+      <span>from_array(array : Array)</span>
+    from_array</a>, 
+    
+  
+    <a href="AnyArray.html#from_json(string_or_io,shape:Array(Int32))-class-method" class="tooltip">
+      <span>from_json(string_or_io, shape : Array(Int32))</span>
+    from_json</a>
+    
+  
+
+
+  
+    
+
+  <h3>Instance methods inherited from class <code><a href="NumInternal/AnyTensor.html">NumInternal::AnyTensor(T)</a></code></h3>
+  
+  
+    <a href="NumInternal/AnyTensor.html#basetype(dtype:U.class)forallU-instance-method" class="tooltip">
+      <span>basetype(dtype : <span class="t">U</span>.<span class="k">class</span>) forall U</span>
+    basetype</a>, 
+    
+  
+    <a href="NumInternal/AnyTensor.html#check_type-instance-method" class="tooltip">
+      <span>check_type</span>
+    check_type</a>, 
+    
+  
+    <a href="NumInternal/AnyTensor.html#clone-instance-method" class="tooltip">
+      <span>clone</span>
+    clone</a>, 
+    
+  
+    <a href="NumInternal/AnyTensor.html#dtype-instance-method" class="tooltip">
+      <span>dtype</span>
+    dtype</a>, 
+    
+  
+    <a href="NumInternal/AnyTensor.html#free-instance-method" class="tooltip">
+      <span>free</span>
+    free</a>, 
+    
+  
+    <a href="NumInternal/AnyTensor.html#is_c_contiguous:Bool-instance-method" class="tooltip">
+      <span>is_c_contiguous : Bool</span>
+    is_c_contiguous</a>, 
+    
+  
+    <a href="NumInternal/AnyTensor.html#is_f_contiguous:Bool-instance-method" class="tooltip">
+      <span>is_f_contiguous : Bool</span>
+    is_f_contiguous</a>, 
+    
+  
+    <a href="NumInternal/AnyTensor.html#ndims:Int32-instance-method" class="tooltip">
+      <span>ndims : Int32</span>
+    ndims</a>, 
+    
+  
+    <a href="NumInternal/AnyTensor.html#shape:Array(Int32)-instance-method" class="tooltip">
+      <span>shape : Array(Int32)</span>
+    shape</a>, 
+    
+  
+    <a href="NumInternal/AnyTensor.html#size-instance-method" class="tooltip">
+      <span>size</span>
+    size</a>, 
+    
+  
+    <a href="NumInternal/AnyTensor.html#storage-instance-method" class="tooltip">
+      <span>storage</span>
+    storage</a>, 
+    
+  
+    <a href="NumInternal/AnyTensor.html#strides:Array(Int32)-instance-method" class="tooltip">
+      <span>strides : Array(Int32)</span>
+    strides</a>, 
+    
+  
+    <a href="NumInternal/AnyTensor.html#to_unsafe-instance-method" class="tooltip">
+      <span>to_unsafe</span>
+    to_unsafe</a>
+    
+  
+
+
+    
+
+  <h3>Constructor methods inherited from class <code><a href="NumInternal/AnyTensor.html">NumInternal::AnyTensor(T)</a></code></h3>
+  
+  
+    <a href="NumInternal/AnyTensor.html#new(shape:Array(Int32),strides:Array(Int32),ndims:Int32)-class-method" class="tooltip">
+      <span>new(shape : Array(Int32), strides : Array(Int32), ndims : Int32)</span>
+    new</a>
+    
+  
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+  <h2>
+    <a id="constructor-detail" class="anchor" href="#constructor-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructor Detail
+  </h2>
+  
+    <div class="entry-detail" id="new(shape:Array(Int32),order:Num::OrderType=Num::RowMajor,&block:Int32->T)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(shape : <a href="Array.html">Array</a>(<a href="Int32.html">Int32</a>), order : <a href="Num/OrderType.html">Num::OrderType</a> = <span class="t">Num</span><span class="t">::</span><span class="t">RowMajor</span>, &block : <a href="Int32.html">Int32</a> -> T)
+
+        <a class="method-permalink" href="#new(shape:Array(Int32),order:Num::OrderType=Num::RowMajor,&block:Int32-%3ET)-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Yields an array from a provided shape and a block.  The block only
+provides the absolute index, not an index dependent on the shape,
+so if a user wants to handle an arbitrary shape inside the block
+they need to do that themselves.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/array/array.cr#L168" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="new(scalar:T)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(scalar : T)
+
+        <a class="method-permalink" href="#new(scalar:T)-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Crates a scalar tensor, that acts like a scalar while still being
+a Tensor.  This was primarily added so that indexing operations
+could return single elements without having a union return type.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/array/array.cr#L155" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="new(shape:Array(Int32),value:T,order:Num::OrderType=Num::RowMajor)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(shape : <a href="Array.html">Array</a>(<a href="Int32.html">Int32</a>), value : T, order : <a href="Num/OrderType.html">Num::OrderType</a> = <span class="t">Num</span><span class="t">::</span><span class="t">RowMajor</span>)
+
+        <a class="method-permalink" href="#new(shape:Array(Int32),value:T,order:Num::OrderType=Num::RowMajor)-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/array/array.cr#L125" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="new(shape:Array(Int32),order:Num::OrderType=Num::RowMajor)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(shape : <a href="Array.html">Array</a>(<a href="Int32.html">Int32</a>), order : <a href="Num/OrderType.html">Num::OrderType</a> = <span class="t">Num</span><span class="t">::</span><span class="t">RowMajor</span>)
+
+        <a class="method-permalink" href="#new(shape:Array(Int32),order:Num::OrderType=Num::RowMajor)-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Initializes an ndarray from a provided shape and memory layout.
+Flags will be auto-computed</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/array/array.cr#L109" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="new(buffer:Pointer(T),shape,strides,flags=Num::ArrayFlags::All)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(buffer : Pointer(T), shape, strides, flags = <span class="t">Num</span><span class="t">::</span><span class="t">ArrayFlags</span><span class="t">::</span><span class="t">All</span>)
+
+        <a class="method-permalink" href="#new(buffer:Pointer(T),shape,strides,flags=Num::ArrayFlags::All)-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Initialization method for a generic buffer, shape and strides.
+This method updates flags on the passed array, if the array
+is read only, its flags need to be updated later</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/array/array.cr#L144" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="new(nrows:Int32,ncols:Int32,&block:Int32,Int32->T)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(nrows : <a href="Int32.html">Int32</a>, ncols : <a href="Int32.html">Int32</a>, &block : <a href="Int32.html">Int32</a>, <a href="Int32.html">Int32</a> -> T)
+
+        <a class="method-permalink" href="#new(nrows:Int32,ncols:Int32,&block:Int32,Int32-%3ET)-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Yields an array from a provided number of rows and columns.
+This can quickly create matrices, useful for several <code><a href="Tensor.html">Tensor</a></code> creattion
+methods such as the underlying implementation of <code><a href="Tensor.html#eye(m:Int,n:Int?=nil,k:Int=0)-class-method">.eye</a></code>, and <code><a href="Tensor.html#diag(a:Tensor(T),k:Int32=0)-class-method">.diag</a></code>.</p>
+
+<p>This method does provide <em>i</em> and <em>j</em> variables for the passed block,
+so no offset calculations need to be done by the user.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/array/array.cr#L183" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+  <h2>
+    <a id="class-method-detail" class="anchor" href="#class-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Class Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="diag(a:Tensor(T),k:Int32=0)-class-method">
+      <div class="signature">
+        
+        def self.<strong>diag</strong>(a : <a href="Tensor.html">Tensor</a>(T), k : <a href="Int32.html">Int32</a> = <span class="n">0</span>)
+
+        <a class="method-permalink" href="#diag(a:Tensor(T),k:Int32=0)-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/creation.cr#L147" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="eye(m:Int,n:Int?=nil,k:Int=0)-class-method">
+      <div class="signature">
+        
+        def self.<strong>eye</strong>(m : Int, n : Int? = <span class="n">nil</span>, k : Int = <span class="n">0</span>)
+
+        <a class="method-permalink" href="#eye(m:Int,n:Int?=nil,k:Int=0)-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/creation.cr#L133" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="from_range(rng:Range(T,T))-class-method">
+      <div class="signature">
+        
+        def self.<strong>from_range</strong>(rng : Range(T, T))
+
+        <a class="method-permalink" href="#from_range(rng:Range(T,T))-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/creation.cr#L128" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="full(shape:Array(Int32),value:Number)-class-method">
+      <div class="signature">
+        
+        def self.<strong>full</strong>(shape : <a href="Array.html">Array</a>(<a href="Int32.html">Int32</a>), value : Number)
+
+        <a class="method-permalink" href="#full(shape:Array(Int32),value:Number)-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/creation.cr#L57" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="full_like(other:NumInternal::AnyTensor,value:Number)-class-method">
+      <div class="signature">
+        
+        def self.<strong>full_like</strong>(other : <a href="NumInternal/AnyTensor.html">NumInternal::AnyTensor</a>, value : Number)
+
+        <a class="method-permalink" href="#full_like(other:NumInternal::AnyTensor,value:Number)-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/creation.cr#L61" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="geometric_space(start,stop,num=50,endpoint=true)-class-method">
+      <div class="signature">
+        
+        def self.<strong>geometric_space</strong>(start, stop, num = <span class="n">50</span>, endpoint = <span class="n">true</span>)
+
+        <a class="method-permalink" href="#geometric_space(start,stop,num=50,endpoint=true)-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/creation.cr#L110" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="identity(n:Int)-class-method">
+      <div class="signature">
+        
+        def self.<strong>identity</strong>(n : Int)
+
+        <a class="method-permalink" href="#identity(n:Int)-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/creation.cr#L140" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="linear_space(start:Number,stop:Number,num=50,endpoint=true)-class-method">
+      <div class="signature">
+        
+        def self.<strong>linear_space</strong>(start : Number, stop : Number, num = <span class="n">50</span>, endpoint = <span class="n">true</span>)
+
+        <a class="method-permalink" href="#linear_space(start:Number,stop:Number,num=50,endpoint=true)-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/creation.cr#L82" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="logarithmic_space(start,stop,num=50,endpoint=true,base=10.0)-class-method">
+      <div class="signature">
+        
+        def self.<strong>logarithmic_space</strong>(start, stop, num = <span class="n">50</span>, endpoint = <span class="n">true</span>, base = <span class="n">10.0</span>)
+
+        <a class="method-permalink" href="#logarithmic_space(start,stop,num=50,endpoint=true,base=10.0)-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/creation.cr#L105" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="ones(shape:Array(Int32))-class-method">
+      <div class="signature">
+        
+        def self.<strong>ones</strong>(shape : <a href="Array.html">Array</a>(<a href="Int32.html">Int32</a>))
+
+        <a class="method-permalink" href="#ones(shape:Array(Int32))-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/creation.cr#L49" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="ones_like(other:NumInternal::AnyTensor)-class-method">
+      <div class="signature">
+        
+        def self.<strong>ones_like</strong>(other : <a href="NumInternal/AnyTensor.html">NumInternal::AnyTensor</a>)
+
+        <a class="method-permalink" href="#ones_like(other:NumInternal::AnyTensor)-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/creation.cr#L53" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="random(r:Range(U,U),_shape:Array(Int32))forallU-class-method">
+      <div class="signature">
+        
+        def self.<strong>random</strong>(r : Range(U, U), _shape : <a href="Array.html">Array</a>(<a href="Int32.html">Int32</a>)) forall U
+
+        <a class="method-permalink" href="#random(r:Range(U,U),_shape:Array(Int32))forallU-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>A flexible method to create <code><a href="Tensor.html">Tensor</a></code>'s of arbitrary shapes
+filled with random values of arbitrary types.  Since
+Ranges can contain any dtype, the type of tensor is
+inferred from the passed range, and a new <code><a href="Tensor.html">Tensor</a></code> is
+sampled using the provided shape.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/creation.cr#L33" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="range(stop:T)-class-method">
+      <div class="signature">
+        
+        def self.<strong>range</strong>(stop : T)
+
+        <a class="method-permalink" href="#range(stop:T)-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/creation.cr#L74" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="range(start:T,stop:T)-class-method">
+      <div class="signature">
+        
+        def self.<strong>range</strong>(start : T, stop : T)
+
+        <a class="method-permalink" href="#range(start:T,stop:T)-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/creation.cr#L78" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="range(start:T,stop:T,step:T)-class-method">
+      <div class="signature">
+        
+        def self.<strong>range</strong>(start : T, stop : T, step : T)
+
+        <a class="method-permalink" href="#range(start:T,stop:T,step:T)-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/creation.cr#L65" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="tri(n:Int32,m:Int32?=nil,k:Int32=0)-class-method">
+      <div class="signature">
+        
+        def self.<strong>tri</strong>(n : <a href="Int32.html">Int32</a>, m : <a href="Int32.html">Int32</a>? = <span class="n">nil</span>, k : <a href="Int32.html">Int32</a> = <span class="n">0</span>)
+
+        <a class="method-permalink" href="#tri(n:Int32,m:Int32?=nil,k:Int32=0)-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/creation.cr#L169" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="vander(x:Tensor(T),n:Int32?=nil,increasing:Bool=false)-class-method">
+      <div class="signature">
+        
+        def self.<strong>vander</strong>(x : <a href="Tensor.html">Tensor</a>(T), n : <a href="Int32.html">Int32</a>? = <span class="n">nil</span>, increasing : Bool = <span class="n">false</span>)
+
+        <a class="method-permalink" href="#vander(x:Tensor(T),n:Int32?=nil,increasing:Bool=false)-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/creation.cr#L157" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="zeros(shape:Array(Int32))-class-method">
+      <div class="signature">
+        
+        def self.<strong>zeros</strong>(shape : <a href="Array.html">Array</a>(<a href="Int32.html">Int32</a>))
+
+        <a class="method-permalink" href="#zeros(shape:Array(Int32))-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/creation.cr#L41" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="zeros_like(other:NumInternal::AnyTensor)-class-method">
+      <div class="signature">
+        
+        def self.<strong>zeros_like</strong>(other : <a href="NumInternal/AnyTensor.html">NumInternal::AnyTensor</a>)
+
+        <a class="method-permalink" href="#zeros_like(other:NumInternal::AnyTensor)-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/creation.cr#L45" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="!=(other)-instance-method">
+      <div class="signature">
+        
+        def <strong>!=</strong>(other)
+
+        <a class="method-permalink" href="#!=(other)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+            <div class="doc-inherited">
+              Description copied from class Object
+            </div>
+          
+          <p>Returns <code>true</code> if this object is not equal to <em>other</em>.</p>
+
+<p>By default this method is implemented as <code>!(self == other)</code>
+so there's no need to override this unless there's a more efficient
+way to do it.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/tensor.cr#L103" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="&(other)-instance-method">
+      <div class="signature">
+        
+        def <strong>&</strong>(other)
+
+        <a class="method-permalink" href="#&(other)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/tensor.cr#L87" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="*(other)-instance-method">
+      <div class="signature">
+        
+        def <strong>*</strong>(other)
+
+        <a class="method-permalink" href="#*(other)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/tensor.cr#L67" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="**(other)-instance-method">
+      <div class="signature">
+        
+        def <strong>**</strong>(other)
+
+        <a class="method-permalink" href="#**(other)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/tensor.cr#L55" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="+(other)-instance-method">
+      <div class="signature">
+        
+        def <strong>+</strong>(other)
+
+        <a class="method-permalink" href="#+(other)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/tensor.cr#L59" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="-(other)-instance-method">
+      <div class="signature">
+        
+        def <strong>-</strong>(other)
+
+        <a class="method-permalink" href="#-(other)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/tensor.cr#L63" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="/(other)-instance-method">
+      <div class="signature">
+        
+        def <strong>/</strong>(other)
+
+        <a class="method-permalink" href="#/(other)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/tensor.cr#L71" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="//(other)-instance-method">
+      <div class="signature">
+        
+        def <strong>//</strong>(other)
+
+        <a class="method-permalink" href="#//(other)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/tensor.cr#L75" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="<(other)-instance-method">
+      <div class="signature">
+        
+        def <strong><</strong>(other)
+
+        <a class="method-permalink" href="#%3C(other)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/tensor.cr#L107" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="<<(other)-instance-method">
+      <div class="signature">
+        
+        def <strong><<</strong>(other)
+
+        <a class="method-permalink" href="#%3C%3C(other)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/tensor.cr#L79" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="<=(other)-instance-method">
+      <div class="signature">
+        
+        def <strong><=</strong>(other)
+
+        <a class="method-permalink" href="#%3C=(other)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/tensor.cr#L111" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="==(other)-instance-method">
+      <div class="signature">
+        
+        def <strong>==</strong>(other)
+
+        <a class="method-permalink" href="#==(other)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+            <div class="doc-inherited">
+              Description copied from class Reference
+            </div>
+          
+          <p>Returns <code>false</code> (other can only be a <code>Value</code> here).</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/tensor.cr#L99" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id=">(other)-instance-method">
+      <div class="signature">
+        
+        def <strong>></strong>(other)
+
+        <a class="method-permalink" href="#%3E(other)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/tensor.cr#L115" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id=">=(other)-instance-method">
+      <div class="signature">
+        
+        def <strong>>=</strong>(other)
+
+        <a class="method-permalink" href="#%3E=(other)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/tensor.cr#L119" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id=">>(other)-instance-method">
+      <div class="signature">
+        
+        def <strong>>></strong>(other)
+
+        <a class="method-permalink" href="#%3E%3E(other)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/tensor.cr#L83" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="^(other)-instance-method">
+      <div class="signature">
+        
+        def <strong>^</strong>(other)
+
+        <a class="method-permalink" href="#%5E(other)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/tensor.cr#L95" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="basetype(t:U.class)forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>basetype</strong>(t : <span class="t">U</span>.<span class="k">class</span>) forall U
+
+        <a class="method-permalink" href="#basetype(t:U.class)forallU-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+            <div class="doc-inherited">
+              Description copied from class <a href="AnyArray.html">AnyArray(T)</a>
+            </div>
+          
+          <p>Returns the basetype of an array with the ability to
+override the generic type</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/tensor.cr#L32" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="bincount(min_count=0)-instance-method">
+      <div class="signature">
+        
+        def <strong>bincount</strong>(min_count = <span class="n">0</span>)
+
+        <a class="method-permalink" href="#bincount(min_count=0)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/manipulate.cr#L79" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="bincount(weights:Tensor(U),min_count=0)forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>bincount</strong>(weights : <a href="Tensor.html">Tensor</a>(U), min_count = <span class="n">0</span>) forall U
+
+        <a class="method-permalink" href="#bincount(weights:Tensor(U),min_count=0)forallU-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/manipulate.cr#L95" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="check_type-instance-method">
+      <div class="signature">
+        
+        def <strong>check_type</strong>
+
+        <a class="method-permalink" href="#check_type-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+            <div class="doc-inherited">
+              Description copied from class <a href="AnyArray.html">AnyArray(T)</a>
+            </div>
+          
+          <p>This should be overwritten by all base classes.
+Determines if an array is initialized containing
+a valid generic type</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/tensor.cr#L36" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="cholesky(*,lower=true)-instance-method">
+      <div class="signature">
+        
+        def <strong>cholesky</strong>(*, lower = <span class="n">true</span>)
+
+        <a class="method-permalink" href="#cholesky(*,lower=true)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Cholesky decomposition.</p>
+
+<p>Return the Cholesky decomposition, L * L.H, of the square matrix a, where
+L is lower-triangular and .H is the conjugate transpose operator (which
+is the ordinary transpose if a is real-valued). a must be Hermitian
+(symmetric if real-valued) and positive-definite. Only L is actually
+returned.</p>
+
+<pre><code class="language-crystal">t <span class="o">=</span> <span class="t">Tensor</span>.from_array([[<span class="n">2</span>, <span class="n">-1</span>, <span class="n">0</span>], [<span class="n">-1</span>, <span class="n">2</span>, <span class="n">-1</span>], [<span class="n">0</span>, <span class="n">-1</span>, <span class="n">2</span>]]).astype(<span class="t">Float32</span>)
+puts t.cholesky
+
+<span class="c"># Tensor([[ 1.414,    0.0,    0.0],</span>
+<span class="c">#         [-0.707,  1.225,    0.0],</span>
+<span class="c">#         [   0.0, -0.816,  1.155]])</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/linalg.cr#L81" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="cholesky!(*,lower=true)-instance-method">
+      <div class="signature">
+        
+        def <strong>cholesky!</strong>(*, lower = <span class="n">true</span>)
+
+        <a class="method-permalink" href="#cholesky!(*,lower=true)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Cholesky decomposition.</p>
+
+<p>Return the Cholesky decomposition, L * L.H, of the square matrix a, where
+L is lower-triangular and .H is the conjugate transpose operator (which
+is the ordinary transpose if a is real-valued). a must be Hermitian
+(symmetric if real-valued) and positive-definite. Only L is actually
+returned.</p>
+
+<pre><code class="language-crystal">t <span class="o">=</span> <span class="t">Tensor</span>.from_array([[<span class="n">2</span>, <span class="n">-1</span>, <span class="n">0</span>], [<span class="n">-1</span>, <span class="n">2</span>, <span class="n">-1</span>], [<span class="n">0</span>, <span class="n">-1</span>, <span class="n">2</span>]]).astype(<span class="t">Float32</span>)
+puts t.cholesky
+
+<span class="c"># Tensor([[ 1.414,    0.0,    0.0],</span>
+<span class="c">#         [-0.707,  1.225,    0.0],</span>
+<span class="c">#         [   0.0, -0.816,  1.155]])</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/linalg.cr#L58" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="det-instance-method">
+      <div class="signature">
+        
+        def <strong>det</strong>
+
+        <a class="method-permalink" href="#det-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Compute the determinant of an array.</p>
+
+<pre><code class="language-crystal">t <span class="o">=</span> <span class="t">Tensor</span>.from_array([[<span class="n">1</span>, <span class="n">2</span>], [<span class="n">3</span>, <span class="n">4</span>]]).astype(<span class="t">Float32</span>)
+puts t.det <span class="c"># =&gt; -2.0</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/linalg.cr#L274" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="eig-instance-method">
+      <div class="signature">
+        
+        def <strong>eig</strong>
+
+        <a class="method-permalink" href="#eig-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Compute the eigenvalues and right eigenvectors of a square array.</p>
+
+<pre><code class="language-crystal">t <span class="o">=</span> <span class="t">Tensor</span>.from_array([[<span class="n">0</span>, <span class="n">1</span>], [<span class="n">1</span>, <span class="n">1</span>]]).astype(<span class="t">Float32</span>)
+w, v <span class="o">=</span> t.eig
+puts w
+puts v
+
+<span class="c"># Tensor([-0.618,  1.618])</span>
+<span class="c"># Tensor([[-0.851,  0.526],</span>
+<span class="c">#         [ 0.526,  0.851]])</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/linalg.cr#L193" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="eigh-instance-method">
+      <div class="signature">
+        
+        def <strong>eigh</strong>
+
+        <a class="method-permalink" href="#eigh-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Compute the eigenvalues and right eigenvectors of a square array.</p>
+
+<pre><code class="language-crystal">t <span class="o">=</span> <span class="t">Tensor</span>.from_array([[<span class="n">0</span>, <span class="n">1</span>], [<span class="n">1</span>, <span class="n">1</span>]]).astype(<span class="t">Float32</span>)
+w, v <span class="o">=</span> t.eigh
+puts w
+puts v
+
+<span class="c"># Tensor([-0.618,  1.618])</span>
+<span class="c"># Tensor([[-0.851,  0.526],</span>
+<span class="c">#         [ 0.526,  0.851]])</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/linalg.cr#L172" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="eigvals-instance-method">
+      <div class="signature">
+        
+        def <strong>eigvals</strong>
+
+        <a class="method-permalink" href="#eigvals-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Compute the eigenvalues of a general matrix.</p>
+
+<p>Main difference between eigvals and eig: the eigenvectors aren’t
+returned.</p>
+
+<pre><code>t <span class="o">=</span> <span class="t">Tensor</span>.from_array([[<span class="n">0</span>, <span class="n">1</span>], [<span class="n">1</span>, <span class="n">1</span>]]).astype(<span class="t">Float32</span>)
+puts t.eigvals
+
+<span class="c"># Tensor([-0.618,  1.618])</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/linalg.cr#L237" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="eigvalsh-instance-method">
+      <div class="signature">
+        
+        def <strong>eigvalsh</strong>
+
+        <a class="method-permalink" href="#eigvalsh-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Compute the eigenvalues of a general matrix.</p>
+
+<p>Main difference between eigvals and eig: the eigenvectors aren’t
+returned.</p>
+
+<pre><code>t <span class="o">=</span> <span class="t">Tensor</span>.from_array([[<span class="n">0</span>, <span class="n">1</span>], [<span class="n">1</span>, <span class="n">1</span>]]).astype(<span class="t">Float32</span>)
+puts t.eigvalsh
+
+<span class="c"># Tensor([-0.618,  1.618])</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/linalg.cr#L217" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="hessenberg-instance-method">
+      <div class="signature">
+        
+        def <strong>hessenberg</strong>
+
+        <a class="method-permalink" href="#hessenberg-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Compute Hessenberg form of a matrix.</p>
+
+<p>The Hessenberg decomposition is:</p>
+
+<pre><code><span class="t">A</span> <span class="o">=</span> <span class="t">Q</span> <span class="t">H</span> <span class="t">Q</span><span class="o">^</span><span class="t">H</span></code></pre>
+
+<p>where Q is unitary/orthogonal and H has only zero elements below the first sub-diagonal.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/linalg.cr#L345" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="inv-instance-method">
+      <div class="signature">
+        
+        def <strong>inv</strong>
+
+        <a class="method-permalink" href="#inv-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Compute the (multiplicative) inverse of a matrix.</p>
+
+<p>Given a square matrix a, return the matrix ainv satisfying
+dot(a, ainv) = dot(ainv, a) = eye(a.shape[0])</p>
+
+<pre><code class="language-crystal">t <span class="o">=</span> <span class="t">Tensor</span>.from_array([[<span class="n">1</span>, <span class="n">2</span>], [<span class="n">3</span>, <span class="n">4</span>]]).astype(<span class="t">Float32</span>)
+puts t.inv
+
+<span class="c"># Tensor([[-2.0,  1.0],</span>
+<span class="c">#         [ 1.5, -0.5]])</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/linalg.cr#L303" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="matmul(other:Tensor(T))-instance-method">
+      <div class="signature">
+        
+        def <strong>matmul</strong>(other : <a href="Tensor.html">Tensor</a>(T))
+
+        <a class="method-permalink" href="#matmul(other:Tensor(T))-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/linalg.cr#L363" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="norm(*,order=&#39;F&#39;)-instance-method">
+      <div class="signature">
+        
+        def <strong>norm</strong>(*, order = <span class="s">&#39;F&#39;</span>)
+
+        <a class="method-permalink" href="#norm(*,order=&#39;F&#39;)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Matrix or vector norm.</p>
+
+<p>This function is able to return one of eight different matrix norms,
+or one of an infinite number of vector norms (described below),
+depending on the value of the ord parameter.</p>
+
+<pre><code class="language-crystal">t <span class="o">=</span> <span class="t">Tensor</span>.from_array([[<span class="n">0</span>, <span class="n">1</span>], [<span class="n">1</span>, <span class="n">1</span>], [<span class="n">1</span>, <span class="n">1</span>], [<span class="n">2</span>, <span class="n">1</span>]]).astype(<span class="t">Float32</span>)
+puts t.norm <span class="c"># =&gt; 3.6055512</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/linalg.cr#L260" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="opencl-instance-method">
+      <div class="signature">
+        
+        def <strong>opencl</strong>
+
+        <a class="method-permalink" href="#opencl-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/tensor.cr#L44" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="qr-instance-method">
+      <div class="signature">
+        
+        def <strong>qr</strong>
+
+        <a class="method-permalink" href="#qr-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Compute the qr factorization of a matrix.</p>
+
+<p>Factor the matrix a as qr, where q is orthonormal and r is
+upper-triangular.</p>
+
+<pre><code class="language-crystal">t <span class="o">=</span> <span class="t">Tensor</span>.from_array([[<span class="n">0</span>, <span class="n">1</span>], [<span class="n">1</span>, <span class="n">1</span>], [<span class="n">1</span>, <span class="n">1</span>], [<span class="n">2</span>, <span class="n">1</span>]]).astype(<span class="t">Float32</span>)
+q, r <span class="o">=</span> t.qr
+puts q
+puts r
+
+<span class="c"># Tensor([[   0.0,  0.866],</span>
+<span class="c">#         [-0.408,  0.289],</span>
+<span class="c">#         [-0.408,  0.289],</span>
+<span class="c">#         [-0.816, -0.289]])</span>
+<span class="c"># Tensor([[-2.449, -1.633],</span>
+<span class="c">#         [   0.0,  1.155],</span>
+<span class="c">#         [   0.0,    0.0],</span>
+<span class="c">#         [   0.0,    0.0]])</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/linalg.cr#L114" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="solve(x:Tensor(T))-instance-method">
+      <div class="signature">
+        
+        def <strong>solve</strong>(x : <a href="Tensor.html">Tensor</a>(T))
+
+        <a class="method-permalink" href="#solve(x:Tensor(T))-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Solve a linear matrix equation, or system of linear scalar equations.</p>
+
+<p>Computes the “exact” solution, x, of the well-determined, i.e., full rank,
+linear matrix equation ax = b.</p>
+
+<pre><code class="language-crystal">a <span class="o">=</span> <span class="t">Tensor</span>.from_array([[<span class="n">3</span>, <span class="n">1</span>], [<span class="n">1</span>, <span class="n">2</span>]]).astype(<span class="t">Float32</span>)
+b <span class="o">=</span> <span class="t">Tensor</span>.from_array([<span class="n">9</span>, <span class="n">8</span>]).astype(<span class="t">Float32</span>)
+puts a.solve(b)
+
+<span class="c"># Tensor([ 2.0,  3.0])</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/linalg.cr#L325" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="svd-instance-method">
+      <div class="signature">
+        
+        def <strong>svd</strong>
+
+        <a class="method-permalink" href="#svd-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Singular Value Decomposition.</p>
+
+<p>When a is a 2D array, it is factorized as u @ np.diag(s) @ vh = (u * s) @ vh,
+where u and vh are 2D unitary arrays and s is a 1D array of a’s singular
+values.</p>
+
+<pre><code class="language-crystal">t <span class="o">=</span> <span class="t">Tensor</span>.from_array([[<span class="n">0</span>, <span class="n">1</span>], [<span class="n">1</span>, <span class="n">1</span>], [<span class="n">1</span>, <span class="n">1</span>], [<span class="n">2</span>, <span class="n">1</span>]]).astype(<span class="t">Float32</span>)
+a, b, c <span class="o">=</span> t.svd
+puts a
+puts b
+puts c
+
+<span class="c"># Tensor([[-0.204,  0.842, -0.331,  0.375],</span>
+<span class="c">#         [-0.465,  0.185,   -0.2, -0.843],</span>
+<span class="c">#         [-0.465,  0.185,  0.861,  0.092],</span>
+<span class="c">#         [-0.726, -0.473, -0.331,  0.375]])</span>
+<span class="c"># Tensor([ 3.02, 0.936])</span>
+<span class="c"># Tensor([[-0.788, -0.615],</span>
+<span class="c">#         [-0.615,  0.788]])</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/linalg.cr#L146" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="tril(k=0)-instance-method">
+      <div class="signature">
+        
+        def <strong>tril</strong>(k = <span class="n">0</span>)
+
+        <a class="method-permalink" href="#tril(k=0)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/manipulate.cr#L73" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="tril!(k=0)-instance-method">
+      <div class="signature">
+        
+        def <strong>tril!</strong>(k = <span class="n">0</span>)
+
+        <a class="method-permalink" href="#tril!(k=0)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/manipulate.cr#L63" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="triu(k=0)-instance-method">
+      <div class="signature">
+        
+        def <strong>triu</strong>(k = <span class="n">0</span>)
+
+        <a class="method-permalink" href="#triu(k=0)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/manipulate.cr#L57" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="triu!(k=0)-instance-method">
+      <div class="signature">
+        
+        def <strong>triu!</strong>(k = <span class="n">0</span>)
+
+        <a class="method-permalink" href="#triu!(k=0)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/manipulate.cr#L47" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="|(other)-instance-method">
+      <div class="signature">
+        
+        def <strong>|</strong>(other)
+
+        <a class="method-permalink" href="#%7C(other)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/tensor.cr#L91" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+  <h2>
+    <a id="macro-detail" class="anchor" href="#macro-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Macro Detail
+  </h2>
+  
+    <div class="entry-detail" id="blas(storage,name,*args)-macro">
+      <div class="signature">
+        
+        macro <strong>blas</strong>(storage, name, *args)
+
+        <a class="method-permalink" href="#blas(storage,name,*args)-macro">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/extension.cr#L351" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="lapack(name,*args,worksize=nil)-macro">
+      <div class="signature">
+        
+        macro <strong>lapack</strong>(name, *args, worksize = <span class="n">nil</span>)
+
+        <a class="method-permalink" href="#lapack(name,*args,worksize=nil)-macro">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/extension.cr#L73" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="lapack_util(name,worksize,*args)-macro">
+      <div class="signature">
+        
+        macro <strong>lapack_util</strong>(name, worksize, *args)
+
+        <a class="method-permalink" href="#lapack_util(name,worksize,*args)-macro">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/tensor/extension.cr#L43" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+</div>
+
+</body>
+</html>

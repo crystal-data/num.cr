@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.34.0">
+<meta name="crystal_docs.project_version" content="HEAD">
+<meta name="crystal_docs.project_name" content="num">
+
+
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../js/doc.js"></script>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+
+  <meta id="repository-name" content="num">
+  <title>NumInternal::AxisIter(T) - num HEAD</title>
+  <script type="text/javascript">
+    CrystalDocs.base_path = "../";
+  </script>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="../index.html">
+          num
+        </a>
+      </h1>
+
+      <span class="project-version">
+        HEAD
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class=" " data-id="num/toplevel" data-name="top level namespace">
+      <a href="../toplevel.html">Top Level Namespace</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/AnyArray" data-name="anyarray(t)">
+      <a href="../AnyArray.html">AnyArray</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Array" data-name="array(t)">
+      <a href="../Array.html">Array</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/ClTensor" data-name="cltensor(t)">
+      <a href="../ClTensor.html">ClTensor</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Complex" data-name="complex">
+      <a href="../Complex.html">Complex</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Float32" data-name="float32">
+      <a href="../Float32.html">Float32</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Float64" data-name="float64">
+      <a href="../Float64.html">Float64</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Int16" data-name="int16">
+      <a href="../Int16.html">Int16</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Int32" data-name="int32">
+      <a href="../Int32.html">Int32</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Int8" data-name="int8">
+      <a href="../Int8.html">Int8</a>
+      
+    </li>
+  
+  <li class="parent " data-id="num/Num" data-name="num">
+      <a href="../Num.html">Num</a>
+      
+        <ul>
+  
+  <li class=" " data-id="num/Num/ArrayFlags" data-name="num::arrayflags">
+      <a href="../Num/ArrayFlags.html">ArrayFlags</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/ClContext" data-name="num::clcontext">
+      <a href="../Num/ClContext.html">ClContext</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/OrderType" data-name="num::ordertype">
+      <a href="../Num/OrderType.html">OrderType</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/StorageType" data-name="num::storagetype">
+      <a href="../Num/StorageType.html">StorageType</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/WorkPool" data-name="num::workpool">
+      <a href="../Num/WorkPool.html">WorkPool</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent open current" data-id="num/NumInternal" data-name="numinternal">
+      <a href="../NumInternal.html">NumInternal</a>
+      
+        <ul>
+  
+  <li class=" " data-id="num/NumInternal/AnyTensor" data-name="numinternal::anytensor(t)">
+      <a href="../NumInternal/AnyTensor.html">AnyTensor</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/AxisError" data-name="numinternal::axiserror">
+      <a href="../NumInternal/AxisError.html">AxisError</a>
+      
+    </li>
+  
+  <li class=" current" data-id="num/NumInternal/AxisIter" data-name="numinternal::axisiter(t)">
+      <a href="../NumInternal/AxisIter.html">AxisIter</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/ClInfo" data-name="numinternal::clinfo">
+      <a href="../NumInternal/ClInfo.html">ClInfo</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/ClStorage" data-name="numinternal::clstorage(t)">
+      <a href="../NumInternal/ClStorage.html">ClStorage</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/ContigFlatIter" data-name="numinternal::contigflatiter(t)">
+      <a href="../NumInternal/ContigFlatIter.html">ContigFlatIter</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/ContigFlatIter2" data-name="numinternal::contigflatiter2(t, u)">
+      <a href="../NumInternal/ContigFlatIter2.html">ContigFlatIter2</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/ContigFlatIter3" data-name="numinternal::contigflatiter3(t, u, v)">
+      <a href="../NumInternal/ContigFlatIter3.html">ContigFlatIter3</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/ContigFlatIter4" data-name="numinternal::contigflatiter4(t, u, v, w)">
+      <a href="../NumInternal/ContigFlatIter4.html">ContigFlatIter4</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/CpuStorage" data-name="numinternal::cpustorage(t)">
+      <a href="../NumInternal/CpuStorage.html">CpuStorage</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/IndexError" data-name="numinternal::indexerror">
+      <a href="../NumInternal/IndexError.html">IndexError</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/LapackHelper" data-name="numinternal::lapackhelper">
+      <a href="../NumInternal/LapackHelper.html">LapackHelper</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/MatrixIter" data-name="numinternal::matrixiter(t)">
+      <a href="../NumInternal/MatrixIter.html">MatrixIter</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/NDFlatIter" data-name="numinternal::ndflatiter(t)">
+      <a href="../NumInternal/NDFlatIter.html">NDFlatIter</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/NDFlatIter2" data-name="numinternal::ndflatiter2(t, u)">
+      <a href="../NumInternal/NDFlatIter2.html">NDFlatIter2</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/NDFlatIter3" data-name="numinternal::ndflatiter3(t, u, v)">
+      <a href="../NumInternal/NDFlatIter3.html">NDFlatIter3</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/NDFlatIter4" data-name="numinternal::ndflatiter4(t, u, v, w)">
+      <a href="../NumInternal/NDFlatIter4.html">NDFlatIter4</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/NotImplementedError" data-name="numinternal::notimplementederror">
+      <a href="../NumInternal/NotImplementedError.html">NotImplementedError</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/ShapeError" data-name="numinternal::shapeerror">
+      <a href="../NumInternal/ShapeError.html">ShapeError</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/StorageBase" data-name="numinternal::storagebase(t)">
+      <a href="../NumInternal/StorageBase.html">StorageBase</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/TypeError" data-name="numinternal::typeerror">
+      <a href="../NumInternal/TypeError.html">TypeError</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/UnsafeAxisIter" data-name="numinternal::unsafeaxisiter(t)">
+      <a href="../NumInternal/UnsafeAxisIter.html">UnsafeAxisIter</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/UnsafeContigFlatIter" data-name="numinternal::unsafecontigflatiter(t)">
+      <a href="../NumInternal/UnsafeContigFlatIter.html">UnsafeContigFlatIter</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/UnsafeNDFlatIter" data-name="numinternal::unsafendflatiter(t)">
+      <a href="../NumInternal/UnsafeNDFlatIter.html">UnsafeNDFlatIter</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/ValueError" data-name="numinternal::valueerror">
+      <a href="../NumInternal/ValueError.html">ValueError</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/WriteError" data-name="numinternal::writeerror">
+      <a href="../NumInternal/WriteError.html">WriteError</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="num/Tensor" data-name="tensor(t)">
+      <a href="../Tensor.html">Tensor</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/UInt16" data-name="uint16">
+      <a href="../UInt16.html">UInt16</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/UInt32" data-name="uint32">
+      <a href="../UInt32.html">UInt32</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/UInt8" data-name="uint8">
+      <a href="../UInt8.html">UInt8</a>
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">struct</span> NumInternal::AxisIter(T)
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../NumInternal/AxisIter.html">NumInternal::AxisIter(T)</a></li><li class="superclass">Struct</li><li class="superclass">Value</li><li class="superclass">Object</li></ul>
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="included-modules" class="anchor" href="#included-modules">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Included Modules
+  </h2>
+  <ul class="other-types-list">
+    
+      <li class="other-type">Iterator(T)</li>
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/iter/axes.cr#L3" target="_blank">
+        iter/axes.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+  <h2>
+    <a id="constructors" class="anchor" href="#constructors">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructors
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new(arr:AnyArray(T),axis:Int32=-1,keepdims=false)-class-method" class="signature"><strong>.new</strong>(arr : AnyArray(T), axis : Int32 = <span class="n">-1</span>, keepdims = <span class="n">false</span>)</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#next-instance-method" class="signature"><strong>#next</strong></a>
+        
+          <div class="summary"><p>Returns the next element in this iterator, or <code>Iterator::Stop::INSTANCE</code> if there are no more elements.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+<div class="methods-inherited">
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+    
+
+
+  
+</div>
+
+
+  <h2>
+    <a id="constructor-detail" class="anchor" href="#constructor-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructor Detail
+  </h2>
+  
+    <div class="entry-detail" id="new(arr:AnyArray(T),axis:Int32=-1,keepdims=false)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(arr : <a href="../AnyArray.html">AnyArray</a>(T), axis : <a href="../Int32.html">Int32</a> = <span class="n">-1</span>, keepdims = <span class="n">false</span>)
+
+        <a class="method-permalink" href="#new(arr:AnyArray(T),axis:Int32=-1,keepdims=false)-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/iter/axes.cr#L14" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="next-instance-method">
+      <div class="signature">
+        
+        def <strong>next</strong>
+
+        <a class="method-permalink" href="#next-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+            <div class="doc-inherited">
+              Description copied from module Iterator(T)
+            </div>
+          
+          <p>Returns the next element in this iterator, or <code>Iterator::Stop::INSTANCE</code> if there
+are no more elements.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/iter/axes.cr#L40" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+</div>
+
+</body>
+</html>

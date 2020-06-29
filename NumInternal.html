@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.34.0">
+<meta name="crystal_docs.project_version" content="HEAD">
+<meta name="crystal_docs.project_name" content="num">
+
+
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/doc.js"></script>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+
+  <meta id="repository-name" content="num">
+  <title>NumInternal - num HEAD</title>
+  <script type="text/javascript">
+    CrystalDocs.base_path = "";
+  </script>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="index.html">
+          num
+        </a>
+      </h1>
+
+      <span class="project-version">
+        HEAD
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class=" " data-id="num/toplevel" data-name="top level namespace">
+      <a href="toplevel.html">Top Level Namespace</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/AnyArray" data-name="anyarray(t)">
+      <a href="AnyArray.html">AnyArray</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Array" data-name="array(t)">
+      <a href="Array.html">Array</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/ClTensor" data-name="cltensor(t)">
+      <a href="ClTensor.html">ClTensor</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Complex" data-name="complex">
+      <a href="Complex.html">Complex</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Float32" data-name="float32">
+      <a href="Float32.html">Float32</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Float64" data-name="float64">
+      <a href="Float64.html">Float64</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Int16" data-name="int16">
+      <a href="Int16.html">Int16</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Int32" data-name="int32">
+      <a href="Int32.html">Int32</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Int8" data-name="int8">
+      <a href="Int8.html">Int8</a>
+      
+    </li>
+  
+  <li class="parent " data-id="num/Num" data-name="num">
+      <a href="Num.html">Num</a>
+      
+        <ul>
+  
+  <li class=" " data-id="num/Num/ArrayFlags" data-name="num::arrayflags">
+      <a href="Num/ArrayFlags.html">ArrayFlags</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/ClContext" data-name="num::clcontext">
+      <a href="Num/ClContext.html">ClContext</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/OrderType" data-name="num::ordertype">
+      <a href="Num/OrderType.html">OrderType</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/StorageType" data-name="num::storagetype">
+      <a href="Num/StorageType.html">StorageType</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/WorkPool" data-name="num::workpool">
+      <a href="Num/WorkPool.html">WorkPool</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent open current" data-id="num/NumInternal" data-name="numinternal">
+      <a href="NumInternal.html">NumInternal</a>
+      
+        <ul>
+  
+  <li class=" " data-id="num/NumInternal/AnyTensor" data-name="numinternal::anytensor(t)">
+      <a href="NumInternal/AnyTensor.html">AnyTensor</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/AxisError" data-name="numinternal::axiserror">
+      <a href="NumInternal/AxisError.html">AxisError</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/AxisIter" data-name="numinternal::axisiter(t)">
+      <a href="NumInternal/AxisIter.html">AxisIter</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/ClInfo" data-name="numinternal::clinfo">
+      <a href="NumInternal/ClInfo.html">ClInfo</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/ClStorage" data-name="numinternal::clstorage(t)">
+      <a href="NumInternal/ClStorage.html">ClStorage</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/ContigFlatIter" data-name="numinternal::contigflatiter(t)">
+      <a href="NumInternal/ContigFlatIter.html">ContigFlatIter</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/ContigFlatIter2" data-name="numinternal::contigflatiter2(t, u)">
+      <a href="NumInternal/ContigFlatIter2.html">ContigFlatIter2</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/ContigFlatIter3" data-name="numinternal::contigflatiter3(t, u, v)">
+      <a href="NumInternal/ContigFlatIter3.html">ContigFlatIter3</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/ContigFlatIter4" data-name="numinternal::contigflatiter4(t, u, v, w)">
+      <a href="NumInternal/ContigFlatIter4.html">ContigFlatIter4</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/CpuStorage" data-name="numinternal::cpustorage(t)">
+      <a href="NumInternal/CpuStorage.html">CpuStorage</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/IndexError" data-name="numinternal::indexerror">
+      <a href="NumInternal/IndexError.html">IndexError</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/LapackHelper" data-name="numinternal::lapackhelper">
+      <a href="NumInternal/LapackHelper.html">LapackHelper</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/MatrixIter" data-name="numinternal::matrixiter(t)">
+      <a href="NumInternal/MatrixIter.html">MatrixIter</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/NDFlatIter" data-name="numinternal::ndflatiter(t)">
+      <a href="NumInternal/NDFlatIter.html">NDFlatIter</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/NDFlatIter2" data-name="numinternal::ndflatiter2(t, u)">
+      <a href="NumInternal/NDFlatIter2.html">NDFlatIter2</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/NDFlatIter3" data-name="numinternal::ndflatiter3(t, u, v)">
+      <a href="NumInternal/NDFlatIter3.html">NDFlatIter3</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/NDFlatIter4" data-name="numinternal::ndflatiter4(t, u, v, w)">
+      <a href="NumInternal/NDFlatIter4.html">NDFlatIter4</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/NotImplementedError" data-name="numinternal::notimplementederror">
+      <a href="NumInternal/NotImplementedError.html">NotImplementedError</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/ShapeError" data-name="numinternal::shapeerror">
+      <a href="NumInternal/ShapeError.html">ShapeError</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/StorageBase" data-name="numinternal::storagebase(t)">
+      <a href="NumInternal/StorageBase.html">StorageBase</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/TypeError" data-name="numinternal::typeerror">
+      <a href="NumInternal/TypeError.html">TypeError</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/UnsafeAxisIter" data-name="numinternal::unsafeaxisiter(t)">
+      <a href="NumInternal/UnsafeAxisIter.html">UnsafeAxisIter</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/UnsafeContigFlatIter" data-name="numinternal::unsafecontigflatiter(t)">
+      <a href="NumInternal/UnsafeContigFlatIter.html">UnsafeContigFlatIter</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/UnsafeNDFlatIter" data-name="numinternal::unsafendflatiter(t)">
+      <a href="NumInternal/UnsafeNDFlatIter.html">UnsafeNDFlatIter</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/ValueError" data-name="numinternal::valueerror">
+      <a href="NumInternal/ValueError.html">ValueError</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/NumInternal/WriteError" data-name="numinternal::writeerror">
+      <a href="NumInternal/WriteError.html">WriteError</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="num/Tensor" data-name="tensor(t)">
+      <a href="Tensor.html">Tensor</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/UInt16" data-name="uint16">
+      <a href="UInt16.html">UInt16</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/UInt32" data-name="uint32">
+      <a href="UInt32.html">UInt32</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/UInt8" data-name="uint8">
+      <a href="UInt8.html">UInt8</a>
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">module</span> NumInternal
+
+</h1>
+
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="extended-modules" class="anchor" href="#extended-modules">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Extended Modules
+  </h2>
+  <ul class="other-types-list">
+    
+      <li class="other-type"><a href="NumInternal.html">NumInternal</a></li>
+    
+  </ul>
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/array/broadcast.cr#L27" target="_blank">
+        array/broadcast.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/array/print.cr#L25" target="_blank">
+        array/print.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/base/array.cr#L27" target="_blank">
+        base/array.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/base/exceptions.cr#L24" target="_blank">
+        base/exceptions.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/base/routines.cr#L26" target="_blank">
+        base/routines.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/iter/macro.cr#L25" target="_blank">
+        iter/macro.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#array_to_string(a:AnyArray,separator=&quot;,&quot;,prefix=&quot;&quot;,edge_items=3,summary_insert=&quot;...&quot;,line_width=75)-instance-method" class="signature"><strong>#array_to_string</strong>(a : AnyArray, separator = <span class="s">&quot;, &quot;</span>, prefix = <span class="s">&quot;&quot;</span>, edge_items = <span class="n">3</span>, summary_insert = <span class="s">&quot;...&quot;</span>, line_width = <span class="n">75</span>)</a>
+        
+          <div class="summary"><p>Converts an array to its string reprensentation</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#as_strided(arr:AnyArray,shape:Array(Int32),strides:Array(Int32))-instance-method" class="signature"><strong>#as_strided</strong>(arr : AnyArray, shape : Array(Int32), strides : Array(Int32))</a>
+        
+          <div class="summary"><p>as_strided creates a view into the array given the exact strides and shape.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#assert_shape(shape,ts)-instance-method" class="signature"><strong>#assert_shape</strong>(shape, ts)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#assert_shape_off_axis(ts,axis,shape)-instance-method" class="signature"><strong>#assert_shape_off_axis</strong>(ts, axis, shape)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#bcast_if(item:AnyArray,shape:Array(Int32))-instance-method" class="signature"><strong>#bcast_if</strong>(item : AnyArray, shape : Array(Int32))</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#broadcast(a:AnyArray(T),b:AnyArray(U))forallT,U-instance-method" class="signature"><strong>#broadcast</strong>(a : AnyArray(T), b : AnyArray(U)) forall T, U</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#broadcast(a:AnyArray(T),b:AnyArray(U),c:AnyArray(V))forallT,U,V-instance-method" class="signature"><strong>#broadcast</strong>(a : AnyArray(T), b : AnyArray(U), c : AnyArray(V)) forall T, U, V</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#broadcast(a:AnyArray(T),b:AnyArray(U),c:AnyArray(V),d:AnyArray(W))forallT,U,V,W-instance-method" class="signature"><strong>#broadcast</strong>(a : AnyArray(T), b : AnyArray(U), c : AnyArray(V), d : AnyArray(W)) forall T, U, V, W</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#broadcast2(a:AnyArray(U),b:AnyArray(V))forallU,V-instance-method" class="signature"><strong>#broadcast2</strong>(a : AnyArray(U), b : AnyArray(V)) forall U, V</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#broadcast_to(arr:AnyArray,newshape:Array(Int32))-instance-method" class="signature"><strong>#broadcast_to</strong>(arr : AnyArray, newshape : Array(Int32))</a>
+        
+          <div class="summary"><p>Broadcasts an array to a new shape.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#broadcastable(arr:AnyArray,other:AnyArray)-instance-method" class="signature"><strong>#broadcastable</strong>(arr : AnyArray, other : AnyArray)</a>
+        
+          <div class="summary"><p>Determines if two shapes are broadcastable against each other.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#clip_axis(axis,size)-instance-method" class="signature"><strong>#clip_axis</strong>(axis, size)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#concatenate(alist:Array(AnyArray(U)),axis:Int32)forallU-instance-method" class="signature"><strong>#concatenate</strong>(alist : Array(AnyArray(U)), axis : Int32) forall U</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#format(value:Complex,pad:Int32=0)-instance-method" class="signature"><strong>#format</strong>(value : Complex, pad : Int32 = <span class="n">0</span>)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#format(value:Int,pad:Int32=0)-instance-method" class="signature"><strong>#format</strong>(value : Int, pad : Int32 = <span class="n">0</span>)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#format(value:Float,pad:Int32=0)-instance-method" class="signature"><strong>#format</strong>(value : Float, pad : Int32 = <span class="n">0</span>)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#format(value:String,pad:Int32=0)-instance-method" class="signature"><strong>#format</strong>(value : String, pad : Int32 = <span class="n">0</span>)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#format(value:Bool,pad:Int32=0)-instance-method" class="signature"><strong>#format</strong>(value : Bool, pad : Int32 = <span class="n">0</span>)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#format_array(a,line_width,next_line_prefix,separator,edge_items,summary_insert,pad)-instance-method" class="signature"><strong>#format_array</strong>(a, line_width, next_line_prefix, separator, edge_items, summary_insert, pad)</a>
+        
+          <div class="summary"><p>Wrapper around recursor</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#less_than_2d(ts)-instance-method" class="signature"><strong>#less_than_2d</strong>(ts)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#less_than_3d(ts)-instance-method" class="signature"><strong>#less_than_3d</strong>(ts)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#normalize_axies_list(axes,ndims)-instance-method" class="signature"><strong>#normalize_axies_list</strong>(axes, ndims)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#normalize_axis(axis,ndims)-instance-method" class="signature"><strong>#normalize_axis</strong>(axis, ndims)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#raise_zerod(items)-instance-method" class="signature"><strong>#raise_zerod</strong>(items)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#shape_to_strides(shape:Array(Int32),layout:Num::OrderType=Num::RowMajor):Array(Int32)-instance-method" class="signature"><strong>#shape_to_strides</strong>(shape : Array(Int32), layout : Num::OrderType = <span class="t">Num</span><span class="t">::</span><span class="t">RowMajor</span>) : Array(Int32)</a>
+        
+          <div class="summary"><p>Takes in a shape, and a memory order type, and returns the strides of an array matching the shape and layout.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+  <h2>
+    <a id="macro-summary" class="anchor" href="#macro-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Macro Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#broadcast_n(items)-macro" class="signature"><strong>broadcast_n</strong>(items)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#iter_macro(n,vars)-macro" class="signature"><strong>iter_macro</strong>(n, vars)</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+<div class="methods-inherited">
+  
+</div>
+
+
+
+
+
+
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="array_to_string(a:AnyArray,separator=&quot;,&quot;,prefix=&quot;&quot;,edge_items=3,summary_insert=&quot;...&quot;,line_width=75)-instance-method">
+      <div class="signature">
+        
+        def <strong>array_to_string</strong>(a : <a href="AnyArray.html">AnyArray</a>, separator = <span class="s">&quot;, &quot;</span>, prefix = <span class="s">&quot;&quot;</span>, edge_items = <span class="n">3</span>, summary_insert = <span class="s">&quot;...&quot;</span>, line_width = <span class="n">75</span>)
+
+        <a class="method-permalink" href="#array_to_string(a:AnyArray,separator=&quot;,&quot;,prefix=&quot;&quot;,edge_items=3,summary_insert=&quot;...&quot;,line_width=75)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Converts an array to its string reprensentation</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/array/print.cr#L238" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="as_strided(arr:AnyArray,shape:Array(Int32),strides:Array(Int32))-instance-method">
+      <div class="signature">
+        
+        def <strong>as_strided</strong>(arr : <a href="AnyArray.html">AnyArray</a>, shape : <a href="Array.html">Array</a>(<a href="Int32.html">Int32</a>), strides : <a href="Array.html">Array</a>(<a href="Int32.html">Int32</a>))
+
+        <a class="method-permalink" href="#as_strided(arr:AnyArray,shape:Array(Int32),strides:Array(Int32))-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>as_strided creates a view into the array given the exact strides and
+shape. This means it manipulates the internal data structure of
+a Tensor and, if done incorrectly, the array elements can point
+to invalid memory and can corrupt results or crash your program.
+It is advisable to always use the original x.strides when
+calculating new strides to avoid reliance on a contiguous
+memory layout.</p>
+
+<p>Furthermore, arrays created with this function often contain self
+overlapping memory, so that two elements are identical.
+Vectorized write operations on such arrays will typically be
+unpredictable. They may even give different results for
+small, large, or transposed arrays. Since writing to these
+arrays has to be tested and done with great care, you may want
+to use writeable=false to avoid accidental write operations.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/array/broadcast.cr#L166" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="assert_shape(shape,ts)-instance-method">
+      <div class="signature">
+        
+        def <strong>assert_shape</strong>(shape, ts)
+
+        <a class="method-permalink" href="#assert_shape(shape,ts)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/base/routines.cr#L69" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="assert_shape_off_axis(ts,axis,shape)-instance-method">
+      <div class="signature">
+        
+        def <strong>assert_shape_off_axis</strong>(ts, axis, shape)
+
+        <a class="method-permalink" href="#assert_shape_off_axis(ts,axis,shape)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/array/print.cr#L59" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="bcast_if(item:AnyArray,shape:Array(Int32))-instance-method">
+      <div class="signature">
+        
+        def <strong>bcast_if</strong>(item : <a href="AnyArray.html">AnyArray</a>, shape : <a href="Array.html">Array</a>(<a href="Int32.html">Int32</a>))
+
+        <a class="method-permalink" href="#bcast_if(item:AnyArray,shape:Array(Int32))-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/array/broadcast.cr#L147" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="broadcast(a:AnyArray(T),b:AnyArray(U))forallT,U-instance-method">
+      <div class="signature">
+        
+        def <strong>broadcast</strong>(a : <a href="AnyArray.html">AnyArray</a>(T), b : <a href="AnyArray.html">AnyArray</a>(U)) forall T, U
+
+        <a class="method-permalink" href="#broadcast(a:AnyArray(T),b:AnyArray(U))forallT,U-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/array/broadcast.cr#L143" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="broadcast(a:AnyArray(T),b:AnyArray(U),c:AnyArray(V))forallT,U,V-instance-method">
+      <div class="signature">
+        
+        def <strong>broadcast</strong>(a : <a href="AnyArray.html">AnyArray</a>(T), b : <a href="AnyArray.html">AnyArray</a>(U), c : <a href="AnyArray.html">AnyArray</a>(V)) forall T, U, V
+
+        <a class="method-permalink" href="#broadcast(a:AnyArray(T),b:AnyArray(U),c:AnyArray(V))forallT,U,V-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/array/broadcast.cr#L144" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="broadcast(a:AnyArray(T),b:AnyArray(U),c:AnyArray(V),d:AnyArray(W))forallT,U,V,W-instance-method">
+      <div class="signature">
+        
+        def <strong>broadcast</strong>(a : <a href="AnyArray.html">AnyArray</a>(T), b : <a href="AnyArray.html">AnyArray</a>(U), c : <a href="AnyArray.html">AnyArray</a>(V), d : <a href="AnyArray.html">AnyArray</a>(W)) forall T, U, V, W
+
+        <a class="method-permalink" href="#broadcast(a:AnyArray(T),b:AnyArray(U),c:AnyArray(V),d:AnyArray(W))forallT,U,V,W-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/array/broadcast.cr#L145" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="broadcast2(a:AnyArray(U),b:AnyArray(V))forallU,V-instance-method">
+      <div class="signature">
+        
+        def <strong>broadcast2</strong>(a : <a href="AnyArray.html">AnyArray</a>(U), b : <a href="AnyArray.html">AnyArray</a>(V)) forall U, V
+
+        <a class="method-permalink" href="#broadcast2(a:AnyArray(U),b:AnyArray(V))forallU,V-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/array/broadcast.cr#L123" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="broadcast_to(arr:AnyArray,newshape:Array(Int32))-instance-method">
+      <div class="signature">
+        
+        def <strong>broadcast_to</strong>(arr : <a href="AnyArray.html">AnyArray</a>, newshape : <a href="Array.html">Array</a>(<a href="Int32.html">Int32</a>))
+
+        <a class="method-permalink" href="#broadcast_to(arr:AnyArray,newshape:Array(Int32))-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Broadcasts an array to a new shape. A readonly view on the original array
+with the given shape. It is typically not contiguous. Furthermore,
+more than one element of a broadcasted array may refer to a single
+memory location.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/array/broadcast.cr#L81" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="broadcastable(arr:AnyArray,other:AnyArray)-instance-method">
+      <div class="signature">
+        
+        def <strong>broadcastable</strong>(arr : <a href="AnyArray.html">AnyArray</a>, other : <a href="AnyArray.html">AnyArray</a>)
+
+        <a class="method-permalink" href="#broadcastable(arr:AnyArray,other:AnyArray)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Determines if two shapes are broadcastable against each other.
+The rules for checking this property are well defined:</p>
+
+<p>Two dimensions are compatible if:</p>
+
+<ul><li>they are equal</li><li>one of them is equal to 1</li></ul></ul>
+
+<p>If the axes of the array are different lengths, dimensions of
+size one can be appended to one or the other in order to make
+the arrays broadcastable against each other and satisfy the
+rules for broadcastable dimensions.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/array/broadcast.cr#L39" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="clip_axis(axis,size)-instance-method">
+      <div class="signature">
+        
+        def <strong>clip_axis</strong>(axis, size)
+
+        <a class="method-permalink" href="#clip_axis(axis,size)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/array/print.cr#L81" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="concatenate(alist:Array(AnyArray(U)),axis:Int32)forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>concatenate</strong>(alist : <a href="Array.html">Array</a>(<a href="AnyArray.html">AnyArray</a>(U)), axis : <a href="Int32.html">Int32</a>) forall U
+
+        <a class="method-permalink" href="#concatenate(alist:Array(AnyArray(U)),axis:Int32)forallU-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/array/print.cr#L28" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="format(value:Complex,pad:Int32=0)-instance-method">
+      <div class="signature">
+        
+        def <strong>format</strong>(value : <a href="Complex.html">Complex</a>, pad : <a href="Int32.html">Int32</a> = <span class="n">0</span>)
+
+        <a class="method-permalink" href="#format(value:Complex,pad:Int32=0)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/array/print.cr#L99" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="format(value:Int,pad:Int32=0)-instance-method">
+      <div class="signature">
+        
+        def <strong>format</strong>(value : Int, pad : <a href="Int32.html">Int32</a> = <span class="n">0</span>)
+
+        <a class="method-permalink" href="#format(value:Int,pad:Int32=0)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/array/print.cr#L91" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="format(value:Float,pad:Int32=0)-instance-method">
+      <div class="signature">
+        
+        def <strong>format</strong>(value : Float, pad : <a href="Int32.html">Int32</a> = <span class="n">0</span>)
+
+        <a class="method-permalink" href="#format(value:Float,pad:Int32=0)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/array/print.cr#L95" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="format(value:String,pad:Int32=0)-instance-method">
+      <div class="signature">
+        
+        def <strong>format</strong>(value : String, pad : <a href="Int32.html">Int32</a> = <span class="n">0</span>)
+
+        <a class="method-permalink" href="#format(value:String,pad:Int32=0)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/array/print.cr#L103" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="format(value:Bool,pad:Int32=0)-instance-method">
+      <div class="signature">
+        
+        def <strong>format</strong>(value : Bool, pad : <a href="Int32.html">Int32</a> = <span class="n">0</span>)
+
+        <a class="method-permalink" href="#format(value:Bool,pad:Int32=0)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/array/print.cr#L107" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="format_array(a,line_width,next_line_prefix,separator,edge_items,summary_insert,pad)-instance-method">
+      <div class="signature">
+        
+        def <strong>format_array</strong>(a, line_width, next_line_prefix, separator, edge_items, summary_insert, pad)
+
+        <a class="method-permalink" href="#format_array(a,line_width,next_line_prefix,separator,edge_items,summary_insert,pad)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Wrapper around recursor</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/array/print.cr#L233" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="less_than_2d(ts)-instance-method">
+      <div class="signature">
+        
+        def <strong>less_than_2d</strong>(ts)
+
+        <a class="method-permalink" href="#less_than_2d(ts)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/base/routines.cr#L113" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="less_than_3d(ts)-instance-method">
+      <div class="signature">
+        
+        def <strong>less_than_3d</strong>(ts)
+
+        <a class="method-permalink" href="#less_than_3d(ts)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/base/routines.cr#L107" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="normalize_axies_list(axes,ndims)-instance-method">
+      <div class="signature">
+        
+        def <strong>normalize_axies_list</strong>(axes, ndims)
+
+        <a class="method-permalink" href="#normalize_axies_list(axes,ndims)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/base/routines.cr#L87" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="normalize_axis(axis,ndims)-instance-method">
+      <div class="signature">
+        
+        def <strong>normalize_axis</strong>(axis, ndims)
+
+        <a class="method-permalink" href="#normalize_axis(axis,ndims)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/base/routines.cr#L77" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="raise_zerod(items)-instance-method">
+      <div class="signature">
+        
+        def <strong>raise_zerod</strong>(items)
+
+        <a class="method-permalink" href="#raise_zerod(items)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/array/print.cr#L75" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="shape_to_strides(shape:Array(Int32),layout:Num::OrderType=Num::RowMajor):Array(Int32)-instance-method">
+      <div class="signature">
+        
+        def <strong>shape_to_strides</strong>(shape : <a href="Array.html">Array</a>(<a href="Int32.html">Int32</a>), layout : <a href="Num/OrderType.html">Num::OrderType</a> = <span class="t">Num</span><span class="t">::</span><span class="t">RowMajor</span>) : <a href="Array.html">Array</a>(<a href="Int32.html">Int32</a>)
+
+        <a class="method-permalink" href="#shape_to_strides(shape:Array(Int32),layout:Num::OrderType=Num::RowMajor):Array(Int32)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Takes in a shape, and a memory order type, and returns the
+strides of an array matching the shape and layout.
+Num.cr uses row major memory layout by default, and ClTensors
+have this enforced, it is not possible to use col major storage
+on a ClTensor.</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/base/routines.cr#L34" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+  <h2>
+    <a id="macro-detail" class="anchor" href="#macro-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Macro Detail
+  </h2>
+  
+    <div class="entry-detail" id="broadcast_n(items)-macro">
+      <div class="signature">
+        
+        macro <strong>broadcast_n</strong>(items)
+
+        <a class="method-permalink" href="#broadcast_n(items)-macro">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/array/broadcast.cr#L97" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="iter_macro(n,vars)-macro">
+      <div class="signature">
+        
+        macro <strong>iter_macro</strong>(n, vars)
+
+        <a class="method-permalink" href="#iter_macro(n,vars)-macro">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/73d0c88c757e22d9bb3d6380ae02a85fd495d676/src/iter/macro.cr#L26" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+</div>
+
+</body>
+</html>
