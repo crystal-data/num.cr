@@ -957,6 +957,60 @@ class Tensor(T)
     Num::Internal.broadcast_to(self, shape.map &.to_i)
   end
 
+  # Add dimensions to a `Tensor` so that it has at least `n`
+  # dimensions.  Zero element `Tensor`s cannot be expanded
+  # using this method. If a `Tensor` has more than `n` dimensions
+  # it will not be modified
+  #
+  # Arguments
+  # ---------
+  # *n*: Int
+  #   Minimum number of dimensions for the `Tensor`
+  #
+  # Examples
+  # --------
+  # ```
+  # a = [1, 2, 3].to_tensor
+  # a.with_dims(4) # => [[[[1, 2, 3]]]]
+  # ```
+  #
+  def with_dims(n : Int) : Tensor(T)
+    if self.rank >= n
+      self.view
+    else
+      d = n - self.rank
+      new_shape = [1] * d + @shape
+      reshape(new_shape)
+    end
+  end
+
+  # Expands a `Tensor`s dimensions n times by broadcasting
+  # the shape and strides.  No data is copied, and the result
+  # is a read-only view of the original `Tensor`
+  #
+  # Arguments
+  # ---------
+  # *n* : Int
+  #   Number of dimensions to broadcast
+  #
+  # Examples
+  # --------
+  # ```
+  # a = [1, 2, 3].to_tensor
+  # a.with_broadcast(2)
+  #
+  # # [[[1]],
+  # #
+  # #  [[2]],
+  # #
+  # #  [[3]]]
+  # ```
+  def with_broadcast(n : Int) : Tensor(T)
+    new_shape = @shape + [1] * n
+    new_strides = @strides + [0] * n
+    as_strided(new_shape, new_strides)
+  end
+
   # `as_strided` creates a view into the `Tensor` given the exact strides
   # and shape. This means it manipulates the internal data structure
   # of a `Tensor` and, if done incorrectly, the array elements can point
@@ -991,7 +1045,7 @@ class Tensor(T)
   # #  [1, 2, 3]]
   # ```
   def as_strided(shape : Array(Int), strides : Array(Int)) : Tensor(T)
-    r = self.class.new(@buffer, @shape, @strides)
+    r = self.class.new(@buffer, shape, strides)
     r.flags &= ~Num::ArrayFlags::OwnData
     r.flags &= ~Num::ArrayFlags::Write
     r
@@ -1473,7 +1527,7 @@ class Tensor(T)
 
   private def set(args : Array, t : Tensor)
     s = self[args]
-    t = t.as_shape(@shape)
+    t = t.as_shape(s.shape)
     if t.rank > s.rank
       raise Num::Internal::ShapeError.new("Setting a Tensor with a sequence")
     end
