@@ -356,7 +356,7 @@ class Tensor(T) < AnyArray(T)
     ihi = 0
     lapack(gebal, 'B'.ord.to_u8, n, a.to_unsafe, n, ilo, ihi, s.to_unsafe)
     tau = Tensor(T).new([n])
-    lapack(gehrd, n, ilo, ihi, a.buffer, n, tau.buffer)
+    lapack(gehrd, n, ilo, ihi, a.to_unsafe, n, tau.to_unsafe)
     Num.triu(a, -1)
   end
 
@@ -370,7 +370,7 @@ class Tensor(T) < AnyArray(T)
     k = a.shape[1]
     dest = Tensor(T).new([m, n])
     no = LibCblas::CblasTranspose::CblasNoTrans
-    blas(ge, mm, no, no, m, n, k, blas_const(1.0), a.buffer, a.shape[1], b.buffer, b.shape[1], blas_const(0.0), dest.buffer, dest.shape[1])
+    blas(ge, mm, no, no, m, n, k, blas_const(1.0), a.to_unsafe, a.shape[1], b.to_unsafe, b.shape[1], blas_const(0.0), dest.to_unsafe, dest.shape[1])
     dest
   end
 end
