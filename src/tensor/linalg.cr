@@ -363,14 +363,17 @@ class Tensor(T) < AnyArray(T)
   def matmul(other : Tensor(T))
     assert_matrix(self)
     assert_matrix(other)
-    a = flags.contiguous? ? self : dup
-    b = other.flags.contiguous? ? other : other.dup
+    a = flags.contiguous? || flags.fortran? ? self : dup(Num::RowMajor)
+    b = other.flags.contiguous? || flags.fortran? ? other : other.dup(Num::RowMajor)
     m = a.shape[0]
     n = b.shape[1]
     k = a.shape[1]
+    lda = flags.contiguous? ? a.shape[1] : a.shape[0]
+    ldb = other.flags.contiguous? ? b.shape[1] : b.shape[0]
     dest = Tensor(T).new([m, n])
-    no = LibCblas::CblasTranspose::CblasNoTrans
-    blas(ge, mm, no, no, m, n, k, blas_const(1.0), a.to_unsafe, a.shape[1], b.to_unsafe, b.shape[1], blas_const(0.0), dest.to_unsafe, dest.shape[1])
+    a_trans = flags.contiguous? ? LibCblas::CblasTranspose::CblasNoTrans : LibCblas::CblasTranspose::CblasTrans
+    b_trans = other.flags.contiguous? ? LibCblas::CblasTranspose::CblasNoTrans : LibCblas::CblasTranspose::CblasTrans
+    blas(ge, mm, a_trans, b_trans, m, n, k, blas_const(1.0), a.to_unsafe, lda, b.to_unsafe, ldb, blas_const(0.0), dest.to_unsafe, dest.shape[1])
     dest
   end
 end
