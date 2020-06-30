@@ -122,7 +122,7 @@ class Tensor(T)
     self.is_fortran
 
     char = lower ? 'L' : 'U'
-    lapack(potrf, char.ord.to_u8, shape[0], to_unsafe, shape[0])
+    lapack(potrf, char.ord.to_u8, shape[0], to_unsafe_c, shape[0])
     lower ? tril! : triu!
   end
 
@@ -165,9 +165,9 @@ class Tensor(T)
     a = self.dup(Num::ColMajor)
     tau = Tensor(T).new([k])
     jpvt = Tensor(Int32).new([1])
-    lapack(geqrf, m, n, a.to_unsafe, m, tau.to_unsafe)
+    lapack(geqrf, m, n, a.to_unsafe_c, m, tau.to_unsafe_c)
     r = a.triu
-    lapack(orgqr, m, n, k, a.to_unsafe, m, tau.to_unsafe)
+    lapack(orgqr, m, n, k, a.to_unsafe_c, m, tau.to_unsafe_c)
     {a, r}
   end
 
@@ -206,8 +206,8 @@ class Tensor(T)
     s = Tensor(T).new([mn])
     u = Tensor(T).new([m, m])
     vt = Tensor(T).new([n, n])
-    lapack(gesdd, 'A'.ord.to_u8, m, n, a.to_unsafe, m, s.to_unsafe, u.to_unsafe, m,
-      vt.to_unsafe, n, worksize: [{5*mn*mn + 5*mn, 2*mx*mn + 2*mn*mn + mn}.max, 8*mn])
+    lapack(gesdd, 'A'.ord.to_u8, m, n, a.to_unsafe_c, m, s.to_unsafe_c, u.to_unsafe_c, m,
+      vt.to_unsafe_c, n, worksize: [{5*mn*mn + 5*mn, 2*mx*mn + 2*mn*mn + mn}.max, 8*mn])
     {u.transpose, s, vt.transpose}
   end
 
@@ -238,9 +238,9 @@ class Tensor(T)
       'V'.ord.to_u8,
       'L'.ord.to_u8,
       n,
-      a.to_unsafe,
+      a.to_unsafe_c,
       n,
-      w.to_unsafe,
+      w.to_unsafe_c,
       worksize: 3 * n - 1
     )
     {w, a}
@@ -271,8 +271,8 @@ class Tensor(T)
     wl = wr.dup
     vl = Tensor(T).new([n, n], Num::RowMajor)
     vr = wr.dup
-    lapack(geev, 'V'.ord.to_u8, 'V'.ord.to_u8, n, a.to_unsafe, n, wr.to_unsafe,
-      wl.to_unsafe, vl.to_unsafe, n, vr.to_unsafe, n, worksize: 3 * n)
+    lapack(geev, 'V'.ord.to_u8, 'V'.ord.to_u8, n, a.to_unsafe_c, n, wr.to_unsafe_c,
+      wl.to_unsafe_c, vl.to_unsafe_c, n, vr.to_unsafe_c, n, worksize: 3 * n)
     {wr, vl}
   end
 
@@ -297,7 +297,7 @@ class Tensor(T)
     a = dup(Num::ColMajor)
     n = a.shape[0]
     w = Tensor(T).new([n])
-    lapack(syev, 'N'.ord.to_u8, 'L'.ord.to_u8, n, a.to_unsafe, n, w.to_unsafe, worksize: 3 * n - 1)
+    lapack(syev, 'N'.ord.to_u8, 'L'.ord.to_u8, n, a.to_unsafe_c, n, w.to_unsafe_c, worksize: 3 * n - 1)
     w
   end
 
@@ -325,8 +325,8 @@ class Tensor(T)
     wl = wr.dup
     vl = Tensor(T).new([n, n])
     vr = wr.dup
-    lapack(geev, 'N'.ord.to_u8, 'N'.ord.to_u8, n, a.to_unsafe, n, wr.to_unsafe,
-      wl.to_unsafe, vl.to_unsafe, n, vr.to_unsafe, n, worksize: 3 * n)
+    lapack(geev, 'N'.ord.to_u8, 'N'.ord.to_u8, n, a.to_unsafe_c, n, wr.to_unsafe_c,
+      wl.to_unsafe_c, vl.to_unsafe_c, n, vr.to_unsafe_c, n, worksize: 3 * n)
     wr
   end
 
@@ -350,7 +350,7 @@ class Tensor(T)
     a = self.dup(Num::ColMajor)
     m, n = a.shape
     worksize = order == 'I' ? m : 0
-    lapack_util(lange, worksize, order.ord.to_u8, m, n, tensor(a.to_unsafe), m)
+    lapack_util(lange, worksize, order.ord.to_u8, m, n, tensor(a.to_unsafe_c), m)
   end
 
   # Compute the determinant of an array.
@@ -370,7 +370,7 @@ class Tensor(T)
     m, n = a.shape
     ipiv = Pointer(Int32).malloc(n)
 
-    lapack(getrf, m, n, a.to_unsafe, n, ipiv)
+    lapack(getrf, m, n, a.to_unsafe_c, n, ipiv)
     ldet = Num.prod(a.diagonal)
     detp = 1
     n.times do |j|
@@ -403,8 +403,8 @@ class Tensor(T)
     a = dup(Num::ColMajor)
     n = a.shape[0]
     ipiv = Pointer(Int32).malloc(n)
-    lapack(getrf, n, n, a.to_unsafe, n, ipiv)
-    lapack(getri, n, a.to_unsafe, n, ipiv, worksize: n * n)
+    lapack(getrf, n, n, a.to_unsafe_c, n, ipiv)
+    lapack(getri, n, a.to_unsafe_c, n, ipiv, worksize: n * n)
     a
   end
 
@@ -434,7 +434,7 @@ class Tensor(T)
     n = a.shape[0]
     m = x.rank > 1 ? x.shape[1] : x.shape[0]
     ipiv = Pointer(Int32).malloc(n)
-    lapack(gesv, n, m, a.to_unsafe, n, ipiv, x.to_unsafe, m)
+    lapack(gesv, n, m, a.to_unsafe_c, n, ipiv, x.to_unsafe_c, m)
     x
   end
 
@@ -478,9 +478,9 @@ class Tensor(T)
     s = of_real_type(n)
     ilo = 0
     ihi = 0
-    lapack(gebal, 'B'.ord.to_u8, n, a.to_unsafe, n, ilo, ihi, s.to_unsafe)
+    lapack(gebal, 'B'.ord.to_u8, n, a.to_unsafe_c, n, ilo, ihi, s.to_unsafe_c)
     tau = Tensor(T).new([n])
-    lapack(gehrd, n, ilo, ihi, a.to_unsafe, n, tau.to_unsafe)
+    lapack(gehrd, n, ilo, ihi, a.to_unsafe_c, n, tau.to_unsafe_c)
     a.triu(-1)
   end
 
@@ -506,8 +506,8 @@ class Tensor(T)
   # #  [34.0873, 73.5366, 40.5504]]
   # ```
   def matmul(other : Tensor(T))
-    self.assert_matrix
-    other.assert_matrix
+    self.is_matrix
+    other.is_matrix
 
     a = @flags.contiguous? || @flags.fortran? ? self : self.dup(Num::RowMajor)
     b = other.flags.contiguous? || flags.fortran? ? other : other.dup(Num::RowMajor)
@@ -519,6 +519,8 @@ class Tensor(T)
     dest = Tensor(T).new([m, n])
     a_trans = flags.contiguous? ? LibCblas::CblasTranspose::CblasNoTrans : LibCblas::CblasTranspose::CblasTrans
     b_trans = other.flags.contiguous? ? LibCblas::CblasTranspose::CblasNoTrans : LibCblas::CblasTranspose::CblasTrans
+    alpha = T.new(1.0)
+    c_alpha = T.new(0.0)
     blas(
       ge,
       mm,
@@ -527,34 +529,34 @@ class Tensor(T)
       m,
       n,
       k,
-      blas_const(1.0),
-      a.to_unsafe,
+      blas_const(alpha),
+      a.to_unsafe_c,
       lda,
-      b.to_unsafe,
+      b.to_unsafe_c,
       ldb,
-      blas_const(0.0),
-      dest.to_unsafe,
+      blas_const(c_alpha),
+      dest.to_unsafe_c,
       dest.shape[1]
     )
     dest
   end
 
   # :nodoc:
-  private def is_matrix
+  def is_matrix
     unless self.rank == 2
       raise Exception.new
     end
   end
 
   # :nodoc:
-  private def is_square_matrix
+  def is_square_matrix
     unless self.rank == 2 && @shape[0] == @shape[1]
       raise Exception.new
     end
   end
 
   # :nodoc:
-  private def assert_fortran
+  def is_fortran
     unless @flags.fortran?
       raise Exception.new
     end

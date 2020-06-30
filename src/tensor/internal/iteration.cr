@@ -75,6 +75,52 @@ struct Num::Internal::AxisIter(T)
 end
 
 # :nodoc:
+struct Num::Internal::UnsafeAxisIter(T)
+  include Iterator(T)
+  @shape : Array(Int32)
+  @strides : Array(Int32)
+  @inc : Int32
+  @ptr : Pointer(T)
+  @tmp : Tensor(T)
+  @total : Int32
+  @yielded : Int32 = 0
+  @axis : Int32
+
+  def initialize(arr : Tensor(T), @axis : Int32 = -1, keepdims = false)
+    if @axis < 0
+      @axis += arr.rank
+    end
+    unless @axis < arr.rank
+      raise Num::Internal::AxisError.new("Axis out of range for array")
+    end
+
+    @shape = arr.shape.dup
+    @strides = arr.strides.dup
+    @ptr = arr.to_unsafe
+    @inc = arr.strides[axis]
+
+    if keepdims
+      @shape[axis] = 1
+      @strides[axis] = 0
+    else
+      @shape.delete_at(axis)
+      @strides.delete_at(axis)
+    end
+
+    @tmp = arr.class.new(@ptr, @shape, @strides)
+
+    @total = arr.shape[axis]
+  end
+
+  def next
+    ret = @tmp
+    @ptr += @inc
+    @tmp = Tensor.new(@ptr, @shape, @strides)
+    ret
+  end
+end
+
+# :nodoc:
 module Num::Internal
   macro iter_macro(n, vars)
     struct ContigFlatIter{{n}}({% for v in vars %}{{v[:typ]}},{% end %})

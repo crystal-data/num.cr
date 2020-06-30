@@ -26,6 +26,7 @@ require "./internal/constants"
 require "./internal/utils"
 require "./internal/print"
 require "./internal/iteration"
+require "../libs/cblas"
 
 # A `Tensor` is a multidimensional container of fixed size, containing
 # elements of type T.
@@ -386,6 +387,15 @@ class Tensor(T)
     @buffer
   end
 
+  # :nodoc:
+  def to_unsafe_c
+    {% if T == Complex %}
+      @buffer.as(LibCblas::ComplexDouble*)
+    {% else %}
+      @buffer
+    {% end %}
+  end
+
   def to_tensor
     self
   end
@@ -724,7 +734,7 @@ class Tensor(T)
   # # [[2, 3]]
   # ```
   def each_axis(axis : Int = -1, dims : Bool = false)
-    Num::Internal::AxisIter.new(self, keepdims: dims).each do |a|
+    Num::Internal::AxisIter.new(self, axis, keepdims: dims).each do |a|
       yield a
     end
   end
@@ -737,6 +747,8 @@ class Tensor(T)
     )
     {% if T == Bool %}
       {{lhs}}.value = (value ? true : false) && value != 0
+    {% elsif T == String %}
+      {{lhs}}.value = value.to_s
     {% else %}
       {{lhs}}.value = T.new(value)
     {% end %}
@@ -1331,6 +1343,10 @@ class Tensor(T)
     Num::Internal::UnsafeNDFlatIter.new(self)
   end
 
+  def unsafe_axis_iter(axis : Int, dims : Bool = false)
+    Num::Internal::UnsafeAxisIter.new(self, axis, dims)
+  end
+
   # :nodoc:
   def iter(a : Tensor)
     if contiguous(self, a)
@@ -1518,6 +1534,33 @@ class Tensor(T)
       )
     end
     {offset // abs_step + offset % abs_step, step * @strides[i], start}
+  end
+
+  private def set(mask : Tensor(Bool), value : Number)
+    m = mask.as_shape(@shape)
+    map!(m) do |i, c|
+      c ? value : i
+    end
+  end
+
+  # :TODO: Masked iter to iterate through a mask and another
+  # `Tensor`
+  private def set(mask : Tensor(Bool), value : Tensor)
+    m = mask.as_shape(@shape)
+    fill = 0
+    m.each do |b|
+      if b
+        fill += 1
+      end
+    end
+    if fill != value.size
+      raise Num::Internal::ShapeError.new("Bad value for mask")
+    end
+
+    it = value.unsafe_iter
+    map!(m) do |i, c|
+      c ? it.next.value : i
+    end
   end
 
   private def set(*args, value)
