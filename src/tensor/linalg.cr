@@ -1,42 +1,97 @@
-require "./extension"
+# Copyright (c) 2020 Crystal Data Contributors
+#
+# MIT License
+#
+# Permission is hereby granted, free of charge, to any person obtaining
+# a copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, sublicense, and/or sell copies of the Software, and to
+# permit persons to whom the Software is furnished to do so, subject to
+# the following conditions:
+#
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+# LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+# OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+# WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 require "./tensor"
-require "../base/exceptions"
+require "./extension"
+require "./work"
 
-class Tensor(T) < AnyArray(T)
-  private def raise_fortran_inplace(flags)
-    unless flags.fortran?
-      raise NumInternal::LinAlgError.new("Tensor must be Fortran Contiguous to apply the operation in-place")
+class Tensor(T)
+  # Computes the upper triangle of a `Tensor`.  Zeros
+  # out values below the `k`th diagonal
+  #
+  # Arguments
+  # ---------
+  # *k* : Int
+  #   Diagonal
+  #
+  # Examples
+  # --------
+  # ```
+  # a = Tensor(Int32).ones([3, 3])
+  # a.triu!
+  # a
+  #
+  # # [[1, 1, 1],
+  # #  [0, 1, 1],
+  # #  [0, 0, 1]]
+  # ```
+  def triu!(k : Int = 0)
+    self.each_pointer_with_index do |e, i|
+      m = i // @shape[1]
+      n = i % @shape[1]
+      e.value = m > n - k ? T.new(0) : e.value
     end
   end
 
-  private def assert_square_matrix(a)
-    if a.ndims != 2 || a.shape[0] != a.shape[1]
-      raise NumInternal::ShapeError.new("Input must be a square matrix")
+  # :ditto:
+  def triu(k : Int = 0)
+    t = self.dup
+    t.triu!(k)
+    t
+  end
+
+  # Computes the lower triangle of a `Tensor`.  Zeros
+  # out values above the `k`th diagonal
+  #
+  # Arguments
+  # ---------
+  # *k* : Int
+  #   Diagonal
+  #
+  # Examples
+  # --------
+  # ```
+  # a = Tensor(Int32).ones([3, 3])
+  # a.tril!
+  # a
+  #
+  # # [[1, 0, 0],
+  # #  [1, 1, 0],
+  # #  [1, 1, 1]]
+  # ```
+  def tril!(k : Int = 0)
+    self.each_pointer_with_index do |e, i|
+      m = i // @shape[1]
+      n = i % @shape[1]
+      e.value = m < n - k ? T.new(0) : e.value
     end
   end
 
-  private def assert_matrix(a)
-    if a.ndims != 2
-      raise NumInternal::ShapeError.new("Input must be a matrix")
-    end
-  end
-
-  private def vector_shape_match(a, b)
-    if a.shape != b.shape
-      raise NumInternal::ShapeError.new("Shapes do not match")
-    end
-  end
-
-  private def matrix_shape_match(a, b)
-    if a.shape[-1] != b.shape[-2]
-      raise NumInternal::ShapeError.new("Matrices are not compatible")
-    end
-  end
-
-  private def insist_1d(a, b)
-    if a.ndims != 1 || b.ndims != 1
-      raise NumInternal::ShapeError.new("Inputs must be 1D")
-    end
+  # :ditto:
+  def tril(k : Int = 0)
+    t = self.dup
+    t.tril!(k)
+    t
   end
 
   # Cholesky decomposition.
@@ -47,48 +102,35 @@ class Tensor(T) < AnyArray(T)
   # (symmetric if real-valued) and positive-definite. Only L is actually
   # returned.
   #
-  # ```crystal
-  # t = Tensor.from_array([[2, -1, 0], [-1, 2, -1], [0, -1, 2]]).astype(Float32)
-  # puts t.cholesky
+  # Arguments
+  # ---------
+  # *lower*
+  #   Triangular of decomposition to return
   #
-  # # Tensor([[ 1.414,    0.0,    0.0],
-  # #         [-0.707,  1.225,    0.0],
-  # #         [   0.0, -0.816,  1.155]])
+  # Examples
+  # --------
+  # ```
+  # t = [[2, -1, 0], [-1, 2, -1], [0, -1, 2]].to_tensor.astype(Float32)
+  # t.cholesky
+  #
+  # # [[ 1.414,    0.0,    0.0],
+  # #  [-0.707,  1.225,    0.0],
+  # #  [   0.0, -0.816,  1.155]]
   # ```
   def cholesky!(*, lower = true)
-    assert_square_matrix(self)
+    self.is_square_matrix
+    self.is_fortran
+
     char = lower ? 'L' : 'U'
     lapack(potrf, char.ord.to_u8, shape[0], to_unsafe, shape[0])
     lower ? tril! : triu!
   end
 
-  # Cholesky decomposition.
-  #
-  # Return the Cholesky decomposition, L * L.H, of the square matrix a, where
-  # L is lower-triangular and .H is the conjugate transpose operator (which
-  # is the ordinary transpose if a is real-valued). a must be Hermitian
-  # (symmetric if real-valued) and positive-definite. Only L is actually
-  # returned.
-  #
-  # ```crystal
-  # t = Tensor.from_array([[2, -1, 0], [-1, 2, -1], [0, -1, 2]]).astype(Float32)
-  # puts t.cholesky
-  #
-  # # Tensor([[ 1.414,    0.0,    0.0],
-  # #         [-0.707,  1.225,    0.0],
-  # #         [   0.0, -0.816,  1.155]])
-  # ```
+  # :ditto:
   def cholesky(*, lower = true)
-    ret = dup(Num::ColMajor)
-    ret.cholesky!
-    ret
-  end
-
-  private def qr_setup(a, m, n, k)
-    tau = Tensor(T).new([k])
-    jpvt = Tensor(Int32).new([1])
-    lapack(geqrf, m, n, a.to_unsafe, m, tau.to_unsafe)
-    {tau, jpvt}
+    t = self.dup(Num::ColMajor)
+    t.cholesky!
+    t
   end
 
   # Compute the qr factorization of a matrix.
@@ -96,28 +138,35 @@ class Tensor(T) < AnyArray(T)
   # Factor the matrix a as qr, where q is orthonormal and r is
   # upper-triangular.
   #
+  # Arguments
+  # ---------
+  #
+  # Examples
+  # --------
   # ```crystal
-  # t = Tensor.from_array([[0, 1], [1, 1], [1, 1], [2, 1]]).astype(Float32)
+  # t = [[0, 1], [1, 1], [1, 1], [2, 1]].to_tensor.as_type(Float32)
   # q, r = t.qr
   # puts q
   # puts r
   #
-  # # Tensor([[   0.0,  0.866],
-  # #         [-0.408,  0.289],
-  # #         [-0.408,  0.289],
-  # #         [-0.816, -0.289]])
-  # # Tensor([[-2.449, -1.633],
-  # #         [   0.0,  1.155],
-  # #         [   0.0,    0.0],
-  # #         [   0.0,    0.0]])
+  # # [[   0.0,  0.866],
+  # #  [-0.408,  0.289],
+  # #  [-0.408,  0.289],
+  # #  [-0.816, -0.289]]
+  # # [[-2.449, -1.633],
+  # #  [   0.0,  1.155],
+  # #  [   0.0,    0.0],
+  # #  [   0.0,    0.0]]
   # ```
   def qr
-    assert_matrix(self)
-    m, n = shape
+    self.is_matrix
+    m, n = @shape
     k = {m, n}.min
-    a = dup(Num::ColMajor)
-    tau = qr_setup(a, m, n, k)[0]
-    r = Num.triu(a)
+    a = self.dup(Num::ColMajor)
+    tau = Tensor(T).new([k])
+    jpvt = Tensor(Int32).new([1])
+    lapack(geqrf, m, n, a.to_unsafe, m, tau.to_unsafe)
+    r = a.triu
     lapack(orgqr, m, n, k, a.to_unsafe, m, tau.to_unsafe)
     {a, r}
   end
@@ -128,23 +177,28 @@ class Tensor(T) < AnyArray(T)
   # where u and vh are 2D unitary arrays and s is a 1D array of a’s singular
   # values.
   #
+  # Arguments
+  # ---------
+  #
+  # Examples
+  # --------
   # ```crystal
-  # t = Tensor.from_array([[0, 1], [1, 1], [1, 1], [2, 1]]).astype(Float32)
+  # t = [[0, 1], [1, 1], [1, 1], [2, 1]].to_tensor.as_type(Float32)
   # a, b, c = t.svd
   # puts a
   # puts b
   # puts c
   #
-  # # Tensor([[-0.204,  0.842, -0.331,  0.375],
-  # #         [-0.465,  0.185,   -0.2, -0.843],
-  # #         [-0.465,  0.185,  0.861,  0.092],
-  # #         [-0.726, -0.473, -0.331,  0.375]])
-  # # Tensor([ 3.02, 0.936])
-  # # Tensor([[-0.788, -0.615],
-  # #         [-0.615,  0.788]])
+  # # [[-0.203749, 0.841716 , -0.330613, 0.375094 ],
+  # #  [-0.464705, 0.184524 , -0.19985 , -0.842651],
+  # #  [-0.464705, 0.184524 , 0.861075 , 0.092463 ],
+  # #  [-0.725662, -0.472668, -0.330613, 0.375094 ]]
+  # # [3.02045 , 0.936426]
+  # # [[-0.788205, -0.615412],
+  # #  [-0.615412, 0.788205 ]]
   # ```
   def svd
-    assert_matrix(self)
+    self.is_matrix
     a = dup(Num::ColMajor)
     m, n = a.shape
     mn = {m, n}.min
@@ -157,46 +211,65 @@ class Tensor(T) < AnyArray(T)
     {u.transpose, s, vt.transpose}
   end
 
-  # Compute the eigenvalues and right eigenvectors of a square array.
+  # Compute the eigenvalues and right eigenvectors of a square `Tensor`.
   #
+  # Arguments
+  # ---------
+  #
+  # Examples
+  # --------
   # ```crystal
-  # t = Tensor.from_array([[0, 1], [1, 1]]).astype(Float32)
+  # t = [[0, 1], [1, 1]].to_tensor.as_type(Float32)
   # w, v = t.eigh
   # puts w
   # puts v
   #
-  # # Tensor([-0.618,  1.618])
-  # # Tensor([[-0.851,  0.526],
-  # #         [ 0.526,  0.851]])
+  # # [-0.618034, 1.61803  ]
+  # # [[-0.850651, 0.525731 ],
+  # #  [0.525731 , 0.850651 ]]
   # ```
   def eigh
-    assert_square_matrix(self)
+    self.is_square_matrix
     a = dup(Num::ColMajor)
     n = a.shape[0]
     w = Tensor(T).new([n])
-    lapack(syev, 'V'.ord.to_u8, 'L'.ord.to_u8, n, a.to_unsafe, n, w.to_unsafe, worksize: 3 * n - 1)
+    lapack(
+      syev,
+      'V'.ord.to_u8,
+      'L'.ord.to_u8,
+      n,
+      a.to_unsafe,
+      n,
+      w.to_unsafe,
+      worksize: 3 * n - 1
+    )
     {w, a}
   end
 
   # Compute the eigenvalues and right eigenvectors of a square array.
   #
+  # Arguments
+  # ---------
+  #
+  # Examples
+  # --------
   # ```crystal
-  # t = Tensor.from_array([[0, 1], [1, 1]]).astype(Float32)
+  # t = [[0, 1], [1, 1]].to_tensor.as_type(Float32)
   # w, v = t.eig
   # puts w
   # puts v
   #
-  # # Tensor([-0.618,  1.618])
-  # # Tensor([[-0.851,  0.526],
-  # #         [ 0.526,  0.851]])
+  # # [-0.618034, 1.61803  ]
+  # # [[-0.850651, 0.525731 ],
+  # #  [-0.525731, -0.850651]]
   # ```
   def eig
-    assert_square_matrix(self)
+    self.is_square_matrix
     a = dup(Num::ColMajor)
     n = a.shape[0]
     wr = Tensor(T).new([n])
     wl = wr.dup
-    vl = Tensor(T).new([n, n], ArrayFlags::Fortran)
+    vl = Tensor(T).new([n, n], Num::RowMajor)
     vr = wr.dup
     lapack(geev, 'V'.ord.to_u8, 'V'.ord.to_u8, n, a.to_unsafe, n, wr.to_unsafe,
       wl.to_unsafe, vl.to_unsafe, n, vr.to_unsafe, n, worksize: 3 * n)
@@ -208,14 +281,19 @@ class Tensor(T) < AnyArray(T)
   # Main difference between eigvals and eig: the eigenvectors aren’t
   # returned.
   #
+  # Arguments
+  # ---------
+  #
+  # Examples
+  # --------
   # ```
-  # t = Tensor.from_array([[0, 1], [1, 1]]).astype(Float32)
+  # t = [[0, 1], [1, 1]].to_tensor.as_type(Float32)
   # puts t.eigvalsh
   #
-  # # Tensor([-0.618,  1.618])
+  # # [-0.618034, 1.61803  ]
   # ```
   def eigvalsh
-    assert_square_matrix(self)
+    self.is_square_matrix
     a = dup(Num::ColMajor)
     n = a.shape[0]
     w = Tensor(T).new([n])
@@ -228,15 +306,20 @@ class Tensor(T) < AnyArray(T)
   # Main difference between eigvals and eig: the eigenvectors aren’t
   # returned.
   #
+  # Arguments
+  # ---------
+  #
+  # Examples
+  # --------
   # ```
-  # t = Tensor.from_array([[0, 1], [1, 1]]).astype(Float32)
+  # t = [[0, 1], [1, 1]].to_tensor.as_type(Float32)
   # puts t.eigvals
   #
-  # # Tensor([-0.618,  1.618])
+  # # [-0.618034, 1.61803  ]
   # ```
   def eigvals
-    assert_square_matrix(self)
-    a = dup(Num::ColMajor)
+    self.is_square_matrix
+    a = self.dup(Num::ColMajor)
     n = a.shape[0]
     wr = Tensor(T).new([n])
     wl = wr.dup
@@ -247,38 +330,48 @@ class Tensor(T) < AnyArray(T)
     wr
   end
 
-  # Matrix or vector norm.
+  # Matrix norm
   #
-  # This function is able to return one of eight different matrix norms,
-  # or one of an infinite number of vector norms (described below),
-  # depending on the value of the ord parameter.
+  # This function is able to return one of eight different matrix norms
   #
+  # Arguments
+  # ---------
+  # *order* : String
+  #   Type of norm
+  #
+  # Examples
+  # --------
   # ```crystal
-  # t = Tensor.from_array([[0, 1], [1, 1], [1, 1], [2, 1]]).astype(Float32)
-  # puts t.norm # => 3.6055512
+  # t = [[0, 1], [1, 1], [1, 1], [2, 1]].to_tensor.as_type(Float32)
+  # t.norm # => 3.6055512
   # ```
   def norm(*, order = 'F')
-    assert_matrix(self)
-    a = dup(Num::ColMajor)
-    m = a.shape[0]
+    self.is_matrix
+    a = self.dup(Num::ColMajor)
+    m, n = a.shape
     worksize = order == 'I' ? m : 0
-    lapack_util(lange, worksize, order.ord.to_u8, m, m, tensor(a.to_unsafe), m)
+    lapack_util(lange, worksize, order.ord.to_u8, m, n, tensor(a.to_unsafe), m)
   end
 
   # Compute the determinant of an array.
   #
+  # Arguments
+  # ---------
+  #
+  # Examples
+  # --------
   # ```crystal
-  # t = Tensor.from_array([[1, 2], [3, 4]]).astype(Float32)
+  # t = [[1, 2], [3, 4]].to_tensor.astype(Float32)
   # puts t.det # => -2.0
   # ```
   def det
-    assert_square_matrix(self)
+    self.is_square_matrix
     a = dup(Num::ColMajor)
     m, n = a.shape
     ipiv = Pointer(Int32).malloc(n)
 
     lapack(getrf, m, n, a.to_unsafe, n, ipiv)
-    ldet = Num.prod(a.diag_view)
+    ldet = Num.prod(a.diagonal)
     detp = 1
     n.times do |j|
       if j + 1 != ipiv[j]
@@ -293,15 +386,20 @@ class Tensor(T) < AnyArray(T)
   # Given a square matrix a, return the matrix ainv satisfying
   # dot(a, ainv) = dot(ainv, a) = eye(a.shape[0])
   #
+  # Arguments
+  # ---------
+  #
+  # Examples
+  # --------
   # ```crystal
-  # t = Tensor.from_array([[1, 2], [3, 4]]).astype(Float32)
+  # t = [[1, 2], [3, 4]].to_tensor.as_type(Float32)
   # puts t.inv
   #
-  # # Tensor([[-2.0,  1.0],
-  # #         [ 1.5, -0.5]])
+  # # [[-2  , 1   ],
+  # #  [1.5 , -0.5]]
   # ```
   def inv
-    assert_square_matrix(self)
+    self.is_square_matrix
     a = dup(Num::ColMajor)
     n = a.shape[0]
     ipiv = Pointer(Int32).malloc(n)
@@ -315,19 +413,26 @@ class Tensor(T) < AnyArray(T)
   # Computes the “exact” solution, x, of the well-determined, i.e., full rank,
   # linear matrix equation ax = b.
   #
+  # Arguments
+  # ---------
+  # *x* : Tensor
+  #   Argument with which to solve
+  #
+  # Examples
+  # --------
   # ```crystal
-  # a = Tensor.from_array([[3, 1], [1, 2]]).astype(Float32)
-  # b = Tensor.from_array([9, 8]).astype(Float32)
+  # a = [[3, 1], [1, 2]].to_tensor.astype(Float32)
+  # b = [9, 8].to_tensor.astype(Float32)
   # puts a.solve(b)
   #
-  # # Tensor([ 2.0,  3.0])
+  # # [2, 3]
   # ```
   def solve(x : Tensor(T))
-    assert_square_matrix(self)
+    self.is_square_matrix
     a = dup(Num::ColMajor)
     x = x.dup(Num::ColMajor)
     n = a.shape[0]
-    m = x.ndims > 1 ? x.shape[1] : x.shape[0]
+    m = x.rank > 1 ? x.shape[1] : x.shape[0]
     ipiv = Pointer(Int32).malloc(n)
     lapack(gesv, n, m, a.to_unsafe, n, ipiv, x.to_unsafe, m)
     x
@@ -342,8 +447,27 @@ class Tensor(T) < AnyArray(T)
   # ```
   #
   # where Q is unitary/orthogonal and H has only zero elements below the first sub-diagonal.
+  #
+  # Arguments
+  # ---------
+  #
+  # Examples
+  # --------
+  # ```
+  # a = [[2, 5, 8, 7],
+  #      [5, 2, 2, 8],
+  #      [7, 5, 6, 6],
+  #      [5, 4, 4, 8]].to_tensor.as_type(Float64)
+  #
+  # puts a.hessenberg
+  #
+  # # [[2       , -11.6584, 1.42005 , 0.253491],
+  # #  [-9.94987, 14.5354 , -5.31022, 2.43082 ],
+  # #  [0       , -1.83299, 0.3897  , -0.51527],
+  # #  [0       , 0       , -3.8319 , 1.07495 ]]
+  # ```
   def hessenberg
-    assert_square_matrix(self)
+    self.is_square_matrix
     a = dup(Num::ColMajor)
 
     if a.shape[0] < 2
@@ -356,21 +480,83 @@ class Tensor(T) < AnyArray(T)
     ihi = 0
     lapack(gebal, 'B'.ord.to_u8, n, a.to_unsafe, n, ilo, ihi, s.to_unsafe)
     tau = Tensor(T).new([n])
-    lapack(gehrd, n, ilo, ihi, a.buffer, n, tau.buffer)
-    Num.triu(a, -1)
+    lapack(gehrd, n, ilo, ihi, a.to_unsafe, n, tau.to_unsafe)
+    a.triu(-1)
   end
 
+  # Computes a matrix multiplication between two `Tensors`.  The `Tensor`s
+  # must be two dimensional with compatible shapes.  Currently
+  # only Float and Complex `Tensor`s are supported, as BLAS is used
+  # for this operation
+  #
+  # Arguments
+  # ---------
+  # *other* : Tensor(T)
+  #   The right hand side of the operation
+  #
+  # Examples
+  # --------
+  # ```
+  # Num::Rand.set_seed(0)
+  # a = Tensor.random(0.0...10.0, [3, 3])
+  # a.matmul(a)
+  #
+  # # [[28.2001, 87.4285, 30.5423],
+  # #  [12.4381, 30.9552, 26.2495],
+  # #  [34.0873, 73.5366, 40.5504]]
+  # ```
   def matmul(other : Tensor(T))
-    assert_matrix(self)
-    assert_matrix(other)
-    a = flags.contiguous? ? self : dup
-    b = other.flags.contiguous? ? other : other.dup
+    self.assert_matrix
+    other.assert_matrix
+
+    a = @flags.contiguous? || @flags.fortran? ? self : self.dup(Num::RowMajor)
+    b = other.flags.contiguous? || flags.fortran? ? other : other.dup(Num::RowMajor)
     m = a.shape[0]
     n = b.shape[1]
     k = a.shape[1]
+    lda = a.flags.contiguous? ? a.shape[1] : a.shape[0]
+    ldb = b.flags.contiguous? ? b.shape[1] : b.shape[0]
     dest = Tensor(T).new([m, n])
-    no = LibCblas::CblasTranspose::CblasNoTrans
-    blas(ge, mm, no, no, m, n, k, blas_const(1.0), a.buffer, a.shape[1], b.buffer, b.shape[1], blas_const(0.0), dest.buffer, dest.shape[1])
+    a_trans = flags.contiguous? ? LibCblas::CblasTranspose::CblasNoTrans : LibCblas::CblasTranspose::CblasTrans
+    b_trans = other.flags.contiguous? ? LibCblas::CblasTranspose::CblasNoTrans : LibCblas::CblasTranspose::CblasTrans
+    blas(
+      ge,
+      mm,
+      a_trans,
+      b_trans,
+      m,
+      n,
+      k,
+      blas_const(1.0),
+      a.to_unsafe,
+      lda,
+      b.to_unsafe,
+      ldb,
+      blas_const(0.0),
+      dest.to_unsafe,
+      dest.shape[1]
+    )
     dest
+  end
+
+  # :nodoc:
+  private def is_matrix
+    unless self.rank == 2
+      raise Exception.new
+    end
+  end
+
+  # :nodoc:
+  private def is_square_matrix
+    unless self.rank == 2 && @shape[0] == @shape[1]
+      raise Exception.new
+    end
+  end
+
+  # :nodoc:
+  private def assert_fortran
+    unless @flags.fortran?
+      raise Exception.new
+    end
   end
 end

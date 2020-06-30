@@ -21,154 +21,286 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "../array/array"
-require "../base/array"
+require "./tensor"
+require "./internal/random"
 
-class Tensor(T) < AnyArray(T)
-  # A flexible method to create `Tensor`'s of arbitrary shapes
-  # filled with random values of arbitrary types.  Since
-  # Ranges can contain any dtype, the type of tensor is
-  # inferred from the passed range, and a new `Tensor` is
-  # sampled using the provided shape.
-  def self.random(r : Range(U, U), _shape : Array(Int32)) forall U
-    if _shape.size == 0
-      Tensor(U).new(_shape)
-    else
-      new(_shape) { |_| Random.rand(r) }
+class Tensor(T)
+  # Creates a `Tensor` sampled from a provided range, with a given
+  # shape.
+  #
+  # The generic types of the `Tensor` are inferred from the endpoints
+  # of the range
+  #
+  # Arguments
+  # ---------
+  # *r* : Range(U, U)
+  #   Range of values to sample between
+  # *shape* : Array(Int)
+  #   Shape of returned `Tensor`
+  #
+  # Examples
+  # --------
+  # ```
+  # Num::Rand.set_seed(0)
+  # t = Tensor.random(0...10, [2, 2])
+  # t
+  #
+  # # [[8, 4],
+  # #  [7, 4]]
+  # ```
+  def self.random(r : Range(U, U), shape : Array(Int)) : Tensor(U) forall U
+    self.new(shape) do
+      Num::Rand.generator.rand(r)
     end
   end
 
-  def self.zeros(shape : Array(Int32))
-    Tensor(T).new(shape, T.new(0))
+  # Creates a `Tensor` of a provided shape, filled with 0.  The generic type
+  # must be specified.
+  #
+  # Arguments
+  # ---------
+  # *shape*
+  #   Shape of returned `Tensor`
+  #
+  # Examples
+  # --------
+  # ```
+  # t = Tensor(Int8).zeros([3]) # => [0, 0, 0]
+  # ```
+  def self.zeros(shape : Array(Int)) : Tensor(T)
+    self.new(shape, T.new(0))
   end
 
-  def self.zeros_like(other : NumInternal::AnyTensor)
-    Tensor(T).new(other.shape, T.new(0))
+  # Creates a `Tensor` filled with 0, sharing the shape of another
+  # provided `Tensor`
+  #
+  # Arguments
+  # ---------
+  # *t*
+  #   `Tensor` to use for output shape
+  #
+  # Examples
+  # --------
+  # ```
+  # t = Tensor.new([3]) &.to_f
+  # u = Tensor(Int8).zeros_like(t) # => [0, 0, 0]
+  # ```
+  def self.zeros_like(t : Tensor) : Tensor(T)
+    self.new(t.shape, T.new(0))
   end
 
-  def self.ones(shape : Array(Int32))
-    Tensor(T).new(shape, T.new(1))
+  # Creates a `Tensor` of a provided shape, filled with 1.  The generic type
+  # must be specified.
+  #
+  # Arguments
+  # ---------
+  # *shape*
+  #   Shape of returned `Tensor`
+  #
+  # Examples
+  # --------
+  # ```
+  # t = Tensor(Int8).ones([3]) # => [1, 1, 1]
+  # ```
+  def self.ones(shape : Array(Int)) : Tensor(T)
+    self.new(shape, T.new(1))
   end
 
-  def self.ones_like(other : NumInternal::AnyTensor)
-    Tensor(T).new(other.shape, T.new(1))
+  # Creates a `Tensor` filled with 1, sharing the shape of another
+  # provided `Tensor`
+  #
+  # Arguments
+  # ---------
+  # *t*
+  #   `Tensor` to use for output shape
+  #
+  # Examples
+  # --------
+  # ```
+  # t = Tensor.new([3]) &.to_f
+  # u = Tensor(Int8).ones_like(t) # => [0, 0, 0]
+  # ```
+  def self.ones_like(t : Tensor) : Tensor(T)
+    self.new(t.shape, T.new(1))
   end
 
-  def self.full(shape : Array(Int32), value : Number)
-    Tensor(T).new(shape, T.new(value))
-  end
-
-  def self.full_like(other : NumInternal::AnyTensor, value : Number)
-    Tensor(T).new(other.shape, T.new(value))
-  end
-
-  def self.range(start : T, stop : T, step : T)
+  # Creates a flat `Tensor` containing a monotonically increasing
+  # or decreasing range.  The generic type is inferred from
+  # the inputs to the method
+  #
+  # Arguments
+  # ---------
+  # *start*
+  #   Beginning value for the range
+  # *stop*
+  #   End value for the range
+  # *step*
+  #   Offset between values of the range
+  #
+  # Examples
+  # --------
+  # ```
+  # Tensor.range(0, 5, 2)       # => [0, 2, 4]
+  # Tensor.range(5, 0, -1)      # => [5, 4, 3, 2, 1]
+  # Tensor.range(0.0, 3.5, 0.7) # => [0  , 0.7, 1.4, 2.1, 2.8]
+  # ```
+  def self.range(start : T, stop : T, step : T) : Tensor(T)
     if start > stop && step > 0
-      raise NumInternal::ValueError.new("Range must return at at least one value")
-    end
-    r = (stop - start)
-    num = (r / step).ceil.abs
-    Tensor.new([Int32.new(num)]) { |i| T.new(start + (i * step)) }
-  end
-
-  def self.range(stop : T)
-    Tensor.range(T.new(0), stop, T.new(1))
-  end
-
-  def self.range(start : T, stop : T)
-    Tensor.range(start, stop, T.new(1))
-  end
-
-  def self.linear_space(start : Number, stop : Number, num = 50, endpoint = true)
-    raise NumInternal::ValueError.new "Number of samples must be non-negative" unless num > 0
-    div = endpoint ? num - 1 : num
-    start = start * 1.0
-    stop = stop * 1.0
-    y = Tensor.range(Float64.new(num))
-    delta = stop - start
-    if num > 1
-      step = delta / div
-      if step == 0
-        raise NumInternal::ValueError.new "Cannot have a step of 0"
-      end
-      y = y * step
-    else
-      y = y * delta
-    end
-    y += start
-    if endpoint && num > 1
-      y[y.shape[0] - 1] = stop
-    end
-    y
-  end
-
-  def self.logarithmic_space(start, stop, num = 50, endpoint = true, base = 10.0)
-    y = Tensor.linear_space(start, stop, num: num, endpoint: endpoint)
-    base ** y
-  end
-
-  def self.geometric_space(start, stop, num = 50, endpoint = true)
-    if start == 0 || stop == 0
-      raise NumInternal::ValueError.new "Geometric sequence cannot include zero"
+      raise Num::Internal::ValueError.new(
+        "Range must return at least one value"
+      )
     end
 
-    out_sign = 1.0
-
-    if start < 0 && stop < 0
-      start, stop = -start, -stop
-      out_sign = -out_sign
-    end
-
-    log_start = Math.log(start, 10.0)
-    log_stop = Math.log(stop, 10.0)
-
-    Tensor.logarithmic_space(log_start, log_stop, num: num, endpoint: endpoint, base: 10.0) * out_sign
-  end
-
-  def self.from_range(rng : Range(T, T))
-    last = rng.excludes_end? ? rng.end : rng.end + T.new(1)
-    self.range(rng.begin, last, T.new(1))
-  end
-
-  def self.eye(m : Int, n : Int? = nil, k : Int = 0)
-    n = n.nil? ? m : n.as(Int32)
-    Tensor.new(Int32.new(m), n) do |i, j|
-      i == j - k ? T.new(1) : T.new(0)
+    r = stop - start
+    n = (r / step).ceil.abs
+    self.new([n.to_i]) do |i|
+      T.new(start + i * step)
     end
   end
 
+  # :ditto:
+  def self.range(stop : T) : Tensor(T)
+    self.range(T.new(0), stop, T.new(1))
+  end
+
+  # :ditto:
+  def self.range(start : T, stop : T) : Tensor(T)
+    self.range(start, stop, T.new(1))
+  end
+
+  # Return a two-dimensional `Tensor` with ones along the diagonal,
+  # and zeros elsewhere
+  #
+  # Arguments
+  # ---------
+  # *m* : Int
+  #   Number of rows in the `Tensor`
+  # *n* : Int?
+  #   Number of columsn in the `Tensor`, defaults to `m` if nil
+  # *offset* : Int
+  #   Indicates which diagonal to fill with ones
+  #
+  # Examples
+  # --------
+  # ```
+  # Tensor(Int32).eye(3, offset: -1)
+  #
+  # # [[0, 0, 0],
+  # #  [1, 0, 0],
+  # #  [0, 1, 0]]
+  #
+  # Tensor(Int8).eye(2)
+  #
+  # # [[1, 0],
+  # #  [0, 1]]
+  # ```
+  def self.eye(m : Int, n : Int? = nil, offset : Int = 0)
+    n = n.nil? ? m : n
+    Tensor.new(m, n) do |i, j|
+      i == j - offset ? T.new(1) : T.new(0)
+    end
+  end
+
+  # Returns an identity `Tensor` with ones along the diagonal,
+  # and zeros elsewhere
+  #
+  # Arguments
+  # ---------
+  # *n* : Number of rows and columns in output
+  #
+  # Examples
+  # --------
+  # ```
+  # Tensor(Int8).identity(2)
+  #
+  # # [[1, 0],
+  # #  [0, 1]]
+  # ```
   def self.identity(n : Int)
-    n32 = Int32.new(n)
-    Tensor.new(n32, n32) do |i, j|
-      i == j ? T.new(1) : T.new(0)
+    self.new(n, n) do |i, j|
+      i == j ? T.new(1) : T.new(1)
     end
   end
 
-  def self.diag(a : Tensor(T), k : Int32 = 0)
-    if a.ndims > 1
-      raise "Only 1 dimensional Tensors are supported"
+  # Creates a two dimensional `Tensor` with a one-dimensional `Tensor`
+  # placed along the diagonal
+  #
+  # Arguments
+  # ---------
+  # *a* : Tensor | Enumerable
+  #   Input `Tensor`, must be one-dimensional
+  #
+  # Examples
+  # --------
+  # ```
+  # Tensor.diag([1, 2, 3])
+  #
+  # # [[1, 0, 0],
+  # #  [0, 2, 0],
+  # #  [0, 0, 3]]
+  # ```
+  def self.diag(a : Tensor | Enumerable)
+    a_t = a.to_tensor
+    if a_t.rank > 1
+      raise Num::Internal::ShapeError.new("Input must be one-dimensional")
     end
-    iter = NumInternal::UnsafeNDFlatIter.new(a)
-    Tensor(T).new(a.shape[0], a.shape[0]) do |i, j|
-      i == j - k ? iter.next.value : T.new(0)
+    s0 = a_t.shape[0]
+    t = a_t.class.new([s0, s0])
+    t.diagonal[...] = a_t
+    t
+  end
+
+  # Generate a Vandermonde matrix.
+  #
+  # The columns of the output `Tensor` are powers of the input vector.
+  # The order of the powers is determined by the increasing boolean
+  # argument. Specifically, when increasing is False, the i-th output
+  # column is the input vector raised element-wise to the power of
+  # N - i - 1. Such a matrix with a geometric progression in each
+  # row is named for Alexandre- Theophile Vandermonde.
+  #
+  # Arguments
+  # ---------
+  # *t* : Tensor(T)
+  #   One dimensional input `Tensor`
+  # *n* : Int
+  #   Number of columns in the output, defaults to `t.size`
+  # *increasing* : Bool
+  #   Specifies the order of the powers in the output
+  #
+  # Examples
+  # --------
+  # ```
+  # a = Tensor.from_array [1, 2, 3]
+  # Tensor.vandermonde(a)
+  #
+  # # [[1, 1, 1],
+  # #  [4, 2, 1],
+  # #  [9, 3, 1]]
+  #
+  # Tensor.vandermonde(a, 4, increasing: true)
+  #
+  # # [[ 1,  1,  1,  1],
+  # #  [ 1,  2,  4,  8],
+  # #  [ 1,  3,  9, 27]]
+  # ```
+  def self.vandermonde(
+    t : Tensor | Enumerable,
+    n : Int,
+    increasing : Bool = false
+  )
+    a_t = t.to_tensor
+    if a_t.rank > 1
+      raise Num::Internal::ShapeError.new("Input must be one-dimensional")
+    end
+
+    a_t.class.new(a_t.size, n) do |i, j|
+      a_t[i].value ** (increasing ? j : n - j - 1)
     end
   end
 
-  def self.vander(x : Tensor(T), n : Int32? = nil, increasing : Bool = false)
-    if x.ndims > 1
-      raise NumInternal::ShapeError.new("Vandermonde matrices must
-        be initialized with a one-dimensional Tensor")
-    end
-    n = n.nil? ? x.size : n.as(Int32)
-    Tensor(T).new(x.size, n) do |i, j|
-      offset = increasing ? j : n - j - 1
-      x[i].value ** offset
-    end
-  end
-
-  def self.tri(n : Int32, m : Int32? = nil, k : Int32 = 0)
-    Tensor(T).new(n, m.nil? ? n : m.as(Int32)) do |i, j|
-      i >= j - k ? T.new(1) : T.new(0)
-    end
+  # :ditto:
+  def self.vandermonde(t : Tensor(T), increasing : Bool = false)
+    vandermonde(t, t.size, increasing)
   end
 end
