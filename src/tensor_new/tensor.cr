@@ -545,9 +545,8 @@ class Tensor(T)
     new_shape = [n]
     new_strides = [@strides.sum]
     new_flags = @flags.dup
-    new_flags &= ~Num::ArrayFlags::OwnData
-    t = self.class.new(@buffer, new_shape, new_strides, new_flags)
-    t.update_flags(Num::ArrayFlags::Fortran | Num::ArrayFlags::Contiguous)
+    t = self.class.new(@buffer, new_shape, new_strides)
+    t.flags &= ~Num::ArrayFlags::OwnData
     t
   end
 

@@ -222,6 +222,34 @@ class Tensor(T)
     end
   end
 
+  # Creates a two dimensional `Tensor` with a one-dimensional `Tensor`
+  # placed along the diagonal
+  #
+  # Arguments
+  # ---------
+  # *a* : Tensor | Enumerable
+  #   Input `Tensor`, must be one-dimensional
+  #
+  # Examples
+  # --------
+  # ```
+  # Tensor.diag([1, 2, 3])
+  #
+  # # [[1, 0, 0],
+  # #  [0, 2, 0],
+  # #  [0, 0, 3]]
+  # ```
+  def self.diag(a : Tensor | Enumerable)
+    a_t = a.to_tensor
+    if a_t.rank > 1
+      raise Num::Internal::ShapeError.new("Input must be one-dimensional")
+    end
+    s0 = a_t.shape[0]
+    t = a_t.class.new([s0, s0])
+    t.diagonal[...] = a_t
+    t
+  end
+
   # Generate a Vandermonde matrix.
   #
   # The columns of the output `Tensor` are powers of the input vector.
@@ -256,15 +284,18 @@ class Tensor(T)
   # #  [ 1,  2,  4,  8],
   # #  [ 1,  3,  9, 27]]
   # ```
-  def self.vandermonde(t : Tensor(T), n : Int, increasing : Bool = false)
-    if t.rank > 1
-      raise Num::Internal::ShapeError.new(
-        "Input must be one-dimensional"
-      )
+  def self.vandermonde(
+    t : Tensor | Enumerable,
+    n : Int,
+    increasing : Bool = false
+  )
+    a_t = t.to_tensor
+    if a_t.rank > 1
+      raise Num::Internal::ShapeError.new("Input must be one-dimensional")
     end
 
-    Tensor(T).new(t.size, n) do |i, j|
-      t[i].value ** (increasing ? j : n - j - 1)
+    a_t.class.new(a_t.size, n) do |i, j|
+      a_t[i].value ** (increasing ? j : n - j - 1)
     end
   end
 
