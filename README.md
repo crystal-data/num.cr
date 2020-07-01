@@ -169,7 +169,7 @@ puts df.sum
 
 With operations that broadcast across the `DataFrame`
 
-```
+```crystal
 puts df.greater(df.mean)
 
 #      foo    bar
