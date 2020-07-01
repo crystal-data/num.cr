@@ -132,7 +132,7 @@ module Num::Internal
 
   # Finds the maximum width of a string representation of an element of
   # an ndarray
-  private def max_width(a : Tensor)
+  def max_width(a : Tensor)
     mx = 0
     a.each do |i|
       val = format(i)
