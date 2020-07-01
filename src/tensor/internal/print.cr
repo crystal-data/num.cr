@@ -109,6 +109,10 @@ module Num::Internal
     value.to_s.rjust(pad)
   end
 
+  def format(value, pad : Int32 = 0)
+    value.to_s.rjust(pad)
+  end
+
   # For arrays that are too large to display the entire data structure,
   # this method slices the proper regions to find the correct pad value
   # for the region of the array that will be displayed

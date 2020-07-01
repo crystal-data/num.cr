@@ -24,7 +24,7 @@ require "../tensor"
 
 module Enumerable(T)
   def to_tensor : Tensor(T)
-    t = Tensor(T).new([@size])
+    t = Tensor(T).new([self.size])
     iter = t.unsafe_iter
     each do |e|
       iter.next.value = e

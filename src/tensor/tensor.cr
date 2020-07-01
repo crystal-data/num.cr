@@ -387,6 +387,14 @@ class Tensor(T)
     @buffer
   end
 
+  def unique
+    u = Set(T).new
+    each do |e|
+      u << e
+    end
+    u.to_tensor
+  end
+
   # :nodoc:
   def to_unsafe_c
     {% if T == Complex %}

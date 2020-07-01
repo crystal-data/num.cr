@@ -349,7 +349,7 @@ module Num
     m = a_t.value
     a_t.each_with_index do |el, i|
       if el > m
-        m = c
+        m = el
       end
     end
     m
