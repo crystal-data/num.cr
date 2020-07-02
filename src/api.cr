@@ -13,3 +13,5 @@ require "./cl_tensor/linalg"
 require "./frame/frame"
 require "./frame/series"
 require "./frame/index"
+
+require "./scikit/matrices"

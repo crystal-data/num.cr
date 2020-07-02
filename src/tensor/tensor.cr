@@ -1415,6 +1415,34 @@ class Tensor(T)
     t
   end
 
+  # :nodoc:
+  def accumulate_axis(axis : Int)
+    if axis < 0
+      axis = self.rank + axis
+    end
+
+    if axis >= self.rank
+      raise Num::Internal::AxisError.new("Axis out of range for Tensor")
+    end
+
+    t = self.dup
+    buf = t.to_unsafe
+    s0 = @shape.dup
+    r0 = @strides.dup
+    s0.delete_at(axis)
+    r0.delete_at(axis)
+
+    0.step(to: @shape[axis] - 2) do |i|
+      f = Tensor(T).new(buf, s0, r0)
+      s = Tensor(T).new(buf + @strides[axis], s0, r0)
+      s.map!(f) do |i, j|
+        yield i, j
+      end
+      buf += @strides[axis]
+    end
+    t
+  end
+
   private def update_flags(m = Num::ArrayFlags::All)
     if m.fortran?
       if is_f_contiguous

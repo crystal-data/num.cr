@@ -75,6 +75,41 @@ module Num
     end
   end
 
+  # Accumulate's a `Tensor` along an axis, summing each view into
+  # the `Tensor`
+  #
+  # Arguments
+  # ---------
+  # *a* : Tensor | Enumerable
+  #   Argument to sum
+  # *axis* : Int
+  #   Axis of summation
+  #
+  # Examples
+  # --------
+  # ```
+  # a = Tensor.new([3, 3, 2]) { |i| i }
+  # Num.cumsum(a, 0)
+  #
+  # # [[[ 0,  1],
+  # #   [ 2,  3],
+  # #   [ 4,  5]],
+  # #
+  # #  [[ 6,  8],
+  # #   [10, 12],
+  # #   [14, 16]],
+  # #
+  # #  [[18, 21],
+  # #   [24, 27],
+  # #   [30, 33]]]
+  # ```
+  def cumsum(t : Tensor | Enumerable, axis : Int)
+    a_t = t.to_tensor
+    a_t.accumulate_axis(axis) do |i, j|
+      i + j
+    end
+  end
+
   # Reduces a `Tensor` to a scalar by multiplying all of its
   # elements
   #

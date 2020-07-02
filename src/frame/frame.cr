@@ -24,6 +24,7 @@
 require "../api"
 require "./series"
 require "./frame_slice"
+require "csv"
 
 class DataFrame(T, V)
   getter c : T
@@ -169,6 +170,26 @@ class DataFrame(T, V)
   end
 
   # :nodoc:
+  def to_csv
+    CSV.build do |csv|
+      csv.row do |r|
+        r << "index"
+        @c.each_key do |k|
+          r << k
+        end
+      end
+      each_with_index do |e, i|
+        csv.row do |r|
+          r << i
+          e.each_value do |v|
+            r << v
+          end
+        end
+      end
+    end
+  end
+
+  # :nodoc:
   macro reduce(reduction)
     def {{reduction.id}}
       \{% begin %}
@@ -224,4 +245,12 @@ class DataFrame(T, V)
   elementwise greater_equal
   elementwise less
   elementwise less_equal
+end
+
+macro agg(nt, **fns)
+  FrameSlice.new(
+    {% for k, v in fns %}
+        {{k}}: {{nt}}.c[{{k.symbolize}}].{{v.id}},
+    {% end %}
+  )
 end

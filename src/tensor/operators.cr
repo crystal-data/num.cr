@@ -201,4 +201,12 @@ module Num
   stdlibwrap ldexp
   stdlibwrap max
   stdlibwrap min
+
+  def conj(t : Tensor(U)) forall U
+    {% if U == Complex %}
+      t.map &.conj
+    {% else %}
+      t.dup
+    {% end %}
+  end
 end
