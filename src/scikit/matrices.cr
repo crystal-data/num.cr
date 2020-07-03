@@ -24,6 +24,22 @@
 module SciKit
   extend self
 
+  # Construct a circulant matrix.
+  #
+  # Arguments
+  # ---------
+  # *c* : Tensor | Enumerable
+  #   First column of the matrix
+  #
+  # Examples
+  # --------
+  # ```
+  # SciKit.circulant([1, 2, 3])
+  #
+  # # [[1, 3, 2],
+  # #  [2, 1, 3],
+  # #  [3, 2, 1]]
+  # ```
   def circulant(c : Tensor | Enumerable)
     a_c = c.to_tensor.flat
     c_ext = Num.concat(a_c[{..., -1}], a_c[{1..., -1}])
@@ -32,6 +48,28 @@ module SciKit
     c_ext.as_strided([l, l], [-n, n]).dup
   end
 
+  # Construct a Toeplitz matrix.
+
+  # The Toeplitz matrix has constant diagonals, with c as its
+  # first column and r as its first row. If r is not given,
+  # r == conjugate(c) is assumed.
+  #
+  # Arguments
+  # ---------
+  # *c* : Tensor | Enumerable
+  #   First column of the Matrix, assumed flat
+  # *r* : Tensor | Enumerable
+  #   First row of the Matrix, assumed flat
+  #
+  # Examples
+  # --------
+  # ```
+  # SciKit.toeplitz([1, 2, 3], [1, 4, 5, 6])
+  #
+  # # [[1, 4, 5, 6],
+  # #  [2, 1, 4, 5],
+  # #  [3, 2, 1, 4]]
+  # ```
   def toeplitz(c : Tensor | Enumerable, r : Tensor | Enumerable)
     c_t = c.to_tensor.flat
     r_t = r.to_tensor.flat
@@ -41,12 +79,35 @@ module SciKit
     vals.as_strided(out_shp, [-n, n]).dup
   end
 
+  # :ditto:
   def toeplitz(c : Tensor | Enumerable)
     c_t = c.to_tensor.flat
     r = Num.conj(c_t)
     toeplitz(c_t, r)
   end
 
+  # Construct a Hankel matrix.
+  #
+  # The Hankel matrix has constant anti-diagonals, with c as
+  # its first column and r as its last row. If r is not given,
+  # then r = zeros_like(c) is assumed.
+  #
+  # Arguments
+  # ---------
+  # *c* : Tensor
+  #   The first column of the matrix
+  # *r* : Tensor
+  #   Last row of the matrix
+  #
+  # Examples
+  # --------
+  # ```
+  # puts SciKit.hankel([1, 2, 99])
+  #
+  # # [[ 1,  2, 99],
+  # #  [ 2, 99,  0],
+  # #  [99,  0,  0]]
+  # ```
   def hankel(c : Tensor | Enumerable, r : Tensor | Enumerable)
     c_t = c.to_tensor.flat
     r_t = r.to_tensor.flat
@@ -56,12 +117,31 @@ module SciKit
     vals.as_strided(out_shp, [n, n]).dup
   end
 
+  # :ditto:
   def hankel(c : Tensor | Enumerable)
     c_t = c.to_tensor.flat
     r = c_t.class.zeros_like(c_t)
     hankel(c_t, r)
   end
 
+  # Construct an Hadamard matrix.
+  #
+  # Constructs an n-by-n Hadamard matrix, using Sylvester’s
+  # construction. n must be a power of 2.
+  #
+  # Arguments
+  # ---------
+  # *n* : Int
+  #   The order of the matrix, must be a power of 2
+  #
+  # Examples
+  # --------
+  # ```
+  # SciKit.hadamard(2, dtype: Complex)
+  #
+  # # [[1+0j , 1+0j ],
+  # #  [1+0j , -1+0j]]
+  # ```
   def hadamard(n : Int, dtype : U.class = Int32) forall U
     if n < 1
       lg2 = 0
@@ -80,6 +160,25 @@ module SciKit
     h
   end
 
+  # Create a block diagonal matrix from provided arrays.
+  #
+  # Given the inputs A, B and C, the output will have these
+  # arrays arranged on the diagonal
+  #
+  # Arguments
+  # ---------
+  # *arrs* : Tensor | Enumerable
+  #   Arguments to place along the diagonal, must be a common dtype
+  #
+  # Examples
+  # --------
+  # ```
+  # puts SciKit.block_diag([1, 2], [[5, 6], [7, 8]])
+  #
+  # # [[1, 2, 0, 0],
+  # #  [0, 0, 5, 6],
+  # #  [0, 0, 7, 8]]
+  # ```
   def block_diag(*arrs : Tensor | Enumerable)
     ts = arrs.map &.to_tensor.with_dims(2)
     shapes = (ts.map &.shape).to_a

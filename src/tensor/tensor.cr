@@ -26,6 +26,7 @@ require "./internal/constants"
 require "./internal/utils"
 require "./internal/print"
 require "./internal/iteration"
+require "./internal/ndindex"
 require "../libs/cblas"
 
 # A `Tensor` is a multidimensional container of fixed size, containing
@@ -1096,6 +1097,24 @@ class Tensor(T)
     r
   end
 
+  # :nodoc:
+  def real
+    {% if T == Complex %}
+      self.map &.real
+    {% else %}
+      self.dup
+    {% end %}
+  end
+
+  # :nodoc:
+  def imag
+    {% if T == Complex %}
+      self.map &.imag
+    {% else %}
+      self.dup
+    {% end %}
+  end
+
   # Deep-copies a `Tensor`.  If an order is provided, the returned
   # `Tensor`'s memory layout will respect that order.
   #
@@ -1126,6 +1145,31 @@ class Tensor(T)
       j
     end
     t
+  end
+
+  # Move a `Tensor` from CPU backed storage to an OpenCL
+  # buffer.  This will make a copy of the CPU `Tensor` if
+  # it is not C-style contiguous.
+  #
+  # Arguments
+  # ---------
+  #
+  # Examples
+  # --------
+  # ```
+  # a = [1, 2, 3].to_tensor
+  # acl = a.opencl
+  # ```
+  def opencl
+    u = @flags.contiguous? ? self : self.dup(Num::RowMajor)
+    r = ClTensor(T).new(@shape)
+    Cl.write(
+      Num::ClContext.instance.queue,
+      u.to_unsafe,
+      r.to_unsafe,
+      UInt64.new(@size * sizeof(T))
+    )
+    r
   end
 
   # Transform's a `Tensor`'s shape.  If a view can be created,
@@ -1380,6 +1424,35 @@ class Tensor(T)
     else
       Num::Internal::NDFlatIter4.new(self, a, b, c)
     end
+  end
+
+  # :nodoc:
+  def map_along_axis(axis : Int)
+    if axis < 0
+      axis = self.rank + axis
+    end
+
+    if axis >= self.rank
+      raise Num::Internal::AxisError.new("Axis out of range for Tensor")
+    end
+
+    nd = self.rank
+    in_dims = (0...nd).to_a
+    inarr_view = self.transpose(in_dims[...axis] + in_dims[axis + 1...] + [axis])
+
+    buf = Tensor(T).new(inarr_view.shape)
+    buf_permute = (
+      in_dims[...axis] +
+      in_dims[(nd - 1)...nd] +
+      in_dims[axis...(nd - 1)]
+    )
+
+    inds = Num::Internal::NDIndex.new(inarr_view.shape[...-1])
+
+    inds.each do |ind|
+      buf[ind] = yield inarr_view[ind]
+    end
+    buf.transpose(buf_permute)
   end
 
   # :nodoc:

@@ -469,4 +469,41 @@ module Num
       Math.min(i, j)
     end
   end
+
+  # Asserts that two `Tensor`s are equal, allowing for small
+  # margins of errors with floating point values using
+  # an EPSILON value.
+  #
+  # Arguments
+  # ---------
+  # *a* : Tensor | Enumerable
+  #   First `Tensor` to compare
+  # *b* : Tensor | Enumerable
+  #   Second `Tensor` to compare
+  # *epsilon* : Number
+  #   Allowed variance between numbers
+  #
+  # Examples
+  # --------
+  # ```
+  # a = [0.0, 0.0, 0.0000000001].to_tensor
+  # b = [0.0, 0.0, 0.0].to_tensor
+  # Num.all_close(a, b) # => true
+  # ```
+  def all_close(
+    a : Tensor | Enumerable,
+    b : Tensor | Enumerable,
+    epsilon = 1e-6
+  )
+    unless a.size == b.size
+      return false
+    end
+    a.map(b) do |i, j|
+      m = (i - j).abs < epsilon
+      unless m
+        return false
+      end
+    end
+    true
+  end
 end

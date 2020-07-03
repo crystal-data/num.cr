@@ -218,7 +218,7 @@ class Tensor(T)
   # ```
   def self.identity(n : Int)
     self.new(n, n) do |i, j|
-      i == j ? T.new(1) : T.new(1)
+      i == j ? T.new(1) : T.new(0)
     end
   end
 

@@ -21,34 +21,29 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "../spec_helper"
+struct Num::Internal::NDIndex
+  @shape : Array(Int32)
+  @track : Array(Int32)
 
-require "../spec_helper"
+  def initialize(shape : Array(Int))
+    @shape = shape.map &.to_i
+    @track = [0] * @shape.size
+  end
 
-describe AnyArray do
-  describe "BaseArray#safeiters" do
-    # it "contiguous array returns contig iter" do
-    #   m = AnyArray.new([3, 3]) { |i| i }
-    #   m.flat_iter.is_a?(SafeFlat).should be_true
-    # end
-    #
-    # it "noncontig array returns nd iter" do
-    #   m = AnyArray.new([3, 3]) { |i| i }
-    #   m[..., 1].flat_iter.is_a?(SafeND).should be_true
-    # end
+  def each
+    yield @track
+    n = @shape.size
+    while true
+      i = n - 1
+      @track[i] += 1
 
-    it "contig iter returns right values" do
-      m = AnyArray.new([2, 2]) { |i| i }
-      expected = [] of Int32
-      m.iter.each { |e| expected << e.value }
-      expected.should eq [0, 1, 2, 3]
-    end
-
-    it "nd iter returns the right values" do
-      m = AnyArray.new([2, 2]) { |i| i }
-      res = [] of Int32
-      m[..., 1].iter.each { |e| res << e.value }
-      res.should eq [1, 3]
+      while @track[i] >= @shape[i]
+        @track[i] = 0
+        i -= 1
+        return if i < 0
+        @track[i] += 1
+      end
+      yield @track
     end
   end
 end
