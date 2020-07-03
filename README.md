@@ -1,7 +1,7 @@
 ![num.cr](https://raw.githubusercontent.com/crystal-data/bottle/rename/static/numcr_logo.png)
 
 [![Join the chat at https://gitter.im/crystal-data/bottle](https://badges.gitter.im/crystal-data/bottle.svg)](https://gitter.im/crystal-data/bottle?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Build Status](https://travis-ci.com/crystal-data/num.cr.svg?branch=master)](https://travis-ci.com/crystal-data/num.cr)
+![Crystal CI](https://github.com/crystal-data/num.cr/workflows/Crystal%20CI/badge.svg)
 
 Num.cr is the core shard needed for scientific computing with Crystal
 
@@ -13,35 +13,23 @@ Num.cr is the core shard needed for scientific computing with Crystal
 It provides:
 
 - An n-dimensional `Tensor` data structure
-- sophisticated reduction and accumulation routines
-- data structures that can easily be passed to C libraries
-- powerful linear algebra routines backed by LAPACK and BLAS
+- Efficient `map`, `reduce` and `accumulate` routines
+- GPU accelerated routines backed by `OpenCL`
+- Linear algebra routines backed by `LAPACK` and `BLAS`
 
 ## Prerequisites
 
-Num.cr relies on various BLAS and LAPACK implementations to provide performant linear
-algebra routines.  The defaults are OpenBLAS and Lapacke.  On Darwin, the Accelerate
-framework is used by default.  Num.cr also allows for computing run on a GPU, backed
-by OpenCL, with BLAS operations backed by ClBlast.  Please review the relevant installation
-instructions for these libraries if you would like to take advantage of their features.
+`Num.cr` aims to be a scientific computing library written in pure Crystal.
+All standard operations and data structures are written in Crystal.  Certain
+routines, primarily linear algebra routines, are instead provided by a
+`BLAS` or `LAPACK` implementation.
 
-## Usage
+Several implementations can be used, including `Cblas`, `Openblas`, and the
+`Accelerate` framework on Darwin systems.  For GPU accelerated `BLAS` routines,
+the `ClBlast` library is required.
 
-Num.cr provides data structures that facilitate element-wise operations,
-accumulations, and reductions.  While some operations are backed by BLAS
-and LaPACK, many vectorized operations use iteration written in Crystal.
-The primary goal of this library was to provide a NumPy like interface in
-Crystal, and performance will be revisited constantly as the library is
-improved.
-
-Contributing
-------------
-Num.cr requires help in many different ways to continue to grow as a shard.
-Contributions such as high level documentation and code quality checks are needed just
-as much as API enhancements.  If you are considering larger scale contributions
-that extend beyond minor enhancements and bug fixes, contact Crystal Data
-in order to be added to the organization to gain access to review and merge
-permissions.
+`Num.cr` also supports `Tensor`s stored on a `GPU`.  This is currently limited
+to `OpenCL`, and a valid `OpenCL` installation and device(s) are required.
 
 ## Installation
 
@@ -53,11 +41,28 @@ dependencies:
     github: crystal-data/num.cr
 ```
 
-## Getting started with Num.cr
+Several third-party libraries are required to use certain features of `Num.cr`.
+They are:
 
-The core data structure of Num.cr is the `Tensor`, a flexible N-dimensional data structure.
-There are many ways to initialize a `Tensor`, or a `ClTensor` if you need GPU accelerated
-operations.
+- BLAS
+- LAPACK
+- OpenCL
+- ClBlast
+
+While not at all required, they provide additional functionality than is
+provided by the basic library.
+
+## Just show me the code
+
+The core data structure implemented by `Num.cr` is the `Tensor`, an N-dimensional
+data structure.  A `Tensor` supports slicing, mutation, permutation, reduction,
+and accumulation.  A `Tensor` can be a view of another `Tensor`, and can support
+either C-style or Fortran-style storage.
+
+### Creation
+
+There are many ways to initialize a `Tensor`.  Most creation methods can
+allocate a `Tensor` backed by either `CPU` or `GPU` based storage.
 
 ```crystal
 [1, 2, 3].to_tensor
@@ -65,12 +70,15 @@ Tensor.from_array [1, 2, 3]
 Tensor(UInt8).zeros([3, 3, 2])
 Tensor.random(0.0...1.0, [2, 2, 2])
 
-ClTensor(Float32).zeros_like(some_tensor)
+ClTensor(Float32).zeros([3, 2, 2])
 ClTensor(Float64).full([3, 4, 5], 3.8)
 ```
 
-Tensors support numerous mathematical operations and manipulation routines, including
-operations requiring broadcasting to other shapes.
+### Operations
+
+A `Tensor` supports a wide variety of numerical operations.  Many of these
+operations are provided by `Num.cr`, but any operation can be mapped across
+one or more `Tensor`s using sophisticated broadcasted mapping routines.
 
 ```crystal
 a = [1, 2, 3, 4].to_tensor
@@ -84,43 +92,99 @@ puts Num.add(a, b)
 # a is broadcast to b's shape
 # [[ 4,  6,  8, 10],
 #  [ 6,  8, 10, 12]]
-
-puts a.reshape(2, 2)
-
-# [[1, 2],
-#  [3, 4]]
-
-puts b.transpose
-
-# [[3, 5],
-#  [4, 6],
-#  [5, 7],
-#  [6, 8]]
-
-puts Num.cos(acl).cpu
-
-# [0.540302 , -0.416147, -0.989992, -0.653644]
 ```
 
-Both CPU backed Tensors and GPU backed Tensors support linear algebra routines
-backed by optimized BLAS libraries.
+When operating on more than two `Tensor`s, it is recommended to use `map`
+rather than builtin functions to avoid the allocation of intermediate
+results.  All `map` operations support broadcasting.
 
 ```crystal
-a = [[1, 2], [3, 4]].to_tensor.astype(Float32)
-b = [[3, 4], [5, 6]].to_tensor.astype(Float32)
+a = [1, 2, 3, 4].to_tensor
+b = [[3, 4, 5, 6], [5, 6, 7, 8]].to_tensor
+c = [3, 5, 7, 9].to_tensor
 
-acl = a.opencl
-bcl = b.opencl
+a.map(b, c) do |i, j, k|
+  i + 2 / j + k * 3.5
+end
+
+# [[12.1667, 20     , 27.9   , 35.8333],
+#  [11.9   , 19.8333, 27.7857, 35.75  ]]
+```
+
+### Mutation
+
+`Tensor`s support flexible slicing and mutation operations.  Many of these
+operations return views, not copies, so any changes made to the results might
+also be reflected in the parent.
+
+```crystal
+a = Tensor.new([3, 2, 2]) { |i| i }
+
+puts a.transpose
+
+# [[[ 0,  4,  8],
+#   [ 2,  6, 10]],
+#
+#  [[ 1,  5,  9],
+#   [ 3,  7, 11]]]
+
+puts a.reshape(6, 2)
+
+# [[ 0,  1],
+#  [ 2,  3],
+#  [ 4,  5],
+#  [ 6,  7],
+#  [ 8,  9],
+#  [10, 11]]
+
+puts a[..., 1]
+
+# [[ 2,  3],
+#  [ 6,  7],
+#  [10, 11]]
+
+puts a[1..., {..., -1}]
+
+# [[[ 6,  7],
+#   [ 4,  5]],
+#
+#  [[10, 11],
+#   [ 8,  9]]]
+
+puts a[0, 1, 1].value
+
+# 3
+```
+
+### Linear Algebra
+
+`Tensor`s provide easy access to power Linear Algebra routines backed by
+LAPACK and BLAS implementations, and ClBlast for GPU backed `Tensor`s.
+
+```crystal
+a = [[1, 2], [3, 4]].to_tensor.map &.to_f32
 
 puts a.inv
 
 # [[-2  , 1   ],
 #  [1.5 , -0.5]]
 
-puts acl.matmul(bcl).cpu
+puts a.eigvals
 
-# [[13, 16],
-#  [29, 36]]
+# [-0.372281, 5.37228  ]
+
+acl = a.opencl
+bcl = a.opencl
+
+puts acl.gemm(bcl).cpu
+
+# [[7 , 10],
+#  [15, 22]]
+
+puts a.matmul(a)
+
+# [[7 , 10],
+#  [15, 22]]
 ```
 
 ### DataFrames

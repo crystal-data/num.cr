@@ -405,6 +405,7 @@ class Tensor(T)
     {% end %}
   end
 
+  # :nodoc:
   def to_tensor
     self
   end
@@ -538,7 +539,20 @@ class Tensor(T)
   # a = Tensor.new([3]) { |i| i }
   # a.view(Int16) # => [0, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0]
   # ```
-  def view_as_type(u : U.class) : Tensor(U) forall U
+  def view_as_type(u : U.class) forall U
+    s0 = sizeof(T)
+    s1 = sizeof(U)
+    shape = @shape.dup
+
+    if s0 > s1
+      shape[-1] *= (s0 // s1)
+    else
+      shape[-1] //= (s1 // s0)
+    end
+
+    strides = Num::Internal.shape_to_strides(shape)
+    buf = @buffer.unsafe_as(Pointer(U))
+    Tensor.new(buf, shape, strides)
   end
 
   # Returns a view of the diagonal of a `Tensor`.  This method only works
