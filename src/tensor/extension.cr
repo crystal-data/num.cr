@@ -385,6 +385,19 @@ class Tensor(T)
     LibCblas.{{typ}}{{storage}}{{name}}(LibCblas::ROW_MAJOR, {{*args}})
   end
 
+  macro blas_call(fn, *args)
+    {%
+      if T == Float32
+        typ = :s.id
+      elsif T == Float64
+        typ = :d.id
+      elsif T == Complex
+        typ = :z.id
+      end
+    %}
+    LibCblas.{{typ}}{{fn}}({{*args}})    
+  end
+
   private macro blas_const(x)
     {% if T == Complex %}
       pointerof({{x}}).as(LibCblas::ComplexDouble*)

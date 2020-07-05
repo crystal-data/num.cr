@@ -75,6 +75,26 @@ module Num
     end
   end
 
+  # Accumulate a `Tensor` as though it is flat.  Returning a one dimensional
+  # result.
+  #
+  # Arguments
+  # ---------
+  # *a* : Tensor | Enumerable
+  #   Tensor to accumulate.  Will be treated as one-dimensional
+  #
+  # Examples
+  # --------
+  # ```
+  # a = [1, 2, 3]
+  # Num.cumsum(a) # => [1, 3, 6]
+  # ```
+  def cumsum(a : Tensor | Enumerable)
+    a.to_tensor.accumulate do |i, j|
+      i + j
+    end
+  end
+
   # Accumulate's a `Tensor` along an axis, summing each view into
   # the `Tensor`
   #

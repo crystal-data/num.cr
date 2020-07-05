@@ -1530,6 +1530,21 @@ class Tensor(T)
     t
   end
 
+  # :nodoc:
+  def accumulate
+    last = uninitialized T
+    ret = Tensor(T).new(@size)
+    ret.each_pointer_with_index do |e, i|
+      if i == 0
+        last = e.value
+      else
+        e.value = T.new(yield last, e.value)
+        last = e.value
+      end
+    end
+    ret
+  end
+
   private def update_flags(m = Num::ArrayFlags::All)
     if m.fortran?
       if is_f_contiguous

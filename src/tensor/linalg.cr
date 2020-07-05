@@ -94,6 +94,34 @@ class Tensor(T)
     t
   end
 
+  # DOT forms the dot product of two vectors.
+  # Uses unrolled loops for increments equal to one.
+  #
+  # Arguments
+  # ---------
+  # *u* : Tensor
+  #   Right hand side of the dot product
+  #
+  # Examples
+  # --------
+  # ```
+  # a = [1, 2, 3, 4, 5].to_tensor
+  # a.dot(a) # => 55.0
+  # ```
+  def dot(u : Tensor(T))
+    self.is_vector
+    u.is_vector
+
+    blas_call(
+      dot,
+      @size,
+      self.to_unsafe,
+      @strides[0],
+      u.to_unsafe,
+      u.strides[0]
+    )
+  end
+
   # Cholesky decomposition.
   #
   # Return the Cholesky decomposition, L * L.H, of the square matrix a, where
@@ -558,6 +586,13 @@ class Tensor(T)
   # :nodoc:
   def is_fortran
     unless @flags.fortran?
+      raise Exception.new
+    end
+  end
+
+  # :nodoc:
+  def is_vector
+    unless self.rank == 1
       raise Exception.new
     end
   end
