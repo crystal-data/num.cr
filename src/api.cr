@@ -15,3 +15,6 @@ require "./frame/series"
 require "./frame/index"
 
 require "./scikit/matrices"
+require "./scikit/clustering/kmeans"
+
+require "./libs/local"

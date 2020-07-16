@@ -210,3 +210,151 @@ module Num
     {% end %}
   end
 end
+
+class Tensor(T)
+  private macro elementwise(name, operator)
+    def {{name}}(b : Tensor | Enumerable)
+      b_t = b.to_tensor
+      self.map(b_t) do |i, j|
+        i {{operator.id}} j
+      end
+    end
+
+    def {{operator.id}}(b : Tensor | Enumerable)
+      b_t = b.to_tensor
+      self.map(b_t) do |i, j|
+        i {{operator.id}} j
+      end
+    end
+
+    def {{name}}!(b : Tensor | Enumerable)
+      b_t = b.to_tensor
+      self.map!(b_t) do |i, j|
+        i {{operator.id}} j
+      end
+    end
+
+    def {{name}}(b : Number)
+      self.map do |i|
+        i {{operator.id}} b
+      end
+    end
+
+    def {{operator.id}}(b : Number)
+      self.map do |i|
+        i {{operator.id}} b
+      end
+    end
+
+    def {{name}}!(b : Number)
+      self.map! do |i|
+        i {{operator.id}} b
+      end
+    end
+  end
+
+  elementwise add, :+
+  elementwise subtract, :-
+  elementwise multiply, :*
+  elementwise divide, :/
+  elementwise floordiv, ://
+  elementwise power, :**
+  elementwise modulo, :%
+  elementwise left_shift, :<<
+  elementwise right_shift, :>>
+  elementwise bitwise_and, :&
+  elementwise bitwise_or, :|
+  elementwise bitwise_xor, :^
+  elementwise equal, :==
+  elementwise not_equal, :!=
+  elementwise greater, :>
+  elementwise greater_equal, :>=
+  elementwise less, :<
+  elementwise less_equal, :<=
+
+  private macro stdlibwrap1d(fn)
+    def {{fn.id}}
+      self.map do |i|
+        Math.{{fn.id}}(i)
+      end
+    end
+
+    def {{fn.id}}!
+      self.map! do |i|
+        Math.{{fn.id}}(i)
+      end
+    end
+  end
+
+  stdlibwrap1d acos
+  stdlibwrap1d acosh
+  stdlibwrap1d asin
+  stdlibwrap1d asinh
+  stdlibwrap1d atan
+  stdlibwrap1d atanh
+  stdlibwrap1d besselj0
+  stdlibwrap1d besselj1
+  stdlibwrap1d bessely0
+  stdlibwrap1d bessely1
+  stdlibwrap1d cbrt
+  stdlibwrap1d cos
+  stdlibwrap1d cosh
+  stdlibwrap1d erf
+  stdlibwrap1d erfc
+  stdlibwrap1d exp
+  stdlibwrap1d exp2
+  stdlibwrap1d expm1
+  stdlibwrap1d gamma
+  stdlibwrap1d ilogb
+  stdlibwrap1d lgamma
+  stdlibwrap1d log
+  stdlibwrap1d log10
+  stdlibwrap1d log1p
+  stdlibwrap1d log2
+  stdlibwrap1d logb
+  stdlibwrap1d sin
+  stdlibwrap1d sinh
+  stdlibwrap1d sqrt
+  stdlibwrap1d tan
+  stdlibwrap1d tanh
+
+  private macro stdlibwrap(fn)
+    def {{fn.id}}(b : Tensor | Enumerable)
+      b_t = b.to_tensor
+      self.map(b_t) do |i, j|
+        Math.{{fn.id}}(i, j)
+      end
+    end
+
+    # :ditto:
+    def {{fn.id}}(b : Tensor | Enumerable)
+      b_t = b.to_tensor
+      self.map!(b_t) do |i, j|
+        Math.{{fn.id}}(i, j)
+      end
+    end
+
+    # :ditto:
+    def {{fn.id}}(b : Number)
+      self.map do |i|
+        Math.{{fn.id}}(i, b)
+      end
+    end
+
+    # :ditto:
+    def {{fn.id}}!(b : Number)
+      self.map! do |i|
+        Math.{{fn.id}}(i, b)
+      end
+    end
+  end
+
+  stdlibwrap atan2
+  stdlibwrap besselj
+  stdlibwrap bessely
+  stdlibwrap copysign
+  stdlibwrap hypot
+  stdlibwrap ldexp
+  stdlibwrap max
+  stdlibwrap min
+end

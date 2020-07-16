@@ -12,9 +12,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Add C Libraries
-      run: sudo apt install libblas-dev liblapack-dev gfortran
-    - name: Add shard dependencies
+    - name: Install dependencies
       run: shards install
     - name: Run tests
       run: crystal spec

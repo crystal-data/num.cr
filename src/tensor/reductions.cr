@@ -370,20 +370,18 @@ module Num
   # ```
   def std(a : Tensor | Enumerable, axis : Int, dims : Bool = false)
     a_t = a.to_tensor
-    Num.sqrt(
-      Num.divide(
-        Num.sum(
-          Num.power(
-            Num.subtract(
-              a_t,
-              Num.mean(a_t, axis, dims: true)
-            ),
-            2
-          ), axis, dims
-        ),
-        a_t.shape[axis]
-      )
-    )
+    u = a_t.shape.dup
+    if dims
+      u[axis] = 1
+    else
+      u.delete_at(axis)
+    end
+    w = Tensor(Float64).new(u)
+    v = w.unsafe_iter
+    a_t.yield_along_axis(axis) do |a|
+      v.next.value = Num.std(a)
+    end
+    w
   end
 
   # Reduces a `Tensor` to a scalar by finding the maximum value
@@ -525,5 +523,72 @@ module Num
       end
     end
     true
+  end
+
+  # Finds the difference between the maximum and minimum
+  # elements of a `Tensor`
+  #
+  # Arguments
+  # ---------
+  # *a* : Tensor to find peak to peak value
+  #
+  # Examples
+  # --------
+  # ```
+  # a = [1, 2, 3]
+  # Num.ptp(a) # => 2
+  # ```
+  def ptp(a : Tensor | Enumerable)
+    a_t = a.to_tensor
+    min = a_t.value
+    max = a_t.value
+
+    a_t.each do |e|
+      if e < min
+        min = e
+      end
+      if e > max
+        max = e
+      end
+    end
+    max - min
+  end
+
+  # Finds the difference between the maximum and minimum
+  # elements of a `Tensor` along an axis
+  #
+  # Arguments
+  # ---------
+  # *a* : Tensor
+  #   Argument to reduce
+  # *axis* : Tensor
+  #   Axis of reduction
+  # *dims* : Bool
+  #   Keep axis of reduction in output
+  #
+  #
+  # Examples
+  # --------
+  # ```
+  # a = [[3, 4], [1, 2], [6, 2]]
+  # Num.ptp(a, 1) # [1, 1, 4]
+  # ```
+  def ptp(a : Tensor | Enumerable, axis : Int, dims : Bool = false)
+    Num.subtract(
+      Num.max(a, axis, dims),
+      Num.min(a, axis, dims)
+    )
+  end
+
+  def value_counts(a : Tensor(U)) forall U
+    counts = Hash(U, Int32).new
+    a.each do |e|
+      if counts.has_key?(e)
+        counts[e] += 1
+      else
+        counts[e] = 1
+      end
+    end
+    counts
   end
 end

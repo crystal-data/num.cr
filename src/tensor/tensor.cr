@@ -1470,6 +1470,34 @@ class Tensor(T)
   end
 
   # :nodoc:
+  def yield_along_axis(axis : Int)
+    if axis < 0
+      axis = self.rank + axis
+    end
+
+    if axis >= self.rank
+      raise Num::Internal::AxisError.new("Axis out of range for Tensor")
+    end
+
+    nd = self.rank
+    in_dims = (0...nd).to_a
+    inarr_view = self.transpose(in_dims[...axis] + in_dims[axis + 1...] + [axis])
+
+    buf = Tensor(T).new(inarr_view.shape)
+    buf_permute = (
+      in_dims[...axis] +
+      in_dims[(nd - 1)...nd] +
+      in_dims[axis...(nd - 1)]
+    )
+
+    inds = Num::Internal::NDIndex.new(inarr_view.shape[...-1])
+
+    inds.each do |ind|
+      yield inarr_view[ind]
+    end
+  end
+
+  # :nodoc:
   def reduce_axis(axis : Int, dims : Bool = false)
     if axis < 0
       axis = self.rank + axis

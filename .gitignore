@@ -18,3 +18,5 @@ elementwise_arraymancer
 elementwise_num
 matmul_arraymancer
 matmul_num
+
+*.o
