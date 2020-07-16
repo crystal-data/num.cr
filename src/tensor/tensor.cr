@@ -364,6 +364,18 @@ class Tensor(T)
   end
 
   # :nodoc:
+  def gpu : ClTensor(T)
+    if @flags.contiguous?
+      writer = self
+    else
+      writer = self.dup(Num::RowMajor)
+    end
+    c = ClTensor(T).new(@shape)
+    Cl.write(Num::ClContext.instance.queue, writer.to_unsafe, c.to_unsafe, UInt64.new(@size * sizeof(T)))
+    c
+  end
+
+  # :nodoc:
   def inspect(io : IO)
     to_s(io)
   end

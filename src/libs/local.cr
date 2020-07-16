@@ -40,4 +40,6 @@ end
 @[Link(ldflags: "#{__DIR__}/../c/random/ranlib.o")]
 lib LibRandom
   fun genbet(aa : LibC::Float, bb : LibC::Float) : LibC::Float
+  fun setgmn(meanv : LibC::Float*, covm : LibC::Float*, p : LibC::Int, parm : LibC::Float*)
+  fun genmn(parm : LibC::Float*) : LibC::Float*
 end

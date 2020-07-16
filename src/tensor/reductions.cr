@@ -592,3 +592,439 @@ module Num
     counts
   end
 end
+
+class Tensor(T)
+  # Reduces a `Tensor` to a scalar by summing all of its
+  # elements
+  #
+  # Arguments
+  # ---------
+  # *a* : Tensor | Enumerable
+  #   Argument to sum
+  #
+  # Examples
+  # --------
+  # ```
+  # a = [1, 2, 3]
+  # Num.sum(a) # => 6
+  # ```
+  def sum
+    Num.sum(self)
+  end
+
+  # Reduces a `Tensor` along an axis, summing each view into
+  # the `Tensor`
+  #
+  # Arguments
+  # ---------
+  # *a* : Tensor | Enumerable
+  #   Argument to sum
+  # *axis* : Int
+  #   Axis of summation
+  # *dims* : Bool
+  #   Indicate if the axis of reduction should remain in the result
+  #
+  # Examples
+  # --------
+  # ```
+  # a = Tensor.new([2, 2]) { |i| i }
+  # Num.sum(a, 0) # => [2, 4]
+  # Num.sum(a, 1, dims: true)
+  # # [[1],
+  # #  [5]]
+  # ```
+  def sum(axis : Int, dims : Bool = false)
+    Num.sum(self, axis, dims)
+  end
+
+  # Accumulate a `Tensor` as though it is flat.  Returning a one dimensional
+  # result.
+  #
+  # Arguments
+  # ---------
+  # *a* : Tensor | Enumerable
+  #   Tensor to accumulate.  Will be treated as one-dimensional
+  #
+  # Examples
+  # --------
+  # ```
+  # a = [1, 2, 3]
+  # Num.cumsum(a) # => [1, 3, 6]
+  # ```
+  def cumsum
+    Num.cumsum(self)
+  end
+
+  # Accumulate's a `Tensor` along an axis, summing each view into
+  # the `Tensor`
+  #
+  # Arguments
+  # ---------
+  # *a* : Tensor | Enumerable
+  #   Argument to sum
+  # *axis* : Int
+  #   Axis of summation
+  #
+  # Examples
+  # --------
+  # ```
+  # a = Tensor.new([3, 3, 2]) { |i| i }
+  # Num.cumsum(a, 0)
+  #
+  # # [[[ 0,  1],
+  # #   [ 2,  3],
+  # #   [ 4,  5]],
+  # #
+  # #  [[ 6,  8],
+  # #   [10, 12],
+  # #   [14, 16]],
+  # #
+  # #  [[18, 21],
+  # #   [24, 27],
+  # #   [30, 33]]]
+  # ```
+  def cumsum(axis : Int)
+    Num.cumsum(self, axis)
+  end
+
+  # Reduces a `Tensor` to a scalar by multiplying all of its
+  # elements
+  #
+  # Arguments
+  # ---------
+  # *a* : Tensor | Enumerable
+  #   Argument to reduce
+  #
+  # Examples
+  # --------
+  # ```
+  # a = [1, 2, 3]
+  # Num.prod(a) # => 6
+  # ```
+  def prod
+    Num.prod(self)
+  end
+
+  # Reduces a `Tensor` along an axis, multiplying each view into
+  # the `Tensor`
+  #
+  # Arguments
+  # ---------
+  # *a* : Tensor | Enumerable
+  #   Argument to reduce
+  # *axis* : Int
+  #   Axis of reduction
+  # *dims* : Bool
+  #   Indicate if the axis of reduction should remain in the result
+  #
+  # Examples
+  # --------
+  # ```
+  # a = Tensor.new([2, 2]) { |i| i }
+  # Num.prod(a, 0) # => [0, 3]
+  # Num.prod(a, 1, dims: true)
+  # # [[0],
+  # #  [6]]
+  # ```
+  def prod(axis : Int, dims : Bool = false)
+    Num.prod(self, axis, dims)
+  end
+
+  # Reduces a `Tensor` to a boolean by asserting the truthiness of
+  # all elements
+  #
+  # Arguments
+  # ---------
+  # *a* : Tensor | Enumerable
+  #   Argument to reduce
+  #
+  # Examples
+  # --------
+  # ```
+  # a = [0, 2, 3]
+  # Num.all(a) # => false
+  # ```
+  def all
+    Num.all(self)
+  end
+
+  # Reduces a `Tensor` along an axis, asserting the truthiness of all values
+  # in each view into the `Tensor`
+  #
+  # Arguments
+  # ---------
+  # *a* : Tensor | Enumerable
+  #   Argument to reduce
+  # *axis* : Int
+  #   Axis of reduction
+  # *dims* : Bool
+  #   Indicate if the axis of reduction should remain in the result
+  #
+  # Examples
+  # --------
+  # ```
+  # a = Tensor.new([2, 2]) { |i| i }
+  # Num.all(a, 0) # => [false, true]
+  # Num.all(a, 1, dims: true)
+  # # [[false],
+  # #  [ true]]
+  # ```
+  def all(axis : Int, dims : Bool = false)
+    Num.all(self, axis, dims)
+  end
+
+  # Reduces a `Tensor` to a boolean by asserting the truthiness of
+  # any element
+  #
+  # Arguments
+  # ---------
+  # *a* : Tensor | Enumerable
+  #   Argument to reduce
+  #
+  # Examples
+  # --------
+  # ```
+  # a = [0, 2, 3]
+  # Num.any(a) # => true
+  # ```
+  def any
+    Num.any(self)
+  end
+
+  # Reduces a `Tensor` along an axis, asserting the truthiness of any values
+  # in each view into the `Tensor`
+  #
+  # Arguments
+  # ---------
+  # *a* : Tensor | Enumerable
+  #   Argument to reduce
+  # *axis* : Int
+  #   Axis of reduction
+  # *dims* : Bool
+  #   Indicate if the axis of reduction should remain in the result
+  #
+  # Examples
+  # --------
+  # ```
+  # a = Tensor.new([2, 2]) { |i| i }
+  # Num.any(a, 0) # => [true, true]
+  # Num.any(a, 1, dims: true)
+  # # [[true],
+  # #  [ true]]
+  # ```
+  def any(axis : Int, dims : Bool = false)
+    Num.any(self, axis, dims)
+  end
+
+  # Reduces a `Tensor` to a scalar by finding the average
+  #
+  # Arguments
+  # ---------
+  # *a* : Tensor | Enumerable
+  #   Argument to reduce
+  #
+  # Examples
+  # --------
+  # ```
+  # a = [1, 2, 3]
+  # Num.mean(a) # => 2.0
+  # ```
+  def mean
+    Num.mean(self)
+  end
+
+  # Reduces a `Tensor` along an axis, finding the average of each
+  # view into the `Tensor`
+  #
+  # Arguments
+  # ---------
+  # *a* : Tensor | Enumerable
+  #   Argument to reduce
+  # *axis* : Int
+  #   Axis of reduction
+  # *dims* : Bool
+  #   Indicate if the axis of reduction should remain in the result
+  #
+  # Examples
+  # --------
+  # ```
+  # a = Tensor.new([2, 2]) { |i| i }
+  # Num.mean(a, 0) # => [1, 2]
+  # Num.mean(a, 1, dims: true)
+  # # [[0],
+  # #  [2]]
+  # ```
+  def mean(axis : Int, dims : Bool = false)
+    Num.mean(self, axis, dims)
+  end
+
+  # Reduces a `Tensor` to a scalar by finding the standard deviation
+  #
+  # Arguments
+  # ---------
+  # *a* : Tensor | Enumerable
+  #   Argument to reduce
+  #
+  # Examples
+  # --------
+  # ```
+  # a = [1, 2, 3]
+  # Num.std(a) # => 0.816496580927726
+  # ```
+  def std
+    Num.std(self)
+  end
+
+  # Reduces a `Tensor` along an axis, finding the std of each
+  # view into the `Tensor`
+  #
+  # Arguments
+  # ---------
+  # *a* : Tensor | Enumerable
+  #   Argument to reduce
+  # *axis* : Int
+  #   Axis of reduction
+  # *dims* : Bool
+  #   Indicate if the axis of reduction should remain in the result
+  #
+  # Examples
+  # --------
+  # ```
+  # a = Tensor.new([2, 2]) { |i| i }
+  # Num.std(a, 0) # => [1, 1]
+  # Num.std(a, 1, dims: true)
+  # # [[0.707107],
+  # #  [0.707107]]
+  # ```
+  def std(axis : Int, dims : Bool = false)
+    Num.std(self, axis, dims)
+  end
+
+  # Reduces a `Tensor` to a scalar by finding the maximum value
+  #
+  # Arguments
+  # ---------
+  # *a* : Tensor | Enumerable
+  #   Argument to reduce
+  #
+  # Examples
+  # --------
+  # ```
+  # a = [1, 2, 3]
+  # Num.max(a) # => 3
+  # ```
+  def max
+    Num.max(self)
+  end
+
+  # Reduces a `Tensor` along an axis, finding the max of each
+  # view into the `Tensor`
+  #
+  # Arguments
+  # ---------
+  # *a* : Tensor | Enumerable
+  #   Argument to reduce
+  # *axis* : Int
+  #   Axis of reduction
+  # *dims* : Bool
+  #   Indicate if the axis of reduction should remain in the result
+  #
+  # Examples
+  # --------
+  # ```
+  # a = Tensor.new([2, 2]) { |i| i }
+  # Num.max(a, 0) # => [2, 3]
+  # Num.max(a, 1, dims: true)
+  # # [[1],
+  # #  [3]]
+  # ```
+  def max(axis : Int, dims : Bool = false)
+    Num.max(self, axis, dims)
+  end
+
+  # Reduces a `Tensor` to a scalar by finding the minimum value
+  #
+  # Arguments
+  # ---------
+  # *a* : Tensor | Enumerable
+  #   Argument to reduce
+  #
+  # Examples
+  # --------
+  # ```
+  # a = [1, 2, 3]
+  # Num.min(a) # => 3
+  # ```
+  def min
+    Num.min(self)
+  end
+
+  # Reduces a `Tensor` along an axis, finding the min of each
+  # view into the `Tensor`
+  #
+  # Arguments
+  # ---------
+  # *a* : Tensor | Enumerable
+  #   Argument to reduce
+  # *axis* : Int
+  #   Axis of reduction
+  # *dims* : Bool
+  #   Indicate if the axis of reduction should remain in the result
+  #
+  # Examples
+  # --------
+  # ```
+  # a = Tensor.new([2, 2]) { |i| i }
+  # Num.min(a, 0) # => [0, 1]
+  # Num.min(a, 1, dims: true)
+  # # [[0],
+  # #  [2]]
+  # ```
+  def min(axis : Int, dims : Bool = false)
+    Num.min(axis, dims)
+  end
+
+  # Finds the difference between the maximum and minimum
+  # elements of a `Tensor`
+  #
+  # Arguments
+  # ---------
+  # *a* : Tensor to find peak to peak value
+  #
+  # Examples
+  # --------
+  # ```
+  # a = [1, 2, 3]
+  # Num.ptp(a) # => 2
+  # ```
+  def ptp
+    Num.ptp(self)
+  end
+
+  # Finds the difference between the maximum and minimum
+  # elements of a `Tensor` along an axis
+  #
+  # Arguments
+  # ---------
+  # *a* : Tensor
+  #   Argument to reduce
+  # *axis* : Tensor
+  #   Axis of reduction
+  # *dims* : Bool
+  #   Keep axis of reduction in output
+  #
+  #
+  # Examples
+  # --------
+  # ```
+  # a = [[3, 4], [1, 2], [6, 2]]
+  # Num.ptp(a, 1) # [1, 1, 4]
+  # ```
+  def ptp(axis : Int, dims : Bool = false)
+    Num.ptp(self, axis, dims)
+  end
+
+  def value_counts
+    Num.value_counts(self)
+  end
+end

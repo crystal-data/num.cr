@@ -85,7 +85,7 @@ a = [1, 2, 3, 4].to_tensor
 b = [[3, 4, 5, 6], [5, 6, 7, 8]].to_tensor
 
 # Convert a Tensor to a GPU backed Tensor
-acl = a.astype(Float64).opencl
+acl = a.astype(Float64).gpu
 
 puts Num.add(a, b)
 
