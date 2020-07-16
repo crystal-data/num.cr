@@ -21,93 +21,192 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class Tensor(T) < AnyArray(T)
-  private def triu2d(a : AnyArray(T), k)
-    m, n = a.shape
-    a.iter_flat_indexed do |el, idx|
-      i = idx // n
-      j = idx % n
-      if i > j - k
-        el.value = T.new(0)
+require "./tensor"
+
+module Num
+  extend self
+
+  # Repeat elements of a `Tensor`, treating the `Tensor`
+  # as flat
+  #
+  # Arguments
+  # ---------
+  # - `a` : Tensor | Enumerable
+  #   Object to repeat
+  # - `n` : Int
+  #   Number of times to repeat
+  #
+  # Examples
+  # ```
+  # a = [1, 2, 3]
+  # Num.repeat(a, 2) # => [1, 1, 2, 2, 3, 3]
+  # ```
+  def repeat(a : Tensor | Enumerable, n : Int)
+    a_t = a.to_tensor
+    t = a_t.class.new([a_t.size * n])
+    it = t.unsafe_iter
+
+    repeat_inner(a_t, n) do |i|
+      it.next.value = i
+    end
+    t
+  end
+
+  # Repeat elements of a `Tensor` along an axis
+  #
+  # Arguments
+  # ---------
+  # - `a` : Tensor | Enumerable
+  #   Object to repeat
+  # - `n` : Int
+  #   Number of times to repeat
+  # - `axis` : Int
+  #   Axis along which to repeat
+  #
+  # Examples
+  # --------
+  # ```
+  # a = [[1, 2, 3], [4, 5, 6]]
+  # Num.repeat(a, 2, 1)
+  #
+  # # [[1, 1, 2, 2, 3, 3],
+  # #  [4, 4, 5, 5, 6, 6]]
+  # ```
+  def repeat(a : Tensor | Enumerable, n : Int, axis : Int)
+    a_t = a.to_tensor
+
+    shape = a_t.shape.dup
+    shape[axis] *= n
+    t = a_t.class.new(shape)
+
+    it = t.unsafe_axis_iter(axis.to_i)
+    a_t.each_axis(axis) do |ax|
+      n.times do
+        it.next[...] = ax
+      end
+    end
+    t
+  end
+
+  # Tile elements of a `Tensor`
+  #
+  # Arguments
+  # ---------
+  # - `a` : Tensor | Enumerable
+  #   Argument to tile
+  # - `n` : Int
+  #   Number of times to tile
+  #
+  # Examples
+  # --------
+  # ```
+  # a = [[1, 2, 3], [4, 5, 6]]
+  # puts Num.tile(a, 2)
+  #
+  # # [[1, 2, 3, 1, 2, 3],
+  # #  [4, 5, 6, 4, 5, 6]]
+  # ```
+  def tile(a : Tensor | Enumerable, n : Int)
+    a_t = a.to_tensor
+    d = a_t.rank > 1 ? [1] * (a_t.rank - 1) + [n] : [1]
+    tile_inner(a_t, d)
+  end
+
+  # Tile elements of a `Tensor`
+  #
+  # Arguments
+  # ---------
+  # - `a` : Tensor | Enumerable
+  #   Argument to tile
+  # - `n` : Array(Int)
+  #   Number of times to tile in each dimension
+  #
+  # Examples
+  # --------
+  # ```
+  # a = [[1, 2, 3], [4, 5, 6]]
+  # puts Num.tile(a, [2, 2])
+  #
+  # # [[1, 2, 3, 1, 2, 3],
+  # #  [4, 5, 6, 4, 5, 6],
+  # #  [1, 2, 3, 1, 2, 3],
+  # #  [4, 5, 6, 4, 5, 6]]
+  # ```
+  def tile(a : Tensor | Enumerable, n : Array(Int))
+    a_t = a.to_tensor
+    n = n.size < a_t.rank ? [1] * (a_t.rank - n.size) + n : n
+    tile_inner(a_t, n)
+  end
+
+  # Flips a `Tensor` along all axes, returning a view
+  #
+  # Arguments
+  # ---------
+  # - `a` : Tensor | Enumerable
+  #   Argument to flip
+  #
+  # Examples
+  # --------
+  # ```
+  # a = [[1, 2, 3], [4, 5, 6]]
+  # puts Num.flip(a)
+  #
+  # # [[6, 5, 4],
+  # #  [3, 2, 1]]
+  # ```
+  def flip(a : Tensor | Enumerable)
+    a_t = a.to_tensor
+    i = [{..., -1}] * a_t.rank
+    a_t[i]
+  end
+
+  # Flips a `Tensor` along an axis, returning a view
+  #
+  # Arguments
+  # ---------
+  # - `a` : Tensor | Enumerable
+  #   Argument to flip
+  # - `axis` : Int
+  #   Axis to flip
+  #
+  # Examples
+  # --------
+  # ```
+  # a = [[1, 2, 3], [4, 5, 6]]
+  # puts Num.flip(a, 1)
+  #
+  # # [[3, 2, 1],
+  # #  [6, 5, 4]]
+  # ```
+  def flip(a : Tensor | Enumerable, axis : Int)
+    a_t = a.to_tensor
+    s = (0...a_t.rank).map do |i|
+      i == axis ? {..., -1} : (...)
+    end
+    a_t[s]
+  end
+
+  # :nodoc:
+  private def repeat_inner(a : Tensor, n : Int)
+    a.each do |el|
+      n.times do
+        yield el
       end
     end
   end
 
-  private def tril2d(a : AnyArray(T), k)
-    m, n = a.shape
-    a.iter_flat_indexed do |el, idx|
-      i = idx // n
-      j = idx % n
-      if i < j - k
-        el.value = T.new(0)
+  # :nodoc:
+  private def tile_inner(a : Tensor, r : Array(Int))
+    shape_out = a.shape.zip(r).map do |i, j|
+      (i * j).to_i
+    end
+    n = a.size
+    a.shape.zip(r) do |d, rep|
+      if rep != 1
+        a = repeat(a.reshape(-1, n), rep, 0)
       end
+      n //= d
     end
-  end
-
-  def triu!(k = 0)
-    if ndims == 2
-      triu2d(self, k)
-    else
-      matrix_iter.each do |subm|
-        triu2d(subm, k)
-      end
-    end
-  end
-
-  def triu(k = 0)
-    ret = dup
-    ret.triu!
-    ret
-  end
-
-  def tril!(k = 0)
-    if ndims == 2
-      tril2d(self, k)
-    else
-      matrix_iter.each do |subm|
-        tril2d(subm, k)
-      end
-    end
-  end
-
-  def tril(k = 0)
-    ret = dup
-    ret.tril!
-    ret
-  end
-
-  def bincount(min_count = 0)
-    if @ndims != 1
-      raise NumInternal::ShapeError.new("Input must be 1-dimensional")
-    end
-    sz = Math.max(min_count, Num.max(self) + 1)
-    ret = Pointer(Int32).malloc(sz)
-    iter.each do |i|
-      val = i.value
-      if val < 0
-        raise NumInternal::ValueError.new "All values must be positive"
-      end
-      ret[i.value] += 1
-    end
-    Tensor.new(ret, [sz], [1])
-  end
-
-  def bincount(weights : Tensor(U), min_count = 0) forall U
-    if @ndims != 1
-      raise NumInternal::ShapeError.new("Input must be 1-dimensional")
-    end
-    if @shape != weights.shape
-      raise "Weights do not match input"
-    end
-    sz = Math.max(min_count, Num.max(self) + 1)
-    ret = Pointer(U).malloc(sz)
-    iter2(weights).each do |i, j|
-      iv, jv = {i.value, j.value}
-      if iv < 0
-        raise NumInternal::ValueError.new("All values must be positive")
-      end
-      ret[iv] += jv
-    end
-    Tensor.new(ret, [sz], [1])
+    a.reshape(shape_out)
   end
 end
