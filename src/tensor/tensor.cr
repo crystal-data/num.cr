@@ -1217,64 +1217,41 @@ class Tensor(T)
   # #  [3, 4]]
   # ```
   def reshape(new_shape : Array(Int))
-    result_shape = new_shape.map &.to_i
-
-    if result_shape == @shape
+    newshape = new_shape.map &.to_i
+    if newshape == shape
       return self.view
     end
-
-    n = 1
-    c = @size
-    auto = -1
-
-    result_shape.each_with_index do |v, i|
-      if v < 0
-        if auto >= 0
-          raise Num::Internal::ValueError.new(
-            "Only a single dimension can be inferred"
-          )
+    newsize = 1
+    cur_size = size
+    autosize = -1
+    newshape.each_with_index do |val, i|
+      if val < 0
+        if autosize >= 0
+          raise Num::Internal::ValueError.new("Only shape dimension can be automatic")
         end
-        auto = i
+        autosize = i
       else
-        n *= v
+        newsize *= val
       end
     end
 
-    if auto >= 0
-      result_shape = result_shape.dup
-      result_shape[auto] = c // n
-      n *= result_shape[auto]
+    if autosize >= 0
+      newshape = newshape.dup
+      newshape[autosize] = cur_size // newsize
+      newsize *= newshape[autosize]
     end
 
-    if n != c
-      raise Num::Internal::ShapeError.new(
-        "Shape #{@shape} cannot be reshaped to #{result_shape}"
-      )
+    if newsize != cur_size
+      raise Num::Internal::ShapeError.new "Shapes #{shape} cannot be reshaped to #{newshape}"
     end
+
+    newstrides = Num::Internal.shape_to_strides(newshape, Num::RowMajor)
 
     if @flags.contiguous?
-      new_strides = Num::Internal.shape_to_strides(
-        result_shape,
-        Num::RowMajor
-      )
-      t = Tensor(T).new(@buffer, result_shape, new_strides)
-      t.flags &= ~Num::ArrayFlags::OwnData
-      t
-    elsif @flags.fortran?
-      new_strides = Num::Internal.shape_to_strides(
-        result_shape,
-        Num::ColMajor
-      )
-      t = Tensor(T).new(@buffer, result_shape, new_strides)
-      t.flags &= ~Num::ArrayFlags::OwnData
-      t
+      self.class.new(@buffer, newshape, newstrides)
     else
-      t = dup(Num::ColMajor)
-      new_strides = Num::Internal.shape_to_strides(
-        result_shape,
-        Num::ColMajor
-      )
-      t
+      tmp = self.dup(Num::RowMajor)
+      self.class.new(tmp.to_unsafe, newshape, newstrides)
     end
   end
 
