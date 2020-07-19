@@ -569,6 +569,100 @@ class Tensor(T)
     dest
   end
 
+  # Compute tensor dot product along specified axes.
+  #
+  # Given two tensors, a and b, and an array_like object containing two
+  # array_like objects, (a_axes, b_axes), sum the products of a’s and b’s
+  # elements (components) over the axes specified by a_axes and b_axes.
+  # The third argument can be a single non-negative integer_like scalar,
+  # N; if it is such, then the last N dimensions of a and the first N
+  # dimensions of b are summed over.
+  #
+  # Arguments
+  # ---------
+  # *b* : Tensor
+  #   Right hand side of dot products
+  # *axes* : Array(Array(Int)) | Array(Int) | Int
+  #   Axes of summation
+  #
+  # Examples
+  # --------
+  # ```
+  # a = Tensor.range(60.0).reshape(3, 4, 5)
+  # b = Tensor.range(24.0).reshape(4, 3, 2)
+  # puts a.tensordot(b, axes: [[1, 0], [0, 1]])
+  #
+  # # [[4400, 4730],
+  # #  [4532, 4874],
+  # #  [4664, 5018],
+  # #  [4796, 5162],
+  # #  [4928, 5306]]
+  # ```
+  def tensordot(b : Tensor(T), axes : Array(Array(Int)))
+    axes_a, axes_b = axes
+    na = axes_a.size
+    nb = axes_b.size
+    as_ = self.shape
+    nda = self.rank
+    bs = b.shape
+    ndb = b.rank
+    equal = na == nb
+    na.times do |k|
+      if as_[axes_a[k]] != bs[axes_b[k]]
+        equal = false
+        break
+      end
+      if axes_a[k] < 0
+        axes_a[k] += nda
+      end
+      if axes_b[k] < 0
+        axes_b[k] += ndb
+      end
+    end
+    unless equal
+      raise Num::Internal::ShapeError.new("Shape mismatch for sum")
+    end
+    notin = (0...nda).select do |k|
+      !axes_a.includes?(k)
+    end
+    newaxes_a = notin + axes_a
+    n2 = 1
+    axes_a.each do |axis|
+      n2 *= as_[axis]
+    end
+    newshape_a = [(notin.map { |ax| as_[ax] }).product, n2]
+    olda = notin.map { |ax| as_[ax] }
+
+    notin = (0...ndb).select do |k|
+      !axes_b.includes?(k)
+    end
+    newaxes_b = axes_b + notin
+    n2 = 1
+    axes_b.each do |axis|
+      n2 *= bs[axis]
+    end
+    newshape_b = [n2, (notin.map { |ax| bs[ax] }).product]
+    oldb = notin.map { |ax| bs[ax] }
+
+    at = self.transpose(newaxes_a).reshape(newshape_a)
+    bt = b.transpose(newaxes_b).reshape(newshape_b)
+    res = at.matmul(bt)
+    res.reshape(olda + oldb)
+  end
+
+  # :ditto:
+  def tensordot(b : Tensor(T), axes : Int)
+    axes_a = (-axes...0).to_a
+    axes_b = (0...axes).to_a
+    self.tensordot(b, [axes_a, axes_b])
+  end
+
+  # :ditto:
+  def tensordot(b : Tensor(T), axes : Array(Int))
+    axes_a, axes_b = axes
+    self.tensordot(b, [[axes_a], [axes_b]])
+  end
+
   # :nodoc:
   def is_matrix
     unless self.rank == 2
