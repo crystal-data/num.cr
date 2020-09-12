@@ -1429,6 +1429,10 @@ class Tensor(T)
     end
   end
 
+  def iter_attrs
+    {@shape.to_unsafe, @strides.to_unsafe, self.rank}
+  end
+
   # :nodoc:
   def map_along_axis(axis : Int)
     if axis < 0
@@ -1670,6 +1674,12 @@ class Tensor(T)
   end
 
   private def normalize(arg : Range, i : Int32)
+    a_end = arg.end
+    if a_end.is_a?(Int32)
+      if a_end > @shape[i]
+        arg = arg.begin...@shape[i]
+      end
+    end
     s, o = Indexable.range_to_index_and_count(arg, @shape[i])
     if s >= @shape[i]
       raise Num::Internal::IndexError.new(
