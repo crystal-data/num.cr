@@ -488,6 +488,64 @@ module Num
     end
   end
 
+  # Sorts a `Tensor`, treating it's elements like the `Tensor`
+  # is flat.
+  #
+  # Arguments
+  # ---------
+  # *a* : Tensor | Enumerable
+  #   Argument to sort
+  # *axis* : Int
+  #
+  # Examples
+  # --------
+  # ```
+  # a = [3, 2, 1].to_tensor
+  # Num.sort(a) # => [1, 2, 3]
+  # ```
+  def sort(a : Tensor | Enumerable)
+    a_t = a.to_tensor
+    ret = a_t.dup(Num::RowMajor)
+    Slice.new(ret.to_unsafe, ret.size).sort!
+    ret
+  end
+
+  # Sorts a `Tensor` along an axis.
+  #
+  # Arguments
+  # ---------
+  # *a* : Tensor | Enumerable
+  #   Argument to sort
+  # *axis* : Int
+  #   Axis to sort along
+  #
+  # Examples
+  # --------
+  # ```
+  # t = Tensor.random(0...10, [3, 3, 2])
+  # puts Num.sort(t, axis: 1)
+  #
+  # # [[[1, 1],
+  # #   [4, 5],
+  # #   [5, 7]],
+  # #
+  # #  [[0, 0],
+  # #   [2, 3],
+  # #   [8, 4]],
+  # #
+  # #  [[2, 5],
+  # #   [5, 7],
+  # #   [5, 7]]]
+  # ```
+  def sort(a : Tensor | Enumerable, axis : Int)
+    a_t = a.to_tensor
+    ret = a_t.dup(Num::RowMajor)
+    ret.yield_along_axis(axis) do |view|
+      view[...] = Num.sort(view)
+    end
+    ret
+  end
+
   # Asserts that two `Tensor`s are equal, allowing for small
   # margins of errors with floating point values using
   # an EPSILON value.
@@ -516,7 +574,9 @@ module Num
     unless a.size == b.size
       return false
     end
-    a.map(b) do |i, j|
+    a_t = a.to_tensor
+    b_t = b.to_tensor
+    a_t.map(b_t) do |i, j|
       m = (i - j).abs < epsilon
       unless m
         return false
@@ -580,6 +640,22 @@ module Num
     )
   end
 
+  # Returns a hash containing the count of each
+  # unique element of a `Tensor`
+  #
+  # Arguments
+  # ---------
+  # *a* : Tensor
+  #   Tensor to count
+  # *axis* : Tens
+  #
+  #
+  # Examples
+  # --------
+  # ```
+  # a = [[3, 4], [2, 2]]
+  # Num.value_counts(a) # => {3 => 1, 4 => 1, 2 => 2}
+  # ```
   def value_counts(a : Tensor(U)) forall U
     counts = Hash(U, Int32).new
     a.each do |e|
@@ -1024,6 +1100,72 @@ class Tensor(T)
     Num.ptp(self, axis, dims)
   end
 
+  # Sorts a `Tensor`, treating it's elements like the `Tensor`
+  # is flat.
+  #
+  # Arguments
+  # ---------
+  # *a* : Tensor | Enumerable
+  #   Argument to sort
+  # *axis* : Int
+  #
+  # Examples
+  # --------
+  # ```
+  # a = [3, 2, 1].to_tensor
+  # Num.sort(a) # => [1, 2, 3]
+  # ```
+  def sort
+    Num.sort(self)
+  end
+
+  # Sorts a `Tensor` along an axis.
+  #
+  # Arguments
+  # ---------
+  # *a* : Tensor | Enumerable
+  #   Argument to sort
+  # *axis* : Int
+  #   Axis to sort along
+  #
+  # Examples
+  # --------
+  # ```
+  # t = Tensor.random(0...10, [3, 3, 2])
+  # puts Num.sort(t, axis: 1)
+  #
+  # # [[[1, 1],
+  # #   [4, 5],
+  # #   [5, 7]],
+  # #
+  # #  [[0, 0],
+  # #   [2, 3],
+  # #   [8, 4]],
+  # #
+  # #  [[2, 5],
+  # #   [5, 7],
+  # #   [5, 7]]]
+  # ```
+  def sort(axis : Int)
+    Num.sort(self, axis)
+  end
+
+  # Returns a hash containing the count of each
+  # unique element of a `Tensor`
+  #
+  # Arguments
+  # ---------
+  # *a* : Tensor
+  #   Tensor to count
+  # *axis* : Tens
+  #
+  #
+  # Examples
+  # --------
+  # ```
+  # a = [[3, 4], [2, 2]]
+  # Num.value_counts(a) # => {3 => 1, 4 => 1, 2 => 2}
+  # ```
   def value_counts
     Num.value_counts(self)
   end
