@@ -59,4 +59,4 @@ distributions to hit.
 
 ### Loss over time
 
-![xorloss](static/xor_classifier_loss.png)
+![xorloss](xor_classifier_loss.png)

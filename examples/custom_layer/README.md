@@ -37,7 +37,8 @@ class MyCustomActivation(T) < Num::NN::ActivationLayer(T)
 
   def derive(gradient : Tensor(T)) : Tensor(T)
     gradient.map do |i|
-      i >= 0 ? T.new(1) : T.new(0)
+      i >= 0 ? T.new(1) : T.new(0)  ishi:
+    github: toddsundsted/ishi
     end
   end
 end
@@ -85,4 +86,4 @@ results stay the same:
 
 ### Loss over time
 
-![xorlosscustom](static/custom_class_xor_classifier_loss.png)
+![xorlosscustom](custom_class_xor_classifier_loss.png)
