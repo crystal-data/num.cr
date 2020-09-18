@@ -11,6 +11,8 @@ license: MIT
 dependencies:
   opencl:
     github: crystal-data/opencl.cr
+  ishi:
+    github: toddsundsted/ishi
 
 scripts:
   postinstall: make ext

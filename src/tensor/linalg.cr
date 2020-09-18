@@ -538,7 +538,7 @@ class Tensor(T)
     other.is_matrix
 
     a = @flags.contiguous? || @flags.fortran? ? self : self.dup(Num::RowMajor)
-    b = other.flags.contiguous? || flags.fortran? ? other : other.dup(Num::RowMajor)
+    b = other.flags.contiguous? || other.flags.fortran? ? other : other.dup(Num::RowMajor)
     m = a.shape[0]
     n = b.shape[1]
     k = a.shape[1]

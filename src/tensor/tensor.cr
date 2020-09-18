@@ -968,7 +968,7 @@ class Tensor(T)
   # a.map!(b, c) { |i, j, k| i + j + k }
   # a # => [0, 3, 6]
   # ```
-  def map!(t : Tensor, v : Tensor)
+  def map!(t : Tensor, v : Tensor, &block)
     t = t.as_shape(@shape)
     v = v.as_shape(@shape)
     iter(t, v).each do |i, j, k|
@@ -1118,7 +1118,11 @@ class Tensor(T)
   def as_type(u : U.class) : Tensor(U) forall U
     r = Tensor(U).new(@shape)
     r.map!(self) do |_, j|
-      j
+      {% if T == Bool %}
+        j ? 1 : 0
+      {% else %}
+        j
+      {% end %}
     end
     r
   end

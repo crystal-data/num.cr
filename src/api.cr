@@ -18,3 +18,9 @@ require "./scikit/matrices"
 require "./scikit/clustering/kmeans"
 
 require "./libs/local"
+
+require "./nn/activation"
+require "./nn/layer"
+require "./nn/network"
+
+require "./nn/datasets/*"
