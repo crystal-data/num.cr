@@ -537,6 +537,10 @@ class Tensor(T)
     self.is_matrix
     other.is_matrix
 
+    unless self.shape[1] == other.shape[0]
+      raise Num::Internal::ShapeError.new("Invalid shapes for matrix multiplication: #{@shape}, #{other.shape}")
+    end
+
     a = @flags.contiguous? || @flags.fortran? ? self : self.dup(Num::RowMajor)
     b = other.flags.contiguous? || other.flags.fortran? ? other : other.dup(Num::RowMajor)
     m = a.shape[0]

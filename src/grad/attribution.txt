@@ -1,0 +1,4 @@
+Most of the work in this module was inspired by @mratsim's fantastic
+Arraymancer library.
+
+https://github.com/mratsim/Arraymancer

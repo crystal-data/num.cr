@@ -187,6 +187,72 @@ puts a.matmul(a)
 #  [15, 22]]
 ```
 
+### Machine Learning
+
+`Num::Grad` provides a pure-crystal approach to find derivatives of
+mathematical functions.  Use a `Num::Grad::Variable` with a `Num::Grad::Context`
+to easily compute these derivatives.
+
+```crystal
+ctx = Num::Grad::Context(Tensor(Float64)).new
+
+x = ctx.variable([3.0])
+y = ctx.variable([2.0])
+
+# f(x) = x ** y
+f = x ** y
+puts f # => [9]
+
+f.backprop
+
+# df/dx = y * x = 6.0
+puts x.grad # => [6.0]
+```
+
+`Num::NN` contains an extension to `Num::Grad` that provides an easy-to-use
+interface to assist in creating neural networks.  Designing and creating
+a network is simple using Crystal's block syntax.
+
+```crystal
+ctx = Num::Grad::Context(Tensor(Float64)).new
+
+x_train = [[0.0, 0.0], [1.0, 0.0], [0.0, 1.0], [1.0, 1.0]].to_tensor
+y_train = [[0.0], [1.0], [1.0], [0.0]].to_tensor
+
+x = ctx.variable(x_train)
+
+net = Num::NN::Network.new(ctx) do
+
+  # A basic network with a single hidden layer using
+  # a ReLU activation function
+  linear(2, 3)
+  relu
+  linear(3, 1)
+
+  # SGD Optimizer
+  sgd 0.7
+
+  # Sigmoid Cross Entropy to calculate loss
+  sigmoid_cross_entropy_loss
+end
+
+500.times do |epoch|
+  y_pred = net.forward(x)
+  loss = net.loss(y_pred, y_train)
+  puts "Epoch: #{epoch} - Loss #{loss}"
+  loss.backprop
+  net.optimizer.update
+end
+
+# Clip results to make a prediction
+puts net.forward(x).value.map { |el| el > 0 ? 1 : 0}
+
+# [[0],
+#  [1],
+#  [1],
+#  [0]]
+```
+
 ### DataFrames
 
 For more structured data, consider using a `DataFrame`

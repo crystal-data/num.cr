@@ -39,8 +39,13 @@ module Num::NN
   # a = [0.1, 0.34, 0.65].to_tensor
   # Num::NN.tanh(a) # => [0.099668, 0.327477, 0.57167 ]
   # ```
-  def tanh(x : Tensor(U)) forall U
+  def tanh(x : Tensor(U)) : Tensor(U) forall U
     Num.tanh(x)
+  end
+
+  # :ditto:
+  def tanh!(x : Tensor(U)) forall U
+    Num.tanh!(x)
   end
 
   # Derivative of the Tanh function
@@ -56,9 +61,9 @@ module Num::NN
   # a = [0.1, 0.34, 0.65].to_tensor
   # Num::NN.d_tanh(a) # => [0.990066, 0.892759, 0.673193]
   # ```
-  def d_tanh(x)
-    x.map do |i|
-      1 - (Math.tanh(i) ** 2)
+  def tanh_prime(gradient : Tensor(U), cached : Tensor(U)) forall U
+    cached.map(gradient) do |x, y|
+      y * (1 - x * x)
     end
   end
 
@@ -85,6 +90,13 @@ module Num::NN
     end
   end
 
+  # :ditto:
+  def sigmoid!(x : Tensor(U)) : Tensor(U) forall U
+    x.map! do |i|
+      1 / (1 + Math.exp(-i))
+    end
+  end
+
   # Derivative of the Sigmoid function
   #
   # Arguments
@@ -98,65 +110,42 @@ module Num::NN
   # a = [0.1, 0.34, 0.65].to_tensor
   # puts Num::NN.d_sigmoid(a) # => [0.249376, 0.242912, 0.225348]
   # ```
-  def d_sigmoid(x)
-    sm = sigmoid(x)
-    sm.map do |i|
-      (1 - i) * i
+  def sigmoid_prime(gradient : Tensor(U), cached : Tensor(U)) : Tensor(U) forall U
+    cached.map(gradient) do |x, y|
+      x * (1 - x) * y
     end
   end
 
-  # Log loss, aka logistic loss or cross-entropy loss.
-  #
-  # Defined as the negative log-likelihood of a logistic model that returns
-  # y probabilities for its training data y_true. The log loss is only
-  # defined for two or more labels. For a single sample with true label
-  # yt in {0,1} and estimated probability yp that yt = 1, the log loss is:
-  #
-  #   -log P(yt|yp) = -(yt log(yp) + (1 - yt) log(1 - yp))
-  #
-  # Arguments
-  # ---------
-  # *y* : Tensor
-  #   Ground truth results
-  # *a* : Tensor
-  #   Actual results
-  #
-  # Examples
-  # --------
-  # ```
-  # truth = [[0, 1, 1, 0]].to_tensor.as_type(Float64)
-  # actual = [[0.0817076, 0.941659, 0.939411, 0.120442]].to_tensor
-  # Num::NN.logloss(truth, actual)
-  #
-  # # [[0.0852394, 0.0601123, 0.062502 , 0.128336 ]]
-  # ```
-  def logloss(y, a)
-    y.map(a) do |i, j|
-      -(i * Math.log(j) + (1 - i)*Math.log(1 - j))
+  def relu(x : Tensor(U)) : Tensor(U) forall U
+    Num.max(U.new(0), x)
+  end
+
+  def relu!(x : Tensor(U)) : Tensor(U) forall U
+    Num.max!(U.new(0), x)
+  end
+
+  def relu_prime(gradient : Tensor(U), cached : Tensor(U)) : Tensor(U) forall U
+    cached.map(gradient) do |x, y|
+      if x <= 0
+        U.new(0)
+      else
+        y
+      end
     end
   end
 
-  # The derivative of logistic loss, used in back propogation
-  #
-  # Arguments
-  # ---------
-  # *y* : Tensor
-  #   Ground truth results
-  # *a* : Tensor
-  #   Actual results
-  #
-  # Examples
-  # --------
-  # ```
-  # truth = [[0, 1, 1, 0]].to_tensor.as_type(Float64)
-  # actual = [[0.0817076, 0.941659, 0.939411, 0.120442]].to_tensor
-  # Num::NN.d_logloss(truth, actual)
-  #
-  # # [[1.03625 , -1.0224 , -1.04178, 1.0528  ]]
-  # ```
-  def d_logloss(y, a)
-    y.map(a) do |i, j|
-      (j - i)/(j*(1 - j))
+  def sigmoid_cross_entropy(input : Tensor(U), target : Tensor(U)) : U forall U
+    batch_size = input.shape[0]
+    result = input.map(target) do |x, y|
+      -y * x + Math.max(x, U.new(0)) + Math.log1p(Math.exp(-x.abs))
     end
+    result.sum / U.new(batch_size)
+  end
+
+  def mse(input : Tensor(U), target : Tensor(U)) : Tensor(U) forall U
+    result = input.map(target) do |i, j|
+      (i - j) ** 2
+    end
+    [U.new(result.mean)].to_tensor
   end
 end

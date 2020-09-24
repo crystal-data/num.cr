@@ -19,8 +19,16 @@ require "./scikit/clustering/kmeans"
 
 require "./libs/local"
 
-require "./nn/activation"
-require "./nn/layer"
+require "./grad/primitives/*"
+require "./grad/gates_arithmetic"
+require "./grad/gates_blas"
+require "./grad/variable_ops"
+
+require "./nn/primitives/*"
+require "./nn/layers/*"
+require "./nn/gates/*"
+require "./nn/optimizer"
+require "./nn/loss"
 require "./nn/network"
 
 require "./nn/datasets/*"

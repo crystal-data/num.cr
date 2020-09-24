@@ -1,9 +1,0 @@
-name: custom-activation-class
-version: 0.1.0
-
-dependencies:
-  num:
-    github: crystal-data/num.cr
-    branch: master
-  ishi:
-    github: toddsundsted/ishi

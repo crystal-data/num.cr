@@ -54,6 +54,13 @@ class Tensor(T)
     end
   end
 
+  def self.rand(shape : Array(Int))
+    rng = T.new(0)...T.new(1)
+    self.new(shape) do
+      Num::Rand.generator.rand(rng)
+    end
+  end
+
   # Creates a `Tensor` of a provided shape, filled with 0.  The generic type
   # must be specified.
   #

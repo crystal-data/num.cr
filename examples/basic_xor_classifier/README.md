@@ -4,58 +4,70 @@ The following implements a simple XOR classifier to show how to use
 `num.cr`'s `Network` class.  Plotting is done via `ishi`.
 
 ```crystal
-require "num"
-require "ishi"
+ctx = Num::Grad::Context(Tensor(Float64)).new
 
-x_train = [
-  [0, 0, 0],
-  [0, 0, 1],
-  [0, 1, 0],
-  [0, 1, 1],
-  [1, 0, 0],
-  [1, 0, 1],
-  [1, 1, 0],
-  [1, 1, 1],
-].to_tensor.as_type(Float64).transpose
+bsz = 32
 
-y_train = [[0, 1, 1, 1, 1, 1, 1, 0]].to_tensor.as_type(Float64)
+x_train_bool = Tensor.random(0_u8...2_u8, [bsz * 100, 2])
 
-m = x_train.shape[1]
-epochs = 1500
+y_bool = x_train_bool[..., ...1] ^ x_train_bool[..., 1...]
 
-options = {
-  learning_rate: 0.1
-}
+x_train = ctx.variable(x_train_bool.as_type(Float64))
+y = y_bool.as_type(Float64)
 
-costs = [] of Float64
-
-net = Num::NN::Network(Float64).new(**options) do
-  layer(3, 6, :tanh)
-  layer(6, 1, :sigmoid)
+net = Num::NN::Network.new(ctx) do
+  linear 2, 3
+  relu
+  linear 3, 1
+  sgd 0.7
+  sigmoid_cross_entropy_loss
 end
 
-epochs.times do
-  a = net.forward(x_train)
-  cost = 1/m * Num.sum(Num::NN.logloss(y_train, a))
-  costs << cost
-  loss_gradient = Num::NN.d_logloss(y_train, a)
-  net.backward(loss_gradient)
-end
+losses = [] of Float64
 
-puts net.forward(x_train)
+50.times do |epoch|
+  100.times do |batch_id|
+    offset = batch_id * 32
+    x = x_train[offset...offset + 32]
+    target = y[offset...offset + 32]
 
-Ishi.new do
-  plot((0...costs.size).to_a, costs)
+    y_pred = net.forward(x)
+
+    loss = net.loss(y_pred, target)
+
+    puts "Epoch is: #{epoch}"
+    puts "Batch id: #{batch_id}"
+    puts "Loss is: #{loss.value.value}"
+    losses << loss.value.value
+
+    loss.backprop
+    net.optimizer.update
+  end
 end
+```
+
+```
+...
+Epoch is: 49
+Batch id: 95
+Loss is: 0.00065050072686102
+Epoch is: 49
+Batch id: 96
+Loss is: 0.0006024037564266797
+Epoch is: 49
+Batch id: 97
+Loss is: 0.0005297538443899917
+Epoch is: 49
+Batch id: 98
+Loss is: 0.0005765025171222869
+Epoch is: 49
+Batch id: 99
+Loss is: 0.0005290653040218895
 ```
 
 The Network learns this function very quickly, as XOR is one of the simplest
-distributions to hit.
-
-```crystal
-[[0.128285, 0.981884, 0.983019, 0.910526, 0.976077, 0.924345, 0.917729,
-  0.312438]]
-```
+distributions to hit.  Since the training data is so limited, accuracy
+can be a bit jagged, but eventually the network smooths out.
 
 ### Loss over time
 

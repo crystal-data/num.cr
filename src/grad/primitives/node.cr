@@ -21,50 +21,33 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "../../src/num"
-require "ishi"
+# A Node is a member of a computational graph that contains
+# a reference to a gate, as well as the parents of the operation
+# and the payload that resulted from the operation.
+class Num::Grad::Node(T)
+  # A Gate containing a backwards and cache function for
+  # a node
+  getter gate : Num::Grad::Gate(T)
 
-ctx = Num::Grad::Context(Tensor(Float64)).new
+  # The variables that created this node
+  getter parents : Array(Num::Grad::Variable(T))
 
-bsz = 32
+  # Wrapper around a Tensor, contains operation data
+  getter payload : Num::Grad::Payload(T)
 
-x_train_bool = Tensor.random(0_u8...2_u8, [bsz * 100, 2])
+  # Debug use only, contains a name for a node
+  getter name : String
 
-y_bool = x_train_bool[..., ...1] ^ x_train_bool[..., 1...]
-
-x_train = ctx.variable(x_train_bool.as_type(Float64))
-y = y_bool.as_type(Float64)
-
-net = Num::NN::Network.new(ctx) do
-  linear 2, 3
-  relu
-  linear 3, 1
-  sgd 0.7
-  sigmoid_cross_entropy_loss
-end
-
-losses = [] of Float64
-
-50.times do |epoch|
-  100.times do |batch_id|
-    offset = batch_id * 32
-    x = x_train[offset...offset + 32]
-    target = y[offset...offset + 32]
-
-    y_pred = net.forward(x)
-
-    loss = net.loss(y_pred, target)
-
-    puts "Epoch is: #{epoch}"
-    puts "Batch id: #{batch_id}"
-    puts "Loss is: #{loss.value.value}"
-    losses << loss.value.value
-
-    loss.backprop
-    net.optimizer.update
+  # This initializer shouldn't ever be called outside of
+  # Num::Grad.register.
+  #
+  # Users defining custom gradients and gates should
+  # follow the same rule
+  def initialize(
+    @gate : Gate(T),
+    @parents : Array(Num::Grad::Variable(T)),
+    @payload : Num::Grad::Payload(T),
+    @name : String = ""
+  )
   end
-end
-
-Ishi.new do
-  plot((0...losses.size).to_a, losses, pointtype: "o")
 end

@@ -21,22 +21,19 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-# A simple wrapper around an array that provides a
-# `layer` method for easy network construction
-# within a block of data
-class Num::NN::LayerArray(T)
+class Num::NN::NetworkInfo(T)
   getter layers : Array(Num::NN::Layer(T))
-
-  @@layer_mapping = {
-    tanh:    Num::NN::TanhLayer,
-    sigmoid: Num::NN::SigmoidLayer,
-  }
+  getter optimizer : Num::NN::Optimizer(T)
+  getter context : Num::Grad::Context(T)
+  getter loss : Num::NN::Loss(T)
 
   # This should always be initialized with an empty
   # array of layers that can be tapped and yielded
   # by Network creation
-  def initialize
+  def initialize(@context : Num::Grad::Context(T))
     @layers = [] of Num::NN::Layer(T)
+    @optimizer = Num::NN::Optimizer(T).new
+    @loss = Num::NN::Loss(T).new
   end
 
   # Helper method to easily add layers to a Network.
@@ -53,12 +50,32 @@ class Num::NN::LayerArray(T)
   #
   # This should eventually be validated to make sure that layers
   # line up with each other in terms of input/output sizes
-  def layer(i : Int, j : Int, act : Symbol)
-    @layers << @@layer_mapping[act].new(i, j, dtype: T)
+  def layer(cls : U.class, *args) forall U
+    @layers << U.new(*args)
   end
 
-  def layer(i : Int, j : Int, act : U.class) forall U
-    act.new(i, j, dtype: T)
+  def linear(i : Int, j : Int)
+    @layers << Num::NN::LinearLayer(T).new(@context, i, j)
+  end
+
+  def relu
+    @layers << Num::NN::ReluLayer(T).new(@context)
+  end
+
+  def sigmoid
+    @layers << Num::NN::SigmoidLayer(T).new(@context)
+  end
+
+  def sgd(learning_rate : Float64 = 0.01)
+    @optimizer = Num::NN::SGDOptimizer(T).new(learning_rate)
+  end
+
+  def sigmoid_cross_entropy_loss
+    @loss = Num::NN::SigmoidCrossEntropyLoss(T).new
+  end
+
+  def mse_loss
+    @loss = Num::NN::MSELoss(T).new
   end
 
   forward_missing_to layers
@@ -73,7 +90,7 @@ end
 # sugar around moving data through a network -> forward, and propogating
 # loss <- backwards
 class Num::NN::Network(T)
-  @layers : LayerArray(T)
+  @layers : Num::NN::NetworkInfo(T)
 
   # Convenience method to allow for creation of a Network
   # with as little code as possible.  Taps an instance of
@@ -91,21 +108,17 @@ class Num::NN::Network(T)
   #   layer(3, 1, :sigmoid)
   # end
   # ```
-  def self.new(**options)
-    layers = LayerArray(T).new
+  def self.new(context : Num::Grad::Context(T), **options)
+    layers = Num::NN::NetworkInfo(T).new(context)
     layers.tap do |instance|
       with instance yield
     end
+    layers.optimizer.build_params(layers.layers)
     new(layers, **options)
   end
 
   # :nodoc:
-  private def initialize(@layers : LayerArray(T), **options)
-    if options.has_key?(:learning_rate)
-      @layers.each do |layer|
-        layer.rate = options[:learning_rate]
-      end
-    end
+  private def initialize(@layers : Num::NN::NetworkInfo(T), **options)
   end
 
   # Propogates an input through a network, returning
@@ -122,34 +135,18 @@ class Num::NN::Network(T)
   # a = [[0.0, 0.0], [1.0, 0.0], [0.0, 1.0], [1.0, 1.0]].to_tensor
   # net.forward(a)
   # ```
-  def forward(train : Tensor(T)) : Tensor(T)
+  def forward(train : Num::Grad::Variable(T)) : Num::Grad::Variable(T)
     @layers.each do |layer|
       train = layer.forward(train)
     end
     train
   end
 
-  # Propogates an error back through a network, returning the first
-  # gradient from the network
-  #
-  # Arguments
-  # ---------
-  # *train* : Tensor(T)
-  #   Error gradient
-  #
-  # Examples
-  # --------
-  # ```
-  # a = [[0.0, 0.0], [1.0, 0.0], [0.0, 1.0], [1.0, 1.0]].to_tensor
-  # a = net.forward(a)
-  #
-  # g = computeLoss(a)
-  # net.backward(g)
-  # ```
-  def backward(gradient) : Tensor(T)
-    @layers.reverse_each do |layer|
-      gradient = layer.backward(gradient)
-    end
-    gradient
+  def loss(output : Num::Grad::Variable(T), target : T)
+    @layers.loss.loss(output, target)
+  end
+
+  def optimizer
+    @layers.optimizer
   end
 end

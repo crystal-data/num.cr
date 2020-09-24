@@ -21,50 +21,18 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "../../src/num"
-require "ishi"
+# A Gate is an object that can cache the result of an operation,
+# as well as backpropogate a payload backwards along the
+# computational graph
+#
+# Child classes that inherit from this class can add instance
+# variables if additional caching is needed, and these need
+# to be populated when writing the cached operation
+abstract class Num::Grad::Gate(T)
+  # Propogates an operation backwards, transforming a payload
+  # and returning an array of Tensors
+  abstract def backward(payload : Num::Grad::Payload(T)) : Array(T)
 
-ctx = Num::Grad::Context(Tensor(Float64)).new
-
-bsz = 32
-
-x_train_bool = Tensor.random(0_u8...2_u8, [bsz * 100, 2])
-
-y_bool = x_train_bool[..., ...1] ^ x_train_bool[..., 1...]
-
-x_train = ctx.variable(x_train_bool.as_type(Float64))
-y = y_bool.as_type(Float64)
-
-net = Num::NN::Network.new(ctx) do
-  linear 2, 3
-  relu
-  linear 3, 1
-  sgd 0.7
-  sigmoid_cross_entropy_loss
-end
-
-losses = [] of Float64
-
-50.times do |epoch|
-  100.times do |batch_id|
-    offset = batch_id * 32
-    x = x_train[offset...offset + 32]
-    target = y[offset...offset + 32]
-
-    y_pred = net.forward(x)
-
-    loss = net.loss(y_pred, target)
-
-    puts "Epoch is: #{epoch}"
-    puts "Batch id: #{batch_id}"
-    puts "Loss is: #{loss.value.value}"
-    losses << loss.value.value
-
-    loss.backprop
-    net.optimizer.update
-  end
-end
-
-Ishi.new do
-  plot((0...losses.size).to_a, losses, pointtype: "o")
+  # Caches the result of an operation on a context
+  abstract def cache(result : Num::Grad::Variable(T), *args)
 end

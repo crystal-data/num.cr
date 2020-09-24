@@ -57,6 +57,6 @@ module Num::NN
     mapped = labels.map { |el| label_mapping[el] }
     y_train = mapped.to_tensor.as_type(Float64)
 
-    {labels, x_train.transpose, y_train.transpose}
+    {labels, x_train, y_train}
   end
 end

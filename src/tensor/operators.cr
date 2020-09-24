@@ -357,4 +357,8 @@ class Tensor(T)
   stdlibwrap ldexp
   stdlibwrap max
   stdlibwrap min
+
+  def -
+    map { |i| -i }
+  end
 end
