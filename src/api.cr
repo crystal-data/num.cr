@@ -18,6 +18,8 @@ require "./scikit/matrices"
 require "./scikit/clustering/kmeans"
 
 require "./libs/local"
+require "./libs/nnpack"
+require "./libs/plplot"
 
 require "./grad/primitives/*"
 require "./grad/gates_arithmetic"
@@ -32,3 +34,7 @@ require "./nn/loss"
 require "./nn/network"
 
 require "./nn/datasets/*"
+
+require "./plot/internal/*"
+require "./plot/figures/*"
+require "./plot/plot"

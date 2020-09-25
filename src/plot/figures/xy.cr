@@ -21,52 +21,37 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "../../src/num"
+class Num::Plot::XYPlot < Num::Plot::Figure
+  @x : Tensor(Float64)
+  @y : Tensor(Float64)
+  @size : Int32
+  @color : Int32? = nil
 
-ctx = Num::Grad::Context(Tensor(Float64)).new
+  def initialize(x, y, @color : Int32? = nil)
+    @x = x.to_tensor.as_type(Float64)
+    @y = y.to_tensor.as_type(Float64)
 
-bsz = 32
+    unless @x.size == @y.size
+      raise Num::Internal::ShapeError.new("Inputs must be the same size")
+    end
 
-x_train_bool = Tensor.random(0_u8...2_u8, [bsz * 100, 2])
-
-y_bool = x_train_bool[..., ...1] ^ x_train_bool[..., 1...]
-
-x_train = ctx.variable(x_train_bool.as_type(Float64))
-y = y_bool.as_type(Float64)
-
-net = Num::NN::Network.new(ctx) do
-  linear 2, 3
-  relu
-  linear 3, 1
-  sgd 0.7
-  sigmoid_cross_entropy_loss
-end
-
-losses = [] of Float64
-
-50.times do |epoch|
-  100.times do |batch_id|
-    offset = batch_id * 32
-    x = x_train[offset...offset + 32]
-    target = y[offset...offset + 32]
-
-    y_pred = net.forward(x)
-
-    loss = net.loss(y_pred, target)
-
-    puts "Epoch is: #{epoch}"
-    puts "Batch id: #{batch_id}"
-    puts "Loss is: #{loss.value.value}"
-    losses << loss.value.value
-
-    loss.backprop
-    net.optimizer.update
+    @size = @x.size
   end
-end
 
-Num::Plot::Figure.plot do
-  scatter (0...losses.size), losses
-  x_label "Epochs"
-  y_label "Loss"
-  label "XOR Classifier Loss"
+  def plot
+    unless @color.nil?
+      LibPlplot.plcol0(@color.unsafe_as(Int32))
+    end
+  end
+
+  def update_bounds(bounds : Num::Plot::Bounds) : Num::Plot::Bounds
+    x_min, x_max = @x.min, @x.max
+    y_min, y_max = @y.min, @y.max
+
+    bounds.x_min = {bounds.x_min, x_min}.min
+    bounds.x_max = {bounds.x_max, x_max}.max
+    bounds.y_min = {bounds.y_min, y_min}.min
+    bounds.y_max = {bounds.y_max, y_max}.max
+    bounds
+  end
 end

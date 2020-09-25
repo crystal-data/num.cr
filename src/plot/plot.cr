@@ -21,52 +21,31 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "../../src/num"
+class Num::Plot::Plot
+  def self.plot
+    plotter = Num::Plot::Options.new
+    plotter.tap do |instance|
+      with instance yield
+    end
 
-ctx = Num::Grad::Context(Tensor(Float64)).new
+    if !plotter.term.nil?
+      LibPlplot.plsdev(plotter.term.to_s)
+    end
 
-bsz = 32
+    palette = Num::Plot::COLOR_MAPS[plotter.palette]
 
-x_train_bool = Tensor.random(0_u8...2_u8, [bsz * 100, 2])
+    LibPlplot.plspal0(palette)
+    LibPlplot.plinit
 
-y_bool = x_train_bool[..., ...1] ^ x_train_bool[..., 1...]
+    b = plotter.bounds
+    LibPlplot.plenv(b.x_min, b.x_max, b.y_min, b.y_max, 0, 0)
+    LibPlplot.pllab(plotter.x_label, plotter.y_label, plotter.label)
 
-x_train = ctx.variable(x_train_bool.as_type(Float64))
-y = y_bool.as_type(Float64)
+    plotter.figures.each_with_index do |fig, i|
+      LibPlplot.plcol0(i + 1)
+      fig.plot
+    end
 
-net = Num::NN::Network.new(ctx) do
-  linear 2, 3
-  relu
-  linear 3, 1
-  sgd 0.7
-  sigmoid_cross_entropy_loss
-end
-
-losses = [] of Float64
-
-50.times do |epoch|
-  100.times do |batch_id|
-    offset = batch_id * 32
-    x = x_train[offset...offset + 32]
-    target = y[offset...offset + 32]
-
-    y_pred = net.forward(x)
-
-    loss = net.loss(y_pred, target)
-
-    puts "Epoch is: #{epoch}"
-    puts "Batch id: #{batch_id}"
-    puts "Loss is: #{loss.value.value}"
-    losses << loss.value.value
-
-    loss.backprop
-    net.optimizer.update
+    LibPlplot.plend
   end
-end
-
-Num::Plot::Figure.plot do
-  scatter (0...losses.size), losses
-  x_label "Epochs"
-  y_label "Loss"
-  label "XOR Classifier Loss"
 end

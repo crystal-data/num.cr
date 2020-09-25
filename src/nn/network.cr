@@ -36,44 +36,142 @@ class Num::NN::NetworkInfo(T)
     @loss = Num::NN::Loss(T).new
   end
 
-  # Helper method to easily add layers to a Network.
+  # Add a linear layer to the Network.  Since activation functions
+  # are just treated as additional layers, this simply requires
+  # the dimensions of the transformation.
   #
-  # Rather than having to explicitly create layers and
-  # add an array of them to a Network, this method is
-  # provided by yielding its own instance to allow:
+  # Dimensions should be `NUM_FEATURES` x `NUM_OUTPUTS`, so
+  # if the data set is 100x10, with 200 neurons in the hidden layers,
+  # the dimensions of the layer would be 10, 100, the 200 will be handled
+  # by dynamically.
   #
+  # Arguments
+  # ---------
+  # *i* : Int
+  #   The number of features in the linear layer
+  # *j* : Int
+  #   The number of outputs in the linear layer
+  #
+  # Examples
+  # --------
   # ```
-  # Network(Float32).new do
-  #   layer(3, 2, :relu)
+  # net = Num::NN::Network.new(ctx) do
+  #   linear 2, 3
   # end
   # ```
-  #
-  # This should eventually be validated to make sure that layers
-  # line up with each other in terms of input/output sizes
-  def layer(cls : U.class, *args) forall U
-    @layers << U.new(*args)
-  end
-
   def linear(i : Int, j : Int)
     @layers << Num::NN::LinearLayer(T).new(@context, i, j)
   end
 
+  def conv2d(shape : Array(Int32), n : Int32, kh : Int32, kw : Int32)
+    @layers << Num::NN::ConvolutionalLayer(T).new(@context, shape, n, kh, kw)
+  end
+
+  def flatten(shape : Array(Int32))
+    @layers << Num::NN::FlattenLayer(T).new(@context, shape)
+  end
+
+  # Add a ReLU layer to the Network.  Activation functions are handled
+  # the same way as other layers, but do not change the dimensions
+  # of the input
+  #
+  # Arguments
+  # ---------
+  #
+  # Examples
+  # --------
+  # ```
+  # net = Num::NN::Network.new(ctx) do
+  #   linear 2, 3
+  #   relu
+  # end
+  # ```
   def relu
     @layers << Num::NN::ReluLayer(T).new(@context)
   end
 
+  # Add a Sigmoid layer to the Network.  Activation functions are handled
+  # the same way as other layers, but do not change the dimensions
+  # of the input
+  #
+  # Arguments
+  # ---------
+  #
+  # Examples
+  # --------
+  # ```
+  # net = Num::NN::Network.new(ctx) do
+  #   linear 2, 3
+  #   sigmoid
+  # end
+  # ```
   def sigmoid
     @layers << Num::NN::SigmoidLayer(T).new(@context)
   end
 
+  # Add an SGD optimizer to the Network.
+  #
+  # Arguments
+  # ---------
+  # *learning_rate* : Float64
+  #   Learning rate for all layers in the Network
+  #
+  # Examples
+  # --------
+  # ```
+  # net = Num::NN::Network.new(ctx) do
+  #   linear 2, 3
+  #   sigmoid
+  #   linear 3, 1
+  #   sgd 0.7
+  # end
+  # ```
   def sgd(learning_rate : Float64 = 0.01)
     @optimizer = Num::NN::SGDOptimizer(T).new(learning_rate)
   end
 
+  def adam(*args)
+    @optimizer = Num::NN::AdamOptimizer(T).new(*args)
+  end
+
+  # Uses Sigmoid Cross Entropy to compute the loss for
+  # the Network
+  #
+  # Arguments
+  # ---------
+  #
+  # Examples
+  # --------
+  # ```
+  # net = Num::NN::Network.new(ctx) do
+  #   linear 2, 3
+  #   sigmoid
+  #   linear 3, 1
+  #   sgd 0.7
+  #   sigmoid_cross_entropy_loss
+  # end
+  # ```
   def sigmoid_cross_entropy_loss
     @loss = Num::NN::SigmoidCrossEntropyLoss(T).new
   end
 
+  # Uses Mean Squared Error to compute the loss for
+  # the Network
+  #
+  # Arguments
+  # ---------
+  #
+  # Examples
+  # --------
+  # ```
+  # net = Num::NN::Network.new(ctx) do
+  #   linear 2, 3
+  #   sigmoid
+  #   linear 3, 1
+  #   sgd 0.7
+  #   mse_loss
+  # end
+  # ```
   def mse_loss
     @loss = Num::NN::MSELoss(T).new
   end
@@ -142,10 +240,44 @@ class Num::NN::Network(T)
     train
   end
 
+  # Uses the Network's loss function to calculate the loss
+  # based on the final output from the Network, as well
+  # as the target output
+  #
+  # Arguments
+  # ---------
+  # *output* : Num::Grad::Variable(T)
+  #   Prediction by the network
+  # *target* : T
+  #   Tensor containing ground truth values
+  #
+  # Examples
+  # --------
+  # ```
+  # epochs.times do |epoch|
+  #   y_pred = net.forward(x)
+  #   loss = net.loss(y_pred, y_actual)
+  # end
+  # ```
   def loss(output : Num::Grad::Variable(T), target : T)
     @layers.loss.loss(output, target)
   end
 
+  # Return the Network's optimizer to allow updating
+  # the weights and biases of the network
+  #
+  # Arguments
+  # ---------
+  #
+  # Examples
+  # --------
+  # ```
+  # epochs.times do |epoch|
+  #   y_pred = net.forward(x)
+  #   loss = net.loss(y_pred, y_actual)
+  #   net.optimizer.update
+  # end
+  # ```
   def optimizer
     @layers.optimizer
   end

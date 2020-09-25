@@ -21,52 +21,43 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "../../src/num"
-
-ctx = Num::Grad::Context(Tensor(Float64)).new
-
-bsz = 32
-
-x_train_bool = Tensor.random(0_u8...2_u8, [bsz * 100, 2])
-
-y_bool = x_train_bool[..., ...1] ^ x_train_bool[..., 1...]
-
-x_train = ctx.variable(x_train_bool.as_type(Float64))
-y = y_bool.as_type(Float64)
-
-net = Num::NN::Network.new(ctx) do
-  linear 2, 3
-  relu
-  linear 3, 1
-  sgd 0.7
-  sigmoid_cross_entropy_loss
-end
-
-losses = [] of Float64
-
-50.times do |epoch|
-  100.times do |batch_id|
-    offset = batch_id * 32
-    x = x_train[offset...offset + 32]
-    target = y[offset...offset + 32]
-
-    y_pred = net.forward(x)
-
-    loss = net.loss(y_pred, target)
-
-    puts "Epoch is: #{epoch}"
-    puts "Batch id: #{batch_id}"
-    puts "Loss is: #{loss.value.value}"
-    losses << loss.value.value
-
-    loss.backprop
-    net.optimizer.update
+module Num::Plot
+  # Sets the color index for cmap0 (see the section called “Color Map0”).
+  #
+  # 0	black (default background)
+  # 1	red (default foreground)
+  # 2	yellow
+  # 3	green
+  # 4	aquamarine
+  # 5	pink
+  # 6	wheat
+  # 7	grey
+  # 8	brown
+  # 9	blue
+  # 10	BlueViolet
+  # 11	cyan
+  # 12	turquoise
+  # 13	magenta
+  # 14	salmon
+  # 15	white
+  # Use plscmap0 to change the entire cmap0 color palette and plscol0 to
+  # change an individual color in the cmap0 color palette.
+  enum Color
+    BLACK       =  0
+    RED         =  1
+    YELLOW      =  2
+    GREEN       =  3
+    AQUAMARINE  =  4
+    PINK        =  5
+    WHEAT       =  6
+    GREY        =  7
+    BROWN       =  8
+    BLUE        =  9
+    BLUE_VIOLET = 10
+    CYAN        = 11
+    TURQUOISE   = 12
+    MAGENTA     = 13
+    SALMON      = 14
+    WHITE       = 15
   end
-end
-
-Num::Plot::Figure.plot do
-  scatter (0...losses.size), losses
-  x_label "Epochs"
-  y_label "Loss"
-  label "XOR Classifier Loss"
 end

@@ -23,50 +23,10 @@
 
 require "../../src/num"
 
-ctx = Num::Grad::Context(Tensor(Float64)).new
+x = (0...100)
+y = Tensor(Float64).rand([100])
 
-bsz = 32
-
-x_train_bool = Tensor.random(0_u8...2_u8, [bsz * 100, 2])
-
-y_bool = x_train_bool[..., ...1] ^ x_train_bool[..., 1...]
-
-x_train = ctx.variable(x_train_bool.as_type(Float64))
-y = y_bool.as_type(Float64)
-
-net = Num::NN::Network.new(ctx) do
-  linear 2, 3
-  relu
-  linear 3, 1
-  sgd 0.7
-  sigmoid_cross_entropy_loss
-end
-
-losses = [] of Float64
-
-50.times do |epoch|
-  100.times do |batch_id|
-    offset = batch_id * 32
-    x = x_train[offset...offset + 32]
-    target = y[offset...offset + 32]
-
-    y_pred = net.forward(x)
-
-    loss = net.loss(y_pred, target)
-
-    puts "Epoch is: #{epoch}"
-    puts "Batch id: #{batch_id}"
-    puts "Loss is: #{loss.value.value}"
-    losses << loss.value.value
-
-    loss.backprop
-    net.optimizer.update
-  end
-end
-
-Num::Plot::Figure.plot do
-  scatter (0...losses.size), losses
-  x_label "Epochs"
-  y_label "Loss"
-  label "XOR Classifier Loss"
+Num::Plot::Plot.plot do
+  term nil
+  scatter x, y, code: 14, color: 2
 end
