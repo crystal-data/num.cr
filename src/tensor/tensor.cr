@@ -26,6 +26,7 @@ require "./internal/constants"
 require "./internal/utils"
 require "./internal/print"
 require "./internal/iteration"
+require "./internal/new_iterators"
 require "./internal/ndindex"
 require "../libs/cblas"
 
@@ -620,6 +621,12 @@ class Tensor(T)
     end
   end
 
+  def each_new
+    strided_iteration(self) do |_, el|
+      yield el.value
+    end
+  end
+
   # Yields the memory locations of each element of a `Tensor`, always in
   # RowMajor oder, as if the `Tensor` was flat.
   #
@@ -645,6 +652,12 @@ class Tensor(T)
   # ```
   def each_pointer
     iter.each do |el|
+      yield el
+    end
+  end
+
+  def each_pointer_new
+    strided_iteration(self) do |_, el|
       yield el
     end
   end
@@ -815,6 +828,15 @@ class Tensor(T)
     t
   end
 
+  def map_new(&block : T -> U) : Tensor(U) forall U
+    t = Tensor(U).new(@shape)
+    data = t.to_unsafe
+    strided_iteration(self) do |index, el|
+      data[index] = yield el.value
+    end
+    t
+  end
+
   # Maps a block across a `Tensor` in place.  The `Tensor` is treated
   # as flat during iteration, and iteration is always done
   # in RowMajor order
@@ -833,6 +855,12 @@ class Tensor(T)
   # ```
   def map!(&block)
     each_pointer do |ptr|
+      type_inference ptr, ptr
+    end
+  end
+
+  def map_new!(&block)
+    each_pointer_new do |ptr|
       type_inference ptr, ptr
     end
   end
@@ -868,6 +896,16 @@ class Tensor(T)
     r
   end
 
+  def map_new(t : Tensor(U), &block : T, U -> V) : Tensor(V) forall U, V
+    a, b = Num::Internal.broadcast(self, t)
+    r = Tensor(V).new(a.shape)
+    data = r.to_unsafe
+    dual_strided_iteration(a, b) do |index, a, b|
+      data[index] = yield a.value, b.value
+    end
+    r
+  end
+
   # Maps a block across two `Tensors`.  This is more efficient than
   # zipping iterators since it iterates both `Tensor`'s in a single
   # call, avoiding overhead from tracking multiple iterators.
@@ -896,6 +934,13 @@ class Tensor(T)
   def map!(t : Tensor, &block)
     t = t.as_shape(@shape)
     iter(t).each do |i, j|
+      type_inference i, i, j
+    end
+  end
+
+  def map_new!(t : Tensor, &block)
+    t = t.as_shape(@shape)
+    dual_strided_iteration(self, t) do |_, i, j|
       type_inference i, i, j
     end
   end
@@ -939,6 +984,20 @@ class Tensor(T)
     r
   end
 
+  def map_new(
+    t : Tensor(U),
+    v : Tensor(V),
+    &block : T, U, V -> W
+  ) : Tensor(W) forall U, V, W
+    a, b, c = Num::Internal.broadcast(self, t, v)
+    r = Tensor(W).new(a.shape)
+    data = r.to_unsafe
+    tri_strided_iteration(a, b, c) do |index, i, j, k|
+      data[index] = yield i.value, j.value, k.value
+    end
+    r
+  end
+
   # Maps a block across three `Tensors`.  This is more efficient than
   # zipping iterators since it iterates all `Tensor`'s in a single
   # call, avoiding overhead from tracking multiple iterators.
@@ -972,6 +1031,14 @@ class Tensor(T)
     t = t.as_shape(@shape)
     v = v.as_shape(@shape)
     iter(t, v).each do |i, j, k|
+      type_inference i, i, j, k
+    end
+  end
+
+  def map_new!(t : Tensor, v : Tensor, &block)
+    t = t.as_shape(@shape)
+    v = v.as_shape(@shape)
+    tri_strided_iteration(self, t, v) do |index, i, j, k|
       type_inference i, i, j, k
     end
   end
@@ -1433,6 +1500,10 @@ class Tensor(T)
     end
   end
 
+  def iter_attrs
+    {@shape.to_unsafe, @strides.to_unsafe, self.rank}
+  end
+
   # :nodoc:
   def map_along_axis(axis : Int)
     if axis < 0
@@ -1674,6 +1745,12 @@ class Tensor(T)
   end
 
   private def normalize(arg : Range, i : Int32)
+    a_end = arg.end
+    if a_end.is_a?(Int32)
+      if a_end > @shape[i]
+        arg = arg.begin...@shape[i]
+      end
+    end
     s, o = Indexable.range_to_index_and_count(arg, @shape[i])
     if s >= @shape[i]
       raise Num::Internal::IndexError.new(
