@@ -27,7 +27,7 @@ class Num::NN::LinearLayer(T) < Num::NN::Layer(T)
 
   def initialize(context : Num::Grad::Context(T), inp_dim : Int, outp_dim : Int)
     w = T.rand([outp_dim, inp_dim])
-    b = T.rand([1, outp_dim])
+    b = T.zeros([1, outp_dim])
     @weights = context.variable(w)
     @bias = context.variable(b)
   end

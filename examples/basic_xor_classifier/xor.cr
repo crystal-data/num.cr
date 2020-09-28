@@ -36,7 +36,7 @@ y = y_bool.as_type(Float64)
 
 net = Num::NN::Network.new(ctx) do
   linear 2, 3
-  elu
+  relu
   linear 3, 1
   sgd 0.7
   sigmoid_cross_entropy_loss
