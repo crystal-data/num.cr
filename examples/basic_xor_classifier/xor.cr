@@ -64,7 +64,7 @@ losses = [] of Float64
   end
 end
 
-Num::Plot::Figure.plot do
+Num::Plot::Plot.plot do
   scatter (0...losses.size), losses
   x_label "Epochs"
   y_label "Loss"
