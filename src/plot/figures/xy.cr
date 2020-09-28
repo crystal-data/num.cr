@@ -27,6 +27,23 @@ class Num::Plot::XYPlot < Num::Plot::Figure
   @size : Int32
   @color : Int32? = nil
 
+  # Initializes a basic XY plot
+  #
+  # Arguments
+  # ---------
+  # x
+  #   Tensor-like x-axis argument
+  # y
+  #   Tensor-like y-axis argument
+  # @color : Int32? = nil
+  #   Color code for the plot
+  #
+  # Returns
+  # -------
+  # nil
+  #
+  # Examples
+  # --------
   def initialize(x, y, @color : Int32? = nil)
     @x = x.to_tensor.as_type(Float64)
     @y = y.to_tensor.as_type(Float64)
@@ -38,6 +55,17 @@ class Num::Plot::XYPlot < Num::Plot::Figure
     @size = @x.size
   end
 
+  # Base plotting method, sets color to a default value
+  #
+  # Arguments
+  # ---------
+  #
+  # Returns
+  # -------
+  # nil
+  #
+  # Examples
+  # --------
   def plot
     unless @color.nil?
       LibPlplot.plcol0(@color.unsafe_as(Int32))

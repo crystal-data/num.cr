@@ -48,18 +48,82 @@ class Num::Plot::Options
   def initialize
   end
 
+  # Plots a line plot
+  #
+  # Arguments
+  # ---------
+  # x
+  #   Tensor-like x-axis data
+  # y
+  #   Tensor-like y-axis data
+  # color = nil
+  #   Color code for data
+  #
+  # Returns
+  # -------
+  # nil
+  #
+  # Examples
+  # --------
+  # ```
+  # Num::Plot::Plot.plot do
+  #   line [1, 2, 3], [4, 5, 3]
+  # end
+  # ```
   def line(x, y, color = nil)
     plt = Num::Plot::LinePlot.new(x, y, color)
     @figures << plt
     @bounds = plt.update_bounds(@bounds)
   end
 
+  # Plots a scatter plot
+  #
+  # Arguments
+  # ---------
+  # x
+  #   Tensor like x-axis data
+  # y
+  #   Tensor-like y-axis data
+  # color = nil
+  #   Color code for plot
+  # code : Int32 = 1
+  #   Symbol to use for points
+  #
+  # Returns
+  # -------
+  # nil
+  #
+  # Examples
+  # --------
+  # ```
+  # Num::Plot::Plot.plot do
+  #   scatter [3, 4, 2], [1, 7, 8], 3, 17
+  # end
+  # ```
   def scatter(x, y, color = nil, code : Int32 = 1)
     plt = Num::Plot::Scatter.new(x, y, color, code)
     @figures << plt
     @bounds = plt.update_bounds(@bounds)
   end
 
+  # Plots a custom plot.  As long as a user defines a class
+  # that inherits from Figure, this method will ensure it is
+  # added to the Plot.  This allows users to add custom plots
+  # using the block syntax
+  #
+  # Arguments
+  # ---------
+  # cls : U.class
+  #   Class to use for plotting
+  # *args
+  #   Arguments to create a plot
+  #
+  # Returns
+  # -------
+  # nil
+  #
+  # Examples
+  # --------
   def custom(cls : U.class, *args) forall U
     plt = U.new(*args)
     @figures << plt

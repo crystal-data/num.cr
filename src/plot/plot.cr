@@ -22,6 +22,17 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 class Num::Plot::Plot
+  # Class method to faciliate plotting of generic plots
+  #
+  # Arguments
+  # ---------
+  #
+  # Returns
+  # -------
+  # nil
+  #
+  # Examples
+  # --------
   def self.plot
     plotter = Num::Plot::Options.new
     plotter.tap do |instance|

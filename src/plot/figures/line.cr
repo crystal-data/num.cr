@@ -24,6 +24,17 @@
 require "./xy"
 
 class Num::Plot::LinePlot < Num::Plot::XYPlot
+  # Plots a line plot on a figure
+  #
+  # Arguments
+  # ---------
+  #
+  # Returns
+  # -------
+  # nil
+  #
+  # Examples
+  # --------
   def plot
     super
     LibPlplot.plline(@size, @x.to_unsafe, @y.to_unsafe)

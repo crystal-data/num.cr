@@ -468,6 +468,42 @@ class Tensor(T)
     slice(args)
   end
 
+  # Advanced indexing operation for a `Tensor`, allows Tensor
+  # to be sliced in a non-viewable manner, creating a copy
+  # but allowing greater flexibility.
+  #
+  # For now, only arrays of integers are supported.
+  #
+  # Arguments
+  # ---------
+  # args : Array(Int)
+  #   Array containing the indexers in each dimension
+  #
+  # Returns
+  # -------
+  # Tensor(T)
+  #   A copy of the sliced data
+  #
+  # Examples
+  # --------
+  # ```
+  # t = Tensor.new([3, 3, 2]) { |i| i }
+  # t[[0, 2, 1], [1, 0, 1]]?
+  #
+  # # [[0, 1],
+  # #  [2, 3],
+  # #  [6, 7]]
+  # ```
+  #
+  def []?(*args : Array(Int))
+    copy_slice(args.to_a)
+  end
+
+  # :ditto:
+  def []?(args : Array(Array(Int)))
+    copy_slice(args)
+  end
+
   # The primary method of setting Tensor values.  The slicing behavior
   # for this method is identical to the `[]` method.
   #
@@ -1628,6 +1664,28 @@ class Tensor(T)
       s *= d
     end
     true
+  end
+
+  private def copy_slice(args : Array(Array(Int)))
+    s0 = args[0].size
+    args.each do |arg|
+      unless s0 == arg.size
+        raise Num::Internal::ShapeError.new("All indexers must be the same size")
+      end
+    end
+
+    unless s0 <= self.rank
+      raise Num::Internal::ShapeError.new("Too many dimensions for Tensor")
+    end
+
+    out_shape = [s0] + @shape[args.size...]
+
+    ret = Tensor(T).new(out_shape)
+    s0.times do |i|
+      idx = args.map { |arg| arg[i] }
+      ret[i] = self[idx]
+    end
+    ret
   end
 
   private def slice(args : Array)
