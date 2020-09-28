@@ -116,14 +116,39 @@ module Num::NN
     end
   end
 
+  # ReLU activation function
+  #
+  # Arguments
+  # ---------
+  # x : Tensor(U)
+  #   Argument to activate
+  #
+  # Returns
+  # -------
+  # Tensor(U)
+  #
+  # Examples
+  # --------
   def relu(x : Tensor(U)) : Tensor(U) forall U
     Num.max(U.new(0), x)
   end
 
+  # :ditto:
   def relu!(x : Tensor(U)) : Tensor(U) forall U
     Num.max!(U.new(0), x)
   end
 
+  # Derivative of the ReLU activation function
+  #
+  # Arguments
+  # ---------
+  #
+  # Returns
+  # -------
+  # nil
+  #
+  # Examples
+  # --------
   def relu_prime(gradient : Tensor(U), cached : Tensor(U)) : Tensor(U) forall U
     cached.map(gradient) do |x, y|
       if x <= 0
@@ -134,6 +159,131 @@ module Num::NN
     end
   end
 
+  # Leaky ReLU activation function
+  #
+  # Arguments
+  # ---------
+  # x : Tensor(U)
+  #   Argument to activate
+  #
+  # Returns
+  # -------
+  # Tensor(U)
+  #
+  # Examples
+  # --------
+  def leaky_relu(x : Tensor(U)) : Tensor(U) forall U
+    x.map do |i|
+      i > 0 ? i : U.new(i * 0.01)
+    end
+  end
+
+  # :ditto:
+  def leaky_relu!(x : Tensor(U)) forall U
+    x.map! do |i|
+      i > 0 ? i : i * 0.01
+    end
+  end
+
+  # Brief description of leakyreluprime
+  #
+  # Arguments
+  # ---------
+  # gradient : Tensor(U)
+  #   Gradient value
+  # cached : Tensor(U)
+  #   Stored value
+  #
+  # Returns
+  # -------
+  # Tensor(U)
+  #
+  # Examples
+  # --------
+  def leaky_relu_prime(gradient : Tensor(U), cached : Tensor(U)) : Tensor(U) forall U
+    cached.map(gradient) do |x, y|
+      if x <= 0
+        y * 0.01
+      else
+        y
+      end
+    end
+  end
+
+  # Exponential linear unit activation
+  #
+  # Arguments
+  # ---------
+  # x : Tensor(U)
+  #   Argument to activate
+  #
+  # Returns
+  # -------
+  # Tensor(U)
+  #
+  # Examples
+  # --------
+  def elu(x : Tensor(U), alpha = 0.01) : Tensor(U) forall U
+    x.map do |i|
+      if i > 0
+        i
+      else
+        U.new(alpha * (Math::E ** i - 1))
+      end
+    end
+  end
+
+  # :ditto:
+  def elu!(x : Tensor(U), alpha = 0.01) : Tensor(U) forall U
+    x.map! do |i|
+      if i > 0
+        i
+      else
+        alpha * (Math::E ** i - 1)
+      end
+    end
+  end
+
+  # Derivative of the ELU activation
+  #
+  # Arguments
+  # ---------
+  # gradient : Tensor(U)
+  #   Gradient value
+  # cached : Tensor(U)
+  #   Stored value
+  #
+  # Returns
+  # -------
+  # Tensor(U)
+  #
+  # Examples
+  # --------
+  def elu_prime(gradient : Tensor(U), cached : Tensor(U)) : Tensor(U) forall U
+    cached.map(gradient) do |x, y|
+      if x <= 0
+        Math.exp(y)
+      else
+        U.new(1)
+      end
+    end
+  end
+
+  # Sigmoid cross entropy loss
+  #
+  # Arguments
+  # ---------
+  # input : Tensor(U)
+  #   Predicted values
+  # target : Tensor(U)
+  #   Truth values
+  #
+  # Returns
+  # -------
+  # Tensor(U)
+  #
+  # Examples
+  # --------
   def sigmoid_cross_entropy(input : Tensor(U), target : Tensor(U)) : U forall U
     batch_size = input.shape[0]
     result = input.map(target) do |x, y|
@@ -142,6 +292,21 @@ module Num::NN
     result.sum / U.new(batch_size)
   end
 
+  # Mean squared error loss
+  #
+  # Arguments
+  # ---------
+  # input : Tensor(U)
+  #   Predicted values
+  # target : Tensor(U)
+  #   Truth values
+  #
+  # Returns
+  # -------
+  # Tensor(U)
+  #
+  # Examples
+  # --------
   def mse(input : Tensor(U), target : Tensor(U)) : Tensor(U) forall U
     result = input.map(target) do |i, j|
       (i - j) ** 2

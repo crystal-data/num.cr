@@ -21,52 +21,31 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "../../src/num"
+class Num::NN::EluLayer(T) < Num::NN::Layer(T)
+  def initialize(context : Num::Grad::Context(T))
+  end
 
-ctx = Num::Grad::Context(Tensor(Float64)).new
+  def forward(input : Num::Grad::Variable(T)) : Num::Grad::Variable(T)
+    output = Num::NN.elu(input.value)
+    result = input.context.variable(output)
 
-bsz = 32
-
-x_train_bool = Tensor.random(0_u8...2_u8, [bsz * 100, 2])
-
-y_bool = x_train_bool[..., ...1] ^ x_train_bool[..., 1...]
-
-x_train = ctx.variable(x_train_bool.as_type(Float64))
-y = y_bool.as_type(Float64)
-
-net = Num::NN::Network.new(ctx) do
-  linear 2, 3
-  elu
-  linear 3, 1
-  sgd 0.7
-  sigmoid_cross_entropy_loss
-end
-
-losses = [] of Float64
-
-50.times do |epoch|
-  100.times do |batch_id|
-    offset = batch_id * 32
-    x = x_train[offset...offset + 32]
-    target = y[offset...offset + 32]
-
-    y_pred = net.forward(x)
-
-    loss = net.loss(y_pred, target)
-
-    puts "Epoch is: #{epoch}"
-    puts "Batch id: #{batch_id}"
-    puts "Loss is: #{loss.value.value}"
-    losses << loss.value.value
-
-    loss.backprop
-    net.optimizer.update
+    if input.is_grad_needed
+      gate = Num::NN::EluGate.new(input.value)
+      gate.cache(result, input)
+    end
+    result
   end
 end
 
-Num::Plot::Plot.plot do
-  scatter (0...losses.size), losses
-  x_label "Epochs"
-  y_label "Loss"
-  label "XOR Classifier Loss"
+class Num::Grad::Variable(T)
+  def elu
+    output = Num::NN.elu(@value)
+    result = @context.variable(output)
+
+    if self.is_grad_needed
+      gate = Num::NN::EluGate.new(@value)
+      gate.cache(result, self)
+    end
+    result
+  end
 end

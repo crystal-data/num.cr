@@ -63,10 +63,42 @@ class Num::NN::NetworkInfo(T)
     @layers << Num::NN::LinearLayer(T).new(@context, i, j)
   end
 
+  # Convolution layer for a neural network
+  #
+  # Arguments
+  # ---------
+  # shape : Array(Int32)
+  #   Shape of the input to the layer
+  # n : Int32
+  #   Number of filters to apply
+  # kh : Int32
+  #   Filter height
+  # kw : Int32
+  #   Filter width
+  #
+  # Returns
+  # -------
+  # nil
+  #
+  # Examples
+  # --------
   def conv2d(shape : Array(Int32), n : Int32, kh : Int32, kw : Int32)
     @layers << Num::NN::ConvolutionalLayer(T).new(@context, shape, n, kh, kw)
   end
 
+  # Adds a Flattening layer to a neural network
+  #
+  # Arguments
+  # ---------
+  # shape : Array(Int32)
+  #   Shape of input to the layer
+  #
+  # Returns
+  # -------
+  # nil
+  #
+  # Examples
+  # --------
   def flatten(shape : Array(Int32))
     @layers << Num::NN::FlattenLayer(T).new(@context, shape)
   end
@@ -88,6 +120,36 @@ class Num::NN::NetworkInfo(T)
   # ```
   def relu
     @layers << Num::NN::ReluLayer(T).new(@context)
+  end
+
+  # Adds a Leaky ReLU layer to a network.
+  #
+  # Arguments
+  # ---------
+  #
+  # Returns
+  # -------
+  # nil
+  #
+  # Examples
+  # --------
+  def leaky_relu
+    @layers << Num::NN::LeakyReluLayer(T).new(@context)
+  end
+
+  # Adds an ELU layer to the network
+  #
+  # Arguments
+  # ---------
+  #
+  # Returns
+  # -------
+  # nil
+  #
+  # Examples
+  # --------
+  def elu
+    @layers << Num::NN::EluLayer(T).new(@context)
   end
 
   # Add a Sigmoid layer to the Network.  Activation functions are handled
