@@ -30,7 +30,7 @@ class Num::NN::FlattenGate(T) < Num::Grad::Gate(T)
 
   def backward(payload : Num::Grad::Payload(T)) : Array(T)
     gradient = payload.variable.grad
-    [gradient.reshape(@cached_shape)]
+    [gradient.reshape([gradient.shape[0]] + @cached_shape)]
   end
 
   def cache(result : Num::Grad::Variable(T), *args)

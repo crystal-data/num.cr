@@ -37,8 +37,8 @@ class Num::NN::ConvolutionalLayer(T) < Num::NN::Layer(T)
     @stride = {1, 1}
   )
     c_in, h_in, w_in = in_shape
-    w = T.rand([num_filters, c_in, kernel_height, kernel_width])
-    b = T.rand([num_filters, 1, 1])
+    w = T.normal([num_filters, c_in, kernel_height, kernel_width])
+    b = T.zeros([num_filters, 1, 1])
     @weights = context.variable(w)
     @bias = context.variable(w)
   end

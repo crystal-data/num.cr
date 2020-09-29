@@ -1,5 +1,6 @@
 require "./tensor/build"
 require "./tensor/creation"
+require "./tensor/random"
 require "./tensor/linalg"
 require "./tensor/operators"
 require "./tensor/reductions"
