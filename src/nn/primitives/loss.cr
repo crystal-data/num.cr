@@ -21,14 +21,8 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "alea"
-
-class Num::Rand
-  class_getter generator = Alea::Random.new
-  class_getter stdlib_generator = Random.new
-
-  def self.set_seed(seed)
-    @@generator = Alea::Random.new(seed)
-    @@stdlib_generator = Random.new(seed)
+class Num::NN::Loss(T)
+  def loss(input : Num::Grad::Variable(T), target : T) : Num::Grad::Variable(T)
+    input
   end
 end

@@ -26,6 +26,7 @@ require "./internal/constants"
 require "./internal/utils"
 require "./internal/print"
 require "./internal/iteration"
+require "./internal/yield_iterators"
 require "./internal/ndindex"
 require "../libs/cblas"
 
@@ -467,6 +468,42 @@ class Tensor(T)
     slice(args)
   end
 
+  # Advanced indexing operation for a `Tensor`, allows Tensor
+  # to be sliced in a non-viewable manner, creating a copy
+  # but allowing greater flexibility.
+  #
+  # For now, only arrays of integers are supported.
+  #
+  # Arguments
+  # ---------
+  # args : Array(Int)
+  #   Array containing the indexers in each dimension
+  #
+  # Returns
+  # -------
+  # Tensor(T)
+  #   A copy of the sliced data
+  #
+  # Examples
+  # --------
+  # ```
+  # t = Tensor.new([3, 3, 2]) { |i| i }
+  # t[[0, 2, 1], [1, 0, 1]]?
+  #
+  # # [[0, 1],
+  # #  [2, 3],
+  # #  [6, 7]]
+  # ```
+  #
+  def []?(*args : Array(Int))
+    copy_slice(args.to_a)
+  end
+
+  # :ditto:
+  def []?(args : Array(Array(Int)))
+    copy_slice(args)
+  end
+
   # The primary method of setting Tensor values.  The slicing behavior
   # for this method is identical to the `[]` method.
   #
@@ -615,7 +652,7 @@ class Tensor(T)
   # # 3
   # ```
   def each
-    iter.each do |el|
+    strided_iteration(self) do |_, el|
       yield el.value
     end
   end
@@ -644,7 +681,7 @@ class Tensor(T)
   # # 3
   # ```
   def each_pointer
-    iter.each do |el|
+    strided_iteration(self) do |_, el|
       yield el
     end
   end
@@ -809,8 +846,9 @@ class Tensor(T)
   # ```
   def map(&block : T -> U) : Tensor(U) forall U
     t = Tensor(U).new(@shape)
-    t.iter(self).each do |i, j|
-      i.value = yield j.value
+    data = t.to_unsafe
+    strided_iteration(self) do |index, el|
+      data[index] = yield el.value
     end
     t
   end
@@ -862,8 +900,9 @@ class Tensor(T)
   def map(t : Tensor(U), &block : T, U -> V) : Tensor(V) forall U, V
     a, b = Num::Internal.broadcast(self, t)
     r = Tensor(V).new(a.shape)
-    r.iter(a, b).each do |i, j, k|
-      i.value = yield(j.value, k.value)
+    data = r.to_unsafe
+    dual_strided_iteration(a, b) do |index, a, b|
+      data[index] = yield a.value, b.value
     end
     r
   end
@@ -895,7 +934,7 @@ class Tensor(T)
   # ```
   def map!(t : Tensor, &block)
     t = t.as_shape(@shape)
-    iter(t).each do |i, j|
+    dual_strided_iteration(self, t) do |_, i, j|
       type_inference i, i, j
     end
   end
@@ -933,8 +972,9 @@ class Tensor(T)
   ) : Tensor(W) forall U, V, W
     a, b, c = Num::Internal.broadcast(self, t, v)
     r = Tensor(W).new(a.shape)
-    r.iter(a, b, c).each do |i, j, k, l|
-      i.value = yield(j.value, k.value, l.value)
+    data = r.to_unsafe
+    tri_strided_iteration(a, b, c) do |index, i, j, k|
+      data[index] = yield i.value, j.value, k.value
     end
     r
   end
@@ -968,10 +1008,10 @@ class Tensor(T)
   # a.map!(b, c) { |i, j, k| i + j + k }
   # a # => [0, 3, 6]
   # ```
-  def map!(t : Tensor, v : Tensor)
+  def map!(t : Tensor, v : Tensor, &block)
     t = t.as_shape(@shape)
     v = v.as_shape(@shape)
-    iter(t, v).each do |i, j, k|
+    tri_strided_iteration(self, t, v) do |index, i, j, k|
       type_inference i, i, j, k
     end
   end
@@ -1118,7 +1158,11 @@ class Tensor(T)
   def as_type(u : U.class) : Tensor(U) forall U
     r = Tensor(U).new(@shape)
     r.map!(self) do |_, j|
-      j
+      {% if T == Bool %}
+        j ? 1 : 0
+      {% else %}
+        j
+      {% end %}
     end
     r
   end
@@ -1429,6 +1473,10 @@ class Tensor(T)
     end
   end
 
+  def iter_attrs
+    {@shape.to_unsafe, @strides.to_unsafe, self.rank}
+  end
+
   # :nodoc:
   def map_along_axis(axis : Int)
     if axis < 0
@@ -1618,6 +1666,28 @@ class Tensor(T)
     true
   end
 
+  private def copy_slice(args : Array(Array(Int)))
+    s0 = args[0].size
+    args.each do |arg|
+      unless s0 == arg.size
+        raise Num::Internal::ShapeError.new("All indexers must be the same size")
+      end
+    end
+
+    unless s0 <= self.rank
+      raise Num::Internal::ShapeError.new("Too many dimensions for Tensor")
+    end
+
+    out_shape = [s0] + @shape[args.size...]
+
+    ret = Tensor(T).new(out_shape)
+    s0.times do |i|
+      idx = args.map { |arg| arg[i] }
+      ret[i] = self[idx]
+    end
+    ret
+  end
+
   private def slice(args : Array)
     new_shape = @shape.dup
     new_strides = @strides.dup
@@ -1670,6 +1740,12 @@ class Tensor(T)
   end
 
   private def normalize(arg : Range, i : Int32)
+    a_end = arg.end
+    if a_end.is_a?(Int32)
+      if a_end > @shape[i]
+        arg = arg.begin...@shape[i]
+      end
+    end
     s, o = Indexable.range_to_index_and_count(arg, @shape[i])
     if s >= @shape[i]
       raise Num::Internal::IndexError.new(

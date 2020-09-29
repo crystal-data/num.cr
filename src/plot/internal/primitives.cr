@@ -21,14 +21,18 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "alea"
+struct Num::Plot::Bounds
+  property x_min : Float64 = 0.0
+  property x_max : Float64 = 0.0
+  property y_min : Float64 = 0.0
+  property y_max : Float64 = 0.0
+end
 
-class Num::Rand
-  class_getter generator = Alea::Random.new
-  class_getter stdlib_generator = Random.new
-
-  def self.set_seed(seed)
-    @@generator = Alea::Random.new(seed)
-    @@stdlib_generator = Random.new(seed)
-  end
+module Num::Plot
+  COLOR_MAPS = {
+    default:     "cmap0_default.pal",
+    alternate:   "cmap0_alternate.pal",
+    black_white: "cmap0_black_on_white.pal",
+    white_bg:    "cmap0_white_bg.pal",
+  }
 end

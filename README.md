@@ -187,61 +187,70 @@ puts a.matmul(a)
 #  [15, 22]]
 ```
 
-### DataFrames
+### Machine Learning
 
-For more structured data, consider using a `DataFrame`
+`Num::Grad` provides a pure-crystal approach to find derivatives of
+mathematical functions.  Use a `Num::Grad::Variable` with a `Num::Grad::Context`
+to easily compute these derivatives.
 
 ```crystal
-df = DataFrame.from_items(
-  foo: [1, 2, 3, 4, 5].to_tensor,
-  bar: [2.73, 3.1, 4.8, 5.1, 3.2],
-)
+ctx = Num::Grad::Context(Tensor(Float64)).new
 
-puts df
+x = ctx.variable([3.0])
+y = ctx.variable([2.0])
 
-#    foo   bar
-# 0    1  2.73
-# 1    2   3.1
-# 2    3   4.8
-# 3    4   5.1
-# 4    5   3.2
+# f(x) = x ** y
+f = x ** y
+puts f # => [9]
+
+f.backprop
+
+# df/dx = y * x = 6.0
+puts x.grad # => [6.0]
 ```
 
-A `DataFrame` maintains types while still providing convenient
-mapping and reduction operations
+`Num::NN` contains an extension to `Num::Grad` that provides an easy-to-use
+interface to assist in creating neural networks.  Designing and creating
+a network is simple using Crystal's block syntax.
 
 ```crystal
-puts df.c[:foo]
+ctx = Num::Grad::Context(Tensor(Float64)).new
 
-# 0  1
-# 1  2
-# 2  3
-# 3  4
-# 4  5
-# Name: foo
-# dtype: Int32
+x_train = [[0.0, 0.0], [1.0, 0.0], [0.0, 1.0], [1.0, 1.0]].to_tensor
+y_train = [[0.0], [1.0], [1.0], [0.0]].to_tensor
 
-puts typeof(df.c[:foo])
+x = ctx.variable(x_train)
 
-# Series(Int32, Int32)
+net = Num::NN::Network.new(ctx) do
 
-puts df.sum
+  # A basic network with a single hidden layer using
+  # a ReLU activation function
+  linear(2, 3)
+  relu
+  linear(3, 1)
 
-# foo     15
-# bar  18.93
-```
+  # SGD Optimizer
+  sgd 0.7
 
-With operations that broadcast across the `DataFrame`
+  # Sigmoid Cross Entropy to calculate loss
+  sigmoid_cross_entropy_loss
+end
 
-```crystal
-puts df.greater(df.mean)
+500.times do |epoch|
+  y_pred = net.forward(x)
+  loss = net.loss(y_pred, y_train)
+  puts "Epoch: #{epoch} - Loss #{loss}"
+  loss.backprop
+  net.optimizer.update
+end
 
-#      foo    bar
-# 0  false  false
-# 1  false  false
-# 2  false   true
-# 3   true   true
-# 4   true  false
+# Clip results to make a prediction
+puts net.forward(x).value.map { |el| el > 0 ? 1 : 0}
+
+# [[0],
+#  [1],
+#  [1],
+#  [0]]
 ```
 
 Review the documentation for full implementation details, and if something is missing,

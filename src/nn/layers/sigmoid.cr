@@ -21,14 +21,18 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "alea"
+class Num::NN::SigmoidLayer(T) < Num::NN::Layer(T)
+  def initialize(context : Num::Grad::Context(T))
+  end
 
-class Num::Rand
-  class_getter generator = Alea::Random.new
-  class_getter stdlib_generator = Random.new
+  def forward(input : Num::Grad::Variable(T)) : Num::Grad::Variable(T)
+    output = Num::NN.sigmoid(input.value)
+    result = input.context.variable(output)
 
-  def self.set_seed(seed)
-    @@generator = Alea::Random.new(seed)
-    @@stdlib_generator = Random.new(seed)
+    if input.is_grad_needed
+      gate = Num::NN::SigmoidGate.new(input.value)
+      gate.cache(result, input)
+    end
+    result
   end
 end

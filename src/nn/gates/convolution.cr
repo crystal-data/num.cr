@@ -21,14 +21,42 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "alea"
+class Num::NN::ConvolutionGate(T) < Num::Grad::Gate(T)
+  getter cached_input : Num::Grad::Variable(T)
+  getter weight : Num::Grad::Variable(T)
+  getter bias : Num::Grad::Variable(T)
+  getter padding : Tuple(Int32, Int32)
+  getter stride : Tuple(Int32, Int32)
 
-class Num::Rand
-  class_getter generator = Alea::Random.new
-  class_getter stdlib_generator = Random.new
+  def initialize(
+    @cached_input : Num::Grad::Variable(T),
+    @weight : Num::Grad::Variable(T),
+    @bias : Num::Grad::Variable(T),
+    @padding : Tuple(Int32, Int32),
+    @stride : Tuple(Int32, Int32)
+  )
+  end
 
-  def self.set_seed(seed)
-    @@generator = Alea::Random.new(seed)
-    @@stdlib_generator = Random.new(seed)
+  def backward(payload : Num::Grad::Payload(T)) : Array(T)
+    gradient = payload.variable.grad
+
+    r0, r1, r2 = Num::NN.conv2d_backward(
+      @cached_input.value,
+      @weight.value,
+      @bias.value, gradient,
+      @padding,
+      @stride
+    )
+
+    [r0, r1, r2]
+  end
+
+  def cache(result : Num::Grad::Variable(T), *args)
+    input, weight, bias, padding, stride = args
+
+    result.grad = T.zeros_like(result.value)
+    result.requires_grad = true
+
+    Num::Grad.register("Conv", self, result, input, weight, bias)
   end
 end

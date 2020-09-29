@@ -21,14 +21,41 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "alea"
+class Num::NN::LinearGate(T) < Num::Grad::Gate(T)
+  getter input : Num::Grad::Variable(T)
+  getter weight : Num::Grad::Variable(T)
+  getter bias : Num::Grad::Variable(T)
 
-class Num::Rand
-  class_getter generator = Alea::Random.new
-  class_getter stdlib_generator = Random.new
+  def initialize(@input : Num::Grad::Variable(T), @weight : Num::Grad::Variable(T), @bias : Num::Grad::Variable(T))
+  end
 
-  def self.set_seed(seed)
-    @@generator = Alea::Random.new(seed)
-    @@stdlib_generator = Random.new(seed)
+  def backward(payload : Num::Grad::Payload(T)) : Array(T)
+    grad = payload.variable.grad
+
+    result = [
+      grad,
+      grad,
+      grad,
+    ]
+
+    if @input.requires_grad
+      result[0] = grad.matmul(@weight.value)
+    end
+
+    if @weight.requires_grad
+      result[1] = grad.transpose.matmul(@input.value)
+    end
+
+    if @bias.requires_grad
+      result[2] = grad.sum(axis: 0)
+    end
+
+    result
+  end
+
+  def cache(result : Num::Grad::Variable(T), *args : Num::Grad::Variable(T))
+    input, weight, bias = args
+    result.grad = T.zeros_like(result.value)
+    Num::Grad.register("Linear", self, result, input, weight, bias)
   end
 end

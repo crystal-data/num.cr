@@ -21,14 +21,14 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "alea"
+# A Payload is a simple wrapper around a Variable.  It
+# is only abstracted out to be a bit more explicit that
+# it is being passed around through an operation
+class Num::Grad::Payload(T)
+  # Contents of the paylod
+  getter variable : Num::Grad::Variable(T)
 
-class Num::Rand
-  class_getter generator = Alea::Random.new
-  class_getter stdlib_generator = Random.new
-
-  def self.set_seed(seed)
-    @@generator = Alea::Random.new(seed)
-    @@stdlib_generator = Random.new(seed)
+  # This should only be called by internal methods
+  def initialize(@variable : Num::Grad::Variable(T))
   end
 end

@@ -537,8 +537,12 @@ class Tensor(T)
     self.is_matrix
     other.is_matrix
 
+    unless self.shape[1] == other.shape[0]
+      raise Num::Internal::ShapeError.new("Invalid shapes for matrix multiplication: #{@shape}, #{other.shape}")
+    end
+
     a = @flags.contiguous? || @flags.fortran? ? self : self.dup(Num::RowMajor)
-    b = other.flags.contiguous? || flags.fortran? ? other : other.dup(Num::RowMajor)
+    b = other.flags.contiguous? || other.flags.fortran? ? other : other.dup(Num::RowMajor)
     m = a.shape[0]
     n = b.shape[1]
     k = a.shape[1]
@@ -661,6 +665,214 @@ class Tensor(T)
   def tensordot(b : Tensor(T), axes : Array(Int))
     axes_a, axes_b = axes
     self.tensordot(b, [[axes_a], [axes_b]])
+  end
+
+  # Compute the matrix exponential using Pade approximation.
+  #
+  # Arguments
+  # ---------
+  # *self*
+  #   Matrix of which to compute the exponential
+  #
+  # Examples
+  # --------
+  # ```
+  # a = [[1.0, 2.0], [-1.0, 3.0]].to_tensor * Complex.new(0, 1)
+  # puts a.expm
+  #
+  # # [[0.426459+1.89218j  , -2.13721+-0.978113j],
+  # #  [1.06861+0.489056j  , -1.71076+0.914063j ]]
+  # ```
+  def expm
+    self.is_matrix
+
+    a_l1 = self.norm(order: '1')
+    n_squarings = 0
+
+    {% if T == Float64 || T == Complex %}
+      if a_l1 < 1.495585217958292e-002
+        u, v = self.pade_three
+      elsif a_l1 < 2.539398330063230e-001
+        u, v = self.pade_five
+      elsif a_l1 < 9.504178996162932e-001
+        u, v = self.pade_seven
+      elsif a_l1 < 2.097847961257068e+000
+        u, v = self.pade_nine
+      else
+        maxnorm = 5.371920351148152
+        n_squarings = {0, Math.log2(a_l1 / maxnorm).ceil.to_i}.max
+        a = self / 2**n_squarings
+        u, v = a.pade_thirteen
+      end
+      num = u + v
+      den = u.map(v) do |i, j|
+        -i + j
+      end
+
+      r = den.solve(num)
+
+      n_squarings.times do
+        r = r.matmul(r)
+      end
+      r
+    {% elsif T == Float32 %}
+      if a_l1 < 4.258730016922831e-001
+        u, v = self.pade_three
+      elsif a_l1 < 1.880152677804762e+000
+        u, v = self.pade_five
+      else
+        maxnorm = 3.925724783138660
+        n_squarings = {0, Math.log2(a_l1 / maxnorm).ceil.to_i}.max
+        a = self / 2**n_squarings
+        u, v = a.pade_thirteen
+      end
+      num = u + v
+      den = u.map(v) do |i, j|
+        -i + j
+      end
+
+      r = den.solve(num)
+
+      n_squarings.times do
+        r = r.matmul(r)
+      end
+      r
+    {% else %}
+      {% raise Num::Internal::ShapeError.new("Invalid type #{T} for expm") %}
+    {% end %}
+  end
+
+  # :nodoc:
+  protected def pade_three
+    b = [120, 60, 12, 1]
+    i, j = @shape
+    ident = Tensor(T).eye(i, j)
+    a2 = self.matmul(self)
+
+    inter = a2.map(ident) do |i, j|
+      b[3] * i + b[1] * j
+    end
+
+    u = self.matmul(inter)
+    v = a2.map(ident) do |i, j|
+      b[2] * i + b[0] * j
+    end
+    {u, v}
+  end
+
+  # :nodoc:
+  protected def pade_five
+    b = [30240, 15120, 3360, 420, 30, 1]
+    i, j = @shape
+    ident = Tensor(T).eye(i, j)
+    a2 = self.matmul(self)
+    a4 = a2.matmul(a2)
+
+    inter = a4.map(a2, ident) do |i, j, k|
+      b[5] * i + b[3] * j + b[1] * k
+    end
+
+    u = self.matmul(inter)
+    v = a4.map(a2, ident) do |i, j, k|
+      b[4] * i + b[2] * j + b[0] * k
+    end
+    {u, v}
+  end
+
+  # :nodoc:
+  protected def pade_seven
+    b = [17297280, 8648640, 1995840, 277200, 25200, 1512, 56, 1]
+    i, j = @shape
+    ident = Tensor(T).eye(i, j)
+    a2 = self.matmul(self)
+    a4 = a2.matmul(a2)
+    a6 = a4.matmul(a2)
+
+    u_lhs = a6.map(a4, a2) do |i, j, k|
+      b[7] * i + b[5] * j + b[3] * k
+    end
+    u_rhs = ident.map { |i| b[1] * i }
+
+    u = self.matmul(u_lhs + u_rhs)
+
+    v_lhs = a6.map(a4, a2) do |i, j, k|
+      b[6] * i + b[4] * j + b[2] * k
+    end
+
+    v_rhs = ident.map { |i| b[0] * i }
+    {u, v_lhs + v_rhs}
+  end
+
+  # :nodoc:
+  protected def pade_nine
+    b = [17643225600, 8821612800, 2075673600, 302702400, 30270240,
+         2162160, 110880, 3960, 90, 1]
+
+    i, j = @shape
+    ident = Tensor(T).eye(i, j)
+    a2 = self.matmul(self)
+    a4 = a2.matmul(a2)
+    a6 = a4.matmul(a2)
+    a8 = a6.matmul(a2)
+
+    u_lhs = a8.map(a6, a4) do |i, j, k|
+      b[9] * i + b[7] * j + b[5] * k
+    end
+
+    u_rhs = a2.map(ident) do |i, j|
+      b[3] * i + b[1] * j
+    end
+
+    u = self.matmul(u_lhs + u_rhs)
+
+    v_lhs = a8.map(a6, a4) do |i, j, k|
+      b[8] * i + b[6] * j + b[4] * k
+    end
+
+    v_rhs = a2.map(ident) do |i, j|
+      b[2] * i + b[0] * j
+    end
+
+    {u, v_lhs + v_rhs}
+  end
+
+  # :nodoc:
+  protected def pade_thirteen
+    b = [64764752532480000, 32382376266240000, 7771770303897600,
+         1187353796428800, 129060195264000, 10559470521600, 670442572800,
+         33522128640, 1323241920, 40840800, 960960, 16380, 182, 1]
+
+    i, j = @shape
+    ident = Tensor(T).eye(i, j)
+
+    a2 = self.matmul(self)
+    a4 = a2.matmul(a2)
+    a6 = a4.matmul(a2)
+
+    u_dot_first = a6.map(a4, a2) do |i, j, k|
+      b[13] * i + b[11] * j + b[9] * k
+    end
+
+    u_lhs = a6.map(a4, a2) do |i, j, k|
+      b[7] * i + b[5] * j + b[3] * k
+    end
+
+    u_rhs = ident.map { |i| b[1] * i }
+
+    u = self.matmul(a6.matmul(u_dot_first) + u_lhs + u_rhs)
+
+    v_dot_first = a6.map(a4, a2) do |i, j, k|
+      b[12] * i + b[10] * j + b[8] * k
+    end
+
+    v_lhs = a6.map(a4, a2) do |i, j, k|
+      b[6] * i + b[4] * j + b[2] * k
+    end
+
+    v_rhs = ident.map { |i| b[0] * i }
+
+    v = a6.matmul(v_dot_first) + v_lhs + v_rhs
+    {u, v}
   end
 
   # :nodoc:

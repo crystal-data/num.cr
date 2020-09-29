@@ -21,14 +21,20 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "alea"
+class Num::NN::FlattenLayer(T) < Num::NN::Layer(T)
+  getter shape : Array(Int32)
 
-class Num::Rand
-  class_getter generator = Alea::Random.new
-  class_getter stdlib_generator = Random.new
+  def initialize(context : Num::Grad::Context(T), @shape : Array(Int32))
+  end
 
-  def self.set_seed(seed)
-    @@generator = Alea::Random.new(seed)
-    @@stdlib_generator = Random.new(seed)
+  def forward(input : Num::Grad::Variable(T)) : Num::Grad::Variable(T)
+    output = input.value.reshape([input.value.shape[0], -1])
+    result = input.context.variable(output)
+
+    if input.is_grad_needed
+      gate = Num::NN::FlattenGate.new(result, @shape)
+      gate.cache(result, input)
+    end
+    result
   end
 end

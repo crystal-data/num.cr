@@ -21,14 +21,42 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "alea"
+require "http"
 
-class Num::Rand
-  class_getter generator = Alea::Random.new
-  class_getter stdlib_generator = Random.new
+module Num::NN
+  extend self
 
-  def self.set_seed(seed)
-    @@generator = Alea::Random.new(seed)
-    @@stdlib_generator = Random.new(seed)
+  IRIS_URL = "https://gist.githubusercontent.com/curran/a08a1080b88344b0c8a7/raw/639388c2cbc2120a14dcf466e85730eb8be498bb/iris.csv"
+
+  def load_iris_dataset
+    response = HTTP::Client.get(IRIS_URL)
+    csv = CSV.parse response.body
+
+    features = csv[1...].map &.[...-1]
+    labels = csv[1...].map &.[-1]
+
+    rng = (0...labels.size).to_a
+    rng.shuffle!
+
+    features = features.map_with_index do |_, i|
+      features[rng[i]]
+    end
+
+    labels = labels.map_with_index do |_, i|
+      labels[rng[i]]
+    end
+
+    x_train = features.to_tensor.as_type(Float64)
+
+    label_mapping = {
+      "setosa"     => [0, 0, 1],
+      "versicolor" => [0, 1, 0],
+      "virginica"  => [1, 0, 0],
+    }
+
+    mapped = labels.map { |el| label_mapping[el] }
+    y_train = mapped.to_tensor.as_type(Float64)
+
+    {labels, x_train, y_train}
   end
 end

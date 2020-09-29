@@ -21,14 +21,41 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "alea"
+class Num::Plot::Scatter < Num::Plot::XYPlot
+  @code : Int32 = 0
 
-class Num::Rand
-  class_getter generator = Alea::Random.new
-  class_getter stdlib_generator = Random.new
+  # Initializes a Scatter plot
+  #
+  # Arguments
+  # ---------
+  # x
+  #   Tensor like x-axis argument to plot
+  # y
+  #   Tensor like y-axis argument to plot
+  # @color : Int32? = nil
+  #   Color code to use
+  # @code = 0
+  #   Symbol code to use
+  #
+  # Examples
+  # --------
+  def initialize(x, y, @color : Int32? = nil, @code = 0)
+    super x, y, @color
+  end
 
-  def self.set_seed(seed)
-    @@generator = Alea::Random.new(seed)
-    @@stdlib_generator = Random.new(seed)
+  # Plots a scatter plot
+  #
+  # Arguments
+  # ---------
+  #
+  # Returns
+  # -------
+  # nil
+  #
+  # Examples
+  # --------
+  def plot
+    super
+    LibPlplot.plpoin(@size, @x.to_unsafe, @y.to_unsafe, @code)
   end
 end

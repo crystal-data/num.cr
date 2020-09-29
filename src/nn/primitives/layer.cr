@@ -21,14 +21,10 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "alea"
+abstract class Num::NN::Layer(T)
+  abstract def forward(input : Num::Grad::Variable(T))
 
-class Num::Rand
-  class_getter generator = Alea::Random.new
-  class_getter stdlib_generator = Random.new
-
-  def self.set_seed(seed)
-    @@generator = Alea::Random.new(seed)
-    @@stdlib_generator = Random.new(seed)
+  def variables : Array(Num::Grad::Variable(T))
+    [] of Num::Grad::Variable(T)
   end
 end

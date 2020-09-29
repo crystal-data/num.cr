@@ -21,14 +21,29 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "alea"
+class Num::NN::LinearLayer(T) < Num::NN::Layer(T)
+  getter weights : Num::Grad::Variable(T)
+  getter bias : Num::Grad::Variable(T)
 
-class Num::Rand
-  class_getter generator = Alea::Random.new
-  class_getter stdlib_generator = Random.new
+  def initialize(context : Num::Grad::Context(T), inp_dim : Int, outp_dim : Int)
+    w = T.rand([outp_dim, inp_dim])
+    b = T.zeros([1, outp_dim])
+    @weights = context.variable(w)
+    @bias = context.variable(b)
+  end
 
-  def self.set_seed(seed)
-    @@generator = Alea::Random.new(seed)
-    @@stdlib_generator = Random.new(seed)
+  def forward(input : Num::Grad::Variable(T)) : Num::Grad::Variable(T)
+    output = input.value.matmul(@weights.value.transpose) + bias.value
+    result = input.context.variable(output)
+
+    if input.is_grad_needed || @weights.is_grad_needed || @bias.is_grad_needed
+      gate = Num::NN::LinearGate.new(input, @weights, @bias)
+      gate.cache(result, input, @weights, @bias)
+    end
+    result
+  end
+
+  def variables : Array(Num::Grad::Variable(T))
+    [weights, bias]
   end
 end

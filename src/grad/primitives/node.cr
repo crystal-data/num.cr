@@ -21,14 +21,33 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "alea"
+# A Node is a member of a computational graph that contains
+# a reference to a gate, as well as the parents of the operation
+# and the payload that resulted from the operation.
+class Num::Grad::Node(T)
+  # A Gate containing a backwards and cache function for
+  # a node
+  getter gate : Num::Grad::Gate(T)
 
-class Num::Rand
-  class_getter generator = Alea::Random.new
-  class_getter stdlib_generator = Random.new
+  # The variables that created this node
+  getter parents : Array(Num::Grad::Variable(T))
 
-  def self.set_seed(seed)
-    @@generator = Alea::Random.new(seed)
-    @@stdlib_generator = Random.new(seed)
+  # Wrapper around a Tensor, contains operation data
+  getter payload : Num::Grad::Payload(T)
+
+  # Debug use only, contains a name for a node
+  getter name : String
+
+  # This initializer shouldn't ever be called outside of
+  # Num::Grad.register.
+  #
+  # Users defining custom gradients and gates should
+  # follow the same rule
+  def initialize(
+    @gate : Gate(T),
+    @parents : Array(Num::Grad::Variable(T)),
+    @payload : Num::Grad::Payload(T),
+    @name : String = ""
+  )
   end
 end

@@ -21,14 +21,17 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "alea"
+class Num::NN::Optimizer(T)
+  getter params : Array(Num::Grad::Variable(T))
+  getter learning_rate : Float64 = 0.01
 
-class Num::Rand
-  class_getter generator = Alea::Random.new
-  class_getter stdlib_generator = Random.new
+  def initialize(@learning_rate : Float64 = 0.01)
+    @params = [] of Num::Grad::Variable(T)
+  end
 
-  def self.set_seed(seed)
-    @@generator = Alea::Random.new(seed)
-    @@stdlib_generator = Random.new(seed)
+  def build_params(l : Array(Layer(T)))
+  end
+
+  def update
   end
 end

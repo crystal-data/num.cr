@@ -11,6 +11,8 @@ license: MIT
 dependencies:
   opencl:
     github: crystal-data/opencl.cr
+  alea:
+    github: nin93/alea
 
 scripts:
   postinstall: make ext

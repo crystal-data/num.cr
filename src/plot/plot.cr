@@ -21,14 +21,42 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "alea"
+class Num::Plot::Plot
+  # Class method to faciliate plotting of generic plots
+  #
+  # Arguments
+  # ---------
+  #
+  # Returns
+  # -------
+  # nil
+  #
+  # Examples
+  # --------
+  def self.plot
+    plotter = Num::Plot::Options.new
+    plotter.tap do |instance|
+      with instance yield
+    end
 
-class Num::Rand
-  class_getter generator = Alea::Random.new
-  class_getter stdlib_generator = Random.new
+    if !plotter.term.nil?
+      LibPlplot.plsdev(plotter.term.to_s)
+    end
 
-  def self.set_seed(seed)
-    @@generator = Alea::Random.new(seed)
-    @@stdlib_generator = Random.new(seed)
+    palette = Num::Plot::COLOR_MAPS[plotter.palette]
+
+    LibPlplot.plspal0(palette)
+    LibPlplot.plinit
+
+    b = plotter.bounds
+    LibPlplot.plenv(b.x_min, b.x_max, b.y_min, b.y_max, 0, 0)
+    LibPlplot.pllab(plotter.x_label, plotter.y_label, plotter.label)
+
+    plotter.figures.each_with_index do |fig, i|
+      LibPlplot.plcol0(i + 1)
+      fig.plot
+    end
+
+    LibPlplot.plend
   end
 end

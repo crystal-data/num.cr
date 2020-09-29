@@ -25,35 +25,6 @@ require "./tensor"
 require "./internal/random"
 
 class Tensor(T)
-  # Creates a `Tensor` sampled from a provided range, with a given
-  # shape.
-  #
-  # The generic types of the `Tensor` are inferred from the endpoints
-  # of the range
-  #
-  # Arguments
-  # ---------
-  # *r* : Range(U, U)
-  #   Range of values to sample between
-  # *shape* : Array(Int)
-  #   Shape of returned `Tensor`
-  #
-  # Examples
-  # --------
-  # ```
-  # Num::Rand.set_seed(0)
-  # t = Tensor.random(0...10, [2, 2])
-  # t
-  #
-  # # [[8, 4],
-  # #  [7, 4]]
-  # ```
-  def self.random(r : Range(U, U), shape : Array(Int)) : Tensor(U) forall U
-    self.new(shape) do
-      Num::Rand.generator.rand(r)
-    end
-  end
-
   # Creates a `Tensor` of a provided shape, filled with 0.  The generic type
   # must be specified.
   #

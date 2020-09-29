@@ -21,14 +21,12 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "alea"
-
-class Num::Rand
-  class_getter generator = Alea::Random.new
-  class_getter stdlib_generator = Random.new
-
-  def self.set_seed(seed)
-    @@generator = Alea::Random.new(seed)
-    @@stdlib_generator = Random.new(seed)
-  end
+# The base class that all other figures should inherit from.
+#
+# A Figure needs to be able to handle it's own plotting,
+# as well as be able to return it's bounds to the overall
+# plot
+abstract class Num::Plot::Figure
+  abstract def plot
+  abstract def update_bounds(bounds : Num::Plot::Bounds) : Num::Plot::Bounds
 end

@@ -21,14 +21,24 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "alea"
+class Num::NN::FlattenGate(T) < Num::Grad::Gate(T)
+  getter input : Num::Grad::Variable(T)
+  getter cached_shape : Array(Int32)
 
-class Num::Rand
-  class_getter generator = Alea::Random.new
-  class_getter stdlib_generator = Random.new
+  def initialize(@input : Num::Grad::Variable(T), @cached_shape : Array(Int32))
+  end
 
-  def self.set_seed(seed)
-    @@generator = Alea::Random.new(seed)
-    @@stdlib_generator = Random.new(seed)
+  def backward(payload : Num::Grad::Payload(T)) : Array(T)
+    gradient = payload.variable.grad
+    [gradient.reshape([gradient.shape[0]] + @cached_shape)]
+  end
+
+  def cache(result : Num::Grad::Variable(T), *args)
+    a = args[0]
+
+    result.grad = T.zeros_like(result.value)
+    result.requires_grad = true
+
+    Num::Grad.register("Reshape", self, result, a)
   end
 end

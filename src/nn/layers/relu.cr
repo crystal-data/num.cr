@@ -21,14 +21,31 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "alea"
+class Num::NN::ReluLayer(T) < Num::NN::Layer(T)
+  def initialize(context : Num::Grad::Context(T))
+  end
 
-class Num::Rand
-  class_getter generator = Alea::Random.new
-  class_getter stdlib_generator = Random.new
+  def forward(input : Num::Grad::Variable(T)) : Num::Grad::Variable(T)
+    output = Num::NN.relu(input.value)
+    result = input.context.variable(output)
 
-  def self.set_seed(seed)
-    @@generator = Alea::Random.new(seed)
-    @@stdlib_generator = Random.new(seed)
+    if input.is_grad_needed
+      gate = Num::NN::ReluGate.new(input.value)
+      gate.cache(result, input)
+    end
+    result
+  end
+end
+
+class Num::Grad::Variable(T)
+  def relu
+    output = Num::NN.relu(@value)
+    result = @context.variable(output)
+
+    if self.is_grad_needed
+      gate = Num::NN::ReluGate.new(@value)
+      gate.cache(result, self)
+    end
+    result
   end
 end

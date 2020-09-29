@@ -21,14 +21,43 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "alea"
-
-class Num::Rand
-  class_getter generator = Alea::Random.new
-  class_getter stdlib_generator = Random.new
-
-  def self.set_seed(seed)
-    @@generator = Alea::Random.new(seed)
-    @@stdlib_generator = Random.new(seed)
+module Num::Plot
+  # Sets the color index for cmap0 (see the section called “Color Map0”).
+  #
+  # 0	black (default background)
+  # 1	red (default foreground)
+  # 2	yellow
+  # 3	green
+  # 4	aquamarine
+  # 5	pink
+  # 6	wheat
+  # 7	grey
+  # 8	brown
+  # 9	blue
+  # 10	BlueViolet
+  # 11	cyan
+  # 12	turquoise
+  # 13	magenta
+  # 14	salmon
+  # 15	white
+  # Use plscmap0 to change the entire cmap0 color palette and plscol0 to
+  # change an individual color in the cmap0 color palette.
+  enum Color
+    BLACK       =  0
+    RED         =  1
+    YELLOW      =  2
+    GREEN       =  3
+    AQUAMARINE  =  4
+    PINK        =  5
+    WHEAT       =  6
+    GREY        =  7
+    BROWN       =  8
+    BLUE        =  9
+    BLUE_VIOLET = 10
+    CYAN        = 11
+    TURQUOISE   = 12
+    MAGENTA     = 13
+    SALMON      = 14
+    WHITE       = 15
   end
 end

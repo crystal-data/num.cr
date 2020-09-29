@@ -21,44 +21,18 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "./frame"
-
-# A `FrameSlice` is a row copy of a `DataFrame`.  It owns its
-# own data, and cannot be modified.  It is the result of a
-# row-wise slice of a `DataFrame`.
+# A Gate is an object that can cache the result of an operation,
+# as well as backpropogate a payload backwards along the
+# computational graph
 #
-# When used it an operation against a `DataFrame`, it broadcasts
-# against the columns of a `DataFrame`, so that reductions will
-# always be able to be operated upon
-class FrameSlice(T)
-  getter c : T
+# Child classes that inherit from this class can add instance
+# variables if additional caching is needed, and these need
+# to be populated when writing the cached operation
+abstract class Num::Grad::Gate(T)
+  # Propogates an operation backwards, transforming a payload
+  # and returning an array of Tensors
+  abstract def backward(payload : Num::Grad::Payload(T)) : Array(T)
 
-  # Initializes a DataFrame from a variadic number of arguments.
-  # This should only be used by the `DataFrame` class, but remains
-  # public
-  def initialize(**args : **T)
-    @c = args
-  end
-
-  # :nodoc:
-  def to_s(io)
-    kw = 0
-    vw = 0
-    @c.each do |k, v|
-      ks = "#{k}".size
-      vs = Num::Internal.format(v).size
-      if ks > kw
-        kw = ks
-      end
-      if vs > vw
-        vw = vs
-      end
-    end
-    @c.each do |k, v|
-      io << "#{k}".rjust(kw)
-      io << "  "
-      io << Num::Internal.format(v).rjust(vw)
-      io << "\n"
-    end
-  end
+  # Caches the result of an operation on a context
+  abstract def cache(result : Num::Grad::Variable(T), *args)
 end

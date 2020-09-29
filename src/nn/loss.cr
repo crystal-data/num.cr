@@ -21,14 +21,30 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "alea"
+class Num::NN::SigmoidCrossEntropyLoss(T) < Num::NN::Loss(T)
+  def loss(input : Num::Grad::Variable(T), target : T) : Num::Grad::Variable(T)
+    output = Num::NN.sigmoid_cross_entropy(input.value, target)
 
-class Num::Rand
-  class_getter generator = Alea::Random.new
-  class_getter stdlib_generator = Random.new
+    result = input.context.variable([output])
 
-  def self.set_seed(seed)
-    @@generator = Alea::Random.new(seed)
-    @@stdlib_generator = Random.new(seed)
+    if input.is_grad_needed
+      gate = Num::NN::SigmoidCrossEntropy(T).new(target, input)
+      gate.cache(result, input, target)
+    end
+    result
+  end
+end
+
+class Num::NN::MSELoss(T) < Num::NN::Loss(T)
+  def loss(input : Num::Grad::Variable(T), target : T) : Num::Grad::Variable(T)
+    output = Num::NN.mse(input.value, target)
+
+    result = input.context.variable(output)
+
+    if input.is_grad_needed
+      gate = Num::NN::MSEGate(T).new(target, input)
+      gate.cache(result, input, target)
+    end
+    result
   end
 end

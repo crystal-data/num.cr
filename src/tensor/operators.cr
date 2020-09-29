@@ -47,7 +47,7 @@ module Num
     end
 
     # :ditto:
-    def {{name}}(a : Tensor | Enumerable, b : Number)
+    def {{name}}(a : Tensor | Enumerable, b : Number | Complex)
       a_t = a.to_tensor
       a_t.map do |i|
         i {{operator.id}} b
@@ -70,7 +70,7 @@ module Num
     end
 
     # :ditto:
-    def {{name}}(a : Number, b : Number)
+    def {{name}}(a : Number, b : Number | Complex)
       a {{operator.id}} b
     end
   end
@@ -110,7 +110,7 @@ module Num
     end
 
     # :ditto:
-    def {{fn.id}}(a : Number)
+    def {{fn.id}}(a : Number | Complex)
       Math.{{fn.id}}(a)
     end
   end
@@ -234,19 +234,19 @@ class Tensor(T)
       end
     end
 
-    def {{name}}(b : Number)
+    def {{name}}(b : Number | Complex)
       self.map do |i|
         i {{operator.id}} b
       end
     end
 
-    def {{operator.id}}(b : Number)
+    def {{operator.id}}(b : Number | Complex)
       self.map do |i|
         i {{operator.id}} b
       end
     end
 
-    def {{name}}!(b : Number)
+    def {{name}}!(b : Number | Complex)
       self.map! do |i|
         i {{operator.id}} b
       end
@@ -357,4 +357,8 @@ class Tensor(T)
   stdlibwrap ldexp
   stdlibwrap max
   stdlibwrap min
+
+  def -
+    map { |i| -i }
+  end
 end

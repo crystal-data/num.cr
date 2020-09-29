@@ -21,14 +21,33 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "alea"
+class Num::NN::SigmoidCrossEntropy(T) < Num::Grad::Gate(T)
+  getter target : T
+  getter cache : Num::Grad::Variable(T)
 
-class Num::Rand
-  class_getter generator = Alea::Random.new
-  class_getter stdlib_generator = Random.new
+  def initialize(@target : T, @cache : Num::Grad::Variable(T))
+  end
 
-  def self.set_seed(seed)
-    @@generator = Alea::Random.new(seed)
-    @@stdlib_generator = Random.new(seed)
+  def backward(payload : Num::Grad::Payload(T)) : Array(T)
+    gradient = payload.variable.grad
+
+    grad = gradient.value
+
+    batch_size = @cache.value.shape[0]
+
+    output = @cache.value.map(@target) do |x, y|
+      grad * ((1 / (1 + Math.exp(-x))) - y) / batch_size
+    end
+
+    [output]
+  end
+
+  def cache(result : Num::Grad::Variable, *args)
+    a, target = args
+
+    result.grad = T.zeros_like(result.value)
+    result.requires_grad = true
+
+    Num::Grad.register("SigmoidCrossEntropy", self, result, a)
   end
 end
