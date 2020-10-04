@@ -38,3 +38,4 @@ require "./plot/plot"
 
 require "./sparse/csr"
 require "./sparse/csc"
+require "./sparse/operators"

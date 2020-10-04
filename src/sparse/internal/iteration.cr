@@ -23,13 +23,13 @@
 
 macro init_csr_iteration(prefix, dtype)
   {{ prefix }}_count = 0
-  {{ prefix }}_next = {{ prefix }}.cols[0]
+  {{ prefix }}_next = {{ prefix }}.cols.size == 0 ? 0 : {{ prefix }}.cols[0]
   {{ prefix }}_zero = {{ dtype }}.new(0)
 end
 
 macro init_csc_iteration(prefix, dtype)
   {{ prefix }}_count = 0
-  {{ prefix }}_next = {{ prefix }}.rows[0]
+  {{ prefix }}_next = {{ prefix }}.rows.size == 0 ? 0 : {{ prefix }}.rows[0]
   {{ prefix }}_zero = {{ dtype }}.new(0)
 end
 

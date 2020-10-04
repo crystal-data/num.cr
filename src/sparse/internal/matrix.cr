@@ -22,4 +22,25 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 abstract class Num::Sparse::Matrix(T)
+  getter m : Int32
+  getter n : Int32
+  getter nnz : Int32
+
+  def initialize(@m : Int32, @n : Int32, @nnz : Int32)
+  end
+
+  # Brief description of shape
+  #
+  # Arguments
+  # ---------
+  #
+  # Returns
+  # -------
+  # Array(Int32)
+  #
+  # Examples
+  # --------
+  def shape : Array(Int32)
+    [@m, @n]
+  end
 end
