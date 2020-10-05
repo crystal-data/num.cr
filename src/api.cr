@@ -18,7 +18,6 @@ require "./libs/local"
 require "./libs/nnpack"
 require "./libs/plplot"
 require "./libs/grm"
-
 require "./grad/primitives/*"
 require "./grad/gates_arithmetic"
 require "./grad/gates_blas"
