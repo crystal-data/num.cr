@@ -1016,6 +1016,33 @@ class Tensor(T)
     end
   end
 
+  # Outer iterator for two Tensors
+  #
+  # Arguments
+  # ---------
+  # t : Tensor(U)
+  #   Brief description of t : Tensor(U)
+  # &block : T
+  #   Brief description of &block : T
+  # U -> V
+  #   Brief description of U -> V
+  #
+  # Returns
+  # -------
+  # Tensor(V)
+  #
+  # Examples
+  # --------
+  def outer(t : Tensor(U), &block : T, U -> V) : Tensor(V) forall U, V
+    new_shape = self.shape + t.shape
+    ret = Tensor(V).new(new_shape)
+    data = ret.to_unsafe
+    outer_strided_iteration(self, t) do |index, i, j|
+      data[index] = yield i.value, j.value
+    end
+    ret
+  end
+
   # Broadcasts a `Tensor` to a new shape.  Returns a read-only
   # view of the original `Tensor`.  Many elements in the `Tensor`
   # will refer to the same memory location, and the result is

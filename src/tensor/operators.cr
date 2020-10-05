@@ -38,6 +38,15 @@ module Num
       end
     end
 
+    def {{name}}_outer(a : Tensor | Enumerable, b : Tensor | Enumerable)
+      at = a.to_tensor
+      bt = b.to_tensor
+
+      at.outer(bt) do |i, j|
+        i {{operator.id}} j
+      end
+    end
+
     # :ditto:
     def {{name}}!(a : Tensor, b : Tensor | Enumerable)
       b_t = b.to_tensor
