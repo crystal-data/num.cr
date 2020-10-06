@@ -235,4 +235,5 @@ module Num::Sparse
 
   sparse_ops Num::Sparse::CSR(T)
   sparse_ops Num::Sparse::CSC(T)
+  sparse_ops Num::Sparse::COO(T)
 end

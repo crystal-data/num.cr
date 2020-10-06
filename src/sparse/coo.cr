@@ -177,7 +177,7 @@ class Num::Sparse::COO(T) < Num::Sparse::Matrix(T)
   #
   # Examples
   # --------
-  def map(&block : T -> U) : Num::Sparse::CSR(U) forall U
+  def map(&block : T -> U) : Num::Sparse::COO(U) forall U
     new_rows = [] of Int32
     new_cols = [] of Int32
     new_vals = [] of U
@@ -212,7 +212,7 @@ class Num::Sparse::COO(T) < Num::Sparse::Matrix(T)
   #
   # Examples
   # --------
-  def nonzero_map(&block : T -> U) : Num::Sparse::CSR(U) forall U
+  def nonzero_map(&block : T -> U) : Num::Sparse::COO(U) forall U
     new_vals = @vals.map do |el|
       yield el
     end
