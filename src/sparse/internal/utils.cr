@@ -54,7 +54,7 @@ module Num::Sparse
     rows : Array(Int32),
     cols : Array(Int32),
     vals : Array(U)
-  ) : Tuple(Array(Int32), Array(Int32), Array(U), Int32) forall U
+  ) : Tuple(Array(Int32), Array(Int32), Array(U), Array(Int32)) forall U
     new_cols = Array(Int32).new(n + 1, 0)
     new_rows = Array(Int32).new(nnz, 0)
     new_vals = Array(U).new(nnz, U.new(0))
@@ -88,6 +88,50 @@ module Num::Sparse
       last = temp
     end
 
-    {new_rows, new_cols, new_vals, m}
+    {new_rows, new_cols, new_vals, [m, n]}
+  end
+
+  def coo_to_csr(
+    m : Int32,
+    n : Int32,
+    nnz : Int32,
+    rows : Array(Int32),
+    cols : Array(Int32),
+    vals : Array(U)
+  ) : Tuple(Array(Int32), Array(Int32), Array(U), Array(Int32)) forall U
+    new_rows = Array(Int32).new(m + 1, 0)
+    new_cols = Array(Int32).new(nnz, 0)
+    new_vals = Array(U).new(nnz, U.new(0))
+
+    nnz.times do |i|
+      new_rows[rows[i]] += 1
+    end
+
+    cumsum = 0
+    m.times do |i|
+      temp = new_rows[i]
+      new_rows[i] = cumsum
+      cumsum += temp
+    end
+    new_rows[m] = nnz
+
+    nnz.times do |i|
+      row = rows[i]
+      dest = new_rows[row]
+
+      new_cols[dest] = cols[i]
+      new_vals[dest] = vals[i]
+
+      new_rows[row] += 1
+    end
+
+    last = 0
+    m.times do |i|
+      temp = new_rows[i]
+      new_rows[i] = last
+      last = temp
+    end
+
+    {new_rows, new_cols, new_vals, [m, n]}
   end
 end

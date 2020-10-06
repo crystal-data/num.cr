@@ -33,6 +33,13 @@ macro init_csc_iteration(prefix, dtype)
   {{ prefix }}_zero = {{ dtype }}.new(0)
 end
 
+macro init_coo_iteration(prefix, dtype)
+  {{ prefix }}_count = 0
+  {{ prefix }}_next_row = {{ prefix }}.rows.size == 0 ? 0 : {{ prefix }}.rows[0]
+  {{ prefix }}_next_col = {{ prefix }}.cols.size == 0 ? 0 : {{ prefix }}.cols[0]
+  {{ prefix }}_zero = {{ dtype }}.new(0)
+end
+
 macro advanced_csr_iteration(prefix)
   if {{ prefix }}_count < {{ prefix }}_max && j == {{ prefix }}_next
     {{ prefix }}_val = {{ prefix }}.vals[{{ prefix }}_count]
@@ -57,6 +64,17 @@ macro advanced_csc_iteration(prefix)
   end
 end
 
+macro advanced_coo_iteration(prefix)
+  if i == {{ prefix }}_next_row && j == {{ prefix }}_next_col
+    {{ prefix }}_val = {{ prefix }}.vals[{{ prefix }}_count]
+    {{ prefix }}_count += 1
+    if {{ prefix }}_count < {{ prefix }}.nnz
+      {{ prefix }}_next_row = {{ prefix }}.rows[{{ prefix }}_count]
+      {{ prefix }}_next_col = {{ prefix }}.cols[{{ prefix }}_count]
+    end
+  end
+end
+
 macro add_csr_vals
   unless result == 0
     n += 1
@@ -70,6 +88,14 @@ macro add_csc_vals
     n += 1
     new_vals << result
     new_rows << i
+  end
+end
+
+macro add_coo_vals
+  unless result == 0
+    new_vals << result
+    new_rows << i
+    new_cols << j
   end
 end
 
