@@ -72,6 +72,8 @@ macro advanced_coo_iteration(prefix)
       {{ prefix }}_next_row = {{ prefix }}.rows[{{ prefix }}_count]
       {{ prefix }}_next_col = {{ prefix }}.cols[{{ prefix }}_count]
     end
+  else
+    {{ prefix }}_val = {{ prefix }}_zero
   end
 end
 

@@ -281,11 +281,8 @@ class Num::Sparse::COO(T) < Num::Sparse::Matrix(T)
   # --------
   def to_tensor : Tensor(T)
     ret = Tensor(T).new([@m, @n])
-    data = ret.to_unsafe
-    i = 0
-    each do |el|
-      data[i] = el
-      i += 1
+    each_with_index do |el, i, j|
+      ret[i, j] = el
     end
     ret
   end
@@ -344,20 +341,9 @@ class Num::Sparse::COO(T) < Num::Sparse::Matrix(T)
   # Examples
   # --------
   def each_row(dims : Bool = false, &block : Array(T) -> U) forall U
-    if dims
-      shape = [1, @n]
-    else
-      shape = [@n]
+    self.to_csr.each_row(dims) do |el|
+      yield el
     end
-
-    ret = Tensor(U).new(shape)
-    data = ret.to_unsafe
-
-    @m.times do |i|
-      ii, jj = @rows[i], @rows[i + 1]
-      data[i] = yield @vals[ii...jj]
-    end
-    ret
   end
 
   # Brief description of cols

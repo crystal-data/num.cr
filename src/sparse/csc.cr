@@ -315,6 +315,21 @@ class Num::Sparse::CSC(T) < Num::Sparse::Matrix(T)
     Num::Sparse::CSR(T).new(b, a, c, d)
   end
 
+  # Brief description of to
+  #
+  # Arguments
+  # ---------
+  #
+  # Returns
+  # -------
+  # nil
+  #
+  # Examples
+  # --------
+  def to_csc : Num::Sparse::CSC(T)
+    self
+  end
+
   # Brief description of cols
   #
   # Arguments
