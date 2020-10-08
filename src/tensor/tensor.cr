@@ -1097,6 +1097,27 @@ class Tensor(T)
     as_strided(new_shape, new_strides)
   end
 
+  # Brief description of expanddims
+  #
+  # Arguments
+  # ---------
+  # axis : Int
+  #   Brief description of axis : Int
+  #
+  # Returns
+  # -------
+  # Tensor(T)
+  #
+  # Examples
+  # --------
+  def expand_dims(axis : Int) : Tensor(T)
+    new_shape = @shape.dup
+    new_shape.insert(axis, 1)
+    new_strides = @strides.dup
+    new_strides.insert(axis, 0)
+    as_strided(new_shape, new_strides)
+  end
+
   # `as_strided` creates a view into the `Tensor` given the exact strides
   # and shape. This means it manipulates the internal data structure
   # of a `Tensor` and, if done incorrectly, the array elements can point

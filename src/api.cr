@@ -35,3 +35,5 @@ require "./nn/datasets/*"
 require "./plot/internal/*"
 require "./plot/figures/*"
 require "./plot/plot"
+
+require "./stats/summary"

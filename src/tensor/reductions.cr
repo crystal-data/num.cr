@@ -321,8 +321,8 @@ module Num
     n = a_t.shape[axis]
 
     a_t.reduce_axis(axis, dims) do |i, j|
-      (i + j) / n
-    end
+      (i + j)
+    end / n
   end
 
   # Reduces a `Tensor` to a scalar by finding the standard deviation
