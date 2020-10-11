@@ -1,3 +1,5 @@
+require "./dtypes/*"
+
 require "./tensor/build"
 require "./tensor/creation"
 require "./tensor/random"
