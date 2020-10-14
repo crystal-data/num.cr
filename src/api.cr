@@ -1,3 +1,5 @@
+require "./dtypes/*"
+
 require "./tensor/build"
 require "./tensor/creation"
 require "./tensor/random"
@@ -35,3 +37,5 @@ require "./nn/datasets/*"
 require "./plot/internal/*"
 require "./plot/figures/*"
 require "./plot/plot"
+
+require "./stats/summary"
