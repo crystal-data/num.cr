@@ -23,32 +23,15 @@
 
 require "../spec_helper"
 
-describe Tensor do
-  it "sorts a one dimensional Tensor" do
-    a = [4, 3, 2, 1].to_tensor
-    result = Num.sort(a)
-    expected = [1, 2, 3, 4].to_tensor
-    assert_array_equal(result, expected)
-  end
+describe Num::Sparse::CSR do
+  it "creates a CSR matrix" do
+    vals = [5, 8, 3, 6]
+    cols = [0, 1, 2, 1]
+    rows = [0, 0, 2, 3, 4]
 
-  it "sorts a strided Tensor" do
-    a = [4, 3, 2, 1].to_tensor[{..., 2}]
-    result = Num.sort(a)
-    expected = [2, 4]
-    assert_array_equal(result, expected)
-  end
+    expected = [[0, 0, 0, 0], [5, 8, 0, 0], [0, 0, 3, 0], [0, 6, 0, 0]].to_tensor
+    result = Num::Sparse::CSR.new(rows, cols, vals, [4, 4])
 
-  it "sorts a Tensor along an axis" do
-    a = [[3, 5, 6], [1, 1, 2], [9, 2, 3]].to_tensor
-    result = Num.sort(a, 0)
-    expected = [[1, 1, 2], [3, 2, 3], [9, 5, 6]].to_tensor
-    assert_array_equal(result, expected)
-  end
-
-  it "sorts a strided Tensor along an axis" do
-    a = [[3, 4, 5, 1], [2, 1, 3, 2], [4, 7, 6, 2]].to_tensor[..., {..., 2}]
-    result = Num.sort(a, 0)
-    expected = [[2, 3], [3, 5], [4, 6]].to_tensor
-    assert_array_equal(result, expected)
+    assert_array_equal result.to_tensor, expected
   end
 end

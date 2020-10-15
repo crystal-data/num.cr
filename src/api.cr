@@ -38,4 +38,9 @@ require "./plot/internal/*"
 require "./plot/figures/*"
 require "./plot/plot"
 
+require "./sparse/csr"
+require "./sparse/csc"
+require "./sparse/coo"
+require "./sparse/operators"
+
 require "./stats/summary"
