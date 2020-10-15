@@ -1,3 +1,5 @@
+require "./dtypes/*"
+
 require "./tensor/build"
 require "./tensor/creation"
 require "./tensor/random"
@@ -40,3 +42,5 @@ require "./sparse/csr"
 require "./sparse/csc"
 require "./sparse/coo"
 require "./sparse/operators"
+
+require "./stats/summary"
