@@ -21,41 +21,26 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "csv"
+require "http"
 
 module Num::NN
   extend self
 
-  IRIS_URL = "https://gist.githubusercontent.com/curran/a08a1080b88344b0c8a7/raw/639388c2cbc2120a14dcf466e85730eb8be498bb/iris.csv"
+  BASE_DATASET_CACHE_PATH = "#{Path.home}/.cache/num.cr/datasets"
 
-  def load_iris_dataset
-    csv = CSV.parse(load_dataset_http(IRIS_URL))
+  private def load_dataset_http(url : String)
+    Dir.mkdir_p(BASE_DATASET_CACHE_PATH) unless Dir.exists?(BASE_DATASET_CACHE_PATH)
 
-    features = csv[1...].map &.[...-1]
-    labels = csv[1...].map &.[-1]
+    cache_file_name = Digest::SHA1.digest(url).to_slice.hexstring
+    cache_file_path = "#{BASE_DATASET_CACHE_PATH}/#{cache_file_name}"
 
-    rng = (0...labels.size).to_a
-    rng.shuffle!
+    return File.read(cache_file_path) if File.exists?(cache_file_path)
 
-    features = features.map_with_index do |_, i|
-      features[rng[i]]
-    end
+    response = HTTP::Client.get(url)
+    content = response.body
 
-    labels = labels.map_with_index do |_, i|
-      labels[rng[i]]
-    end
+    File.write(cache_file_path, content)
 
-    x_train = features.to_tensor.as_type(Float64)
-
-    label_mapping = {
-      "setosa"     => [0, 0, 1],
-      "versicolor" => [0, 1, 0],
-      "virginica"  => [1, 0, 0],
-    }
-
-    mapped = labels.map { |el| label_mapping[el] }
-    y_train = mapped.to_tensor.as_type(Float64)
-
-    {labels, x_train, y_train}
+    content
   end
 end
