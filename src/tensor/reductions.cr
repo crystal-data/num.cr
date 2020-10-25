@@ -408,6 +408,32 @@ module Num
     m
   end
 
+  # Find the maximum index value of a Tensor
+  #
+  # Arguments
+  # ---------
+  # a : Tensor | Enumerable
+  #   Input tensor
+  #
+  # Returns
+  # -------
+  # Index of the maximum value
+  #
+  # Examples
+  # --------
+  def argmax(a : Tensor | Enumerable) : Int32
+    a_t = a.to_tensor
+    m = a_t.value
+    idx = 0
+    a_t.each_with_index do |el, i|
+      if el > m
+        m = el
+        idx = i
+      end
+    end
+    idx
+  end
+
   # Reduces a `Tensor` along an axis, finding the max of each
   # view into the `Tensor`
   #
@@ -436,6 +462,40 @@ module Num
     end
   end
 
+  # Find the maximum index value of a Tensor along
+  # an axis
+  #
+  # Arguments
+  # ---------
+  # *a* : Tensor | Enumerable
+  #   Argument to reduce
+  # *axis* : Int
+  #   Axis of reduction
+  # *dims* : Bool
+  #   Indicate if the axis of reduction should remain in the result
+  #
+  # Returns
+  # -------
+  # nil
+  #
+  # Examples
+  # --------
+  def argmax(a : Tensor | Enumerable, axis : Int, dims : Bool = false)
+    a_t = a.to_tensor
+    u = a_t.shape.dup
+    if dims
+      u[axis] = 1
+    else
+      u.delete_at(axis)
+    end
+    w = Tensor(Int32).new(u)
+    v = w.to_unsafe
+    a_t.yield_along_axis_index(axis) do |ax, ii|
+      v[ii] = Num.argmax(ax)
+    end
+    w
+  end
+
   # Reduces a `Tensor` to a scalar by finding the minimum value
   #
   # Arguments
@@ -458,6 +518,32 @@ module Num
       end
     end
     m
+  end
+
+  # Find the minimum index value of a Tensor
+  #
+  # Arguments
+  # ---------
+  # a : Tensor | Enumerable
+  #   Input tensor
+  #
+  # Returns
+  # -------
+  # Index of the minimum value
+  #
+  # Examples
+  # --------
+  def argmin(a : Tensor | Enumerable) : Int32
+    a_t = a.to_tensor
+    m = a_t.value
+    idx = 0
+    a_t.each_with_index do |el, i|
+      if el < m
+        m = el
+        idx = i
+      end
+    end
+    idx
   end
 
   # Reduces a `Tensor` along an axis, finding the min of each
@@ -486,6 +572,40 @@ module Num
     a_t.reduce_axis(axis, dims) do |i, j|
       Math.min(i, j)
     end
+  end
+
+  # Find the minimum index value of a Tensor along
+  # an axis
+  #
+  # Arguments
+  # ---------
+  # *a* : Tensor | Enumerable
+  #   Argument to reduce
+  # *axis* : Int
+  #   Axis of reduction
+  # *dims* : Bool
+  #   Indicate if the axis of reduction should remain in the result
+  #
+  # Returns
+  # -------
+  # Tensor(Int32)
+  #
+  # Examples
+  # --------
+  def argmin(a : Tensor | Enumerable, axis : Int, dims : Bool = false) : Tensor(Int32)
+    a_t = a.to_tensor
+    u = a_t.shape.dup
+    if dims
+      u[axis] = 1
+    else
+      u.delete_at(axis)
+    end
+    w = Tensor(Int32).new(u)
+    v = w.to_unsafe
+    a_t.yield_along_axis_index(axis) do |ax, ii|
+      v[ii] = Num.argmin(ax)
+    end
+    w
   end
 
   # Sorts a `Tensor`, treating it's elements like the `Tensor`
@@ -993,6 +1113,23 @@ class Tensor(T)
     Num.max(self)
   end
 
+  # Find the maximum index value of a Tensor
+  #
+  # Arguments
+  # ---------
+  # a : Tensor | Enumerable
+  #   Input tensor
+  #
+  # Returns
+  # -------
+  # Index of the maximum value
+  #
+  # Examples
+  # --------
+  def argmax
+    Num.argmax(self)
+  end
+
   # Reduces a `Tensor` along an axis, finding the max of each
   # view into the `Tensor`
   #
@@ -1018,6 +1155,28 @@ class Tensor(T)
     Num.max(self, axis, dims)
   end
 
+  # Find the maximum index value of a Tensor along
+  # an axis
+  #
+  # Arguments
+  # ---------
+  # *a* : Tensor | Enumerable
+  #   Argument to reduce
+  # *axis* : Int
+  #   Axis of reduction
+  # *dims* : Bool
+  #   Indicate if the axis of reduction should remain in the result
+  #
+  # Returns
+  # -------
+  # nil
+  #
+  # Examples
+  # --------
+  def argmax(axis : Int, dims : Bool = false)
+    Num.argmax(self, axis, dims)
+  end
+
   # Reduces a `Tensor` to a scalar by finding the minimum value
   #
   # Arguments
@@ -1033,6 +1192,23 @@ class Tensor(T)
   # ```
   def min
     Num.min(self)
+  end
+
+  # Find the minimum index value of a Tensor
+  #
+  # Arguments
+  # ---------
+  # a : Tensor | Enumerable
+  #   Input tensor
+  #
+  # Returns
+  # -------
+  # Index of the minimum value
+  #
+  # Examples
+  # --------
+  def argmin
+    Num.argmin(self)
   end
 
   # Reduces a `Tensor` along an axis, finding the min of each
@@ -1058,6 +1234,28 @@ class Tensor(T)
   # ```
   def min(axis : Int, dims : Bool = false)
     Num.min(axis, dims)
+  end
+
+  # Find the minimum index value of a Tensor along
+  # an axis
+  #
+  # Arguments
+  # ---------
+  # *a* : Tensor | Enumerable
+  #   Argument to reduce
+  # *axis* : Int
+  #   Axis of reduction
+  # *dims* : Bool
+  #   Indicate if the axis of reduction should remain in the result
+  #
+  # Returns
+  # -------
+  # Tensor(Int32)
+  #
+  # Examples
+  # --------
+  def argmin(axis : Int, dims : Bool = false)
+    Num.argmin(self, axis, dims)
   end
 
   # Finds the difference between the maximum and minimum
