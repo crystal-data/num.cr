@@ -1556,6 +1556,15 @@ class Tensor(T)
   end
 
   # :nodoc:
+  def yield_along_axis_index(axis : Int)
+    idx = 0
+    self.yield_along_axis(axis) do |a|
+      yield a, idx
+      idx += 1
+    end
+  end
+
+  # :nodoc:
   def reduce_axis(axis : Int, dims : Bool = false)
     if axis < 0
       axis = self.rank + axis

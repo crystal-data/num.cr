@@ -51,4 +51,36 @@ describe Tensor do
     expected = [[2, 3], [3, 5], [4, 6]].to_tensor
     assert_array_equal(result, expected)
   end
+
+  it "finds the argmax of a 1d tensor" do
+    a = [1, 2, 3, 2, 1].to_tensor
+    a.argmax.should eq 2
+  end
+
+  it "finds the argmax of an nd tensor" do
+    a = [
+      [[3, 9], [8, 3], [4, 8]],
+      [[3, 7], [8, 7], [4, 6]],
+      [[1, 8], [8, 1], [6, 7]],
+    ]
+    result = Num.argmax(a, 1)
+    expected = [[1, 0], [1, 0], [1, 0]].to_tensor
+    assert_array_equal(result, expected)
+  end
+
+  it "finds the argmin of a 1d tensor" do
+    a = [1, 2, 3, 2, 1].to_tensor
+    a.argmin.should eq 0
+  end
+
+  it "finds the argmin of an nd tensor" do
+    a = [
+      [[3, 9], [8, 3], [4, 8]],
+      [[3, 7], [8, 7], [4, 6]],
+      [[1, 8], [8, 1], [6, 7]],
+    ]
+    result = Num.argmin(a, 1)
+    expected = [[0, 1], [0, 2], [0, 1]].to_tensor
+    assert_array_equal(result, expected)
+  end
 end
