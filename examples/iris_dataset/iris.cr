@@ -53,8 +53,8 @@ batch_size = 10
 
     loss = net.loss(output, target)
 
-    y_trues += target.shape[0].times.map { |i| target[i].to_a.index(target[i].to_a.max) }.to_a
-    y_preds += output.value.shape[0].times.map { |i| output.value[i].to_a.index(output[i].value.to_a.max) }.to_a
+    y_trues += target.argmax(axis: 1).to_a
+    y_preds += output.value.argmax(axis: 1).to_a
 
     loss.backprop
     net.optimizer.update
