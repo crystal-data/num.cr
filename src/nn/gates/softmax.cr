@@ -29,13 +29,13 @@ class Num::NN::ReluGate(T) < Num::Grad::Gate(T)
 
   def backward(payload : Num::Grad::Payload(T)) : Array(T)
     gradient = payload.variable.grad
-    [Num::NN.softmax_prime(gradient, @cache)]
+    [Num::NN.relu_prime(gradient, @cache)]
   end
 
   def cache(result : Num::Grad::Variable(T), *args : Num::Grad::Variable(T))
     result.grad = T.zeros_like(result.value)
     result.requires_grad = true
 
-    Num::Grad.register("Softmax", self, result, *args)
+    Num::Grad.register("Relu", self, result, *args)
   end
 end

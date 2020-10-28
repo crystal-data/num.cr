@@ -109,7 +109,7 @@ module Num::NN
       raise Exception.new "NNPACK failed with #{status}.  Did you run with the -Dnnpack flag?"
     end
 
-    grad_weight = Tensor(Float32).zeros(input.shape)
+    grad_weight = Tensor(Float32).zeros(weight.shape)
 
     status = LibNNPACK.nnp_convolution_kernel_gradient(
       LibNNPACK::NNPConvolutionAlgorithm::AUTO,
@@ -134,10 +134,7 @@ module Num::NN
       raise Exception.new "NNPACK failed with #{status}.  Did you run with the -Dnnpack flag?"
     end
 
-    grad_bias = bias
-    if bias.rank == 3
-      grad_bias = grad_bias.sum(3).sum(2).sum(0).reshape(bias.shape)
-    end
+    grad_bias = grad_output.sum(3).sum(2).sum(0).reshape(bias.shape)
 
     {grad_input, grad_weight, grad_bias}
   end

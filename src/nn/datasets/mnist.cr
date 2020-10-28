@@ -21,21 +21,26 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class Num::NN::ReluGate(T) < Num::Grad::Gate(T)
-  getter cache : T
+require "csv"
 
-  def initialize(@cache : T)
-  end
+module Num::NN
+  extend self
 
-  def backward(payload : Num::Grad::Payload(T)) : Array(T)
-    gradient = payload.variable.grad
-    [Num::NN.softmax_prime(gradient, @cache)]
-  end
+  MNIST_URL = "https://pjreddie.com/media/files/mnist_test.csv"
 
-  def cache(result : Num::Grad::Variable(T), *args : Num::Grad::Variable(T))
-    result.grad = T.zeros_like(result.value)
-    result.requires_grad = true
+  def load_mnist_dataset
+    csv = CSV.parse(load_dataset_http(MNIST_URL))
 
-    Num::Grad.register("Softmax", self, result, *args)
+    features = csv[1...].map &.[1...]
+    labels = csv[1...].map &.[0]
+
+    l = labels.to_tensor.as_type(Int32)
+    lf = Tensor(Int32).zeros([l.shape[0], 10])
+
+    l.each_with_index do |el, i|
+      lf[i, el] = 1
+    end
+
+    {features.to_tensor.as_type(Float32), lf.as_type(Float32)}
   end
 end

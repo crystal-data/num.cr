@@ -86,6 +86,35 @@ class Num::NN::NetworkInfo(T)
     @layers << Num::NN::ConvolutionalLayer(T).new(@context, shape, n, kh, kw)
   end
 
+  # Maxpool layer for a neural network
+  #
+  # Arguments
+  # ---------
+  # shape : Array(Int)
+  #   Brief description of shape : Array(Int)
+  # kernel : Tuple(Int
+  #   Brief description of kernel : Tuple(Int
+  # Int)
+  #   Brief description of Int)
+  # padding : Tuple(Int
+  #   Brief description of padding : Tuple(Int
+  # Int)
+  #   Brief description of Int)
+  # stride : Tuple(Int
+  #   Brief description of stride : Tuple(Int
+  # Int)
+  #   Brief description of Int)
+  #
+  # Returns
+  # -------
+  # nil
+  #
+  # Examples
+  # --------
+  def maxpool(shape : Array(Int), kernel : Tuple(Int, Int), padding : Tuple(Int, Int), stride : Tuple(Int, Int))
+    @layers << Num::NN::MaxPoolLayer(T).new(@context, shape, kernel, padding, stride)
+  end
+
   # Adds a Flattening layer to a neural network
   #
   # Arguments

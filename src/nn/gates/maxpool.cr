@@ -21,40 +21,40 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class Num::NN::ConvolutionalLayer(T) < Num::NN::Layer(T)
-  getter weights : Num::Grad::Variable(T)
-  getter bias : Num::Grad::Variable(T)
+class Num::NN::MaxPoolGate(T) < Num::Grad::Gate(T)
+  getter input_shape : Array(Int32)
+  getter max_indices : Tensor(Int32)
+  getter kernel : Tuple(Int32, Int32)
   getter padding : Tuple(Int32, Int32)
-  getter stride : Tuple(Int32, Int32) = {1, 1}
+  getter stride : Tuple(Int32, Int32)
 
   def initialize(
-    context : Num::Grad::Context(T),
-    in_shape : Array(Int),
-    num_filters : Int,
-    kernel_height : Int,
-    kernel_width : Int,
-    @padding = {0, 0},
-    @stride = {1, 1}
+    @input_shape : Array(Int32),
+    @max_indices : Tensor(Int32),
+    @kernel : Tuple(Int32, Int32),
+    @padding : Tuple(Int32, Int32),
+    @stride : Tuple(Int32, Int32)
   )
-    c_in, h_in, w_in = in_shape
-    w = T.normal([num_filters, c_in, kernel_height, kernel_width])
-    b = T.zeros([num_filters, 1, 1])
-    @weights = context.variable(w)
-    @bias = context.variable(b)
   end
 
-  def forward(input : Num::Grad::Variable(T)) : Num::Grad::Variable(T)
-    output = Num::NN.conv2d(input.value, @weights.value, @bias.value, padding, stride)
-    result = input.context.variable(output)
+  def backward(payload : Num::Grad::Payload(T)) : Array(T)
+    gradient = payload.variable.grad
 
-    if input.is_grad_needed || @weights.is_grad_needed || @bias.is_grad_needed
-      gate = Num::NN::ConvolutionGate.new(input, @weights, @bias, @padding, @stride)
-      gate.cache(result, input, @weights, @bias, @padding, @stride)
-    end
-    result
+    r0 = Num::NN.maxpool_backward(
+      @input_shape,
+      @max_indices,
+      gradient
+    )
+
+    [r0]
   end
 
-  def variables : Array(Num::Grad::Variable(T))
-    [weights, bias]
+  def cache(result : Num::Grad::Variable(T), *args)
+    input, kernel, padding, stride = args
+
+    result.grad = T.zeros_like(result.value)
+    result.requires_grad = true
+
+    Num::Grad.register("Maxpool", self, result, input)
   end
 end
