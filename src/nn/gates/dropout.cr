@@ -21,29 +21,21 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class Num::NN::LinearLayer(T) < Num::NN::Layer(T)
-  getter weights : Num::Grad::Variable(T)
-  getter bias : Num::Grad::Variable(T)
+class Num::NN::DropoutGate(T) < Num::Grad::Gate(T)
+  getter mask : T
 
-  def initialize(context : Num::Grad::Context(T), inp_dim : Int, outp_dim : Int)
-    w = T.normal([outp_dim, inp_dim])
-    b = T.zeros([1, outp_dim])
-    @weights = context.variable(w)
-    @bias = context.variable(b)
+  def initialize(@mask : T)
   end
 
-  def forward(input : Num::Grad::Variable(T)) : Num::Grad::Variable(T)
-    output = input.value.matmul(@weights.value.transpose) + bias.value
-    result = input.context.variable(output)
-
-    if input.is_grad_needed || @weights.is_grad_needed || @bias.is_grad_needed
-      gate = Num::NN::LinearGate.new(input, @weights, @bias)
-      gate.cache(result, input, @weights, @bias)
-    end
-    result
+  def backward(payload : Num::Grad::Payload(T)) : Array(T)
+    gradient = payload.variable.grad
+    [gradient * @mask]
   end
 
-  def variables : Array(Num::Grad::Variable(T))
-    [weights, bias]
+  def cache(result : Num::Grad::Variable(T), *args)
+    result.grad = T.zeros_like(result.value)
+    result.requires_grad = true
+
+    Num::Grad.register("Dropout", self, result, *args)
   end
 end

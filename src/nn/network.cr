@@ -115,8 +115,12 @@ class Num::NN::NetworkInfo(T)
     @layers << Num::NN::MaxPoolLayer(T).new(@context, shape, kernel, padding, stride)
   end
 
-  def softmax
-    @layers << Num::NN::SoftmaxLayer.new(@context)
+  def dropout(prob : Float32 = 0.5_f32)
+    @layers << Num::NN::DropoutLayer(T).new(@context, prob)
+  end
+
+  def softmax_cross_entropy_loss
+    @loss = Num::NN::SoftmaxCrossEntropyLoss(T).new
   end
 
   # Adds a Flattening layer to a neural network

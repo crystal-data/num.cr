@@ -21,29 +21,26 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class Num::NN::LinearLayer(T) < Num::NN::Layer(T)
-  getter weights : Num::Grad::Variable(T)
-  getter bias : Num::Grad::Variable(T)
+class Num::NN::SoftmaxCrossEntropy(T) < Num::Grad::Gate(T)
+  getter target : T
+  getter cache : Num::Grad::Variable(T)
 
-  def initialize(context : Num::Grad::Context(T), inp_dim : Int, outp_dim : Int)
-    w = T.normal([outp_dim, inp_dim])
-    b = T.zeros([1, outp_dim])
-    @weights = context.variable(w)
-    @bias = context.variable(b)
+  def initialize(@target : T, @cache : Num::Grad::Variable(T))
   end
 
-  def forward(input : Num::Grad::Variable(T)) : Num::Grad::Variable(T)
-    output = input.value.matmul(@weights.value.transpose) + bias.value
-    result = input.context.variable(output)
-
-    if input.is_grad_needed || @weights.is_grad_needed || @bias.is_grad_needed
-      gate = Num::NN::LinearGate.new(input, @weights, @bias)
-      gate.cache(result, input, @weights, @bias)
-    end
-    result
+  def backward(payload : Num::Grad::Payload(T)) : Array(T)
+    gradient = payload.variable.grad
+    grad = gradient.value
+    result = Num::NN.softmax_cross_entropy_backward(grad, cache.value, target)
+    [result]
   end
 
-  def variables : Array(Num::Grad::Variable(T))
-    [weights, bias]
+  def cache(result : Num::Grad::Variable, *args)
+    a, target = args
+
+    result.grad = T.zeros_like(result.value)
+    result.requires_grad = true
+
+    Num::Grad.register("SoftmaxCrossEntropy", self, result, a)
   end
 end

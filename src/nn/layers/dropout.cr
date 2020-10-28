@@ -21,43 +21,20 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class Num::NN::SigmoidCrossEntropyLoss(T) < Num::NN::Loss(T)
-  def loss(input : Num::Grad::Variable(T), target : T) : Num::Grad::Variable(T)
-    output = Num::NN.sigmoid_cross_entropy(input.value, target)
+class Num::NN::DropoutLayer(T) < Num::NN::Layer(T)
+  getter prob : Float32
 
-    result = input.context.variable([output])
-
-    if input.is_grad_needed
-      gate = Num::NN::SigmoidCrossEntropy(T).new(target, input)
-      gate.cache(result, input, target)
-    end
-    result
+  def initialize(context : Num::Grad::Context(T), @prob = 0.5_f32)
   end
-end
 
-class Num::NN::MSELoss(T) < Num::NN::Loss(T)
-  def loss(input : Num::Grad::Variable(T), target : T) : Num::Grad::Variable(T)
-    output = Num::NN.mse(input.value, target)
-
+  def forward(input : Num::Grad::Variable(T)) : Num::Grad::Variable(T)
+    mask = Tensor.binomial(input.value.shape, 1, @prob) / @prob
+    output = input.value * mask
     result = input.context.variable(output)
 
     if input.is_grad_needed
-      gate = Num::NN::MSEGate(T).new(target, input)
-      gate.cache(result, input, target)
-    end
-    result
-  end
-end
-
-class Num::NN::SoftmaxCrossEntropyLoss(T) < Num::NN::Loss(T)
-  def loss(input : Num::Grad::Variable(T), target : T) : Num::Grad::Variable(T)
-    output = Num::NN.softmax_cross_entropy(input.value, target)
-
-    result = input.context.variable([output])
-
-    if input.is_grad_needed
-      gate = Num::NN::SoftmaxCrossEntropy(T).new(target, input)
-      gate.cache(result, input, target)
+      gate = Num::NN::DropoutGate.new(mask)
+      gate.cache(result, input)
     end
     result
   end

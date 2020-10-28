@@ -76,6 +76,20 @@ class Tensor(T)
     end
   end
 
+  private def self.binom_internal(n, prob)
+    success = 0
+    n.times do
+      success += Random.rand < prob ? 1 : 0
+    end
+    success
+  end
+
+  def self.binomial(shape : Array(Int), n : Int, prob : Float) : Tensor(Int32)
+    Tensor(Int32).new(shape) do
+      binom_internal(n, prob)
+    end
+  end
+
   # Generates a Tensor containing a beta-distribution collection
   # of values
   #
