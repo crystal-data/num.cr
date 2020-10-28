@@ -115,6 +115,10 @@ class Num::NN::NetworkInfo(T)
     @layers << Num::NN::MaxPoolLayer(T).new(@context, shape, kernel, padding, stride)
   end
 
+  def softmax
+    @layers << Num::NN::SoftmaxLayer.new(@context)
+  end
+
   # Adds a Flattening layer to a neural network
   #
   # Arguments

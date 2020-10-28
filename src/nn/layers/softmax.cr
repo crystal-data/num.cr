@@ -21,21 +21,31 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class Num::NN::SoftmaxGate(T) < Num::Grad::Gate(T)
-  getter cache : T
-
-  def initialize(@cache : T)
+class Num::NN::SoftmaxLayer(T) < Num::NN::Layer(T)
+  def initialize(context : Num::Grad::Context(T))
   end
 
-  def backward(payload : Num::Grad::Payload(T)) : Array(T)
-    gradient = payload.variable.grad
-    [Num::NN.softmax_prime(gradient, @cache)]
+  def forward(input : Num::Grad::Variable(T)) : Num::Grad::Variable(T)
+    output = Num::NN.softmax(input.value)
+    result = input.context.variable(output)
+
+    if input.is_grad_needed
+      gate = Num::NN::SoftmaxGate.new(input.value)
+      gate.cache(result, input)
+    end
+    result
   end
+end
 
-  def cache(result : Num::Grad::Variable(T), *args : Num::Grad::Variable(T))
-    result.grad = T.zeros_like(result.value)
-    result.requires_grad = true
+class Num::Grad::Variable(T)
+  def softmax
+    output = Num::NN.softmax(@value)
+    result = @context.variable(output)
 
-    Num::Grad.register("Softmax", self, result, *args)
+    if self.is_grad_needed
+      gate = Num::NN::SoftmaxGate.new(@value)
+      gate.cache(result, self)
+    end
+    result
   end
 end

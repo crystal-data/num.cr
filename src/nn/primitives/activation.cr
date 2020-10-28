@@ -315,33 +315,15 @@ module Num::NN
   end
 
   def softmax(input : Tensor(U)) : Tensor(U) forall U
-    bs = input.shape[0]
-    result = Tensor(U).zeros_like(input)
-    bs.times do |i|
-      max = U::MIN
-      sumexp = U.new(0)
-
-      input[i].each do |x|
-        if x <= max
-          sumexp += Math.exp(x - max)
-        else
-          sumexp *= Math.exp(max - x) + 1
-          max = x
-        end
-      end
-
-      res = result[i]
-
-      res.map!(input) do |_, y|
-        Math.exp(y - max) / sumexp
-      end
+    xn = Num.exp(input).sum(axis: -1, dims: true)
+    input.map(xn) do |i, j|
+      Math.exp(i) / j
     end
-    result
   end
 
   def softmax_prime(gradient : Tensor(U), cached : Tensor(U)) : Tensor(U) forall U
     soft = softmax(cached)
-    sg = soft * grad
-    sg - soft * sg.sum(axis: -1)
+    sg = soft * gradient
+    sg - soft * sg.sum(axis: -1, dims: true)
   end
 end
