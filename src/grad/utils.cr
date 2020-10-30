@@ -21,24 +21,35 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class Num::NN::FlattenLayer(T) < Num::NN::Layer(T)
-  getter shape : Array(Int32)
+module Num::Grad
+  extend self
 
-  def initialize(context : Num::Grad::Context(T), @shape : Array(Int32))
+  def numerical_gradient(
+    input : U,
+    f : Proc(U, U),
+    h : U = U.new(1e-5)
+  ) : U forall U
+    (f.call(input + h) - f.call(input - h)) / (U.new(2) * h)
   end
 
-  def forward(input : Num::Grad::Variable(T)) : Num::Grad::Variable(T)
-    output = input.value.reshape([input.value.shape[0], -1])
-    result = input.context.variable(output)
+  def numerical_gradient(
+    input : Tensor(U),
+    f : Proc(Tensor(U), U),
+    h : U = U.new(1e-5)
+  ) : Tensor(U) forall U
+    result = Tensor(U).new(input.shape)
+    data = result.to_unsafe
 
-    if input.is_grad_needed
-      gate = Num::NN::FlattenGate.new(result, @shape)
-      gate.cache(result, input)
+    x = input
+    x.each_pointer_with_index do |val, i|
+      orig_val = val.value
+      val.value = orig_val + h
+      fa = f.call(x)
+      val.value = orig_val - h
+      fb = f.call(x)
+      val.value = orig_val
+      data[i] = (fa - fb) / (U.new(2) * h)
     end
     result
-  end
-
-  def output_shape : Array(Int32)
-    [@shape.product]
   end
 end

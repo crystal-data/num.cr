@@ -21,24 +21,19 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class Num::NN::FlattenLayer(T) < Num::NN::Layer(T)
-  getter shape : Array(Int32)
-
-  def initialize(context : Num::Grad::Context(T), @shape : Array(Int32))
+class Num::NN::InputGate(T) < Num::Grad::Gate(T)
+  def initialize
   end
 
-  def forward(input : Num::Grad::Variable(T)) : Num::Grad::Variable(T)
-    output = input.value.reshape([input.value.shape[0], -1])
-    result = input.context.variable(output)
-
-    if input.is_grad_needed
-      gate = Num::NN::FlattenGate.new(result, @shape)
-      gate.cache(result, input)
-    end
-    result
+  def backward(payload : Num::Grad::Payload(T)) : Array(T)
+    gradient = payload.variable.grad
+    [gradient]
   end
 
-  def output_shape : Array(Int32)
-    [@shape.product]
+  def cache(result : Num::Grad::Variable(T), *args : Num::Grad::Variable(T))
+    result.grad = T.zeros_like(result.value)
+    result.requires_grad = true
+
+    Num::Grad.register("Input", self, result, *args)
   end
 end

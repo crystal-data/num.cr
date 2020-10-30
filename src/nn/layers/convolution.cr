@@ -22,6 +22,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 class Num::NN::ConvolutionalLayer(T) < Num::NN::Layer(T)
+  getter in_shape : Array(Int32)
   getter weights : Num::Grad::Variable(T)
   getter bias : Num::Grad::Variable(T)
   getter padding : Tuple(Int32, Int32)
@@ -36,8 +37,9 @@ class Num::NN::ConvolutionalLayer(T) < Num::NN::Layer(T)
     @padding = {0, 0},
     @stride = {1, 1}
   )
+    @in_shape = in_shape.map &.to_i
     c_in, h_in, w_in = in_shape
-    w = T.normal([num_filters, c_in, kernel_height, kernel_width])
+    w = Num::NN.kaiming_normal(num_filters, c_in, kernel_height, kernel_width, dtype: T)
     b = T.zeros([num_filters, 1, 1])
     @weights = context.variable(w)
     @bias = context.variable(b)
@@ -56,5 +58,24 @@ class Num::NN::ConvolutionalLayer(T) < Num::NN::Layer(T)
 
   def variables : Array(Num::Grad::Variable(T))
     [weights, bias]
+  end
+
+  def output_shape : Array(Int32)
+    kh = @weights.value.shape[2]
+    kw = @weights.value.shape[3]
+    ph = @padding[0]
+    pw = @padding[1]
+    sh = @stride[0]
+    sw = @stride[1]
+
+    ih = @in_shape[1]
+    iw = @in_shape[2]
+    dh = 1
+    dw = 1
+
+    r0 = @weights.value.shape[0]
+    r1 = 1 + (ih + 2 * ph - (((kh - 1) * dh) + 1)) // sh
+    r2 = 1 + (iw + 2 * pw - (((kw - 1) * dw) + 1)) // sw
+    [r0, r1, r2]
   end
 end

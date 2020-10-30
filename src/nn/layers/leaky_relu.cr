@@ -22,7 +22,9 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 class Num::NN::LeakyReluLayer(T) < Num::NN::Layer(T)
-  def initialize(context : Num::Grad::Context(T))
+  getter output_shape : Array(Int32)
+
+  def initialize(context : Num::Grad::Context(T), @output_shape : Array(Int32))
   end
 
   def forward(input : Num::Grad::Variable(T)) : Num::Grad::Variable(T)

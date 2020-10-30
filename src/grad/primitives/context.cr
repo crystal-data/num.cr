@@ -89,6 +89,10 @@ class Num::Grad::Context(T)
     Num::Grad::Variable.new(self, value.to_tensor, requires_grad)
   end
 
+  def variable(value : Number, requires_grad : Bool = true) : Num::Grad::Variable(T)
+    Num::Grad::Variable.new(self, T.new(value), requires_grad)
+  end
+
   # :nodoc:
   def to_s(io)
     @nodes.each_with_index do |node, i|

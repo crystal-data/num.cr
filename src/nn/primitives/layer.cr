@@ -27,4 +27,6 @@ abstract class Num::NN::Layer(T)
   def variables : Array(Num::Grad::Variable(T))
     [] of Num::Grad::Variable(T)
   end
+
+  abstract def output_shape : Array(Int32)
 end

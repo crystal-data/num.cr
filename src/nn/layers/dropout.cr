@@ -23,8 +23,9 @@
 
 class Num::NN::DropoutLayer(T) < Num::NN::Layer(T)
   getter prob : Float32
+  getter output_shape : Array(Int32)
 
-  def initialize(context : Num::Grad::Context(T), @prob = 0.5_f32)
+  def initialize(context : Num::Grad::Context(T), @output_shape : Array(Int32), @prob = 0.5_f32)
   end
 
   def forward(input : Num::Grad::Variable(T)) : Num::Grad::Variable(T)

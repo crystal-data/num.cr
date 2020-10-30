@@ -23,6 +23,8 @@
 
 require "../../src/num"
 
+Num::Rand.set_seed(2)
+
 ctx = Num::Grad::Context(Tensor(Float64)).new
 
 labels, x_train, y_train = Num::NN.load_iris_dataset
@@ -31,9 +33,10 @@ x_train = (x_train - x_train.mean(axis: 0)) / x_train.std(axis: 0)
 x_train = ctx.variable(x_train)
 
 net = Num::NN::Network.new(ctx) do
-  linear 4, 3
+  input [4]
+  linear 3
   relu
-  linear 3, 3
+  linear 3
   sgd 0.9
   sigmoid_cross_entropy_loss
 end
