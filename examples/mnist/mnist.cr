@@ -1,4 +1,4 @@
-require "./num"
+require "../../src/num"
 
 dataset = Num::NN.load_mnist_dataset
 ctx = Num::Grad::Context(Tensor(Float32)).new

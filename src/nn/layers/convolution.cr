@@ -46,13 +46,14 @@ class Num::NN::ConvolutionalLayer(T) < Num::NN::Layer(T)
   end
 
   def forward(input : Num::Grad::Variable(T)) : Num::Grad::Variable(T)
-    {% if flag?(:nnpack) %}
-      output = Num::NN.conv2d(input.value, @weights.value, @bias.value, padding, stride)
-    {% elsif flag?(:im2col) %}
-      output = Num::NN.im2colgemm_conv2d(input.value, @weights.value, @bias.value, padding, stride)
-    {% else %}
-      output = Num::NN.im2colgemm_conv2d(input.value, @weights.value, @bias.value, padding, stride)
-    {% end %}
+    output = \
+       {% if flag?(:nnpack) %}
+         Num::NN.conv2d(input.value, @weights.value, @bias.value, padding, stride)
+       {% elsif flag?(:im2col) %}
+         Num::NN.im2colgemm_conv2d(input.value, @weights.value, @bias.value, padding, stride)
+       {% else %}
+         Num::NN.im2colgemm_conv2d(input.value, @weights.value, @bias.value, padding, stride)
+       {% end %}
 
     result = input.context.variable(output)
 

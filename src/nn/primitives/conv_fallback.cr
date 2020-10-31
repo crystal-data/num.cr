@@ -94,7 +94,7 @@ module Num::NN
         row = h_offset + (h * stride[0])
         offset_col = h * width_col
         width_col.times do |w|
-          let col = w_offset + (w * stride[1])
+          col = w_offset + (w * stride[1])
           if row < 0 || col < 0 || row >= height || col >= width
             next
           end
@@ -138,9 +138,10 @@ module Num::NN
     input : Tensor(U),
     kernel : Tensor(U),
     bias : Tensor(U),
+    grad_output : Tensor(U),
     padding : Tuple(Int, Int) = {0, 0},
     stride : Tuple(Int, Int) = {1, 1}
-  ) : Tuple(Tensor(U), Tensor(U))
+  ) : Tuple(Tensor(U), Tensor(U), Tensor(U)) forall U
     batch_size = input.shape[-4]
     output_channels = kernel.shape[-4]
     kernel_size = {kernel.shape[-2], kernel.shape[-1]}
