@@ -211,4 +211,23 @@ class Num::Grad::Variable(T)
     result.grad = @grad[*args]
     result
   end
+
+  private macro num_op(fn, gate_cls)
+    def {{fn.id}} : Num::Grad::Variable(T)
+      result = @context.variable(Num.{{ fn.id }}(@value))
+      if self.is_grad_needed
+        gate = {{gate_cls}}.new self
+        gate.cache(result, self)
+      end
+      result
+    end
+  end
+
+  num_op sin, Num::Grad::SinGate(T)
+  num_op cos, Num::Grad::CosGate(T)
+  num_op tan, Num::Grad::TanGate(T)
+  num_op asin, Num::Grad::ASinGate(T)
+  num_op acos, Num::Grad::ACosGate(T)
+  num_op atan, Num::Grad::ATanGate(T)
+  num_op exp, Num::Grad::ExpGate(T)
 end

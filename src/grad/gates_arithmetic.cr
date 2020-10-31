@@ -21,7 +21,6 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-# :nodoc:
 class Num::Grad::AddGate(T) < Num::Grad::Gate(T)
   # :nodoc:
   def backward(payload : Num::Grad::Payload(T)) : Array(T)
@@ -40,7 +39,6 @@ class Num::Grad::AddGate(T) < Num::Grad::Gate(T)
   end
 end
 
-# :nodoc:
 class Num::Grad::SubtractGate(T) < Num::Grad::Gate(T)
   # :nodoc:
   def backward(payload : Num::Grad::Payload(T)) : Array(T)
@@ -58,20 +56,17 @@ class Num::Grad::SubtractGate(T) < Num::Grad::Gate(T)
   end
 end
 
-# :nodoc:
-class Num::Grad::MultiplyGate(T) < Num::Grad::Gate(T)
+class Num::Grad::TwoOpGate(T) < Num::Grad::Gate(T)
   getter a : Num::Grad::Variable(T)
   getter b : Num::Grad::Variable(T)
+  @@name = "TwoOp"
 
   # :nodoc:
   def initialize(@a : Num::Grad::Variable(T), @b : Num::Grad::Variable(T))
   end
 
-  # :nodoc:
   def backward(payload : Num::Grad::Payload(T)) : Array(T)
-    gradient = payload.variable.grad
-
-    [gradient * @b.value, @a.value * gradient]
+    [] of T
   end
 
   # :nodoc:
@@ -80,20 +75,22 @@ class Num::Grad::MultiplyGate(T) < Num::Grad::Gate(T)
     result.grad = T.zeros_like(result.value)
     result.requires_grad = true
 
-    Num::Grad.register("Mul", self, result, a, b)
+    Num::Grad.register(@@name, self, result, a, b)
   end
 end
 
-# :nodoc:
-class Num::Grad::DivideGate(T) < Num::Grad::Gate(T)
-  getter a : Num::Grad::Variable(T)
-  getter b : Num::Grad::Variable(T)
+class Num::Grad::MultiplyGate(T) < Num::Grad::TwoOpGate(T)
+  @@name = "Multiply"
 
-  # :nodoc:
-  def initialize(@a : Num::Grad::Variable(T), @b : Num::Grad::Variable(T))
+  def backward(payload : Num::Grad::Payload(T)) : Array(T)
+    gradient = payload.variable.grad
+    [gradient * @b.value, @a.value * gradient]
   end
+end
 
-  # :nodoc:
+class Num::Grad::DivideGate(T) < Num::Grad::TwoOpGate(T)
+  @@name = "Divide"
+
   def backward(payload : Num::Grad::Payload(T)) : Array(T)
     gradient = payload.variable.grad
 
@@ -101,26 +98,11 @@ class Num::Grad::DivideGate(T) < Num::Grad::Gate(T)
     r1 = gradient.map(@a.value, @b.value) { |i, j, k| -i * j / (k ** 2) }
     [r0, r1]
   end
-
-  # :nodoc:
-  def cache(result : Num::Grad::Variable(T), *args)
-    a, b = args
-    result.grad = T.zeros_like(result.value)
-    result.requires_grad = true
-    Num::Grad.register("Div", self, result, a, b)
-  end
 end
 
-# :nodoc:
-class Num::Grad::PowerGate(T) < Num::Grad::Gate(T)
-  getter a : Num::Grad::Variable(T)
-  getter b : Num::Grad::Variable(T)
+class Num::Grad::PowerGate(T) < Num::Grad::TwoOpGate(T)
+  @@name = "Power"
 
-  # :nodoc:
-  def initialize(@a : Num::Grad::Variable(T), @b : Num::Grad::Variable(T))
-  end
-
-  # :nodoc:
   def backward(payload : Num::Grad::Payload(T)) : Array(T)
     gradient = payload.variable.grad
 
@@ -133,13 +115,5 @@ class Num::Grad::PowerGate(T) < Num::Grad::Gate(T)
     end
 
     [r0, r1]
-  end
-
-  # :nodoc:
-  def cache(result : Num::Grad::Variable(T), *args)
-    a, b = args
-    result.grad = T.zeros_like(result.value)
-    result.requires_grad = true
-    Num::Grad.register("Pow", self, result, a, b)
   end
 end

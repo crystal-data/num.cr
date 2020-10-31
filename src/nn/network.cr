@@ -36,6 +36,10 @@ class Num::NN::NetworkInfo(T)
     @loss = Num::NN::Loss(T).new
   end
 
+  def input(shape : Array(Int))
+    @layers << Num::NN::InputLayer(T).new(@context, shape)
+  end
+
   # Add a linear layer to the Network.  Since activation functions
   # are just treated as additional layers, this simply requires
   # the dimensions of the transformation.
@@ -59,8 +63,9 @@ class Num::NN::NetworkInfo(T)
   #   linear 2, 3
   # end
   # ```
-  def linear(i : Int, j : Int)
-    @layers << Num::NN::LinearLayer(T).new(@context, i, j)
+  def linear(output_size : Int)
+    input_size = @layers.last.output_shape[0]
+    @layers << Num::NN::LinearLayer(T).new(@context, input_size, output_size)
   end
 
   # Convolution layer for a neural network
@@ -82,8 +87,9 @@ class Num::NN::NetworkInfo(T)
   #
   # Examples
   # --------
-  def conv2d(shape : Array(Int32), n : Int32, kh : Int32, kw : Int32)
-    @layers << Num::NN::ConvolutionalLayer(T).new(@context, shape, n, kh, kw)
+  def conv2d(n : Int32, kh : Int32, kw : Int32)
+    input_shape = @layers.last.output_shape
+    @layers << Num::NN::ConvolutionalLayer(T).new(@context, input_shape, n, kh, kw)
   end
 
   # Maxpool layer for a neural network
@@ -111,12 +117,14 @@ class Num::NN::NetworkInfo(T)
   #
   # Examples
   # --------
-  def maxpool(shape : Array(Int), kernel : Tuple(Int, Int), padding : Tuple(Int, Int), stride : Tuple(Int, Int))
+  def maxpool(kernel : Tuple(Int, Int), padding : Tuple(Int, Int), stride : Tuple(Int, Int))
+    shape = @layers.last.output_shape
     @layers << Num::NN::MaxPoolLayer(T).new(@context, shape, kernel, padding, stride)
   end
 
   def dropout(prob : Float32 = 0.5_f32)
-    @layers << Num::NN::DropoutLayer(T).new(@context, prob)
+    shape = @layers.last.output_shape
+    @layers << Num::NN::DropoutLayer(T).new(@context, shape, prob)
   end
 
   def softmax_cross_entropy_loss
@@ -136,7 +144,8 @@ class Num::NN::NetworkInfo(T)
   #
   # Examples
   # --------
-  def flatten(shape : Array(Int32))
+  def flatten
+    shape = @layers.last.output_shape
     @layers << Num::NN::FlattenLayer(T).new(@context, shape)
   end
 
@@ -156,7 +165,8 @@ class Num::NN::NetworkInfo(T)
   # end
   # ```
   def relu
-    @layers << Num::NN::ReluLayer(T).new(@context)
+    shape = @layers.last.output_shape
+    @layers << Num::NN::ReluLayer(T).new(@context, shape)
   end
 
   # Adds a Leaky ReLU layer to a network.
@@ -171,7 +181,8 @@ class Num::NN::NetworkInfo(T)
   # Examples
   # --------
   def leaky_relu
-    @layers << Num::NN::LeakyReluLayer(T).new(@context)
+    shape = @layers.last.output_shape
+    @layers << Num::NN::LeakyReluLayer(T).new(@context, shape)
   end
 
   # Adds an ELU layer to the network
@@ -186,7 +197,8 @@ class Num::NN::NetworkInfo(T)
   # Examples
   # --------
   def elu
-    @layers << Num::NN::EluLayer(T).new(@context)
+    shape = @layers.last.output_shape
+    @layers << Num::NN::EluLayer(T).new(@context, shape)
   end
 
   # Add a Sigmoid layer to the Network.  Activation functions are handled
@@ -205,7 +217,8 @@ class Num::NN::NetworkInfo(T)
   # end
   # ```
   def sigmoid
-    @layers << Num::NN::SigmoidLayer(T).new(@context)
+    shape = @layers.last.output_shape
+    @layers << Num::NN::SigmoidLayer(T).new(@context, shape)
   end
 
   # Add an SGD optimizer to the Network.
@@ -287,7 +300,7 @@ end
 # sugar around moving data through a network -> forward, and propogating
 # loss <- backwards
 class Num::NN::Network(T)
-  @layers : Num::NN::NetworkInfo(T)
+  getter layers : Num::NN::NetworkInfo(T)
 
   # Convenience method to allow for creation of a Network
   # with as little code as possible.  Taps an instance of

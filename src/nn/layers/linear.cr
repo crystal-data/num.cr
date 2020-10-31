@@ -26,7 +26,7 @@ class Num::NN::LinearLayer(T) < Num::NN::Layer(T)
   getter bias : Num::Grad::Variable(T)
 
   def initialize(context : Num::Grad::Context(T), inp_dim : Int, outp_dim : Int)
-    w = T.normal([outp_dim, inp_dim])
+    w = Num::NN.kaiming_normal(outp_dim, inp_dim, dtype: T)
     b = T.zeros([1, outp_dim])
     @weights = context.variable(w)
     @bias = context.variable(b)
@@ -45,5 +45,9 @@ class Num::NN::LinearLayer(T) < Num::NN::Layer(T)
 
   def variables : Array(Num::Grad::Variable(T))
     [weights, bias]
+  end
+
+  def output_shape : Array(Int32)
+    [@weights.value.shape[0]]
   end
 end

@@ -34,9 +34,6 @@ module Num::NN
     output_height = (2 * padding[0] + input.shape[-2]) - (weight.shape[-2] - 1)
     output_width = (2 * padding[1] + input.shape[-1]) - (weight.shape[-1] - 1)
 
-    input = input.dup(Num::RowMajor)
-    weight = weight.dup(Num::RowMajor)
-
     result = Tensor(Float32).new([input.shape[0], output_channels, output_height, output_width])
 
     status = LibNNPACK.nnp_convolution_output(
@@ -96,7 +93,7 @@ module Num::NN
       nnkernel_size,
       grad_output.to_unsafe,
       weight.to_unsafe,
-      input.to_unsafe,
+      grad_input.to_unsafe,
       nil,
       nil,
       LibNNPACK::NNPActivation::IDENTITY,
@@ -134,7 +131,7 @@ module Num::NN
       raise Exception.new "NNPACK failed with #{status}.  Did you run with the -Dnnpack flag?"
     end
 
-    grad_bias = grad_output.sum(3).sum(2).sum(0).reshape(bias.shape)
+    grad_bias = Tensor(Float32).zeros(bias.shape)
 
     {grad_input, grad_weight, grad_bias}
   end

@@ -44,4 +44,19 @@ class Num::NN::MaxPoolLayer(T) < Num::NN::Layer(T)
     end
     result
   end
+
+  def output_shape : Array(Int32)
+    c, h, w = @input_shape
+    kh = @kernel[0]
+    kw = @kernel[1]
+    ph = @padding[0]
+    pw = @padding[1]
+    sh = @stride[0]
+    sw = @stride[1]
+
+    r0 = c
+    r1 = (h + (2 * ph) - kh) // sh + 1
+    r2 = (w + (2 * pw) - kw) // sw + 1
+    [r0, r1, r2]
+  end
 end
