@@ -40,13 +40,31 @@ class Num::NN::ConvolutionGate(T) < Num::Grad::Gate(T)
   def backward(payload : Num::Grad::Payload(T)) : Array(T)
     gradient = payload.variable.grad
 
-    r0, r1, r2 = Num::NN.conv2d_backward(
-      @cached_input.value,
-      @weight.value,
-      @bias.value, gradient,
-      @padding,
-      @stride
-    )
+    {% if flag?(:nnpack) %}
+      r0, r1, r2 = Num::NN.conv2d_backward(
+        @cached_input.value,
+        @weight.value,
+        @bias.value, gradient,
+        @padding,
+        @stride
+      )
+    {% elsif flag?(:im2col) %}
+      r0, r1, r2 = Num::NN.im2colgemm_conv2d_gradient(
+        @cached_input.value,
+        @weight.value,
+        @bias.value, gradient,
+        @padding,
+        @stride
+      )
+    {% else %}
+      r0, r1, r2 = Num::NN.im2colgemm_conv2d_gradient(
+        @cached_input.value,
+        @weight.value,
+        @bias.value, gradient,
+        @padding,
+        @stride
+      )
+    {% end %}
 
     [r0, r1, r2]
   end

@@ -57,9 +57,7 @@ module Num::NN
   end
 
   def load_mnist_dataset
-    puts "Downloading train data"
-    f, l = load_mnist_helper(MNIST_TRAIN_URL)
-    puts "Downloading test data"
+    f, l = load_mnist_helper(MNIST_TEST_URL)
     tf, tl = load_mnist_helper(MNIST_TEST_URL)
     return MNIST.new(f, l, tf, tl)
   end
