@@ -21,24 +21,22 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class Num::NN::FlattenLayer(T) < Num::NN::Layer(T)
-  getter shape : Array(Int32)
+class Num::NN::DropoutLayer(T) < Num::NN::Layer(T)
+  getter prob : Float32
+  getter output_shape : Array(Int32)
 
-  def initialize(context : Num::Grad::Context(T), @shape : Array(Int32))
+  def initialize(context : Num::Grad::Context(T), @output_shape : Array(Int32), @prob = 0.5_f32)
   end
 
   def forward(input : Num::Grad::Variable(T)) : Num::Grad::Variable(T)
-    output = input.value.reshape([input.value.shape[0], -1])
+    mask = Tensor.binomial(input.value.shape, 1, @prob) / @prob
+    output = input.value * mask
     result = input.context.variable(output)
 
     if input.is_grad_needed
-      gate = Num::NN::FlattenGate.new(result, @shape)
+      gate = Num::NN::DropoutGate.new(mask)
       gate.cache(result, input)
     end
     result
-  end
-
-  def output_shape : Array(Int32)
-    [@shape.product]
   end
 end

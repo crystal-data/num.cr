@@ -21,24 +21,44 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class Num::NN::FlattenLayer(T) < Num::NN::Layer(T)
-  getter shape : Array(Int32)
+require "csv"
 
-  def initialize(context : Num::Grad::Context(T), @shape : Array(Int32))
-  end
+module Num::NN
+  extend self
 
-  def forward(input : Num::Grad::Variable(T)) : Num::Grad::Variable(T)
-    output = input.value.reshape([input.value.shape[0], -1])
-    result = input.context.variable(output)
+  MNIST_TEST_URL  = "https://pjreddie.com/media/files/mnist_test.csv"
+  MNIST_TRAIN_URL = "https://pjreddie.com/media/files/mnist_train.csv"
 
-    if input.is_grad_needed
-      gate = Num::NN::FlattenGate.new(result, @shape)
-      gate.cache(result, input)
+  struct MNIST
+    getter features : Tensor(Float32)
+    getter labels : Tensor(Float32)
+    getter test_features : Tensor(Float32)
+    getter test_labels : Tensor(Float32)
+
+    def initialize(
+      @features : Tensor(Float32),
+      @labels : Tensor(Float32),
+      @test_features : Tensor(Float32),
+      @test_labels : Tensor(Float32)
+    )
     end
-    result
   end
 
-  def output_shape : Array(Int32)
-    [@shape.product]
+  def load_mnist_helper(url)
+    csv = CSV.parse(load_dataset_http(url))
+    features = csv[1...].map &.[1...]
+    labels = csv[1...].map &.[0]
+    l = labels.to_tensor.as_type(Int32)
+    lf = Tensor(Int32).zeros([l.shape[0], 10])
+    l.each_with_index do |el, i|
+      lf[i, el] = 1
+    end
+    {features.to_tensor.as_type(Float32), lf.as_type(Float32)}
+  end
+
+  def load_mnist_dataset
+    f, l = load_mnist_helper(MNIST_TEST_URL)
+    tf, tl = load_mnist_helper(MNIST_TEST_URL)
+    return MNIST.new(f, l, tf, tl)
   end
 end

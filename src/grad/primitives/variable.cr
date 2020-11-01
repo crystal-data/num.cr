@@ -86,15 +86,21 @@ class Num::Grad::Variable(T)
   # Even if this is called on the first node in a graph, it will
   # destroy all descendents of this variable stored by the
   # Context
-  def backprop
+  def backprop(debug : Bool = false)
     @grad = T.ones_like(@value)
 
     while @context.size > 0 && @context.last.payload.variable != self
-      @context.pop
+      node = @context.pop
+      if debug
+        puts node.name
+      end
     end
 
     while @context.size > 0
       cur_node = @context.pop
+      if debug
+        puts cur_node.name
+      end
       diffs = cur_node.gate.backward(cur_node.payload)
       diffs.each_with_index do |diff, i|
         parent_i = cur_node.parents[i]

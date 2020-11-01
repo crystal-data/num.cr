@@ -533,12 +533,19 @@ class Tensor(T)
   # #  [12.4381, 30.9552, 26.2495],
   # #  [34.0873, 73.5366, 40.5504]]
   # ```
-  def matmul(other : Tensor(T))
+  def matmul(other : Tensor(T), output : Tensor(T)? = nil)
     self.is_matrix
     other.is_matrix
 
     unless self.shape[1] == other.shape[0]
       raise Num::Internal::ShapeError.new("Invalid shapes for matrix multiplication: #{@shape}, #{other.shape}")
+    end
+
+    if output.nil?
+    else
+      unless output.shape == [self.shape[0], other.shape[1]]
+        raise Num::Internal::ShapeError.new("Invalid output size")
+      end
     end
 
     a = @flags.contiguous? || @flags.fortran? ? self : self.dup(Num::RowMajor)
@@ -548,7 +555,13 @@ class Tensor(T)
     k = a.shape[1]
     lda = a.flags.contiguous? ? a.shape[1] : a.shape[0]
     ldb = b.flags.contiguous? ? b.shape[1] : b.shape[0]
-    dest = Tensor(T).new([m, n])
+
+    if output.nil?
+      dest = Tensor(T).new([m, n])
+    else
+      dest = output
+    end
+
     a_trans = flags.contiguous? ? LibCblas::CblasTranspose::CblasNoTrans : LibCblas::CblasTranspose::CblasTrans
     b_trans = other.flags.contiguous? ? LibCblas::CblasTranspose::CblasNoTrans : LibCblas::CblasTranspose::CblasTrans
     alpha = T.new(1.0)

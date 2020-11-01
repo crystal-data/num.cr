@@ -21,24 +21,40 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class Num::NN::FlattenLayer(T) < Num::NN::Layer(T)
-  getter shape : Array(Int32)
+class Num::NN::MaxPoolGate(T) < Num::Grad::Gate(T)
+  getter input_shape : Array(Int32)
+  getter max_indices : Tensor(Int32)
+  getter kernel : Tuple(Int32, Int32)
+  getter padding : Tuple(Int32, Int32)
+  getter stride : Tuple(Int32, Int32)
 
-  def initialize(context : Num::Grad::Context(T), @shape : Array(Int32))
+  def initialize(
+    @input_shape : Array(Int32),
+    @max_indices : Tensor(Int32),
+    @kernel : Tuple(Int32, Int32),
+    @padding : Tuple(Int32, Int32),
+    @stride : Tuple(Int32, Int32)
+  )
   end
 
-  def forward(input : Num::Grad::Variable(T)) : Num::Grad::Variable(T)
-    output = input.value.reshape([input.value.shape[0], -1])
-    result = input.context.variable(output)
+  def backward(payload : Num::Grad::Payload(T)) : Array(T)
+    gradient = payload.variable.grad
 
-    if input.is_grad_needed
-      gate = Num::NN::FlattenGate.new(result, @shape)
-      gate.cache(result, input)
-    end
-    result
+    r0 = Num::NN.maxpool_backward(
+      @input_shape,
+      @max_indices,
+      gradient
+    )
+
+    [r0]
   end
 
-  def output_shape : Array(Int32)
-    [@shape.product]
+  def cache(result : Num::Grad::Variable(T), *args)
+    input, kernel, padding, stride = args
+
+    result.grad = T.zeros_like(result.value)
+    result.requires_grad = true
+
+    Num::Grad.register("Maxpool", self, result, input)
   end
 end

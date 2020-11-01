@@ -48,3 +48,17 @@ class Num::NN::MSELoss(T) < Num::NN::Loss(T)
     result
   end
 end
+
+class Num::NN::SoftmaxCrossEntropyLoss(T) < Num::NN::Loss(T)
+  def loss(input : Num::Grad::Variable(T), target : T) : Num::Grad::Variable(T)
+    output = Num::NN.softmax_cross_entropy(input.value, target)
+
+    result = input.context.variable([output])
+
+    if input.is_grad_needed
+      gate = Num::NN::SoftmaxCrossEntropy(T).new(target, input)
+      gate.cache(result, input, target)
+    end
+    result
+  end
+end

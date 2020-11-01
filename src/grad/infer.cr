@@ -21,24 +21,34 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class Num::NN::FlattenLayer(T) < Num::NN::Layer(T)
-  getter shape : Array(Int32)
+module Num::Grad
+  extend self
 
-  def initialize(context : Num::Grad::Context(T), @shape : Array(Int32))
+  macro grad_proc(fn, dtype)
+    ->{{fn}}(Num::Grad::Variable(Tensor({{dtype}})))
   end
 
-  def forward(input : Num::Grad::Variable(T)) : Num::Grad::Variable(T)
-    output = input.value.reshape([input.value.shape[0], -1])
-    result = input.context.variable(output)
-
-    if input.is_grad_needed
-      gate = Num::NN::FlattenGate.new(result, @shape)
-      gate.cache(result, input)
+  def grad(
+    fn : Proc(Num::Grad::Variable(Tensor(U)), Num::Grad::Variable(Tensor(U)))
+  ) forall U
+    Proc(U, Tensor(U)).new do |x|
+      ctx = Num::Grad::Context(Tensor(U)).new
+      xv = ctx.variable(x)
+      result = fn.call(xv)
+      result.backprop
+      xv.grad
     end
-    result
   end
 
-  def output_shape : Array(Int32)
-    [@shape.product]
+  def egrad(
+    fn : Proc(Num::Grad::Variable(Tensor(U)), Num::Grad::Variable(Tensor(U)))
+  ) forall U
+    Proc(Tensor(U), Tensor(U)).new do |x|
+      ctx = Num::Grad::Context(Tensor(U)).new
+      xv = ctx.variable(x)
+      result = fn.call(xv)
+      result.backprop
+      xv.grad
+    end
   end
 end

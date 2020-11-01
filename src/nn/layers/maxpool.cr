@@ -21,24 +21,42 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class Num::NN::FlattenLayer(T) < Num::NN::Layer(T)
-  getter shape : Array(Int32)
+class Num::NN::MaxPoolLayer(T) < Num::NN::Layer(T)
+  getter input_shape : Array(Int32)
+  getter kernel : Tuple(Int32, Int32)
+  getter padding : Tuple(Int32, Int32)
+  getter stride : Tuple(Int32, Int32)
 
-  def initialize(context : Num::Grad::Context(T), @shape : Array(Int32))
+  def initialize(context : Num::Grad::Context(T), input_shape : Array(Int), kernel : Tuple(Int, Int), padding : Tuple(Int, Int), stride : Tuple(Int, Int))
+    @input_shape = input_shape.map &.to_i
+    @kernel = kernel.map &.to_i
+    @padding = padding.map &.to_i
+    @stride = stride.map &.to_i
   end
 
   def forward(input : Num::Grad::Variable(T)) : Num::Grad::Variable(T)
-    output = input.value.reshape([input.value.shape[0], -1])
+    max_indices, output = Num::NN.maxpool(input.value, @kernel, @padding, @stride)
     result = input.context.variable(output)
 
     if input.is_grad_needed
-      gate = Num::NN::FlattenGate.new(result, @shape)
-      gate.cache(result, input)
+      gate = Num::NN::MaxPoolGate(T).new(input.value.shape, max_indices, @kernel, @padding, @stride)
+      gate.cache(result, input, kernel, padding, stride)
     end
     result
   end
 
   def output_shape : Array(Int32)
-    [@shape.product]
+    c, h, w = @input_shape
+    kh = @kernel[0]
+    kw = @kernel[1]
+    ph = @padding[0]
+    pw = @padding[1]
+    sh = @stride[0]
+    sw = @stride[1]
+
+    r0 = c
+    r1 = (h + (2 * ph) - kh) // sh + 1
+    r2 = (w + (2 * pw) - kw) // sw + 1
+    [r0, r1, r2]
   end
 end

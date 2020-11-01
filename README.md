@@ -222,12 +222,12 @@ y_train = [[0.0], [1.0], [1.0], [0.0]].to_tensor
 x = ctx.variable(x_train)
 
 net = Num::NN::Network.new(ctx) do
-
+  input [2]
   # A basic network with a single hidden layer using
   # a ReLU activation function
-  linear(2, 3)
+  linear 3
   relu
-  linear(3, 1)
+  linear 1
 
   # SGD Optimizer
   sgd 0.7

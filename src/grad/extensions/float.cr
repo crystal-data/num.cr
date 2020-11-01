@@ -21,24 +21,34 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class Num::NN::FlattenLayer(T) < Num::NN::Layer(T)
-  getter shape : Array(Int32)
-
-  def initialize(context : Num::Grad::Context(T), @shape : Array(Int32))
-  end
-
-  def forward(input : Num::Grad::Variable(T)) : Num::Grad::Variable(T)
-    output = input.value.reshape([input.value.shape[0], -1])
-    result = input.context.variable(output)
-
-    if input.is_grad_needed
-      gate = Num::NN::FlattenGate.new(result, @shape)
-      gate.cache(result, input)
+struct Float32
+  macro add_operator(name, operator)
+    def {{operator.id}}(other : Num::Grad::Variable(Tensor(Float32)))
+      other.context.variable(self) {{operator.id}} other
     end
-    result
   end
 
-  def output_shape : Array(Int32)
-    [@shape.product]
+  add_operator add, :+
+  add_operator subtract, :-
+  add_operator multiply, :*
+  add_operator divide, :/
+  add_operator power, :**
+end
+
+struct Float64
+  macro add_operator(name, operator)
+    def {{operator.id}}(other : Num::Grad::Variable(Tensor(Float64)))
+      other.context.variable(self) {{operator.id}} other
+    end
+  end
+
+  add_operator add, :+
+  add_operator subtract, :-
+  add_operator multiply, :*
+  add_operator divide, :/
+  add_operator power, :**
+
+  def exp
+    Math.exp(self)
   end
 end

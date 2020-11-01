@@ -36,6 +36,6 @@ class Num::NN::ReluGate(T) < Num::Grad::Gate(T)
     result.grad = T.zeros_like(result.value)
     result.requires_grad = true
 
-    Num::Grad.register("Relu", self, result, *args)
+    Num::Grad.register("Softmax", self, result, *args)
   end
 end
