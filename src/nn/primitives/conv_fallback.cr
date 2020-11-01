@@ -156,11 +156,11 @@ module Num::NN
 
     batch_size.times do |i|
       grad_output_col = grad_output[i].reshape(output_channels, output_flatten_size)
-      grad_input_col = kernel_col.transpose * grad_output_col
+      grad_input_col = kernel_col.transpose.matmul(grad_output_col)
 
       input_col = im2col(input[i], kernel_size, padding, stride)
       grad_input[i] = col2im(grad_input_col, input.shape[-3], input.shape[-2], input.shape[-1], kernel_size, padding, stride)
-      grad_weight.map!((grad_output_col * input_col.transpose).reshape(grad_weight.shape)) do |i, j|
+      grad_weight.map!((grad_output_col.matmul(input_col.transpose)).reshape(grad_weight.shape)) do |i, j|
         i + j
       end
     end
