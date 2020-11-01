@@ -29,4 +29,8 @@ abstract class Num::NN::Layer(T)
   end
 
   abstract def output_shape : Array(Int32)
+
+  def params : Int32
+    0
+  end
 end

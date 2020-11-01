@@ -236,6 +236,19 @@ net = Num::NN::Network.new(ctx) do
   sigmoid_cross_entropy_loss
 end
 
+puts net
+
+# Layer                                      Output shape  Param #
+# ================================================================
+# Num::NN::InputLayer(Tensor(Float32))                [2]        0
+# ----------------------------------------------------------------
+# Num::NN::LinearLayer(Tensor(Float32))               [3]        9
+# ----------------------------------------------------------------
+# Num::NN::ReluLayer(Tensor(Float32))                 [3]        0
+# ----------------------------------------------------------------
+# Num::NN::LinearLayer(Tensor(Float32))               [1]        4
+# ----------------------------------------------------------------
+
 500.times do |epoch|
   y_pred = net.forward(x)
   loss = net.loss(y_pred, y_train)

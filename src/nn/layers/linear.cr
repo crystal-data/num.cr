@@ -50,4 +50,9 @@ class Num::NN::LinearLayer(T) < Num::NN::Layer(T)
   def output_shape : Array(Int32)
     [@weights.value.shape[0]]
   end
+
+  def params : Int32
+    od, id = @weights.value.shape
+    od*id + 1*od
+  end
 end

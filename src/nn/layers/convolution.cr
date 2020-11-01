@@ -86,4 +86,9 @@ class Num::NN::ConvolutionalLayer(T) < Num::NN::Layer(T)
     r2 = 1 + (iw + 2 * pw - (((kw - 1) * dw) + 1)) // sw
     [r0, r1, r2]
   end
+
+  def params : Int32
+    nf, cin, kh, kw = @weights.value.shape
+    (((kh * kw * @in_shape[-3]) + 1) * nf)
+  end
 end

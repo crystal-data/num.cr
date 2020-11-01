@@ -393,4 +393,31 @@ class Num::NN::Network(T)
   def optimizer
     @layers.optimizer
   end
+
+  def to_s(io)
+    names = @layers.map &.class.name
+    shapes = @layers.map &.output_shape.to_s
+    params = @layers.map &.params.to_s
+
+    name_max = (names.map &.size).max + 3
+    shape_max = {(shapes.map &.size).max + 3, 15}.max
+    param_max = {(params.map &.size).max + 3, 9}.max
+
+    total_width = name_max + shape_max + param_max
+    io << "Layer".ljust(name_max)
+    io << "Output shape".rjust(shape_max)
+    io << "Param #".rjust(param_max)
+    io << "\n"
+    io << "=" * total_width + "\n"
+
+    names.size.times do |i|
+      io << names[i].ljust(name_max)
+      io << shapes[i].rjust(shape_max)
+      io << params[i].rjust(param_max)
+      io << "\n" + "-" * total_width
+      unless i == names.size - 1
+        io << "\n"
+      end
+    end
+  end
 end
