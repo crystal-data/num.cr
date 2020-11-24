@@ -50,3 +50,5 @@ require "./sparse/coo"
 require "./sparse/operators"
 
 require "./stats/summary"
+
+require "./io/image"
