@@ -26,9 +26,8 @@ require "stbimage"
 module Num::IO
   extend self
 
-  def read_image(filename : String) : Tensor(UInt8)
+  private def read_image_channels(filename : String, desired_channels : Int32) : Tensor(UInt8)
     width, height, channels = 0, 0, 0
-    desired_channels = 0
 
     raw = LibStbImage.load(filename, pointerof(width), pointerof(height), pointerof(channels), desired_channels)
 
@@ -36,7 +35,15 @@ module Num::IO
       raise String.new LibStbImage.failure_reason
     end
 
-    return raw.to_slice(width * height * channels).to_tensor.reshape(width, height, channels)
+    return raw.to_slice(width * height * channels).to_tensor.reshape(width, height, channels).transpose(2, 0, 1)
+  end
+
+  def read_image(filename : String) : Tensor(UInt8)
+    read_image_channels(filename, 0)
+  end
+
+  def read_image_grayscale(filename : String) : Tensor(UInt8)
+    read_image_channels(filename, 1)
   end
 
   macro write_img_impl(fn_name)
