@@ -12,7 +12,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Install dependencies
+    - name: Dependencies
       run: shards install
     - name: Run tests
       run: crystal spec
