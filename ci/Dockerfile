@@ -5,6 +5,7 @@ RUN apt-get update && apt-get install \
     libopenblas-dev \
     gnupg \
     clang \
+    build-essential \
     git \
     -y && \
     curl -sSL https://dist.crystal-lang.org/apt/setup.sh | bash && \
