@@ -38,12 +38,32 @@ module Num::IO
     return raw.to_slice(width * height * channels).to_tensor.reshape(width, height, channels).transpose(2, 0, 1)
   end
 
+  private def read_image_channels_hw(filename : String, desired_channels : Int32, new_width : Int32, new_height : Int32) : Tensor(UInt8)
+    width, height, channels = 0, 0, 0
+
+    raw = LibStbImage.load(filename, pointerof(width), pointerof(height), pointerof(channels), desired_channels)
+
+    if raw.null?
+      raise String.new LibStbImage.failure_reason
+    end
+
+    new_buffer = Pointer(UInt8).malloc(new_width * new_height * desired_channels)
+
+    LibStbImage.resize_uint8(raw, width, height, 0, new_buffer, new_width, new_height, 0, desired_channels)
+
+    new_buffer.to_slice(new_width * new_height * desired_channels).to_tensor.reshape(new_width, new_height, channels).transpose(2, 0, 1)
+  end
+
   def read_image(filename : String) : Tensor(UInt8)
     read_image_channels(filename, 0)
   end
 
   def read_image_grayscale(filename : String) : Tensor(UInt8)
     read_image_channels(filename, 1)
+  end
+
+  def read_image_grayscale_resize(filename : String, width : Int32, height : Int32) : Tensor(UInt8)
+    read_image_channels_hw(filename, 1, width, height)
   end
 
   macro write_img_impl(fn_name)

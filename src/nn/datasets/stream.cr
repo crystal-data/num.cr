@@ -56,7 +56,7 @@ class Num::NN::DataStream
 
       chunk.each_with_index do |el, index|
         fn, cls = el
-        img = Num::IO.read_image_grayscale(fn)
+        img = Num::IO.read_image_grayscale_resize(fn, 30, 20)
         data[index] = img / 255
         t = (0...@num_classes).map do |i|
           i == cls ? 1 : 0
