@@ -13,7 +13,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Install clang
-      run: sudo apt install clang
+      run: apt install clang
     - name: Install dependencies
       run: shards install
     - name: Run tests
