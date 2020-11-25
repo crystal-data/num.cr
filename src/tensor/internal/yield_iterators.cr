@@ -1,10 +1,13 @@
 require "../tensor"
 
-macro init_strided_iteration(coord, backstrides, t_shape, t_strides, t_rank)
+macro init_strided_iteration(coord, backstrides, t_shape, t_strides, t_rank, t_data)
   {{ coord.id }} = Pointer(Int32).malloc({{ t_rank }}, 0)
   {{ backstrides.id }} = Pointer(Int32).malloc({{ t_rank }})
   {{ t_rank }}.times do |i|
     {{ backstrides.id }}[i] = {{ t_strides }}[i] * ({{ t_shape }}[i] - 1)
+    if {{ t_strides }}[i] < 0
+      {{ t_data }} += ({{ t_shape }}[i] - 1) * {{ t_strides }}[i].abs
+    end
   end
 end
 
@@ -31,7 +34,7 @@ def strided_iteration(t : Tensor)
     end
   else
     t_shape, t_strides, t_rank = t.iter_attrs
-    init_strided_iteration(:coord, :backstrides, t_shape, t_strides, t_rank)
+    init_strided_iteration(:coord, :backstrides, t_shape, t_strides, t_rank, data)
     t.size.times do |i|
       yield i, data
       advance_strided_iteration(:coord, :backstrides, t_shape, t_strides, t_rank, data)
@@ -59,22 +62,22 @@ def dual_strided_iteration(t1 : Tensor, t2 : Tensor)
       t2data += 1
     end
   elsif t1_contiguous
-    init_strided_iteration(:t2_coord, :t2_backstrides, t2_shape, t2_strides, t2_rank)
+    init_strided_iteration(:t2_coord, :t2_backstrides, t2_shape, t2_strides, t2_rank, t2data)
     n.times do |i|
       yield i, t1data, t2data
       t1data += 1
       advance_strided_iteration(:t2_coord, :t2_backstrides, t2_shape, t2_strides, t2_rank, t2data)
     end
   elsif t2_contiguous
-    init_strided_iteration(:t1_coord, :t1_backstrides, t1_shape, t1_strides, t1_rank)
+    init_strided_iteration(:t1_coord, :t1_backstrides, t1_shape, t1_strides, t1_rank, t1data)
     n.times do |i|
       yield i, t1data, t2data
       advance_strided_iteration(:t1_coord, :t1_backstrides, t1_shape, t1_strides, t1_rank, t1data)
       t2data += 1
     end
   else
-    init_strided_iteration(:t1_coord, :t1_backstrides, t1_shape, t1_strides, t1_rank)
-    init_strided_iteration(:t2_coord, :t2_backstrides, t2_shape, t2_strides, t2_rank)
+    init_strided_iteration(:t1_coord, :t1_backstrides, t1_shape, t1_strides, t1_rank, t1data)
+    init_strided_iteration(:t2_coord, :t2_backstrides, t2_shape, t2_strides, t2_rank, t2data)
     n.times do |i|
       yield i, t1data, t2data
       advance_strided_iteration(:t1_coord, :t1_backstrides, t1_shape, t1_strides, t1_rank, t1data)
@@ -107,7 +110,7 @@ def tri_strided_iteration(t1 : Tensor, t2 : Tensor, t3 : Tensor)
       t3data += 1
     end
   elsif t1_contiguous && t2_contiguous
-    init_strided_iteration(:t3_coord, :t3_backstrides, t3_shape, t3_strides, t3_rank)
+    init_strided_iteration(:t3_coord, :t3_backstrides, t3_shape, t3_strides, t3_rank, t3data)
     n.times do |i|
       yield i, t1data, t2data, t3data
       t1data += 1
@@ -115,8 +118,8 @@ def tri_strided_iteration(t1 : Tensor, t2 : Tensor, t3 : Tensor)
       advance_strided_iteration(:t3_coord, :t3_backstrides, t3_shape, t3_strides, t3_rank, t3data)
     end
   elsif t1_contiguous
-    init_strided_iteration(:t2_coord, :t2_backstrides, t2_shape, t2_strides, t2_rank)
-    init_strided_iteration(:t3_coord, :t3_backstrides, t3_shape, t3_strides, t3_rank)
+    init_strided_iteration(:t2_coord, :t2_backstrides, t2_shape, t2_strides, t2_rank, t2data)
+    init_strided_iteration(:t3_coord, :t3_backstrides, t3_shape, t3_strides, t3_rank, t3data)
     n.times do |i|
       yield i, t1data, t2data, t3data
       t1data += 1
@@ -124,9 +127,9 @@ def tri_strided_iteration(t1 : Tensor, t2 : Tensor, t3 : Tensor)
       advance_strided_iteration(:t3_coord, :t3_backstrides, t3_shape, t3_strides, t3_rank, t3data)
     end
   else
-    init_strided_iteration(:t1_coord, :t1_backstrides, t1_shape, t1_strides, t1_rank)
-    init_strided_iteration(:t2_coord, :t2_backstrides, t2_shape, t2_strides, t2_rank)
-    init_strided_iteration(:t3_coord, :t3_backstrides, t3_shape, t3_strides, t3_rank)
+    init_strided_iteration(:t1_coord, :t1_backstrides, t1_shape, t1_strides, t1_rank, t1data)
+    init_strided_iteration(:t2_coord, :t2_backstrides, t2_shape, t2_strides, t2_rank, t2data)
+    init_strided_iteration(:t3_coord, :t3_backstrides, t3_shape, t3_strides, t3_rank, t3data)
     n.times do |i|
       yield i, t1data, t2data, t3data
       advance_strided_iteration(:t1_coord, :t1_backstrides, t1_shape, t1_strides, t1_rank, t1data)
@@ -162,7 +165,7 @@ def outer_strided_iteration(t1 : Tensor, t2 : Tensor)
       t1data += 1
     end
   elsif t1_contiguous
-    init_strided_iteration(:t2_coord, :t2_backstrides, t2_shape, t2_strides, t2_rank)
+    init_strided_iteration(:t2_coord, :t2_backstrides, t2_shape, t2_strides, t2_rank, t2data)
     n.times do
       m.times do
         yield index, t1data, t2data
@@ -172,7 +175,7 @@ def outer_strided_iteration(t1 : Tensor, t2 : Tensor)
       t1data += 1
     end
   elsif t2_contiguous
-    init_strided_iteration(:t1_coord, :t1_backstrides, t1_shape, t1_strides, t1_rank)
+    init_strided_iteration(:t1_coord, :t1_backstrides, t1_shape, t1_strides, t1_rank, t1data)
     n.times do
       m.times do
         yield index, t1data, t2data
@@ -182,8 +185,8 @@ def outer_strided_iteration(t1 : Tensor, t2 : Tensor)
       advance_strided_iteration(:t1_coord, :t1_backstrides, t1_shape, t1_strides, t1_rank, t1data)
     end
   else
-    init_strided_iteration(:t1_coord, :t1_backstrides, t1_shape, t1_strides, t1_rank)
-    init_strided_iteration(:t2_coord, :t2_backstrides, t2_shape, t2_strides, t2_rank)
+    init_strided_iteration(:t1_coord, :t1_backstrides, t1_shape, t1_strides, t1_rank, t1data)
+    init_strided_iteration(:t2_coord, :t2_backstrides, t2_shape, t2_strides, t2_rank, t2data)
     n.times do
       m.times do
         yield index, t1data, t2data
