@@ -20,9 +20,11 @@ require "./tensor/backends/opencl/storage"
 require "./tensor/backends/opencl/convert"
 require "./tensor/backends/opencl/allocation"
 
-require "./tensor/backends/arrow/storage"
-require "./tensor/backends/arrow/allocation"
-require "./tensor/backends/arrow/convert"
-require "./tensor/backends/arrow/iteration"
-require "./tensor/backends/arrow/private/gobject"
-require "./tensor/backends/arrow/arrow_primitives"
+{% if flag?(:arrow) %}
+  require "./tensor/backends/arrow/storage"
+  require "./tensor/backends/arrow/allocation"
+  require "./tensor/backends/arrow/convert"
+  require "./tensor/backends/arrow/iteration"
+  require "./tensor/backends/arrow/private/gobject"
+  require "./tensor/backends/arrow/arrow_primitives"
+{% end %}
