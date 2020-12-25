@@ -6,6 +6,7 @@ require "./tensor/data_structure"
 require "./tensor/allocation"
 require "./tensor/convert"
 require "./tensor/iteration"
+require "./tensor/creation"
 
 require "./tensor/backends/agnostic/storage"
 

@@ -24,21 +24,6 @@
 module Num::Backend
   extend self
 
-  private macro type_inference(lhs, *args)
-    value = yield(
-      {% for arg in args %}
-        {{arg}}.value,
-      {% end %}
-    )
-    {% if U == Bool %}
-      {{lhs}}.value = (value ? true : false) && value != 0
-    {% elsif U == String %}
-      {{lhs}}.value = value.to_s
-    {% else %}
-      {{lhs}}.value = U.new(value)
-    {% end %}
-  end
-
   # Yields the elements of a `Tensor`, always in RowMajor order,
   # as if the `Tensor` was flat.
   #

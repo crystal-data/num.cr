@@ -23,32 +23,46 @@
 
 require "./spec_helper"
 
-describe CPU do
-  it "initializes with an initial capacity" do
-    a = CPU(Int32).new([2, 2])
+describe Tensor do
+  it "creates a tensor of zeros" do
+    expected = [0, 0, 0]
+    result = Tensor(Int32).zeros([3])
+    expected.should eq result.to_a
+  end
+
+  it "creates a tensor of zeros like" do
     expected = [0, 0, 0, 0]
-    result = Num::Backend.tensor_to_crystal_array(a)
-    result.should eq expected
+    t = Tensor(Int32).zeros([2, 2])
+    v = Tensor(Int32).zeros_like(t)
+    v.shape.should eq t.shape
+    expected.should eq v.to_a
   end
 
-  it "initializes with an initial capacity and value" do
-    a = CPU.new([3], 1.5)
-    expected = [1.5, 1.5, 1.5]
-    result = Num::Backend.tensor_to_crystal_array(a)
-    expected.should eq result
+  it "creates a tensor of ones" do
+    expected = [1, 1, 1]
+    result = Tensor(Int32).ones([3])
+    expected.should eq result.to_a
   end
 
-  it "creates storage fron an array" do
-    a = [1, 2, 3, 4]
-    s = Num::Backend.flat_array_to_storage(a, [4], CPU)
-    result = Num::Backend.tensor_to_crystal_array(s)
-    a.should eq result
+  it "creates a tensor of ones like" do
+    expected = [1, 1, 1, 1]
+    t = Tensor(Int32).ones([2, 2])
+    v = Tensor(Int32).ones_like(t)
+    v.shape.should eq t.shape
+    expected.should eq v.to_a
   end
 
-  it "creates storage from a hostptr" do
-    a = [1, 2, 3, 4]
-    s = Num::Backend.hostptr_to_storage(a.to_unsafe, [4], Num::RowMajor, CPU)
-    result = Num::Backend.tensor_to_crystal_array(s)
-    result.should eq a
+  it "creates a tensor of value" do
+    expected = [2, 2, 2]
+    result = Tensor.full([3], 2)
+    expected.should eq result.to_a
+  end
+
+  it "creates a tensor of ones like" do
+    expected = [2, 2, 2, 2]
+    t = Tensor(Int32).ones([2, 2])
+    v = Tensor.full_like(t, 2)
+    v.shape.should eq t.shape
+    expected.should eq v.to_a
   end
 end
