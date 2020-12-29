@@ -24,11 +24,11 @@
 require "alea"
 
 class Num::Rand
-  class_getter generator = Alea::Random.new
+  class_getter generator = Alea::Random(Alea::XSR128).new
   class_getter stdlib_generator = Random.new
 
   def self.set_seed(seed)
-    @@generator = Alea::Random.new(seed)
+    @@generator = Alea::Random(Alea::XSR128).new(seed)
     @@stdlib_generator = Random.new(seed)
   end
 end
