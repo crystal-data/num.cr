@@ -96,7 +96,7 @@ class Tensor(T)
   # # 2_2
   # # 3_3
   # ```
-  def each_with_index(device : CPU)
+  def each_with_index
     Num::Backend.each_with_index(@storage) do |el, i|
       yield el, i
     end
@@ -126,7 +126,7 @@ class Tensor(T)
   # # 2_2
   # # 3_3
   # ```
-  def each_pointer_with_index(device : CPU)
+  def each_pointer_with_index
     Num::Backend.each_pointer_with_index(@storage) do |el, i|
       yield el, i
     end
@@ -227,7 +227,7 @@ class Tensor(T)
   # a.map!(b) { |i, j| i + j }
   # a # => [0, 2, 4]
   # ```
-  def map!(d2 : CPU(U), &block) forall U
+  def map!(d2 : Tensor(U), &block) forall U
     Num::Backend.map!(@storage, d2.storage) do |i, j|
       yield i, j
     end
@@ -260,8 +260,8 @@ class Tensor(T)
   # a.map(b, c) { |i, j, k| i + j + k } # => [0, 3, 6]
   # ```
   def map(
-    d1 : CPU(U),
-    d2 : CPU(V),
+    d1 : Tensor(U),
+    d2 : Tensor(V),
     &block : T, U, V -> W
   ) : Tensor(W) forall T, U, V, W
     Num::Backend.map(@storage, d1.storage, d2.storage) do |i, j, k|
@@ -298,7 +298,7 @@ class Tensor(T)
   # a.map!(b, c) { |i, j, k| i + j + k }
   # a # => [0, 3, 6]
   # ```
-  def map!(d1 : CPU(V), d2 : CPU(W), &block) forall U, V, W
+  def map!(d1 : Tensor(V), d2 : Tensor(W), &block) forall U, V, W
     Num::Backend.map!(@storage, d1.storage, d2.storage) do |i, j, k|
       yield i, j, k
     end

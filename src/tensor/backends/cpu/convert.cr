@@ -31,4 +31,20 @@ module Num::Backend
     end
     a
   end
+
+  def cast_tensor(device : CPU(U), dtype : V.class) : Tensor(V) forall U, V
+    casted = Tensor(V).new(device.shape, device: CPU(V))
+    map!(casted.storage, device) do |_, j|
+      j
+    end
+    casted
+  end
+
+  def copy_tensor(device : CPU(U), order : Num::OrderType) : Tensor(U) forall U
+    copied = Tensor(U).new(device.shape, order: order, device: CPU(U))
+    map!(copied.storage, device) do |_, j|
+      j
+    end
+    copied
+  end
 end

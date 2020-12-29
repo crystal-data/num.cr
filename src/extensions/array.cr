@@ -21,14 +21,8 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class Tensor(T, S)
-  # Converts a Tensor to a flat array
-  #
-  # ```
-  # a = Tensor.new([3, 3]) { |i| i }
-  # a.to_a # => [0, 1, 2, 3, 4, 5, 6, 7, 8]
-  # ```
-  def to_a : Array(T)
-    @data.to_a(@size)
+class Array(T)
+  def to_tensor
+    Tensor.from_array self
   end
 end

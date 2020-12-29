@@ -67,7 +67,7 @@ module Num::Internal
       a.strides
     )
 
-    a.class.new(a.data, shape, new_strides, shape.product)
+    Num::Backend.slice_storage_by_offset(a, shape, new_strides, shape.product, a.offset)
   end
 
   # :nodoc:

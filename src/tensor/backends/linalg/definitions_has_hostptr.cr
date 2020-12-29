@@ -21,14 +21,20 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class Tensor(T, S)
-  # Converts a Tensor to a flat array
-  #
-  # ```
-  # a = Tensor.new([3, 3]) { |i| i }
-  # a.to_a # => [0, 1, 2, 3, 4, 5, 6, 7, 8]
-  # ```
-  def to_a : Array(T)
-    @data.to_a(@size)
+module Num::Backend::LinalgHasHostptr(T)
+  def blas_scale!(a : Number)
+    blas_call(scal, @size, T.new(a), self.to_hostptr, @strides[0])
+  end
+
+  def blas_swap(other : Num::Backend::LinalgHasHostptr(T))
+    blas_call(swap, @size, self.to_hostptr, 1, other.to_hostptr, 1)
+  end
+
+  def blas_copy(other : Num::Backend::LinalgHasHostptr(T))
+    blas_call(copy, @size, self.to_hostptr, 1, other.to_hostptr, 1)
+  end
+
+  def blas_dot(other : Num::Backend::LinalgHasHostptr(T))
+    blas_call(dot, @size, self.to_hostptr, @strides[0], other.to_hostptr, other.strides[0])
   end
 end

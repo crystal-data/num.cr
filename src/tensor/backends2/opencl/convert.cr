@@ -21,14 +21,14 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class Tensor(T, S)
-  # Converts a Tensor to a flat array
-  #
-  # ```
-  # a = Tensor.new([3, 3]) { |i| i }
-  # a.to_a # => [0, 1, 2, 3, 4, 5, 6, 7, 8]
-  # ```
-  def to_a : Array(T)
-    @data.to_a(@size)
+struct OCL(T) < Num::Backend::Storage(T)
+  def to_a(size : Int32) : Array(T)
+    a = Array(T).new(size, 0)
+    LibCL.cl_enqueue_read_buffer(
+      Num::ClContext.instance.queue, @data,
+      LibCL::CL_TRUE, 0_u64, (size * sizeof(T)).to_u64, a.to_unsafe, 0_u32,
+      nil, nil
+    )
+    a
   end
 end

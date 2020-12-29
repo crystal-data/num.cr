@@ -21,14 +21,29 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class Tensor(T, S)
-  # Converts a Tensor to a flat array
-  #
-  # ```
-  # a = Tensor.new([3, 3]) { |i| i }
-  # a.to_a # => [0, 1, 2, 3, 4, 5, 6, 7, 8]
-  # ```
-  def to_a : Array(T)
-    @data.to_a(@size)
+require "opencl"
+
+# :nodoc:
+struct Num::Internal::ClInfo
+  getter device : LibCL::ClDeviceId
+  getter context : LibCL::ClContext
+  getter queue : LibCL::ClCommandQueue
+
+  def initialize(@device : LibCL::ClDeviceId, @context : LibCL::ClContext, @queue : LibCL::ClCommandQueue)
+  end
+end
+
+# :nodoc:
+class Num::ClContext
+  {% if flag?(:opencl_any) %}
+    class_getter instance : Num::Internal::ClInfo { Num::Internal::ClInfo.new(*Cl.single_device_defaults) }
+  {% else %}
+    class_getter instance : Num::Internal::ClInfo { Num::Internal::ClInfo.new(*Cl.first_gpu_defaults) }
+  {% end %}
+
+  def self.set_device(device)
+    context = Cl.create_context([device])
+    queue = Cl.command_queue_for(context, device)
+    @@instance = Num::Internal::ClInfo.new(device, context, queue)
   end
 end

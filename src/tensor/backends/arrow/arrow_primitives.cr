@@ -28,6 +28,10 @@ class Arrow::Array
     end
     {iterator, 0}
   end
+
+  def value(i : Int32)
+    0
+  end
 end
 
 class GObject::PointerIterator(T, V)

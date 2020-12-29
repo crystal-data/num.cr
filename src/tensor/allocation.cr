@@ -21,7 +21,23 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class Tensor(T)
+class Tensor(T, S)
+  private def initialize(@data : S, shape : Array(Int), order : Num::OrderType = Num::RowMajor, dtype : T.class = T)
+    assert_types
+    @shape = shape.map &.to_i
+    @strides = Num::Internal.shape_to_strides(shape, order)
+    @size = @shape.product
+    @offset = 0
+  end
+
+  private def initialize(@data : S, shape : Array(Int), from_array : Array(T))
+    assert_types
+    @shape = shape.map &.to_i
+    @strides = Num::Internal.shape_to_strides(shape, Num::RowMajor)
+    @size = @shape.product
+    @offset = 0
+  end
+
   # Initializes a Tensor onto a device with a provided shape and memory
   # layout.
   #
@@ -29,8 +45,9 @@ class Tensor(T)
   # a = Tensor(Float32).new([3, 3, 2], device: OCL(Float32)) # => GPU Tensor
   # b = Tensor(Float32).new([2, 3, 4])                       # => CPU Tensor
   # ```
-  def initialize(shape : Array(Int), order : Num::OrderType = Num::RowMajor, device = CPU(T))
-    @storage = device.new(shape, order)
+  def self.new(shape : Array(Int), order : Num::OrderType = Num::RowMajor)
+    data = S.new(shape)
+    new(data, shape, order, T)
   end
 
   # Initializes a Tensor onto a device with a provided shape and memory
@@ -39,20 +56,9 @@ class Tensor(T)
   # ```
   # a = Tensor.new([2, 2], 3.5) # => CPU Tensor filled with 3.5
   # ```
-  def initialize(shape : Array(Int), value : T, order : Num::OrderType = Num::RowMajor, device = CPU(T))
-    @storage = device.new(shape, value, order)
-  end
-
-  # Initializes a Tensor onto a device from a provided storage, shape and
-  # strides.  This should only be used by internal methods, or if you really
-  # believe you know what you're doing.
-  #
-  # ```
-  # c = CPU(Int32).new(10)
-  # t = Tensor.new(c, [10], [1]) # => CPU Tensor
-  # ```
-  def initialize(storage : Num::Backend::Storage(T))
-    @storage = storage
+  def self.new(shape : Array(Int), value : T, device = CPU(T), order : Num::OrderType = Num::RowMajor)
+    data = device.new(shape, value)
+    new(data, shape, order, T)
   end
 
   # Creates a Tensor from a block onto a specified device. The type of the
@@ -65,8 +71,8 @@ class Tensor(T)
     ptr = Pointer.malloc(shape.product) do |index|
       yield index
     end
-    storage = Num::Backend.hostptr_to_storage(ptr, shape, order, device)
-    new(storage)
+    storage = device.from_hostptr(ptr, shape)
+    new(storage, shape, order, T)
   end
 
   # Creates a matrix Tensor from a block onto a specified device.  The type
@@ -81,8 +87,8 @@ class Tensor(T)
       j = idx % n
       yield i, j
     end
-    storage = Num::Backend.hostptr_to_storage(ptr, [m, n], Num::RowMajor, device)
-    new(storage)
+    storage = device.from_hostptr(ptr, [m, n])
+    new(storage, [m, n], Num::RowMajor, T)
   end
 
   # Creates a Tensor from a standard library array onto a specified device.
@@ -95,7 +101,8 @@ class Tensor(T)
   # ```
   def self.from_array(a : Array, device = CPU)
     shape = Num::Internal.recursive_array_shape(a)
-    storage = Num::Backend.flat_array_to_storage(a.flatten, shape, Num::RowMajor, device)
-    new(storage)
+    flat = a.flatten
+    storage = device.from_hostptr(flat.to_unsafe, shape)
+    new(storage, shape, from_array: flat)
   end
 end

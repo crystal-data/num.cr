@@ -21,14 +21,34 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class Tensor(T, S)
-  # Converts a Tensor to a flat array
-  #
-  # ```
-  # a = Tensor.new([3, 3]) { |i| i }
-  # a.to_a # => [0, 1, 2, 3, 4, 5, 6, 7, 8]
-  # ```
-  def to_a : Array(T)
-    @data.to_a(@size)
+struct OCL(T) < Num::Backend::Storage(T)
+  macro blast(name, *args, prefix = "")
+    {%
+      if T == Float32
+        typ = :S.id
+      elsif T == Float64
+        typ = :D.id
+      end
+    %}
+    event = Pointer(Void).malloc(1).unsafe_as(LibCL::ClEvent)
+    queue = Num::ClContext.instance.queue
+    LibBlast.clblast_{{prefix.id}}{{typ}}{{name}}({{*args}}, pointerof(queue), pointerof(event))
+    Cl.check LibCL.cl_wait_for_events(1, pointerof(event))
+    Cl.check LibCL.cl_release_event(event)
+  end
+
+  def blas_scale!(a : Number)
+    blast(scal, @size, T.new(a), @data, 0, 1)
+  end
+
+  def blas_copy(other : OCL(T))
+    blast(copy, @size, @data, 0, 1, other.data, 0, 1)
+  end
+
+  def blas_dot(other : OCL(T))
+    scalar = Tensor(T).new([1], device: OCL(T))
+    storage = scalar.storage
+    blast(dot, @size, storage.data, 0, @data, @offset, 1, other.data, other.offset, 1)
+    scalar
   end
 end

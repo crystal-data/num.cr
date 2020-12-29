@@ -21,7 +21,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class Tensor(T)
+class Tensor(T, S)
   # Creates a `Tensor` of a provided shape, filled with 0.  The generic type
   # must be specified.
   #
@@ -35,8 +35,8 @@ class Tensor(T)
   # ```
   # t = Tensor(Int8).zeros([3]) # => [0, 0, 0]
   # ```
-  def self.zeros(shape : Array(Int), device = CPU(T)) : Tensor(T)
-    self.new(shape, T.new(0), Num::RowMajor, device)
+  def self.zeros(shape : Array(Int)) : Tensor(T, S)
+    self.new(S.new(shape, T.new(0)), shape, Num::RowMajor, T)
   end
 
   # Creates a `Tensor` filled with 0, sharing the shape of another
@@ -53,8 +53,8 @@ class Tensor(T)
   # t = Tensor.new([3]) &.to_f
   # u = Tensor(Int8).zeros_like(t) # => [0, 0, 0]
   # ```
-  def self.zeros_like(t : Tensor, device = CPU(T)) : Tensor(T)
-    self.new(t.shape, T.new(0), Num::RowMajor, device)
+  def self.zeros_like(t : Tensor) : Tensor(T, S)
+    self.new(S.new(t.shape, T.new(0)), shape, Num::RowMajor, T)
   end
 
   # Creates a `Tensor` of a provided shape, filled with 1.  The generic type
@@ -70,8 +70,8 @@ class Tensor(T)
   # ```
   # t = Tensor(Int8).ones([3]) # => [1, 1, 1]
   # ```
-  def self.ones(shape : Array(Int), device = CPU(T)) : Tensor(T)
-    self.new(shape, T.new(1), Num::RowMajor, device)
+  def self.ones(shape : Array(Int)) : Tensor(T, S)
+    self.new(S.new(shape, T.new(1)), shape, Num::RowMajor, T)
   end
 
   # Creates a `Tensor` filled with 1, sharing the shape of another
@@ -88,8 +88,8 @@ class Tensor(T)
   # t = Tensor.new([3]) &.to_f
   # u = Tensor(Int8).ones_like(t) # => [0, 0, 0]
   # ```
-  def self.ones_like(t : Tensor, device = CPU(T)) : Tensor(T)
-    self.new(t.shape, T.new(1), Num::RowMajor, device)
+  def self.ones_like(t : Tensor) : Tensor(T)
+    self.new(S.new(shape, T.new(1)), shape, Num::RowMajor, T)
   end
 
   # Creates a `Tensor` of a provided shape, filled with a value.  The generic type
@@ -105,8 +105,8 @@ class Tensor(T)
   # ```
   # t = Tensor(Int8).full([3], 1) # => [1, 1, 1]
   # ```
-  def self.full(shape : Array(Int), value : T, device = CPU(T)) : Tensor(T)
-    self.new(shape, value, Num::RowMajor, device)
+  def self.full(shape : Array(Int), value : Number) : Tensor(T, S)
+    self.new(S.new(shape, T.new(value)), shape, Num::RowMajor, T)
   end
 
   # Creates a `Tensor` filled with a value, sharing the shape of another
@@ -123,8 +123,8 @@ class Tensor(T)
   # t = Tensor.new([3]) &.to_f
   # u = Tensor.full_like(t, 3) # => [3, 3, 3]
   # ```
-  def self.full_like(t : Tensor, value : T, device = CPU(T)) : Tensor(T)
-    self.new(t.shape, value, Num::RowMajor, device)
+  def self.full_like(t : Tensor, value : Number) : Tensor(T, S)
+    self.new(S.new(shape, T.new(value)), shape, Num::RowMajor, T)
   end
 
   # Creates a flat `Tensor` containing a monotonically increasing
@@ -147,11 +147,9 @@ class Tensor(T)
   # Tensor.range(5, 0, -1)      # => [5, 4, 3, 2, 1]
   # Tensor.range(0.0, 3.5, 0.7) # => [0  , 0.7, 1.4, 2.1, 2.8]
   # ```
-  def self.range(start : T, stop : T, step : T, device = CPU(T)) : Tensor(T)
+  def self.range(start : T, stop : T, step : T, device = CPU)
     if start > stop && step > 0
-      raise Num::Internal::ValueError.new(
-        "Range must return at least one value"
-      )
+      raise "Range must return at least one value"
     end
 
     r = stop - start
@@ -162,12 +160,12 @@ class Tensor(T)
   end
 
   # :ditto:
-  def self.range(stop : T, device = CPU(T)) : Tensor(T)
+  def self.range(stop : T, device = CPU)
     self.range(T.new(0), stop, T.new(1), device)
   end
 
   # :ditto:
-  def self.range(start : T, stop : T, device = CPU(T)) : Tensor(T)
+  def self.range(start : T, stop : T, device = CPU)
     self.range(start, stop, T.new(1), device)
   end
 
@@ -197,9 +195,9 @@ class Tensor(T)
   # # [[1, 0],
   # #  [0, 1]]
   # ```
-  def self.eye(m : Int, n : Int? = nil, offset : Int = 0, device = CPU(T))
+  def self.eye(m : Int, n : Int? = nil, offset : Int = 0)
     n = n.nil? ? m : n
-    Tensor.new(m, n, device: device) do |i, j|
+    self.new(m, n, device: S) do |i, j|
       i == j - offset ? T.new(1) : T.new(0)
     end
   end
@@ -219,8 +217,8 @@ class Tensor(T)
   # # [[1, 0],
   # #  [0, 1]]
   # ```
-  def self.identity(n : Int, device = CPU(T))
-    self.new(n, n, device: device) do |i, j|
+  def self.identity(n : Int)
+    self.new(n, n, device: S) do |i, j|
       i == j ? T.new(1) : T.new(0)
     end
   end

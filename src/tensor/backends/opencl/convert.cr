@@ -23,10 +23,10 @@
 
 module Num::Backend
   def tensor_to_crystal_array(device : OCL(U)) : Array(U) forall U
-    a = Array(U).new(t.size, 0)
+    a = Array(U).new(device.size, 0)
     LibCL.cl_enqueue_read_buffer(
       Num::ClContext.instance.queue, device.data,
-      LibCL::CL_TRUE, 0_u64, (t.size * sizeof(U)).to_u64, a.to_unsafe, 0_u32,
+      LibCL::CL_TRUE, 0_u64, (device.size * sizeof(U)).to_u64, a.to_unsafe, 0_u32,
       nil, nil
     )
     a

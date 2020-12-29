@@ -38,34 +38,11 @@ abstract struct Num::Backend::Storage(T)
     @shape.size
   end
 
-  def is_f_contiguous : Bool
-    return true unless self.rank != 0
-    if self.rank == 1
-      return @shape[0] == 1 || @strides[0] == 1
-    end
-    s = 1
-    self.rank.times do |i|
-      d = @shape[i]
-      return true unless d != 0
-      return false unless @strides[i] == s
-      s *= d
-    end
-    true
+  def value : T
+    T.new(0)
   end
 
-  def is_c_contiguous : Bool
-    return true unless self.rank != 0
-    if self.rank == 1
-      return @shape[0] == 1 || @strides[0] == 1
-    end
-
-    s = 1
-    (self.rank - 1).step(to: 0, by: -1) do |i|
-      d = @shape[i]
-      return true unless d != 0
-      return false unless @strides[i] == s
-      s *= d
-    end
-    true
+  def to_hostptr : Pointer(T)
+    Pointer(T).null
   end
 end

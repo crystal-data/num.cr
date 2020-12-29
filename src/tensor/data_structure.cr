@@ -21,8 +21,40 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class Tensor(T)
-  getter storage : Num::Backend::Storage(T)
+class Tensor(T, S)
+  getter data : S
+
+  # Returns the size of a Tensor along each dimension
+  #
+  # ```
+  # a = Tensor(UInt8).new([2, 3, 4])
+  # a.shape # => [2, 3, 4]
+  # ```
+  getter shape : Array(Int32)
+
+  # Returns the step of a Tensor along each dimension
+  #
+  # ```
+  # a = Tensor(UInt8).new([3, 3, 2])
+  # a.shape # => [4, 2, 1]
+  # ```
+  getter strides : Array(Int32)
+
+  # Returns the offset of a Tensor's data
+  #
+  # ```
+  # a = Tensor(UInt8).new([2, 3, 4])
+  # a.offset # => 0
+  # ```
+  getter offset : Int32
+
+  # Returns the size of a Tensor along each dimension
+  #
+  # ```
+  # a = Tensor(UInt8).new([2, 3, 4])
+  # a.shape # => [2, 3, 4]
+  # ```
+  getter size : Int32
 
   # Returns the number of dimensions in a Tensor
   #
@@ -34,43 +66,40 @@ class Tensor(T)
     @shape.size
   end
 
-  # Returns the size of a Tensor along each dimension
-  #
-  # ```
-  # a = Tensor(UInt8).new([2, 3, 4])
-  # a.shape # => [2, 3, 4]
-  # ```
-  def shape : Array(Int32)
-    @storage.shape
+  private macro assert_types
+    {% if T != S.type_vars[0] %}
+      {% raise "A Tensor and it's storage must share the same dtype" %}
+    {% end %}
   end
 
-  # Returns the step of a Tensor along each dimension
-  #
-  # ```
-  # a = Tensor(UInt8).new([3, 3, 2])
-  # a.shape # => [4, 2, 1]
-  # ```
-  def strides : Array(Int32)
-    @storage.strides
+  def is_f_contiguous : Bool
+    return true unless self.rank != 0
+    if self.rank == 1
+      return @shape[0] == 1 || @strides[0] == 1
+    end
+    s = 1
+    self.rank.times do |i|
+      d = @shape[i]
+      return true unless d != 0
+      return false unless @strides[i] == s
+      s *= d
+    end
+    true
   end
 
-  # Returns the offset of a Tensor's data
-  #
-  # ```
-  # a = Tensor(UInt8).new([2, 3, 4])
-  # a.offset # => 0
-  # ```
-  def offset : Int32
-    @storage.offset
-  end
+  def is_c_contiguous : Bool
+    return true unless self.rank != 0
+    if self.rank == 1
+      return @shape[0] == 1 || @strides[0] == 1
+    end
 
-  # Returns the size of a Tensor along each dimension
-  #
-  # ```
-  # a = Tensor(UInt8).new([2, 3, 4])
-  # a.shape # => [2, 3, 4]
-  # ```
-  def size : Int32
-    @storage.size
+    s = 1
+    (self.rank - 1).step(to: 0, by: -1) do |i|
+      d = @shape[i]
+      return true unless d != 0
+      return false unless @strides[i] == s
+      s *= d
+    end
+    true
   end
 end

@@ -246,7 +246,7 @@ module Num::Backend
   # a # => [0, 2, 4]
   # ```
   def map!(d1 : CPU(U), d2 : CPU(V), &block) forall U, V
-    t = Num::Internal.broadcast_to(d2, d1.shape)
+    d2 = Num::Internal.broadcast_to(d2, d1.shape).storage
     dual_strided_iteration(d1, d2) do |_, i, j|
       i.value = U.new(yield i.value, j.value)
     end
@@ -323,8 +323,8 @@ module Num::Backend
   # a # => [0, 3, 6]
   # ```
   def map!(d0 : CPU(U), d1 : CPU(V), d2 : CPU(W), &block) forall U, V, W
-    d1 = Num::Internal.broadcast_to(d0.shape)
-    d2 = Num::Internal.broadcast_to(d0.shape)
+    d1 = Num::Internal.broadcast_to(d0.shape).storage
+    d2 = Num::Internal.broadcast_to(d0.shape).storage
     tri_strided_iteration(d0, d1, d2) do |index, i, j, k|
       i.value = U.new(yield i.value, j.value, k.value)
     end

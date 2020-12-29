@@ -65,6 +65,10 @@ struct ARROW(T) < Num::Backend::Storage(T)
     @data.value(i).unsafe_as(T)
   end
 
+  def value : T
+    @data.value(0 + offset).unsafe_as(T)
+  end
+
   # Initialize a CPU storage from an initial capacity and
   # an initial value, which will fill the buffer
   #
@@ -80,6 +84,10 @@ struct ARROW(T) < Num::Backend::Storage(T)
   def to_unsafe
     iterator, device = @data.values
     iterator.to_unsafe.unsafe_as(Pointer(T))
+  end
+
+  def to_hostptr
+    to_unsafe
   end
 
   private def hostptr_to_arrow(data : Pointer(T), size : Int32)

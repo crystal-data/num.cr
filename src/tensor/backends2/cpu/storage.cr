@@ -21,61 +21,37 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-# Data stored using native Crystal pointers, the default
-# storage type for Num.cr
 struct CPU(T) < Num::Backend::Storage(T)
   getter data : Pointer(T)
-
-  def initialize(data : Pointer(T), shape : Array(Int), strides : Array(Int), size : Int, offset : Int = 0)
-    @data = data
-    @shape = shape.map &.to_i
-    @strides = strides.map &.to_i
-    @size = size.to_i
-    @offset = offset.to_i
-  end
-
-  def initialize(data : Pointer(T), shape : Array(Int), order : Num::OrderType = Num::RowMajor)
-    @data = data
-    @shape = shape.map &.to_i
-    @strides = Num::Internal.shape_to_strides(shape, order)
-    @size = shape.product
-    @offset = 0
-  end
 
   # Initialize a CPU storage from an initial capacity.
   # The data will be filled with zeros
   #
   # ```
-  # Num::CPU.new([2, 3, 4])
+  # CPU.new([2, 3, 4])
   # ```
-  def self.new(shape : Array(Int), order : Num::OrderType = Num::RowMajor)
-    data = Pointer(T).malloc(shape.product)
-    new(data, shape, order)
+  def initialize(shape : Array(Int))
+    @data = Pointer(T).malloc(shape.product)
   end
 
   # Initialize a CPU storage from an initial capacity and
   # an initial value, which will fill the buffer
   #
   # ```
-  # Num::CPU.new([10, 10], 3.4)
+  # CPU.new([10, 10], 3.4)
   # ```
-  def self.new(shape : Array(Int), value : T, order : Num::OrderType = Num::RowMajor)
-    strides = Num::Internal.shape_to_strides(shape, order)
-    data = Pointer(T).malloc(shape.product, value)
-    new(data, shape, strides, shape.product)
+  def initialize(shape : Array(Int), value : T)
+    @data = Pointer(T).malloc(shape.product, value)
   end
 
-  # Allows storage to be passed directly to C libraries
-  # and will pass the storage's pointer
-  def to_unsafe : Pointer(T)
-    @data
+  private def initialize(@data : Pointer(T))
+  end
+
+  def self.from_hostptr(hostptr : Pointer(T), shape : Array(Int))
+    new(hostptr)
   end
 
   def to_hostptr : Pointer(T)
-    to_unsafe
-  end
-
-  def value : T
-    @data[offset]
+    @data
   end
 end
