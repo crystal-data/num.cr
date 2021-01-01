@@ -80,8 +80,6 @@ class Tensor(T, S)
     end
   end
 
-  delegate_to_backend broadcast_to
-
   private macro assert_types
     {% if T != S.type_vars[0] %}
       {% raise "A Tensor and it's storage must share the same dtype" %}

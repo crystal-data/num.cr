@@ -74,7 +74,7 @@ module Num::Internal
   end
 
   # :nodoc:
-  def broadcast(a : Num::Backend::Storage(U), b : Num::Backend::Storage(V), c : Num::Backend::Storage(W)) forall U, V, W
+  def broadcast(a : Tensor, b : Tensor, c : Num::Backend::Storage(W)) forall U, V, W
     t = {a, b, c}
     if a.shape == b.shape && b.shape == c.shape
       return t

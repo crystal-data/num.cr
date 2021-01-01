@@ -13,7 +13,10 @@ require "./tensor/iteration"
 require "./tensor/index"
 require "./tensor/manipulate"
 
-require "./tensor/backends/storage"
+require "./tensor/backends/util_storage"
+require "./tensor/backends/util_manipulate"
+
+require "./tensor/backends/hostptr/unsafe_iter"
 require "./tensor/backends/hostptr/yield_iterators"
 #
 # require "./tensor/backends/agnostic/storage"

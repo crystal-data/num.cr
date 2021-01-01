@@ -47,6 +47,30 @@ module Num
     end
   end
 
+  # Yields the elements of a `Tensor` lazily, always in RowMajor order,
+  # as if the `Tensor` was flat.
+  #
+  # Arguments
+  # ---------
+  #
+  # Examples
+  # --------
+  # ```
+  # a = Tensor.new(2, 2) { |i| i }
+  # iter = a.each
+  # a.size.times do
+  #   puts iter.next.value
+  # end
+  #
+  # # 0
+  # # 1
+  # # 2
+  # # 3
+  # ```
+  def each
+    Num::Internal::UnsafeNDFlatIter.new(self)
+  end
+
   # Yields the memory locations of each element of a `Tensor`, always in
   # RowMajor oder, as if the `Tensor` was flat.
   #

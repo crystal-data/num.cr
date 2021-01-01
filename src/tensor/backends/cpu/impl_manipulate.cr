@@ -48,22 +48,8 @@ module Num
   # #  [1, 2, 3]]
   # ```
   def broadcast_to(arr : Tensor(U, CPU(U)), shape : Array(Int)) forall U
-    dim = shape.size
-    strides = [0] * dim
-    size = 1
-    dim.times do |i|
-      strides[dim - i - 1] = size
-      size *= shape[dim - i - 1]
-    end
-
-    new_strides = Num::Internal.broadcast_strides(
-      shape,
-      arr.shape,
-      strides,
-      arr.strides
-    )
-
-    Tensor.new(arr.data, shape, new_strides, arr.offset, U)
+    strides = Num::Internal.strides_for_broadcast(arr.shape, arr.strides, shape)
+    Tensor.new(arr.data, shape, strides, arr.offset, U)
   end
 
   # Transform's a `Tensor`'s shape.  If a view can be created,
@@ -85,42 +71,31 @@ module Num
   # #  [3, 4]]
   # ```
   def reshape(arr : Tensor(U, CPU(U)), shape : Array(Int)) forall U
-    newshape = shape.map &.to_i
-    # if newshape == arr.shape
-    #   return arr.view
-    # end
-    newsize = 1
-    cur_size = arr.size
-    autosize = -1
-    newshape.each_with_index do |val, i|
-      if val < 0
-        if autosize >= 0
-          raise "Only shape dimension can be automatic"
-        end
-        autosize = i
-      else
-        newsize *= val
-      end
-    end
+    strides = Num::Internal.shape_and_strides_for_reshape(arr.shape, shape)
+    arr = arr.dup(Num::RowMajor) unless arr.is_c_contiguous
+    Tensor(U, CPU(U)).new(arr.data, shape, strides, arr.offset, U)
+  end
 
-    if autosize >= 0
-      newshape = newshape.dup
-      newshape[autosize] = cur_size // newsize
-      newsize *= newshape[autosize]
-    end
-
-    if newsize != cur_size
-      raise "Shapes #{shape} cannot be reshaped to #{newshape}"
-    end
-
-    newstrides = Num::Internal.shape_to_strides(newshape, Num::RowMajor)
-
-    if arr.is_c_contiguous
-      arr.class.new(arr.data, newshape, newstrides, arr.offset, U)
-    else
-      tmp = arr.dup(Num::RowMajor)
-      tmp.class.new(tmp.data, newshape, newstrides, tmp.offset, U)
-    end
+  # Transform's a `Tensor`'s shape.  If a view can be created,
+  # the reshape will not copy data.  The number of elements
+  # in the `Tensor` must remain the same.
+  #
+  # Arguments
+  # ---------
+  # *result_shape* : Array(Int)
+  #   Result shape for the `Tensor`
+  #
+  # Examples
+  # --------
+  # ```
+  # a = Tensor.from_array [1, 2, 3, 4]
+  # a.reshape([2, 2])
+  #
+  # # [[1, 2],
+  # #  [3, 4]]
+  # ```
+  def reshape(arr : Tensor(U, CPU(U)), *shape : Int) forall U
+    reshape(arr, shape.to_a)
   end
 
   # Flattens a `Tensor` to a single dimension.  If a view can be created,
@@ -136,6 +111,7 @@ module Num
   # a.flat # => [0, 1, 2, 3]
   # ```
   def flat(arr : Tensor(U, CPU(U))) forall U
+    reshape(arr, -1)
   end
 
   # Move axes of a Tensor to new positions, other axes remain
@@ -178,6 +154,8 @@ module Num
   # moveaxis(a, [0], [-1]).shape # => 4, 5, 3
   # ```
   def moveaxis(arr : Tensor(U, CPU(U)), source : Int, destination : Int) forall U
+    axes = Num::Internal.move_axes_for_transpose(arr.rank, source, destination)
+    transpose(arr, axes)
   end
 
   # Permutes two axes of a `Tensor`.  This will always create a view
@@ -204,7 +182,9 @@ module Num
   # #   [ 3,  9, 15, 21]
   # #   [ 5, 11, 17, 23]]]
   # ```
-  def swap_axes(arr : Tensor(U, CPU(U)), a : Int, b : Int)
+  def swap_axes(arr : Tensor(U, CPU(U)), a : Int, b : Int) forall U
+    axes = Num::Internal.swap_axes_for_transpose(arr.rank, a, b)
+    transpose(arr, axes)
   end
 
   # Permutes a `Tensor`'s axes to a different order.  This will
@@ -233,6 +213,8 @@ module Num
   # #   [19, 21, 23]]]
   # ```
   def transpose(arr : Tensor(U, CPU(U)), axes : Array(Int) = [] of Int32) forall U
+    shape, strides = Num::Internal.shape_and_strides_for_transpose(arr.shape, arr.strides, axes)
+    Tensor(U, CPU(U)).new(arr.data, shape, strides, arr.offset, U)
   end
 
   # Permutes a `Tensor`'s axes to a different order.  This will
@@ -261,6 +243,7 @@ module Num
   # #   [19, 21, 23]]]
   # ```
   def transpose(arr : Tensor(U, CPU(U)), *args : Int) forall U
+    transpose(arr, args.to_a)
   end
 
   # Join a sequence of `Tensor`s along an existing axis.  The `Tensor`s
@@ -297,6 +280,30 @@ module Num
   # #  [5  , 5.5, 5  , 5.5, 5  , 5.5]]]
   # ```
   def concatenate(arrs : Array(Tensor(U, CPU(U))), axis : Int) forall U
+    Num::Internal.assert_min_dimension(tensor_array, 1)
+    new_shape = tensor_array[0].shape.dup
+
+    axis = Num::Internal.clip_axis(axis, new_shape.size)
+    new_shape[axis] = 0
+
+    shape = Num::Internal.concat_shape(tensor_array, axis, new_shape)
+    t = tensor_array[0].class.new(shape)
+
+    lo = [0] * t.rank
+    hi = shape.dup
+    hi[axis] = 0
+
+    tensor_array.each do |a|
+      if a.shape[axis] != 0
+        hi[axis] += a.shape[axis]
+        ranges = lo.zip(hi).map do |i, j|
+          i...j
+        end
+        t[ranges] = a
+        lo[axis] = hi[axis]
+      end
+    end
+    t
   end
 
   # Join a sequence of `Tensor`s along an existing axis.  The `Tensor`s
@@ -333,6 +340,7 @@ module Num
   # #  [5  , 5.5, 5  , 5.5, 5  , 5.5]]]
   # ```
   def concatenate(*arrs : Tensor(U, CPU(U)), axis : Int) forall U
+    concatenate(arrs.to_a, axis)
   end
 
   #
@@ -399,6 +407,7 @@ module Num
   # #  [1, 2, 3]]
   # ```
   def vstack(arrs : Array(Tensor(U, CPU(U)))) forall U
+    concatenate(arrs, 0)
   end
 
   # Stack an array of `Tensor`s in sequence row-wise.  While this
@@ -419,6 +428,7 @@ module Num
   # #  [1, 2, 3]]
   # ```
   def vstack(*arrs : Tensor(U, CPU(U))) forall U
+    concatenate(arrs.to_a, 0)
   end
 
   # Stack an array of `Tensor`s in sequence column-wise.  While this
@@ -445,6 +455,7 @@ module Num
   # #  [3, 4, 3, 4]]
   # ```
   def hstack(arrs : Array(Tensor(U, CPU(U)))) forall U
+    concatenate(arrs, 1)
   end
 
   # Stack an array of `Tensor`s in sequence column-wise.  While this
@@ -471,6 +482,7 @@ module Num
   # #  [3, 4, 3, 4]]
   # ```
   def hstack(*arrs : Tensor(U, CPU(U))) forall U
+    concatenate(arrs.to_a, 1)
   end
 
   # Repeat elements of a `Tensor`, treating the `Tensor`
@@ -573,6 +585,8 @@ module Num
   # #  [3, 2, 1]]
   # ```
   def flip(a : Tensor(U, CPU(U))) forall U
+    i = [{..., -1}] * a.rank
+    a[i]
   end
 
   # Flips a `Tensor` along an axis, returning a view
@@ -594,5 +608,9 @@ module Num
   # #  [6, 5, 4]]
   # ```
   def flip(a : Tensor(U, CPU(U)), axis : Int) forall U
+    s = (0...a.rank).map do |i|
+      i == axis ? {..., -1} : (...)
+    end
+    a[s]
   end
 end
