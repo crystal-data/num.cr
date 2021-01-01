@@ -111,7 +111,7 @@ module Num::Backend
   end
 
   @[AlwaysInline]
-  def tri_strided_iteration(t1 : Num::Backend::Storage, t2 : Num::Backend::Storage, t3 : Num::Backend::Storage)
+  def tri_strided_iteration(t1 : Tensor, t2 : Tensor, t3 : Tensor)
     n = t1.size
 
     t1_contiguous = t1.is_c_contiguous

@@ -47,6 +47,23 @@ class Tensor(T, S)
   # ```
   delegate_to_backend broadcast_to
 
+  # Broadcasts two `Tensor`'s' to a new shape.  This allows
+  # for elementwise operations between the two Tensors with the
+  # new shape.
+  #
+  # Broadcasting rules apply, and imcompatible shapes will raise
+  # an error.
+  #
+  # Examples
+  # ````````
+  # a = Tensor.from_array [1, 2, 3]
+  # b = Tensor.new([3, 3]) { |i| i }
+  #
+  # x, y = a.broadcast(b)
+  # x.shape # => [3, 3]
+  # ````````
+  delegate_to_backend broadcast
+
   # Transform's a `Tensor`'s shape.  If a view can be created,
   # the reshape will not copy data.  The number of elements
   # in the `Tensor` must remain the same.

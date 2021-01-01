@@ -52,6 +52,52 @@ module Num
     Tensor.new(arr.data, shape, strides, arr.offset, U)
   end
 
+  # Broadcasts two `Tensor`'s' to a new shape.  This allows
+  # for elementwise operations between the two Tensors with the
+  # new shape.
+  #
+  # Broadcasting rules apply, and imcompatible shapes will raise
+  # an error.
+  #
+  # Examples
+  # ````````
+  # a = Tensor.from_array [1, 2, 3]
+  # b = Tensor.new([3, 3]) { |i| i }
+  #
+  # x, y = a.broadcast(b)
+  # x.shape # => [3, 3]
+  # ````````
+  def broadcast(a : Tensor(U, CPU(U)), b : Tensor(V, CPU(V))) forall U, V
+    if a.shape == b.shape
+      return {a, b}
+    end
+    shape = Num::Internal.shape_for_broadcast(a, b)
+    return {a.broadcast_to(shape), b.broadcast_to(shape)}
+  end
+
+  # Broadcasts two `Tensor`'s' to a new shape.  This allows
+  # for elementwise operations between the two Tensors with the
+  # new shape.
+  #
+  # Broadcasting rules apply, and imcompatible shapes will raise
+  # an error.
+  #
+  # Examples
+  # ````````
+  # a = Tensor.from_array [1, 2, 3]
+  # b = Tensor.new([3, 3]) { |i| i }
+  #
+  # x, y = a.broadcast(b)
+  # x.shape # => [3, 3]
+  # ````````
+  def broadcast(a : Tensor(U, CPU(U)), b : Tensor(V, CPU(V)), c : Tensor(W, CPU(W))) forall U, V, W
+    if a.shape == b.shape && a.shape == c.shape
+      return {a, b, c}
+    end
+    shape = Num::Internal.shape_for_broadcast(a, b, c)
+    return {a.broadcast_to(shape), b.broadcast_to(shape), c.broadcast_to(shape)}
+  end
+
   # Transform's a `Tensor`'s shape.  If a view can be created,
   # the reshape will not copy data.  The number of elements
   # in the `Tensor` must remain the same.
@@ -71,7 +117,7 @@ module Num
   # #  [3, 4]]
   # ```
   def reshape(arr : Tensor(U, CPU(U)), shape : Array(Int)) forall U
-    strides = Num::Internal.shape_and_strides_for_reshape(arr.shape, shape)
+    shape, strides = Num::Internal.strides_for_reshape(arr.shape, shape)
     arr = arr.dup(Num::RowMajor) unless arr.is_c_contiguous
     Tensor(U, CPU(U)).new(arr.data, shape, strides, arr.offset, U)
   end
@@ -133,6 +179,8 @@ module Num
   # moveaxis(a, [0], [-1]).shape # => 4, 5, 3
   # ```
   def moveaxis(arr : Tensor(U, CPU(U)), source : Array(Int), destination : Array(Int)) forall U
+    axes = Num::Internal.move_axes_for_transpose(arr.rank, source, destination)
+    transpose(arr, axes)
   end
 
   # Move axes of a Tensor to new positions, other axes remain
@@ -154,8 +202,7 @@ module Num
   # moveaxis(a, [0], [-1]).shape # => 4, 5, 3
   # ```
   def moveaxis(arr : Tensor(U, CPU(U)), source : Int, destination : Int) forall U
-    axes = Num::Internal.move_axes_for_transpose(arr.rank, source, destination)
-    transpose(arr, axes)
+    moveaxis(arr, [source], [destination])
   end
 
   # Permutes two axes of a `Tensor`.  This will always create a view
@@ -343,52 +390,6 @@ module Num
     concatenate(arrs.to_a, axis)
   end
 
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  def stack(arrs : Array(Tensor(U), CPU(U)), axis : Int) forall U
-  end
-
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
-  def stack(*arrs : Tensor(U, CPU(U)), axis : Int) forall U
-  end
-
   # Stack an array of `Tensor`s in sequence row-wise.  While this
   # method can take `Tensor`s with any number of dimensions, it makes
   # the most sense with rank <= 3
@@ -500,7 +501,13 @@ module Num
   # a = [1, 2, 3]
   # Num.repeat(a, 2) # => [1, 1, 2, 2, 3, 3]
   # ```
-  def repeat(a : Tensor(U, CPU(U)), n : Int)
+  def repeat(a : Tensor(U, CPU(U)), n : Int) forall U
+    result = Tensor(U, CPU(U)).new([a.size * n])
+    iter = result.each
+    Num::Internal.repeat_inner(a, n) do |value|
+      iter.next.value = value
+    end
+    result
   end
 
   # Repeat elements of a `Tensor` along an axis
@@ -523,7 +530,17 @@ module Num
   # # [[1, 1, 2, 2, 3, 3],
   # #  [4, 4, 5, 5, 6, 6]]
   # ```
-  def repeat(a : Tensor(U, CPU(U)), n : Int, axis : Int)
+  def repeat(a : Tensor(U, CPU(U)), n : Int, axis : Int) forall U
+    shape = a.shape.dup
+    shape[axis] *= n
+    result = Tensor(U, CPU(U)).new(shape)
+    iter = each_axis(result, axis.to_i)
+    each_axis(a, axis) do |ax|
+      n.times do
+        iter.next[...] = ax
+      end
+    end
+    result
   end
 
   # Tile elements of a `Tensor`
@@ -545,6 +562,8 @@ module Num
   # #  [4, 5, 6, 4, 5, 6]]
   # ```
   def tile(a : Tensor(U, CPU(U)), n : Int) forall U
+    d = a.rank > 1 ? [1] * (a.rank - 1) + [n] : [1]
+    Num::Internal.tile_inner(a, d)
   end
 
   # Tile elements of a `Tensor`
@@ -566,6 +585,8 @@ module Num
   # #  [4, 5, 6, 4, 5, 6]]
   # ```
   def tile(a : Tensor(U, CPU(U)), n : Array(Int)) forall U
+    n = n.size < a.rank ? [1] * (a.rank - n.size) + n : n
+    Num::Internal.tile_inner(a, n)
   end
 
   # Flips a `Tensor` along all axes, returning a view

@@ -99,40 +99,8 @@ module Num
   # #  [0, 1]]
   # ```
   def slice(arr : Tensor(U, CPU(U)), args : Array) forall U
-    new_shape = arr.shape.dup
-    new_strides = arr.strides.dup
-
-    acc = args.map_with_index do |arg, i|
-      s_i, st_i, o_i = normalize(arg, i)
-      new_shape[i] = s_i
-      new_strides[i] = st_i
-      o_i
-    end
-
-    i = 0
-    new_strides.reject! do
-      condition = new_shape[i] == 0
-      i += 1
-      condition
-    end
-
-    new_shape.reject! do |j|
-      j == 0
-    end
-
-    offset = arr.offset
-
-    rank.times do |k|
-      if arr.strides[k] < 0
-        offset += (arr.shape[k] - 1) * arr.strides[k].abs
-      end
-    end
-
-    acc.zip(self.strides) do |a, j|
-      offset += a * j
-    end
-
-    Tensor.new(arr.data, new_shape, new_strides, offset, U)
+    offset, shape, strides = Num::Internal.offset_for_index(arr, args)
+    Tensor.new(arr.data, shape, strides, offset, U)
   end
 
   # The primary method of setting Tensor values.  The slicing behavior
@@ -160,7 +128,8 @@ module Num
   # # [[ 0,  1],
   # #  [ 2, 99]]
   # ```
-  def assign(arr : Tensor(U, CPU(U)), *args : *V) forall U, V
+  def set(arr : Tensor(U, CPU(U)), *args, value) forall U
+    set(arr, args.to_a, value)
   end
 
   # The primary method of setting Tensor values.  The slicing behavior
@@ -188,7 +157,47 @@ module Num
   # # [[ 0,  1],
   # #  [ 2, 99]]
   # ```
-  def assign(arr : Tensor(U, CPU(U)), args : Array, value) forall U, V
+  def set(arr : Tensor(U, CPU(U)), args : Array, t : Tensor(V, CPU(V))) forall U, V
+    s = arr[args]
+    t = t.broadcast_to(s.shape)
+    if t.rank > s.rank
+      raise "Setting a Tensor with a sequence"
+    end
+    s.map!(t) do |_, j|
+      j
+    end
+  end
+
+  # The primary method of setting Tensor values.  The slicing behavior
+  # for this method is identical to the `[]` method.
+  #
+  # If a `Tensor` is passed as the value to set, it will be broadcast
+  # to the shape of the slice if possible.  If a scalar is passed, it will
+  # be tiled across the slice.
+  #
+  # Arguments
+  # ---------
+  # *args* : *U
+  #   Tuple of arguments.  All but the last argument must be valid
+  #   indexer, so a `Range`, `Int`, or `Tuple(Range, Int)`.  The final
+  #   argument passed is used to set the values of the `Tensor`.  It can
+  #   be either a `Tensor`, or a scalar value.
+  #
+  # Examples
+  # --------
+  # ```
+  # a = Tensor.new([2, 2]) { |i| i }
+  # a[1.., 1..] = 99
+  # a
+  #
+  # # [[ 0,  1],
+  # #  [ 2, 99]]
+  # ```
+  def set(arr : Tensor(U, CPU(U)), args : Array, t : V) forall U, V
+    s = arr[args]
+    s.map! do
+      t
+    end
   end
 
   # Return a shallow copy of a `Tensor`.  The underlying data buffer
@@ -247,39 +256,5 @@ module Num
   # a.diagonal # => [0, 1, 2]
   # ```
   def diagonal(arr : Tensor(U, CPU(U)))
-  end
-
-  private def normalize(arr : Tensor, arg : Int, i : Int32)
-    if arg < 0
-      arg += arr.shape[i]
-    end
-    if arg < 0 || arg >= arr.shape[i]
-      raise "Index #{arg} out of range for axis #{i} with size #{arr.shape[i]}"
-    end
-    {0, 0, arg.to_i}
-  end
-
-  private def normalize(arr, arg : Range, i : Int32)
-    a_end = arg.end
-    if a_end.is_a?(Int32)
-      if a_end > self.shape[i]
-        arg = arg.begin...self.shape[i]
-      end
-    end
-    s, o = Indexable.range_to_index_and_count(arg, self.shape[i])
-    if s >= self.shape[i]
-      raise "Index #{arg} out of range for axis #{i} with size #{self.shape[i]}"
-    end
-    {o.to_i, self.strides[i], s.to_i}
-  end
-
-  private def normalize(arg : Tuple(Range(B, E), Int), i : Int32) forall B, E
-    range, step = arg
-    abs_step = step.abs
-    start, offset = Indexable.range_to_index_and_count(range, self.shape[i])
-    if start >= self.shape[i]
-      raise "Index #{arg} out of range for axis #{i} with size #{self.shape[i]}"
-    end
-    {offset // abs_step + offset % abs_step, step * self.strides[i], start}
   end
 end

@@ -53,7 +53,7 @@ module Num::Internal
       raise "Shapes #{s0} cannot be reshaped to #{s1}"
     end
 
-    Num::Internal.shape_to_strides(s1, Num::RowMajor)
+    {s1, Num::Internal.shape_to_strides(s1, Num::RowMajor)}
   end
 
   # :nodoc:
@@ -163,5 +163,44 @@ module Num::Internal
       shape[axis] += t.shape[axis]
     end
     shape
+  end
+
+  # :nodoc:
+  protected def shape_for_broadcast(*args : Tensor)
+    nd = (args.map &.rank).max
+    shape = [0] * nd
+
+    args.each_with_index do |arg, i|
+      d = nd - arg.rank
+      t_shape = [1] * d + arg.shape
+      shape = shape.map_with_index do |e, j|
+        e > t_shape[j] ? e : t_shape[j]
+      end
+    end
+    shape
+  end
+
+  # :nodoc:
+  protected def repeat_inner(a : Tensor, n : Int)
+    a.each do |el|
+      n.times do
+        yield el
+      end
+    end
+  end
+
+  # :nodoc:
+  protected def tile_inner(a : Tensor, r : Array(Int))
+    shape_out = a.shape.zip(r).map do |i, j|
+      (i * j).to_i
+    end
+    n = a.size
+    a.shape.zip(r) do |d, rep|
+      if rep != 1
+        a = a.reshape(-1, n).repeat(rep, 0)
+      end
+      n //= d
+    end
+    a.reshape(shape_out)
   end
 end

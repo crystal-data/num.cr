@@ -62,7 +62,42 @@ class Tensor(T, S)
     slice(args.to_a)
   end
 
-  # :ditto:
+  # Returns a view of a `Tensor` from any valid indexers. This view
+  # must be able to be represented as valid strided/shaped view, slicing
+  # as a copy is not supported.
+  #
+  #
+  # When an Integer argument is passed, an axis will be removed from
+  # the `Tensor`, and a view at that index will be returned.
+  #
+  # ```
+  # a = Tensor.new([2, 2]) { |i| i }
+  # a[0] # => [0, 1]
+  # ```
+  #
+  # When a Range argument is passed, an axis will be sliced based on
+  # the endpoints of the range.
+  #
+  # ```
+  # a = Tensor.new([2, 2, 2]) { |i| i }
+  # a[1...]
+  #
+  # # [[[4, 5],
+  # #   [6, 7]]]
+  # ```
+  #
+  # When a Tuple containing a Range and an Integer step is passed, an axis is
+  # sliced based on the endpoints of the range, and the strides of the
+  # axis are updated to reflect the step.  Negative steps will reflect
+  # the array along an axis.
+  #
+  # ```
+  # a = Tensor.new([2, 2]) { |i| i }
+  # a[{..., -1}]
+  #
+  # # [[2, 3],
+  # #  [0, 1]]
+  # ```
   def [](args : Array) : Tensor(T, S)
     slice(args)
   end
@@ -103,7 +138,31 @@ class Tensor(T, S)
      {% end %}
   end
 
-  # :ditto:
+  # The primary method of setting Tensor values.  The slicing behavior
+  # for this method is identical to the `[]` method.
+  #
+  # If a `Tensor` is passed as the value to set, it will be broadcast
+  # to the shape of the slice if possible.  If a scalar is passed, it will
+  # be tiled across the slice.
+  #
+  # Arguments
+  # ---------
+  # *args* : *U
+  #   Tuple of arguments.  All but the last argument must be valid
+  #   indexer, so a `Range`, `Int`, or `Tuple(Range, Int)`.  The final
+  #   argument passed is used to set the values of the `Tensor`.  It can
+  #   be either a `Tensor`, or a scalar value.
+  #
+  # Examples
+  # --------
+  # ```
+  # a = Tensor.new([2, 2]) { |i| i }
+  # a[1.., 1..] = 99
+  # a
+  #
+  # # [[ 0,  1],
+  # #  [ 2, 99]]
+  # ```
   def []=(args : Array, value)
     set(args, value)
   end
@@ -113,96 +172,6 @@ class Tensor(T, S)
     @data.to_hostptr[offset]
   end
 
-  private def slice(args : Array)
-    new_shape = self.shape.dup
-    new_strides = self.strides.dup
-
-    acc = args.map_with_index do |arg, i|
-      s_i, st_i, o_i = normalize(arg, i)
-      new_shape[i] = s_i
-      new_strides[i] = st_i
-      o_i
-    end
-
-    i = 0
-    new_strides.reject! do
-      condition = new_shape[i] == 0
-      i += 1
-      condition
-    end
-
-    new_shape.reject! do |j|
-      j == 0
-    end
-
-    offset = @offset
-
-    rank.times do |k|
-      if self.strides[k] < 0
-        offset += (self.shape[k] - 1) * self.strides[k].abs
-      end
-    end
-
-    acc.zip(self.strides) do |a, j|
-      offset += a * j
-    end
-
-    Tensor.new(@data, new_shape, new_strides, offset, T)
-  end
-
-  private def normalize(arg : Int, i : Int32)
-    if arg < 0
-      arg += self.shape[i]
-    end
-    if arg < 0 || arg >= self.shape[i]
-      raise "Index #{arg} out of range for axis #{i} with size #{self.shape[i]}"
-    end
-    {0, 0, arg.to_i}
-  end
-
-  private def normalize(arg : Range, i : Int32)
-    a_end = arg.end
-    if a_end.is_a?(Int32)
-      if a_end > self.shape[i]
-        arg = arg.begin...self.shape[i]
-      end
-    end
-    s, o = Indexable.range_to_index_and_count(arg, self.shape[i])
-    if s >= self.shape[i]
-      raise "Index #{arg} out of range for axis #{i} with size #{self.shape[i]}"
-    end
-    {o.to_i, self.strides[i], s.to_i}
-  end
-
-  private def normalize(arg : Tuple(Range(B, E), Int), i : Int32) forall B, E
-    range, step = arg
-    abs_step = step.abs
-    start, offset = Indexable.range_to_index_and_count(range, self.shape[i])
-    if start >= self.shape[i]
-      raise "Index #{arg} out of range for axis #{i} with size #{self.shape[i]}"
-    end
-    {offset // abs_step + offset % abs_step, step * self.strides[i], start}
-  end
-
-  private def set(*args, value)
-    set(args.to_a, value)
-  end
-
-  private def set(args : Array, t : Tensor)
-    s = self[args]
-    t = t.broadcast_to(s.shape)
-    if t.rank > s.rank
-      raise "Setting a Tensor with a sequence"
-    end
-    s.map!(t) do |_, j|
-      j
-    end
-  end
-
-  private def set(args : Array, t : U) forall U
-    s = self[args]
-    s.map! do
-      T.new(t)
-    end
-  end
+  delegate_to_backend slice
+  delegate_to_backend set
 end
