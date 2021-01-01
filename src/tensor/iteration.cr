@@ -21,7 +21,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class Tensor(T)
+class Tensor(T, S)
   # Yields the elements of a `Tensor`, always in RowMajor order,
   # as if the `Tensor` was flat.
   #
@@ -42,7 +42,7 @@ class Tensor(T)
   # # 3
   # ```
   def each
-    Num::Backend.each(@storage) do |el|
+    each_with_index do |el, _|
       yield el
     end
   end
@@ -71,7 +71,7 @@ class Tensor(T)
   # # 3
   # ```
   def each_pointer
-    Num::Backend.each_pointer(@storage) do |el|
+    each_pointer_with_index do |el, _|
       yield el
     end
   end
@@ -97,8 +97,8 @@ class Tensor(T)
   # # 3_3
   # ```
   def each_with_index
-    Num::Backend.each_with_index(@storage) do |el, i|
-      yield el, i
+    each_pointer_with_index do |el, i|
+      yield el.value, i
     end
   end
 
@@ -127,7 +127,7 @@ class Tensor(T)
   # # 3_3
   # ```
   def each_pointer_with_index
-    Num::Backend.each_pointer_with_index(@storage) do |el, i|
+    Num::Backend.strided_iteration(self) do |i, el|
       yield el, i
     end
   end
@@ -150,8 +150,13 @@ class Tensor(T)
   # a = Tensor.new([3]) { |i| i }
   # a.map { |e| e + 5 } # => [5, 6, 7]
   # ```
-  def map(&block : T -> U) : Tensor(U) forall U
-    Num::Backend.map(@storage) { |el| yield el }
+  def map(&block : T -> U) forall U
+    result = Tensor.new(@shape, U.new(0), S.base(U))
+    data = result.data.to_hostptr
+    each_with_index do |el, i|
+      data[i] = yield el
+    end
+    result
   end
 
   # Maps a block across a `Tensor` in place.  The `Tensor` is treated
@@ -171,7 +176,9 @@ class Tensor(T)
   # a # => [5, 6, 7]
   # ```
   def map!(&block)
-    Num::Backend.map!(@storage) { |el| yield el }
+    each_pointer do |ptr|
+      ptr.value = T.new(yield ptr.value)
+    end
   end
 
   # Maps a block across two `Tensors`.  This is more efficient than
@@ -196,10 +203,9 @@ class Tensor(T)
   #
   # a.map(b) { |i, j| i + j } # => [0, 2, 4]
   # ```
-  def map(t : Tensor(U), &block : T, U -> V) : Tensor(V) forall U, V
-    Num::Backend.map(@storage, t.storage) do |i, j|
-      yield i, j
-    end
+  def map(other : Tensor(U), &block : T, U -> V) : Tensor(V) forall U, V
+    result = Tensor.new(@shape, V.new(0), S.base(V))
+    data = result.data.to_hostptr
   end
 
   # Maps a block across two `Tensors`.  This is more efficient than
@@ -227,9 +233,9 @@ class Tensor(T)
   # a.map!(b) { |i, j| i + j }
   # a # => [0, 2, 4]
   # ```
-  def map!(d2 : Tensor(U), &block) forall U
-    Num::Backend.map!(@storage, d2.storage) do |i, j|
-      yield i, j
+  def map!(d2 : Tensor(U, V), &block) forall U, V
+    Num::Backend.dual_strided_iteration(self, d2) do |_, i, j|
+      i.value = T.new(yield i.value, j.value)
     end
   end
 

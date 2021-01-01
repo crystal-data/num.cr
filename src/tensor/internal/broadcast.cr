@@ -25,7 +25,7 @@ module Num::Internal
   extend self
 
   # :nodoc:
-  def broadcastable(a : Num::Backend::Storage, b : Num::Backend::Storage)
+  def broadcastable(a : Tensor, b : Tensor)
     return [] of Int32 unless a.shape != b.shape
     a_size = a.rank
     b_size = b.rank
@@ -51,27 +51,7 @@ module Num::Internal
   end
 
   # :nodoc:
-  def broadcast_to(a : Num::Backend::Storage, shape : Array(Int32))
-    dim = shape.size
-    strides = [0] * dim
-    size = 1
-    dim.times do |i|
-      strides[dim - i - 1] = size
-      size *= shape[dim - i - 1]
-    end
-
-    new_strides = broadcast_strides(
-      shape,
-      a.shape,
-      strides,
-      a.strides
-    )
-
-    Num::Backend.slice_storage_by_offset(a, shape, new_strides, shape.product, a.offset)
-  end
-
-  # :nodoc:
-  def broadcast(a : Num::Backend::Storage(U), b : Num::Backend::Storage(V)) forall U, V
+  def broadcast(a : Tensor, b : Tensor)
     t = {a, b}
     if a.shape == b.shape
       return t
@@ -120,7 +100,7 @@ module Num::Internal
     shape == item.shape ? item : broadcast_to(item, shape)
   end
 
-  private def broadcast_strides(dest_shape, src_shape, dest_strides, src_strides)
+  def broadcast_strides(dest_shape, src_shape, dest_strides, src_strides)
     dims = dest_shape.size
     start = dims - src_shape.size
 

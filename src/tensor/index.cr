@@ -21,7 +21,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class Tensor(T)
+class Tensor(T, S)
   # Returns a view of a `Tensor` from any valid indexers. This view
   # must be able to be represented as valid strided/shaped view, slicing
   # as a copy is not supported.
@@ -58,12 +58,12 @@ class Tensor(T)
   # # [[2, 3],
   # #  [0, 1]]
   # ```
-  def [](*args) : Tensor(T)
+  def [](*args) : Tensor(T, S)
     slice(args.to_a)
   end
 
   # :ditto:
-  def [](args : Array) : Tensor(T)
+  def [](args : Array) : Tensor(T, S)
     slice(args)
   end
 
@@ -110,7 +110,7 @@ class Tensor(T)
 
   # :nodoc:
   def value : T
-    @storage.value
+    @data.to_hostptr[offset]
   end
 
   private def slice(args : Array)
@@ -135,7 +135,7 @@ class Tensor(T)
       j == 0
     end
 
-    offset = @storage.offset
+    offset = @offset
 
     rank.times do |k|
       if self.strides[k] < 0
@@ -147,7 +147,7 @@ class Tensor(T)
       offset += a * j
     end
 
-    Num::Backend.slice_storage_by_offset(@storage, new_shape, new_strides, new_shape.product, offset)
+    Tensor.new(@data, new_shape, new_strides, offset, T)
   end
 
   private def normalize(arg : Int, i : Int32)
@@ -184,20 +184,13 @@ class Tensor(T)
     {offset // abs_step + offset % abs_step, step * self.strides[i], start}
   end
 
-  private def set(mask : Tensor(Bool), value : Number)
-    m = mask.as_shape(@shape)
-    map!(m) do |i, c|
-      c ? value : i
-    end
-  end
-
   private def set(*args, value)
     set(args.to_a, value)
   end
 
   private def set(args : Array, t : Tensor)
     s = self[args]
-    t = t.as_shape(s.shape)
+    t = t.broadcast_to(s.shape)
     if t.rank > s.rank
       raise "Setting a Tensor with a sequence"
     end

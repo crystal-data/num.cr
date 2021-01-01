@@ -22,7 +22,12 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 class Tensor(T, S)
-  private def initialize(@data : S, shape : Array(Int), order : Num::OrderType = Num::RowMajor, dtype : T.class = T)
+  # Initialize a Tensor from a storage instance, a shape, an order, and a
+  # data type.  This should primarily be used by internal methods, since it
+  # assumes the contiguity of the storage.
+  #
+  # The dtype is required to infer T without having it explicitly provided
+  def initialize(@data : S, shape : Array(Int), order : Num::OrderType = Num::RowMajor, dtype : T.class = T)
     assert_types
     @shape = shape.map &.to_i
     @strides = Num::Internal.shape_to_strides(shape, order)
@@ -30,6 +35,20 @@ class Tensor(T, S)
     @offset = 0
   end
 
+  # Initialize a Tensor from a storage instance, a shape, strides, an offset,
+  # and a data type.  This should primarily be used by internal methods,
+  # since it assumes the passed shape and strides correspond to the
+  # storage provided.
+  #
+  # The dtype is required to infer T without having it explicitly provided
+  def initialize(@data : S, @shape : Array(Int32), @strides : Array(Int32), @offset : Int32, dtype : T.class = T)
+    @size = @shape.product
+  end
+
+  # Private initialization method to allow Tensors to be created from Arrays,
+  # without having to provide a specific generic type to the array.
+  # Since the storage instance is S, having the array passed
+  # allows Num to infer T
   private def initialize(@data : S, shape : Array(Int), from_array : Array(T))
     assert_types
     @shape = shape.map &.to_i
@@ -71,7 +90,7 @@ class Tensor(T, S)
     ptr = Pointer.malloc(shape.product) do |index|
       yield index
     end
-    storage = device.from_hostptr(ptr, shape)
+    storage = device.new(ptr, shape)
     new(storage, shape, order, T)
   end
 
@@ -87,7 +106,7 @@ class Tensor(T, S)
       j = idx % n
       yield i, j
     end
-    storage = device.from_hostptr(ptr, [m, n])
+    storage = device.new(ptr, [m, n])
     new(storage, [m, n], Num::RowMajor, T)
   end
 
@@ -102,7 +121,265 @@ class Tensor(T, S)
   def self.from_array(a : Array, device = CPU)
     shape = Num::Internal.recursive_array_shape(a)
     flat = a.flatten
-    storage = device.from_hostptr(flat.to_unsafe, shape)
+    storage = device.new(flat.to_unsafe, shape)
     new(storage, shape, from_array: flat)
   end
+
+  # Creates a `Tensor` of a provided shape, filled with 0.  The generic type
+  # must be specified.
+  #
+  # Arguments
+  # ---------
+  # *shape*
+  #   Shape of returned `Tensor`
+  #
+  # Examples
+  # --------
+  # ```
+  # t = Tensor(Int8).zeros([3]) # => [0, 0, 0]
+  # ```
+  def self.zeros(shape : Array(Int)) : Tensor(T, S)
+    self.new(S.new(shape, T.new(0)), shape, Num::RowMajor, T)
+  end
+
+  # Creates a `Tensor` filled with 0, sharing the shape of another
+  # provided `Tensor`
+  #
+  # Arguments
+  # ---------
+  # *t*
+  #   `Tensor` to use for output shape
+  #
+  # Examples
+  # --------
+  # ```
+  # t = Tensor.new([3]) &.to_f
+  # u = Tensor(Int8).zeros_like(t) # => [0, 0, 0]
+  # ```
+  def self.zeros_like(t : Tensor) : Tensor(T, S)
+    self.new(S.new(t.shape, T.new(0)), shape, Num::RowMajor, T)
+  end
+
+  # Creates a `Tensor` of a provided shape, filled with 1.  The generic type
+  # must be specified.
+  #
+  # Arguments
+  # ---------
+  # *shape*
+  #   Shape of returned `Tensor`
+  #
+  # Examples
+  # --------
+  # ```
+  # t = Tensor(Int8).ones([3]) # => [1, 1, 1]
+  # ```
+  def self.ones(shape : Array(Int)) : Tensor(T, S)
+    self.new(S.new(shape, T.new(1)), shape, Num::RowMajor, T)
+  end
+
+  # Creates a `Tensor` filled with 1, sharing the shape of another
+  # provided `Tensor`
+  #
+  # Arguments
+  # ---------
+  # *t*
+  #   `Tensor` to use for output shape
+  #
+  # Examples
+  # --------
+  # ```
+  # t = Tensor.new([3]) &.to_f
+  # u = Tensor(Int8).ones_like(t) # => [0, 0, 0]
+  # ```
+  def self.ones_like(t : Tensor) : Tensor(T)
+    self.new(S.new(shape, T.new(1)), shape, Num::RowMajor, T)
+  end
+
+  # Creates a `Tensor` of a provided shape, filled with a value.  The generic type
+  # is inferred from the value
+  #
+  # Arguments
+  # ---------
+  # *shape*
+  #   Shape of returned `Tensor`
+  #
+  # Examples
+  # --------
+  # ```
+  # t = Tensor(Int8).full([3], 1) # => [1, 1, 1]
+  # ```
+  def self.full(shape : Array(Int), value : Number) : Tensor(T, S)
+    self.new(S.new(shape, T.new(value)), shape, Num::RowMajor, T)
+  end
+
+  # Creates a `Tensor` filled with a value, sharing the shape of another
+  # provided `Tensor`
+  #
+  # Arguments
+  # ---------
+  # *t*
+  #   `Tensor` to use for output shape
+  #
+  # Examples
+  # --------
+  # ```
+  # t = Tensor.new([3]) &.to_f
+  # u = Tensor.full_like(t, 3) # => [3, 3, 3]
+  # ```
+  def self.full_like(t : Tensor, value : Number) : Tensor(T, S)
+    self.new(S.new(shape, T.new(value)), shape, Num::RowMajor, T)
+  end
+
+  # Creates a flat `Tensor` containing a monotonically increasing
+  # or decreasing range.  The generic type is inferred from
+  # the inputs to the method
+  #
+  # Arguments
+  # ---------
+  # *start*
+  #   Beginning value for the range
+  # *stop*
+  #   End value for the range
+  # *step*
+  #   Offset between values of the range
+  #
+  # Examples
+  # --------
+  # ```
+  # Tensor.range(0, 5, 2)       # => [0, 2, 4]
+  # Tensor.range(5, 0, -1)      # => [5, 4, 3, 2, 1]
+  # Tensor.range(0.0, 3.5, 0.7) # => [0  , 0.7, 1.4, 2.1, 2.8]
+  # ```
+  def self.range(start : T, stop : T, step : T, device = CPU)
+    if start > stop && step > 0
+      raise "Range must return at least one value"
+    end
+
+    r = stop - start
+    n = (r / step).ceil.abs
+    self.new([n.to_i], device: device) do |i|
+      T.new(start + i * step)
+    end
+  end
+
+  # Creates a flat `Tensor` containing a monotonically increasing
+  # or decreasing range.  The generic type is inferred from
+  # the inputs to the method
+  #
+  # Arguments
+  # ---------
+  # *start*
+  #   Beginning value for the range
+  # *stop*
+  #   End value for the range
+  # *step*
+  #   Offset between values of the range
+  #
+  # Examples
+  # --------
+  # ```
+  # Tensor.range(0, 5, 2)       # => [0, 2, 4]
+  # Tensor.range(5, 0, -1)      # => [5, 4, 3, 2, 1]
+  # Tensor.range(0.0, 3.5, 0.7) # => [0  , 0.7, 1.4, 2.1, 2.8]
+  # ```
+  def self.range(stop : T, device = CPU)
+    self.range(T.new(0), stop, T.new(1), device)
+  end
+
+  # Creates a flat `Tensor` containing a monotonically increasing
+  # or decreasing range.  The generic type is inferred from
+  # the inputs to the method
+  #
+  # Arguments
+  # ---------
+  # *start*
+  #   Beginning value for the range
+  # *stop*
+  #   End value for the range
+  # *step*
+  #   Offset between values of the range
+  #
+  # Examples
+  # --------
+  # ```
+  # Tensor.range(0, 5, 2)       # => [0, 2, 4]
+  # Tensor.range(5, 0, -1)      # => [5, 4, 3, 2, 1]
+  # Tensor.range(0.0, 3.5, 0.7) # => [0  , 0.7, 1.4, 2.1, 2.8]
+  # ```
+  def self.range(start : T, stop : T, device = CPU)
+    self.range(start, stop, T.new(1), device)
+  end
+
+  # Return a two-dimensional `Tensor` with ones along the diagonal,
+  # and zeros elsewhere
+  #
+  # Arguments
+  # ---------
+  # *m* : Int
+  #   Number of rows in the `Tensor`
+  # *n* : Int?
+  #   Number of columsn in the `Tensor`, defaults to `m` if nil
+  # *offset* : Int
+  #   Indicates which diagonal to fill with ones
+  #
+  # Examples
+  # --------
+  # ```
+  # Tensor(Int32).eye(3, offset: -1)
+  #
+  # # [[0, 0, 0],
+  # #  [1, 0, 0],
+  # #  [0, 1, 0]]
+  #
+  # Tensor(Int8).eye(2)
+  #
+  # # [[1, 0],
+  # #  [0, 1]]
+  # ```
+  def self.eye(m : Int, n : Int? = nil, offset : Int = 0)
+    n = n.nil? ? m : n
+    self.new(m, n, device: S) do |i, j|
+      i == j - offset ? T.new(1) : T.new(0)
+    end
+  end
+
+  # Returns an identity `Tensor` with ones along the diagonal,
+  # and zeros elsewhere
+  #
+  # Arguments
+  # ---------
+  # *n* : Number of rows and columns in output
+  #
+  # Examples
+  # --------
+  # ```
+  # Tensor(Int8).identity(2)
+  #
+  # # [[1, 0],
+  # #  [0, 1]]
+  # ```
+  def self.identity(n : Int)
+    self.new(n, n, device: S) do |i, j|
+      i == j ? T.new(1) : T.new(0)
+    end
+  end
+
+  # Deep-copies a `Tensor`.  If an order is provided, the returned
+  # `Tensor`'s memory layout will respect that order.
+  #
+  # If no order is provided, the `Tensor` will retain it's same
+  # memory layout.
+  #
+  # Arguments
+  # ---------
+  # *order* : Num::OrderType?
+  #   Memory layout to use for the returned `Tensor`
+  #
+  # Examples
+  # --------
+  # ```
+  # a = Tensor.from_array [1, 2, 3]
+  # a.dup # => [1, 2, 3]
+  # ```
+  delegate_to_backend dup
 end

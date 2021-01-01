@@ -22,6 +22,8 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 module Num::Backend
+  extend self
+
   macro init_strided_iteration(coord, backstrides, t_shape, t_strides, t_rank, t_data)
     {{ coord.id }} = Pointer(Int32).malloc({{ t_rank }}, 0)
     {{ backstrides.id }} = Pointer(Int32).malloc({{ t_rank }})
@@ -47,8 +49,8 @@ module Num::Backend
   end
 
   @[AlwaysInline]
-  def strided_iteration(t : Num::Backend::Storage)
-    data = t.to_unsafe + t.offset
+  def strided_iteration(t : Tensor)
+    data = t.data.to_hostptr + t.offset
     if t.is_c_contiguous
       t.size.times do |i|
         yield i, data
@@ -65,14 +67,14 @@ module Num::Backend
   end
 
   @[AlwaysInline]
-  def dual_strided_iteration(t1 : Num::Backend::Storage, t2 : Num::Backend::Storage)
+  def dual_strided_iteration(t1 : Tensor, t2 : Tensor)
     n = t1.size
 
     t1_contiguous = t1.is_c_contiguous
     t2_contiguous = t2.is_c_contiguous
 
-    t1data = t1.to_unsafe
-    t2data = t2.to_unsafe
+    t1data = t1.data.to_hostptr + t1.offset
+    t2data = t2.data.to_hostptr + t2.offset
 
     t1_shape, t1_strides, t1_rank = t1.shape, t1.strides, t1.rank
     t2_shape, t2_strides, t2_rank = t2.shape, t2.strides, t2.rank
@@ -116,9 +118,9 @@ module Num::Backend
     t2_contiguous = t2.is_c_contiguous
     t3_contiguous = t3.is_c_contiguous
 
-    t1data = t1.to_unsafe
-    t2data = t2.to_unsafe
-    t3data = t3.to_unsafe
+    t1data = t1.data.to_hostptr
+    t2data = t2.data.to_hostptr
+    t3data = t3.data.to_hostptr
 
     t1_shape, t1_strides, t1_rank = t1.shape, t1.strides, t1.rank
     t2_shape, t2_strides, t2_rank = t2.shape, t2.strides, t2.rank
@@ -171,8 +173,8 @@ module Num::Backend
     t1_contiguous = t1.is_c_contiguous
     t2_contiguous = t2.is_c_contiguous
 
-    t1data = t1.to_unsafe
-    t2data = t2.to_unsafe
+    t1data = t1.data.to_hostptr
+    t2data = t2.data.to_hostptr
 
     t1_shape, t1_strides, t1_rank = t1.shape, t1.strides, t1.rank
     t2_shape, t2_strides, t2_rank = t2.shape, t2.strides, t2.rank

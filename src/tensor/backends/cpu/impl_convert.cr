@@ -21,12 +21,22 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-module Num::Backend
-  extend self
-
-  def tensor_to_crystal_array(device : ARROW(U)) : Array(U) forall U
-    a = Array(U).new(device.size)
-    each(device) do |el|
+module Num
+  # Converts a `Tensor` to a standard library array.  The returned array
+  # will always be one-dimensional to avoid return type ambiguity
+  #
+  # Arguments
+  # ---------
+  #
+  # Examples
+  # --------
+  # ```
+  # a = Tensor.new([2, 2]) { |i| i }
+  # a.to_a # => [0, 1, 2, 3]
+  # ```
+  def to_a(arr : Tensor(U, CPU(U))) forall U
+    a = [] of T
+    each(arr) do |el|
       a << el
     end
     a

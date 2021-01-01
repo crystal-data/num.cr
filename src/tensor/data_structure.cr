@@ -66,12 +66,29 @@ class Tensor(T, S)
     @shape.size
   end
 
+  def to_s(io)
+    io << to_s
+  end
+
+  def to_s : String
+    Num::Internal.array_to_string(self)
+  end
+
+  private macro delegate_to_backend(method)
+    def {{method.id}}(*args, **options)
+      Num.{{method.id}}(self, *args, **options)
+    end
+  end
+
+  delegate_to_backend broadcast_to
+
   private macro assert_types
     {% if T != S.type_vars[0] %}
       {% raise "A Tensor and it's storage must share the same dtype" %}
     {% end %}
   end
 
+  # :nodoc:
   def is_f_contiguous : Bool
     return true unless self.rank != 0
     if self.rank == 1
@@ -87,6 +104,7 @@ class Tensor(T, S)
     true
   end
 
+  # :nodoc:
   def is_c_contiguous : Bool
     return true unless self.rank != 0
     if self.rank == 1

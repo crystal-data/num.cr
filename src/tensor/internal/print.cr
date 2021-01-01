@@ -24,7 +24,7 @@
 module Num::Internal
   extend self
 
-  def concatenate(alist : Array(Tensor(U)), axis : Int32) forall U
+  def concatenate(alist : Array(Tensor(U, V)), axis : Int32) forall U, V
     # This particular method does not allow zero dimensional items, even
     # if they can be upcast, since they can't match a shape off axis, and
     # concatenation must occur along an existing axis.
@@ -38,7 +38,7 @@ module Num::Internal
 
     # All arrays must share a shape of the axis of concatenation
     shape = Num::Internal.assert_shape_off_axis(alist, axis, newshape)
-    ret = alist[0].class.new(newshape, device: alist[0].storage.class)
+    ret = alist[0].class.new(newshape)
     lo = [0] * newshape.size
     hi = shape.dup
     hi[axis] = 0

@@ -21,8 +21,8 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-module Num::Backend
-  def slice_storage_by_offset(storage : ARROW(U), shape : Array(Int32), strides : Array(Int32), size : Int32, offset : Int32) : Tensor(U) forall U
-    Tensor(U).new(ARROW(U).new(storage.data, shape, strides, size, offset))
-  end
+abstract struct Num::Backend::Storage(T)
+  abstract def initialize(shape : Array(Int))
+  abstract def initialize(shape : Array(Int), value : T)
+  abstract def initialize(data : Pointer(T), shape : Array(Int))
 end

@@ -52,9 +52,24 @@ struct OCL(T) < Num::Backend::Storage(T)
   # ptr = Pointer(Int32).malloc(9)
   # OCL.new(ptr, [3, 3])
   # ```
-  def self.from_hostptr(hostptr : Pointer(T), shape : Array(Int))
-    storage = OCL(T).new(shape)
+  def initialize(hostptr : Pointer(T), shape : Array(Int))
+    @data = Cl.buffer(Num::ClContext.instance.context, shape.product.to_u64, dtype: T)
     Cl.write(Num::ClContext.instance.queue, hostptr, storage.data, (shape.product * sizeof(T)).to_u64)
-    storage
+  end
+
+  # Return a generic class of a specific generic type, to allow
+  # for explicit return types in functions that return a different
+  # storage type than the parent Tensor
+  #
+  # ```
+  # a = OCL(Float32).new([10])
+  #
+  # # Cannot do
+  # # a.class.new ...
+  #
+  # a.class.base(Float64).new([10])
+  # ```
+  def self.base(dtype : U.class) : OCL(U).class forall U
+    OCL(U)
   end
 end

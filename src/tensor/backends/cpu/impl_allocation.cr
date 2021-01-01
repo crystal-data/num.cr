@@ -22,8 +22,6 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 struct CPU(T) < Num::Backend::Storage(T)
-  getter data : Pointer(T)
-
   # Initialize a CPU storage from an initial capacity.
   # The data will be filled with zeros
   #
@@ -44,14 +42,69 @@ struct CPU(T) < Num::Backend::Storage(T)
     @data = Pointer(T).malloc(shape.product, value)
   end
 
-  private def initialize(@data : Pointer(T))
+  # Initialize a CPU storage from a hostptr and initial
+  # shape.  The shape is not required for this storage type,
+  # but is needed by other implementations to ensure copy
+  # requirements have the right pointer size.
+  #
+  # ```
+  # a = Pointer(Int32).malloc(10)
+  # s = CPU.new(a, [5, 2])
+  # ```
+  def initialize(data : Pointer(T), shape : Array(Int))
+    @data = data
   end
 
-  def self.from_hostptr(hostptr : Pointer(T), shape : Array(Int))
-    new(hostptr)
-  end
-
+  # Converts a CPU storage to a crystal pointer
+  #
+  # ```
+  # a = CPU(Int32).new([3, 3, 2])
+  # a.to_hostptr
+  # ```
   def to_hostptr : Pointer(T)
     @data
+  end
+
+  # Return a generic class of a specific generic type, to allow
+  # for explicit return types in functions that return a different
+  # storage type than the parent Tensor
+  #
+  # ```
+  # a = CPU(Float32).new([10])
+  #
+  # # Cannot do
+  # # a.class.new ...
+  #
+  # a.class.base(Float64).new([10])
+  # ```
+  def self.base(dtype : U.class) : CPU(U).class forall U
+    CPU(U)
+  end
+end
+
+module Num
+  # Deep-copies a `Tensor`.  If an order is provided, the returned
+  # `Tensor`'s memory layout will respect that order.
+  #
+  # If no order is provided, the `Tensor` will retain it's same
+  # memory layout.
+  #
+  # Arguments
+  # ---------
+  # *order* : Num::OrderType?
+  #   Memory layout to use for the returned `Tensor`
+  #
+  # Examples
+  # --------
+  # ```
+  # a = Tensor.from_array [1, 2, 3]
+  # a.dup # => [1, 2, 3]
+  # ```
+  def dup(t : Tensor(U, CPU(U)), order : Num::OrderType = Num::RowMajor) forall U
+    result = Tensor(U, CPU(U)).new(t.shape, order)
+    result.map!(t) do |_, j|
+      j
+    end
+    result
   end
 end
