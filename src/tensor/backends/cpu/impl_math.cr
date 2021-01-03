@@ -58,11 +58,6 @@ module Num
         a {{operator.id}} i
       end
     end
-
-    # :ditto:
-    def {{name}}(a, b)
-      a {{operator.id}} b
-    end
   end
 
   elementwise add, :+

@@ -24,3 +24,9 @@
 struct CPU(T) < Num::Backend::Storage(T)
   getter data : Pointer(T)
 end
+
+module Num
+  def tensor_to_string(arr : Tensor(U, CPU(U))) forall U
+    Num::Internal.array_to_string(arr)
+  end
+end

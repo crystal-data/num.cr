@@ -21,14 +21,36 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-struct OCL(T) < Num::Backend::Storage(T)
-  def to_a(size : Int32) : Array(T)
-    a = Array(T).new(size, 0)
+module Num
+  # Converts a `Tensor` to a standard library array.  The returned array
+  # will always be one-dimensional to avoid return type ambiguity
+  #
+  # Arguments
+  # ---------
+  #
+  # Examples
+  # --------
+  # ```
+  # a = Tensor.new([2, 2]) { |i| i }
+  # a.to_a # => [0, 1, 2, 3]
+  # ```
+  def to_a(arr : Tensor(U, OCL(U))) forall U
+    a = Array(U).new(arr.size, 0)
     LibCL.cl_enqueue_read_buffer(
-      Num::ClContext.instance.queue, @data,
-      LibCL::CL_TRUE, 0_u64, (size * sizeof(T)).to_u64, a.to_unsafe, 0_u32,
+      Num::ClContext.instance.queue, arr.data.to_unsafe,
+      LibCL::CL_TRUE, 0_u64, (arr.data.total_size * sizeof(U)).to_u64, a.to_unsafe, 0_u32,
       nil, nil
     )
     a
+  end
+
+  def cpu(arr : Tensor(U, OCL(U))) forall U
+    ptr = Pointer(U).malloc(arr.data.total_size)
+    LibCL.cl_enqueue_read_buffer(
+      Num::ClContext.instance.queue, arr.data.to_unsafe,
+      LibCL::CL_TRUE, 0_u64, (arr.data.total_size * sizeof(U)).to_u64, ptr, 0_u32,
+      nil, nil
+    )
+    Tensor(U, CPU(U)).new(CPU(U).new(ptr, arr.shape, arr.strides), arr.shape, arr.strides, arr.offset, U)
   end
 end

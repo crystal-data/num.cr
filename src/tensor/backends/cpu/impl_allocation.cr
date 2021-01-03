@@ -28,7 +28,17 @@ struct CPU(T) < Num::Backend::Storage(T)
   # ```
   # CPU.new([2, 3, 4])
   # ```
-  def initialize(shape : Array(Int))
+  def initialize(shape : Array(Int), order : Num::OrderType)
+    @data = Pointer(T).malloc(shape.product)
+  end
+
+  # Initialize a CPU storage from an initial capacity.
+  # The data will be filled with zeros
+  #
+  # ```
+  # CPU.new([2, 3, 4])
+  # ```
+  def initialize(shape : Array(Int), strides : Array(Int))
     @data = Pointer(T).malloc(shape.product)
   end
 
@@ -38,7 +48,17 @@ struct CPU(T) < Num::Backend::Storage(T)
   # ```
   # CPU.new([10, 10], 3.4)
   # ```
-  def initialize(shape : Array(Int), value : T)
+  def initialize(shape : Array(Int), order : Num::OrderType, value : T)
+    @data = Pointer(T).malloc(shape.product, value)
+  end
+
+  # Initialize a CPU storage from an initial capacity and
+  # an initial value, which will fill the buffer
+  #
+  # ```
+  # CPU.new([10, 10], 3.4)
+  # ```
+  def initialize(shape : Array(Int), strides : Array(Int), value : T)
     @data = Pointer(T).malloc(shape.product, value)
   end
 
@@ -51,7 +71,7 @@ struct CPU(T) < Num::Backend::Storage(T)
   # a = Pointer(Int32).malloc(10)
   # s = CPU.new(a, [5, 2])
   # ```
-  def initialize(data : Pointer(T), shape : Array(Int))
+  def initialize(data : Pointer(T), shape : Array(Int), strides : Array(Int))
     @data = data
   end
 
@@ -79,6 +99,9 @@ struct CPU(T) < Num::Backend::Storage(T)
   # ```
   def self.base(dtype : U.class) : CPU(U).class forall U
     CPU(U)
+  end
+
+  def update_metadata(shape : Array(Int32), strides : Array(Int32))
   end
 end
 

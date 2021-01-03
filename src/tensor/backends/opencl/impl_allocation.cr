@@ -22,7 +22,18 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 struct OCL(T) < Num::Backend::Storage(T)
-  getter data : LibCL::ClMem
+  # Initialize an OpenCL storage from an initial capacity.
+  # The data will be filled with zeros
+  #
+  # ```
+  # OCL.new([100])
+  # ```
+  def initialize(shape : Array(Int), order : Num::OrderType)
+    @data = Cl.buffer(Num::ClContext.instance.context, shape.product.to_u64, dtype: T)
+    @shape = metadata_to_buffer(shape.map &.to_i)
+    @strides = metadata_to_buffer(Num::Internal.shape_to_strides(shape, order))
+    @total_size = shape.product
+  end
 
   # Initialize an OpenCL storage from an initial capacity.
   # The data will be filled with zeros
@@ -30,8 +41,11 @@ struct OCL(T) < Num::Backend::Storage(T)
   # ```
   # OCL.new([100])
   # ```
-  def initialize(shape : Array(Int))
+  def initialize(shape : Array(Int), strides : Array(Int))
     @data = Cl.buffer(Num::ClContext.instance.context, shape.product.to_u64, dtype: T)
+    @shape = metadata_to_buffer(shape.map &.to_i)
+    @strides = metadata_to_buffer(strides.map &.to_i)
+    @total_size = shape.product
   end
 
   # Initialize an OpenCL storage from an initial capacity and
@@ -40,9 +54,26 @@ struct OCL(T) < Num::Backend::Storage(T)
   # ```
   # OCL.new([10, 10], 3.4)
   # ```
-  def initialize(shape : Array(Int), value : T)
+  def initialize(shape : Array(Int), order : Num::OrderType, value : T)
     @data = Cl.buffer(Num::ClContext.instance.context, shape.product.to_u64, dtype: T)
-    Cl.fill(Num::ClContext.instance.queue, data, value, shape.product.to_u64)
+    @shape = metadata_to_buffer(shape.map &.to_i)
+    @strides = metadata_to_buffer(Num::Internal.shape_to_strides(shape, order))
+    @total_size = shape.product
+    Cl.fill(Num::ClContext.instance.queue, @data, value, shape.product.to_u64)
+  end
+
+  # Initialize an OpenCL storage from an initial capacity and
+  # an initial value, which will fill the buffer
+  #
+  # ```
+  # OCL.new([10, 10], 3.4)
+  # ```
+  def initialize(shape : Array(Int), strides : Array(Int), value : T)
+    @data = Cl.buffer(Num::ClContext.instance.context, shape.product.to_u64, dtype: T)
+    @shape = metadata_to_buffer(shape.map &.to_i)
+    @strides = metadata_to_buffer(strides.map &.to_i)
+    @total_size = shape.product
+    Cl.fill(Num::ClContext.instance.queue, @data, value, shape.product.to_u64)
   end
 
   # Initialize an OpenCL storage from a standard library Crystal
@@ -52,9 +83,17 @@ struct OCL(T) < Num::Backend::Storage(T)
   # ptr = Pointer(Int32).malloc(9)
   # OCL.new(ptr, [3, 3])
   # ```
-  def initialize(hostptr : Pointer(T), shape : Array(Int))
+  def initialize(hostptr : Pointer(T), shape : Array(Int), strides : Array(Int))
     @data = Cl.buffer(Num::ClContext.instance.context, shape.product.to_u64, dtype: T)
-    Cl.write(Num::ClContext.instance.queue, hostptr, storage.data, (shape.product * sizeof(T)).to_u64)
+    @shape = metadata_to_buffer(shape.map &.to_i)
+    @strides = metadata_to_buffer(strides.map &.to_i)
+    @total_size = shape.product
+    Cl.write(Num::ClContext.instance.queue, hostptr, @data, (shape.product * sizeof(T)).to_u64)
+  end
+
+  def update_metadata(shape : Array(Int32), strides : Array(Int32))
+    @shape = metadata_to_buffer(shape)
+    @strides = metadata_to_buffer(strides)
   end
 
   # Return a generic class of a specific generic type, to allow
@@ -71,5 +110,11 @@ struct OCL(T) < Num::Backend::Storage(T)
   # ```
   def self.base(dtype : U.class) : OCL(U).class forall U
     OCL(U)
+  end
+
+  private def metadata_to_buffer(arr : Array(Int32))
+    buffer = Cl.buffer(Num::ClContext.instance.context, arr.size.to_u64, dtype: Int32)
+    Cl.write(Num::ClContext.instance.queue, arr.to_unsafe, buffer, (arr.size * sizeof(Int32)).to_u64)
+    buffer
   end
 end

@@ -31,6 +31,7 @@ class Tensor(T, S)
     assert_types
     @shape = shape.map &.to_i
     @strides = Num::Internal.shape_to_strides(shape, order)
+    @data.update_metadata(@shape, @strides)
     @size = @shape.product
     @offset = 0
   end
@@ -42,6 +43,7 @@ class Tensor(T, S)
   #
   # The dtype is required to infer T without having it explicitly provided
   def initialize(@data : S, @shape : Array(Int32), @strides : Array(Int32), @offset : Int32, dtype : T.class = T)
+    @data.update_metadata(@shape, @strides)
     @size = @shape.product
   end
 
@@ -65,7 +67,7 @@ class Tensor(T, S)
   # b = Tensor(Float32).new([2, 3, 4])                       # => CPU Tensor
   # ```
   def self.new(shape : Array(Int), order : Num::OrderType = Num::RowMajor)
-    data = S.new(shape)
+    data = S.new(shape, order)
     new(data, shape, order, T)
   end
 
@@ -76,7 +78,7 @@ class Tensor(T, S)
   # a = Tensor.new([2, 2], 3.5) # => CPU Tensor filled with 3.5
   # ```
   def self.new(shape : Array(Int), value : T, device = CPU(T), order : Num::OrderType = Num::RowMajor)
-    data = device.new(shape, value)
+    data = device.new(shape, order, value)
     new(data, shape, order, T)
   end
 
@@ -90,7 +92,7 @@ class Tensor(T, S)
     ptr = Pointer.malloc(shape.product) do |index|
       yield index
     end
-    storage = device.new(ptr, shape)
+    storage = device.new(ptr, shape, Num::Internal.shape_to_strides(shape, order))
     new(storage, shape, order, T)
   end
 
@@ -106,7 +108,7 @@ class Tensor(T, S)
       j = idx % n
       yield i, j
     end
-    storage = device.new(ptr, [m, n])
+    storage = device.new(ptr, [m, n], [n, 1])
     new(storage, [m, n], Num::RowMajor, T)
   end
 
@@ -121,7 +123,7 @@ class Tensor(T, S)
   def self.from_array(a : Array, device = CPU)
     shape = Num::Internal.recursive_array_shape(a)
     flat = a.flatten
-    storage = device.new(flat.to_unsafe, shape)
+    storage = device.new(flat.to_unsafe, shape, Num::Internal.shape_to_strides(shape))
     new(storage, shape, from_array: flat)
   end
 
@@ -139,7 +141,7 @@ class Tensor(T, S)
   # t = Tensor(Int8).zeros([3]) # => [0, 0, 0]
   # ```
   def self.zeros(shape : Array(Int)) : Tensor(T, S)
-    self.new(S.new(shape, T.new(0)), shape, Num::RowMajor, T)
+    self.new(S.new(shape, Num::RowMajor, T.new(0)), shape, Num::RowMajor, T)
   end
 
   # Creates a `Tensor` filled with 0, sharing the shape of another
@@ -157,7 +159,7 @@ class Tensor(T, S)
   # u = Tensor(Int8).zeros_like(t) # => [0, 0, 0]
   # ```
   def self.zeros_like(t : Tensor) : Tensor(T, S)
-    self.new(S.new(t.shape, T.new(0)), shape, Num::RowMajor, T)
+    self.new(S.new(t.shape, Num::RowMajor, T.new(0)), shape, Num::RowMajor, T)
   end
 
   # Creates a `Tensor` of a provided shape, filled with 1.  The generic type
@@ -174,7 +176,7 @@ class Tensor(T, S)
   # t = Tensor(Int8).ones([3]) # => [1, 1, 1]
   # ```
   def self.ones(shape : Array(Int)) : Tensor(T, S)
-    self.new(S.new(shape, T.new(1)), shape, Num::RowMajor, T)
+    self.new(S.new(shape, Num::RowMajor, T.new(1)), shape, Num::RowMajor, T)
   end
 
   # Creates a `Tensor` filled with 1, sharing the shape of another
@@ -192,7 +194,7 @@ class Tensor(T, S)
   # u = Tensor(Int8).ones_like(t) # => [0, 0, 0]
   # ```
   def self.ones_like(t : Tensor) : Tensor(T)
-    self.new(S.new(shape, T.new(1)), shape, Num::RowMajor, T)
+    self.new(S.new(shape, Num::RowMajor, T.new(1)), shape, Num::RowMajor, T)
   end
 
   # Creates a `Tensor` of a provided shape, filled with a value.  The generic type
@@ -209,7 +211,7 @@ class Tensor(T, S)
   # t = Tensor(Int8).full([3], 1) # => [1, 1, 1]
   # ```
   def self.full(shape : Array(Int), value : Number) : Tensor(T, S)
-    self.new(S.new(shape, T.new(value)), shape, Num::RowMajor, T)
+    self.new(S.new(shape, Num::RowMajor, T.new(value)), shape, Num::RowMajor, T)
   end
 
   # Creates a `Tensor` filled with a value, sharing the shape of another
@@ -227,7 +229,7 @@ class Tensor(T, S)
   # u = Tensor.full_like(t, 3) # => [3, 3, 3]
   # ```
   def self.full_like(t : Tensor, value : Number) : Tensor(T, S)
-    self.new(S.new(shape, T.new(value)), shape, Num::RowMajor, T)
+    self.new(S.new(shape, Num::RowMajor, T.new(value)), shape, Num::RowMajor, T)
   end
 
   # Creates a flat `Tensor` containing a monotonically increasing

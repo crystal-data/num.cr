@@ -1,7 +1,9 @@
 # require "./libs/cblas"
 # require "./libs/lapack"
 # require "./libs/clblast"
-#
+
+require "complex"
+
 require "./tensor/internal/shape"
 require "./tensor/internal/broadcast"
 require "./tensor/internal/print"
@@ -13,6 +15,7 @@ require "./tensor/iteration"
 require "./tensor/index"
 require "./tensor/manipulate"
 require "./tensor/math"
+require "./tensor/convert"
 
 require "./tensor/backends/util_storage"
 require "./tensor/backends/util_manipulate"
@@ -31,6 +34,7 @@ require "./tensor/backends/cpu/impl_manipulate"
 require "./tensor/backends/cpu/impl_iteration"
 require "./tensor/backends/cpu/impl_index"
 require "./tensor/backends/cpu/impl_math"
+require "./tensor/backends/cpu/impl_data_structure"
 # require "./tensor/backends/cpu/convert"
 # require "./tensor/backends/cpu/allocation"
 # require "./tensor/backends/cpu/private/yield_iterators"
@@ -38,7 +42,11 @@ require "./tensor/backends/cpu/impl_math"
 #
 require "./tensor/backends/opencl/private/global_state"
 require "./tensor/backends/opencl/impl_allocation"
+require "./tensor/backends/opencl/impl_data_structure"
 require "./tensor/backends/opencl/impl_convert"
+require "./tensor/backends/opencl/impl_math"
+require "./tensor/backends/opencl/impl_index"
+require "./tensor/backends/opencl/impl_manipulate"
 # require "./tensor/backends/opencl/allocation"
 # require "./tensor/backends/opencl/linalg"
 #

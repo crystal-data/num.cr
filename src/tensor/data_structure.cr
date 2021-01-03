@@ -71,7 +71,7 @@ class Tensor(T, S)
   end
 
   def to_s : String
-    Num::Internal.array_to_string(self)
+    Num.tensor_to_string(self)
   end
 
   private macro delegate_to_backend(method)

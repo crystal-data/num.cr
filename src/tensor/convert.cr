@@ -1,4 +1,4 @@
-# Copyright (c) 2020 Crystal Data Contributors
+# Copyright (c) 2021 Crystal Data Contributors
 #
 # MIT License
 #
@@ -21,11 +21,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-abstract struct Num::Backend::Storage(T)
-  abstract def initialize(shape : Array(Int), order : Num::OrderType)
-  abstract def initialize(shape : Array(Int), strides : Array(Int))
-  abstract def initialize(shape : Array(Int), order : Num::OrderType, value : T)
-  abstract def initialize(shape : Array(Int), strides : Array(Int), value : T)
-  abstract def initialize(data : Pointer(T), shape : Array(Int), strides : Array(Int))
-  abstract def update_metadata(shape : Array(Int32), strides : Array(Int32))
+class Tensor(T, S)
+  delegate_to_backend to_a
+  delegate_to_backend cpu
 end
