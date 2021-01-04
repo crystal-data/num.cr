@@ -151,7 +151,7 @@ class Tensor(T, S)
   # # 3_3
   # ```
   def each_pointer_with_index
-    Num.each_pointer_with_index do |el, i|
+    Num.each_pointer_with_index(self) do |el, i|
       yield el, i
     end
   end

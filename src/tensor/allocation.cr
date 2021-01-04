@@ -159,7 +159,7 @@ class Tensor(T, S)
   # u = Tensor(Int8).zeros_like(t) # => [0, 0, 0]
   # ```
   def self.zeros_like(t : Tensor) : Tensor(T, S)
-    self.new(S.new(t.shape, Num::RowMajor, T.new(0)), shape, Num::RowMajor, T)
+    self.new(S.new(t.shape, Num::RowMajor, T.new(0)), t.shape, Num::RowMajor, T)
   end
 
   # Creates a `Tensor` of a provided shape, filled with 1.  The generic type
@@ -193,8 +193,8 @@ class Tensor(T, S)
   # t = Tensor.new([3]) &.to_f
   # u = Tensor(Int8).ones_like(t) # => [0, 0, 0]
   # ```
-  def self.ones_like(t : Tensor) : Tensor(T)
-    self.new(S.new(shape, Num::RowMajor, T.new(1)), shape, Num::RowMajor, T)
+  def self.ones_like(t : Tensor) : Tensor(T, S)
+    self.new(S.new(t.shape, Num::RowMajor, T.new(1)), t.shape, Num::RowMajor, T)
   end
 
   # Creates a `Tensor` of a provided shape, filled with a value.  The generic type

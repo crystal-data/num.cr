@@ -21,12 +21,18 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-abstract struct Num::Backend::Storage(T)
-  abstract def initialize(shape : Array(Int), order : Num::OrderType)
-  abstract def initialize(shape : Array(Int), strides : Array(Int))
-  abstract def initialize(shape : Array(Int), order : Num::OrderType, value : T)
-  abstract def initialize(shape : Array(Int), strides : Array(Int), value : T)
-  abstract def initialize(data : Pointer(T), shape : Array(Int), strides : Array(Int))
-  abstract def update_metadata(shape : Array(Int32), strides : Array(Int32))
-  abstract def to_unsafe
+# A Gate is an object that can cache the result of an operation,
+# as well as backpropogate a payload backwards along the
+# computational graph
+#
+# Child classes that inherit from this class can add instance
+# variables if additional caching is needed, and these need
+# to be populated when writing the cached operation
+abstract class Num::Grad::Gate(T)
+  # Propogates an operation backwards, transforming a payload
+  # and returning an array of Tensors
+  abstract def backward(payload : Num::Grad::Payload(T)) : Array(T)
+
+  # Caches the result of an operation on a context
+  abstract def cache(result : Num::Grad::Variable(T), *args)
 end

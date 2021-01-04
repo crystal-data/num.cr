@@ -25,6 +25,7 @@ module Num
   extend self
 
   private macro elementwise(name, operator)
+    @[AlwaysInline]
     def {{name}}(a : Tensor(U, CPU(U)), b : Tensor(V, CPU(V))) forall U, V
       a.map(b) do |i, j|
         i {{operator.id}} j
@@ -32,6 +33,7 @@ module Num
     end
 
     # :ditto:
+    @[AlwaysInline]
     def {{name}}!(a : Tensor(U, CPU(U)), b : Tensor(V, CPU(V))) forall U, V
       a.map!(b) do |i, j|
         i {{operator.id}} j
@@ -39,6 +41,7 @@ module Num
     end
 
     # :ditto:
+    @[AlwaysInline]
     def {{name}}(a : Tensor(U, CPU(U)), b : Number | Complex) forall U
       a.map do |i|
         i {{operator.id}} b
@@ -46,6 +49,7 @@ module Num
     end
 
     # :ditto:
+    @[AlwaysInline]
     def {{name}}!(a : Tensor(U, CPU(U)), b : Number) forall U
       a.map! do |i|
         i {{operator.id}} b
@@ -53,6 +57,7 @@ module Num
     end
 
     # :ditto:
+    @[AlwaysInline]
     def {{name}}(a : Number, b : Tensor(U, CPU(U))) forall U
       b.map do |i|
         a {{operator.id}} i
@@ -80,6 +85,7 @@ module Num
   elementwise less_equal, :<=
 
   private macro stdlibwrap1d(fn)
+    @[AlwaysInline]
     def {{fn.id}}(a : Tensor(U, CPU(U))) forall U
       a.map do |i|
         Math.{{fn.id}}(i)
@@ -87,6 +93,7 @@ module Num
     end
 
     # :ditto:
+    @[AlwaysInline]
     def {{fn.id}}!(a : Tensor(U, CPU(U))) forall U
       a.map! do |i|
         Math.{{fn.id}}(i)
@@ -94,6 +101,7 @@ module Num
     end
 
     # :ditto:
+    @[AlwaysInline]
     def {{fn.id}}(a : Number | Complex)
       Math.{{fn.id}}(a)
     end
@@ -132,6 +140,7 @@ module Num
   stdlibwrap1d tanh
 
   private macro stdlibwrap(fn)
+    @[AlwaysInline]
     def {{fn.id}}(a : Tensor(U, CPU(U)), b : Tensor(V, CPU(V))) forall U, V
       a.map(b) do |i, j|
         Math.{{fn.id}}(i, j)
@@ -139,6 +148,7 @@ module Num
     end
 
     # :ditto:
+    @[AlwaysInline]
     def {{fn.id}}!(a : Tensor(U, CPU(U)), b : Tensor(V, CPU(V))) forall U, V
       a.map(b) do |i, j|
         Math.{{fn.id}}(i, j)
@@ -146,6 +156,7 @@ module Num
     end
 
     # :ditto:
+    @[AlwaysInline]
     def {{fn.id}}(a : Tensor(U, CPU(U)), b : Number) forall U
       a.map do |i|
         Math.{{fn.id}}(i, b)
@@ -153,6 +164,7 @@ module Num
     end
 
     # :ditto:
+    @[AlwaysInline]
     def {{fn.id}}!(a : Tensor(U, CPU(U)), b : Number) forall U
       a.map! do |i|
         Math.{{fn.id}}(i, b)
@@ -160,12 +172,15 @@ module Num
     end
 
     # :ditto:
+    @[AlwaysInline]
     def {{fn.id}}(a : Number, b : Tensor(U, CPU(U))) forall U
       b.map do |i|
         Math.{{fn.id}}(a, i)
       end
     end
 
+    # :ditto:
+    @[AlwaysInline]
     def {{fn.id}}(a : Number, b : Number)
       Math.{{fn.id}}(a, b)
     end

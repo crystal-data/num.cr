@@ -21,12 +21,14 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-abstract struct Num::Backend::Storage(T)
-  abstract def initialize(shape : Array(Int), order : Num::OrderType)
-  abstract def initialize(shape : Array(Int), strides : Array(Int))
-  abstract def initialize(shape : Array(Int), order : Num::OrderType, value : T)
-  abstract def initialize(shape : Array(Int), strides : Array(Int), value : T)
-  abstract def initialize(data : Pointer(T), shape : Array(Int), strides : Array(Int))
-  abstract def update_metadata(shape : Array(Int32), strides : Array(Int32))
-  abstract def to_unsafe
+# A Payload is a simple wrapper around a Variable.  It
+# is only abstracted out to be a bit more explicit that
+# it is being passed around through an operation
+class Num::Grad::Payload(T)
+  # Contents of the paylod
+  getter variable : Num::Grad::Variable(T)
+
+  # This should only be called by internal methods
+  def initialize(@variable : Num::Grad::Variable(T))
+  end
 end

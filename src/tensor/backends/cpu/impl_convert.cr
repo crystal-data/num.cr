@@ -34,11 +34,42 @@ module Num
   # a = Tensor.new([2, 2]) { |i| i }
   # a.to_a # => [0, 1, 2, 3]
   # ```
+  @[AlwaysInline]
   def to_a(arr : Tensor(U, CPU(U))) forall U
     a = [] of T
     each(arr) do |el|
       a << el
     end
     a
+  end
+
+  # Casts a `Tensor` to a new dtype, by making a copy.  Information may
+  # be lost when converting between data types, for example Float to Int
+  # or Int to Bool.
+  #
+  # Arguments
+  # ---------
+  # *u* : U.class
+  #   Data type the `Tensor` will be cast to
+  #
+  # Examples
+  # --------
+  # ```
+  # a = Tensor.from_array [1.5, 2.5, 3.5]
+  #
+  # a.astype(Int32)   # => [1, 2, 3]
+  # a.astype(Bool)    # => [true, true, true]
+  # a.astype(Float32) # => [1.5, 2.5, 3.5]
+  # ```
+  def as_type(arr : Tensor(U, CPU(U)), dtype : V.class) forall U, V
+    r = Tensor(V, CPU(V)).new(arr.shape)
+    r.map!(arr) do |_, j|
+      {% if U == Bool %}
+        j ? 1 : 0
+      {% else %}
+        j
+      {% end %}
+    end
+    r
   end
 end

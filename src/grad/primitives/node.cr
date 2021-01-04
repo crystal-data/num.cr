@@ -21,12 +21,33 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-abstract struct Num::Backend::Storage(T)
-  abstract def initialize(shape : Array(Int), order : Num::OrderType)
-  abstract def initialize(shape : Array(Int), strides : Array(Int))
-  abstract def initialize(shape : Array(Int), order : Num::OrderType, value : T)
-  abstract def initialize(shape : Array(Int), strides : Array(Int), value : T)
-  abstract def initialize(data : Pointer(T), shape : Array(Int), strides : Array(Int))
-  abstract def update_metadata(shape : Array(Int32), strides : Array(Int32))
-  abstract def to_unsafe
+# A Node is a member of a computational graph that contains
+# a reference to a gate, as well as the parents of the operation
+# and the payload that resulted from the operation.
+class Num::Grad::Node(T)
+  # A Gate containing a backwards and cache function for
+  # a node
+  getter gate : Num::Grad::Gate(T)
+
+  # The variables that created this node
+  getter parents : Array(Num::Grad::Variable(T))
+
+  # Wrapper around a Tensor, contains operation data
+  getter payload : Num::Grad::Payload(T)
+
+  # Debug use only, contains a name for a node
+  getter name : String
+
+  # This initializer shouldn't ever be called outside of
+  # Num::Grad.register.
+  #
+  # Users defining custom gradients and gates should
+  # follow the same rule
+  def initialize(
+    @gate : Gate(T),
+    @parents : Array(Num::Grad::Variable(T)),
+    @payload : Num::Grad::Payload(T),
+    @name : String = ""
+  )
+  end
 end

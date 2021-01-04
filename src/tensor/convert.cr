@@ -24,4 +24,5 @@
 class Tensor(T, S)
   delegate_to_backend to_a
   delegate_to_backend cpu
+  delegate_to_backend as_type
 end

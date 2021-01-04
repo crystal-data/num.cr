@@ -22,7 +22,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 class Array(T)
-  def to_tensor
-    Tensor.from_array self
+  def to_tensor(device = CPU)
+    Tensor.from_array self, device: device
   end
 end

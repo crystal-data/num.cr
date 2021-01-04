@@ -74,6 +74,10 @@ class Tensor(T, S)
     Num.tensor_to_string(self)
   end
 
+  def to_unsafe
+    @data.to_unsafe
+  end
+
   private macro delegate_to_backend(method)
     def {{method.id}}(*args, **options)
       Num.{{method.id}}(self, *args, **options)

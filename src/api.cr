@@ -1,8 +1,10 @@
-# require "./libs/cblas"
-# require "./libs/lapack"
-# require "./libs/clblast"
+require "./libs/cblas"
+require "./libs/lapack"
+require "./libs/clblast"
 
 require "complex"
+
+require "./extensions/array"
 
 require "./tensor/internal/shape"
 require "./tensor/internal/broadcast"
@@ -23,23 +25,15 @@ require "./tensor/backends/util_index"
 
 require "./tensor/backends/hostptr/unsafe_iter"
 require "./tensor/backends/hostptr/yield_iterators"
-#
-# require "./tensor/backends/agnostic/storage"
-# require "./tensor/backends/linalg/linalg_has_hostptr"
-# require "./tensor/backends/linalg/work_has_hostptr"
-# require "./tensor/backends/linalg/definitions_has_hostptr"
-#
+
 require "./tensor/backends/cpu/impl_allocation"
 require "./tensor/backends/cpu/impl_manipulate"
 require "./tensor/backends/cpu/impl_iteration"
 require "./tensor/backends/cpu/impl_index"
 require "./tensor/backends/cpu/impl_math"
 require "./tensor/backends/cpu/impl_data_structure"
-# require "./tensor/backends/cpu/convert"
-# require "./tensor/backends/cpu/allocation"
-# require "./tensor/backends/cpu/private/yield_iterators"
-# require "./tensor/backends/cpu/linalg"
-#
+require "./tensor/backends/cpu/impl_convert"
+
 require "./tensor/backends/opencl/private/global_state"
 require "./tensor/backends/opencl/impl_allocation"
 require "./tensor/backends/opencl/impl_data_structure"
@@ -47,9 +41,19 @@ require "./tensor/backends/opencl/impl_convert"
 require "./tensor/backends/opencl/impl_math"
 require "./tensor/backends/opencl/impl_index"
 require "./tensor/backends/opencl/impl_manipulate"
-# require "./tensor/backends/opencl/allocation"
-# require "./tensor/backends/opencl/linalg"
-#
+
+require "./linalg/extension"
+require "./linalg/work"
+require "./linalg/linalg"
+
+require "./grad/primitives/context"
+require "./grad/primitives/gate"
+require "./grad/primitives/node"
+require "./grad/primitives/payload"
+require "./grad/primitives/variable"
+require "./grad/gates_arithmetic.cr"
+require "./grad/variable_ops.cr"
+
 # {% if flag?(:arrow) %}
 #   require "./tensor/backends/arrow/storage"
 #   require "./tensor/backends/arrow/index"

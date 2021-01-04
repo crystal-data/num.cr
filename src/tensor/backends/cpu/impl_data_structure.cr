@@ -23,6 +23,10 @@
 
 struct CPU(T) < Num::Backend::Storage(T)
   getter data : Pointer(T)
+
+  def to_unsafe
+    @data
+  end
 end
 
 module Num

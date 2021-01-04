@@ -43,6 +43,7 @@ module Num
   # # 2
   # # 3
   # ```
+  @[AlwaysInline]
   def each(arr : Tensor(U, CPU(U)), &block : U -> _) forall U
     each_pointer_with_index(arr) do |el, _|
       yield el.value
@@ -69,6 +70,7 @@ module Num
   # # 2
   # # 3
   # ```
+  @[AlwaysInline]
   def each(arr : Tensor(U, CPU(U))) forall U
     Num::Internal::UnsafeNDFlatIter.new(arr)
   end
@@ -96,6 +98,7 @@ module Num
   # # 2
   # # 3
   # ```
+  @[AlwaysInline]
   def each_pointer(arr : Tensor(U, CPU(U)), &block : Pointer(U) -> _) forall U
     each_pointer_with_index(arr) do |el, _|
       yield el
@@ -122,6 +125,7 @@ module Num
   # # 2_2
   # # 3_3
   # ```
+  @[AlwaysInline]
   def each_with_index(arr : Tensor(U, CPU(U)), &block : U, Int32 -> _) forall U
     each_pointer_with_index(arr) do |el, i|
       yield el.value, i
@@ -151,6 +155,7 @@ module Num
   # # 2
   # # 3
   # ```
+  @[AlwaysInline]
   def each_pointer_with_index(arr : Tensor(U, CPU(U)), &block : Pointer(U), Int32 -> _) forall U
     Num::Backend.strided_iteration(arr) do |i, el|
       yield el, i
@@ -175,6 +180,7 @@ module Num
   # a = Tensor.new([3]) { |i| i }
   # a.map { |e| e + 5 } # => [5, 6, 7]
   # ```
+  @[AlwaysInline]
   def map(arr : Tensor(U, CPU(U)), &block : U -> V) : Tensor(V, CPU(V)) forall U, V
     result = Tensor(V, CPU(V)).new(arr.shape)
     data = result.data.to_hostptr
@@ -200,6 +206,7 @@ module Num
   # a.map! { |e| e + 5 }
   # a # => [5, 6, 7]
   # ```
+  @[AlwaysInline]
   def map!(arr : Tensor(U, CPU(U)), &block : U -> _) forall U
     each_pointer(arr) do |ptr|
       value = yield(ptr.value)
@@ -235,6 +242,7 @@ module Num
   #
   # a.map(b) { |i, j| i + j } # => [0, 2, 4]
   # ```
+  @[AlwaysInline]
   def map(a0 : Tensor(U, CPU(U)), a1 : Tensor(V, CPU(V)), &block : U, V -> W) forall U, V, W
     a0, a1 = a0.broadcast(a1)
     result = Tensor(W, CPU(W)).new(a0.shape)
@@ -270,6 +278,7 @@ module Num
   # a.map!(b) { |i, j| i + j }
   # a # => [0, 2, 4]
   # ```
+  @[AlwaysInline]
   def map!(a0 : Tensor(U, CPU(U)), a1 : Tensor(V, CPU(V)), &block : U, V -> _) forall U, V
     a1 = a1.broadcast_to(a0.shape)
     Num::Backend.dual_strided_iteration(a0, a1) do |_, i, j|
@@ -310,6 +319,7 @@ module Num
   #
   # a.map(b, c) { |i, j, k| i + j + k } # => [0, 3, 6]
   # ```
+  @[AlwaysInline]
   def map(
     a0 : Tensor(U, CPU(U)),
     a1 : Tensor(V, CPU(V)),
@@ -354,6 +364,7 @@ module Num
   # a.map!(b, c) { |i, j, k| i + j + k }
   # a # => [0, 3, 6]
   # ```
+  @[AlwaysInline]
   def map!(a0 : Tensor(U, CPU(U)), a1 : Tensor(V, CPU(V)), a2 : Tensor(W, CPU(W)), &block) forall U, V, W
     a1 = a1.broadcast_to(a0.shape)
     a2 = a2.broadcast_to(a2.shape)
