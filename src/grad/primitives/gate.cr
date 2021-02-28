@@ -34,5 +34,5 @@ abstract class Num::Grad::Gate(T)
   abstract def backward(payload : Num::Grad::Payload(T)) : Array(T)
 
   # Caches the result of an operation on a context
-  abstract def cache(result : Num::Grad::Variable(T), *args)
+  abstract def cache(result : Num::Grad::Variable(T), *args : Num::Grad::Variable(T))
 end
