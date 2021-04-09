@@ -32,7 +32,7 @@ class Num::NN::LeakyReluGate(T) < Num::Grad::Gate(T)
     [Num::NN.leaky_relu_prime(gradient, @cache)]
   end
 
-  def cache(result : Num::Grad::Variable(T), *args : Num::Grad::Variable(T))
+  def cache(result : Num::Grad::Variable(T), *args)
     result.grad = T.zeros_like(result.value)
     result.requires_grad = true
 
