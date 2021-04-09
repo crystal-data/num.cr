@@ -1776,7 +1776,7 @@ class Tensor(T)
         arg = arg.begin...@shape[i]
       end
     end
-    s, o = Indexable.range_to_index_and_count(arg, @shape[i])
+    s, o = Indexable.range_to_index_and_count(arg, @shape[i]).not_nil!
     if s >= @shape[i]
       raise Num::Internal::IndexError.new(
         "Index #{arg} out of range for axis #{i} with size #{@shape[i]}"
@@ -1788,7 +1788,7 @@ class Tensor(T)
   private def normalize(arg : Tuple(Range(B, E), Int), i : Int32) forall B, E
     range, step = arg
     abs_step = step.abs
-    start, offset = Indexable.range_to_index_and_count(range, @shape[i])
+    start, offset = Indexable.range_to_index_and_count(range, @shape[i]).not_nil!
     if start >= @shape[i]
       raise Num::Internal::IndexError.new(
         "Index #{arg} out of range for axis #{i} with size #{@shape[i]}"

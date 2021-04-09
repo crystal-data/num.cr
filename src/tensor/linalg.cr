@@ -171,7 +171,7 @@ class Tensor(T)
   #
   # Examples
   # --------
-  # ```crystal
+  # ```
   # t = [[0, 1], [1, 1], [1, 1], [2, 1]].to_tensor.as_type(Float32)
   # q, r = t.qr
   # puts q
@@ -210,7 +210,7 @@ class Tensor(T)
   #
   # Examples
   # --------
-  # ```crystal
+  # ```
   # t = [[0, 1], [1, 1], [1, 1], [2, 1]].to_tensor.as_type(Float32)
   # a, b, c = t.svd
   # puts a
@@ -246,7 +246,7 @@ class Tensor(T)
   #
   # Examples
   # --------
-  # ```crystal
+  # ```
   # t = [[0, 1], [1, 1]].to_tensor.as_type(Float32)
   # w, v = t.eigh
   # puts w
@@ -281,7 +281,7 @@ class Tensor(T)
   #
   # Examples
   # --------
-  # ```crystal
+  # ```
   # t = [[0, 1], [1, 1]].to_tensor.as_type(Float32)
   # w, v = t.eig
   # puts w
@@ -369,7 +369,7 @@ class Tensor(T)
   #
   # Examples
   # --------
-  # ```crystal
+  # ```
   # t = [[0, 1], [1, 1], [1, 1], [2, 1]].to_tensor.as_type(Float32)
   # t.norm # => 3.6055512
   # ```
@@ -388,7 +388,7 @@ class Tensor(T)
   #
   # Examples
   # --------
-  # ```crystal
+  # ```
   # t = [[1, 2], [3, 4]].to_tensor.astype(Float32)
   # puts t.det # => -2.0
   # ```
@@ -419,7 +419,7 @@ class Tensor(T)
   #
   # Examples
   # --------
-  # ```crystal
+  # ```
   # t = [[1, 2], [3, 4]].to_tensor.as_type(Float32)
   # puts t.inv
   #
@@ -448,7 +448,7 @@ class Tensor(T)
   #
   # Examples
   # --------
-  # ```crystal
+  # ```
   # a = [[3, 1], [1, 2]].to_tensor.astype(Float32)
   # b = [9, 8].to_tensor.astype(Float32)
   # puts a.solve(b)

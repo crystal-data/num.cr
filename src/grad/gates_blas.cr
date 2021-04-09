@@ -41,7 +41,7 @@ class Num::Grad::MatMulGate(T) < Num::Grad::Gate(T)
   end
 
   # :nodoc:
-  def cache(result : Num::Grad::Variable(T), *args : Num::Grad::Variable(T))
+  def cache(result : Num::Grad::Variable(T), *args)
     a, b = args
 
     result.grad = T.zeros_like(result.value)

@@ -53,7 +53,7 @@ class Num::NN::LinearGate(T) < Num::Grad::Gate(T)
     result
   end
 
-  def cache(result : Num::Grad::Variable(T), *args : Num::Grad::Variable(T))
+  def cache(result : Num::Grad::Variable(T), *args)
     input, weight, bias = args
     result.grad = T.zeros_like(result.value)
     Num::Grad.register("Linear", self, result, input, weight, bias)

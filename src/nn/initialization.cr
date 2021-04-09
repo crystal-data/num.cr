@@ -44,7 +44,7 @@ module Num::NN
     end
 
     product = 1
-    2.step(to: shape.size - 1) do |i|
+    1.step(to: shape.size - 1) do |i|
       product *= shape[i]
     end
 

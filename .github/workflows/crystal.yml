@@ -13,6 +13,6 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Install dependencies
-      run: shards install
+      run: shards install --ignore-crystal-version
     - name: Run tests
       run: crystal spec
