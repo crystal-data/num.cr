@@ -707,7 +707,7 @@ class Tensor(T)
   # # 3_3
   # ```
   def each_with_index
-    iter.each_with_index do |el, i|
+    strided_iteration(self) do |i, el|
       yield el.value, i
     end
   end
@@ -737,7 +737,7 @@ class Tensor(T)
   # # 3_3
   # ```
   def each_pointer_with_index
-    iter.each_with_index do |el, i|
+    strided_iteration(self) do |i, el|
       yield el, i
     end
   end
@@ -806,7 +806,7 @@ class Tensor(T)
   # # [[2, 3]]
   # ```
   def each_axis(axis : Int = -1, dims : Bool = false)
-    Num::Internal::AxisIter.new(self, axis, keepdims: dims).each do |a|
+    Num::Internal::AxisIter(Tensor(T), T).new(self, axis, keepdims: dims).each do |a|
       yield a
     end
   end
@@ -1562,6 +1562,14 @@ class Tensor(T)
       yield a, idx
       idx += 1
     end
+  end
+
+  # :nodoc:
+  def reduce(memo)
+    each do |elem|
+      memo = yield memo, elem
+    end
+    memo
   end
 
   # :nodoc:

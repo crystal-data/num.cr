@@ -24,18 +24,18 @@
 require "../tensor"
 
 # :nodoc:
-struct Num::Internal::AxisIter(T)
+struct Num::Internal::AxisIter(T, V)
   include Iterator(T)
   @shape : Array(Int32)
   @strides : Array(Int32)
   @inc : Int32
-  @ptr : Pointer(T)
-  @tmp : Tensor(T)
+  @ptr : Pointer(V)
+  @tmp : T
   @total : Int32
   @yielded : Int32 = 0
   @axis : Int32
 
-  def initialize(arr : Tensor(T), @axis : Int32 = -1, keepdims = false)
+  def initialize(arr : T, @axis : Int32 = -1, keepdims = false)
     if @axis < 0
       @axis += arr.rank
     end

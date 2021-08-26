@@ -42,8 +42,8 @@ module Num
   # ```
   def sum(a : Tensor | Enumerable)
     a_t = a.to_tensor
-    a_t.iter.reduce(a_t.dtype.new(0)) do |i, j|
-      i + j.value
+    a_t.reduce(a_t.dtype.new(0)) do |i, j|
+      i + j
     end
   end
 

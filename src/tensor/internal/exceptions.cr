@@ -22,9 +22,6 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 module Num::Internal
-  class NotImplementedError < Exception
-  end
-
   class IndexError < Exception
   end
 
@@ -38,8 +35,5 @@ module Num::Internal
   end
 
   class WriteError < Exception
-  end
-
-  class TypeError < Exception
   end
 end
