@@ -50,4 +50,11 @@ describe Num::Internal do
       Num::Internal.stdlib_array_to_nd_shape(ary)
     end
   end
+
+  it "Detects axis out of range" do
+    t = Tensor(Int32).new([3, 3])
+    expect_raises(Num::Exceptions::AxisError) do
+      Num::Internal.check_axis_index(t, 3, 0, 3)
+    end
+  end
 end

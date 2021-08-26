@@ -41,7 +41,7 @@ describe Tensor do
     t.strides.should eq [2, 1]
     t.offset.should eq 0
     t.size.should eq 4
-    t.raw.to_slice(4).should eq Slice(Int32).new(4, 0)
+    t.to_a.should eq [0, 0, 0, 0]
   end
 
   it "initializes a fortran contiguous empty Tensor" do
@@ -51,12 +51,12 @@ describe Tensor do
     t.strides.should eq [1, 2]
     t.offset.should eq 0
     t.size.should eq 4
-    t.raw.to_slice(4).should eq Slice(Int32).new(4, 0)
+    t.to_a.should eq [0, 0, 0, 0]
   end
 
   it "initializes a tensor with an initial value" do
     t = Tensor.new([2, 2], 4.5)
-    t.raw.to_slice(4).should eq Slice(Float64).new(4, 4.5)
+    t.to_a.should eq [4.5, 4.5, 4.5, 4.5]
   end
 
   it "updates flags correctly in a non-contiguous tensor" do
@@ -76,14 +76,12 @@ describe Tensor do
 
   it "populates tensor data from a block" do
     t = Tensor.new([2, 2]) { |i| i }
-    expected = Slice.new(4) { |i| i }
-    t.raw.to_slice(4).should eq expected
+    t.to_a.should eq [0, 1, 2, 3]
   end
 
   it "populates tensor data from a block with fortran order" do
     t = Tensor.new([2, 2], Num::ColMajor) { |i| i }
-    expected = Slice.new(4) { |i| i }
-    t.raw.to_slice(4).should eq expected
+    t.to_a.should eq [0, 2, 1, 3]
   end
 
   it "disallows empty matrix creation" do
@@ -96,7 +94,6 @@ describe Tensor do
     t = Tensor.new(2, 2) do |i, j|
       i + j
     end
-
-    t.raw.to_slice(4).should eq Slice(Int32).new([0, 1, 1, 2].to_unsafe, 4)
+    t.to_a.should eq [0, 1, 1, 2]
   end
 end

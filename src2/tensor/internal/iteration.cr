@@ -221,4 +221,62 @@ module Num::Iteration
       end
     end
   end
+
+  @[AlwaysInline]
+  def at_axis_index(t : Tensor, axis : Int32, idx : Int32, length : Int32 = 1, dims : Bool = false)
+    Num::Internal.check_axis_index(t, axis, idx, length)
+    shape = t.shape.dup
+    strides = t.strides.dup
+
+    shape[axis] = 1
+    strides[axis] = 0
+
+    unless dims
+      shape.delete_at(axis)
+      strides.delete_at(axis)
+    end
+
+    offset = t.offset + t.strides[axis] * idx
+    flags = t.flags.dup
+    flags &= ~Num::ArrayFlags::OwnData
+
+    t.class.new(t.raw, shape, strides, offset, flags)
+  end
+
+  @[AlwaysInline]
+  def axis_iteration(
+    t : Tensor,
+    axis : Int32,
+    iter_offset : Int32,
+    iter_size : Int32,
+    dims : Bool = false
+  )
+    result = at_axis_index(t, axis, iter_offset, 1, dims)
+
+    iter_size.times do
+      yield result
+      result.offset += t.strides[axis]
+    end
+  end
+
+  @[AlwaysInline]
+  def dual_axis_iteration(
+    a : Tensor,
+    b : Tensor,
+    axis : Int32,
+    iter_offset : Int32,
+    iter_size : Int32,
+    dims : Bool = false
+  )
+    raise Num::Exceptions::ValueError.new("Shapes along axis must match") unless a.shape[axis] == b.shape[axis]
+
+    r0 = at_axis_index(a, axis, iter_offset, 1, dims)
+    r1 = at_axis_index(b, axis, iter_offset, 1, dims)
+
+    iter_size.times do
+      yield r0, r1
+      r0.offset += a.strides[axis]
+      r1.offset += b.strides[axis]
+    end
+  end
 end

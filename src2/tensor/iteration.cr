@@ -252,9 +252,9 @@ class Tensor(T)
   # a # => [0, 2, 4]
   # ```
   @[AlwaysInline]
-  def map!(a0 : Tensor(U, CPU(U)), a1 : Tensor(V, CPU(V)), &block : U, V -> _) forall U, V
-    a1 = a1.broadcast_to(a0.shape)
-    Num::Backend.dual_strided_iteration(a0, a1) do |_, i, j|
+  def map!(a1 : Tensor(U), &block : T, U -> _) forall U
+    a1 = self.broadcast_to(a0.shape)
+    Num::Iteration.dual_strided_iteration(self, a1) do |_, i, j|
       value = yield(i.value, j.value)
       {% if U == Bool %}
         i.value = (value ? true : false) && value != 0
@@ -353,58 +353,67 @@ class Tensor(T)
     end
   end
 
-  def reduce_axis(a0 : Tensor(U, CPU(U)), axis : Int, dims : Bool = false, &block : U, U -> _) forall U, V
-    axis = a0.rank + axis if axis < 0
-    raise "Axis out of range for Tensor" if axis >= a0.rank
-
-    shape = a0.shape.dup
-    strides = a0.strides.dup
-    offset = a0.offset
-
-    if dims
-      shape[axis] = 1
-      strides[axis] = 0
-    else
-      shape.delete_at(axis)
-      strides.delete_at(axis)
-    end
-
-    result = Tensor(U, CPU(U)).new(a0.data, shape, strides, a0.offset).dup(Num::RowMajor)
-
-    1.step(to: a0.shape[axis] - 1) do
-      offset += a0.strides[axis]
-      tmp = Tensor(U, CPU(U)).new(a0.data, shape, strides, offset)
-      result.map!(tmp) do |i, j|
-        yield i, j
-      end
-    end
-
-    result
-  end
-
-  def each_axis(a0 : Tensor(U, CPU(U)), axis : Int, dims : Bool = false, &block : Tensor(U, CPU(U)) -> _) forall U
-    axis = a0.rank + axis if axis < 0
-    raise "Axis out of range for Tensor" if axis >= a0.rank
-
-    shape = a0.shape.dup
-    strides = a0.strides.dup
-    offset = a0.offset
-
-    if dims
-      shape[axis] = 1
-      strides[axis] = 0
-    else
-      shape.delete_at(axis)
-      strides.delete_at(axis)
-    end
-
-    a0.shape[axis].times do |i|
-      yield Tensor(U, CPU(U)).new(a0.data, shape, strides, offset, U)
-      offset += a0.strides[axis]
+  # Yields the elements of a `Tensor` along an axis, one slice at
+  # a time
+  #
+  # Arguments
+  # ---------
+  # *axis* : Int
+  #   Axis along which to yield
+  # *dims* : Bool
+  #   Flag indicating whether or not to squeeze the axis being yielded
+  #
+  # Examples
+  # --------
+  # ```
+  # a = Tensor.new(2, 2) { |i| i }
+  # a.each_axis(0) do |el|
+  #   puts el
+  # end
+  #
+  # # [0, 1]
+  # # [2, 3]
+  # ```
+  def each_axis(axis : Int, dims : Bool = false, &block : Tensor(T) -> _)
+    Num::Iteration.axis_iteration(self, axis, 0, @shape[axis], dims) do |ax|
+      yield ax
     end
   end
 
-  def each_axis(arr : Tensor(U, CPU(U)), axis : Int, dims : Bool = false) forall U
-    Num::Internal::UnsafeAxisIter.new(arr, axis, dims)
+  # Yields the elements of two `Tensor`s along a common axis, one slice at
+  # a time
+  #
+  # Arguments
+  # ---------
+  # *other* : Tensor
+  #   Other tensor to yield
+  # *axis* : Int
+  #   Axis along which to yield
+  # *dims* : Bool
+  #   Flag indicating whether or not to squeeze the axis being yielded
+  #
+  # Examples
+  # --------
+  # ```
+  # a = Tensor.new(2, 2) { |i| i }
+  # a.zip_axis(a, 0, dims: true) do |a, b|
+  #   puts a + b
+  # end
+  #
+  # # [[0, 2]]
+  # # [[4, 6]]
+  # ```
+  def zip_axis(other : Tensor(U), axis : Int, dims : Bool = false, &block : Tensor(T), Tensor(U) -> _) forall U
+    Num::Iteration.dual_axis_iteration(self, other, axis, 0, @shape[axis], dims) do |a0, a1|
+      yield a0, a1
+    end
+  end
+
+  def to_a
+    a = [] of T
+    each do |el|
+      a << el
+    end
+    a
   end
 end

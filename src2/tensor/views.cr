@@ -21,31 +21,31 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-module Num::Exceptions
-  # Raised when a sequence subscript is out of range.
-  # (Slice indices are silently truncated to fall in
-  # the allowed range; if an index is not an integer,
-  # TypeCastError is raised.)
-  class IndexError < Exception
-  end
-
-  # Raised when an operation or function receives an
-  # argument that has the right type but an inappropriate
-  # value, and the situation is not described by a more
-  # precise exception such as IndexError.
-  class ValueError < Exception
-  end
-
-  # This is raised whenever an axis parameter is specified
-  # that is larger than the number of array dimensions.
-  class AxisError < Exception
-  end
-
-  # Generic exception raised by linalg functions.
-  # General purpose exception class, programmatically
-  # raised in linalg functions when a Linear
-  # Algebra-related condition would prevent further
-  # correct execution of the function.
-  class LinAlgError < Exception
+class Tensor(T)
+  # Return a shallow copy of a `Tensor`.  The underlying data buffer
+  # is shared, but the `Tensor` owns its other attributes.  Changes
+  # to a view of a `Tensor` will be reflected in the original `Tensor`
+  #
+  # Arguments
+  # ---------
+  #
+  # Examples
+  # --------
+  # ```
+  # a = Tensor(Int32).new([3, 3])
+  # b = a.view
+  # b[...] = 99
+  # a
+  #
+  # # [[99, 99, 99],
+  # #  [99, 99, 99],
+  # #  [99, 99, 99]]
+  # ```
+  def view : Tensor(T)
+    shape_ = @shape.dup
+    strides_ = @strides.dup
+    flags_ = @flags.dup
+    flags_ &= ~Num::ArrayFlags::OwnData
+    self.class.new(@raw, shape_, strides_, @offset, flags_)
   end
 end

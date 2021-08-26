@@ -45,7 +45,7 @@ module Num::ND(T)
   # ```
   # a.offset # => 0
   # ```
-  getter offset : Int32
+  property offset : Int32
 
   # Returns the number of elements in an ND container
   #

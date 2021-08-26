@@ -22,8 +22,8 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 module Num::Internal
-
   extend self
+
   # Converts a shape and a memory layout to valid strides for
   # that shape.
   #
@@ -73,5 +73,16 @@ module Num::Internal
     shape << ary.size
     stdlib_array_to_nd_shape(ary[0], shape)
     shape
+  end
+
+  # Determines whether or not a particular axis of an ND container
+  # can be accessed at a given index + size
+  def check_axis_index(t : Num::ND, axis : Int32, index : Int32, len : Int32)
+    valid = axis < t.rank && index + len <= t.shape[axis]
+    unless valid
+      raise Num::Exceptions::AxisError.new(
+        "The axis is out of range for shape #{t.shape}"
+      )
+    end
   end
 end
