@@ -47,6 +47,35 @@ class Tensor(T, S)
     end
   end
 
+  # Yields the elements of two `Tensor`s, always in RowMajor order,
+  # as if the `Tensor`s were flat.
+  #
+  # Arguments
+  # ---------
+  # *b* : Tensor
+  #   The other tensor to iterate along
+  #
+  # Examples
+  # --------
+  # ```
+  # a = Tensor.new(2, 2) { |i| i }
+  # b = Tensor.new(2, 2) { |i| i + 2 }
+  # a.zip(b) do |el|
+  #   puts el
+  # end
+  #
+  # # { 0, 2}
+  # # { 1, 3}
+  # # { 2, 4}
+  # # { 3, 5}
+  # ```
+  @[AlwaysInline]
+  def zip(b : Tensor(U, CPU(U)), &block : T, U -> _) forall U, V
+    Num.zip(self, b) do |i, j|
+      yield i, j
+    end
+  end
+
   # Yields the elements of a `Tensor` lazily, always in RowMajor order,
   # as if the `Tensor` was flat.
   #

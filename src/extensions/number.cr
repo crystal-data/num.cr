@@ -1,4 +1,4 @@
-# Copyright (c) 2020 Crystal Data Contributors
+# Copyright (c) 2021 Crystal Data Contributors
 #
 # MIT License
 #
@@ -21,34 +21,16 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "./spec_helper"
-
-describe CPU do
-  it "initializes with an initial capacity" do
-    a = CPU(Int32).new([2, 2])
-    expected = [0, 0, 0, 0]
-    result = Num::Backend.tensor_to_crystal_array(a)
-    result.should eq expected
+struct Number
+  macro op(name, operator)
+    @[AlwaysInline]
+    def {{operator.id}}(other : Tensor)
+      Num.{{name}}(self, other)
+    end
   end
 
-  it "initializes with an initial capacity and value" do
-    a = CPU.new([3], 1.5)
-    expected = [1.5, 1.5, 1.5]
-    result = Num::Backend.tensor_to_crystal_array(a)
-    expected.should eq result
-  end
-
-  it "creates storage fron an array" do
-    a = [1, 2, 3, 4]
-    s = Num::Backend.flat_array_to_storage(a, [4], CPU)
-    result = Num::Backend.tensor_to_crystal_array(s)
-    a.should eq result
-  end
-
-  it "creates storage from a hostptr" do
-    a = [1, 2, 3, 4]
-    s = Num::Backend.hostptr_to_storage(a.to_unsafe, [4], Num::RowMajor, CPU)
-    result = Num::Backend.tensor_to_crystal_array(s)
-    result.should eq a
-  end
+  op add, :+
+  op divide, :/
+  op multiply, :*
+  op power, :**
 end

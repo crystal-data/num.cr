@@ -65,6 +65,12 @@ module Num
     end
   end
 
+  def subtract(a : Tensor(U, CPU(U))) forall U
+    a.map do |i|
+      -i
+    end
+  end
+
   elementwise add, :+
   elementwise subtract, :-
   elementwise multiply, :*

@@ -50,6 +50,36 @@ module Num
     end
   end
 
+  # Yields the elements of two `Tensor`s, always in RowMajor order,
+  # as if the `Tensor`s were flat.
+  #
+  # Arguments
+  # ---------
+  # *b* : Tensor
+  #   The other tensor to iterate along
+  #
+  # Examples
+  # --------
+  # ```
+  # a = Tensor.new(2, 2) { |i| i }
+  # b = Tensor.new(2, 2) { |i| i + 2 }
+  # a.zip(b) do |el|
+  #   puts el
+  # end
+  #
+  # # { 0, 2}
+  # # { 1, 3}
+  # # { 2, 4}
+  # # { 3, 5}
+  # ```
+  @[AlwaysInline]
+  def zip(a : Tensor(U, CPU(U)), b : Tensor(V, CPU(V)), &block : U, V -> _) forall U, V
+    a, b = a.broadcast(b)
+    Num::Backend.dual_strided_iteration(a, b) do |idx, i, j|
+      yield i.value, j.value
+    end
+  end
+
   # Yields the elements of a `Tensor` lazily, always in RowMajor order,
   # as if the `Tensor` was flat.
   #

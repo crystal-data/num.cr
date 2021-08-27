@@ -36,7 +36,7 @@ module Num
   # ```
   @[AlwaysInline]
   def to_a(arr : Tensor(U, CPU(U))) forall U
-    a = [] of T
+    a = [] of U
     each(arr) do |el|
       a << el
     end

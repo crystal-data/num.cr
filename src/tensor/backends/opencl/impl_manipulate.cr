@@ -72,4 +72,72 @@ module Num
     shape = Num::Internal.shape_for_broadcast(a, b)
     return {a.broadcast_to(shape), b.broadcast_to(shape)}
   end
+
+  # Permutes a `Tensor`'s axes to a different order.  This will
+  # always create a view of the permuted `Tensor`.
+  #
+  # Arguments
+  # ---------
+  # *axes* : Array(Int)
+  #   New ordering of axes for the permuted `Tensor`.  If empty,
+  #   a full transpose will occur
+  #
+  # Examples
+  # --------
+  # ```
+  # a = Tensor.new([4, 3, 2]) { |i| i }
+  # a.transpose([2, 0, 1])
+  #
+  # # [[[ 0,  2,  4],
+  # #   [ 6,  8, 10],
+  # #   [12, 14, 16],
+  # #   [18, 20, 22]],
+  # #
+  # #  [[ 1,  3,  5],
+  # #   [ 7,  9, 11],
+  # #   [13, 15, 17],
+  # #   [19, 21, 23]]]
+  # ```
+  @[AlwaysInline]
+  def transpose(arr : Tensor(Float32, OCL(Float32))) forall U
+    unless arr.rank == 2
+      raise Num::Exceptions::ValueError.new("Only CLTensors of rank 2 can be transposed")
+    end
+    prok = Num::OpenCLKernelCache.transposeFloat
+    m, n = arr.shape
+    result = arr.class.new([n, m])
+    Cl.args(prok, m, n, arr.data.to_unsafe, result.data.to_unsafe)
+    Cl.run(Num::ClContext.instance.queue, prok, result.size)
+    result
+  end
+
+  # Permutes a `Tensor`'s axes to a different order.  This will
+  # always create a view of the permuted `Tensor`.
+  #
+  # Arguments
+  # ---------
+  # *axes* : Array(Int)
+  #   New ordering of axes for the permuted `Tensor`.  If empty,
+  #   a full transpose will occur
+  #
+  # Examples
+  # --------
+  # ```
+  # a = Tensor.new([4, 3, 2]) { |i| i }
+  # a.transpose([2, 0, 1])
+  #
+  # # [[[ 0,  2,  4],
+  # #   [ 6,  8, 10],
+  # #   [12, 14, 16],
+  # #   [18, 20, 22]],
+  # #
+  # #  [[ 1,  3,  5],
+  # #   [ 7,  9, 11],
+  # #   [13, 15, 17],
+  # #   [19, 21, 23]]]
+  # ```
+  @[AlwaysInline]
+  def transpose(arr : Tensor(U, OCL(U)), *args : Int) forall U
+    transpose(arr, args.to_a)
+  end
 end

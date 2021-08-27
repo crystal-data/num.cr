@@ -1,4 +1,4 @@
-# Copyright (c) 2020 Crystal Data Contributors
+# Copyright (c) 2021 Crystal Data Contributors
 #
 # MIT License
 #
@@ -24,17 +24,17 @@
 module Num::Internal
   extend self
 
-  # :nodoc:
-  #
-  # Converts a shape to the appropriate strides for a particular memory
-  # layout, be it RowMajor or ColMajor.  Will always return
-  # contiguous strides
+  # Converts a shape and a memory layout to valid strides for
+  # that shape.
   #
   # ```
-  # a = [3, 2, 2]
-  # shape_to_strides(a, Num::RowMajor) # => [4, 2, 1]
+  # shape_to_strides([2, 2]) => [2, 1]
+  # shape_to_strides([2, 2], Num::ColMajor) => [1, 2]
   # ```
-  def shape_to_strides(shape : Array(Int32), layout : Num::OrderType = Num::RowMajor) : Array(Int32)
+  def shape_to_strides(
+    shape : Array(Int32),
+    layout : Num::OrderType = Num::RowMajor
+  ) : Array(Int32)
     accum = 1
     ret = shape.clone
     case layout
@@ -52,29 +52,37 @@ module Num::Internal
     ret
   end
 
-  # :nodoc:
-  #
-  # Finds the N-dimensional shape of a stdlib Array, recursively.  Useful
-  # for converting a deeply nested Array to a Tensor cleanly without
-  # type confusion.
-  def recursive_array_shape(a, shape : Array(Int32) = [] of Int32) : Array(Int32)
-    unless a.is_a?(Array)
-      return shape
-    end
+  # Calculates the N-dimensional shape of a standard
+  # library `Array`.  All sub-arrays must be the same
+  # length, and all elements of the (eventually)
+  # flattened array must be of the same type.
+  def recursive_array_shape(ary, shape : Array(Int32) = [] of Int32)
+    return shape unless ary.is_a?(Array)
+    r0 = ary[0]
 
-    e0 = a[0]
-
-    if e0.is_a?(Array)
-      s0 = e0.size
-      uniform = a.all? do |el|
-        el.is_a?(Array) && el.size == s0
+    if r0.is_a?(Array)
+      c0 = r0.size
+      uniform = ary.all? do |row|
+        row.is_a?(Array) && row.size == c0
       end
-
-      raise "All subarrays must be the same length" unless uniform
+      unless uniform
+        raise Num::Exceptions::ValueError.new("All subarrays must be the same length")
+      end
     end
 
-    shape << a.size
-    shape = recursive_array_shape(a[0], shape)
+    shape << ary.size
+    recursive_array_shape(ary[0], shape)
     shape
+  end
+
+  # Determines whether or not a particular axis of an ND container
+  # can be accessed at a given index + size
+  def check_axis_index(t : Tensor, axis : Int32, index : Int32, len : Int32)
+    valid = axis < t.rank && index + len <= t.shape[axis]
+    unless valid
+      raise Num::Exceptions::AxisError.new(
+        "The axis is out of range for shape #{t.shape}"
+      )
+    end
   end
 end

@@ -1,4 +1,4 @@
-# Copyright (c) 2020 Crystal Data Contributors
+# Copyright (c) 2021 Crystal Data Contributors
 #
 # MIT License
 #
@@ -21,48 +21,39 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "./spec_helper"
-
-describe Tensor do
-  it "creates a tensor of zeros" do
-    expected = [0, 0, 0]
-    result = Tensor(Int32).zeros([3])
-    expected.should eq result.to_a
+describe Num::Grad::Context do
+  it "creates an empty context" do
+    ctx = Num::Grad::Context(Float32Tensor).new
+    ctx.size.should eq 0
   end
 
-  it "creates a tensor of zeros like" do
-    expected = [0, 0, 0, 0]
-    t = Tensor(Int32).zeros([2, 2])
-    v = Tensor(Int32).zeros_like(t)
-    v.shape.should eq t.shape
-    expected.should eq v.to_a
+  it "cannot pop a node from an empty context" do
+    ctx = Num::Grad::Context(Float32Tensor).new
+    expect_raises(IndexError) do
+      ctx.pop
+    end
   end
 
-  it "creates a tensor of ones" do
-    expected = [1, 1, 1]
-    result = Tensor(Int32).ones([3])
-    expected.should eq result.to_a
+  it "can create a variable" do
+    ctx = Num::Grad::Context(Float32Tensor).new
+    t = Float32Tensor.full([3, 3], 3.5_f32)
+    t_var = ctx.variable(t)
+    t_var.context.should eq ctx
   end
+end
 
-  it "creates a tensor of ones like" do
-    expected = [1, 1, 1, 1]
-    t = Tensor(Int32).ones([2, 2])
-    v = Tensor(Int32).ones_like(t)
-    v.shape.should eq t.shape
-    expected.should eq v.to_a
-  end
+describe Num::Grad do
+  it "can register a node" do
+    ctx = Num::Grad::Context(Float32Tensor).new
 
-  it "creates a tensor of value" do
-    expected = [2, 2, 2]
-    result = Tensor.full([3], 2)
-    expected.should eq result.to_a
-  end
+    a = Float32Tensor.ones([3, 3])
+    b = Float32Tensor.ones([3, 3])
 
-  it "creates a tensor of ones like" do
-    expected = [2, 2, 2, 2]
-    t = Tensor(Int32).ones([2, 2])
-    v = Tensor.full_like(t, 2)
-    v.shape.should eq t.shape
-    expected.should eq v.to_a
+    a_var = ctx.variable(a)
+    b_var = ctx.variable(b)
+
+    result = a_var + b_var
+
+    ctx.size.should eq 1
   end
 end

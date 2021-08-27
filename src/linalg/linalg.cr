@@ -182,9 +182,9 @@ class Tensor(T, S)
     self.assert_is_matrix
     other.assert_is_matrix
 
-    unless self.shape[1] == other.shape[0]
-      raise "Invalid shapes for matrix multiplication: #{@shape}, #{other.shape}"
-    end
+    # unless self.shape[1] == other.shape[0]
+    #   raise "Invalid shapes for matrix multiplication: #{@shape}, #{other.shape}"
+    # end
 
     if output.nil?
     else

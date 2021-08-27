@@ -24,8 +24,7 @@
 class Num::Grad::AddGate(T) < Num::Grad::Gate(T)
   # :nodoc:
   def backward(payload : Num::Grad::Payload(T)) : Array(T)
-    gradient = payload.variable.grad
-    [gradient, gradient]
+    Num::Grad.add_backward(payload.variable.grad)
   end
 
   # :nodoc:
@@ -42,8 +41,7 @@ end
 class Num::Grad::SubtractGate(T) < Num::Grad::Gate(T)
   # :nodoc:
   def backward(payload : Num::Grad::Payload(T)) : Array(T)
-    gradient = payload.variable.grad
-    [gradient, -gradient]
+    Num::Grad.subtract_backward(payload.variable.grad)
   end
 
   # :nodoc:
@@ -83,8 +81,7 @@ class Num::Grad::MultiplyGate(T) < Num::Grad::TwoOpGate(T)
   @@name = "Multiply"
 
   def backward(payload : Num::Grad::Payload(T)) : Array(T)
-    gradient = payload.variable.grad
-    [gradient * @b.value, @a.value * gradient]
+    Num::Grad.multiply_backward(payload.variable.grad, a, b)
   end
 end
 
@@ -92,11 +89,7 @@ class Num::Grad::DivideGate(T) < Num::Grad::TwoOpGate(T)
   @@name = "Divide"
 
   def backward(payload : Num::Grad::Payload(T)) : Array(T)
-    gradient = payload.variable.grad
-
-    r0 = gradient.map(@b.value) { |i, j| i / j }
-    r1 = gradient.map(@a.value, @b.value) { |i, j, k| -i * j / (k ** 2) }
-    [r0, r1]
+    Num::Grad.divide_backward(payload.variable.grad, a, b)
   end
 end
 
@@ -104,16 +97,6 @@ class Num::Grad::PowerGate(T) < Num::Grad::TwoOpGate(T)
   @@name = "Power"
 
   def backward(payload : Num::Grad::Payload(T)) : Array(T)
-    gradient = payload.variable.grad
-
-    r0 = gradient.map(a.value, b.value) do |grad, x, y|
-      grad * y * (x ** (y == 0 ? 1 : y - 1))
-    end
-
-    r1 = gradient.map(a.value, b.value) do |grad, x, y|
-      grad * (x ** y) * Math.log(x == 0 ? 1 : x)
-    end
-
-    [r0, r1]
+    Num::Grad.power_backward(payload.variable.grad, a, b)
   end
 end

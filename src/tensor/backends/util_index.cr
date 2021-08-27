@@ -76,7 +76,7 @@ module Num::Internal
         arg = arg.begin...arr.shape[i]
       end
     end
-    s, o = Indexable.range_to_index_and_count(arg, arr.shape[i])
+    s, o = Indexable.range_to_index_and_count(arg, arr.shape[i]).not_nil!
     if s >= arr.shape[i]
       raise "Index #{arg} out of range for axis #{i} with size #{arr.shape[i]}"
     end
@@ -86,7 +86,7 @@ module Num::Internal
   private def normalize(arr : Tensor, arg : Tuple(Range(B, E), Int), i : Int32) forall B, E
     range, step = arg
     abs_step = step.abs
-    start, offset = Indexable.range_to_index_and_count(range, arr.shape[i])
+    start, offset = Indexable.range_to_index_and_count(range, arr.shape[i]).not_nil!
     if start >= arr.shape[i]
       raise "Index #{arg} out of range for axis #{i} with size #{arr.shape[i]}"
     end
