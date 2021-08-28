@@ -235,12 +235,12 @@ class Tensor(T, S)
       result
     {% else %}
       a = self.is_c_contiguous || self.is_f_contiguous ? self : self.dup(Num::RowMajor)
-      b = other.is_c_contiguous || other.is_c_contiguous ? other : other.dup(Num::RowMajor)
+      b = other.is_c_contiguous || other.is_f_contiguous ? other : other.dup(Num::RowMajor)
       m = a.shape[0]
       n = b.shape[1]
       k = a.shape[1]
-      lda = self.is_c_contiguous ? a.shape[1] : a.shape[0]
-      ldb = other.is_c_contiguous ? b.shape[1] : b.shape[0]
+      lda = a.is_c_contiguous ? a.shape[1] : a.shape[0]
+      ldb = b.is_c_contiguous ? b.shape[1] : b.shape[0]
 
       if output.nil?
         dest = Tensor(T, S).new([m, n])
@@ -248,8 +248,8 @@ class Tensor(T, S)
         dest = output
       end
 
-      a_trans = self.is_c_contiguous ? LibCblas::CblasTranspose::CblasNoTrans : LibCblas::CblasTranspose::CblasTrans
-      b_trans = other.is_c_contiguous ? LibCblas::CblasTranspose::CblasNoTrans : LibCblas::CblasTranspose::CblasTrans
+      a_trans = a.is_c_contiguous ? LibCblas::CblasTranspose::CblasNoTrans : LibCblas::CblasTranspose::CblasTrans
+      b_trans = b.is_c_contiguous ? LibCblas::CblasTranspose::CblasNoTrans : LibCblas::CblasTranspose::CblasTrans
       alpha = T.new(1.0)
       c_alpha = T.new(0.0)
       blas(

@@ -21,16 +21,32 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class CPU(T) < Num::Backend::Storage(T)
-  getter data : Pointer(T)
+# :nodoc:
+class Num::Grad::MatMulGate(T) < Num::Grad::Gate(T)
+  getter a : Num::Grad::Variable(T)
+  getter b : Num::Grad::Variable(T)
 
-  def to_unsafe
-    @data
+  # :nodoc:
+  def initialize(@a : Num::Grad::Variable(T), @b : Num::Grad::Variable(T))
   end
-end
 
-module Num
-  def tensor_to_string(arr : Tensor(U, CPU(U))) forall U
-    Num::Internal.array_to_string(arr)
+  # :nodoc:
+  def backward(payload : Num::Grad::Payload(T)) : Array(T)
+    gradient = payload.variable.grad
+
+    r0 = gradient.matmul(@b.value.transpose)
+    r1 = @a.value.transpose.matmul(gradient)
+
+    [r0, r1]
+  end
+
+  # :nodoc:
+  def cache(result : Num::Grad::Variable(T), *args)
+    a, b = args
+
+    result.grad = T.zeros_like(result.value)
+    result.requires_grad = true
+
+    Num::Grad.register("MatMul", self, result, a, b)
   end
 end

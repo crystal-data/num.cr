@@ -21,7 +21,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-struct CPU(T) < Num::Backend::Storage(T)
+class CPU(T) < Num::Backend::Storage(T)
   # Initialize a CPU storage from an initial capacity.
   # The data will be filled with zeros
   #

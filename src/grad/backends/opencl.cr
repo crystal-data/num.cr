@@ -81,27 +81,21 @@ module Num::Grad
     [r0, r1]
   end
 
-  def matmul_transpose_opencl(a, b)
-  end
-
-  def power_backward(
+  def exp_backward(
     gradient : Tensor(Float32, OCL(Float32)),
-    av : Variable(Tensor(Float32, OCL(Float32))),
-    bv : Variable(Tensor(Float32, OCL(Float32)))
+    av : Variable(Tensor(Float32, OCL(Float32)))
   )
-    r0 = two_variable_op_call(
-      Num::OpenCLKernelCache.powerBackwardsOneFloat,
-      gradient,
-      av.value,
-      bv.value
+    a = av.value
+    prok = Num::OpenCLKernelCache.expBackwards
+    result = gradient.class.new(gradient.shape)
+    Cl.args(
+      prok, result.rank, result.size,
+      result.data.shape, result.data.strides, result.offset, result.data.to_unsafe,
+      gradient.data.shape, gradient.data.strides, gradient.offset, gradient.data.to_unsafe,
+      a.data.shape, a.data.strides, a.offset, a.data.to_unsafe
     )
-    r1 = two_variable_op_call(
-      Num::OpenCLKernelCache.powerBackwardsTwoFloat,
-      gradient,
-      av.value,
-      bv.value
-    )
-
+    Cl.run(Num::ClContext.instance.queue, fn, result.size)
+    result
     [r0, r1]
   end
 end

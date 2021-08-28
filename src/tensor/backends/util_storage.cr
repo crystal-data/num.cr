@@ -21,7 +21,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-abstract struct Num::Backend::Storage(T)
+abstract class Num::Backend::Storage(T)
   abstract def initialize(shape : Array(Int), order : Num::OrderType)
   abstract def initialize(shape : Array(Int), strides : Array(Int))
   abstract def initialize(shape : Array(Int), order : Num::OrderType, value : T)

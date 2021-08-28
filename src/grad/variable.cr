@@ -170,7 +170,7 @@ class Num::Grad::Variable(T)
   # a = ctx.variable([[2.0], [2.0]])
   # b = ctx.variable([[3.0, 3.0]])
   #
-  # f = a + b
+  # f = a.matmul(b)
   #
   # # [[6, 6],
   # #  [6, 6]]

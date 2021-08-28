@@ -21,7 +21,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-struct OCL(T) < Num::Backend::Storage(T)
+class OCL(T) < Num::Backend::Storage(T)
   # Initialize an OpenCL storage from an initial capacity.
   # The data will be filled with zeros
   #
@@ -116,5 +116,11 @@ struct OCL(T) < Num::Backend::Storage(T)
     buffer = Cl.buffer(Num::ClContext.instance.context, arr.size.to_u64, dtype: Int32)
     Cl.write(Num::ClContext.instance.queue, arr.to_unsafe, buffer, (arr.size * sizeof(Int32)).to_u64)
     buffer
+  end
+
+  def finalize
+    Cl.release_buffer(@data)
+    Cl.release_buffer(@shape)
+    Cl.release_buffer(@strides)
   end
 end

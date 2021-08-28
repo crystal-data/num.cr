@@ -1,4 +1,4 @@
-# Copyright (c) 2020 Crystal Data Contributors
+# Copyright (c) 2021 Crystal Data Contributors
 #
 # MIT License
 #
@@ -21,16 +21,40 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class CPU(T) < Num::Backend::Storage(T)
-  getter data : Pointer(T)
+require "../spec_helper"
 
-  def to_unsafe
-    @data
+describe Num::Grad do
+  it "backpropogates for matrix multiplication" do
+    ctx = Num::Grad::Context(Float32Tensor).new
+
+    at = [[1, 2] of Float32, [3, 4] of Float32].to_tensor
+    bt = [[1, 2] of Float32, [3, 4] of Float32].to_tensor
+
+    a = ctx.variable(at)
+    b = ctx.variable(bt)
+
+    result = a.matmul(b)
+    result.backprop
+
+    expected = [[3, 7], [3, 7]].to_tensor
+
+    Num::Testing.tensor_equal(a.grad, expected)
   end
-end
 
-module Num
-  def tensor_to_string(arr : Tensor(U, CPU(U))) forall U
-    Num::Internal.array_to_string(arr)
+  it "backpropogates for matrix multiplication opencl", tags: "opencl" do
+    ctx = Num::Grad::Context(Float32ClTensor).new
+
+    at = [[1, 2] of Float32, [3, 4] of Float32].to_tensor(OCL)
+    bt = [[1, 2] of Float32, [3, 4] of Float32].to_tensor(OCL)
+
+    a = ctx.variable(at)
+    b = ctx.variable(bt)
+
+    result = a.matmul(b)
+    result.backprop
+
+    expected = [[3, 7], [3, 7]].to_tensor
+
+    Num::Testing.tensor_equal(a.grad.cpu, expected)
   end
 end

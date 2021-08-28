@@ -131,5 +131,9 @@ module Num
     class_getter transposeFloat do
       Num.transpose_kernel
     end
+
+    class_getter expBackwards do
+      Num.custom_kernel("expBackwards", "float", "C[c] = A[a] * exp(B[b]);", "C", "A", "B")
+    end
   end
 end

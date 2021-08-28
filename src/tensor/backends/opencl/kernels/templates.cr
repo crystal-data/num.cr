@@ -137,9 +137,24 @@ module Num
 
   private def gen_cl_math_fn1_inpl(kern_name : String, ctype : String, fn : String) : String
     "
-    __kernel void #{kern_name}(__global #{ctype} *a) {
-        int gid = get_global_id(0);
-        a[gid] = #{fn}(a[gid]);
+    #{index_of_element}
+
+    #pragma OPENCL EXTENSION cl_khr_fp64 : enable
+
+    __kernel void #{kern_name}
+                (const int rank,
+                const int len,
+                __global const int * restrict dst_shape,
+                __global const int * restrict dst_strides,
+                const int dst_offset,
+                __global #{ctype} * dst_data,
+    {
+      for (int elemID = get_global_id(0);
+      elemID < len;
+      elemID += get_global_size(0)) {
+        const int dst_real_idx = opencl_getIndexOfElementID(rank, dst_shape, dst_strides, dst_offset, elemID);
+        dst_data[dst_real_idx] = #{fn}(dst_data[dst_real_idx]);
+      }
     }
     "
   end
