@@ -39,4 +39,12 @@ module Num::Grad
   ) : Array(U) forall U
     [gradient * b.value, a.value * gradient]
   end
+
+  def matmul_backward(
+    gradient : U,
+    a : Variable(U),
+    b : Variable(U)
+  ) : Array(U) forall U
+    [gradient.matmul(b.value.transpose), a.value.transpose.matmul(gradient)]
+  end
 end

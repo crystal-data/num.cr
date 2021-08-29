@@ -94,8 +94,61 @@ module Num::Grad
       gradient.data.shape, gradient.data.strides, gradient.offset, gradient.data.to_unsafe,
       a.data.shape, a.data.strides, a.offset, a.data.to_unsafe
     )
+    Cl.run(Num::ClContext.instance.queue, prok, result.size)
+    [result]
+  end
+
+  private def trig_backward(fn, gradient : U, a : U) forall U
+    result = U.zeros_like(a)
+    Cl.args(
+      fn, result.rank, result.size,
+      result.data.shape, result.data.strides, result.offset, result.data.to_unsafe,
+      gradient.data.shape, gradient.data.strides, gradient.offset, gradient.data.to_unsafe,
+      a.data.shape, a.data.strides, a.offset, a.data.to_unsafe,
+    )
     Cl.run(Num::ClContext.instance.queue, fn, result.size)
-    result
-    [r0, r1]
+    [result]
+  end
+
+  def sin_backward(
+    gradient : Tensor(Float32, OCL(Float32)),
+    a : Variable(Tensor(Float32, OCL(Float32)))
+  )
+    trig_backward(Num::OpenCLKernelCache.sinBackwards, gradient, a.value)
+  end
+
+  def cos_backward(
+    gradient : Tensor(Float32, OCL(Float32)),
+    a : Variable(Tensor(Float32, OCL(Float32)))
+  )
+    trig_backward(Num::OpenCLKernelCache.cosBackwards, gradient, a.value)
+  end
+
+  def tan_backward(
+    gradient : Tensor(Float32, OCL(Float32)),
+    a : Variable(Tensor(Float32, OCL(Float32)))
+  )
+    trig_backward(Num::OpenCLKernelCache.tanBackwards, gradient, a.value)
+  end
+
+  def asin_backward(
+    gradient : Tensor(Float32, OCL(Float32)),
+    a : Variable(Tensor(Float32, OCL(Float32)))
+  )
+    trig_backward(Num::OpenCLKernelCache.asinBackwards, gradient, a.value)
+  end
+
+  def acos_backward(
+    gradient : Tensor(Float32, OCL(Float32)),
+    a : Variable(Tensor(Float32, OCL(Float32)))
+  )
+    trig_backward(Num::OpenCLKernelCache.acosBackwards, gradient, a.value)
+  end
+
+  def atan_backward(
+    gradient : Tensor(Float32, OCL(Float32)),
+    a : Variable(Tensor(Float32, OCL(Float32)))
+  )
+    trig_backward(Num::OpenCLKernelCache.atanBackwards, gradient, a.value)
   end
 end

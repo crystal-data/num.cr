@@ -48,7 +48,7 @@ module Num
         {% for arg in args %}
           {% for fn in [:ew, :ew_inpl, :ew_fn, :ew_fn_inpl] %}
             class_getter {{dt[0].id}}{{arg[0]}}_{{fn.id}} : LibCL::ClProgram do
-              Num.compile_{{fn.id}}({{arg[1]}}, {{dt[1]}}, {{arg[2]}})
+              Num.compile_{{fn.id}}({{arg[1] + "cached"}}, {{dt[1]}}, {{arg[2]}})
             end
           {% end %}
         {% end %}
@@ -60,6 +60,7 @@ module Num
       {subtract, "subtract", "-"},
       {multiply, "multiply", "*"},
       {divide, "divide", "/"},
+      {acos, "acos", "acos"},
       {acospi, "acospi", "acospi"},
       {asin, "asin", "asin"},
       {asinh, "asinh", "asinh"},
@@ -134,6 +135,38 @@ module Num
 
     class_getter expBackwards do
       Num.custom_kernel("expBackwards", "float", "C[c] = A[a] * exp(B[b]);", "C", "A", "B")
+    end
+
+    class_getter sinBackwards do
+      Num.custom_kernel("sinBackwards", "float", "C[c] = A[a] * cos(B[b]);", "C", "A", "B")
+    end
+
+    class_getter cosBackwards do
+      Num.custom_kernel("sinBackwards", "float", "C[c] = A[a] * -sin(B[b]);", "C", "A", "B")
+    end
+
+    class_getter tanBackwards do
+      Num.custom_kernel("tanBackwards", "float", "C[c] = A[a] / pow(cos(B[b]), 2);", "C", "A", "B")
+    end
+
+    class_getter asinBackwards do
+      Num.custom_kernel(
+        "tanBackwards",
+        "float",
+        "C[c] = fabs(B[b]) != 1 ? A[a] / sqrt((float)1 - pow(B[b], 2)) : (float)0 / (float)0;", "C", "A", "B"
+      )
+    end
+
+    class_getter acosBackwards do
+      Num.custom_kernel(
+        "tanBackwards",
+        "float",
+        "C[c] = fabs(B[b]) != 1 ? -A[a] / sqrt((float)1 - pow(B[b], 2)) : (float)0 / (float)0;", "C", "A", "B"
+      )
+    end
+
+    class_getter atanBackwards do
+      Num.custom_kernel("tanBackwards", "float", "C[c] = A[a] / ((float)1 + pow(B[b], 2));", "C", "A", "B")
     end
   end
 end

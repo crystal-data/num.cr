@@ -57,6 +57,8 @@ require "./grad/primitives/payload"
 require "./grad/primitives/variable"
 require "./grad/gates/arithmetic"
 require "./grad/gates/blas"
+require "./grad/gates/exp"
+require "./grad/gates/trigonometric"
 require "./grad/backends/agnostic"
 require "./grad/backends/cpu"
 require "./grad/backends/opencl"
@@ -64,15 +66,3 @@ require "./grad/variable.cr"
 
 require "./num/exceptions"
 require "./num/aliases"
-
-# {% if flag?(:arrow) %}
-#   require "./tensor/backends/arrow/storage"
-#   require "./tensor/backends/arrow/index"
-#   require "./tensor/backends/arrow/allocation"
-#   require "./tensor/backends/arrow/convert"
-#   require "./tensor/backends/arrow/iteration"
-#   require "./tensor/backends/arrow/private/gobject"
-#   require "./tensor/backends/arrow/arrow_primitives"
-# {% end %}
-#
-# require "./extensions/array"

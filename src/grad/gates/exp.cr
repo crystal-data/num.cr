@@ -21,27 +21,20 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-# :nodoc:
-class Num::Grad::MatMulGate(T) < Num::Grad::Gate(T)
+class Num::Grad::ExpGate(T) < Num::Grad::Gate(T)
   getter a : Num::Grad::Variable(T)
-  getter b : Num::Grad::Variable(T)
 
-  # :nodoc:
-  def initialize(@a : Num::Grad::Variable(T), @b : Num::Grad::Variable(T))
+  def initialize(@a : Num::Grad::Variable(T))
   end
 
-  # :nodoc:
   def backward(payload : Num::Grad::Payload(T)) : Array(T)
-    Num::Grad.matmul_backward(payload.variable.grad, @a, @b)
+    Num::Grad.exp_backward(payload.variable.grad, @a)
   end
 
-  # :nodoc:
   def cache(result : Num::Grad::Variable(T), *args)
-    a, b = args
-
+    a = args[0]
     result.grad = T.zeros_like(result.value)
     result.requires_grad = true
-
-    Num::Grad.register("MatMul", self, result, a, b)
+    Num::Grad.register("Exp", self, result, a)
   end
 end

@@ -36,9 +36,9 @@ end
 class Tensor(T, S)
   private macro of_real_type(size)
     {% if T == Complex %}
-      Tensor(Float64).new([size])
+      Tensor(Float64, CPU(Float64)).new([size])
     {% else %}
-      Tensor(T).new([size])
+      Tensor(T, S).new([size])
     {% end %}
   end
 

@@ -225,4 +225,20 @@ class Tensor(T, S)
   # #  [3, 2, 1]]
   # ```
   delegate_to_backend flip
+
+  # Returns a view of the diagonal of a `Tensor`.  This method only works
+  # for two-dimensional arrays.
+  #
+  # TODO: Implement views for offset diagonals
+  #
+  # Arguments
+  # ---------
+  #
+  # Examples
+  # --------
+  # ```
+  # a = Tensor.new(3, 3) { |i, _| i }
+  # a.diagonal # => [0, 1, 2]
+  # ```
+  delegate_to_backend diagonal
 end

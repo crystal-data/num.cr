@@ -81,6 +81,7 @@ module Num
     end
   end
 
+  builtin acos
   builtin acospi
   builtin asin
   builtin asinh

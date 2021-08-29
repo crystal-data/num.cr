@@ -21,21 +21,35 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+# :nodoc:
 alias UInt8Tensor = Tensor(UInt8, CPU(UInt8))
+# :nodoc:
 alias UInt16Tensor = Tensor(UInt16, CPU(UInt16))
+# :nodoc:
 alias UInt32Tensor = Tensor(UInt16, CPU(UInt16))
+# :nodoc:
 alias UInt64Tensor = Tensor(UInt64, CPU(UInt64))
 
+# :nodoc:
 alias Int8Tensor = Tensor(Int8, CPU(Int8))
+# :nodoc:
 alias Int16Tensor = Tensor(Int16, CPU(Int16))
+# :nodoc:
 alias Int32Tensor = Tensor(Int32, CPU(Int32))
+# :nodoc:
 alias Int64Tensor = Tensor(Int64, CPU(Int64))
 
+# :nodoc:
 alias Float32Tensor = Tensor(Float32, CPU(Float32))
+# :nodoc:
 alias Float64Tensor = Tensor(Float64, CPU(Float64))
 
+# :nodoc:
 alias ComplexTensor = Tensor(Complex, CPU(Complex))
+# :nodoc:
 alias BoolTensor = Tensor(Bool, CPU(Bool))
 
+# :nodoc:
 alias Float32ClTensor = Tensor(Float32, OCL(Float32))
+# :nodoc:
 alias Float64ClTensor = Tensor(Float64, OCL(Float64))

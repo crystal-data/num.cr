@@ -45,4 +45,82 @@ module Num::Grad
     end
     [r0, r1]
   end
+
+  def exp_backward(
+    gradient : Tensor(U, CPU(U)),
+    a : Variable(Tensor(U, CPU(U)))
+  ) : Array(Tensor(U, CPU(U))) forall U
+    r0 = gradient.map(a.value) do |i, j|
+      i * Math.exp(j)
+    end
+    [r0]
+  end
+
+  def sin_backward(
+    gradient : Tensor(U, CPU(U)),
+    a : Variable(Tensor(U, CPU(U)))
+  ) : Array(Tensor(U, CPU(U))) forall U
+    r0 = gradient.map(a.value) do |i, j|
+      i * Math.cos(j)
+    end
+    [r0]
+  end
+
+  def cos_backward(
+    gradient : Tensor(U, CPU(U)),
+    a : Variable(Tensor(U, CPU(U)))
+  ) : Array(Tensor(U, CPU(U))) forall U
+    r0 = gradient.map(a.value) do |i, j|
+      i * -Math.sin(j)
+    end
+    [r0]
+  end
+
+  def tan_backward(
+    gradient : Tensor(U, CPU(U)),
+    a : Variable(Tensor(U, CPU(U)))
+  ) : Array(Tensor(U, CPU(U))) forall U
+    r0 = gradient.map(a.value) do |i, j|
+      i / Math.cos(j) ** 2
+    end
+    [r0]
+  end
+
+  def asin_backward(
+    gradient : Tensor(U, CPU(U)),
+    a : Variable(Tensor(U, CPU(U)))
+  ) : Array(Tensor(U, CPU(U))) forall U
+    r0 = gradient.map(a.value) do |i, j|
+      if j.abs != 1
+        i / Math.sqrt(1 - j ** 2)
+      else
+        U::NAN
+      end
+    end
+    [r0]
+  end
+
+  def acos_backward(
+    gradient : Tensor(U, CPU(U)),
+    a : Variable(Tensor(U, CPU(U)))
+  ) : Array(Tensor(U, CPU(U))) forall U
+    r0 = gradient.map(a.value) do |i, j|
+      if j.abs != 1
+        -i / Math.sqrt(1 - j ** 2)
+      else
+        U::NAN
+      end
+    end
+    [r0]
+  end
+
+  def atan_backward(
+    gradient : Tensor(U, CPU(U)),
+    a : Variable(Tensor(U, CPU(U)))
+  ) : Array(Tensor(U, CPU(U))) forall U
+    r0 = gradient.map(a.value) do |i, j|
+      i / (1 + j ** 2)
+    end
+    [r0]
+  end
 end

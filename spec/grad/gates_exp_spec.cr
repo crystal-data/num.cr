@@ -1,4 +1,4 @@
-# Copyright (c) 2020 Crystal Data Contributors
+# Copyright (c) 2021 Crystal Data Contributors
 #
 # MIT License
 #
@@ -21,5 +21,32 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "gobject"
-require_gobject "Arrow"
+require "../spec_helper"
+
+describe Num::Grad do
+  it "backpropogates for exp" do
+    ctx = Num::Grad::Context(Tensor(Float32, CPU(Float32))).new
+
+    a = Tensor.new([10], device: CPU) { |i| i.to_f32 / 10 }
+    x = ctx.variable(a)
+
+    result = x.exp
+    result.backprop
+
+    expected = [1, 1.10517, 1.2214, 1.34986, 1.49182, 1.64872, 1.82212, 2.01375, 2.22554, 2.4596].to_tensor
+    Num::Testing.tensor_equal(x.grad, expected, tolerance: 1e-3).should be_true
+  end
+
+  it "backpropogates for exp opencl", tags: "opencl" do
+    ctx = Num::Grad::Context(Tensor(Float32, OCL(Float32))).new
+
+    a = Tensor.new([10], device: OCL) { |i| i.to_f32 / 10 }
+    x = ctx.variable(a)
+
+    result = x.exp
+    result.backprop
+
+    expected = [1, 1.10517, 1.2214, 1.34986, 1.49182, 1.64872, 1.82212, 2.01375, 2.22554, 2.4596].to_tensor
+    Num::Testing.tensor_equal(x.grad.cpu, expected, tolerance: 1e-3).should be_true
+  end
+end

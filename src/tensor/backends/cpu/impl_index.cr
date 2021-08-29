@@ -255,6 +255,14 @@ module Num
   # a = Tensor.new(3, 3) { |i, _| i }
   # a.diagonal # => [0, 1, 2]
   # ```
-  def diagonal(arr : Tensor(U, CPU(U)))
+  def diagonal(arr : Tensor(U, CPU(U))) forall U
+    unless arr.rank == 2
+      raise Num::Exceptions::ValueError.new("Tensor must be 2D")
+    end
+
+    n = arr.shape.min
+    new_shape = [n]
+    new_strides = [arr.strides.sum]
+    Tensor.new(arr.data, new_shape, new_strides, arr.offset, U)
   end
 end
