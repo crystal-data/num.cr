@@ -185,7 +185,7 @@ module Num
   # moveaxis(a, [0], [-1]).shape # => 4, 5, 3
   # ```
   @[AlwaysInline]
-  def moveaxis(arr : Tensor(U, CPU(U)), source : Array(Int), destination : Array(Int)) forall U
+  def move_axis(arr : Tensor(U, CPU(U)), source : Array(Int), destination : Array(Int)) forall U
     axes = Num::Internal.move_axes_for_transpose(arr.rank, source, destination)
     transpose(arr, axes)
   end
@@ -209,7 +209,7 @@ module Num
   # moveaxis(a, [0], [-1]).shape # => 4, 5, 3
   # ```
   @[AlwaysInline]
-  def moveaxis(arr : Tensor(U, CPU(U)), source : Int, destination : Int) forall U
+  def move_axis(arr : Tensor(U, CPU(U)), source : Int, destination : Int) forall U
     moveaxis(arr, [source], [destination])
   end
 

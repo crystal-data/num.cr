@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Crystal Data Contributors
+# Copyright (c) 2020 Crystal Data Contributors
 #
 # MIT License
 #
@@ -21,54 +21,41 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class Tensor(T, S)
-  # Converts a Tensor to an Array.  To avoid return
-  # type ambiguity this will always return a 1D Array
-  #
-  # Arguments
-  # ---------
-  #
-  # Examples
-  # --------
-  # ```
-  # a = Tensor.from_array [[1, 2], [3, 4]]
-  # a.to_a # => [1, 2, 3, 4]
-  # ```
-  def to_a : Array(T)
-    Num.to_a(self)
-  end
+require "csv"
 
-  # Places a Tensor onto a CPU backend.  No copy is done
-  # if the Tensor is already on a CPU
-  #
-  # Arguments
-  # ---------
-  #
-  # Examples
-  # --------
-  # ```
-  # a = Tensor(Float32, OCL(Float32)).ones([3])
-  # a.cpu # => [1, 1, 1]
-  # ```
-  def cpu : Tensor(T, CPU(T))
-    Num.cpu(self)
-  end
+module Num::NN
+  extend self
 
-  # Converts a Tensor to a given dtype.  No rounding
-  # is done on floating point values.
-  #
-  # Arguments
-  # ---------
-  # *dtype* : U.class
-  #   Dtype of the returned Tensor
-  #
-  # Examples
-  # --------
-  # ```
-  # a = Tensor.from_array [1.5, 2.2, 3.2]
-  # a.as_type(Int32) # => [1, 2, 3]
-  # ```
-  def as_type(dtype : U.class) forall U
-    Num.as_type(self, dtype)
+  IRIS_URL = "https://gist.githubusercontent.com/curran/a08a1080b88344b0c8a7/raw/639388c2cbc2120a14dcf466e85730eb8be498bb/iris.csv"
+
+  def load_iris_dataset
+    csv = CSV.parse(load_dataset_http(IRIS_URL))
+
+    features = csv[1...].map &.[...-1]
+    labels = csv[1...].map &.[-1]
+
+    rng = (0...labels.size).to_a
+    rng.shuffle!
+
+    features = features.map_with_index do |_, i|
+      features[rng[i]]
+    end
+
+    labels = labels.map_with_index do |_, i|
+      labels[rng[i]]
+    end
+
+    x_train = features.to_tensor.as_type(Float64)
+
+    label_mapping = {
+      "setosa"     => [0, 0, 1],
+      "versicolor" => [0, 1, 0],
+      "virginica"  => [1, 0, 0],
+    }
+
+    mapped = labels.map { |el| label_mapping[el] }
+    y_train = mapped.to_tensor.as_type(Float64)
+
+    {labels, x_train, y_train}
   end
 end

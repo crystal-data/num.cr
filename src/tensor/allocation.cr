@@ -383,5 +383,7 @@ class Tensor(T, S)
   # a = Tensor.from_array [1, 2, 3]
   # a.dup # => [1, 2, 3]
   # ```
-  delegate_to_backend dup
+  def dup(order : Num::OrderType = Num::RowMajor)
+    Num.dup(self, order)
+  end
 end

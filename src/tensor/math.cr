@@ -22,6 +22,15 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 class Tensor(T, S)
+  private macro alias_to_backend(name, op)
+    def {{name.id}}(other)
+      Num.{{name.id}}(self, other)
+    end
+    def {{op.id}}(other)
+      Num.{{name.id}}(self, other)
+    end
+  end
+
   alias_to_backend add, :+
   alias_to_backend subtract, :-
   alias_to_backend multiply, :*
@@ -34,6 +43,12 @@ class Tensor(T, S)
   alias_to_backend bitwise_and, :&
   alias_to_backend bitwise_or, :|
   alias_to_backend bitwise_xor, :^
+
+  private macro delegate_to_backend(name)
+    def {{name.id}}
+      Num.{{name.id}}(self)
+    end
+  end
 
   delegate_to_backend acos
   delegate_to_backend acosh

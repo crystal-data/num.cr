@@ -166,7 +166,39 @@ module Num
     end
 
     class_getter atanBackwards do
-      Num.custom_kernel("tanBackwards", "float", "C[c] = A[a] / ((float)1 + pow(B[b], 2));", "C", "A", "B")
+      Num.custom_kernel("atanBackwards", "float", "C[c] = A[a] / ((float)1 + pow(B[b], 2));", "C", "A", "B")
+    end
+
+    class_getter tanhBackwards do
+      Num.custom_kernel("tanhBackwards", "float", "C[c] = B[b] * ((float)1 - A[a] * A[a]);", "C", "A", "B")
+    end
+
+    class_getter sigmoidBackwards do
+      Num.custom_kernel("sigmoidBackwards", "float", "C[c] = A[a] * ((float)1 - A[a]) * B[b];", "C", "A", "B")
+    end
+
+    class_getter reluForwards do
+      Num.custom_kernel("reluForwards", "float", "B[b] = max(A[a], (float)0);", "B", "A")
+    end
+
+    class_getter reluForwardsInplace do
+      Num.custom_kernel("reluForwardsInplace", "float", "A[a] = max(A[a], (float)0);", "A")
+    end
+
+    class_getter reluBackwards do
+      Num.custom_kernel("reluBackwards", "float", "C[c] = A[a] <= 0 ? (float)0 : B[b];", "C", "A", "B")
+    end
+
+    class_getter leakyReluForwards do
+      Num.custom_kernel("leakyReluForwards", "float", "B[b] = A[a] > 0 ? A[a] : A[a] * 0.01;", "B", "A")
+    end
+
+    class_getter leakyReluForwardsInplace do
+      Num.custom_kernel("leakyReluForwardsInplace", "float", "A[a] = A[a] > 0 ? A[a] : A[a] * 0.01;", "A")
+    end
+
+    class_getter leakyReluBackwards do
+      Num.custom_kernel("leakyReluBackwards", "float", "C[c] = A[a] < 0 ? B[b] * 0.01 : B[b];", "C", "A", "B")
     end
   end
 end

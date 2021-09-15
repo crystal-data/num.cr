@@ -171,12 +171,14 @@ describe Tensor do
     Num::Testing.tensor_equal(result, t_exp, tolerance: 1e-3).should be_true
   end
 
-  it "calculates the matrix norm" do
-    t = [[0, 1], [1, 1], [1, 1], [2, 1]].to_tensor.as_type(Float32)
-    expected = [3.1622777].to_tensor
+  {% unless flag?(:darwin) %}
+    it "calculates the matrix norm" do
+      t = [[0, 1], [1, 1], [1, 1], [2, 1]].to_tensor.as_type(Float32)
+      expected = [3.1622777].to_tensor
 
-    Num::Testing.tensor_equal(t.norm, expected).should be_true
-  end
+      Num::Testing.tensor_equal(t.norm('F'), expected, tolerance: 1e-3).should be_true
+    end
+  {% end %}
 
   it "calculates the matrix determinant" do
     t = [[1, 2], [3, 4]].to_tensor.as_type(Float32)

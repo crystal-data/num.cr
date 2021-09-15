@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Crystal Data Contributors
+# Copyright (c) 2020 Crystal Data Contributors
 #
 # MIT License
 #
@@ -21,54 +21,27 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class Tensor(T, S)
-  # Converts a Tensor to an Array.  To avoid return
-  # type ambiguity this will always return a 1D Array
-  #
-  # Arguments
-  # ---------
-  #
-  # Examples
-  # --------
-  # ```
-  # a = Tensor.from_array [[1, 2], [3, 4]]
-  # a.to_a # => [1, 2, 3, 4]
-  # ```
-  def to_a : Array(T)
-    Num.to_a(self)
-  end
+require "http"
+require "digest"
 
-  # Places a Tensor onto a CPU backend.  No copy is done
-  # if the Tensor is already on a CPU
-  #
-  # Arguments
-  # ---------
-  #
-  # Examples
-  # --------
-  # ```
-  # a = Tensor(Float32, OCL(Float32)).ones([3])
-  # a.cpu # => [1, 1, 1]
-  # ```
-  def cpu : Tensor(T, CPU(T))
-    Num.cpu(self)
-  end
+module Num::NN
+  extend self
 
-  # Converts a Tensor to a given dtype.  No rounding
-  # is done on floating point values.
-  #
-  # Arguments
-  # ---------
-  # *dtype* : U.class
-  #   Dtype of the returned Tensor
-  #
-  # Examples
-  # --------
-  # ```
-  # a = Tensor.from_array [1.5, 2.2, 3.2]
-  # a.as_type(Int32) # => [1, 2, 3]
-  # ```
-  def as_type(dtype : U.class) forall U
-    Num.as_type(self, dtype)
+  BASE_DATASET_CACHE_PATH = "#{Path.home}/.cache/num.cr/datasets"
+
+  private def load_dataset_http(url : String)
+    Dir.mkdir_p(BASE_DATASET_CACHE_PATH) unless Dir.exists?(BASE_DATASET_CACHE_PATH)
+
+    cache_file_name = Digest::SHA1.digest(url).to_slice.hexstring
+    cache_file_path = "#{BASE_DATASET_CACHE_PATH}/#{cache_file_name}"
+
+    return File.read(cache_file_path) if File.exists?(cache_file_path)
+
+    response = HTTP::Client.get(url)
+    content = response.body
+
+    File.write(cache_file_path, content)
+
+    content
   end
 end

@@ -164,7 +164,7 @@ class Tensor(T, S)
   # #  [ 2, 99]]
   # ```
   def []=(args : Array, value)
-    set(args, value)
+    Num.set(self, args, value)
   end
 
   # :nodoc:
@@ -172,6 +172,72 @@ class Tensor(T, S)
     @data.to_hostptr[offset]
   end
 
-  delegate_to_backend slice
-  delegate_to_backend set
+  # Returns a view of a `Tensor` from any valid indexers. This view
+  # must be able to be represented as valid strided/shaped view, slicing
+  # as a copy is not supported.
+  #
+  #
+  # When an Integer argument is passed, an axis will be removed from
+  # the `Tensor`, and a view at that index will be returned.
+  #
+  # ```
+  # a = Tensor.new([2, 2]) { |i| i }
+  # a[0] # => [0, 1]
+  # ```
+  #
+  # When a Range argument is passed, an axis will be sliced based on
+  # the endpoints of the range.
+  #
+  # ```
+  # a = Tensor.new([2, 2, 2]) { |i| i }
+  # a[1...]
+  #
+  # # [[[4, 5],
+  # #   [6, 7]]]
+  # ```
+  #
+  # When a Tuple containing a Range and an Integer step is passed, an axis is
+  # sliced based on the endpoints of the range, and the strides of the
+  # axis are updated to reflect the step.  Negative steps will reflect
+  # the array along an axis.
+  #
+  # ```
+  # a = Tensor.new([2, 2]) { |i| i }
+  # a[{..., -1}]
+  #
+  # # [[2, 3],
+  # #  [0, 1]]
+  # ```
+  def slice(*args) : Tensor(T, S)
+    Num.slice(self, *args)
+  end
+
+  # The primary method of setting Tensor values.  The slicing behavior
+  # for this method is identical to the `[]` method.
+  #
+  # If a `Tensor` is passed as the value to set, it will be broadcast
+  # to the shape of the slice if possible.  If a scalar is passed, it will
+  # be tiled across the slice.
+  #
+  # Arguments
+  # ---------
+  # *args* : *U
+  #   Tuple of arguments.  All but the last argument must be valid
+  #   indexer, so a `Range`, `Int`, or `Tuple(Range, Int)`.  The final
+  #   argument passed is used to set the values of the `Tensor`.  It can
+  #   be either a `Tensor`, or a scalar value.
+  #
+  # Examples
+  # --------
+  # ```
+  # a = Tensor.new([2, 2]) { |i| i }
+  # a[1.., 1..] = 99
+  # a
+  #
+  # # [[ 0,  1],
+  # #  [ 2, 99]]
+  # ```
+  def set(*args, value)
+    Num.set(self, *args, value: value)
+  end
 end

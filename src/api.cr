@@ -64,5 +64,9 @@ require "./grad/backends/cpu"
 require "./grad/backends/opencl"
 require "./grad/variable.cr"
 
+require "./nn/datasets/datasets"
+require "./nn/datasets/iris"
+require "./nn/datasets/mnist"
+
 require "./num/exceptions"
 require "./num/aliases"

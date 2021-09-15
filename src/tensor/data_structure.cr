@@ -78,12 +78,6 @@ class Tensor(T, S)
     @data.to_unsafe
   end
 
-  private macro delegate_to_backend(method)
-    def {{method.id}}(*args, **options)
-      Num.{{method.id}}(self, *args, **options)
-    end
-  end
-
   private macro alias_to_backend(method, alias_name, both = true)
     {% if both %}
       def {{method.id}}(*args, **options)

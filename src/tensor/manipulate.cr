@@ -45,7 +45,9 @@ class Tensor(T, S)
   # #  [1, 2, 3],
   # #  [1, 2, 3]]
   # ```
-  delegate_to_backend broadcast_to
+  def broadcast_to(shape : Array(Int)) : Tensor(T, S)
+    Num.broadcast_to(self, shape)
+  end
 
   # Broadcasts two `Tensor`'s' to a new shape.  This allows
   # for elementwise operations between the two Tensors with the
@@ -62,7 +64,29 @@ class Tensor(T, S)
   # x, y = a.broadcast(b)
   # x.shape # => [3, 3]
   # ````````
-  delegate_to_backend broadcast
+  def broadcast(other : Tensor(U, V)) forall U, V
+    Num.broadcast(self, other)
+  end
+
+  # Broadcasts three `Tensor`'s' to a new shape.  This allows
+  # for elementwise operations between the three Tensors with the
+  # new shape.
+  #
+  # Broadcasting rules apply, and imcompatible shapes will raise
+  # an error.
+  #
+  # Examples
+  # ````````
+  # a = Tensor.from_array [1, 2, 3]
+  # b = Tensor.new([3, 3]) { |i| i }
+  # c = Tensor.new([3, 3, 3]) { |i| i }
+  #
+  # x, y, z = a.broadcast(b, c)
+  # x.shape # => [3, 3, 3]
+  # ````````
+  def broadcast(other1 : Tensor(U, V), other2 : Tensor(W, X)) forall U, V, W, X
+    Num.broadcast(self, other1, other2)
+  end
 
   # Transform's a `Tensor`'s shape.  If a view can be created,
   # the reshape will not copy data.  The number of elements
@@ -82,7 +106,14 @@ class Tensor(T, S)
   # # [[1, 2],
   # #  [3, 4]]
   # ```
-  delegate_to_backend reshape
+  def reshape(shape : Array(Int)) : Tensor(T, S)
+    Num.reshape(self, shape)
+  end
+
+  # :ditto:
+  def reshape(*shape : Int) : Tensor(T, S)
+    Num.reshape(self, *shape)
+  end
 
   # Flattens a `Tensor` to a single dimension.  If a view can be created,
   # the reshape operation will not copy data.
@@ -96,7 +127,9 @@ class Tensor(T, S)
   # a = Tensor.new([2, 2]) { |i| i }
   # a.flat # => [0, 1, 2, 3]
   # ```
-  delegate_to_backend flat
+  def flat : Tensor(T, S)
+    Num.flat(self)
+  end
 
   # Move axes of a Tensor to new positions, other axes remain
   # in their original order
@@ -116,7 +149,31 @@ class Tensor(T, S)
   # a = Tensor(Int8, CPU(Int8)).new([3, 4, 5])
   # moveaxis(a, [0], [-1]).shape # => 4, 5, 3
   # ```
-  delegate_to_backend move_axis
+  def move_axis(source : Array(Int), destination : Array(Int)) : Tensor(T, S)
+    Num.move_axis(self, source, destination)
+  end
+
+  # Move axes of a Tensor to new positions, other axes remain
+  # in their original order
+  #
+  # Arguments
+  # ---------
+  # *arr* : Tensor
+  #   Tensor to permute
+  # *source* : Array(Int)
+  #   Original positions of axes to move
+  # *destination*
+  #   Destination positions to permute axes
+  #
+  # Examples
+  # --------
+  # ```
+  # a = Tensor(Int8, CPU(Int8)).new([3, 4, 5])
+  # moveaxis(a, [0], [-1]).shape # => 4, 5, 3
+  # ```
+  def move_axis(source : Int, destination : Int) : Tensor(T, S)
+    Num.move_axis(self, source, destination)
+  end
 
   # Permutes two axes of a `Tensor`.  This will always create a view
   # of the permuted `Tensor`
@@ -142,7 +199,9 @@ class Tensor(T, S)
   # #   [ 3,  9, 15, 21]
   # #   [ 5, 11, 17, 23]]]
   # ```
-  delegate_to_backend swap_axes
+  def swap_axes(a : Int, b : Int) : Tensor(T, S)
+    Num.swap_axes(self, a, b)
+  end
 
   # Permutes a `Tensor`'s axes to a different order.  This will
   # always create a view of the permuted `Tensor`.
@@ -169,7 +228,14 @@ class Tensor(T, S)
   # #   [13, 15, 17],
   # #   [19, 21, 23]]]
   # ```
-  delegate_to_backend transpose
+  def transpose(axes : Array(Int) = [] of Int32) : Tensor(T, S)
+    Num.transpose(self, axes)
+  end
+
+  # :ditto:
+  def transpose(*axes : Int) : Tensor(T, S)
+    Num.transpose(self, *axes)
+  end
 
   # Repeat elements of a `Tensor`, treating the `Tensor`
   # as flat
@@ -186,7 +252,33 @@ class Tensor(T, S)
   # a = [1, 2, 3]
   # Num.repeat(a, 2) # => [1, 1, 2, 2, 3, 3]
   # ```
-  delegate_to_backend repeat
+  def repeat(n : Int) : Tensor(T, S)
+    Num.repeat(self, n)
+  end
+
+  # Repeat elements of a `Tensor` along an axis
+  #
+  # Arguments
+  # ---------
+  # - `a` : Tensor | Enumerable
+  #   Object to repeat
+  # - `n` : Int
+  #   Number of times to repeat
+  # - `axis` : Int
+  #   Axis along which to repeat
+  #
+  # Examples
+  # --------
+  # ```
+  # a = [[1, 2, 3], [4, 5, 6]]
+  # Num.repeat(a, 2, 1)
+  #
+  # # [[1, 1, 2, 2, 3, 3],
+  # #  [4, 4, 5, 5, 6, 6]]
+  # ```
+  def repeat(n : Int, axis : Int) : Tensor(T, S)
+    Num.repeat(self, n, axis)
+  end
 
   # Tile elements of a `Tensor`
   #
@@ -206,7 +298,31 @@ class Tensor(T, S)
   # # [[1, 2, 3, 1, 2, 3],
   # #  [4, 5, 6, 4, 5, 6]]
   # ```
-  delegate_to_backend tile
+  def tile(n : Int) : Tensor(T, S)
+    Num.tile(self, n)
+  end
+
+  # Tile elements of a `Tensor`
+  #
+  # Arguments
+  # ---------
+  # - `a` : Tensor | Enumerable
+  #   Argument to tile
+  # - `n` : Int
+  #   Number of times to tile
+  #
+  # Examples
+  # --------
+  # ```
+  # a = [[1, 2, 3], [4, 5, 6]]
+  # puts Num.tile(a, 2)
+  #
+  # # [[1, 2, 3, 1, 2, 3],
+  # #  [4, 5, 6, 4, 5, 6]]
+  # ```
+  def tile(n : Array(Int)) : Tensor(T, S)
+    Num.tile(self, n)
+  end
 
   # Flips a `Tensor` along all axes, returning a view
   #
@@ -224,7 +340,31 @@ class Tensor(T, S)
   # # [[6, 5, 4],
   # #  [3, 2, 1]]
   # ```
-  delegate_to_backend flip
+  def flip : Tensor(T, S)
+    Num.flip(self)
+  end
+
+  # Flips a `Tensor` along an axis, returning a view
+  #
+  # Arguments
+  # ---------
+  # - `a` : Tensor | Enumerable
+  #   Argument to flip
+  # - `axis` : Int
+  #   Axis to flip
+  #
+  # Examples
+  # --------
+  # ```
+  # a = [[1, 2, 3], [4, 5, 6]]
+  # puts Num.flip(a, 1)
+  #
+  # # [[3, 2, 1],
+  # #  [6, 5, 4]]
+  # ```
+  def flip(axis : Int) : Tensor(T, S)
+    Num.flip(self, axis)
+  end
 
   # Returns a view of the diagonal of a `Tensor`.  This method only works
   # for two-dimensional arrays.
@@ -240,5 +380,7 @@ class Tensor(T, S)
   # a = Tensor.new(3, 3) { |i, _| i }
   # a.diagonal # => [0, 1, 2]
   # ```
-  delegate_to_backend diagonal
+  def diagonal : Tensor(T, S)
+    Num.diagonal(self)
+  end
 end

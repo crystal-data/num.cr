@@ -99,7 +99,7 @@ module Num
   # #   [19, 21, 23]]]
   # ```
   @[AlwaysInline]
-  def transpose(arr : Tensor(Float32, OCL(Float32))) forall U
+  def transpose(arr : Tensor(Float32, OCL(Float32)), axes : Array(Int) = [] of Int32) forall U
     unless arr.rank == 2
       raise Num::Exceptions::ValueError.new("Only CLTensors of rank 2 can be transposed")
     end
