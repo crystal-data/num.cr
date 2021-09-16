@@ -147,7 +147,7 @@ module Num
                 __global const int * restrict dst_shape,
                 __global const int * restrict dst_strides,
                 const int dst_offset,
-                __global #{ctype} * dst_data,
+                __global #{ctype} * dst_data)
     {
       for (int elemID = get_global_id(0);
       elemID < len;

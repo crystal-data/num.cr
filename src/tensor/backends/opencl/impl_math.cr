@@ -63,7 +63,7 @@ module Num
     def {{fn.id}}!(a : Tensor(Float32, OCL(Float32)))
       prok = OpenCLKernelCache.s{{fn.id}}_ew_fn_inpl
       Cl.args(prok, a.rank, a.size, a.data.shape, a.data.strides, a.offset, a.data.to_unsafe)
-      Cl.run(Num::ClContext.instance.queue, prok)
+      Cl.run(Num::ClContext.instance.queue, prok, a.size)
     end
 
     def {{fn.id}}(a : Tensor(Float64, OCL(Float64)))
@@ -77,7 +77,7 @@ module Num
     def {{fn.id}}!(a : Tensor(Float64, OCL(Float64)))
       prok = OpenCLKernelCache.d{{fn.id}}_ew_fn_inpl
       Cl.args(prok, a.rank, a.size, a.data.shape, a.data.strides, a.offset, a.data.to_unsafe)
-      Cl.run(Num::ClContext.instance.queue, prok)
+      Cl.run(Num::ClContext.instance.queue, prok, a.size)
     end
   end
 

@@ -173,6 +173,14 @@ module Num
       Num.custom_kernel("tanhBackwards", "float", "C[c] = B[b] * ((float)1 - A[a] * A[a]);", "C", "A", "B")
     end
 
+    class_getter sigmoidForwards do
+      Num.custom_kernel("sigmoidForwards", "float", "B[b] = (float)1 / ((float)1 + exp(-A[a]));", "B", "A")
+    end
+
+    class_getter sigmoidForwardsInplace do
+      Num.custom_kernel("sigmoidForwardsInplace", "float", "A[a] = (float)1 / ((float)1 + exp(-A[a]));", "A")
+    end
+
     class_getter sigmoidBackwards do
       Num.custom_kernel("sigmoidBackwards", "float", "C[c] = A[a] * ((float)1 - A[a]) * B[b];", "C", "A", "B")
     end
