@@ -33,10 +33,26 @@ module Num
     end
 
     def {{fn.id}}!(a : Tensor({{dtype}}, OCL({{dtype}})), b : Tensor({{dtype}}, OCL({{dtype}})))
-      prok = OpenCLKernelCache.s{{fn.id}}_ew_inpl
+      prok = OpenCLKernelCache.{{prefix}}{{fn.id}}_ew_inpl
       b = b.broadcast_to(a.shape)
       Cl.args(prok, a.rank, a.size, a.data.shape, a.data.strides, a.offset, a.data.to_unsafe, b.data.shape, b.data.strides, b.offset, b.data.to_unsafe)
       Cl.run(Num::ClContext.instance.queue, prok, a.size)
+    end
+
+    def {{fn.id}}(a : Tensor({{dtype}}, OCL({{dtype}})), b : Number)
+      prok = OpenCLKernelCache.{{prefix}}{{fn.id}}_ew_scalar_rhs
+      result = Tensor({{dtype}}, OCL({{dtype}})).new(a.shape)
+      Cl.args(prok, result.rank, result.size, result.data.shape, result.data.strides, result.offset, result.data.to_unsafe, a.data.shape, a.data.strides, a.offset, a.data.to_unsafe, {{dtype}}.new(b))
+      Cl.run(Num::ClContext.instance.queue, prok, a.size)
+      result
+    end
+
+    def {{fn.id}}(b : Number, a : Tensor({{dtype}}, OCL({{dtype}})))
+      prok = OpenCLKernelCache.{{prefix}}{{fn.id}}_ew_scalar_lhs
+      result = Tensor({{dtype}}, OCL({{dtype}})).new(a.shape)
+      Cl.args(prok, result.rank, result.size, result.data.shape, result.data.strides, result.offset, result.data.to_unsafe, a.data.shape, a.data.strides, a.offset, a.data.to_unsafe, {{dtype}}.new(b))
+      Cl.run(Num::ClContext.instance.queue, prok, a.size)
+      result
     end
   end
 

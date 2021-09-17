@@ -41,12 +41,14 @@ module Num
   compile_op gen_cl_apply3_inpl, ew_inpl
   compile_op gen_cl_math_fn1, ew_fn
   compile_op gen_cl_math_fn1_inpl, ew_fn_inpl
+  compile_op gen_cl_apply_scalar_rhs, ew_scalar_rhs
+  compile_op gen_cl_apply_scalar_lhs, ew_scalar_lhs
 
   class OpenCLKernelCache
     macro ops(*args)
       {% for dt in [{:s, "float"}, {:d, "double"}] %}
         {% for arg in args %}
-          {% for fn in [:ew, :ew_inpl, :ew_fn, :ew_fn_inpl] %}
+          {% for fn in [:ew, :ew_inpl, :ew_fn, :ew_fn_inpl, :ew_scalar_rhs, :ew_scalar_lhs] %}
             class_getter {{dt[0].id}}{{arg[0]}}_{{fn.id}} : LibCL::ClProgram do
               Num.compile_{{fn.id}}({{arg[1] + "cached"}}, {{dt[1]}}, {{arg[2]}})
             end
@@ -207,6 +209,14 @@ module Num
 
     class_getter leakyReluBackwards do
       Num.custom_kernel("leakyReluBackwards", "float", "C[c] = A[a] < 0 ? B[b] * 0.01 : B[b];", "C", "A", "B")
+    end
+
+    class_getter sigmoidCrossEntropyLoss do
+      Num.custom_kernel("sigmoidCrossEntropyLoss", "float", "C[c] = -B[b] * A[a] + max(A[a], (float)0) + log1p(exp(-fabs(A[a])));", "C", "A", "B")
+    end
+
+    class_getter mseLoss do
+      Num.custom_kernel("mseLoss", "float", "C[c] = pow(A[a] - B[b], (float)2);", "C", "A", "B")
     end
   end
 end

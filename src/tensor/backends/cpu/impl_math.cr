@@ -50,7 +50,7 @@ module Num
 
     # :ditto:
     @[AlwaysInline]
-    def {{name}}!(a : Tensor(U, CPU(U)), b : Number) forall U
+    def {{name}}!(a : Tensor(U, CPU(U)), b : Number | Complex) forall U
       a.map! do |i|
         i {{operator.id}} b
       end
@@ -58,14 +58,14 @@ module Num
 
     # :ditto:
     @[AlwaysInline]
-    def {{name}}(a : Number, b : Tensor(U, CPU(U))) forall U
+    def {{name}}(a : Number | Complex, b : Tensor(U, CPU(U))) forall U
       b.map do |i|
         a {{operator.id}} i
       end
     end
   end
 
-  def subtract(a : Tensor(U, CPU(U))) forall U
+  def negate(a : Tensor(U, CPU(U))) forall U
     a.map do |i|
       -i
     end

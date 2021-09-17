@@ -386,4 +386,27 @@ class Tensor(T, S)
   def dup(order : Num::OrderType = Num::RowMajor)
     Num.dup(self, order)
   end
+
+  # Return a shallow copy of a `Tensor`.  The underlying data buffer
+  # is shared, but the `Tensor` owns its other attributes.  Changes
+  # to a view of a `Tensor` will be reflected in the original `Tensor`
+  #
+  # Arguments
+  # ---------
+  #
+  # Examples
+  # --------
+  # ```
+  # a = Tensor(Int32, CPU(Int32)).new([3, 3])
+  # b = a.view
+  # b[...] = 99
+  # a
+  #
+  # # [[99, 99, 99],
+  # #  [99, 99, 99],
+  # #  [99, 99, 99]]
+  # ```
+  def view : Tensor(T, S)
+    Tensor(T, S).new(@data, @shape.dup, @strides.dup, @offset)
+  end
 end

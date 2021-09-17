@@ -78,18 +78,6 @@ class Tensor(T, S)
     @data.to_unsafe
   end
 
-  private macro alias_to_backend(method, alias_name, both = true)
-    {% if both %}
-      def {{method.id}}(*args, **options)
-        Num.{{method.id}}(self, *args, **options)
-      end
-    {% end %}
-
-    def {{alias_name.id}}(*args, **options)
-      Num.{{method.id}}(self, *args, **options)
-    end
-  end
-
   private macro assert_types
     {% if T != S.type_vars[0] %}
       {% raise "A Tensor and it's storage must share the same dtype" %}

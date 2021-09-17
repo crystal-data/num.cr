@@ -256,65 +256,6 @@ module Num::NN
     )
   end
 
-  # Exponential linear unit activation
-  #
-  # Arguments
-  # ---------
-  # x : Tensor(Float32, OCL(Float32))
-  #   Argument to activate
-  #
-  # Returns
-  # -------
-  # Tensor(Float32, OCL(Float32))
-  #
-  # Examples
-  # --------
-  def elu(x : Tensor(Float32, OCL(Float32)), alpha = 0.01) : Tensor(Float32, OCL(Float32)) forall U
-    x.map do |i|
-      if i > 0
-        i
-      else
-        U.new(alpha * (Math::E ** i - 1))
-      end
-    end
-  end
-
-  # :ditto:
-  def elu!(x : Tensor(Float32, OCL(Float32)), alpha = 0.01) : Tensor(Float32, OCL(Float32)) forall U
-    x.map! do |i|
-      if i > 0
-        i
-      else
-        alpha * (Math::E ** i - 1)
-      end
-    end
-  end
-
-  # Derivative of the ELU activation
-  #
-  # Arguments
-  # ---------
-  # gradient : Tensor(Float32, OCL(Float32))
-  #   Gradient value
-  # cached : Tensor(Float32, OCL(Float32))
-  #   Stored value
-  #
-  # Returns
-  # -------
-  # Tensor(Float32, OCL(Float32))
-  #
-  # Examples
-  # --------
-  def elu_prime(gradient : Tensor(Float32, OCL(Float32)), cached : Tensor(Float32, OCL(Float32))) : Tensor(Float32, OCL(Float32)) forall U
-    cached.map(gradient) do |x, y|
-      if x <= 0
-        Math.exp(y)
-      else
-        U.new(1)
-      end
-    end
-  end
-
   # Sigmoid cross entropy loss
   #
   # Arguments
@@ -330,12 +271,17 @@ module Num::NN
   #
   # Examples
   # --------
-  def sigmoid_cross_entropy(input : Tensor(Float32, OCL(Float32)), target : Tensor(Float32, OCL(Float32))) : U forall U
+  def sigmoid_cross_entropy(input : Tensor(Float32, OCL(Float32)), target : Tensor(Float32, OCL(Float32)))
     batch_size = input.shape[0]
-    result = input.map(target) do |x, y|
-      -y * x + Math.max(x, U.new(0)) + Math.log1p(Math.exp(-x.abs))
-    end
-    result.sum / U.new(batch_size)
+    result = opencl_backwards_template(
+      Num::OpenCLKernelCache.sigmoidCrossEntropyLoss,
+      input,
+      target
+    )
+
+    ones = Tensor(Float32, OCL(Float32)).ones_like(result)
+    summed = result.dot(ones)
+    summed / batch_size
   end
 
   # Mean squared error loss
@@ -353,10 +299,15 @@ module Num::NN
   #
   # Examples
   # --------
-  def mse(input : Tensor(Float32, OCL(Float32)), target : Tensor(Float32, OCL(Float32))) : Tensor(Float32, OCL(Float32)) forall U
-    result = input.map(target) do |i, j|
-      (i - j) ** 2
-    end
-    [U.new(result.mean)].to_tensor
+  def mse(input : Tensor(Float32, OCL(Float32)), target : Tensor(Float32, OCL(Float32)))
+    result = opencl_backwards_template(
+      Num::OpenCLKernelCache.mseLoss,
+      input,
+      target
+    )
+
+    ones = Tensor(Float32, OCL(Float32)).ones_like(result)
+    summed = result.dot(ones)
+    summed / input.size
   end
 end

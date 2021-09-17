@@ -410,32 +410,35 @@ module Num
     end
   end
 
-  def reduce_axis(a0 : Tensor(U, CPU(U)), axis : Int, dims : Bool = false, &block : U, U -> _) forall U, V
-    axis = a0.rank + axis if axis < 0
-    raise "Axis out of range for Tensor" if axis >= a0.rank
-
-    shape = a0.shape.dup
-    strides = a0.strides.dup
-    offset = a0.offset
-
+  # :nodoc:
+  private def at_axis_index(
+    a : Tensor(U, CPU(U)),
+    axis : Int,
+    index : Int,
+    dims : Bool = false
+  ) forall U
+    shape, strides, offset = a.shape.dup, a.strides.dup, a.offset
     if dims
       shape[axis] = 1
-      strides[axis] = 0
+      strides[axis] = 1
     else
       shape.delete_at(axis)
       strides.delete_at(axis)
     end
+    offset += a.strides[axis] * index
+    Tensor(U, CPU(U)).new(a.data, shape, strides, offset)
+  end
 
-    result = Tensor(U, CPU(U)).new(a0.data, shape, strides, a0.offset).dup(Num::RowMajor)
+  def reduce_axis(a0 : Tensor(U, CPU(U)), axis : Int, dims : Bool = false, &block : U, U -> _) forall U
+    axis = a0.rank + axis if axis < 0
+    raise "Axis out of range for Tensor" if axis >= a0.rank
 
-    1.step(to: a0.shape[axis] - 1) do
-      offset += a0.strides[axis]
-      tmp = Tensor(U, CPU(U)).new(a0.data, shape, strides, offset)
-      result.map!(tmp) do |i, j|
+    result = at_axis_index(a0, axis, 0, dims).dup
+    1.step(to: a0.shape[axis] - 1) do |i|
+      result.map!(at_axis_index(a0, axis, i, dims)) do |i, j|
         yield i, j
       end
     end
-
     result
   end
 

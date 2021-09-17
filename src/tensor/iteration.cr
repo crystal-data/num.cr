@@ -357,6 +357,69 @@ class Tensor(T, S)
     end
   end
 
+  # Combines all elements in the Tensor by applying a binary operation,
+  # specified by a block, so as to reduce them to a single value.
+  #
+  # For each element in the Tensor the block is passed an accumulator value
+  # (*memo*) and the element. The result becomes the new value for *memo*.
+  # At the end of the iteration, the final value of *memo* is the return value
+  # for the method. The initial value for the accumulator is the first element
+  # in the Tensor.
+  #
+  # Raises `Enumerable::EmptyError` if the Tensor is empty.
+  #
+  # ```
+  # [1, 2, 3, 4, 5].to_tensor.reduce { |acc, i| acc + i } # => 15
+  # ```
+  def reduce
+    memo = uninitialized T
+    found = false
+
+    each do |elem|
+      memo = found ? (yield memo, elem) : elem
+      found = true
+    end
+
+    found ? memo : raise Enumerable::EmptyError.new
+  end
+
+  # Just like the other variant, but you can set the initial value of the
+  # accumulator.
+  #
+  # ```
+  # [1, 2, 3, 4, 5].to_tensor.reduce(10) { |acc, i| acc + i } # => 25
+  # ```
+  def reduce(memo)
+    each do |elem|
+      memo = yield memo, elem
+    end
+    memo
+  end
+
+  # Returns a Tensor containing the successive values of applying a binary
+  # operation, specified by the given *block*, to this Tensor's elements.
+  #
+  # For each element in the Tensor the block is passed an accumulator value
+  # and the element. The result becomes the new value for the accumulator and is
+  # also appended to the returned Tensor. The initial value for the accumulator
+  # is the first element in the Tensor.
+  #
+  # ```
+  # [2, 3, 4, 5]..to_tensor.accumulate { |x, y| x * y } # => [2, 6, 24, 120]
+  # ```
+  def accumulate(&block : T, T -> T) : Tensor(T, S)
+    values = Tensor(T, S).zeros([self.size])
+    buffer = values.to_unsafe
+    memo = uninitialized T
+
+    each_with_index do |elem, index|
+      memo = index == 0 ? elem : (yield memo, elem)
+      buffer[index] = memo
+    end
+
+    values
+  end
+
   #
   #
   #
@@ -370,7 +433,7 @@ class Tensor(T, S)
   #
   def reduce_axis(axis : Int, dims : Bool = false, &block)
     Num.reduce_axis(self, axis, dims) do |i, j|
-      i + j
+      yield i, j
     end
   end
 
