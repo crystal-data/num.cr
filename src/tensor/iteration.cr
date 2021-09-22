@@ -464,4 +464,18 @@ class Tensor(T, S)
   def each_axis(axis : Int, dims : Bool = false)
     Num.each_axis(self, axis, dims)
   end
+
+  #
+  #
+  #
+  #
+  #
+  #
+  #
+  #
+  def yield_along_axis(axis : Int)
+    Num.yield_along_axis(self, axis) do |ax|
+      yield ax
+    end
+  end
 end

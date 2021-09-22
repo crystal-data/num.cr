@@ -429,10 +429,15 @@ module Num
     Tensor(U, CPU(U)).new(a.data, shape, strides, offset)
   end
 
-  def reduce_axis(a0 : Tensor(U, CPU(U)), axis : Int, dims : Bool = false, &block : U, U -> _) forall U
-    axis = a0.rank + axis if axis < 0
-    raise "Axis out of range for Tensor" if axis >= a0.rank
+  private def normalize_axis_index(axis : Int, rank : Int)
+    axis = rank + axis if axis < 0
+    raise "Axis out of range for Tensor" if axis >= rank
+    return axis
+  end
 
+  # :nodoc:
+  def reduce_axis(a0 : Tensor(U, CPU(U)), axis : Int, dims : Bool = false, &block : U, U -> _) forall U
+    axis = normalize_axis_index(axis, a0.rank)
     result = at_axis_index(a0, axis, 0, dims).dup
     1.step(to: a0.shape[axis] - 1) do |i|
       result.map!(at_axis_index(a0, axis, i, dims)) do |i, j|
@@ -442,29 +447,36 @@ module Num
     result
   end
 
+  # :nodoc:
   def each_axis(a0 : Tensor(U, CPU(U)), axis : Int, dims : Bool = false, &block : Tensor(U, CPU(U)) -> _) forall U
-    axis = a0.rank + axis if axis < 0
-    raise "Axis out of range for Tensor" if axis >= a0.rank
-
-    shape = a0.shape.dup
-    strides = a0.strides.dup
-    offset = a0.offset
-
-    if dims
-      shape[axis] = 1
-      strides[axis] = 0
-    else
-      shape.delete_at(axis)
-      strides.delete_at(axis)
-    end
-
-    a0.shape[axis].times do |i|
-      yield Tensor(U, CPU(U)).new(a0.data, shape, strides, offset, U)
-      offset += a0.strides[axis]
+    axis = normalize_axis_index(axis, a0.rank)
+    0.step(to: a0.shape[axis] - 1) do |i|
+      yield at_axis_index(a0, axis, i, dims)
     end
   end
 
+  # :nodoc:
   def each_axis(arr : Tensor(U, CPU(U)), axis : Int, dims : Bool = false) forall U
     Num::Internal::UnsafeAxisIter.new(arr, axis, dims)
+  end
+
+  # :nodoc:
+  def yield_along_axis(a0 : Tensor(U, CPU(U)), axis : Int) forall U
+    axis = normalize_axis_index(axis, a0.rank)
+    nd = a0.rank
+    dims = (0...nd).to_a
+    view = a0.transpose(dims[...axis] + dims[axis + 1...] + [axis])
+
+    buf = Tensor(U, CPU(U)).new(view.shape)
+    buf_permute = (
+      dims[...axis] +
+      dims[(nd - 1)...nd] +
+      dims[axis...(nd - 1)]
+    )
+
+    indices = Num::Internal::NDIndex.new(view.shape[...-1])
+    indices.each do |ind|
+      yield view[ind]
+    end
   end
 end

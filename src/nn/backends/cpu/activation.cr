@@ -289,7 +289,7 @@ module Num::NN
     result = input.map(target) do |x, y|
       -y * x + Math.max(x, U.new(0)) + Math.log1p(Math.exp(-x.abs))
     end
-    result.sum / U.new(batch_size)
+    [result.sum / U.new(batch_size)].to_tensor
   end
 
   # Mean squared error loss
