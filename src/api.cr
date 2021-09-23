@@ -50,6 +50,8 @@ require "./tensor/backends/opencl/impl_convert"
 require "./tensor/backends/opencl/impl_math"
 require "./tensor/backends/opencl/impl_index"
 require "./tensor/backends/opencl/impl_manipulate"
+require "./tensor/backends/opencl/impl_iteration"
+require "./tensor/backends/opencl/impl_reduction"
 
 require "./linalg/extension"
 require "./linalg/work"

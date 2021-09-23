@@ -412,11 +412,11 @@ module Num
 
   # :nodoc:
   private def at_axis_index(
-    a : Tensor(U, CPU(U)),
+    a : Tensor(U, V),
     axis : Int,
     index : Int,
     dims : Bool = false
-  ) forall U
+  ) forall U, V
     shape, strides, offset = a.shape.dup, a.strides.dup, a.offset
     if dims
       shape[axis] = 1
@@ -426,7 +426,7 @@ module Num
       strides.delete_at(axis)
     end
     offset += a.strides[axis] * index
-    Tensor(U, CPU(U)).new(a.data, shape, strides, offset)
+    Tensor(U, V).new(a.data, shape, strides, offset)
   end
 
   private def normalize_axis_index(axis : Int, rank : Int)
