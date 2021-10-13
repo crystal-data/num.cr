@@ -3,21 +3,16 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 0.34.0">
+<meta name="generator" content="Crystal Docs 1.0.0">
 <meta name="crystal_docs.project_version" content="HEAD">
 <meta name="crystal_docs.project_name" content="num">
+
 
 
 <link href="css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="js/doc.js"></script>
 
-<svg class="hidden">
-  <symbol id="octicon-link" viewBox="0 0 16 16">
-    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
-  </symbol>
-</svg>
-
-  <meta id="repository-name" content="num">
+  <meta name="repository-name" content="num">
   <title>num HEAD</title>
   <script type="text/javascript">
   CrystalDocs.base_path = "";
@@ -25,6 +20,11 @@
 </head>
 <body>
 
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
 <div class="sidebar">
   <div class="sidebar-header">
     <div class="search-box">
@@ -44,7 +44,7 @@
     </div>
   </div>
 
-  <div class="search-results" class="hidden">
+  <div class="search-results hidden">
     <ul class="search-list"></ul>
   </div>
 
@@ -53,11 +53,6 @@
   
   <li class=" " data-id="num/toplevel" data-name="top level namespace">
       <a href="toplevel.html">Top Level Namespace</a>
-      
-    </li>
-  
-  <li class=" " data-id="num/AnyArray" data-name="anyarray(t)">
-      <a href="AnyArray.html">AnyArray</a>
       
     </li>
   
@@ -71,8 +66,13 @@
       
     </li>
   
-  <li class=" " data-id="num/Complex" data-name="complex">
-      <a href="Complex.html">Complex</a>
+  <li class=" " data-id="num/Enumerable" data-name="enumerable(t)">
+      <a href="Enumerable.html">Enumerable</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Float16" data-name="float16">
+      <a href="Float16.html">Float16</a>
       
     </li>
   
@@ -86,21 +86,6 @@
       
     </li>
   
-  <li class=" " data-id="num/Int16" data-name="int16">
-      <a href="Int16.html">Int16</a>
-      
-    </li>
-  
-  <li class=" " data-id="num/Int32" data-name="int32">
-      <a href="Int32.html">Int32</a>
-      
-    </li>
-  
-  <li class=" " data-id="num/Int8" data-name="int8">
-      <a href="Int8.html">Int8</a>
-      
-    </li>
-  
   <li class="parent " data-id="num/Num" data-name="num">
       <a href="Num.html">Num</a>
       
@@ -111,8 +96,303 @@
       
     </li>
   
-  <li class=" " data-id="num/Num/ClContext" data-name="num::clcontext">
-      <a href="Num/ClContext.html">ClContext</a>
+  <li class="parent " data-id="num/Num/Grad" data-name="num::grad">
+      <a href="Num/Grad.html">Grad</a>
+      
+        <ul>
+  
+  <li class=" " data-id="num/Num/Grad/ACosGate" data-name="num::grad::acosgate(t)">
+      <a href="Num/Grad/ACosGate.html">ACosGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Grad/AddGate" data-name="num::grad::addgate(t)">
+      <a href="Num/Grad/AddGate.html">AddGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Grad/ASinGate" data-name="num::grad::asingate(t)">
+      <a href="Num/Grad/ASinGate.html">ASinGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Grad/ATanGate" data-name="num::grad::atangate(t)">
+      <a href="Num/Grad/ATanGate.html">ATanGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Grad/Context" data-name="num::grad::context(t)">
+      <a href="Num/Grad/Context.html">Context</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Grad/CosGate" data-name="num::grad::cosgate(t)">
+      <a href="Num/Grad/CosGate.html">CosGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Grad/DivideGate" data-name="num::grad::dividegate(t)">
+      <a href="Num/Grad/DivideGate.html">DivideGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Grad/ExpGate" data-name="num::grad::expgate(t)">
+      <a href="Num/Grad/ExpGate.html">ExpGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Grad/Gate" data-name="num::grad::gate(t)">
+      <a href="Num/Grad/Gate.html">Gate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Grad/MultiplyGate" data-name="num::grad::multiplygate(t)">
+      <a href="Num/Grad/MultiplyGate.html">MultiplyGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Grad/Node" data-name="num::grad::node(t)">
+      <a href="Num/Grad/Node.html">Node</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Grad/Payload" data-name="num::grad::payload(t)">
+      <a href="Num/Grad/Payload.html">Payload</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Grad/PowerGate" data-name="num::grad::powergate(t)">
+      <a href="Num/Grad/PowerGate.html">PowerGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Grad/SinGate" data-name="num::grad::singate(t)">
+      <a href="Num/Grad/SinGate.html">SinGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Grad/SubtractGate" data-name="num::grad::subtractgate(t)">
+      <a href="Num/Grad/SubtractGate.html">SubtractGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Grad/TanGate" data-name="num::grad::tangate(t)">
+      <a href="Num/Grad/TanGate.html">TanGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Grad/Trig1dGate" data-name="num::grad::trig1dgate(t)">
+      <a href="Num/Grad/Trig1dGate.html">Trig1dGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Grad/TwoOpGate" data-name="num::grad::twoopgate(t)">
+      <a href="Num/Grad/TwoOpGate.html">TwoOpGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Grad/Variable" data-name="num::grad::variable(t)">
+      <a href="Num/Grad/Variable.html">Variable</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="num/Num/NN" data-name="num::nn">
+      <a href="Num/NN.html">NN</a>
+      
+        <ul>
+  
+  <li class=" " data-id="num/Num/NN/AdamOptimizer" data-name="num::nn::adamoptimizer(t)">
+      <a href="Num/NN/AdamOptimizer.html">AdamOptimizer</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/ConvolutionalLayer" data-name="num::nn::convolutionallayer(t)">
+      <a href="Num/NN/ConvolutionalLayer.html">ConvolutionalLayer</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/ConvolutionGate" data-name="num::nn::convolutiongate(t)">
+      <a href="Num/NN/ConvolutionGate.html">ConvolutionGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/Distribution" data-name="num::nn::distribution">
+      <a href="Num/NN/Distribution.html">Distribution</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/DropoutGate" data-name="num::nn::dropoutgate(t)">
+      <a href="Num/NN/DropoutGate.html">DropoutGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/DropoutLayer" data-name="num::nn::dropoutlayer(t)">
+      <a href="Num/NN/DropoutLayer.html">DropoutLayer</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/EluGate" data-name="num::nn::elugate(t)">
+      <a href="Num/NN/EluGate.html">EluGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/EluLayer" data-name="num::nn::elulayer(t)">
+      <a href="Num/NN/EluLayer.html">EluLayer</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/FanMode" data-name="num::nn::fanmode">
+      <a href="Num/NN/FanMode.html">FanMode</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/FlattenGate" data-name="num::nn::flattengate(t)">
+      <a href="Num/NN/FlattenGate.html">FlattenGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/FlattenLayer" data-name="num::nn::flattenlayer(t)">
+      <a href="Num/NN/FlattenLayer.html">FlattenLayer</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/InputGate" data-name="num::nn::inputgate(t)">
+      <a href="Num/NN/InputGate.html">InputGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/InputLayer" data-name="num::nn::inputlayer(t)">
+      <a href="Num/NN/InputLayer.html">InputLayer</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/Layer" data-name="num::nn::layer(t)">
+      <a href="Num/NN/Layer.html">Layer</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/LeakyReluGate" data-name="num::nn::leakyrelugate(t)">
+      <a href="Num/NN/LeakyReluGate.html">LeakyReluGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/LeakyReluLayer" data-name="num::nn::leakyrelulayer(t)">
+      <a href="Num/NN/LeakyReluLayer.html">LeakyReluLayer</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/LinearGate" data-name="num::nn::lineargate(t)">
+      <a href="Num/NN/LinearGate.html">LinearGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/LinearLayer" data-name="num::nn::linearlayer(t)">
+      <a href="Num/NN/LinearLayer.html">LinearLayer</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/Loss" data-name="num::nn::loss(t)">
+      <a href="Num/NN/Loss.html">Loss</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/MaxPoolGate" data-name="num::nn::maxpoolgate(t)">
+      <a href="Num/NN/MaxPoolGate.html">MaxPoolGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/MaxPoolLayer" data-name="num::nn::maxpoollayer(t)">
+      <a href="Num/NN/MaxPoolLayer.html">MaxPoolLayer</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/MNIST" data-name="num::nn::mnist">
+      <a href="Num/NN/MNIST.html">MNIST</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/MSEGate" data-name="num::nn::msegate(t)">
+      <a href="Num/NN/MSEGate.html">MSEGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/MSELoss" data-name="num::nn::mseloss(t)">
+      <a href="Num/NN/MSELoss.html">MSELoss</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/Network" data-name="num::nn::network(t)">
+      <a href="Num/NN/Network.html">Network</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/NetworkInfo" data-name="num::nn::networkinfo(t)">
+      <a href="Num/NN/NetworkInfo.html">NetworkInfo</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/Optimizer" data-name="num::nn::optimizer(t)">
+      <a href="Num/NN/Optimizer.html">Optimizer</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/ReluGate" data-name="num::nn::relugate(t)">
+      <a href="Num/NN/ReluGate.html">ReluGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/ReluLayer" data-name="num::nn::relulayer(t)">
+      <a href="Num/NN/ReluLayer.html">ReluLayer</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/SGDMomentumOptimizer" data-name="num::nn::sgdmomentumoptimizer(t)">
+      <a href="Num/NN/SGDMomentumOptimizer.html">SGDMomentumOptimizer</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/SGDOptimizer" data-name="num::nn::sgdoptimizer(t)">
+      <a href="Num/NN/SGDOptimizer.html">SGDOptimizer</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/SigmoidCrossEntropy" data-name="num::nn::sigmoidcrossentropy(t)">
+      <a href="Num/NN/SigmoidCrossEntropy.html">SigmoidCrossEntropy</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/SigmoidCrossEntropyLoss" data-name="num::nn::sigmoidcrossentropyloss(t)">
+      <a href="Num/NN/SigmoidCrossEntropyLoss.html">SigmoidCrossEntropyLoss</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/SigmoidGate" data-name="num::nn::sigmoidgate(t)">
+      <a href="Num/NN/SigmoidGate.html">SigmoidGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/SigmoidLayer" data-name="num::nn::sigmoidlayer(t)">
+      <a href="Num/NN/SigmoidLayer.html">SigmoidLayer</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/SoftmaxCrossEntropy" data-name="num::nn::softmaxcrossentropy(t)">
+      <a href="Num/NN/SoftmaxCrossEntropy.html">SoftmaxCrossEntropy</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/SoftmaxCrossEntropyLoss" data-name="num::nn::softmaxcrossentropyloss(t)">
+      <a href="Num/NN/SoftmaxCrossEntropyLoss.html">SoftmaxCrossEntropyLoss</a>
+      
+    </li>
+  
+</ul>
+
       
     </li>
   
@@ -121,8 +401,93 @@
       
     </li>
   
-  <li class=" " data-id="num/Num/StorageType" data-name="num::storagetype">
-      <a href="Num/StorageType.html">StorageType</a>
+  <li class="parent " data-id="num/Num/Plot" data-name="num::plot">
+      <a href="Num/Plot.html">Plot</a>
+      
+        <ul>
+  
+  <li class=" " data-id="num/Num/Plot/Bounds" data-name="num::plot::bounds">
+      <a href="Num/Plot/Bounds.html">Bounds</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Plot/Color" data-name="num::plot::color">
+      <a href="Num/Plot/Color.html">Color</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Plot/Figure" data-name="num::plot::figure">
+      <a href="Num/Plot/Figure.html">Figure</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Plot/LinePlot" data-name="num::plot::lineplot">
+      <a href="Num/Plot/LinePlot.html">LinePlot</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Plot/Options" data-name="num::plot::options">
+      <a href="Num/Plot/Options.html">Options</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Plot/Plot" data-name="num::plot::plot">
+      <a href="Num/Plot/Plot.html">Plot</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Plot/Scatter" data-name="num::plot::scatter">
+      <a href="Num/Plot/Scatter.html">Scatter</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Plot/XYPlot" data-name="num::plot::xyplot">
+      <a href="Num/Plot/XYPlot.html">XYPlot</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Rand" data-name="num::rand">
+      <a href="Num/Rand.html">Rand</a>
+      
+    </li>
+  
+  <li class="parent " data-id="num/Num/Sparse" data-name="num::sparse">
+      <a href="Num/Sparse.html">Sparse</a>
+      
+        <ul>
+  
+  <li class=" " data-id="num/Num/Sparse/COO" data-name="num::sparse::coo(t)">
+      <a href="Num/Sparse/COO.html">COO</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Sparse/CSC" data-name="num::sparse::csc(t)">
+      <a href="Num/Sparse/CSC.html">CSC</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Sparse/CSR" data-name="num::sparse::csr(t)">
+      <a href="Num/Sparse/CSR.html">CSR</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Sparse/Matrix" data-name="num::sparse::matrix(t)">
+      <a href="Num/Sparse/Matrix.html">Matrix</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Stats" data-name="num::stats">
+      <a href="Num/Stats.html">Stats</a>
       
     </li>
   
@@ -136,163 +501,18 @@
       
     </li>
   
-  <li class="parent " data-id="num/NumInternal" data-name="numinternal">
-      <a href="NumInternal.html">NumInternal</a>
-      
-        <ul>
-  
-  <li class=" " data-id="num/NumInternal/AnyTensor" data-name="numinternal::anytensor(t)">
-      <a href="NumInternal/AnyTensor.html">AnyTensor</a>
+  <li class=" " data-id="num/Number" data-name="number">
+      <a href="Number.html">Number</a>
       
     </li>
   
-  <li class=" " data-id="num/NumInternal/AxisError" data-name="numinternal::axiserror">
-      <a href="NumInternal/AxisError.html">AxisError</a>
-      
-    </li>
-  
-  <li class=" " data-id="num/NumInternal/AxisIter" data-name="numinternal::axisiter(t)">
-      <a href="NumInternal/AxisIter.html">AxisIter</a>
-      
-    </li>
-  
-  <li class=" " data-id="num/NumInternal/ClInfo" data-name="numinternal::clinfo">
-      <a href="NumInternal/ClInfo.html">ClInfo</a>
-      
-    </li>
-  
-  <li class=" " data-id="num/NumInternal/ClStorage" data-name="numinternal::clstorage(t)">
-      <a href="NumInternal/ClStorage.html">ClStorage</a>
-      
-    </li>
-  
-  <li class=" " data-id="num/NumInternal/ContigFlatIter" data-name="numinternal::contigflatiter(t)">
-      <a href="NumInternal/ContigFlatIter.html">ContigFlatIter</a>
-      
-    </li>
-  
-  <li class=" " data-id="num/NumInternal/ContigFlatIter2" data-name="numinternal::contigflatiter2(t, u)">
-      <a href="NumInternal/ContigFlatIter2.html">ContigFlatIter2</a>
-      
-    </li>
-  
-  <li class=" " data-id="num/NumInternal/ContigFlatIter3" data-name="numinternal::contigflatiter3(t, u, v)">
-      <a href="NumInternal/ContigFlatIter3.html">ContigFlatIter3</a>
-      
-    </li>
-  
-  <li class=" " data-id="num/NumInternal/ContigFlatIter4" data-name="numinternal::contigflatiter4(t, u, v, w)">
-      <a href="NumInternal/ContigFlatIter4.html">ContigFlatIter4</a>
-      
-    </li>
-  
-  <li class=" " data-id="num/NumInternal/CpuStorage" data-name="numinternal::cpustorage(t)">
-      <a href="NumInternal/CpuStorage.html">CpuStorage</a>
-      
-    </li>
-  
-  <li class=" " data-id="num/NumInternal/IndexError" data-name="numinternal::indexerror">
-      <a href="NumInternal/IndexError.html">IndexError</a>
-      
-    </li>
-  
-  <li class=" " data-id="num/NumInternal/LapackHelper" data-name="numinternal::lapackhelper">
-      <a href="NumInternal/LapackHelper.html">LapackHelper</a>
-      
-    </li>
-  
-  <li class=" " data-id="num/NumInternal/MatrixIter" data-name="numinternal::matrixiter(t)">
-      <a href="NumInternal/MatrixIter.html">MatrixIter</a>
-      
-    </li>
-  
-  <li class=" " data-id="num/NumInternal/NDFlatIter" data-name="numinternal::ndflatiter(t)">
-      <a href="NumInternal/NDFlatIter.html">NDFlatIter</a>
-      
-    </li>
-  
-  <li class=" " data-id="num/NumInternal/NDFlatIter2" data-name="numinternal::ndflatiter2(t, u)">
-      <a href="NumInternal/NDFlatIter2.html">NDFlatIter2</a>
-      
-    </li>
-  
-  <li class=" " data-id="num/NumInternal/NDFlatIter3" data-name="numinternal::ndflatiter3(t, u, v)">
-      <a href="NumInternal/NDFlatIter3.html">NDFlatIter3</a>
-      
-    </li>
-  
-  <li class=" " data-id="num/NumInternal/NDFlatIter4" data-name="numinternal::ndflatiter4(t, u, v, w)">
-      <a href="NumInternal/NDFlatIter4.html">NDFlatIter4</a>
-      
-    </li>
-  
-  <li class=" " data-id="num/NumInternal/NotImplementedError" data-name="numinternal::notimplementederror">
-      <a href="NumInternal/NotImplementedError.html">NotImplementedError</a>
-      
-    </li>
-  
-  <li class=" " data-id="num/NumInternal/ShapeError" data-name="numinternal::shapeerror">
-      <a href="NumInternal/ShapeError.html">ShapeError</a>
-      
-    </li>
-  
-  <li class=" " data-id="num/NumInternal/StorageBase" data-name="numinternal::storagebase(t)">
-      <a href="NumInternal/StorageBase.html">StorageBase</a>
-      
-    </li>
-  
-  <li class=" " data-id="num/NumInternal/TypeError" data-name="numinternal::typeerror">
-      <a href="NumInternal/TypeError.html">TypeError</a>
-      
-    </li>
-  
-  <li class=" " data-id="num/NumInternal/UnsafeAxisIter" data-name="numinternal::unsafeaxisiter(t)">
-      <a href="NumInternal/UnsafeAxisIter.html">UnsafeAxisIter</a>
-      
-    </li>
-  
-  <li class=" " data-id="num/NumInternal/UnsafeContigFlatIter" data-name="numinternal::unsafecontigflatiter(t)">
-      <a href="NumInternal/UnsafeContigFlatIter.html">UnsafeContigFlatIter</a>
-      
-    </li>
-  
-  <li class=" " data-id="num/NumInternal/UnsafeNDFlatIter" data-name="numinternal::unsafendflatiter(t)">
-      <a href="NumInternal/UnsafeNDFlatIter.html">UnsafeNDFlatIter</a>
-      
-    </li>
-  
-  <li class=" " data-id="num/NumInternal/ValueError" data-name="numinternal::valueerror">
-      <a href="NumInternal/ValueError.html">ValueError</a>
-      
-    </li>
-  
-  <li class=" " data-id="num/NumInternal/WriteError" data-name="numinternal::writeerror">
-      <a href="NumInternal/WriteError.html">WriteError</a>
-      
-    </li>
-  
-</ul>
-
+  <li class=" " data-id="num/SciKit" data-name="scikit">
+      <a href="SciKit.html">SciKit</a>
       
     </li>
   
   <li class=" " data-id="num/Tensor" data-name="tensor(t)">
       <a href="Tensor.html">Tensor</a>
-      
-    </li>
-  
-  <li class=" " data-id="num/UInt16" data-name="uint16">
-      <a href="UInt16.html">UInt16</a>
-      
-    </li>
-  
-  <li class=" " data-id="num/UInt32" data-name="uint32">
-      <a href="UInt32.html">UInt32</a>
-      
-    </li>
-  
-  <li class=" " data-id="num/UInt8" data-name="uint8">
-      <a href="UInt8.html">UInt8</a>
       
     </li>
   
@@ -305,8 +525,8 @@
 <div class="main-content">
 <p><img src="https://raw.githubusercontent.com/crystal-data/bottle/rename/static/numcr_logo.png" alt="num.cr"/></p>
 
-<p><a href="https://gitter.im/crystal-data/bottle?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge" target="_blank"><img src="https://badges.gitter.im/crystal-data/bottle.svg" alt="Join the chat at https://gitter.im/crystal-data/bottle"/></a>
-<a href="https://travis-ci.com/crystal-data/num.cr" target="_blank"><img src="https://travis-ci.com/crystal-data/num.cr.svg?branch=master" alt="Build Status"/></a></p>
+<p><a href="https://gitter.im/crystal-data/bottle?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge"><img src="https://badges.gitter.im/crystal-data/bottle.svg" alt="Join the chat at https://gitter.im/crystal-data/bottle"/></a>
+<img src="https://github.com/crystal-data/num.cr/workflows/Crystal%20CI/badge.svg" alt="Crystal CI"/></p>
 
 <p>Num.cr is the core shard needed for scientific computing with Crystal</p>
 
@@ -314,7 +534,7 @@
 
 <p>It provides:</p>
 
-<ul><li>An n-dimensional <code><a href="Tensor.html">Tensor</a></code> data structure</li><li>sophisticated reduction and accumulation routines</li><li>data structures that can easily be passed to C libraries</li><li>powerful linear algebra routines backed by LAPACK and BLAS</li></ul>
+<ul><li>An n-dimensional <code><a href="Tensor.html">Tensor</a></code> data structure</li><li>Efficient <code>map</code>, <code>reduce</code> and <code>accumulate</code> routines</li><li>GPU accelerated routines backed by <code>OpenCL</code></li><li>Linear algebra routines backed by <code>LAPACK</code> and <code>BLAS</code></li></ul>
 
 <h2><a id="prerequisites" class="anchor" href="#prerequisites">
   <svg class="octicon-link" aria-hidden="true">
@@ -322,37 +542,17 @@
   </svg>
 </a>Prerequisites</h2>
 
-<p>Num.cr relies on various BLAS and LAPACK implementations to provide performant linear
-algebra routines.  The defaults are OpenBLAS and Lapacke.  On Darwin, the Accelerate
-framework is used by default.  Num.cr also allows for computing run on a GPU, backed
-by OpenCL, with BLAS operations backed by ClBlast.  Please review the relevant installation
-instructions for these libraries if you would like to take advantage of their features.</p>
+<p><code>Num.cr</code> aims to be a scientific computing library written in pure Crystal.
+All standard operations and data structures are written in Crystal.  Certain
+routines, primarily linear algebra routines, are instead provided by a
+<code>BLAS</code> or <code>LAPACK</code> implementation.</p>
 
-<h2><a id="usage" class="anchor" href="#usage">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>Usage</h2>
+<p>Several implementations can be used, including <code>Cblas</code>, <code>Openblas</code>, and the
+<code>Accelerate</code> framework on Darwin systems.  For GPU accelerated <code>BLAS</code> routines,
+the <code>ClBlast</code> library is required.</p>
 
-<p>Num.cr provides data structures that facilitate element-wise operations,
-accumulations, and reductions.  While some operations are backed by BLAS
-and LaPACK, many vectorized operations use iteration written in Crystal.
-The primary goal of this library was to provide a NumPy like interface in
-Crystal, and performance will be revisited constantly as the library is
-improved.</p>
-
-<h2><a id="contributing" class="anchor" href="#contributing">
-  <svg class="octicon-link" aria-hidden="true">
-    <use href="#octicon-link"/>
-  </svg>
-</a>Contributing</h2>
-
-<p>Num.cr requires help in many different ways to continue to grow as a shard.
-Contributions such as high level documentation and code quality checks are needed just
-as much as API enhancements.  If you are considering larger scale contributions
-that extend beyond minor enhancements and bug fixes, contact Crystal Data
-in order to be added to the organization to gain access to review and merge
-permissions.</p>
+<p><code>Num.cr</code> also supports <code><a href="Tensor.html">Tensor</a></code>s stored on a <code>GPU</code>.  This is currently limited
+to <code>OpenCL</code>, and a valid <code>OpenCL</code> installation and device(s) are required.</p>
 
 <h2><a id="installation" class="anchor" href="#installation">
   <svg class="octicon-link" aria-hidden="true">
@@ -362,77 +562,228 @@ permissions.</p>
 
 <p>Add this to your applications <code>shard.yml</code></p>
 
-<pre><code>dependencies:
+<pre><code class="language-crystal">dependencies:
   num:
-    github: crystal<span class="o">-</span>data<span class="s">/num.cr</span></code></pre>
+    github: crystal-data/num.cr</code></pre>
 
-<h2><a id="getting-started-with-num.cr" class="anchor" href="#getting-started-with-num.cr">
+<p>Several third-party libraries are required to use certain features of <code>Num.cr</code>.
+They are:</p>
+
+<ul><li>BLAS</li><li>LAPACK</li><li>OpenCL</li><li>ClBlast</li></ul>
+
+<p>While not at all required, they provide additional functionality than is
+provided by the basic library.</p>
+
+<h2><a id="just-show-me-the-code" class="anchor" href="#just-show-me-the-code">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
-</a>Getting started with Num.cr</h2>
+</a>Just show me the code</h2>
 
-<p>The core data structure of Num.cr is the <code><a href="Tensor.html">Tensor</a></code>, a flexible N-dimensional data structure.
-There are many ways to initialize a <code><a href="Tensor.html">Tensor</a></code>, or a <code><a href="ClTensor.html">ClTensor</a></code> if you need GPU accelerated
-operations.</p>
+<p>The core data structure implemented by <code>Num.cr</code> is the <code><a href="Tensor.html">Tensor</a></code>, an N-dimensional
+data structure.  A <code><a href="Tensor.html">Tensor</a></code> supports slicing, mutation, permutation, reduction,
+and accumulation.  A <code><a href="Tensor.html">Tensor</a></code> can be a view of another <code><a href="Tensor.html">Tensor</a></code>, and can support
+either C-style or Fortran-style storage.</p>
+
+<h3><a id="creation" class="anchor" href="#creation">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Creation</h3>
+
+<p>There are many ways to initialize a <code><a href="Tensor.html">Tensor</a></code>.  Most creation methods can
+allocate a <code><a href="Tensor.html">Tensor</a></code> backed by either <code>CPU</code> or <code>GPU</code> based storage.</p>
 
 <pre><code class="language-crystal">[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>].to_tensor
 <span class="t">Tensor</span>.from_array [<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>]
 <span class="t">Tensor</span>(<span class="t">UInt8</span>).zeros([<span class="n">3</span>, <span class="n">3</span>, <span class="n">2</span>])
 <span class="t">Tensor</span>.random(<span class="n">0.0</span>...<span class="n">1.0</span>, [<span class="n">2</span>, <span class="n">2</span>, <span class="n">2</span>])
 
-<span class="t">ClTensor</span>(<span class="t">Float32</span>).zeros_like(some_tensor)
+<span class="t">ClTensor</span>(<span class="t">Float32</span>).zeros([<span class="n">3</span>, <span class="n">2</span>, <span class="n">2</span>])
 <span class="t">ClTensor</span>(<span class="t">Float64</span>).full([<span class="n">3</span>, <span class="n">4</span>, <span class="n">5</span>], <span class="n">3.8</span>)</code></pre>
 
-<p>Tensors support numerous mathematical operations and manipulation routines, including
-operations requiring broadcasting to other shapes.</p>
+<h3><a id="operations" class="anchor" href="#operations">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Operations</h3>
+
+<p>A <code><a href="Tensor.html">Tensor</a></code> supports a wide variety of numerical operations.  Many of these
+operations are provided by <code>Num.cr</code>, but any operation can be mapped across
+one or more <code><a href="Tensor.html">Tensor</a></code>s using sophisticated broadcasted mapping routines.</p>
 
 <pre><code class="language-crystal">a <span class="o">=</span> [<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>].to_tensor
 b <span class="o">=</span> [[<span class="n">3</span>, <span class="n">4</span>, <span class="n">5</span>, <span class="n">6</span>], [<span class="n">5</span>, <span class="n">6</span>, <span class="n">7</span>, <span class="n">8</span>]].to_tensor
 
 <span class="c"># Convert a Tensor to a GPU backed Tensor</span>
-acl <span class="o">=</span> a.astype(<span class="t">Float64</span>).opencl
+acl <span class="o">=</span> a.astype(<span class="t">Float64</span>).gpu
 
 puts <span class="t">Num</span>.add(a, b)
 
 <span class="c"># a is broadcast to b&#39;s shape</span>
 <span class="c"># [[ 4,  6,  8, 10],</span>
-<span class="c">#  [ 6,  8, 10, 12]]</span>
+<span class="c">#  [ 6,  8, 10, 12]]</span></code></pre>
 
-puts a.reshape(<span class="n">2</span>, <span class="n">2</span>)
+<p>When operating on more than two <code><a href="Tensor.html">Tensor</a></code>s, it is recommended to use <code>map</code>
+rather than builtin functions to avoid the allocation of intermediate
+results.  All <code>map</code> operations support broadcasting.</p>
 
-<span class="c"># [[1, 2],</span>
-<span class="c">#  [3, 4]]</span>
+<pre><code class="language-crystal">a <span class="o">=</span> [<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>].to_tensor
+b <span class="o">=</span> [[<span class="n">3</span>, <span class="n">4</span>, <span class="n">5</span>, <span class="n">6</span>], [<span class="n">5</span>, <span class="n">6</span>, <span class="n">7</span>, <span class="n">8</span>]].to_tensor
+c <span class="o">=</span> [<span class="n">3</span>, <span class="n">5</span>, <span class="n">7</span>, <span class="n">9</span>].to_tensor
 
-puts b.transpose
+a.map(b, c) <span class="k">do</span> <span class="o">|</span>i, j, k<span class="o">|</span>
+  i <span class="o">+</span> <span class="n">2</span> <span class="o">/</span> j <span class="o">+</span> k <span class="o">*</span> <span class="n">3.5</span>
+<span class="k">end</span>
 
-<span class="c"># [[3, 5],</span>
-<span class="c">#  [4, 6],</span>
-<span class="c">#  [5, 7],</span>
-<span class="c">#  [6, 8]]</span>
+<span class="c"># [[12.1667, 20     , 27.9   , 35.8333],</span>
+<span class="c">#  [11.9   , 19.8333, 27.7857, 35.75  ]]</span></code></pre>
 
-puts <span class="t">Num</span>.cos(acl).cpu
+<h3><a id="mutation" class="anchor" href="#mutation">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Mutation</h3>
 
-<span class="c"># [0.540302 , -0.416147, -0.989992, -0.653644]</span></code></pre>
+<p><code><a href="Tensor.html">Tensor</a></code>s support flexible slicing and mutation operations.  Many of these
+operations return views, not copies, so any changes made to the results might
+also be reflected in the parent.</p>
 
-<p>Both CPU backed Tensors and GPU backed Tensors support linear algebra routines
-backed by optimized BLAS libraries.</p>
+<pre><code class="language-crystal">a <span class="o">=</span> <span class="t">Tensor</span>.<span class="k">new</span>([<span class="n">3</span>, <span class="n">2</span>, <span class="n">2</span>]) { <span class="o">|</span>i<span class="o">|</span> i }
 
-<pre><code class="language-crystal">a <span class="o">=</span> [[<span class="n">1</span>, <span class="n">2</span>], [<span class="n">3</span>, <span class="n">4</span>]].to_tensor.astype(<span class="t">Float32</span>)
-b <span class="o">=</span> [[<span class="n">3</span>, <span class="n">4</span>], [<span class="n">5</span>, <span class="n">6</span>]].to_tensor.astype(<span class="t">Float32</span>)
+puts a.transpose
 
-acl <span class="o">=</span> a.opencl
-bcl <span class="o">=</span> b.opencl
+<span class="c"># [[[ 0,  4,  8],</span>
+<span class="c">#   [ 2,  6, 10]],</span>
+<span class="c">#</span>
+<span class="c">#  [[ 1,  5,  9],</span>
+<span class="c">#   [ 3,  7, 11]]]</span>
+
+puts a.reshape(<span class="n">6</span>, <span class="n">2</span>)
+
+<span class="c"># [[ 0,  1],</span>
+<span class="c">#  [ 2,  3],</span>
+<span class="c">#  [ 4,  5],</span>
+<span class="c">#  [ 6,  7],</span>
+<span class="c">#  [ 8,  9],</span>
+<span class="c">#  [10, 11]]</span>
+
+puts a[..., <span class="n">1</span>]
+
+<span class="c"># [[ 2,  3],</span>
+<span class="c">#  [ 6,  7],</span>
+<span class="c">#  [10, 11]]</span>
+
+puts a[<span class="n">1</span>..., {..., <span class="n">-1</span>}]
+
+<span class="c"># [[[ 6,  7],</span>
+<span class="c">#   [ 4,  5]],</span>
+<span class="c">#</span>
+<span class="c">#  [[10, 11],</span>
+<span class="c">#   [ 8,  9]]]</span>
+
+puts a[<span class="n">0</span>, <span class="n">1</span>, <span class="n">1</span>].value
+
+<span class="c"># 3</span></code></pre>
+
+<h3><a id="linear-algebra" class="anchor" href="#linear-algebra">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Linear Algebra</h3>
+
+<p><code><a href="Tensor.html">Tensor</a></code>s provide easy access to power Linear Algebra routines backed by
+LAPACK and BLAS implementations, and ClBlast for GPU backed <code><a href="Tensor.html">Tensor</a></code>s.</p>
+
+<pre><code class="language-crystal">a <span class="o">=</span> [[<span class="n">1</span>, <span class="n">2</span>], [<span class="n">3</span>, <span class="n">4</span>]].to_tensor.map <span class="o">&amp;</span>.to_f32
 
 puts a.inv
 
 <span class="c"># [[-2  , 1   ],</span>
 <span class="c">#  [1.5 , -0.5]]</span>
 
-puts acl.matmul(bcl).cpu
+puts a.eigvals
 
-<span class="c"># [[13, 16],</span>
-<span class="c">#  [29, 36]]</span></code></pre>
+<span class="c"># [-0.372281, 5.37228  ]</span>
+
+acl <span class="o">=</span> a.opencl
+bcl <span class="o">=</span> a.opencl
+
+puts acl.gemm(bcl).cpu
+
+<span class="c"># [[7 , 10],</span>
+<span class="c">#  [15, 22]]</span>
+
+puts a.matmul(a)
+
+<span class="c"># [[7 , 10],</span>
+<span class="c">#  [15, 22]]</span></code></pre>
+
+<h3><a id="machine-learning" class="anchor" href="#machine-learning">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Machine Learning</h3>
+
+<p><code><a href="Num/Grad.html">Num::Grad</a></code> provides a pure-crystal approach to find derivatives of
+mathematical functions.  Use a <code><a href="Num/Grad/Variable.html">Num::Grad::Variable</a></code> with a <code><a href="Num/Grad/Context.html">Num::Grad::Context</a></code>
+to easily compute these derivatives.</p>
+
+<pre><code class="language-crystal">ctx <span class="o">=</span> <span class="t">Num</span><span class="t">::</span><span class="t">Grad</span><span class="t">::</span><span class="t">Context</span>(<span class="t">Tensor</span>(<span class="t">Float64</span>)).<span class="k">new</span>
+
+x <span class="o">=</span> ctx.variable([<span class="n">3.0</span>])
+y <span class="o">=</span> ctx.variable([<span class="n">2.0</span>])
+
+<span class="c"># f(x) = x ** y</span>
+f <span class="o">=</span> x <span class="o">**</span> y
+puts f <span class="c"># =&gt; [9]</span>
+
+f.backprop
+
+<span class="c"># df/dx = y * x = 6.0</span>
+puts x.grad <span class="c"># =&gt; [6.0]</span></code></pre>
+
+<p><code><a href="Num/NN.html">Num::NN</a></code> contains an extension to <code><a href="Num/Grad.html">Num::Grad</a></code> that provides an easy-to-use
+interface to assist in creating neural networks.  Designing and creating
+a network is simple using Crystal's block syntax.</p>
+
+<pre><code class="language-crystal">ctx <span class="o">=</span> <span class="t">Num</span><span class="t">::</span><span class="t">Grad</span><span class="t">::</span><span class="t">Context</span>(<span class="t">Tensor</span>(<span class="t">Float64</span>)).<span class="k">new</span>
+
+x_train <span class="o">=</span> [[<span class="n">0.0</span>, <span class="n">0.0</span>], [<span class="n">1.0</span>, <span class="n">0.0</span>], [<span class="n">0.0</span>, <span class="n">1.0</span>], [<span class="n">1.0</span>, <span class="n">1.0</span>]].to_tensor
+y_train <span class="o">=</span> [[<span class="n">0.0</span>], [<span class="n">1.0</span>], [<span class="n">1.0</span>], [<span class="n">0.0</span>]].to_tensor
+
+x <span class="o">=</span> ctx.variable(x_train)
+
+net <span class="o">=</span> <span class="t">Num</span><span class="t">::</span><span class="t">NN</span><span class="t">::</span><span class="t">Network</span>.<span class="k">new</span>(ctx) <span class="k">do</span>
+  input [<span class="n">2</span>]
+  <span class="c"># A basic network with a single hidden layer using</span>
+  <span class="c"># a ReLU activation function</span>
+  linear <span class="n">3</span>
+  relu
+  linear <span class="n">1</span>
+
+  <span class="c"># SGD Optimizer</span>
+  sgd <span class="n">0.7</span>
+
+  <span class="c"># Sigmoid Cross Entropy to calculate loss</span>
+  sigmoid_cross_entropy_loss
+<span class="k">end</span>
+
+<span class="n">500</span>.times <span class="k">do</span> <span class="o">|</span>epoch<span class="o">|</span>
+  y_pred <span class="o">=</span> net.forward(x)
+  loss <span class="o">=</span> net.loss(y_pred, y_train)
+  puts <span class="s">&quot;Epoch: </span><span class="i">#{</span>epoch<span class="i">}</span><span class="s"> - Loss </span><span class="i">#{</span>loss<span class="i">}</span><span class="s">&quot;</span>
+  loss.backprop
+  net.optimizer.update
+<span class="k">end</span>
+
+<span class="c"># Clip results to make a prediction</span>
+puts net.forward(x).value.map { <span class="o">|</span>el<span class="o">|</span> el <span class="o">&gt;</span> <span class="n">0</span> ? <span class="n">1</span> : <span class="n">0</span>}
+
+<span class="c"># [[0],</span>
+<span class="c">#  [1],</span>
+<span class="c">#  [1],</span>
+<span class="c">#  [0]]</span></code></pre>
 
 <p>Review the documentation for full implementation details, and if something is missing,
 open an issue to add it!</p>

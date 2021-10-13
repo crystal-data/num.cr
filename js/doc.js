@@ -33,7 +33,7 @@ CrystalDocs.runQuery = function(query) {
     }
     if (matches.length > 0) {
       results.push({
-        id: type.id,
+        id: type.html_id,
         result_type: "type",
         kind: type.kind,
         name: name,
@@ -96,14 +96,14 @@ CrystalDocs.runQuery = function(query) {
         matches = matches.concat(typeMatches);
       }
       results.push({
-        id: method.id,
+        id: method.html_id,
         type: type.full_name,
         result_type: kind,
         name: method.name,
         full_name: type.full_name + "#" + method.name,
         args_string: method.args_string,
         summary: method.summary,
-        href: type.path + "#" + method.id,
+        href: type.path + "#" + method.html_id,
         matched_fields: matchedFields,
         matched_terms: matches
       });
@@ -130,14 +130,14 @@ CrystalDocs.runQuery = function(query) {
         matches = matches.concat(typeMatches);
       }
       results.push({
-        id: constant.id,
+        id: constant.html_id,
         type: type.full_name,
         result_type: "constant",
         name: constant.name,
         full_name: type.full_name + "#" + constant.name,
         value: constant.value,
         summary: constant.summary,
-        href: type.path + "#" + constant.id,
+        href: type.path + "#" + constant.html_id,
         matched_fields: matchedFields,
         matched_terms: matches
       });
@@ -908,7 +908,7 @@ document.addEventListener('DOMContentLoaded', function() {
     };
   }
 
-  var repositoryName = document.querySelector('#repository-name').getAttribute('content');
+  var repositoryName = document.querySelector('[name=repository-name]').getAttribute('content');
   var typesList = document.querySelector('.types-list');
   var searchInput = document.querySelector('.search-input');
   var parents = document.querySelectorAll('.types-list li.parent');

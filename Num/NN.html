@@ -1,0 +1,2153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 1.0.0">
+<meta name="crystal_docs.project_version" content="HEAD">
+<meta name="crystal_docs.project_name" content="num">
+
+
+
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../js/doc.js"></script>
+
+  <meta name="repository-name" content="num">
+  <title>Num::NN - num HEAD</title>
+  <script type="text/javascript">
+    CrystalDocs.base_path = "../";
+  </script>
+</head>
+<body>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="../index.html">
+          num
+        </a>
+      </h1>
+
+      <span class="project-version">
+        HEAD
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class=" " data-id="num/toplevel" data-name="top level namespace">
+      <a href="../toplevel.html">Top Level Namespace</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Array" data-name="array(t)">
+      <a href="../Array.html">Array</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/ClTensor" data-name="cltensor(t)">
+      <a href="../ClTensor.html">ClTensor</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Enumerable" data-name="enumerable(t)">
+      <a href="../Enumerable.html">Enumerable</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Float16" data-name="float16">
+      <a href="../Float16.html">Float16</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Float32" data-name="float32">
+      <a href="../Float32.html">Float32</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Float64" data-name="float64">
+      <a href="../Float64.html">Float64</a>
+      
+    </li>
+  
+  <li class="parent open current" data-id="num/Num" data-name="num">
+      <a href="../Num.html">Num</a>
+      
+        <ul>
+  
+  <li class=" " data-id="num/Num/ArrayFlags" data-name="num::arrayflags">
+      <a href="../Num/ArrayFlags.html">ArrayFlags</a>
+      
+    </li>
+  
+  <li class="parent " data-id="num/Num/Grad" data-name="num::grad">
+      <a href="../Num/Grad.html">Grad</a>
+      
+        <ul>
+  
+  <li class=" " data-id="num/Num/Grad/ACosGate" data-name="num::grad::acosgate(t)">
+      <a href="../Num/Grad/ACosGate.html">ACosGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Grad/AddGate" data-name="num::grad::addgate(t)">
+      <a href="../Num/Grad/AddGate.html">AddGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Grad/ASinGate" data-name="num::grad::asingate(t)">
+      <a href="../Num/Grad/ASinGate.html">ASinGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Grad/ATanGate" data-name="num::grad::atangate(t)">
+      <a href="../Num/Grad/ATanGate.html">ATanGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Grad/Context" data-name="num::grad::context(t)">
+      <a href="../Num/Grad/Context.html">Context</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Grad/CosGate" data-name="num::grad::cosgate(t)">
+      <a href="../Num/Grad/CosGate.html">CosGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Grad/DivideGate" data-name="num::grad::dividegate(t)">
+      <a href="../Num/Grad/DivideGate.html">DivideGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Grad/ExpGate" data-name="num::grad::expgate(t)">
+      <a href="../Num/Grad/ExpGate.html">ExpGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Grad/Gate" data-name="num::grad::gate(t)">
+      <a href="../Num/Grad/Gate.html">Gate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Grad/MultiplyGate" data-name="num::grad::multiplygate(t)">
+      <a href="../Num/Grad/MultiplyGate.html">MultiplyGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Grad/Node" data-name="num::grad::node(t)">
+      <a href="../Num/Grad/Node.html">Node</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Grad/Payload" data-name="num::grad::payload(t)">
+      <a href="../Num/Grad/Payload.html">Payload</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Grad/PowerGate" data-name="num::grad::powergate(t)">
+      <a href="../Num/Grad/PowerGate.html">PowerGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Grad/SinGate" data-name="num::grad::singate(t)">
+      <a href="../Num/Grad/SinGate.html">SinGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Grad/SubtractGate" data-name="num::grad::subtractgate(t)">
+      <a href="../Num/Grad/SubtractGate.html">SubtractGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Grad/TanGate" data-name="num::grad::tangate(t)">
+      <a href="../Num/Grad/TanGate.html">TanGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Grad/Trig1dGate" data-name="num::grad::trig1dgate(t)">
+      <a href="../Num/Grad/Trig1dGate.html">Trig1dGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Grad/TwoOpGate" data-name="num::grad::twoopgate(t)">
+      <a href="../Num/Grad/TwoOpGate.html">TwoOpGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Grad/Variable" data-name="num::grad::variable(t)">
+      <a href="../Num/Grad/Variable.html">Variable</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent open current" data-id="num/Num/NN" data-name="num::nn">
+      <a href="../Num/NN.html">NN</a>
+      
+        <ul>
+  
+  <li class=" " data-id="num/Num/NN/AdamOptimizer" data-name="num::nn::adamoptimizer(t)">
+      <a href="../Num/NN/AdamOptimizer.html">AdamOptimizer</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/ConvolutionalLayer" data-name="num::nn::convolutionallayer(t)">
+      <a href="../Num/NN/ConvolutionalLayer.html">ConvolutionalLayer</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/ConvolutionGate" data-name="num::nn::convolutiongate(t)">
+      <a href="../Num/NN/ConvolutionGate.html">ConvolutionGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/Distribution" data-name="num::nn::distribution">
+      <a href="../Num/NN/Distribution.html">Distribution</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/DropoutGate" data-name="num::nn::dropoutgate(t)">
+      <a href="../Num/NN/DropoutGate.html">DropoutGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/DropoutLayer" data-name="num::nn::dropoutlayer(t)">
+      <a href="../Num/NN/DropoutLayer.html">DropoutLayer</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/EluGate" data-name="num::nn::elugate(t)">
+      <a href="../Num/NN/EluGate.html">EluGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/EluLayer" data-name="num::nn::elulayer(t)">
+      <a href="../Num/NN/EluLayer.html">EluLayer</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/FanMode" data-name="num::nn::fanmode">
+      <a href="../Num/NN/FanMode.html">FanMode</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/FlattenGate" data-name="num::nn::flattengate(t)">
+      <a href="../Num/NN/FlattenGate.html">FlattenGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/FlattenLayer" data-name="num::nn::flattenlayer(t)">
+      <a href="../Num/NN/FlattenLayer.html">FlattenLayer</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/InputGate" data-name="num::nn::inputgate(t)">
+      <a href="../Num/NN/InputGate.html">InputGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/InputLayer" data-name="num::nn::inputlayer(t)">
+      <a href="../Num/NN/InputLayer.html">InputLayer</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/Layer" data-name="num::nn::layer(t)">
+      <a href="../Num/NN/Layer.html">Layer</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/LeakyReluGate" data-name="num::nn::leakyrelugate(t)">
+      <a href="../Num/NN/LeakyReluGate.html">LeakyReluGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/LeakyReluLayer" data-name="num::nn::leakyrelulayer(t)">
+      <a href="../Num/NN/LeakyReluLayer.html">LeakyReluLayer</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/LinearGate" data-name="num::nn::lineargate(t)">
+      <a href="../Num/NN/LinearGate.html">LinearGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/LinearLayer" data-name="num::nn::linearlayer(t)">
+      <a href="../Num/NN/LinearLayer.html">LinearLayer</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/Loss" data-name="num::nn::loss(t)">
+      <a href="../Num/NN/Loss.html">Loss</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/MaxPoolGate" data-name="num::nn::maxpoolgate(t)">
+      <a href="../Num/NN/MaxPoolGate.html">MaxPoolGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/MaxPoolLayer" data-name="num::nn::maxpoollayer(t)">
+      <a href="../Num/NN/MaxPoolLayer.html">MaxPoolLayer</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/MNIST" data-name="num::nn::mnist">
+      <a href="../Num/NN/MNIST.html">MNIST</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/MSEGate" data-name="num::nn::msegate(t)">
+      <a href="../Num/NN/MSEGate.html">MSEGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/MSELoss" data-name="num::nn::mseloss(t)">
+      <a href="../Num/NN/MSELoss.html">MSELoss</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/Network" data-name="num::nn::network(t)">
+      <a href="../Num/NN/Network.html">Network</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/NetworkInfo" data-name="num::nn::networkinfo(t)">
+      <a href="../Num/NN/NetworkInfo.html">NetworkInfo</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/Optimizer" data-name="num::nn::optimizer(t)">
+      <a href="../Num/NN/Optimizer.html">Optimizer</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/ReluGate" data-name="num::nn::relugate(t)">
+      <a href="../Num/NN/ReluGate.html">ReluGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/ReluLayer" data-name="num::nn::relulayer(t)">
+      <a href="../Num/NN/ReluLayer.html">ReluLayer</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/SGDMomentumOptimizer" data-name="num::nn::sgdmomentumoptimizer(t)">
+      <a href="../Num/NN/SGDMomentumOptimizer.html">SGDMomentumOptimizer</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/SGDOptimizer" data-name="num::nn::sgdoptimizer(t)">
+      <a href="../Num/NN/SGDOptimizer.html">SGDOptimizer</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/SigmoidCrossEntropy" data-name="num::nn::sigmoidcrossentropy(t)">
+      <a href="../Num/NN/SigmoidCrossEntropy.html">SigmoidCrossEntropy</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/SigmoidCrossEntropyLoss" data-name="num::nn::sigmoidcrossentropyloss(t)">
+      <a href="../Num/NN/SigmoidCrossEntropyLoss.html">SigmoidCrossEntropyLoss</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/SigmoidGate" data-name="num::nn::sigmoidgate(t)">
+      <a href="../Num/NN/SigmoidGate.html">SigmoidGate</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/SigmoidLayer" data-name="num::nn::sigmoidlayer(t)">
+      <a href="../Num/NN/SigmoidLayer.html">SigmoidLayer</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/SoftmaxCrossEntropy" data-name="num::nn::softmaxcrossentropy(t)">
+      <a href="../Num/NN/SoftmaxCrossEntropy.html">SoftmaxCrossEntropy</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/NN/SoftmaxCrossEntropyLoss" data-name="num::nn::softmaxcrossentropyloss(t)">
+      <a href="../Num/NN/SoftmaxCrossEntropyLoss.html">SoftmaxCrossEntropyLoss</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/OrderType" data-name="num::ordertype">
+      <a href="../Num/OrderType.html">OrderType</a>
+      
+    </li>
+  
+  <li class="parent " data-id="num/Num/Plot" data-name="num::plot">
+      <a href="../Num/Plot.html">Plot</a>
+      
+        <ul>
+  
+  <li class=" " data-id="num/Num/Plot/Bounds" data-name="num::plot::bounds">
+      <a href="../Num/Plot/Bounds.html">Bounds</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Plot/Color" data-name="num::plot::color">
+      <a href="../Num/Plot/Color.html">Color</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Plot/Figure" data-name="num::plot::figure">
+      <a href="../Num/Plot/Figure.html">Figure</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Plot/LinePlot" data-name="num::plot::lineplot">
+      <a href="../Num/Plot/LinePlot.html">LinePlot</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Plot/Options" data-name="num::plot::options">
+      <a href="../Num/Plot/Options.html">Options</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Plot/Plot" data-name="num::plot::plot">
+      <a href="../Num/Plot/Plot.html">Plot</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Plot/Scatter" data-name="num::plot::scatter">
+      <a href="../Num/Plot/Scatter.html">Scatter</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Plot/XYPlot" data-name="num::plot::xyplot">
+      <a href="../Num/Plot/XYPlot.html">XYPlot</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Rand" data-name="num::rand">
+      <a href="../Num/Rand.html">Rand</a>
+      
+    </li>
+  
+  <li class="parent " data-id="num/Num/Sparse" data-name="num::sparse">
+      <a href="../Num/Sparse.html">Sparse</a>
+      
+        <ul>
+  
+  <li class=" " data-id="num/Num/Sparse/COO" data-name="num::sparse::coo(t)">
+      <a href="../Num/Sparse/COO.html">COO</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Sparse/CSC" data-name="num::sparse::csc(t)">
+      <a href="../Num/Sparse/CSC.html">CSC</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Sparse/CSR" data-name="num::sparse::csr(t)">
+      <a href="../Num/Sparse/CSR.html">CSR</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Sparse/Matrix" data-name="num::sparse::matrix(t)">
+      <a href="../Num/Sparse/Matrix.html">Matrix</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/Stats" data-name="num::stats">
+      <a href="../Num/Stats.html">Stats</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Num/WorkPool" data-name="num::workpool">
+      <a href="../Num/WorkPool.html">WorkPool</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="num/Number" data-name="number">
+      <a href="../Number.html">Number</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/SciKit" data-name="scikit">
+      <a href="../SciKit.html">SciKit</a>
+      
+    </li>
+  
+  <li class=" " data-id="num/Tensor" data-name="tensor(t)">
+      <a href="../Tensor.html">Tensor</a>
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">module</span> Num::NN
+
+</h1>
+
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="extended-modules" class="anchor" href="#extended-modules">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Extended Modules
+  </h2>
+  <ul class="other-types-list">
+    
+      <li class="other-type"><a href="../Num/NN.html">Num::NN</a></li>
+    
+  </ul>
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/datasets/datasets.cr#L27" target="_blank">
+        nn/datasets/datasets.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/datasets/iris.cr#L26" target="_blank">
+        nn/datasets/iris.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/datasets/mnist.cr#L26" target="_blank">
+        nn/datasets/mnist.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/initialization.cr#L24" target="_blank">
+        nn/initialization.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/primitives/activation.cr#L24" target="_blank">
+        nn/primitives/activation.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/primitives/conv_fallback.cr#L24" target="_blank">
+        nn/primitives/conv_fallback.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/primitives/maxpool.cr#L24" target="_blank">
+        nn/primitives/maxpool.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/primitives/nnpack_conv.cr#L24" target="_blank">
+        nn/primitives/nnpack_conv.cr
+      </a>
+    
+    <br/>
+  
+    
+      <a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/primitives/softmax_cross_entropy.cr#L24" target="_blank">
+        nn/primitives/softmax_cross_entropy.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+  
+    <h2>
+      <a id="constant-summary" class="anchor" href="#constant-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+      Constant Summary
+    </h2>
+  
+  <dl>
+    
+      <dt class="entry-const" id="BASE_DATASET_CACHE_PATH">
+        <strong>BASE_DATASET_CACHE_PATH</strong> = <code><span class="s">&quot;</span><span class="i">#{</span><span class="t">Path</span>.home<span class="i">}</span><span class="s">/.cache/num.cr/datasets&quot;</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="IRIS_URL">
+        <strong>IRIS_URL</strong> = <code><span class="s">&quot;https://gist.githubusercontent.com/curran/a08a1080b88344b0c8a7/raw/639388c2cbc2120a14dcf466e85730eb8be498bb/iris.csv&quot;</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="MNIST_TEST_URL">
+        <strong>MNIST_TEST_URL</strong> = <code><span class="s">&quot;https://pjreddie.com/media/files/mnist_test.csv&quot;</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="MNIST_TRAIN_URL">
+        <strong>MNIST_TRAIN_URL</strong> = <code><span class="s">&quot;https://pjreddie.com/media/files/mnist_train.csv&quot;</span></code>
+      </dt>
+      
+    
+  </dl>
+
+
+
+
+
+
+
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#col2im(input:Tensor(U),channels:Int,height:Int,width:Int,kernel_size:Tuple(Int,Int),padding:Tuple(Int,Int)=%7B0,0%7D,stride:Tuple(Int,Int)=%7B1,1%7D):Tensor(U)forallU-instance-method" class="signature"><strong>#col2im</strong>(input : Tensor(U), channels : Int, height : Int, width : Int, kernel_size : Tuple(Int, Int), padding : Tuple(Int, Int) = {<span class="n">0</span>, <span class="n">0</span>}, stride : Tuple(Int, Int) = {<span class="n">1</span>, <span class="n">1</span>}) : Tensor(U) forall U</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#compute_fans(*shape:Int)-instance-method" class="signature"><strong>#compute_fans</strong>(*shape : Int)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#conv2d(input:Tensor(Float32),weight:Tensor(Float32),bias:Tensor(Float32),padding:Tuple(Int,Int),stride:Tuple(Int,Int)=%7B1,1%7D)-instance-method" class="signature"><strong>#conv2d</strong>(input : Tensor(Float32), weight : Tensor(Float32), bias : Tensor(Float32), padding : Tuple(Int, Int), stride : Tuple(Int, Int) = {<span class="n">1</span>, <span class="n">1</span>})</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#conv2d_backward(input:Tensor(Float32),weight:Tensor(Float32),bias:Tensor(Float32),grad_output:Tensor(Float32),padding:Tuple(Int,Int),stride:Tuple(Int,Int)=%7B1,1%7D)-instance-method" class="signature"><strong>#conv2d_backward</strong>(input : Tensor(Float32), weight : Tensor(Float32), bias : Tensor(Float32), grad_output : Tensor(Float32), padding : Tuple(Int, Int), stride : Tuple(Int, Int) = {<span class="n">1</span>, <span class="n">1</span>})</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#elu(x:Tensor(U),alpha=0.01):Tensor(U)forallU-instance-method" class="signature"><strong>#elu</strong>(x : Tensor(U), alpha = <span class="n">0.01</span>) : Tensor(U) forall U</a>
+        
+          <div class="summary"><p>Exponential linear unit activation</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#elu!(x:Tensor(U),alpha=0.01):Tensor(U)forallU-instance-method" class="signature"><strong>#elu!</strong>(x : Tensor(U), alpha = <span class="n">0.01</span>) : Tensor(U) forall U</a>
+        
+          <div class="summary"><p>Exponential linear unit activation</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#elu_prime(gradient:Tensor(U),cached:Tensor(U)):Tensor(U)forallU-instance-method" class="signature"><strong>#elu_prime</strong>(gradient : Tensor(U), cached : Tensor(U)) : Tensor(U) forall U</a>
+        
+          <div class="summary"><p>Derivative of the ELU activation</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#im2col(input:Tensor(U),kernel:Tuple(Int,Int),padding:Tuple(Int,Int)=%7B0,0%7D,stride:Tuple(Int,Int)=%7B1,1%7D):Tensor(U)forallU-instance-method" class="signature"><strong>#im2col</strong>(input : Tensor(U), kernel : Tuple(Int, Int), padding : Tuple(Int, Int) = {<span class="n">0</span>, <span class="n">0</span>}, stride : Tuple(Int, Int) = {<span class="n">1</span>, <span class="n">1</span>}) : Tensor(U) forall U</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#im2colgemm_conv2d(input:Tensor(U),kernel:Tensor(U),bias:Tensor(U),padding:Tuple(Int,Int)=%7B0,0%7D,stride:Tuple(Int,Int)=%7B1,1%7D):Tensor(U)forallU-instance-method" class="signature"><strong>#im2colgemm_conv2d</strong>(input : Tensor(U), kernel : Tensor(U), bias : Tensor(U), padding : Tuple(Int, Int) = {<span class="n">0</span>, <span class="n">0</span>}, stride : Tuple(Int, Int) = {<span class="n">1</span>, <span class="n">1</span>}) : Tensor(U) forall U</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#im2colgemm_conv2d_gradient(input:Tensor(U),kernel:Tensor(U),bias:Tensor(U),grad_output:Tensor(U),padding:Tuple(Int,Int)=%7B0,0%7D,stride:Tuple(Int,Int)=%7B1,1%7D):Tuple(Tensor(U),Tensor(U),Tensor(U))forallU-instance-method" class="signature"><strong>#im2colgemm_conv2d_gradient</strong>(input : Tensor(U), kernel : Tensor(U), bias : Tensor(U), grad_output : Tensor(U), padding : Tuple(Int, Int) = {<span class="n">0</span>, <span class="n">0</span>}, stride : Tuple(Int, Int) = {<span class="n">1</span>, <span class="n">1</span>}) : Tuple(Tensor(U), Tensor(U), Tensor(U)) forall U</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#kaiming_normal(*shape:Int,dtype:Tensor(U).class)forallU-instance-method" class="signature"><strong>#kaiming_normal</strong>(*shape : Int, dtype : <span class="t">Tensor</span>(<span class="t">U</span>).<span class="k">class</span>) forall U</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#kaiming_uniform(*shape:Int,dtype:Tensor(U).class)forallU-instance-method" class="signature"><strong>#kaiming_uniform</strong>(*shape : Int, dtype : <span class="t">Tensor</span>(<span class="t">U</span>).<span class="k">class</span>) forall U</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#leaky_relu(x:Tensor(U)):Tensor(U)forallU-instance-method" class="signature"><strong>#leaky_relu</strong>(x : Tensor(U)) : Tensor(U) forall U</a>
+        
+          <div class="summary"><p>Leaky ReLU activation function</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#leaky_relu!(x:Tensor(U))forallU-instance-method" class="signature"><strong>#leaky_relu!</strong>(x : Tensor(U)) forall U</a>
+        
+          <div class="summary"><p>Leaky ReLU activation function</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#leaky_relu_prime(gradient:Tensor(U),cached:Tensor(U)):Tensor(U)forallU-instance-method" class="signature"><strong>#leaky_relu_prime</strong>(gradient : Tensor(U), cached : Tensor(U)) : Tensor(U) forall U</a>
+        
+          <div class="summary"><p>Brief description of leakyreluprime</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#load_iris_dataset-instance-method" class="signature"><strong>#load_iris_dataset</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#load_mnist_dataset-instance-method" class="signature"><strong>#load_mnist_dataset</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#load_mnist_helper(url)-instance-method" class="signature"><strong>#load_mnist_helper</strong>(url)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#logsumexp(t:Tensor(U))forallU-instance-method" class="signature"><strong>#logsumexp</strong>(t : Tensor(U)) forall U</a>
+        
+          <div class="summary"><p>Brief description of logsumexp</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#maxpool(input:Tensor(U),kernel:Tuple(Int,Int),padding=%7B0,0%7D,stride=%7B0,0%7D):Tuple(Tensor(Int32),Tensor(U))forallU-instance-method" class="signature"><strong>#maxpool</strong>(input : Tensor(U), kernel : Tuple(Int, Int), padding = {<span class="n">0</span>, <span class="n">0</span>}, stride = {<span class="n">0</span>, <span class="n">0</span>}) : Tuple(Tensor(Int32), Tensor(U)) forall U</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#maxpool_backward(shape:Array(Int),max_indices:Tensor(Int32),grad_output:Tensor(U))forallU-instance-method" class="signature"><strong>#maxpool_backward</strong>(shape : Array(Int), max_indices : Tensor(Int32), grad_output : Tensor(U)) forall U</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#mse(input:Tensor(U),target:Tensor(U)):Tensor(U)forallU-instance-method" class="signature"><strong>#mse</strong>(input : Tensor(U), target : Tensor(U)) : Tensor(U) forall U</a>
+        
+          <div class="summary"><p>Mean squared error loss</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#relu(x:Tensor(U)):Tensor(U)forallU-instance-method" class="signature"><strong>#relu</strong>(x : Tensor(U)) : Tensor(U) forall U</a>
+        
+          <div class="summary"><p>ReLU activation function</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#relu!(x:Tensor(U)):Tensor(U)forallU-instance-method" class="signature"><strong>#relu!</strong>(x : Tensor(U)) : Tensor(U) forall U</a>
+        
+          <div class="summary"><p>ReLU activation function</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#relu_prime(gradient:Tensor(U),cached:Tensor(U)):Tensor(U)forallU-instance-method" class="signature"><strong>#relu_prime</strong>(gradient : Tensor(U), cached : Tensor(U)) : Tensor(U) forall U</a>
+        
+          <div class="summary"><p>Derivative of the ReLU activation function</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#sigmoid(x)-instance-method" class="signature"><strong>#sigmoid</strong>(x)</a>
+        
+          <div class="summary"><p>Sigmoid takes a real value as input and outputs another value between 0 and 1.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#sigmoid!(x:Tensor(U)):Tensor(U)forallU-instance-method" class="signature"><strong>#sigmoid!</strong>(x : Tensor(U)) : Tensor(U) forall U</a>
+        
+          <div class="summary"><p>Sigmoid takes a real value as input and outputs another value between 0 and 1.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#sigmoid_cross_entropy(input:Tensor(U),target:Tensor(U)):UforallU-instance-method" class="signature"><strong>#sigmoid_cross_entropy</strong>(input : Tensor(U), target : Tensor(U)) : U forall U</a>
+        
+          <div class="summary"><p>Sigmoid cross entropy loss</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#sigmoid_prime(gradient:Tensor(U),cached:Tensor(U)):Tensor(U)forallU-instance-method" class="signature"><strong>#sigmoid_prime</strong>(gradient : Tensor(U), cached : Tensor(U)) : Tensor(U) forall U</a>
+        
+          <div class="summary"><p>Derivative of the Sigmoid function</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#softmax_cross_entropy(input:Tensor(U),target:Tensor(U)):UforallU-instance-method" class="signature"><strong>#softmax_cross_entropy</strong>(input : Tensor(U), target : Tensor(U)) : U forall U</a>
+        
+          <div class="summary"><p>Brief description of softmaxcrossentropy</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#softmax_cross_entropy_backward(gradient:U,cached:Tensor(U),target:Tensor(U))forallU-instance-method" class="signature"><strong>#softmax_cross_entropy_backward</strong>(gradient : U, cached : Tensor(U), target : Tensor(U)) forall U</a>
+        
+          <div class="summary"><p>Brief description of softmaxcrossentropybackward</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#stable_softmax(x:U,mx:U,sumexp:U)forallU-instance-method" class="signature"><strong>#stable_softmax</strong>(x : U, mx : U, sumexp : U) forall U</a>
+        
+          <div class="summary"><p>Brief description of stablesoftmax</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#streaming_max_sumexp(t:Tensor(U))forallU-instance-method" class="signature"><strong>#streaming_max_sumexp</strong>(t : Tensor(U)) forall U</a>
+        
+          <div class="summary"><p>Brief description of streamingmaxsumexp</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#tanh(x:Tensor(U)):Tensor(U)forallU-instance-method" class="signature"><strong>#tanh</strong>(x : Tensor(U)) : Tensor(U) forall U</a>
+        
+          <div class="summary"><p>Tanh squashes a real-valued number to the range [-1, 1].</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#tanh!(x:Tensor(U))forallU-instance-method" class="signature"><strong>#tanh!</strong>(x : Tensor(U)) forall U</a>
+        
+          <div class="summary"><p>Tanh squashes a real-valued number to the range [-1, 1].</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#tanh_prime(gradient:Tensor(U),cached:Tensor(U))forallU-instance-method" class="signature"><strong>#tanh_prime</strong>(gradient : Tensor(U), cached : Tensor(U)) forall U</a>
+        
+          <div class="summary"><p>Derivative of the Tanh function</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#variance_scaled(*shape:Int,dtype:U.class,scale:U=U.new(1),mode:FanMode=FanMode::FanIn,distribution:Distribution=Distribution::Normal)forallU-instance-method" class="signature"><strong>#variance_scaled</strong>(*shape : Int, dtype : <span class="t">U</span>.<span class="k">class</span>, scale : U = <span class="t">U</span>.<span class="k">new</span>(<span class="n">1</span>), mode : FanMode = <span class="t">FanMode</span><span class="t">::</span><span class="t">FanIn</span>, distribution : Distribution = <span class="t">Distribution</span><span class="t">::</span><span class="t">Normal</span>) forall U</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+
+
+<div class="methods-inherited">
+  
+</div>
+
+
+
+
+
+
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="col2im(input:Tensor(U),channels:Int,height:Int,width:Int,kernel_size:Tuple(Int,Int),padding:Tuple(Int,Int)={0,0},stride:Tuple(Int,Int)={1,1}):Tensor(U)forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>col2im</strong>(input : <a href="../Tensor.html">Tensor</a>(U), channels : Int, height : Int, width : Int, kernel_size : Tuple(Int, Int), padding : Tuple(Int, Int) = {<span class="n">0</span>, <span class="n">0</span>}, stride : Tuple(Int, Int) = {<span class="n">1</span>, <span class="n">1</span>}) : <a href="../Tensor.html">Tensor</a>(U) forall U
+
+        <a class="method-permalink" href="#col2im(input:Tensor(U),channels:Int,height:Int,width:Int,kernel_size:Tuple(Int,Int),padding:Tuple(Int,Int)=%7B0,0%7D,stride:Tuple(Int,Int)=%7B1,1%7D):Tensor(U)forallU-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/primitives/conv_fallback.cr#L75" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="compute_fans(*shape:Int)-instance-method">
+      <div class="signature">
+        
+        def <strong>compute_fans</strong>(*shape : Int)
+
+        <a class="method-permalink" href="#compute_fans(*shape:Int)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/initialization.cr#L38" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="conv2d(input:Tensor(Float32),weight:Tensor(Float32),bias:Tensor(Float32),padding:Tuple(Int,Int),stride:Tuple(Int,Int)={1,1})-instance-method">
+      <div class="signature">
+        
+        def <strong>conv2d</strong>(input : <a href="../Tensor.html">Tensor</a>(<a href="../Float32.html">Float32</a>), weight : <a href="../Tensor.html">Tensor</a>(<a href="../Float32.html">Float32</a>), bias : <a href="../Tensor.html">Tensor</a>(<a href="../Float32.html">Float32</a>), padding : Tuple(Int, Int), stride : Tuple(Int, Int) = {<span class="n">1</span>, <span class="n">1</span>})
+
+        <a class="method-permalink" href="#conv2d(input:Tensor(Float32),weight:Tensor(Float32),bias:Tensor(Float32),padding:Tuple(Int,Int),stride:Tuple(Int,Int)=%7B1,1%7D)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/primitives/nnpack_conv.cr#L25" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="conv2d_backward(input:Tensor(Float32),weight:Tensor(Float32),bias:Tensor(Float32),grad_output:Tensor(Float32),padding:Tuple(Int,Int),stride:Tuple(Int,Int)={1,1})-instance-method">
+      <div class="signature">
+        
+        def <strong>conv2d_backward</strong>(input : <a href="../Tensor.html">Tensor</a>(<a href="../Float32.html">Float32</a>), weight : <a href="../Tensor.html">Tensor</a>(<a href="../Float32.html">Float32</a>), bias : <a href="../Tensor.html">Tensor</a>(<a href="../Float32.html">Float32</a>), grad_output : <a href="../Tensor.html">Tensor</a>(<a href="../Float32.html">Float32</a>), padding : Tuple(Int, Int), stride : Tuple(Int, Int) = {<span class="n">1</span>, <span class="n">1</span>})
+
+        <a class="method-permalink" href="#conv2d_backward(input:Tensor(Float32),weight:Tensor(Float32),bias:Tensor(Float32),grad_output:Tensor(Float32),padding:Tuple(Int,Int),stride:Tuple(Int,Int)=%7B1,1%7D)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/primitives/nnpack_conv.cr#L66" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="elu(x:Tensor(U),alpha=0.01):Tensor(U)forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>elu</strong>(x : <a href="../Tensor.html">Tensor</a>(U), alpha = <span class="n">0.01</span>) : <a href="../Tensor.html">Tensor</a>(U) forall U
+
+        <a class="method-permalink" href="#elu(x:Tensor(U),alpha=0.01):Tensor(U)forallU-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Exponential linear unit activation</p>
+
+<h2><a id="arguments" class="anchor" href="#arguments">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Arguments</h2>
+
+<p>x : Tensor(U)
+  Argument to activate</p>
+
+<h2><a id="returns" class="anchor" href="#returns">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Returns</h2>
+
+<p>Tensor(U)</p>
+
+<h2><a id="examples" class="anchor" href="#examples">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Examples</h2>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/primitives/activation.cr#L226" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="elu!(x:Tensor(U),alpha=0.01):Tensor(U)forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>elu!</strong>(x : <a href="../Tensor.html">Tensor</a>(U), alpha = <span class="n">0.01</span>) : <a href="../Tensor.html">Tensor</a>(U) forall U
+
+        <a class="method-permalink" href="#elu!(x:Tensor(U),alpha=0.01):Tensor(U)forallU-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Exponential linear unit activation</p>
+
+<h2><a id="arguments" class="anchor" href="#arguments">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Arguments</h2>
+
+<p>x : Tensor(U)
+  Argument to activate</p>
+
+<h2><a id="returns" class="anchor" href="#returns">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Returns</h2>
+
+<p>Tensor(U)</p>
+
+<h2><a id="examples" class="anchor" href="#examples">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Examples</h2>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/primitives/activation.cr#L237" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="elu_prime(gradient:Tensor(U),cached:Tensor(U)):Tensor(U)forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>elu_prime</strong>(gradient : <a href="../Tensor.html">Tensor</a>(U), cached : <a href="../Tensor.html">Tensor</a>(U)) : <a href="../Tensor.html">Tensor</a>(U) forall U
+
+        <a class="method-permalink" href="#elu_prime(gradient:Tensor(U),cached:Tensor(U)):Tensor(U)forallU-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Derivative of the ELU activation</p>
+
+<h2><a id="arguments" class="anchor" href="#arguments">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Arguments</h2>
+
+<p>gradient : Tensor(U)
+  Gradient value
+cached : Tensor(U)
+  Stored value</p>
+
+<h2><a id="returns" class="anchor" href="#returns">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Returns</h2>
+
+<p>Tensor(U)</p>
+
+<h2><a id="examples" class="anchor" href="#examples">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Examples</h2>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/primitives/activation.cr#L262" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="im2col(input:Tensor(U),kernel:Tuple(Int,Int),padding:Tuple(Int,Int)={0,0},stride:Tuple(Int,Int)={1,1}):Tensor(U)forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>im2col</strong>(input : <a href="../Tensor.html">Tensor</a>(U), kernel : Tuple(Int, Int), padding : Tuple(Int, Int) = {<span class="n">0</span>, <span class="n">0</span>}, stride : Tuple(Int, Int) = {<span class="n">1</span>, <span class="n">1</span>}) : <a href="../Tensor.html">Tensor</a>(U) forall U
+
+        <a class="method-permalink" href="#im2col(input:Tensor(U),kernel:Tuple(Int,Int),padding:Tuple(Int,Int)=%7B0,0%7D,stride:Tuple(Int,Int)=%7B1,1%7D):Tensor(U)forallU-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/primitives/conv_fallback.cr#L27" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="im2colgemm_conv2d(input:Tensor(U),kernel:Tensor(U),bias:Tensor(U),padding:Tuple(Int,Int)={0,0},stride:Tuple(Int,Int)={1,1}):Tensor(U)forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>im2colgemm_conv2d</strong>(input : <a href="../Tensor.html">Tensor</a>(U), kernel : <a href="../Tensor.html">Tensor</a>(U), bias : <a href="../Tensor.html">Tensor</a>(U), padding : Tuple(Int, Int) = {<span class="n">0</span>, <span class="n">0</span>}, stride : Tuple(Int, Int) = {<span class="n">1</span>, <span class="n">1</span>}) : <a href="../Tensor.html">Tensor</a>(U) forall U
+
+        <a class="method-permalink" href="#im2colgemm_conv2d(input:Tensor(U),kernel:Tensor(U),bias:Tensor(U),padding:Tuple(Int,Int)=%7B0,0%7D,stride:Tuple(Int,Int)=%7B1,1%7D):Tensor(U)forallU-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/primitives/conv_fallback.cr#L111" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="im2colgemm_conv2d_gradient(input:Tensor(U),kernel:Tensor(U),bias:Tensor(U),grad_output:Tensor(U),padding:Tuple(Int,Int)={0,0},stride:Tuple(Int,Int)={1,1}):Tuple(Tensor(U),Tensor(U),Tensor(U))forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>im2colgemm_conv2d_gradient</strong>(input : <a href="../Tensor.html">Tensor</a>(U), kernel : <a href="../Tensor.html">Tensor</a>(U), bias : <a href="../Tensor.html">Tensor</a>(U), grad_output : <a href="../Tensor.html">Tensor</a>(U), padding : Tuple(Int, Int) = {<span class="n">0</span>, <span class="n">0</span>}, stride : Tuple(Int, Int) = {<span class="n">1</span>, <span class="n">1</span>}) : Tuple(<a href="../Tensor.html">Tensor</a>(U), <a href="../Tensor.html">Tensor</a>(U), <a href="../Tensor.html">Tensor</a>(U)) forall U
+
+        <a class="method-permalink" href="#im2colgemm_conv2d_gradient(input:Tensor(U),kernel:Tensor(U),bias:Tensor(U),grad_output:Tensor(U),padding:Tuple(Int,Int)=%7B0,0%7D,stride:Tuple(Int,Int)=%7B1,1%7D):Tuple(Tensor(U),Tensor(U),Tensor(U))forallU-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/primitives/conv_fallback.cr#L137" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="kaiming_normal(*shape:Int,dtype:Tensor(U).class)forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>kaiming_normal</strong>(*shape : Int, dtype : <span class="t">Tensor</span>(<span class="t">U</span>).<span class="k">class</span>) forall U
+
+        <a class="method-permalink" href="#kaiming_normal(*shape:Int,dtype:Tensor(U).class)forallU-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/initialization.cr#L81" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="kaiming_uniform(*shape:Int,dtype:Tensor(U).class)forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>kaiming_uniform</strong>(*shape : Int, dtype : <span class="t">Tensor</span>(<span class="t">U</span>).<span class="k">class</span>) forall U
+
+        <a class="method-permalink" href="#kaiming_uniform(*shape:Int,dtype:Tensor(U).class)forallU-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/initialization.cr#L77" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="leaky_relu(x:Tensor(U)):Tensor(U)forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>leaky_relu</strong>(x : <a href="../Tensor.html">Tensor</a>(U)) : <a href="../Tensor.html">Tensor</a>(U) forall U
+
+        <a class="method-permalink" href="#leaky_relu(x:Tensor(U)):Tensor(U)forallU-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Leaky ReLU activation function</p>
+
+<h2><a id="arguments" class="anchor" href="#arguments">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Arguments</h2>
+
+<p>x : Tensor(U)
+  Argument to activate</p>
+
+<h2><a id="returns" class="anchor" href="#returns">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Returns</h2>
+
+<p>Tensor(U)</p>
+
+<h2><a id="examples" class="anchor" href="#examples">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Examples</h2>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/primitives/activation.cr#L175" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="leaky_relu!(x:Tensor(U))forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>leaky_relu!</strong>(x : <a href="../Tensor.html">Tensor</a>(U)) forall U
+
+        <a class="method-permalink" href="#leaky_relu!(x:Tensor(U))forallU-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Leaky ReLU activation function</p>
+
+<h2><a id="arguments" class="anchor" href="#arguments">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Arguments</h2>
+
+<p>x : Tensor(U)
+  Argument to activate</p>
+
+<h2><a id="returns" class="anchor" href="#returns">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Returns</h2>
+
+<p>Tensor(U)</p>
+
+<h2><a id="examples" class="anchor" href="#examples">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Examples</h2>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/primitives/activation.cr#L182" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="leaky_relu_prime(gradient:Tensor(U),cached:Tensor(U)):Tensor(U)forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>leaky_relu_prime</strong>(gradient : <a href="../Tensor.html">Tensor</a>(U), cached : <a href="../Tensor.html">Tensor</a>(U)) : <a href="../Tensor.html">Tensor</a>(U) forall U
+
+        <a class="method-permalink" href="#leaky_relu_prime(gradient:Tensor(U),cached:Tensor(U)):Tensor(U)forallU-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Brief description of leakyreluprime</p>
+
+<h2><a id="arguments" class="anchor" href="#arguments">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Arguments</h2>
+
+<p>gradient : Tensor(U)
+  Gradient value
+cached : Tensor(U)
+  Stored value</p>
+
+<h2><a id="returns" class="anchor" href="#returns">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Returns</h2>
+
+<p>Tensor(U)</p>
+
+<h2><a id="examples" class="anchor" href="#examples">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Examples</h2>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/primitives/activation.cr#L203" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="load_iris_dataset-instance-method">
+      <div class="signature">
+        
+        def <strong>load_iris_dataset</strong>
+
+        <a class="method-permalink" href="#load_iris_dataset-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/datasets/iris.cr#L31" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="load_mnist_dataset-instance-method">
+      <div class="signature">
+        
+        def <strong>load_mnist_dataset</strong>
+
+        <a class="method-permalink" href="#load_mnist_dataset-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/datasets/mnist.cr#L59" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="load_mnist_helper(url)-instance-method">
+      <div class="signature">
+        
+        def <strong>load_mnist_helper</strong>(url)
+
+        <a class="method-permalink" href="#load_mnist_helper(url)-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/datasets/mnist.cr#L47" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="logsumexp(t:Tensor(U))forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>logsumexp</strong>(t : <a href="../Tensor.html">Tensor</a>(U)) forall U
+
+        <a class="method-permalink" href="#logsumexp(t:Tensor(U))forallU-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Brief description of logsumexp</p>
+
+<h2><a id="arguments" class="anchor" href="#arguments">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Arguments</h2>
+
+<p>t : Tensor(U)
+  Brief description of t : Tensor(U)</p>
+
+<h2><a id="returns" class="anchor" href="#returns">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Returns</h2>
+
+<p>nil</p>
+
+<h2><a id="examples" class="anchor" href="#examples">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Examples</h2>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/primitives/softmax_cross_entropy.cr#L68" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="maxpool(input:Tensor(U),kernel:Tuple(Int,Int),padding={0,0},stride={0,0}):Tuple(Tensor(Int32),Tensor(U))forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>maxpool</strong>(input : <a href="../Tensor.html">Tensor</a>(U), kernel : Tuple(Int, Int), padding = {<span class="n">0</span>, <span class="n">0</span>}, stride = {<span class="n">0</span>, <span class="n">0</span>}) : Tuple(<a href="../Tensor.html">Tensor</a>(Int32), <a href="../Tensor.html">Tensor</a>(U)) forall U
+
+        <a class="method-permalink" href="#maxpool(input:Tensor(U),kernel:Tuple(Int,Int),padding=%7B0,0%7D,stride=%7B0,0%7D):Tuple(Tensor(Int32),Tensor(U))forallU-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/primitives/maxpool.cr#L25" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="maxpool_backward(shape:Array(Int),max_indices:Tensor(Int32),grad_output:Tensor(U))forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>maxpool_backward</strong>(shape : <a href="../Array.html">Array</a>(Int), max_indices : <a href="../Tensor.html">Tensor</a>(Int32), grad_output : <a href="../Tensor.html">Tensor</a>(U)) forall U
+
+        <a class="method-permalink" href="#maxpool_backward(shape:Array(Int),max_indices:Tensor(Int32),grad_output:Tensor(U))forallU-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/primitives/maxpool.cr#L79" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="mse(input:Tensor(U),target:Tensor(U)):Tensor(U)forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>mse</strong>(input : <a href="../Tensor.html">Tensor</a>(U), target : <a href="../Tensor.html">Tensor</a>(U)) : <a href="../Tensor.html">Tensor</a>(U) forall U
+
+        <a class="method-permalink" href="#mse(input:Tensor(U),target:Tensor(U)):Tensor(U)forallU-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Mean squared error loss</p>
+
+<h2><a id="arguments" class="anchor" href="#arguments">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Arguments</h2>
+
+<p>input : Tensor(U)
+  Predicted values
+target : Tensor(U)
+  Truth values</p>
+
+<h2><a id="returns" class="anchor" href="#returns">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Returns</h2>
+
+<p>Tensor(U)</p>
+
+<h2><a id="examples" class="anchor" href="#examples">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Examples</h2>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/primitives/activation.cr#L310" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="relu(x:Tensor(U)):Tensor(U)forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>relu</strong>(x : <a href="../Tensor.html">Tensor</a>(U)) : <a href="../Tensor.html">Tensor</a>(U) forall U
+
+        <a class="method-permalink" href="#relu(x:Tensor(U)):Tensor(U)forallU-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>ReLU activation function</p>
+
+<h2><a id="arguments" class="anchor" href="#arguments">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Arguments</h2>
+
+<p>x : Tensor(U)
+  Argument to activate</p>
+
+<h2><a id="returns" class="anchor" href="#returns">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Returns</h2>
+
+<p>Tensor(U)</p>
+
+<h2><a id="examples" class="anchor" href="#examples">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Examples</h2>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/primitives/activation.cr#L132" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="relu!(x:Tensor(U)):Tensor(U)forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>relu!</strong>(x : <a href="../Tensor.html">Tensor</a>(U)) : <a href="../Tensor.html">Tensor</a>(U) forall U
+
+        <a class="method-permalink" href="#relu!(x:Tensor(U)):Tensor(U)forallU-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>ReLU activation function</p>
+
+<h2><a id="arguments" class="anchor" href="#arguments">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Arguments</h2>
+
+<p>x : Tensor(U)
+  Argument to activate</p>
+
+<h2><a id="returns" class="anchor" href="#returns">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Returns</h2>
+
+<p>Tensor(U)</p>
+
+<h2><a id="examples" class="anchor" href="#examples">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Examples</h2>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/primitives/activation.cr#L137" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="relu_prime(gradient:Tensor(U),cached:Tensor(U)):Tensor(U)forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>relu_prime</strong>(gradient : <a href="../Tensor.html">Tensor</a>(U), cached : <a href="../Tensor.html">Tensor</a>(U)) : <a href="../Tensor.html">Tensor</a>(U) forall U
+
+        <a class="method-permalink" href="#relu_prime(gradient:Tensor(U),cached:Tensor(U)):Tensor(U)forallU-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Derivative of the ReLU activation function</p>
+
+<h2><a id="arguments" class="anchor" href="#arguments">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Arguments</h2>
+
+<h2><a id="returns" class="anchor" href="#returns">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Returns</h2>
+
+<p>nil</p>
+
+<h2><a id="examples" class="anchor" href="#examples">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Examples</h2>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/primitives/activation.cr#L152" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="sigmoid(x)-instance-method">
+      <div class="signature">
+        
+        def <strong>sigmoid</strong>(x)
+
+        <a class="method-permalink" href="#sigmoid(x)-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Sigmoid takes a real value as input and outputs another value
+between 0 and 1. It’s easy to work with and has all the
+nice properties of activation functions: it’s non-linear,
+continuously differentiable, monotonic, and has a fixed
+output range.</p>
+
+<h2><a id="arguments" class="anchor" href="#arguments">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Arguments</h2>
+
+<p><em>x</em> : Tensor
+  Tensor to activate</p>
+
+<h2><a id="examples" class="anchor" href="#examples">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Examples</h2>
+
+<pre><code class="language-crystal">a <span class="o">=</span> [<span class="n">0.1</span>, <span class="n">0.34</span>, <span class="n">0.65</span>].to_tensor
+puts <span class="t">Num</span><span class="t">::</span><span class="t">NN</span>.sigmoid(a) <span class="c"># =&gt; [0.524979, 0.584191, 0.65701 ]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/primitives/activation.cr#L87" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="sigmoid!(x:Tensor(U)):Tensor(U)forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>sigmoid!</strong>(x : <a href="../Tensor.html">Tensor</a>(U)) : <a href="../Tensor.html">Tensor</a>(U) forall U
+
+        <a class="method-permalink" href="#sigmoid!(x:Tensor(U)):Tensor(U)forallU-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Sigmoid takes a real value as input and outputs another value
+between 0 and 1. It’s easy to work with and has all the
+nice properties of activation functions: it’s non-linear,
+continuously differentiable, monotonic, and has a fixed
+output range.</p>
+
+<h2><a id="arguments" class="anchor" href="#arguments">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Arguments</h2>
+
+<p><em>x</em> : Tensor
+  Tensor to activate</p>
+
+<h2><a id="examples" class="anchor" href="#examples">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Examples</h2>
+
+<pre><code class="language-crystal">a <span class="o">=</span> [<span class="n">0.1</span>, <span class="n">0.34</span>, <span class="n">0.65</span>].to_tensor
+puts <span class="t">Num</span><span class="t">::</span><span class="t">NN</span>.sigmoid(a) <span class="c"># =&gt; [0.524979, 0.584191, 0.65701 ]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/primitives/activation.cr#L94" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="sigmoid_cross_entropy(input:Tensor(U),target:Tensor(U)):UforallU-instance-method">
+      <div class="signature">
+        
+        def <strong>sigmoid_cross_entropy</strong>(input : <a href="../Tensor.html">Tensor</a>(U), target : <a href="../Tensor.html">Tensor</a>(U)) : U forall U
+
+        <a class="method-permalink" href="#sigmoid_cross_entropy(input:Tensor(U),target:Tensor(U)):UforallU-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Sigmoid cross entropy loss</p>
+
+<h2><a id="arguments" class="anchor" href="#arguments">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Arguments</h2>
+
+<p>input : Tensor(U)
+  Predicted values
+target : Tensor(U)
+  Truth values</p>
+
+<h2><a id="returns" class="anchor" href="#returns">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Returns</h2>
+
+<p>Tensor(U)</p>
+
+<h2><a id="examples" class="anchor" href="#examples">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Examples</h2>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/primitives/activation.cr#L287" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="sigmoid_prime(gradient:Tensor(U),cached:Tensor(U)):Tensor(U)forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>sigmoid_prime</strong>(gradient : <a href="../Tensor.html">Tensor</a>(U), cached : <a href="../Tensor.html">Tensor</a>(U)) : <a href="../Tensor.html">Tensor</a>(U) forall U
+
+        <a class="method-permalink" href="#sigmoid_prime(gradient:Tensor(U),cached:Tensor(U)):Tensor(U)forallU-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Derivative of the Sigmoid function</p>
+
+<h2><a id="arguments" class="anchor" href="#arguments">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Arguments</h2>
+
+<p><em>x</em> : Tensor
+  Tensor to derive</p>
+
+<h2><a id="examples" class="anchor" href="#examples">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Examples</h2>
+
+<pre><code class="language-crystal">a <span class="o">=</span> [<span class="n">0.1</span>, <span class="n">0.34</span>, <span class="n">0.65</span>].to_tensor
+puts <span class="t">Num</span><span class="t">::</span><span class="t">NN</span>.d_sigmoid(a) <span class="c"># =&gt; [0.249376, 0.242912, 0.225348]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/primitives/activation.cr#L113" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="softmax_cross_entropy(input:Tensor(U),target:Tensor(U)):UforallU-instance-method">
+      <div class="signature">
+        
+        def <strong>softmax_cross_entropy</strong>(input : <a href="../Tensor.html">Tensor</a>(U), target : <a href="../Tensor.html">Tensor</a>(U)) : U forall U
+
+        <a class="method-permalink" href="#softmax_cross_entropy(input:Tensor(U),target:Tensor(U)):UforallU-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Brief description of softmaxcrossentropy</p>
+
+<h2><a id="arguments" class="anchor" href="#arguments">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Arguments</h2>
+
+<p>input : Tensor(U)
+  Brief description of input : Tensor(U)
+target : Tensor(U)
+  Brief description of target : Tensor(U)</p>
+
+<h2><a id="returns" class="anchor" href="#returns">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Returns</h2>
+
+<p>U</p>
+
+<h2><a id="examples" class="anchor" href="#examples">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Examples</h2>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/primitives/softmax_cross_entropy.cr#L109" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="softmax_cross_entropy_backward(gradient:U,cached:Tensor(U),target:Tensor(U))forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>softmax_cross_entropy_backward</strong>(gradient : U, cached : <a href="../Tensor.html">Tensor</a>(U), target : <a href="../Tensor.html">Tensor</a>(U)) forall U
+
+        <a class="method-permalink" href="#softmax_cross_entropy_backward(gradient:U,cached:Tensor(U),target:Tensor(U))forallU-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Brief description of softmaxcrossentropybackward</p>
+
+<h2><a id="arguments" class="anchor" href="#arguments">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Arguments</h2>
+
+<p>gradient : U
+  Brief description of gradient : U
+cached : Tensor(U)
+  Brief description of cached : Tensor(U)
+target : Tensor(U)
+  Brief description of target : Tensor(U)</p>
+
+<h2><a id="returns" class="anchor" href="#returns">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Returns</h2>
+
+<p>nil</p>
+
+<h2><a id="examples" class="anchor" href="#examples">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Examples</h2>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/primitives/softmax_cross_entropy.cr#L139" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="stable_softmax(x:U,mx:U,sumexp:U)forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>stable_softmax</strong>(x : U, mx : U, sumexp : U) forall U
+
+        <a class="method-permalink" href="#stable_softmax(x:U,mx:U,sumexp:U)forallU-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Brief description of stablesoftmax</p>
+
+<h2><a id="arguments" class="anchor" href="#arguments">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Arguments</h2>
+
+<p>x : U
+  Brief description of x : U
+mx : U
+  Brief description of mx : U
+sumexp : U
+  Brief description of sumexp : U</p>
+
+<h2><a id="returns" class="anchor" href="#returns">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Returns</h2>
+
+<p>nil</p>
+
+<h2><a id="examples" class="anchor" href="#examples">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Examples</h2>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/primitives/softmax_cross_entropy.cr#L90" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="streaming_max_sumexp(t:Tensor(U))forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>streaming_max_sumexp</strong>(t : <a href="../Tensor.html">Tensor</a>(U)) forall U
+
+        <a class="method-permalink" href="#streaming_max_sumexp(t:Tensor(U))forallU-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Brief description of streamingmaxsumexp</p>
+
+<h2><a id="arguments" class="anchor" href="#arguments">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Arguments</h2>
+
+<p>t : Tensor(U)
+  Brief description of t : Tensor(U)</p>
+
+<h2><a id="returns" class="anchor" href="#returns">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Returns</h2>
+
+<p>nil</p>
+
+<h2><a id="examples" class="anchor" href="#examples">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Examples</h2>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/primitives/softmax_cross_entropy.cr#L40" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="tanh(x:Tensor(U)):Tensor(U)forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>tanh</strong>(x : <a href="../Tensor.html">Tensor</a>(U)) : <a href="../Tensor.html">Tensor</a>(U) forall U
+
+        <a class="method-permalink" href="#tanh(x:Tensor(U)):Tensor(U)forallU-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Tanh squashes a real-valued number to the range [-1, 1]. It’s non-linear.
+But unlike Sigmoid, its output is zero-centered. Therefore, in practice
+the tanh non-linearity is always preferred to the sigmoid nonlinearity.</p>
+
+<h2><a id="arguments" class="anchor" href="#arguments">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Arguments</h2>
+
+<p><em>x</em> : Tensor
+  Tensor to activate</p>
+
+<h2><a id="examples" class="anchor" href="#examples">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Examples</h2>
+
+<pre><code class="language-crystal">a <span class="o">=</span> [<span class="n">0.1</span>, <span class="n">0.34</span>, <span class="n">0.65</span>].to_tensor
+<span class="t">Num</span><span class="t">::</span><span class="t">NN</span>.tanh(a) <span class="c"># =&gt; [0.099668, 0.327477, 0.57167 ]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/primitives/activation.cr#L42" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="tanh!(x:Tensor(U))forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>tanh!</strong>(x : <a href="../Tensor.html">Tensor</a>(U)) forall U
+
+        <a class="method-permalink" href="#tanh!(x:Tensor(U))forallU-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Tanh squashes a real-valued number to the range [-1, 1]. It’s non-linear.
+But unlike Sigmoid, its output is zero-centered. Therefore, in practice
+the tanh non-linearity is always preferred to the sigmoid nonlinearity.</p>
+
+<h2><a id="arguments" class="anchor" href="#arguments">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Arguments</h2>
+
+<p><em>x</em> : Tensor
+  Tensor to activate</p>
+
+<h2><a id="examples" class="anchor" href="#examples">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Examples</h2>
+
+<pre><code class="language-crystal">a <span class="o">=</span> [<span class="n">0.1</span>, <span class="n">0.34</span>, <span class="n">0.65</span>].to_tensor
+<span class="t">Num</span><span class="t">::</span><span class="t">NN</span>.tanh(a) <span class="c"># =&gt; [0.099668, 0.327477, 0.57167 ]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/primitives/activation.cr#L47" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="tanh_prime(gradient:Tensor(U),cached:Tensor(U))forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>tanh_prime</strong>(gradient : <a href="../Tensor.html">Tensor</a>(U), cached : <a href="../Tensor.html">Tensor</a>(U)) forall U
+
+        <a class="method-permalink" href="#tanh_prime(gradient:Tensor(U),cached:Tensor(U))forallU-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Derivative of the Tanh function</p>
+
+<h2><a id="arguments" class="anchor" href="#arguments">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Arguments</h2>
+
+<p><em>x</em> : Tensor
+  Tensor to derive</p>
+
+<h2><a id="examples" class="anchor" href="#examples">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Examples</h2>
+
+<pre><code class="language-crystal">a <span class="o">=</span> [<span class="n">0.1</span>, <span class="n">0.34</span>, <span class="n">0.65</span>].to_tensor
+<span class="t">Num</span><span class="t">::</span><span class="t">NN</span>.d_tanh(a) <span class="c"># =&gt; [0.990066, 0.892759, 0.673193]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/primitives/activation.cr#L64" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="variance_scaled(*shape:Int,dtype:U.class,scale:U=U.new(1),mode:FanMode=FanMode::FanIn,distribution:Distribution=Distribution::Normal)forallU-instance-method">
+      <div class="signature">
+        
+        def <strong>variance_scaled</strong>(*shape : Int, dtype : <span class="t">U</span>.<span class="k">class</span>, scale : U = <span class="t">U</span>.<span class="k">new</span>(<span class="n">1</span>), mode : <a href="../Num/NN/FanMode.html">FanMode</a> = <span class="t">FanMode</span><span class="t">::</span><span class="t">FanIn</span>, distribution : <a href="../Num/NN/Distribution.html">Distribution</a> = <span class="t">Distribution</span><span class="t">::</span><span class="t">Normal</span>) forall U
+
+        <a class="method-permalink" href="#variance_scaled(*shape:Int,dtype:U.class,scale:U=U.new(1),mode:FanMode=FanMode::FanIn,distribution:Distribution=Distribution::Normal)forallU-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/nn/initialization.cr#L57" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
+
+
+
+</div>
+
+</body>
+</html>
