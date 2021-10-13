@@ -139,6 +139,103 @@ class Tensor(T)
     self.range(start, stop, T.new(1))
   end
 
+  # Return evenly spaced numbers over a specified interval.
+  # Returns `num` evenly spaced samples, calculated over the
+  # interval [`start`, `stop`].
+  # The endpoint of the interval can optionally be excluded.
+  #
+  # ```
+  # B.linspace(0, 1, 5) # => Tensor[0.0, 0.25, 0.5, 0.75, 1.0]
+  #
+  # B.linspace(0, 1, 5, endpoint: false) # => Tensor[0.0, 0.2, 0.4, 0.6, 0.8]
+  # ```
+  def self.linear_space(start : T, stop : T, num : Int = 50, endpoint = true)
+    unless num > 0
+      raise Num::Internal::ValueError.new(
+        "Number of samples must be non-negative"
+      )
+    end
+    divisor = endpoint ? num - 1 : num
+    result = Tensor.range(T.new(num))
+    delta = stop - start
+
+    if num > 1
+      step = delta / divisor
+      if step == 0
+        raise Num::Internal::ValueError.new(
+          "Step cannot be 0"
+        )
+      end
+    else
+      step = delta
+    end
+
+    result.map! do |i|
+      i * step + start
+    end
+
+    if endpoint && num > 1
+      result[result.shape[0] - 1] = stop
+    end
+
+    result
+  end
+
+  # Return numbers spaced evenly on a log scale.
+  # In linear space, the sequence starts at ``base ** start``
+  # (`base` to the power of `start`) and ends with ``base ** stop``
+  # (see `endpoint` below).
+  #
+  # ```
+  # B.logspace(2.0, 3.0, num = 4) # => Tensor[100.0, 215.44346900318845, 464.15888336127773, 1000.0]
+  # ```
+  def self.logarithmic_space(
+    start : T,
+    stop : T,
+    num = 50,
+    endpoint = true,
+    base : T = T.new(10.0)
+  )
+    result = Tensor.linear_space(start, stop, num: num, endpoint: endpoint)
+    result.map! do |i|
+      base ** i
+    end
+    result
+  end
+
+  # Return numbers spaced evenly on a log scale (a geometric progression).
+  # This is similar to `logspace`, but with endpoints specified directly.
+  # Each output sample is a constant multiple of the previous.
+  #
+  # ```
+  # geomspace(1, 1000, 4) # => Tensor[1.0, 10.0, 100.0, 1000.0]
+  # ```
+  def self.geometric_space(start : T, stop : T, num = 50, endpoint = true)
+    if start == 0 || stop == 0
+      raise Num::Internal::ValueError.new(
+        "Geometric sequence cannot include zero"
+      )
+    end
+
+    out_sign = T.new(1.0)
+
+    if start < 0 && stop < 0
+      start, stop = -start, -stop
+      out_sign = -out_sign
+    end
+
+    log_start = Math.log(start, T.new(10.0))
+    log_stop = Math.log(stop, T.new(10.0))
+
+    Tensor.logarithmic_space(
+      log_start,
+      log_stop,
+      num: num,
+      endpoint: endpoint,
+      base: T.new(10.0)
+    ) * out_sign
+  end
+
   # Return a two-dimensional `Tensor` with ones along the diagonal,
   # and zeros elsewhere
   #
