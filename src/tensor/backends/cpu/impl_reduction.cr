@@ -249,8 +249,8 @@ module Num
   # ```
   @[AlwaysInline]
   def mean(a : Tensor(U, CPU(U)), axis : Int, dims : Bool = false) forall U
-    n = a_t.shape[axis]
-    a.reduce_axis { |i, j| i + j } / n
+    n = a.shape[axis]
+    a.reduce_axis(axis, dims) { |i, j| i + j } / n
   end
 
   # Reduces a `Tensor` to a scalar by finding the maximum value

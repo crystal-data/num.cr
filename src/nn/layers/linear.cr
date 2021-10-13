@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Crystal Data Contributors
+# Copyright (c) 2020 Crystal Data Contributors
 #
 # MIT License
 #
@@ -21,16 +21,33 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class Num::NN::SigmoidCrossEntropyLoss(T) < Num::NN::Loss(T)
-  def loss(input : Num::Grad::Variable(T), target : T) : Num::Grad::Variable(T)
-    output = Num::NN.sigmoid_cross_entropy(input.value, target)
+class Num::NN::LinearLayer(T) < Num::NN::Layer(T)
+  getter weights : Num::Grad::Variable(T)
+  getter bias : Num::Grad::Variable(T)
 
+  def initialize(context : Num::Grad::Context(T), inp_dim : Int, outp_dim : Int)
+    w = Num::NN.kaiming_normal(outp_dim, inp_dim, dtype: T)
+    b = T.zeros([1, outp_dim])
+    @weights = context.variable(w)
+    @bias = context.variable(b)
+  end
+
+  def forward(input : Num::Grad::Variable(T)) : Num::Grad::Variable(T)
+    output = input.value.matmul(@weights.value.transpose) + bias.value
     result = input.context.variable(output)
 
-    if input.is_grad_needed
-      gate = Num::NN::SigmoidCrossEntropy(T).new(target, input)
-      gate.cache(result, input, target)
+    if input.is_grad_needed || @weights.is_grad_needed || @bias.is_grad_needed
+      gate = Num::NN::LinearGate.new(input, @weights, @bias)
+      gate.cache(result, input, @weights, @bias)
     end
     result
+  end
+
+  def variables : Array(Num::Grad::Variable(T))
+    [weights, bias]
+  end
+
+  def output_shape : Array(Int32)
+    [@weights.value.shape[0]]
   end
 end

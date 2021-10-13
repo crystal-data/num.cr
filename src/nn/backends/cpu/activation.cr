@@ -284,7 +284,7 @@ module Num::NN
   #
   # Examples
   # --------
-  def sigmoid_cross_entropy(input : Tensor(U, CPU(U)), target : Tensor(U, CPU(U))) : U forall U
+  def sigmoid_cross_entropy(input : Tensor(U, CPU(U)), target : Tensor(U, CPU(U))) forall U
     batch_size = input.shape[0]
     result = input.map(target) do |x, y|
       -y * x + Math.max(x, U.new(0)) + Math.log1p(Math.exp(-x.abs))

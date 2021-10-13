@@ -21,16 +21,31 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class Num::NN::SigmoidCrossEntropyLoss(T) < Num::NN::Loss(T)
-  def loss(input : Num::Grad::Variable(T), target : T) : Num::Grad::Variable(T)
-    output = Num::NN.sigmoid_cross_entropy(input.value, target)
+module Num::NN
+  extend self
 
-    result = input.context.variable(output)
-
-    if input.is_grad_needed
-      gate = Num::NN::SigmoidCrossEntropy(T).new(target, input)
-      gate.cache(result, input, target)
+  def mse_backwards(
+    gradient : Tensor(U, CPU(U)),
+    cache : Tensor(U, CPU(U)),
+    target : Tensor(U, CPU(U)),
+  ) forall U
+    norm = gradient.value * 2 / gradient.size
+    result = cache.map(target) do |x, y|
+      norm * (x - y)
     end
-    result
+    [result]
+  end
+
+  def sigmoid_cross_entropy_backwards(
+    gradient : Tensor(U, CPU(U)),
+    cache : Tensor(U, CPU(U)),
+    target : Tensor(U, CPU(U))
+  ) forall U
+    grad = gradient.value
+    batch_size = cache.shape[0]
+    output = cache.map(target) do |x, y|
+      grad * ((1 / (1 + Math.exp(-x))) - y) / batch_size
+    end
+    [output]
   end
 end

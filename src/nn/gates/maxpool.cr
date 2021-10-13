@@ -23,7 +23,7 @@
 
 class Num::NN::MaxPoolGate(T) < Num::Grad::Gate(T)
   getter input_shape : Array(Int32)
-  getter max_indices : Tensor(Int32)
+  getter max_indices : Tensor(Int32, CPU(Int32))
   getter kernel : Tuple(Int32, Int32)
   getter padding : Tuple(Int32, Int32)
   getter stride : Tuple(Int32, Int32)
