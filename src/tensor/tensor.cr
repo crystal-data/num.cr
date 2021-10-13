@@ -707,7 +707,7 @@ class Tensor(T)
   # # 3_3
   # ```
   def each_with_index
-    iter.each_with_index do |el, i|
+    strided_iteration(self) do |i, el|
       yield el.value, i
     end
   end
