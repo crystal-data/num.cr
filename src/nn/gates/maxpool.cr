@@ -30,7 +30,7 @@ class Num::NN::MaxPoolGate(T) < Num::Grad::Gate(T)
 
   def initialize(
     @input_shape : Array(Int32),
-    @max_indices : Tensor(Int32),
+    @max_indices : Tensor(Int32, CPU(Int32)),
     @kernel : Tuple(Int32, Int32),
     @padding : Tuple(Int32, Int32),
     @stride : Tuple(Int32, Int32)

@@ -1,6 +1,7 @@
 require "./libs/cblas"
 require "./libs/lapack"
 require "./libs/clblast"
+require "./libs/nnpack"
 
 require "complex"
 
@@ -92,6 +93,7 @@ require "./nn/gates/mse"
 require "./nn/gates/relu"
 require "./nn/gates/sigmoid_cross_entropy"
 require "./nn/gates/sigmoid"
+require "./nn/gates/softmax_cross_entropy"
 
 require "./nn/layers/convolution"
 require "./nn/layers/dropout"
@@ -105,6 +107,7 @@ require "./nn/layers/sigmoid"
 
 require "./nn/loss/mse"
 require "./nn/loss/sigmoid_cross_entropy"
+require "./nn/loss/softmax_cross_entropy"
 
 require "./nn/optimizers/sgd"
 require "./nn/optimizers/adam"

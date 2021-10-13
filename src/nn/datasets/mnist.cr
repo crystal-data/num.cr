@@ -49,7 +49,7 @@ module Num::NN
     features = csv[1...].map &.[1...]
     labels = csv[1...].map &.[0]
     l = labels.to_tensor.as_type(Int32)
-    lf = Tensor(Int32).zeros([l.shape[0], 10])
+    lf = Tensor(Int32, CPU(Int32)).zeros([l.shape[0], 10])
     l.each_with_index do |el, i|
       lf[i, el] = 1
     end

@@ -155,8 +155,8 @@ class Tensor(T, S)
   # Examples
   # --------
   # ```
-  # t = Tensor.new([3]) &.to_f
-  # u = Tensor(Int8).zeros_like(t) # => [0, 0, 0]
+  # t = Tensor(Int8, CPU(Int8)).new([3]) &.to_f
+  # u = Tensor(Int8, CPU(Int8)).zeros_like(t) # => [0, 0, 0]
   # ```
   def self.zeros_like(t : Tensor) : Tensor(T, S)
     self.new(S.new(t.shape, Num::RowMajor, T.new(0)), t.shape, Num::RowMajor, T)
@@ -173,7 +173,7 @@ class Tensor(T, S)
   # Examples
   # --------
   # ```
-  # t = Tensor(Int8).ones([3]) # => [1, 1, 1]
+  # t = Tensor(Int8, CPU(Int8)).ones([3]) # => [1, 1, 1]
   # ```
   def self.ones(shape : Array(Int)) : Tensor(T, S)
     self.new(S.new(shape, Num::RowMajor, T.new(1)), shape, Num::RowMajor, T)
@@ -190,8 +190,8 @@ class Tensor(T, S)
   # Examples
   # --------
   # ```
-  # t = Tensor.new([3]) &.to_f
-  # u = Tensor(Int8).ones_like(t) # => [0, 0, 0]
+  # t = Tensor(Int8, CPU(Int8)) &.to_f
+  # u = Tensor(Int8, CPU(Int8)).ones_like(t) # => [0, 0, 0]
   # ```
   def self.ones_like(t : Tensor) : Tensor(T, S)
     self.new(S.new(t.shape, Num::RowMajor, T.new(1)), t.shape, Num::RowMajor, T)
@@ -208,7 +208,7 @@ class Tensor(T, S)
   # Examples
   # --------
   # ```
-  # t = Tensor(Int8).full([3], 1) # => [1, 1, 1]
+  # t = Tensor(Int8, CPU(Int8)).full([3], 1) # => [1, 1, 1]
   # ```
   def self.full(shape : Array(Int), value : Number) : Tensor(T, S)
     self.new(S.new(shape, Num::RowMajor, T.new(value)), shape, Num::RowMajor, T)
@@ -225,8 +225,8 @@ class Tensor(T, S)
   # Examples
   # --------
   # ```
-  # t = Tensor.new([3]) &.to_f
-  # u = Tensor.full_like(t, 3) # => [3, 3, 3]
+  # t = Tensor(Int8, CPU(Int8)) &.to_f
+  # u = Tensor(Int8, CPU(Int8)).full_like(t, 3) # => [3, 3, 3]
   # ```
   def self.full_like(t : Tensor, value : Number) : Tensor(T, S)
     self.new(S.new(shape, Num::RowMajor, T.new(value)), shape, Num::RowMajor, T)
@@ -327,13 +327,13 @@ class Tensor(T, S)
   # Examples
   # --------
   # ```
-  # Tensor(Int32).eye(3, offset: -1)
+  # Tensor(Int8, CPU(Int8)).eye(3, offset: -1)
   #
   # # [[0, 0, 0],
   # #  [1, 0, 0],
   # #  [0, 1, 0]]
   #
-  # Tensor(Int8).eye(2)
+  # Tensor(Int8, CPU(Int8)).eye(2)
   #
   # # [[1, 0],
   # #  [0, 1]]
@@ -355,7 +355,7 @@ class Tensor(T, S)
   # Examples
   # --------
   # ```
-  # Tensor(Int8).identity(2)
+  # Tensor(Int8, CPU(Int8)).identity(2)
   #
   # # [[1, 0],
   # #  [0, 1]]

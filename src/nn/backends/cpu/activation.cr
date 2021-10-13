@@ -313,4 +313,99 @@ module Num::NN
     end
     [U.new(result.mean)].to_tensor
   end
+
+  # Brief description of streamingmaxsumexp
+  #
+  # Arguments
+  # ---------
+  # t : Tensor(U)
+  #   Brief description of t : Tensor(U)
+  #
+  # Returns
+  # -------
+  # nil
+  #
+  # Examples
+  # --------
+  def streaming_max_sumexp(t : Tensor(U, CPU(U))) forall U
+    mx = U::MIN
+    sumexp = U.new(0)
+
+    t.each do |el|
+      if el <= mx
+        sumexp += Math.exp(el - mx)
+      else
+        sumexp = sumexp * Math.exp(mx - el) + 1
+        mx = el
+      end
+    end
+    {mx, sumexp}
+  end
+
+  # Brief description of logsumexp
+  #
+  # Arguments
+  # ---------
+  # t : Tensor(U)
+  #   Brief description of t : Tensor(U)
+  #
+  # Returns
+  # -------
+  # nil
+  #
+  # Examples
+  # --------
+  def logsumexp(t : Tensor(U, CPU(U))) forall U
+    mx, sumexp = streaming_max_sumexp(t)
+    mx + Math.log(sumexp, Math::E)
+  end
+
+  # Brief description of stablesoftmax
+  #
+  # Arguments
+  # ---------
+  # x : U
+  #   Brief description of x : U
+  # mx : U
+  #   Brief description of mx : U
+  # sumexp : U
+  #   Brief description of sumexp : U
+  #
+  # Returns
+  # -------
+  # nil
+  #
+  # Examples
+  # --------
+  def stable_softmax(x : U, mx : U, sumexp : U) forall U
+    Math.exp(x - mx) / sumexp
+  end
+
+  # Brief description of softmaxcrossentropy
+  #
+  # Arguments
+  # ---------
+  # input : Tensor(U)
+  #   Brief description of input : Tensor(U)
+  # target : Tensor(U)
+  #   Brief description of target : Tensor(U)
+  #
+  # Returns
+  # -------
+  # U
+  #
+  # Examples
+  # --------
+  def softmax_cross_entropy(input : Tensor(U, CPU(U)), target : Tensor(U, CPU(U))) forall U
+    n = input.shape[0]
+    result = (input * target).sum
+
+    sum_logsumexp = U.new(0)
+
+    input.each_axis(0) do |a|
+      sum_logsumexp += logsumexp(a)
+    end
+
+    [U.new((sum_logsumexp - result) / n)].to_tensor
+  end
 end

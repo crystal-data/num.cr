@@ -48,4 +48,38 @@ module Num::NN
     end
     [output]
   end
+
+  # Brief description of softmaxcrossentropybackward
+  #
+  # Arguments
+  # ---------
+  # gradient : U
+  #   Brief description of gradient : U
+  # cached : Tensor(U)
+  #   Brief description of cached : Tensor(U)
+  # target : Tensor(U)
+  #   Brief description of target : Tensor(U)
+  #
+  # Returns
+  # -------
+  # nil
+  #
+  # Examples
+  # --------
+  def softmax_cross_entropy_backward(gradient : Tensor(U, CPU(U)), cached : Tensor(U, CPU(U)), target : Tensor(U, CPU(U))) forall U
+    n = cached.shape[0]
+    grad = gradient.value
+
+    result = Tensor(U, CPU(U)).zeros_like(cached)
+
+    n.times do |i|
+      mx, sumexp = Num::NN.streaming_max_sumexp(cached[i])
+      res_slice = result[i]
+
+      res_slice.map!(cached[i], target[i]) do |_, y, z|
+        grad * (Num::NN.stable_softmax(y, mx, sumexp) - z) / n
+      end
+    end
+    [result]
+  end
 end

@@ -1,4 +1,4 @@
-# Copyright (c) 2020 Crystal Data Contributors
+# Copyright (c) 2021 Crystal Data Contributors
 #
 # MIT License
 #
@@ -21,21 +21,16 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class Num::NN::ReluGate(T) < Num::Grad::Gate(T)
-  getter cache : T
+class Num::NN::SoftmaxCrossEntropyLoss(T) < Num::NN::Loss(T)
+  def loss(input : Num::Grad::Variable(T), target : T) : Num::Grad::Variable(T)
+    output = Num::NN.softmax_cross_entropy(input.value, target)
 
-  def initialize(@cache : T)
-  end
+    result = input.context.variable(output)
 
-  def backward(payload : Num::Grad::Payload(T)) : Array(T)
-    gradient = payload.variable.grad
-    [Num::NN.relu_prime(gradient, @cache)]
-  end
-
-  def cache(result : Num::Grad::Variable(T), *args)
-    result.grad = T.zeros_like(result.value)
-    result.requires_grad = true
-
-    Num::Grad.register("Relu", self, result, *args)
+    if input.is_grad_needed
+      gate = Num::NN::SoftmaxCrossEntropy(T).new(target, input)
+      gate.cache(result, input, target)
+    end
+    result
   end
 end

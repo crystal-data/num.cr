@@ -27,7 +27,7 @@ class Tensor(T, S)
   # Returns the size of a Tensor along each dimension
   #
   # ```
-  # a = Tensor(UInt8).new([2, 3, 4])
+  # a = Tensor(Int8, CPU(Int8)).new([2, 3, 4])
   # a.shape # => [2, 3, 4]
   # ```
   getter shape : Array(Int32)
@@ -35,7 +35,7 @@ class Tensor(T, S)
   # Returns the step of a Tensor along each dimension
   #
   # ```
-  # a = Tensor(UInt8).new([3, 3, 2])
+  # a = Tensor(Int8, CPU(Int8)).new([3, 3, 2])
   # a.shape # => [4, 2, 1]
   # ```
   getter strides : Array(Int32)
@@ -43,7 +43,7 @@ class Tensor(T, S)
   # Returns the offset of a Tensor's data
   #
   # ```
-  # a = Tensor(UInt8).new([2, 3, 4])
+  # a = Tensor(Int8, CPU(Int8)).new([2, 3, 4])
   # a.offset # => 0
   # ```
   getter offset : Int32
@@ -51,7 +51,7 @@ class Tensor(T, S)
   # Returns the size of a Tensor along each dimension
   #
   # ```
-  # a = Tensor(UInt8).new([2, 3, 4])
+  # a = Tensor(Int8, CPU(Int8)).new([2, 3, 4])
   # a.shape # => [2, 3, 4]
   # ```
   getter size : Int32
@@ -59,21 +59,24 @@ class Tensor(T, S)
   # Returns the number of dimensions in a Tensor
   #
   # ```
-  # a = Tensor(UInt8).new([3, 3, 3, 3])
+  # a = Tensor(Int8, CPU(Int8)).new([3, 3, 3, 3])
   # a.rank # => 4
   # ```
   def rank : Int32
     @shape.size
   end
 
+  # :nodoc:
   def to_s(io)
     io << to_s
   end
 
+  # :nodoc:
   def to_s : String
     Num.tensor_to_string(self)
   end
 
+  # :nodoc:
   def to_unsafe
     @data.to_unsafe
   end
