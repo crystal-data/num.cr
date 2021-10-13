@@ -118,9 +118,9 @@ module Num::Backend
     t2_contiguous = t2.is_c_contiguous
     t3_contiguous = t3.is_c_contiguous
 
-    t1data = t1.data.to_hostptr
-    t2data = t2.data.to_hostptr
-    t3data = t3.data.to_hostptr
+    t1data = t1.data.to_hostptr + t1.offset
+    t2data = t2.data.to_hostptr + t2.offset
+    t3data = t3.data.to_hostptr + t3.offset
 
     t1_shape, t1_strides, t1_rank = t1.shape, t1.strides, t1.rank
     t2_shape, t2_strides, t2_rank = t2.shape, t2.strides, t2.rank
