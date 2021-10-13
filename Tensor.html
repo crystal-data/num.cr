@@ -584,49 +584,49 @@ number of elements in a <code><a href="Tensor.html">Tensor</a></code> will retur
   </h2>
   
     
-      <a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/creation.cr#L27" target="_blank">
+      <a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/creation.cr#L27" target="_blank">
         tensor/creation.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/extension.cr#L40" target="_blank">
+      <a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/extension.cr#L40" target="_blank">
         tensor/extension.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/linalg.cr#L28" target="_blank">
+      <a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/linalg.cr#L28" target="_blank">
         tensor/linalg.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L223" target="_blank">
+      <a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L223" target="_blank">
         tensor/operators.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/random.cr#L24" target="_blank">
+      <a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/random.cr#L24" target="_blank">
         tensor/random.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/reductions.cr#L792" target="_blank">
+      <a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/reductions.cr#L792" target="_blank">
         tensor/reductions.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L49" target="_blank">
+      <a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L49" target="_blank">
         tensor/tensor.cr
       </a>
     
@@ -777,6 +777,13 @@ number of elements in a <code><a href="Tensor.html">Tensor</a></code> will retur
       </li>
     
       <li class="entry-summary">
+        <a href="#geometric_space(start:T,stop:T,num=50,endpoint=true)-class-method" class="signature"><strong>.geometric_space</strong>(start : T, stop : T, num = <span class="n">50</span>, endpoint = <span class="n">true</span>)</a>
+        
+          <div class="summary"><p>Return numbers spaced evenly on a log scale (a geometric progression).</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
         <a href="#identity(n:Int)-class-method" class="signature"><strong>.identity</strong>(n : Int)</a>
         
           <div class="summary"><p>Returns an identity <code><a href="Tensor.html">Tensor</a></code> with ones along the diagonal, and zeros elsewhere</p></div>
@@ -787,6 +794,20 @@ number of elements in a <code><a href="Tensor.html">Tensor</a></code> will retur
         <a href="#laplace(shape:Array(Int),loc:Float=0.0,scale:Float=1.0):Tensor(T)-class-method" class="signature"><strong>.laplace</strong>(shape : Array(Int), loc : Float = <span class="n">0.0</span>, scale : Float = <span class="n">1.0</span>) : Tensor(T)</a>
         
           <div class="summary"><p>Generate a laplace-distributed, pseudo-random Tensor</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#linear_space(start:T,stop:T,num:Int=50,endpoint=true)-class-method" class="signature"><strong>.linear_space</strong>(start : T, stop : T, num : Int = <span class="n">50</span>, endpoint = <span class="n">true</span>)</a>
+        
+          <div class="summary"><p>Return evenly spaced numbers over a specified interval.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#logarithmic_space(start:T,stop:T,num=50,endpoint=true,base:T=T.new(10.0))-class-method" class="signature"><strong>.logarithmic_space</strong>(start : T, stop : T, num = <span class="n">50</span>, endpoint = <span class="n">true</span>, base : T = <span class="t">T</span>.<span class="k">new</span>(<span class="n">10.0</span>))</a>
+        
+          <div class="summary"><p>Return numbers spaced evenly on a log scale.</p></div>
         
       </li>
     
@@ -2616,7 +2637,7 @@ number of elements in a <code><a href="Tensor.html">Tensor</a></code> will retur
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L155" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L155" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2666,7 +2687,7 @@ strides <span class="o">=</span> [<span class="n">1</span>]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L142" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L142" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2711,7 +2732,7 @@ must be specified.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L74" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L74" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2759,7 +2780,7 @@ of the scalar.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L105" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L105" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2802,7 +2823,7 @@ return a copy, not a view</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L186" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L186" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2850,7 +2871,7 @@ dimensional.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L216" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L216" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2900,7 +2921,7 @@ matrices.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L252" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L252" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2961,7 +2982,7 @@ b : Float
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/random.cr#L111" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/random.cr#L111" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -2977,7 +2998,7 @@ b : Float
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/random.cr#L87" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/random.cr#L87" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3023,7 +3044,7 @@ df : Float
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/random.cr#L138" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/random.cr#L138" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3066,7 +3087,7 @@ placed along the diagonal</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/creation.cr#L213" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/creation.cr#L310" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3113,7 +3134,7 @@ scale : Float = 1.0
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/random.cr#L166" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/random.cr#L166" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3165,7 +3186,7 @@ and zeros elsewhere</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/creation.cr#L168" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/creation.cr#L265" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3207,7 +3228,7 @@ of the <code><a href="Array.html">Array</a></code> will be inferred.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L282" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L282" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3253,7 +3274,7 @@ the JSON array</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L309" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L309" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3304,7 +3325,7 @@ df2 : Float
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/random.cr#L198" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/random.cr#L198" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3352,7 +3373,32 @@ scale : Float = 1.0
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/random.cr#L227" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/random.cr#L227" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="geometric_space(start:T,stop:T,num=50,endpoint=true)-class-method">
+      <div class="signature">
+        
+        def self.<strong>geometric_space</strong>(start : T, stop : T, num = <span class="n">50</span>, endpoint = <span class="n">true</span>)
+
+        <a class="method-permalink" href="#geometric_space(start:T,stop:T,num=50,endpoint=true)-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Return numbers spaced evenly on a log scale (a geometric progression).
+This is similar to <code>logspace</code>, but with endpoints specified directly.
+Each output sample is a constant multiple of the previous.</p>
+
+<pre><code class="language-crystal">geomspace(<span class="n">1</span>, <span class="n">1000</span>, <span class="n">4</span>) <span class="c"># =&gt; Tensor[1.0, 10.0, 100.0, 1000.0]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/creation.cr#L213" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3393,7 +3439,7 @@ and zeros elsewhere</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/creation.cr#L190" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/creation.cr#L287" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3442,7 +3488,61 @@ scale : Float = 1.0
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/random.cr#L257" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/random.cr#L257" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="linear_space(start:T,stop:T,num:Int=50,endpoint=true)-class-method">
+      <div class="signature">
+        
+        def self.<strong>linear_space</strong>(start : T, stop : T, num : Int = <span class="n">50</span>, endpoint = <span class="n">true</span>)
+
+        <a class="method-permalink" href="#linear_space(start:T,stop:T,num:Int=50,endpoint=true)-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Return evenly spaced numbers over a specified interval.
+Returns <code>num</code> evenly spaced samples, calculated over the
+interval [<code>start</code>, <code>stop</code>].
+The endpoint of the interval can optionally be excluded.</p>
+
+<pre><code class="language-crystal"><span class="t">B</span>.linspace(<span class="n">0</span>, <span class="n">1</span>, <span class="n">5</span>) <span class="c"># =&gt; Tensor[0.0, 0.25, 0.5, 0.75, 1.0]</span>
+
+<span class="t">B</span>.linspace(<span class="n">0</span>, <span class="n">1</span>, <span class="n">5</span>, endpoint: <span class="n">false</span>) <span class="c"># =&gt; Tensor[0.0, 0.2, 0.4, 0.6, 0.8]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/creation.cr#L152" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="logarithmic_space(start:T,stop:T,num=50,endpoint=true,base:T=T.new(10.0))-class-method">
+      <div class="signature">
+        
+        def self.<strong>logarithmic_space</strong>(start : T, stop : T, num = <span class="n">50</span>, endpoint = <span class="n">true</span>, base : T = <span class="t">T</span>.<span class="k">new</span>(<span class="n">10.0</span>))
+
+        <a class="method-permalink" href="#logarithmic_space(start:T,stop:T,num=50,endpoint=true,base:T=T.new(10.0))-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Return numbers spaced evenly on a log scale.
+In linear space, the sequence starts at <code></code>base ** start<code></code>
+(<code>base</code> to the power of <code>start</code>) and ends with <code></code>base ** stop<code></code>
+(see <code>endpoint</code> below).</p>
+
+<pre><code class="language-crystal"><span class="t">B</span>.logspace(<span class="n">2.0</span>, <span class="n">3.0</span>, num <span class="o">=</span> <span class="n">4</span>) <span class="c"># =&gt; Tensor[100.0, 215.44346900318845, 464.15888336127773, 1000.0]</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/creation.cr#L192" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3492,7 +3592,7 @@ sigma : Float = 1.0
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/random.cr#L288" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/random.cr#L288" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3541,7 +3641,7 @@ sigma = 1.0
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/random.cr#L318" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/random.cr#L318" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3580,7 +3680,7 @@ must be specified.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/creation.cr#L76" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/creation.cr#L76" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3620,7 +3720,7 @@ u <span class="o">=</span> <span class="t">Tensor</span>(<span class="t">Int8</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/creation.cr#L94" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/creation.cr#L94" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3666,7 +3766,7 @@ lam : Float = 1.0
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/random.cr#L345" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/random.cr#L345" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3710,7 +3810,7 @@ lam : Float = 1.0
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/random.cr#L67" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/random.cr#L67" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3759,7 +3859,7 @@ t
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/random.cr#L48" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/random.cr#L48" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3805,7 +3905,7 @@ the inputs to the method</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/creation.cr#L118" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/creation.cr#L118" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3851,7 +3951,7 @@ the inputs to the method</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/creation.cr#L138" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/creation.cr#L138" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3897,7 +3997,7 @@ the inputs to the method</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/creation.cr#L133" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/creation.cr#L133" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -3943,7 +4043,7 @@ df : Float
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/random.cr#L366" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/random.cr#L366" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4003,7 +4103,7 @@ row is named for Alexandre- Theophile Vandermonde.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/creation.cr#L258" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/creation.cr#L355" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4063,7 +4163,7 @@ row is named for Alexandre- Theophile Vandermonde.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/creation.cr#L274" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/creation.cr#L371" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4102,7 +4202,7 @@ must be specified.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/creation.cr#L41" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/creation.cr#L41" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4142,7 +4242,7 @@ u <span class="o">=</span> <span class="t">Tensor</span>(<span class="t">Int8</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/creation.cr#L59" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/creation.cr#L59" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4170,7 +4270,7 @@ u <span class="o">=</span> <span class="t">Tensor</span>(<span class="t">Int8</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L278" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L278" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4186,7 +4286,7 @@ u <span class="o">=</span> <span class="t">Tensor</span>(<span class="t">Int8</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L278" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L278" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4202,7 +4302,7 @@ u <span class="o">=</span> <span class="t">Tensor</span>(<span class="t">Int8</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L271" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L271" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4218,7 +4318,7 @@ u <span class="o">=</span> <span class="t">Tensor</span>(<span class="t">Int8</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L271" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L271" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4234,7 +4334,7 @@ u <span class="o">=</span> <span class="t">Tensor</span>(<span class="t">Int8</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L274" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L274" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4250,7 +4350,7 @@ u <span class="o">=</span> <span class="t">Tensor</span>(<span class="t">Int8</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L274" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L274" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4266,7 +4366,7 @@ u <span class="o">=</span> <span class="t">Tensor</span>(<span class="t">Int8</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L267" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L267" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4282,7 +4382,7 @@ u <span class="o">=</span> <span class="t">Tensor</span>(<span class="t">Int8</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L267" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L267" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4298,7 +4398,7 @@ u <span class="o">=</span> <span class="t">Tensor</span>(<span class="t">Int8</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L270" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L270" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4314,7 +4414,7 @@ u <span class="o">=</span> <span class="t">Tensor</span>(<span class="t">Int8</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L270" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L270" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4330,7 +4430,7 @@ u <span class="o">=</span> <span class="t">Tensor</span>(<span class="t">Int8</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L265" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L265" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4346,7 +4446,7 @@ u <span class="o">=</span> <span class="t">Tensor</span>(<span class="t">Int8</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L265" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L265" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4362,7 +4462,7 @@ u <span class="o">=</span> <span class="t">Tensor</span>(<span class="t">Int8</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L266" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L266" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4378,7 +4478,7 @@ u <span class="o">=</span> <span class="t">Tensor</span>(<span class="t">Int8</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L266" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L266" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4394,7 +4494,7 @@ u <span class="o">=</span> <span class="t">Tensor</span>(<span class="t">Int8</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L370" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L370" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4410,7 +4510,7 @@ u <span class="o">=</span> <span class="t">Tensor</span>(<span class="t">Int8</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L268" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L268" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4426,7 +4526,7 @@ u <span class="o">=</span> <span class="t">Tensor</span>(<span class="t">Int8</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L268" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L268" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4442,7 +4542,7 @@ u <span class="o">=</span> <span class="t">Tensor</span>(<span class="t">Int8</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L269" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L269" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4458,7 +4558,7 @@ u <span class="o">=</span> <span class="t">Tensor</span>(<span class="t">Int8</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L269" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L269" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4474,7 +4574,7 @@ u <span class="o">=</span> <span class="t">Tensor</span>(<span class="t">Int8</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L281" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L281" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4490,7 +4590,7 @@ u <span class="o">=</span> <span class="t">Tensor</span>(<span class="t">Int8</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L281" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L281" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4506,7 +4606,7 @@ u <span class="o">=</span> <span class="t">Tensor</span>(<span class="t">Int8</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L272" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L272" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4522,7 +4622,7 @@ u <span class="o">=</span> <span class="t">Tensor</span>(<span class="t">Int8</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L272" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L272" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4538,7 +4638,7 @@ u <span class="o">=</span> <span class="t">Tensor</span>(<span class="t">Int8</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L282" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L282" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4554,7 +4654,7 @@ u <span class="o">=</span> <span class="t">Tensor</span>(<span class="t">Int8</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L282" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L282" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4570,7 +4670,7 @@ u <span class="o">=</span> <span class="t">Tensor</span>(<span class="t">Int8</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L277" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L277" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4586,7 +4686,7 @@ u <span class="o">=</span> <span class="t">Tensor</span>(<span class="t">Int8</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L277" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L277" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4602,7 +4702,7 @@ u <span class="o">=</span> <span class="t">Tensor</span>(<span class="t">Int8</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L279" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L279" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4618,7 +4718,7 @@ u <span class="o">=</span> <span class="t">Tensor</span>(<span class="t">Int8</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L279" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L279" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4634,7 +4734,7 @@ u <span class="o">=</span> <span class="t">Tensor</span>(<span class="t">Int8</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L280" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L280" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4650,7 +4750,7 @@ u <span class="o">=</span> <span class="t">Tensor</span>(<span class="t">Int8</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L280" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L280" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4666,7 +4766,7 @@ u <span class="o">=</span> <span class="t">Tensor</span>(<span class="t">Int8</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L273" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L273" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4682,7 +4782,7 @@ u <span class="o">=</span> <span class="t">Tensor</span>(<span class="t">Int8</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L273" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L273" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4731,7 +4831,7 @@ a[{..., <span class="n">-1</span>}]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L467" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L467" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4780,7 +4880,7 @@ a[{..., <span class="n">-1</span>}]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L462" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L462" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4831,7 +4931,7 @@ a
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L544" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L544" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4882,7 +4982,7 @@ a
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L532" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L532" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4938,7 +5038,7 @@ t[[<span class="n">0</span>, <span class="n">2</span>, <span class="n">1</span>]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L503" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L503" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -4994,7 +5094,7 @@ t[[<span class="n">0</span>, <span class="n">2</span>, <span class="n">1</span>]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L498" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L498" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5010,7 +5110,7 @@ t[[<span class="n">0</span>, <span class="n">2</span>, <span class="n">1</span>]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L276" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L276" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5026,7 +5126,7 @@ t[[<span class="n">0</span>, <span class="n">2</span>, <span class="n">1</span>]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L276" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L276" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5042,7 +5142,7 @@ t[[<span class="n">0</span>, <span class="n">2</span>, <span class="n">1</span>]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L298" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L298" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5058,7 +5158,7 @@ t[[<span class="n">0</span>, <span class="n">2</span>, <span class="n">1</span>]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L298" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L298" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5074,7 +5174,7 @@ t[[<span class="n">0</span>, <span class="n">2</span>, <span class="n">1</span>]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L299" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L299" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5090,7 +5190,7 @@ t[[<span class="n">0</span>, <span class="n">2</span>, <span class="n">1</span>]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L299" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L299" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5106,7 +5206,7 @@ t[[<span class="n">0</span>, <span class="n">2</span>, <span class="n">1</span>]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L265" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L265" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5122,7 +5222,7 @@ t[[<span class="n">0</span>, <span class="n">2</span>, <span class="n">1</span>]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L265" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L265" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5138,7 +5238,7 @@ t[[<span class="n">0</span>, <span class="n">2</span>, <span class="n">1</span>]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L265" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L265" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5154,7 +5254,7 @@ t[[<span class="n">0</span>, <span class="n">2</span>, <span class="n">1</span>]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L265" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L265" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5201,7 +5301,7 @@ in each view into the <code><a href="Tensor.html">Tensor</a></code></p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/reductions.cr#L968" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/reductions.cr#L968" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5241,7 +5341,7 @@ all elements</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/reductions.cr#L943" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/reductions.cr#L943" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5288,7 +5388,7 @@ in each view into the <code><a href="Tensor.html">Tensor</a></code></p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/reductions.cr#L1011" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/reductions.cr#L1011" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5328,7 +5428,7 @@ any element</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/reductions.cr#L986" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/reductions.cr#L986" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5377,7 +5477,7 @@ an axis</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/reductions.cr#L1176" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/reductions.cr#L1176" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5421,7 +5521,7 @@ an axis</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/reductions.cr#L1129" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/reductions.cr#L1129" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5470,7 +5570,7 @@ an axis</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/reductions.cr#L1257" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/reductions.cr#L1257" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5514,7 +5614,7 @@ an axis</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/reductions.cr#L1210" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/reductions.cr#L1210" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5563,7 +5663,7 @@ a.broadcast_to([<span class="n">3</span>, <span class="n">3</span>])
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L1042" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L1042" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5621,7 +5721,7 @@ a.as_strided([<span class="n">3</span>, <span class="n">3</span>], [<span class=
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L1154" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L1154" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5665,7 +5765,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L1179" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L1179" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5681,7 +5781,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L300" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L300" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5697,7 +5797,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L300" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L300" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5713,7 +5813,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L301" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L301" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5729,7 +5829,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L301" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L301" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5745,7 +5845,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L302" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L302" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5761,7 +5861,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L302" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L302" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5777,7 +5877,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L361" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L361" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5793,7 +5893,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L361" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L361" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5809,7 +5909,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L361" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L361" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5825,7 +5925,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L303" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L303" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5841,7 +5941,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L303" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L303" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5857,7 +5957,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L362" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L362" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5873,7 +5973,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L362" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L362" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5889,7 +5989,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L362" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L362" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5905,7 +6005,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L304" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L304" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5921,7 +6021,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L304" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L304" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5937,7 +6037,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L305" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L305" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5953,7 +6053,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L305" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L305" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5969,7 +6069,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L363" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L363" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -5985,7 +6085,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L363" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L363" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6001,7 +6101,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L363" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L363" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6017,7 +6117,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L306" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L306" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6033,7 +6133,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L306" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L306" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6049,7 +6149,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L307" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L307" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6065,7 +6165,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L307" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L307" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6081,7 +6181,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L274" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L274" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6097,7 +6197,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L274" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L274" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6113,7 +6213,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L274" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L274" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6129,7 +6229,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L274" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L274" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6145,7 +6245,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L275" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L275" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6161,7 +6261,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L275" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L275" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6177,7 +6277,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L275" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L275" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6193,7 +6293,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L275" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L275" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6209,7 +6309,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L276" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L276" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6225,7 +6325,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L276" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L276" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6241,7 +6341,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L276" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L276" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6257,7 +6357,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L276" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L276" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6273,7 +6373,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L308" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L308" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6289,7 +6389,7 @@ a.astype(<span class="t">Float32</span>) <span class="c"># =&gt; [1.5, 2.5, 3.5]
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L308" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L308" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6338,7 +6438,7 @@ t.cholesky
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/linalg.cr#L158" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/linalg.cr#L158" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6387,7 +6487,7 @@ t.cholesky
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/linalg.cr#L148" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/linalg.cr#L148" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6403,7 +6503,7 @@ t.cholesky
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L364" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L364" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6419,7 +6519,7 @@ t.cholesky
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L364" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L364" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6435,7 +6535,7 @@ t.cholesky
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L364" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L364" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6451,7 +6551,7 @@ t.cholesky
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L309" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L309" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6467,7 +6567,7 @@ t.cholesky
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L309" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L309" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6483,7 +6583,7 @@ t.cholesky
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L310" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L310" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6499,7 +6599,7 @@ t.cholesky
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L310" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L310" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6553,7 +6653,7 @@ the <code><a href="Tensor.html">Tensor</a></code></p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/reductions.cr#L882" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/reductions.cr#L882" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6593,7 +6693,7 @@ result.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/reductions.cr#L850" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/reductions.cr#L850" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6629,7 +6729,7 @@ puts t.det <span class="c"># =&gt; -2.0</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/linalg.cr#L395" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/linalg.cr#L395" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6668,7 +6768,7 @@ a.diagonal <span class="c"># =&gt; [0, 1, 2]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L621" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L621" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6684,7 +6784,7 @@ a.diagonal <span class="c"># =&gt; [0, 1, 2]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L268" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L268" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6700,7 +6800,7 @@ a.diagonal <span class="c"># =&gt; [0, 1, 2]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L268" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L268" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6716,7 +6816,7 @@ a.diagonal <span class="c"># =&gt; [0, 1, 2]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L268" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L268" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6732,7 +6832,7 @@ a.diagonal <span class="c"># =&gt; [0, 1, 2]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L268" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L268" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6772,7 +6872,7 @@ a.dot(a) <span class="c"># =&gt; 55.0</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/linalg.cr#L111" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/linalg.cr#L111" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6815,7 +6915,7 @@ a.dup <span class="c"># =&gt; [1, 2, 3]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L1226" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L1226" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6859,7 +6959,7 @@ a.each <span class="k">do</span> <span class="o">|</span>el<span class="o">|</sp
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L654" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L654" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6917,7 +7017,7 @@ a.each_axis(<span class="n">0</span>, dims: <span class="n">true</span>) <span c
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L808" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L808" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -6967,7 +7067,7 @@ a.each_matrix <span class="k">do</span> <span class="o">|</span>m<span class="o"
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L770" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L770" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7015,7 +7115,7 @@ a.each_pointer <span class="k">do</span> <span class="o">|</span>el<span class="
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L683" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L683" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7064,7 +7164,7 @@ a.each_pointer_with_index <span class="k">do</span> <span class="o">|</span>el, 
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L739" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L739" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7109,7 +7209,7 @@ a.each_with_index <span class="k">do</span> <span class="o">|</span>el, i<span c
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L709" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L709" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7151,7 +7251,7 @@ puts v
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/linalg.cr#L294" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/linalg.cr#L294" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7193,7 +7293,7 @@ puts v
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/linalg.cr#L259" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/linalg.cr#L259" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7234,7 +7334,7 @@ puts t.eigvals
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/linalg.cr#L348" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/linalg.cr#L348" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7275,7 +7375,7 @@ puts t.eigvalsh
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/linalg.cr#L323" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/linalg.cr#L323" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7291,7 +7391,7 @@ puts t.eigvalsh
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L277" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L277" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7307,7 +7407,7 @@ puts t.eigvalsh
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L277" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L277" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7323,7 +7423,7 @@ puts t.eigvalsh
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L277" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L277" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7339,7 +7439,7 @@ puts t.eigvalsh
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L277" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L277" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7355,7 +7455,7 @@ puts t.eigvalsh
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L311" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L311" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7371,7 +7471,7 @@ puts t.eigvalsh
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L311" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L311" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7387,7 +7487,7 @@ puts t.eigvalsh
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L312" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L312" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7403,7 +7503,7 @@ puts t.eigvalsh
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L312" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L312" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7419,7 +7519,7 @@ puts t.eigvalsh
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L313" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L313" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7435,7 +7535,7 @@ puts t.eigvalsh
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L313" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L313" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7451,7 +7551,7 @@ puts t.eigvalsh
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L314" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L314" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7467,7 +7567,7 @@ puts t.eigvalsh
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L314" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L314" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7511,7 +7611,7 @@ puts t.eigvalsh
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L1113" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L1113" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7553,7 +7653,7 @@ puts a.expm
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/linalg.cr#L699" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/linalg.cr#L699" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7569,7 +7669,7 @@ puts a.expm
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L315" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L315" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7585,7 +7685,7 @@ puts a.expm
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L315" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L315" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7601,7 +7701,7 @@ puts a.expm
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L52" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L52" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7617,7 +7717,7 @@ puts a.expm
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L52" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L52" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7654,7 +7754,7 @@ a.flat <span class="c"># =&gt; [0, 1, 2, 3]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L1340" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L1340" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7670,7 +7770,7 @@ a.flat <span class="c"># =&gt; [0, 1, 2, 3]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L269" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L269" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7686,7 +7786,7 @@ a.flat <span class="c"># =&gt; [0, 1, 2, 3]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L269" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L269" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7702,7 +7802,7 @@ a.flat <span class="c"># =&gt; [0, 1, 2, 3]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L269" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L269" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7718,7 +7818,7 @@ a.flat <span class="c"># =&gt; [0, 1, 2, 3]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L269" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L269" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7734,7 +7834,7 @@ a.flat <span class="c"># =&gt; [0, 1, 2, 3]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L316" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L316" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7750,7 +7850,7 @@ a.flat <span class="c"># =&gt; [0, 1, 2, 3]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L316" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L316" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7766,7 +7866,7 @@ a.flat <span class="c"># =&gt; [0, 1, 2, 3]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L279" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L279" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7782,7 +7882,7 @@ a.flat <span class="c"># =&gt; [0, 1, 2, 3]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L279" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L279" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7798,7 +7898,7 @@ a.flat <span class="c"># =&gt; [0, 1, 2, 3]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L279" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L279" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7814,7 +7914,7 @@ a.flat <span class="c"># =&gt; [0, 1, 2, 3]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L279" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L279" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7830,7 +7930,7 @@ a.flat <span class="c"># =&gt; [0, 1, 2, 3]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L280" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L280" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7846,7 +7946,7 @@ a.flat <span class="c"># =&gt; [0, 1, 2, 3]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L280" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L280" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7862,7 +7962,7 @@ a.flat <span class="c"># =&gt; [0, 1, 2, 3]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L280" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L280" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7878,7 +7978,7 @@ a.flat <span class="c"># =&gt; [0, 1, 2, 3]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L280" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L280" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7929,7 +8029,7 @@ puts a.hessenberg
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/linalg.cr#L497" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/linalg.cr#L497" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7945,7 +8045,7 @@ puts a.hessenberg
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L365" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L365" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7961,7 +8061,7 @@ puts a.hessenberg
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L365" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L365" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7977,7 +8077,7 @@ puts a.hessenberg
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L365" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L365" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -7993,7 +8093,7 @@ puts a.hessenberg
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L317" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L317" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8009,7 +8109,7 @@ puts a.hessenberg
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L317" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L317" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8051,7 +8151,7 @@ puts t.inv
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/linalg.cr#L429" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/linalg.cr#L429" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8067,7 +8167,7 @@ puts t.inv
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L1497" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L1497" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8083,7 +8183,7 @@ puts t.inv
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L366" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L366" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8099,7 +8199,7 @@ puts t.inv
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L366" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L366" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8115,7 +8215,7 @@ puts t.inv
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L366" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L366" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8131,7 +8231,7 @@ puts t.inv
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L272" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L272" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8147,7 +8247,7 @@ puts t.inv
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L272" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L272" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8163,7 +8263,7 @@ puts t.inv
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L272" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L272" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8179,7 +8279,7 @@ puts t.inv
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L272" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L272" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8195,7 +8295,7 @@ puts t.inv
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L281" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L281" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8211,7 +8311,7 @@ puts t.inv
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L281" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L281" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8227,7 +8327,7 @@ puts t.inv
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L281" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L281" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8243,7 +8343,7 @@ puts t.inv
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L281" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L281" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8259,7 +8359,7 @@ puts t.inv
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L282" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L282" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8275,7 +8375,7 @@ puts t.inv
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L282" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L282" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8291,7 +8391,7 @@ puts t.inv
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L282" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L282" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8307,7 +8407,7 @@ puts t.inv
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L282" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L282" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8323,7 +8423,7 @@ puts t.inv
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L318" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L318" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8339,7 +8439,7 @@ puts t.inv
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L318" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L318" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8355,7 +8455,7 @@ puts t.inv
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L319" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L319" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8371,7 +8471,7 @@ puts t.inv
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L319" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L319" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8387,7 +8487,7 @@ puts t.inv
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L320" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L320" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8403,7 +8503,7 @@ puts t.inv
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L320" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L320" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8419,7 +8519,7 @@ puts t.inv
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L321" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L321" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8435,7 +8535,7 @@ puts t.inv
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L321" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L321" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8451,7 +8551,7 @@ puts t.inv
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L322" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L322" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8467,7 +8567,7 @@ puts t.inv
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L322" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L322" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8483,7 +8583,7 @@ puts t.inv
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L323" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L323" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8499,7 +8599,7 @@ puts t.inv
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L323" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L323" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8551,7 +8651,7 @@ a.map(b, c) { <span class="o">|</span>i, j, k<span class="o">|</span> i <span cl
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L968" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L968" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8599,7 +8699,7 @@ a.map(b) { <span class="o">|</span>i, j<span class="o">|</span> i <span class="o
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L900" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L900" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8643,7 +8743,7 @@ a.map { <span class="o">|</span>e<span class="o">|</span> e <span class="o">+</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L847" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L847" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8698,7 +8798,7 @@ a <span class="c"># =&gt; [0, 3, 6]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L1011" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L1011" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8749,7 +8849,7 @@ a <span class="c"># =&gt; [0, 2, 4]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L935" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L935" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8791,7 +8891,7 @@ a <span class="c"># =&gt; [5, 6, 7]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L872" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L872" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8838,7 +8938,7 @@ a.matmul(a)
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/linalg.cr#L536" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/linalg.cr#L536" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8854,7 +8954,7 @@ a.matmul(a)
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L367" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L367" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8901,7 +9001,7 @@ view into the <code><a href="Tensor.html">Tensor</a></code></p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/reductions.cr#L1154" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/reductions.cr#L1154" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8917,7 +9017,7 @@ view into the <code><a href="Tensor.html">Tensor</a></code></p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L367" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L367" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8956,7 +9056,7 @@ view into the <code><a href="Tensor.html">Tensor</a></code></p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/reductions.cr#L1112" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/reductions.cr#L1112" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -8972,7 +9072,7 @@ view into the <code><a href="Tensor.html">Tensor</a></code></p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L367" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L367" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9019,7 +9119,7 @@ view into the <code><a href="Tensor.html">Tensor</a></code></p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/reductions.cr#L1053" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/reductions.cr#L1053" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9058,7 +9158,7 @@ view into the <code><a href="Tensor.html">Tensor</a></code></p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/reductions.cr#L1028" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/reductions.cr#L1028" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9074,7 +9174,7 @@ view into the <code><a href="Tensor.html">Tensor</a></code></p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L368" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L368" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9121,7 +9221,7 @@ view into the <code><a href="Tensor.html">Tensor</a></code></p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/reductions.cr#L1235" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/reductions.cr#L1235" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9137,7 +9237,7 @@ view into the <code><a href="Tensor.html">Tensor</a></code></p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L368" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L368" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9176,7 +9276,7 @@ view into the <code><a href="Tensor.html">Tensor</a></code></p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/reductions.cr#L1193" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/reductions.cr#L1193" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9192,7 +9292,7 @@ view into the <code><a href="Tensor.html">Tensor</a></code></p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L368" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L368" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9208,7 +9308,7 @@ view into the <code><a href="Tensor.html">Tensor</a></code></p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L271" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L271" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9224,7 +9324,7 @@ view into the <code><a href="Tensor.html">Tensor</a></code></p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L271" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L271" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9240,7 +9340,7 @@ view into the <code><a href="Tensor.html">Tensor</a></code></p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L271" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L271" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9256,7 +9356,7 @@ view into the <code><a href="Tensor.html">Tensor</a></code></p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L271" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L271" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9272,7 +9372,7 @@ view into the <code><a href="Tensor.html">Tensor</a></code></p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L267" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L267" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9288,7 +9388,7 @@ view into the <code><a href="Tensor.html">Tensor</a></code></p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L267" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L267" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9304,7 +9404,7 @@ view into the <code><a href="Tensor.html">Tensor</a></code></p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L267" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L267" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9320,7 +9420,7 @@ view into the <code><a href="Tensor.html">Tensor</a></code></p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L267" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L267" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9361,7 +9461,7 @@ t.norm <span class="c"># =&gt; 3.6055512</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/linalg.cr#L376" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/linalg.cr#L376" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9377,7 +9477,7 @@ t.norm <span class="c"># =&gt; 3.6055512</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L278" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L278" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9393,7 +9493,7 @@ t.norm <span class="c"># =&gt; 3.6055512</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L278" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L278" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9409,7 +9509,7 @@ t.norm <span class="c"># =&gt; 3.6055512</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L278" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L278" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9425,7 +9525,7 @@ t.norm <span class="c"># =&gt; 3.6055512</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L278" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L278" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9463,7 +9563,7 @@ acl <span class="o">=</span> a.opencl</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L1254" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L1254" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9479,7 +9579,7 @@ acl <span class="o">=</span> a.opencl</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L270" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L270" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9495,7 +9595,7 @@ acl <span class="o">=</span> a.opencl</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L270" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L270" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9511,7 +9611,7 @@ acl <span class="o">=</span> a.opencl</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L270" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L270" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9527,7 +9627,7 @@ acl <span class="o">=</span> a.opencl</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L270" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L270" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9574,7 +9674,7 @@ the <code><a href="Tensor.html">Tensor</a></code></p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/reductions.cr#L925" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/reductions.cr#L925" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9614,7 +9714,7 @@ elements</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/reductions.cr#L900" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/reductions.cr#L900" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9658,7 +9758,7 @@ elements of a <code><a href="Tensor.html">Tensor</a></code> along an axis</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/reductions.cr#L1297" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/reductions.cr#L1297" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9697,7 +9797,7 @@ elements of a <code><a href="Tensor.html">Tensor</a></code></p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/reductions.cr#L1274" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/reductions.cr#L1274" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9747,7 +9847,7 @@ puts r
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/linalg.cr#L189" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/linalg.cr#L189" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9791,7 +9891,7 @@ a.reshape([<span class="n">2</span>, <span class="n">2</span>])
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L1284" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L1284" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9835,7 +9935,7 @@ a.reshape([<span class="n">2</span>, <span class="n">2</span>])
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L1324" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L1324" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9851,7 +9951,7 @@ a.reshape([<span class="n">2</span>, <span class="n">2</span>])
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L273" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L273" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9867,7 +9967,7 @@ a.reshape([<span class="n">2</span>, <span class="n">2</span>])
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L273" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L273" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9883,7 +9983,7 @@ a.reshape([<span class="n">2</span>, <span class="n">2</span>])
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L273" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L273" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9899,7 +9999,7 @@ a.reshape([<span class="n">2</span>, <span class="n">2</span>])
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L273" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L273" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9915,7 +10015,7 @@ a.reshape([<span class="n">2</span>, <span class="n">2</span>])
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L51" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L51" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9931,7 +10031,7 @@ a.reshape([<span class="n">2</span>, <span class="n">2</span>])
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L324" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L324" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9947,7 +10047,7 @@ a.reshape([<span class="n">2</span>, <span class="n">2</span>])
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L324" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L324" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9963,7 +10063,7 @@ a.reshape([<span class="n">2</span>, <span class="n">2</span>])
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L325" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L325" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9979,7 +10079,7 @@ a.reshape([<span class="n">2</span>, <span class="n">2</span>])
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L325" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L325" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -9995,7 +10095,7 @@ a.reshape([<span class="n">2</span>, <span class="n">2</span>])
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L50" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L50" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -10040,7 +10140,7 @@ puts a.solve(b)
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/linalg.cr#L458" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/linalg.cr#L458" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -10093,7 +10193,7 @@ puts <span class="t">Num</span>.sort(t, axis: <span class="n">1</span>)
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/reductions.cr#L1347" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/reductions.cr#L1347" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -10134,7 +10234,7 @@ is flat.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/reductions.cr#L1316" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/reductions.cr#L1316" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -10150,7 +10250,7 @@ is flat.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L326" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L326" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -10166,7 +10266,7 @@ is flat.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L326" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L326" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -10213,7 +10313,7 @@ view into the <code><a href="Tensor.html">Tensor</a></code></p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/reductions.cr#L1095" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/reductions.cr#L1095" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -10252,7 +10352,7 @@ view into the <code><a href="Tensor.html">Tensor</a></code></p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/reductions.cr#L1070" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/reductions.cr#L1070" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -10268,7 +10368,7 @@ view into the <code><a href="Tensor.html">Tensor</a></code></p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L53" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L53" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -10284,7 +10384,7 @@ view into the <code><a href="Tensor.html">Tensor</a></code></p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L266" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L266" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -10300,7 +10400,7 @@ view into the <code><a href="Tensor.html">Tensor</a></code></p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L266" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L266" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -10316,7 +10416,7 @@ view into the <code><a href="Tensor.html">Tensor</a></code></p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L266" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L266" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -10332,7 +10432,7 @@ view into the <code><a href="Tensor.html">Tensor</a></code></p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L266" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L266" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -10379,7 +10479,7 @@ the <code><a href="Tensor.html">Tensor</a></code></p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/reductions.cr#L832" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/reductions.cr#L832" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -10419,7 +10519,7 @@ elements</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/reductions.cr#L807" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/reductions.cr#L807" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -10470,7 +10570,7 @@ puts c
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/linalg.cr#L228" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/linalg.cr#L228" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -10520,7 +10620,7 @@ a.swap_axes(<span class="n">2</span>, <span class="n">0</span>)
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L1439" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L1439" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -10536,7 +10636,7 @@ a.swap_axes(<span class="n">2</span>, <span class="n">0</span>)
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L327" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L327" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -10552,7 +10652,7 @@ a.swap_axes(<span class="n">2</span>, <span class="n">0</span>)
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L327" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L327" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -10568,7 +10668,7 @@ a.swap_axes(<span class="n">2</span>, <span class="n">0</span>)
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L328" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L328" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -10584,7 +10684,7 @@ a.swap_axes(<span class="n">2</span>, <span class="n">0</span>)
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L328" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L328" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -10639,7 +10739,7 @@ puts a.tensordot(b, axes: [[<span class="n">1</span>, <span class="n">0</span>],
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/linalg.cr#L618" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/linalg.cr#L618" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -10694,7 +10794,7 @@ puts a.tensordot(b, axes: [[<span class="n">1</span>, <span class="n">0</span>],
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/linalg.cr#L671" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/linalg.cr#L671" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -10749,7 +10849,7 @@ puts a.tensordot(b, axes: [[<span class="n">1</span>, <span class="n">0</span>],
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/linalg.cr#L678" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/linalg.cr#L678" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -10786,7 +10886,7 @@ a.to_a <span class="c"># =&gt; [0, 1, 2, 3]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L331" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L331" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -10823,7 +10923,7 @@ a.to_json <span class="c"># =&gt; &quot;[0, 1, 2, 3]&quot;</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L351" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L351" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -10874,7 +10974,7 @@ a.transpose([<span class="n">2</span>, <span class="n">0</span>, <span class="n"
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L1369" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L1369" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -10925,7 +11025,7 @@ a.transpose([<span class="n">2</span>, <span class="n">0</span>, <span class="n"
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L1411" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L1411" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -10970,7 +11070,7 @@ a
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/linalg.cr#L91" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/linalg.cr#L91" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -11015,7 +11115,7 @@ a
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/linalg.cr#L82" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/linalg.cr#L82" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -11060,7 +11160,7 @@ a
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/linalg.cr#L57" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/linalg.cr#L57" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -11105,7 +11205,7 @@ a
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/linalg.cr#L48" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/linalg.cr#L48" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -11121,7 +11221,7 @@ a
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L404" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L404" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -11137,7 +11237,7 @@ a
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L1466" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L1466" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -11178,7 +11278,7 @@ unique element of a <code><a href="Tensor.html">Tensor</a></code></p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/reductions.cr#L1367" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/reductions.cr#L1367" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -11222,7 +11322,7 @@ a
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L567" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L567" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -11264,7 +11364,7 @@ a.view(<span class="t">Int16</span>) <span class="c"># =&gt; [0, 0, 0, 0, 1, 0, 
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L591" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L591" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -11311,7 +11411,7 @@ a.with_broadcast(<span class="n">2</span>)
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L1094" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L1094" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -11353,7 +11453,7 @@ a.with_dims(<span class="n">4</span>) <span class="c"># =&gt; [[[[1, 2, 3]]]]</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/tensor.cr#L1063" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/tensor.cr#L1063" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -11369,7 +11469,7 @@ a.with_dims(<span class="n">4</span>) <span class="c"># =&gt; [[[[1, 2, 3]]]]</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L275" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L275" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -11385,7 +11485,7 @@ a.with_dims(<span class="n">4</span>) <span class="c"># =&gt; [[[[1, 2, 3]]]]</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/operators.cr#L275" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/operators.cr#L275" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -11413,7 +11513,7 @@ a.with_dims(<span class="n">4</span>) <span class="c"># =&gt; [[[[1, 2, 3]]]]</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/extension.cr#L375" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/extension.cr#L375" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -11429,7 +11529,7 @@ a.with_dims(<span class="n">4</span>) <span class="c"># =&gt; [[[[1, 2, 3]]]]</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/extension.cr#L388" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/extension.cr#L388" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -11445,7 +11545,7 @@ a.with_dims(<span class="n">4</span>) <span class="c"># =&gt; [[[[1, 2, 3]]]]</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/extension.cr#L97" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/extension.cr#L97" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -11461,7 +11561,7 @@ a.with_dims(<span class="n">4</span>) <span class="c"># =&gt; [[[[1, 2, 3]]]]</s
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2b9ffa7e9f6d8953fc557d529d8ca9e4698172bb/src/tensor/extension.cr#L67" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/extension.cr#L67" target="_blank">View source</a>]
         
       </div>
     </div>
