@@ -100,7 +100,9 @@ module Num
   # ```
   def slice(arr : Tensor(U, CPU(U)), args : Array) forall U
     offset, shape, strides = Num::Internal.offset_for_index(arr, args)
-    Tensor.new(arr.data, shape, strides, offset, U)
+    flags = arr.flags.dup
+    flags &= ~Num::ArrayFlags::OwnData
+    Tensor.new(arr.data, shape, strides, offset, flags, U)
   end
 
   # The primary method of setting Tensor values.  The slicing behavior

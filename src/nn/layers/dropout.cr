@@ -29,8 +29,8 @@ class Num::NN::DropoutLayer(T) < Num::NN::Layer(T)
   end
 
   def forward(input : Num::Grad::Variable(T)) : Num::Grad::Variable(T)
-    mask = T.binomial(input.value.shape, 1, @prob) / @prob
-    output = input.value * mask
+    mask = T.binomial(input.value.shape, 1, @prob)
+    output = Num::NN.dropout(input.value, mask)
     result = input.context.variable(output)
 
     if input.is_grad_needed

@@ -50,10 +50,3 @@ losses = [] of Float32
 
   puts "Epoch: #{epoch} | Accuracy: #{accuracy}"
 end
-
-# Num::Plot::Plot.plot do
-#   scatter (0...losses.size), losses
-#   x_label "Epochs"
-#   y_label "Loss"
-#   label "MNIST Accuracy"
-# end

@@ -21,40 +21,22 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "../spec_helper"
-
-describe Num::Grad do
-  it "backpropogates for matrix multiplication" do
-    ctx = Num::Grad::Context(Float32Tensor).new
-
-    at = [[1, 2] of Float32, [3, 4] of Float32].to_tensor
-    bt = [[1, 2] of Float32, [3, 4] of Float32].to_tensor
-
-    a = ctx.variable(at)
-    b = ctx.variable(bt)
-
-    result = a.matmul(b)
-    result.backprop
-
-    expected = [[3, 7], [3, 7]].to_tensor
-
-    Num::Testing.tensor_equal(a.grad, expected)
+describe Num::NN do
+  it "calculates the correct derivative of a float" do
+    f = ->(x : Float64) { x * x + x + 1.0 }
+    Num::NN.numerical_gradient(2.0, f).should be_close(5, 1e-8)
   end
 
-  it "backpropogates for matrix multiplication opencl", tags: ["opencl", "clblast"] do
-    ctx = Num::Grad::Context(Float32ClTensor).new
+  it "calculates the correct derivative of a Tensor" do
+    f = ->(t : Tensor(Float64, CPU(Float64))) do
+      x = t[0].value
+      y = t[1].value
+      x * x + y * y + x * y + x + y + 1.0
+    end
 
-    at = [[1, 2] of Float32, [3, 4] of Float32].to_tensor(OCL)
-    bt = [[1, 2] of Float32, [3, 4] of Float32].to_tensor(OCL)
+    input = [2.0, 3.0].to_tensor
+    grad = [8.0, 9.0].to_tensor
 
-    a = ctx.variable(at)
-    b = ctx.variable(bt)
-
-    result = a.matmul(b)
-    result.backprop
-
-    expected = [[3, 7], [3, 7]].to_tensor
-
-    Num::Testing.tensor_equal(a.grad.cpu, expected)
+    Num::NN.mean_relative_error(Num::NN.numerical_gradient(input, f), grad).should be < 1e-8
   end
 end

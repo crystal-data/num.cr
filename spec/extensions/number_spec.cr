@@ -21,40 +21,34 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "../spec_helper"
-
-describe Num::Grad do
-  it "backpropogates for matrix multiplication" do
-    ctx = Num::Grad::Context(Float32Tensor).new
-
-    at = [[1, 2] of Float32, [3, 4] of Float32].to_tensor
-    bt = [[1, 2] of Float32, [3, 4] of Float32].to_tensor
-
-    a = ctx.variable(at)
-    b = ctx.variable(bt)
-
-    result = a.matmul(b)
-    result.backprop
-
-    expected = [[3, 7], [3, 7]].to_tensor
-
-    Num::Testing.tensor_equal(a.grad, expected)
+describe Number do
+  it "should add against a Tensor" do
+    expected = [1, 2, 3].to_tensor
+    result = 1 + [0, 1, 2].to_tensor
+    Num::Testing.tensor_equal(expected, result).should be_true
   end
 
-  it "backpropogates for matrix multiplication opencl", tags: ["opencl", "clblast"] do
-    ctx = Num::Grad::Context(Float32ClTensor).new
+  it "should subtract against a Tensor" do
+    expected = [1, 0, -1].to_tensor
+    result = 1 - [0, 1, 2].to_tensor
+    Num::Testing.tensor_equal(expected, result).should be_true
+  end
 
-    at = [[1, 2] of Float32, [3, 4] of Float32].to_tensor(OCL)
-    bt = [[1, 2] of Float32, [3, 4] of Float32].to_tensor(OCL)
+  it "should multiply against a Tensor" do
+    expected = [1, 2, 3].to_tensor
+    result = 1 * [1, 2, 3].to_tensor
+    Num::Testing.tensor_equal(expected, result).should be_true
+  end
 
-    a = ctx.variable(at)
-    b = ctx.variable(bt)
+  it "should divide against a Tensor" do
+    expected = [12, 3, 1].to_tensor
+    result = 12 / [1, 4, 12].to_tensor
+    Num::Testing.tensor_equal(expected, result).should be_true
+  end
 
-    result = a.matmul(b)
-    result.backprop
-
-    expected = [[3, 7], [3, 7]].to_tensor
-
-    Num::Testing.tensor_equal(a.grad.cpu, expected)
+  it "should exponentiate against a Tensor" do
+    expected = [1, 2, 4].to_tensor
+    result = 2 ** [0, 1, 2].to_tensor
+    Num::Testing.tensor_equal(expected, result).should be_true
   end
 end

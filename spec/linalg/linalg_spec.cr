@@ -86,7 +86,7 @@ describe Tensor do
     Num::Testing.tensor_equal(b, expected).should be_true
   end
 
-  it "calculates the cholesky decomposition" do
+  it "calculates the cholesky decomposition", tags: "blas" do
     t = [[2, -1, 0], [-1, 2, -1], [0, -1, 2]].to_tensor.as_type(Float32)
     t = t.dup(Num::ColMajor)
     t.cholesky!
@@ -95,7 +95,7 @@ describe Tensor do
     Num::Testing.tensor_equal(t, expected, tolerance: 1e-3).should be_true
   end
 
-  it "calculates the QR decomposition of a matrix" do
+  it "calculates the QR decomposition of a matrix", tags: "blas" do
     t = [[0, 1], [1, 1], [1, 1], [2, 1]].to_tensor.as_type(Float32)
     q, r = t.qr
 
@@ -112,7 +112,7 @@ describe Tensor do
     Num::Testing.tensor_equal(r, r_expected, tolerance: 1e-3).should be_true
   end
 
-  it "calculates the SVD decomposition of a matrix" do
+  it "calculates the SVD decomposition of a matrix", tags: "blas" do
     t = [[0, 1], [1, 1], [1, 1], [2, 1]].to_tensor.as_type(Float32)
     a, b, c = t.svd
 
@@ -129,7 +129,7 @@ describe Tensor do
     Num::Testing.tensor_equal(c, c_exp, tolerance: 1e-3).should be_true
   end
 
-  it "calculates the eigenvalues + right eigenvectors of a symmetric matrix" do
+  it "calculates the eigenvalues + right eigenvectors of a symmetric matrix", tags: "blas" do
     t = [[0, 1], [1, 1]].to_tensor.as_type(Float32)
     w, v = t.eigh
 
@@ -141,7 +141,7 @@ describe Tensor do
     Num::Testing.tensor_equal(v, v_exp, tolerance: 1e-3).should be_true
   end
 
-  it "calculates the eigenvalues + right eigenvectors of a general matrix" do
+  it "calculates the eigenvalues + right eigenvectors of a general matrix", tags: "blas" do
     t = [[0, 1], [1, 1]].to_tensor.as_type(Float32)
     w, v = t.eig
 
@@ -153,7 +153,7 @@ describe Tensor do
     Num::Testing.tensor_equal(v, v_exp, tolerance: 1e-3).should be_true
   end
 
-  it "calculates the eigenvals of a symmetric matrix" do
+  it "calculates the eigenvals of a symmetric matrix", tags: "blas" do
     t = [[0, 1], [1, 1]].to_tensor.as_type(Float32)
     result = t.eigvalsh
 
@@ -162,7 +162,7 @@ describe Tensor do
     Num::Testing.tensor_equal(result, t_exp, tolerance: 1e-3).should be_true
   end
 
-  it "calculates the eigenvals of a general matrix" do
+  it "calculates the eigenvals of a general matrix", tags: "blas" do
     t = [[0, 1], [1, 1]].to_tensor.as_type(Float32)
     result = t.eigvals
 
@@ -180,12 +180,12 @@ describe Tensor do
     end
   {% end %}
 
-  it "calculates the matrix determinant" do
+  it "calculates the matrix determinant", tags: "blas" do
     t = [[1, 2], [3, 4]].to_tensor.as_type(Float32)
     Num::Testing.tensor_equal(t.det, [-2].to_tensor).should be_true
   end
 
-  it "calculates the multiplicative inverse of a square matrix" do
+  it "calculates the multiplicative inverse of a square matrix", tags: "blas" do
     t = [[1, 2], [3, 4]].to_tensor.as_type(Float32)
     i = t.inv
 
@@ -195,7 +195,7 @@ describe Tensor do
     Num::Testing.tensor_equal(i, i_exp, tolerance: 1e-2).should be_true
   end
 
-  it "solves a linear matrix equation" do
+  it "solves a linear matrix equation", tags: "blas" do
     a = [[3, 1], [1, 2]].to_tensor.as_type(Float32)
     b = [9, 8].to_tensor.as_type(Float32)
     result = a.solve(b)
@@ -204,7 +204,7 @@ describe Tensor do
     Num::Testing.tensor_equal(result, expected).should be_true
   end
 
-  it "calculates the dot product of two vectors" do
+  it "calculates the dot product of two vectors", tags: "blas" do
     a = [1, 2, 3, 4, 5].to_tensor.as_type(Float32)
     b = a.dot(a)
 
@@ -213,7 +213,7 @@ describe Tensor do
     Num::Testing.tensor_equal(b, expected).should be_true
   end
 
-  it "calculates the dot product of two vectors opencl", tags: "opencl" do
+  it "calculates the dot product of two vectors opencl", tags: ["clblast", "opencl"] do
     a = [1_f32, 2_f32, 3_f32, 4_f32, 5_f32].to_tensor(OCL)
     b = a.dot(a)
 
@@ -222,7 +222,7 @@ describe Tensor do
     Num::Testing.tensor_equal(b.cpu, expected).should be_true
   end
 
-  it "calculates the dot product of two matrices" do
+  it "calculates the dot product of two matrices", tags: "blas" do
     a = [[1, 1], [1, 1]].to_tensor.as_type(Float32)
     b = a.matmul(a)
 
@@ -231,7 +231,7 @@ describe Tensor do
     Num::Testing.tensor_equal(b, expected).should be_true
   end
 
-  it "calculates the dot product of two matrices opencl", tags: "opencl" do
+  it "calculates the dot product of two matrices opencl", tags: ["clblast", "opencl"] do
     a = [[1, 1] of Float32, [1, 1] of Float32].to_tensor(OCL)
     b = a.matmul(a)
 

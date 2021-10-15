@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Crystal Data Contributors
+# Copyright (c) 2020 Crystal Data Contributors
 #
 # MIT License
 #
@@ -21,40 +21,48 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "../spec_helper"
+require "../../src/num"
 
-describe Num::Grad do
-  it "backpropogates for matrix multiplication" do
-    ctx = Num::Grad::Context(Float32Tensor).new
+Num::Rand.set_seed(2)
 
-    at = [[1, 2] of Float32, [3, 4] of Float32].to_tensor
-    bt = [[1, 2] of Float32, [3, 4] of Float32].to_tensor
+ctx = Num::Grad::Context(Tensor(Float64, CPU(Float64))).new
 
-    a = ctx.variable(at)
-    b = ctx.variable(bt)
+bsz = 32
 
-    result = a.matmul(b)
-    result.backprop
+x_train_bool = Tensor.random(0_u8...2_u8, [bsz * 100, 2])
 
-    expected = [[3, 7], [3, 7]].to_tensor
+y_bool = x_train_bool[..., ...1] ^ x_train_bool[..., 1...]
 
-    Num::Testing.tensor_equal(a.grad, expected)
-  end
+x_train = ctx.variable(x_train_bool.as_type(Float64))
+y = y_bool.as_type(Float64)
 
-  it "backpropogates for matrix multiplication opencl", tags: ["opencl", "clblast"] do
-    ctx = Num::Grad::Context(Float32ClTensor).new
+net = Num::NN::Network.new(ctx) do
+  input [2]
+  linear 3
+  relu
+  linear 1
+  sgd 0.7
+  sigmoid_cross_entropy_loss
+end
 
-    at = [[1, 2] of Float32, [3, 4] of Float32].to_tensor(OCL)
-    bt = [[1, 2] of Float32, [3, 4] of Float32].to_tensor(OCL)
+losses = [] of Float64
 
-    a = ctx.variable(at)
-    b = ctx.variable(bt)
+50.times do |epoch|
+  100.times do |batch_id|
+    offset = batch_id * 32
+    x = x_train[offset...offset + 32]
+    target = y[offset...offset + 32]
 
-    result = a.matmul(b)
-    result.backprop
+    y_pred = net.forward(x)
 
-    expected = [[3, 7], [3, 7]].to_tensor
+    loss = net.loss(y_pred, target)
 
-    Num::Testing.tensor_equal(a.grad.cpu, expected)
+    puts "Epoch is: #{epoch}"
+    puts "Batch id: #{batch_id}"
+    puts "Loss is: #{loss.value.value}"
+    losses << loss.value.value
+
+    loss.backprop
+    net.optimizer.update
   end
 end

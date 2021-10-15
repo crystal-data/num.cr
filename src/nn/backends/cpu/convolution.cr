@@ -46,10 +46,10 @@ module Num::NN
       LibNNPACK::NNPSize.new(height: input.shape[-2], width: input.shape[-1]),
       LibNNPACK::NNPPadding.new(top: padding[0], bottom: padding[0], left: padding[1], right: padding[1]),
       LibNNPACK::NNPSize.new(height: weight.shape[-2], width: weight.shape[-1]),
-      input.to_unsafe,
-      weight.to_unsafe,
-      bias.to_unsafe,
-      result.to_unsafe,
+      input.get_offset_ptr,
+      weight.get_offset_ptr,
+      bias.get_offset_ptr,
+      result.get_offset_ptr,
       nil,
       nil,
       LibNNPACK::NNPActivation::IDENTITY,
@@ -93,9 +93,9 @@ module Num::NN
       nninput_size,
       nnpadding,
       nnkernel_size,
-      grad_output.to_unsafe,
-      weight.to_unsafe,
-      grad_input.to_unsafe,
+      grad_output.get_offset_ptr,
+      weight.get_offset_ptr,
+      grad_input.get_offset_ptr,
       nil,
       nil,
       LibNNPACK::NNPActivation::IDENTITY,
@@ -118,9 +118,9 @@ module Num::NN
       nninput_size,
       nnpadding,
       nnkernel_size,
-      input.to_unsafe,
-      grad_output.to_unsafe,
-      grad_weight.to_unsafe,
+      input.get_offset_ptr,
+      grad_output.get_offset_ptr,
+      grad_weight.get_offset_ptr,
       nil,
       nil,
       LibNNPACK::NNPActivation::IDENTITY,
@@ -133,7 +133,7 @@ module Num::NN
       raise Exception.new "NNPACK failed with #{status}.  Did you run with the -Dnnpack flag?"
     end
 
-    grad_bias = Tensor(Float32, CPU(Float32)).zeros(bias.shape)
+    grad_bias = grad_output.sum(3).sum(2).sum(0).reshape(bias.shape)
 
     {grad_input, grad_weight, grad_bias}
   end
@@ -156,8 +156,8 @@ module Num::NN
 
     result = Tensor(U, CPU(U)).new([channels_col, flatten_size_col])
 
-    odata = result.to_unsafe
-    idata = input.to_unsafe
+    odata = result.get_offset_ptr
+    idata = input.get_offset_ptr
 
     channels_col.times do |c|
       w_offset = (c % kernel[1]) - padding[1]
@@ -244,8 +244,7 @@ module Num::NN
       output = result[i].reshape(kernel_col.shape[0], input_col.shape[1])
       kernel_col.matmul(input_col, output)
     end
-
-    result
+    result + bias
   end
 
   def im2colgemm_conv2d_gradient(
@@ -267,6 +266,7 @@ module Num::NN
 
     grad_input = Tensor(U, CPU(U)).zeros([batch_size, input.shape[-3], input.shape[-2], input.shape[-1]])
     grad_weight = Tensor(U, CPU(U)).zeros([output_channels, kernel.shape[-3], kernel.shape[-2], kernel.shape[-1]])
+    grad_bias = grad_output.sum(3).sum(2).sum(0).reshape(bias.shape)
 
     batch_size.times do |i|
       grad_output_col = grad_output[i].reshape(output_channels, output_flatten_size)
@@ -279,7 +279,6 @@ module Num::NN
       end
     end
 
-    grad_bias = grad_output.sum(3).sum(2).sum(0).reshape(bias.shape)
     {grad_input, grad_weight, grad_bias}
   end
 end

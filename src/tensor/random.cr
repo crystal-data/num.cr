@@ -363,4 +363,18 @@ class Tensor(T, S)
       {% end %}
     end
   end
+
+  # Draw samples from a binomial distribution.
+  # Samples are drawn from a binomial distribution with specified parameters,
+  # n trials and prob probability of success where n an integer >= 0 and
+  # p is in the interval [0,1].
+  def self.binomial(shape : Array(Int), n : Int, prob : Float) : Tensor(T, S)
+    self.new(shape, device: S) do
+      success = T.new(0)
+      n.times do
+        success += Random.rand < prob ? 1 : 0
+      end
+      success
+    end
+  end
 end

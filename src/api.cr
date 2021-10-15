@@ -54,6 +54,8 @@ require "./tensor/backends/opencl/impl_manipulate"
 require "./tensor/backends/opencl/impl_iteration"
 require "./tensor/backends/opencl/impl_reduction"
 
+require "./io/npy"
+
 require "./linalg/extension"
 require "./linalg/work"
 require "./linalg/linalg"
@@ -75,6 +77,7 @@ require "./grad/variable.cr"
 require "./nn/primitives/layer"
 require "./nn/primitives/loss"
 require "./nn/primitives/optimizer"
+require "./nn/primitives/validation"
 
 require "./nn/datasets/datasets"
 require "./nn/datasets/iris"
@@ -112,6 +115,8 @@ require "./nn/loss/softmax_cross_entropy"
 require "./nn/optimizers/sgd"
 require "./nn/optimizers/adam"
 
+require "./nn/backends/agnostic/dropout"
+
 require "./nn/backends/cpu/activation"
 require "./nn/backends/cpu/convolution"
 require "./nn/backends/cpu/loss"
@@ -121,3 +126,10 @@ require "./nn/backends/opencl/activation"
 
 require "./num/exceptions"
 require "./num/aliases"
+
+require "./einsum/contractors/pair"
+require "./einsum/contractors/singleton"
+require "./einsum/contractors/utils"
+require "./einsum/validation"
+require "./einsum/optimizers"
+require "./einsum/strategies"

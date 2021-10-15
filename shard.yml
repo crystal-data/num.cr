@@ -1,10 +1,10 @@
 name: num
-version: 0.5.0
+version: 1.0.0
 
 authors:
   - Chris Zimmerman <chris-zimmerman@live.com>
 
-crystal: 0.35.1
+crystal: ">= 1.0.0"
 
 license: MIT
 
@@ -13,6 +13,5 @@ dependencies:
     github: crystal-data/opencl.cr
   alea:
     github: nin93/alea
-  gobject:
-    github: jhass/crystal-gobject
-    branch: main
+  stbimage:
+    github: crystal-data/stbimage.cr

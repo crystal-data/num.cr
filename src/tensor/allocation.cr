@@ -34,6 +34,8 @@ class Tensor(T, S)
     @data.update_metadata(@shape, @strides)
     @size = @shape.product
     @offset = 0
+    @flags = Num::ArrayFlags::All
+    update_flags
   end
 
   # Initialize a Tensor from a storage instance, a shape, strides, an offset,
@@ -45,6 +47,20 @@ class Tensor(T, S)
   def initialize(@data : S, @shape : Array(Int32), @strides : Array(Int32), @offset : Int32, dtype : T.class = T)
     @data.update_metadata(@shape, @strides)
     @size = @shape.product
+    @flags = Num::ArrayFlags::All
+    update_flags
+  end
+
+  # Initialize a Tensor from a storage instance, a shape, strides, an offset,
+  # flags, and a data type.  This should primarily be used by internal methods,
+  # since it assumes the passed shape and strides correspond to the
+  # storage provided.
+  #
+  # The dtype is required to infer T without having it explicitly provided
+  def initialize(@data : S, @shape : Array(Int32), @strides : Array(Int32), @offset : Int32, @flags : Num::ArrayFlags, dtype : T.class = T)
+    @data.update_metadata(@shape, @strides)
+    @size = @shape.product
+    update_flags
   end
 
   # Private initialization method to allow Tensors to be created from Arrays,
@@ -57,6 +73,8 @@ class Tensor(T, S)
     @strides = Num::Internal.shape_to_strides(shape, Num::RowMajor)
     @size = @shape.product
     @offset = 0
+    @flags = Num::ArrayFlags::All
+    update_flags
   end
 
   # Initializes a Tensor onto a device with a provided shape and memory

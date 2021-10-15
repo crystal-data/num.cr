@@ -21,40 +21,25 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "../spec_helper"
-
-describe Num::Grad do
-  it "backpropogates for matrix multiplication" do
-    ctx = Num::Grad::Context(Float32Tensor).new
-
-    at = [[1, 2] of Float32, [3, 4] of Float32].to_tensor
-    bt = [[1, 2] of Float32, [3, 4] of Float32].to_tensor
-
-    a = ctx.variable(at)
-    b = ctx.variable(bt)
-
-    result = a.matmul(b)
-    result.backprop
-
-    expected = [[3, 7], [3, 7]].to_tensor
-
-    Num::Testing.tensor_equal(a.grad, expected)
+# :nodoc:
+struct Num::Einsum::Inputter
+  def self.find_outputs_in_inputs_unique(
+    output_indices : Array(Char),
+    input_indices : Array(Char)
+  )
+    ret = maybe_find_outputs_in_inputs_unique(output_indices, input_indices)
+    valid = [] of Int32
+    ret.each do |e|
+      if !e.nil?
+        valid << e
+      end
+    end
+    valid
   end
 
-  it "backpropogates for matrix multiplication opencl", tags: ["opencl", "clblast"] do
-    ctx = Num::Grad::Context(Float32ClTensor).new
-
-    at = [[1, 2] of Float32, [3, 4] of Float32].to_tensor(OCL)
-    bt = [[1, 2] of Float32, [3, 4] of Float32].to_tensor(OCL)
-
-    a = ctx.variable(at)
-    b = ctx.variable(bt)
-
-    result = a.matmul(b)
-    result.backprop
-
-    expected = [[3, 7], [3, 7]].to_tensor
-
-    Num::Testing.tensor_equal(a.grad.cpu, expected)
+  def self.maybe_find_outputs_in_inputs_unique(output_indices, input_indices)
+    ret = output_indices.map do |output_char|
+      input_indices.index { |input_char| input_char == output_char }
+    end
   end
 end

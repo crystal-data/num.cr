@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Crystal Data Contributors
+# Copyright (c) 2020 Crystal Data Contributors
 #
 # MIT License
 #
@@ -21,40 +21,47 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "../spec_helper"
+require "../../src/num"
 
-describe Num::Grad do
-  it "backpropogates for matrix multiplication" do
-    ctx = Num::Grad::Context(Float32Tensor).new
+Num::Rand.set_seed(2)
 
-    at = [[1, 2] of Float32, [3, 4] of Float32].to_tensor
-    bt = [[1, 2] of Float32, [3, 4] of Float32].to_tensor
+ctx = Num::Grad::Context(Tensor(Float64, CPU(Float64))).new
 
-    a = ctx.variable(at)
-    b = ctx.variable(bt)
+labels, x_train, y_train = Num::NN.load_iris_dataset
 
-    result = a.matmul(b)
-    result.backprop
+x_train = (x_train - x_train.mean(axis: 0)) / x_train.std(axis: 0)
+x_train = ctx.variable(x_train)
 
-    expected = [[3, 7], [3, 7]].to_tensor
+net = Num::NN::Network.new(ctx) do
+  input [4]
+  linear 3
+  relu
+  linear 3
+  sgd 0.9
+  sigmoid_cross_entropy_loss
+end
 
-    Num::Testing.tensor_equal(a.grad, expected)
+batch_size = 10
+
+10.times do |epoch|
+  y_trues = [] of Int32
+  y_preds = [] of Int32
+
+  (y_train.shape[0] // batch_size).times do |batch_id|
+    offset = batch_id * batch_size
+    x = x_train[offset...offset + batch_size]
+    target = y_train[offset...offset + batch_size]
+
+    output = net.forward(x)
+
+    loss = net.loss(output, target)
+
+    y_trues += target.argmax(axis: 1).to_a
+    y_preds += output.value.argmax(axis: 1).to_a
+
+    loss.backprop
+    net.optimizer.update
   end
 
-  it "backpropogates for matrix multiplication opencl", tags: ["opencl", "clblast"] do
-    ctx = Num::Grad::Context(Float32ClTensor).new
-
-    at = [[1, 2] of Float32, [3, 4] of Float32].to_tensor(OCL)
-    bt = [[1, 2] of Float32, [3, 4] of Float32].to_tensor(OCL)
-
-    a = ctx.variable(at)
-    b = ctx.variable(bt)
-
-    result = a.matmul(b)
-    result.backprop
-
-    expected = [[3, 7], [3, 7]].to_tensor
-
-    Num::Testing.tensor_equal(a.grad.cpu, expected)
-  end
+  puts "Epoch: #{epoch} | Accuracy: #{y_trues.zip(y_preds).map { |t, p| (t == p).to_unsafe }.sum / y_trues.size}"
 end

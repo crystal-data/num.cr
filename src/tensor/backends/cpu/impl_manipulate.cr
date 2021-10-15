@@ -50,7 +50,99 @@ module Num
   @[AlwaysInline]
   def broadcast_to(arr : Tensor(U, CPU(U)), shape : Array(Int)) forall U
     strides = Num::Internal.strides_for_broadcast(arr.shape, arr.strides, shape)
-    Tensor.new(arr.data, shape, strides, arr.offset, U)
+    flags = arr.flags.dup
+    flags &= ~Num::ArrayFlags::OwnData
+    flags &= ~Num::ArrayFlags::Write
+    Tensor.new(arr.data, shape, strides, arr.offset, flags, U)
+  end
+
+  # `as_strided` creates a view into the `Tensor` given the exact strides
+  # and shape. This means it manipulates the internal data structure
+  # of a `Tensor` and, if done incorrectly, the array elements can point
+  # to invalid memory and can corrupt results or crash your program.
+  #
+  # It is advisable to always use the original `strides` when
+  # calculating new strides to avoid reliance on a contiguous
+  # memory layout.
+  #
+  #
+  # Furthermore, `Tensor`s created with this function often contain
+  # self overlapping memory, so that two elements are identical.
+  # Vectorized write operations on such `Tensor`s will typically be
+  # unpredictable. They may even give different results for small,
+  # large, or transposed `Tensor`s.
+  #
+  # Arguments
+  # ---------
+  # *shape*
+  #   Shape of the new `Tensor`
+  # *strides*
+  #   Strides of the new `Tensor`
+  #
+  # Examples
+  # --------
+  # ```
+  # a = Tensor.from_array [1, 2, 3]
+  # a.as_strided([3, 3], [0, 1])
+  #
+  # # [[1, 2, 3],
+  # #  [1, 2, 3],
+  # #  [1, 2, 3]]
+  # ```
+  @[AlwaysInline]
+  def as_strided(arr : Tensor(U, CPU(U)), shape : Array(Int), strides : Array(Int)) : Tensor(U, CPU(U)) forall U
+    flags = arr.flags.dup
+    flags &= ~Num::ArrayFlags::OwnData
+    flags &= ~Num::ArrayFlags::Write
+    Tensor.new(arr.data, shape, strides, arr.offset, flags, U)
+  end
+
+  # Expands a `Tensor`s dimensions n times by broadcasting
+  # the shape and strides.  No data is copied, and the result
+  # is a read-only view of the original `Tensor`
+  #
+  # Arguments
+  # ---------
+  # *n* : Int
+  #   Number of dimensions to broadcast
+  #
+  # Examples
+  # --------
+  # ```
+  # a = [1, 2, 3].to_tensor
+  # a.with_broadcast(2)
+  #
+  # # [[[1]],
+  # #
+  # #  [[2]],
+  # #
+  # #  [[3]]]
+  # ```
+  def with_broadcast(arr : Tensor(U, CPU(U)), n : Int) : Tensor(U, CPU(U))
+    shape = arr.shape + [1] * n
+    strides = arr.strides + [0] * n
+    arr.as_strided(shape, strides)
+  end
+
+  # Brief description of expanddims
+  #
+  # Arguments
+  # ---------
+  # axis : Int
+  #   Brief description of axis : Int
+  #
+  # Returns
+  # -------
+  # Tensor(T)
+  #
+  # Examples
+  # --------
+  def expand_dims(arr : Tensor(U, CPU(U)), axis : Int) : Tensor(U, CPU(U))
+    shape = arr.shape.dup
+    shape.insert(axis, 1)
+    strides = arr.strides.dup
+    strides.insert(axis, 0)
+    arr.as_strided(shape, strides)
   end
 
   # Broadcasts two `Tensor`'s' to a new shape.  This allows
@@ -122,8 +214,13 @@ module Num
   @[AlwaysInline]
   def reshape(arr : Tensor(U, CPU(U)), shape : Array(Int)) forall U
     shape, strides = Num::Internal.strides_for_reshape(arr.shape, shape)
-    arr = arr.dup(Num::RowMajor) unless arr.is_c_contiguous
-    Tensor(U, CPU(U)).new(arr.data, shape, strides, arr.offset, U)
+    flags = arr.flags.dup
+    if arr.is_c_contiguous
+      flags &= ~Num::ArrayFlags::OwnData
+    else
+      arr = arr.dup(Num::RowMajor)
+    end
+    Tensor(U, CPU(U)).new(arr.data, shape, strides, arr.offset, flags, U)
   end
 
   # Transform's a `Tensor`'s shape.  If a view can be created,
@@ -271,6 +368,8 @@ module Num
   @[AlwaysInline]
   def transpose(arr : Tensor(U, CPU(U)), axes : Array(Int) = [] of Int32) forall U
     shape, strides = Num::Internal.shape_and_strides_for_transpose(arr.shape, arr.strides, axes)
+    flags = arr.flags.dup
+    flags &= ~Num::ArrayFlags::OwnData
     Tensor(U, CPU(U)).new(arr.data, shape, strides, arr.offset, U)
   end
 

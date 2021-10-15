@@ -49,6 +49,85 @@ class Tensor(T, S)
     Num.broadcast_to(self, shape)
   end
 
+  # Expands a `Tensor`s dimensions n times by broadcasting
+  # the shape and strides.  No data is copied, and the result
+  # is a read-only view of the original `Tensor`
+  #
+  # Arguments
+  # ---------
+  # *n* : Int
+  #   Number of dimensions to broadcast
+  #
+  # Examples
+  # --------
+  # ```
+  # a = [1, 2, 3].to_tensor
+  # a.with_broadcast(2)
+  #
+  # # [[[1]],
+  # #
+  # #  [[2]],
+  # #
+  # #  [[3]]]
+  # ```
+  def with_broadcast(n : Int) : Tensor(T, S)
+    Num.with_broadcast(self, n)
+  end
+
+  # Brief description of expanddims
+  #
+  # Arguments
+  # ---------
+  # axis : Int
+  #   Brief description of axis : Int
+  #
+  # Returns
+  # -------
+  # Tensor(T)
+  #
+  # Examples
+  # --------
+  def expand_dims(axis : Int) : Tensor(T, S)
+    Num.expand_dims(self, axis)
+  end
+
+  # `as_strided` creates a view into the `Tensor` given the exact strides
+  # and shape. This means it manipulates the internal data structure
+  # of a `Tensor` and, if done incorrectly, the array elements can point
+  # to invalid memory and can corrupt results or crash your program.
+  #
+  # It is advisable to always use the original `strides` when
+  # calculating new strides to avoid reliance on a contiguous
+  # memory layout.
+  #
+  #
+  # Furthermore, `Tensor`s created with this function often contain
+  # self overlapping memory, so that two elements are identical.
+  # Vectorized write operations on such `Tensor`s will typically be
+  # unpredictable. They may even give different results for small,
+  # large, or transposed `Tensor`s.
+  #
+  # Arguments
+  # ---------
+  # *shape*
+  #   Shape of the new `Tensor`
+  # *strides*
+  #   Strides of the new `Tensor`
+  #
+  # Examples
+  # --------
+  # ```
+  # a = Tensor.from_array [1, 2, 3]
+  # a.as_strided([3, 3], [0, 1])
+  #
+  # # [[1, 2, 3],
+  # #  [1, 2, 3],
+  # #  [1, 2, 3]]
+  # ```
+  def as_strided(shape : Array(Int), strides : Array(Int)) : Tensor(T, S)
+    Num.as_strided(self, shape, strides)
+  end
+
   # Broadcasts two `Tensor`'s' to a new shape.  This allows
   # for elementwise operations between the two Tensors with the
   # new shape.

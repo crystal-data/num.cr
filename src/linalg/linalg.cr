@@ -154,9 +154,9 @@ class Tensor(T, S)
     a = self.dup(Num::ColMajor)
     tau = Tensor(T, S).new([k])
     jpvt = Tensor(Int32, CPU(Int32)).new([1])
-    lapack(geqrf, m, n, a.to_unsafe, m, tau.to_unsafe)
+    lapack(geqrf, m, n, a.get_offset_ptr, m, tau.get_offset_ptr)
     r = a.triu
-    lapack(orgqr, m, n, k, a.to_unsafe, m, tau.to_unsafe)
+    lapack(orgqr, m, n, k, a.get_offset_ptr, m, tau.get_offset_ptr)
     {a, r}
   end
 
@@ -195,8 +195,8 @@ class Tensor(T, S)
     s = Tensor(T, S).new([mn])
     u = Tensor(T, S).new([m, m])
     vt = Tensor(T, S).new([n, n])
-    lapack(gesdd, 'A'.ord.to_u8, m, n, a.to_unsafe, m, s.to_unsafe, u.to_unsafe, m,
-      vt.to_unsafe, n, worksize: [{5*mn*mn + 5*mn, 2*mx*mn + 2*mn*mn + mn}.max, 8*mn])
+    lapack(gesdd, 'A'.ord.to_u8, m, n, a.get_offset_ptr, m, s.get_offset_ptr, u.get_offset_ptr, m,
+      vt.get_offset_ptr, n, worksize: [{5*mn*mn + 5*mn, 2*mx*mn + 2*mn*mn + mn}.max, 8*mn])
     {u.transpose, s, vt.transpose}
   end
 
@@ -227,9 +227,9 @@ class Tensor(T, S)
       'V'.ord.to_u8,
       'L'.ord.to_u8,
       n,
-      a.to_unsafe,
+      a.get_offset_ptr,
       n,
-      w.to_unsafe,
+      w.get_offset_ptr,
       worksize: 3 * n - 1
     )
     {w, a}
@@ -260,8 +260,8 @@ class Tensor(T, S)
     wl = wr.dup
     vl = Tensor(T, S).new([n, n])
     vr = wr.dup
-    lapack(geev, 'V'.ord.to_u8, 'V'.ord.to_u8, n, a.to_unsafe, n, wr.to_unsafe,
-      wl.to_unsafe, vl.to_unsafe, n, vr.to_unsafe, n, worksize: 3 * n)
+    lapack(geev, 'V'.ord.to_u8, 'V'.ord.to_u8, n, a.get_offset_ptr, n, wr.get_offset_ptr,
+      wl.get_offset_ptr, vl.get_offset_ptr, n, vr.get_offset_ptr, n, worksize: 3 * n)
     {wr, vl}
   end
 
@@ -286,7 +286,7 @@ class Tensor(T, S)
     a = dup(Num::ColMajor)
     n = a.shape[0]
     w = Tensor(T, S).new([n])
-    lapack(syev, 'N'.ord.to_u8, 'L'.ord.to_u8, n, a.to_unsafe, n, w.to_unsafe, worksize: 3 * n - 1)
+    lapack(syev, 'N'.ord.to_u8, 'L'.ord.to_u8, n, a.get_offset_ptr, n, w.get_offset_ptr, worksize: 3 * n - 1)
     w
   end
 
@@ -314,8 +314,8 @@ class Tensor(T, S)
     wl = wr.dup
     vl = Tensor(T, S).new([n, n])
     vr = wr.dup
-    lapack(geev, 'N'.ord.to_u8, 'N'.ord.to_u8, n, a.to_unsafe, n, wr.to_unsafe,
-      wl.to_unsafe, vl.to_unsafe, n, vr.to_unsafe, n, worksize: 3 * n)
+    lapack(geev, 'N'.ord.to_u8, 'N'.ord.to_u8, n, a.get_offset_ptr, n, wr.get_offset_ptr,
+      wl.get_offset_ptr, vl.get_offset_ptr, n, vr.get_offset_ptr, n, worksize: 3 * n)
     wr
   end
 
@@ -334,14 +334,14 @@ class Tensor(T, S)
   # t = [[0, 1], [1, 1], [1, 1], [2, 1]].to_tensor.as_type(Float32)
   # t.norm # => 3.6055512
   # ```
-  def norm(*, order = 'F')
+  def norm(order = 'F')
     self.assert_is_matrix
     a = self.dup(Num::ColMajor)
     m, n = a.shape
     result = Tensor(T, S).new([1])
     worksize = order == 'I' ? m : 0
-    r = lapack_util(lange, worksize, order.ord.to_u8, m, n, tensor(a.to_unsafe), m)
-    result.to_unsafe.value = r
+    r = lapack_util(lange, worksize, order.ord.to_u8, m, n, tensor(a.get_offset_ptr), m)
+    result.get_offset_ptr.value = r
     result
   end
 
@@ -364,7 +364,7 @@ class Tensor(T, S)
 
     result = Tensor(T, S).new([1])
 
-    lapack(getrf, m, n, a.to_unsafe, n, ipiv)
+    lapack(getrf, m, n, a.get_offset_ptr, n, ipiv)
 
     ldet = T.new(1)
     a.diagonal.each do |el|
@@ -378,7 +378,7 @@ class Tensor(T, S)
       end
     end
 
-    result.to_unsafe.value = ldet * detp
+    result.get_offset_ptr.value = ldet * detp
     result
   end
 
@@ -404,8 +404,8 @@ class Tensor(T, S)
     a = dup(Num::ColMajor)
     n = a.shape[0]
     ipiv = Pointer(Int32).malloc(n)
-    lapack(getrf, n, n, a.to_unsafe, n, ipiv)
-    lapack(getri, n, a.to_unsafe, n, ipiv, worksize: n * n)
+    lapack(getrf, n, n, a.get_offset_ptr, n, ipiv)
+    lapack(getri, n, a.get_offset_ptr, n, ipiv, worksize: n * n)
     a
   end
 
@@ -435,7 +435,7 @@ class Tensor(T, S)
     n = a.shape[0]
     m = x.rank > 1 ? x.shape[1] : x.shape[0]
     ipiv = Pointer(Int32).malloc(n)
-    lapack(gesv, n, m, a.to_unsafe, n, ipiv, x.to_unsafe, m)
+    lapack(gesv, n, m, a.get_offset_ptr, n, ipiv, x.get_offset_ptr, m)
     x
   end
 
@@ -479,9 +479,9 @@ class Tensor(T, S)
     s = of_real_type(n)
     ilo = 0
     ihi = 0
-    lapack(gebal, 'B'.ord.to_u8, n, a.to_unsafe_c, n, ilo, ihi, s.to_unsafe_c)
+    lapack(gebal, 'B'.ord.to_u8, n, a.get_offset_ptr_c, n, ilo, ihi, s.get_offset_ptr_c)
     tau = Tensor(T).new([n])
-    lapack(gehrd, n, ilo, ihi, a.to_unsafe_c, n, tau.to_unsafe_c)
+    lapack(gehrd, n, ilo, ihi, a.get_offset_ptr_c, n, tau.get_offset_ptr_c)
     a.triu(-1)
   end
 
@@ -505,17 +505,17 @@ class Tensor(T, S)
     result = Tensor(T, S).new([1])
 
     {% if S < OCL %}
-      blast(dot, @size, result.to_unsafe, 0, self.to_unsafe, @offset, @strides[0], u.to_unsafe, u.offset, u.strides[0])
+      blast(dot, @size, result.get_offset_ptr, 0, self.get_offset_ptr, @offset, @strides[0], u.get_offset_ptr, u.offset, u.strides[0])
     {% else %}
       dotvalue = blas_call(
         dot,
         @size,
-        self.to_unsafe,
+        self.get_offset_ptr,
         @strides[0],
-        u.to_unsafe,
+        u.get_offset_ptr,
         u.strides[0]
       )
-      result.to_unsafe.value = dotvalue
+      result.get_offset_ptr.value = dotvalue
     {% end %}
     result
   end
@@ -584,14 +584,14 @@ class Tensor(T, S)
         n,
         k,
         T.new(1.0),
-        self.to_unsafe,
+        self.get_offset_ptr,
         @offset,
         k,
-        other.to_unsafe,
+        other.get_offset_ptr,
         other.offset,
         n,
         0.0,
-        result.to_unsafe,
+        result.get_offset_ptr,
         0,
         n
       )
@@ -624,12 +624,12 @@ class Tensor(T, S)
         n,
         k,
         blas_const(alpha),
-        a.to_unsafe,
+        a.get_offset_ptr,
         lda,
-        b.to_unsafe,
+        b.get_offset_ptr,
         ldb,
         blas_const(c_alpha),
-        dest.to_unsafe,
+        dest.get_offset_ptr,
         dest.shape[1]
       )
       dest

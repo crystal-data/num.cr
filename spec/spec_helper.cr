@@ -1,6 +1,8 @@
 require "spec"
 require "../src/api"
 
+Num::Rand.set_seed(101)
+
 module Num::Testing
   extend self
 

@@ -27,7 +27,7 @@ module Num::NN
   def mse_backwards(
     gradient : Tensor(U, CPU(U)),
     cache : Tensor(U, CPU(U)),
-    target : Tensor(U, CPU(U)),
+    target : Tensor(U, CPU(U))
   ) forall U
     norm = gradient.value * 2 / gradient.size
     result = cache.map(target) do |x, y|

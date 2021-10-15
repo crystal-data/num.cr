@@ -56,6 +56,17 @@ class Tensor(T, S)
   # ```
   getter size : Int32
 
+  # Returns the flags of a Tensor, describing its memory
+  # and read status
+  #
+  # ```
+  # a = Tensor(Float32, CPU(Float32)).new([2, 3, 4])
+  # b = a[..., 1]
+  # a.flags # => CONTIGUOUS | OWNDATA | WRITE
+  # b.flags # => WRITE
+  # ```
+  getter flags : Num::ArrayFlags
+
   # Returns the number of dimensions in a Tensor
   #
   # ```
@@ -79,6 +90,11 @@ class Tensor(T, S)
   # :nodoc:
   def to_unsafe
     @data.to_unsafe
+  end
+
+  # :nodoc:
+  def get_offset_ptr
+    self.to_unsafe + self.offset
   end
 
   private macro assert_types
@@ -118,5 +134,29 @@ class Tensor(T, S)
       s *= d
     end
     true
+  end
+
+  private def update_flags(m : Num::ArrayFlags = Num::ArrayFlags::All)
+    if m.fortran?
+      if is_f_contiguous
+        @flags |= Num::ArrayFlags::Fortran
+        if self.rank > 1
+          @flags &= ~Num::ArrayFlags::Contiguous
+        end
+      else
+        @flags &= ~Num::ArrayFlags::Fortran
+      end
+    end
+    if m.contiguous?
+      if is_c_contiguous
+        @flags |= Num::ArrayFlags::Contiguous
+
+        if self.rank > 1
+          @flags &= ~Num::ArrayFlags::Fortran
+        end
+      else
+        @flags &= ~Num::ArrayFlags::Contiguous
+      end
+    end
   end
 end

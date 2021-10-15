@@ -32,5 +32,6 @@ struct Number
   op add, :+
   op divide, :/
   op multiply, :*
+  op subtract, :-
   op power, :**
 end

@@ -21,40 +21,20 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "../spec_helper"
+describe Num::NN do
+  it "calculates softmax cross entropy loss" do
+    predicted = [-3.44, 1.16, -0.81, 3.91].to_tensor.reshape(1, 4)
+    truth = [0, 0, 0, 1].to_tensor.as_type(Float64).reshape(1, 4)
 
-describe Num::Grad do
-  it "backpropogates for matrix multiplication" do
-    ctx = Num::Grad::Context(Float32Tensor).new
+    sce_loss = Num::NN.softmax_cross_entropy(predicted, truth)
 
-    at = [[1, 2] of Float32, [3, 4] of Float32].to_tensor
-    bt = [[1, 2] of Float32, [3, 4] of Float32].to_tensor
+    sce_loss.value.should be_close(0.0709, 1e-4)
 
-    a = ctx.variable(at)
-    b = ctx.variable(bt)
+    prok = ->(pred : Float64Tensor) { Num::NN.softmax_cross_entropy(pred, truth).value }
+    expected_grad = sce_loss * Num::NN.numerical_gradient(predicted, prok)
 
-    result = a.matmul(b)
-    result.backprop
+    grad = Num::NN.softmax_cross_entropy_backward(sce_loss, predicted, truth)
 
-    expected = [[3, 7], [3, 7]].to_tensor
-
-    Num::Testing.tensor_equal(a.grad, expected)
-  end
-
-  it "backpropogates for matrix multiplication opencl", tags: ["opencl", "clblast"] do
-    ctx = Num::Grad::Context(Float32ClTensor).new
-
-    at = [[1, 2] of Float32, [3, 4] of Float32].to_tensor(OCL)
-    bt = [[1, 2] of Float32, [3, 4] of Float32].to_tensor(OCL)
-
-    a = ctx.variable(at)
-    b = ctx.variable(bt)
-
-    result = a.matmul(b)
-    result.backprop
-
-    expected = [[3, 7], [3, 7]].to_tensor
-
-    Num::Testing.tensor_equal(a.grad.cpu, expected)
+    Num::NN.mean_relative_error(grad[0], expected_grad).should be < 1e-6
   end
 end
