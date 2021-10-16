@@ -123,6 +123,7 @@ module Num::Einsum
 
   private def multiple_einsum_dispatch(sc : SizedContraction, lhs, rhs)
     strategy = PairSummary.new(sc).get_strategy
+    puts strategy
     case strategy
     when PairMethod::HadamardProductGeneral
       op = HadamardProductGeneral.new(sc)
@@ -173,5 +174,9 @@ module Num::Einsum
 
   def einsum(input_string : String, *operands : Tensor(U, CPU(U))) forall U
     einsum_dispatcher(input_string, operands.to_a)
+  end
+
+  def einsum(input_string : String, operands : Array(Tensor(U, CPU(U)))) forall U
+    einsum_dispatcher(input_string, operands)
   end
 end

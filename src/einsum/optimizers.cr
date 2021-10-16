@@ -187,7 +187,7 @@ module Num::Einsum
     else
       steps = [] of Num::Einsum::Pair
       output_indices = permuted_contraction.contraction.operand_indices[0].dup
-      n = permuted_contraction.contraction.operand_indices[0].size - 1
+      n = permuted_contraction.contraction.operand_indices.size - 1
 
       (0...n).each do |idx_of_lhs|
         lhs_indices = output_indices.dup

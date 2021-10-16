@@ -495,6 +495,6 @@ struct Num::Einsum::StackedTensordotGeneral < Num::Einsum::PairContractor
       )
     end
 
-    intermediate_result
+    @output_permutation.contract(intermediate_result.reshape(@output_shape))
   end
 end
