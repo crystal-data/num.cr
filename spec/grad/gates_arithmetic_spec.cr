@@ -38,19 +38,21 @@ describe Num::Grad do
     Num::Testing.tensor_equal(a.grad, expected).should be_true
   end
 
-  it "backpropogates for addition opencl", tags: "opencl" do
-    ctx = Num::Grad::Context(Float32ClTensor).new
+  {% if flag?(:opencl) %}
+    it "backpropogates for addition opencl", tags: "opencl" do
+      ctx = Num::Grad::Context(Float32ClTensor).new
 
-    a = ctx.variable([1.0_f32].to_tensor(OCL))
-    b = ctx.variable([1.0_f32].to_tensor(OCL))
+      a = ctx.variable([1.0_f32].to_tensor(OCL))
+      b = ctx.variable([1.0_f32].to_tensor(OCL))
 
-    result = a + b
-    result.backprop
+      result = a + b
+      result.backprop
 
-    expected = [1_f32].to_tensor
+      expected = [1_f32].to_tensor
 
-    Num::Testing.tensor_equal(a.grad.cpu, expected).should be_true
-  end
+      Num::Testing.tensor_equal(a.grad.cpu, expected).should be_true
+    end
+  {% end %}
 
   it "backpropogates for subtraction" do
     ctx = Num::Grad::Context(Float32Tensor).new
@@ -66,19 +68,21 @@ describe Num::Grad do
     Num::Testing.tensor_equal(a.grad, expected).should be_true
   end
 
-  it "backpropogates for subtraction opencl", tags: "opencl" do
-    ctx = Num::Grad::Context(Float32ClTensor).new
+  {% if flag?(:opencl) %}
+    it "backpropogates for subtraction opencl", tags: "opencl" do
+      ctx = Num::Grad::Context(Float32ClTensor).new
 
-    a = ctx.variable([1.0_f32].to_tensor(OCL))
-    b = ctx.variable([1.0_f32].to_tensor(OCL))
+      a = ctx.variable([1.0_f32].to_tensor(OCL))
+      b = ctx.variable([1.0_f32].to_tensor(OCL))
 
-    result = a - b
-    result.backprop
+      result = a - b
+      result.backprop
 
-    expected = [1_f32].to_tensor
+      expected = [1_f32].to_tensor
 
-    Num::Testing.tensor_equal(a.grad.cpu, expected).should be_true
-  end
+      Num::Testing.tensor_equal(a.grad.cpu, expected).should be_true
+    end
+  {% end %}
 
   it "backpropogates for multiplication" do
     ctx = Num::Grad::Context(Float32Tensor).new
@@ -94,19 +98,21 @@ describe Num::Grad do
     Num::Testing.tensor_equal(a.grad, expected).should be_true
   end
 
-  it "backpropogates for multiplication opencl", tags: "opencl" do
-    ctx = Num::Grad::Context(Float32ClTensor).new
+  {% if flag?(:opencl) %}
+    it "backpropogates for multiplication opencl", tags: "opencl" do
+      ctx = Num::Grad::Context(Float32ClTensor).new
 
-    a = ctx.variable([3.0_f32].to_tensor(OCL))
-    b = ctx.variable([2.0_f32].to_tensor(OCL))
+      a = ctx.variable([3.0_f32].to_tensor(OCL))
+      b = ctx.variable([2.0_f32].to_tensor(OCL))
 
-    result = a * b
-    result.backprop
+      result = a * b
+      result.backprop
 
-    expected = [2_f32].to_tensor
+      expected = [2_f32].to_tensor
 
-    Num::Testing.tensor_equal(a.grad.cpu, expected).should be_true
-  end
+      Num::Testing.tensor_equal(a.grad.cpu, expected).should be_true
+    end
+  {% end %}
 
   it "backpropogates for division" do
     ctx = Num::Grad::Context(Float32Tensor).new
@@ -122,19 +128,21 @@ describe Num::Grad do
     Num::Testing.tensor_equal(a.grad, expected).should be_true
   end
 
-  it "backpropogates for division opencl", tags: "opencl" do
-    ctx = Num::Grad::Context(Float32ClTensor).new
+  {% if flag?(:opencl) %}
+    it "backpropogates for division opencl", tags: "opencl" do
+      ctx = Num::Grad::Context(Float32ClTensor).new
 
-    a = ctx.variable([3.0_f32].to_tensor(OCL))
-    b = ctx.variable([2.0_f32].to_tensor(OCL))
+      a = ctx.variable([3.0_f32].to_tensor(OCL))
+      b = ctx.variable([2.0_f32].to_tensor(OCL))
 
-    result = a / b
-    result.backprop
+      result = a / b
+      result.backprop
 
-    expected = [0.5_f32].to_tensor
+      expected = [0.5_f32].to_tensor
 
-    Num::Testing.tensor_equal(a.grad.cpu, expected).should be_true
-  end
+      Num::Testing.tensor_equal(a.grad.cpu, expected).should be_true
+    end
+  {% end %}
 
   it "backpropogates for exponentiation" do
     ctx = Num::Grad::Context(Float32Tensor).new
@@ -150,17 +158,19 @@ describe Num::Grad do
     Num::Testing.tensor_equal(a.grad, expected).should be_true
   end
 
-  it "backpropogates for exponentiation opencl", tags: "opencl" do
-    ctx = Num::Grad::Context(Float32ClTensor).new
+  {% if flag?(:opencl) %}
+    it "backpropogates for exponentiation opencl", tags: "opencl" do
+      ctx = Num::Grad::Context(Float32ClTensor).new
 
-    a = ctx.variable([3.0_f32].to_tensor(OCL))
-    b = ctx.variable([2.0_f32].to_tensor(OCL))
+      a = ctx.variable([3.0_f32].to_tensor(OCL))
+      b = ctx.variable([2.0_f32].to_tensor(OCL))
 
-    result = a ** b
-    result.backprop
+      result = a ** b
+      result.backprop
 
-    expected = [6_f32].to_tensor
+      expected = [6_f32].to_tensor
 
-    Num::Testing.tensor_equal(a.grad.cpu, expected).should be_true
-  end
+      Num::Testing.tensor_equal(a.grad.cpu, expected).should be_true
+    end
+  {% end %}
 end

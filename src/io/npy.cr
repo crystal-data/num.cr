@@ -77,7 +77,9 @@ class Tensor(T, S)
     when "<f8"
       read_cast_return Float64, file, output_size, shape
     else
-      raise "Dtype #{dtype} is not currently supported by Num.cr"
+      raise Num::Exceptions::ValueError.new(
+        "Dtype #{dtype} is not currently supported by Num.cr"
+      )
     end
   end
 

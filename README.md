@@ -48,6 +48,7 @@ They are:
 - LAPACK
 - OpenCL
 - ClBlast
+- NNPACK
 
 While not at all required, they provide additional functionality than is
 provided by the basic library.
@@ -67,11 +68,11 @@ allocate a `Tensor` backed by either `CPU` or `GPU` based storage.
 ```crystal
 [1, 2, 3].to_tensor
 Tensor.from_array [1, 2, 3]
-Tensor(UInt8).zeros([3, 3, 2])
+Tensor(UInt8, CPU(UInt8)).zeros([3, 3, 2])
 Tensor.random(0.0...1.0, [2, 2, 2])
 
-ClTensor(Float32).zeros([3, 2, 2])
-ClTensor(Float64).full([3, 4, 5], 3.8)
+Tensor(Float32, OCL(Float32)).zeros([3, 2, 2])
+Tensor(Float64, OCL(Float64)).full([3, 4, 5], 3.8)
 ```
 
 ### Operations
@@ -84,10 +85,7 @@ one or more `Tensor`s using sophisticated broadcasted mapping routines.
 a = [1, 2, 3, 4].to_tensor
 b = [[3, 4, 5, 6], [5, 6, 7, 8]].to_tensor
 
-# Convert a Tensor to a GPU backed Tensor
-acl = a.astype(Float64).gpu
-
-puts Num.add(a, b)
+puts a + b
 
 # a is broadcast to b's shape
 # [[ 4,  6,  8, 10],
@@ -173,18 +171,44 @@ puts a.eigvals
 
 # [-0.372281, 5.37228  ]
 
-acl = a.opencl
-bcl = a.opencl
-
-puts acl.gemm(bcl).cpu
-
-# [[7 , 10],
-#  [15, 22]]
-
 puts a.matmul(a)
 
 # [[7 , 10],
 #  [15, 22]]
+```
+
+### Einstein Notation
+
+For representing certain complex contractions of `Tensor`s, Einstein notation
+can be used to simplify the operation.  For example, the following matrix
+multiplication + summation operation:
+
+```
+a = Tensor.new([30, 40, 50]) { |i| i * 1_f32 }
+b = Tensor.new([40, 30, 20]) { |i| i * 1_f32 }
+
+result = Float32Tensor.zeros([50, 20])
+ny, nx = result.shape
+b2 = b.swap_axes(0, 1)
+ny.times do |k|
+  nx.times do |l|
+    result[k, l] = (a[..., ..., k] * b2[..., ..., l]).sum
+  end
+end
+```
+
+Can instead be represented in Einstein notiation as the following:
+
+```
+Num::Einsum.einsum("ijk,jil->kl", a, b)
+```
+
+This can lead to performance improvements due to optimized contractions
+on `Tensor`s.
+
+```
+einsum   2.22k   (450.41µs) (± 0.86%)   350kB/op        fastest
+manual   117.52  (  8.51ms) (± 0.98%)  5.66MB/op  18.89× slower
 ```
 
 ### Machine Learning
@@ -194,10 +218,10 @@ mathematical functions.  Use a `Num::Grad::Variable` with a `Num::Grad::Context`
 to easily compute these derivatives.
 
 ```crystal
-ctx = Num::Grad::Context(Tensor(Float64)).new
+ctx = Num::Grad::Context(Tensor(Float64, CPU(Float64))).new
 
-x = ctx.variable([3.0])
-y = ctx.variable([2.0])
+x = ctx.variable([3.0].to_tensor)
+y = ctx.variable([2.0].to_tensor)
 
 # f(x) = x ** y
 f = x ** y
@@ -214,7 +238,7 @@ interface to assist in creating neural networks.  Designing and creating
 a network is simple using Crystal's block syntax.
 
 ```crystal
-ctx = Num::Grad::Context(Tensor(Float64)).new
+ctx = Num::Grad::Context(Tensor(Float64, CPU(Float64))).new
 
 x_train = [[0.0, 0.0], [1.0, 0.0], [0.0, 1.0], [1.0, 1.0]].to_tensor
 y_train = [[0.0], [1.0], [1.0], [0.0]].to_tensor

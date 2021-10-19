@@ -37,7 +37,8 @@ end
 
 def correct_output_size(einsum_string : String, operands : Array(Tensor(Float64, CPU(Float64))))
   sc = Num::Einsum::SizedContraction.new(einsum_string, operands)
-  terms = einsum_string.split("->")[1].chars
+  full_einsum_string = sc.as_einsum_string
+  terms = full_einsum_string.split("->")[1].chars
   terms.map { |c| DIMENSION_DICT[c] }
 end
 
@@ -66,14 +67,14 @@ describe Num::Einsum do
     "abcd,ea,fb,gc,hd->efgh",
 
     # # Test complex contractions
-    # "acdf,jbje,gihb,hfac,gfac,gifabc,hfac",
-    # "acdf,jbje,gihb,hfac,gfac,gifabc,hfac",
-    # "cd,bdhe,aidb,hgca,gc,hgibcd,hgac",
-    # "abhe,hidj,jgba,hiab,gab",
-    # "bde,cdh,agdb,hica,ibd,hgicd,hiac",
-    # "chd,bde,agbc,hiad,hgc,hgi,hiad",
-    # "chd,bde,agbc,hiad,bdi,cgh,agdb",
-    # "bdhe,acad,hiab,agac,hibd",
+    "acdf,jbje,gihb,hfac,gfac,gifabc,hfac",
+    "acdf,jbje,gihb,hfac,gfac,gifabc,hfac",
+    "cd,bdhe,aidb,hgca,gc,hgibcd,hgac",
+    "abhe,hidj,jgba,hiab,gab",
+    "bde,cdh,agdb,hica,ibd,hgicd,hiac",
+    "chd,bde,agbc,hiad,hgc,hgi,hiad",
+    "chd,bde,agbc,hiad,bdi,cgh,agdb",
+    "bdhe,acad,hiab,agac,hibd",
 
     # Test collapse
     "ab,ab,c->c",
@@ -89,51 +90,51 @@ describe Num::Einsum do
     "ab,bcd,cd->abd",
     #
     # # Random test cases that have previously failed
-    # "eb,cb,fb->cef",
-    # "dd,fb,be,cdb->cef",
-    # "bca,cdb,dbf,afc->",
-    # "dcc,fce,ea,dbf->ab",
-    # "fdf,cdd,ccd,afe->ae",
-    # "abcd,ad",
-    # "ed,fcd,ff,bcf->be",
-    # "baa,dcf,af,cde->be",
-    # "bd,db,eac->ace",
-    # "fff,fae,bef,def->abd",
-    # "efc,dbc,acf,fd->abe",
+    "eb,cb,fb->cef",
+    "dd,fb,be,cdb->cef",
+    "bca,cdb,dbf,afc->",
+    "dcc,fce,ea,dbf->ab",
+    "fdf,cdd,ccd,afe->ae",
+    "abcd,ad",
+    "ed,fcd,ff,bcf->be",
+    "baa,dcf,af,cde->be",
+    "bd,db,eac->ace",
+    "fff,fae,bef,def->abd",
+    "efc,dbc,acf,fd->abe",
     #
     # # Inner products
-    # "ab,ab",
-    # "ab,ba",
-    # "abc,abc",
-    # "abc,bac",
-    # "abc,cba",
+    "ab,ab",
+    "ab,ba",
+    "abc,abc",
+    "abc,bac",
+    "abc,cba",
     #
     # # GEMM test cases
-    # "ab,bc",
-    # "ab,cb",
-    # "ba,bc",
-    # "ba,cb",
-    # "abcd,cd",
-    # "abcd,ab",
-    # "abcd,cdef",
-    # "abcd,cdef->feba",
-    # "abcd,efdc",
+    "ab,bc",
+    "ab,cb",
+    "ba,bc",
+    "ba,cb",
+    "abcd,cd",
+    "abcd,ab",
+    "abcd,cdef",
+    "abcd,cdef->feba",
+    "abcd,efdc",
     #
     # # Inner than dot
-    # "aab,bc->ac",
-    # "ab,bcc->ac",
-    # "aab,bcc->ac",
-    # "baa,bcc->ac",
-    # "aab,ccb->ac",
+    "aab,bc->ac",
+    "ab,bcc->ac",
+    "aab,bcc->ac",
+    "baa,bcc->ac",
+    "aab,ccb->ac",
     #
     # # Randomly build test caes
-    # "aab,fa,df,ecc->bde",
-    # "ecb,fef,bad,ed->ac",
-    # "bb,ff,be->e",
-    # "afd,ba,cc,dc->bf",
-    # "adb,bc,fa,cfc->d",
-    # "bbd,bda,fc,db->acf",
-    # "dba,ead,cad->bce",
-    # "aef,fbc,dca->bde",
+    "aab,fa,df,ecc->bde",
+    "ecb,fef,bad,ed->ac",
+    "bb,ff,be->e",
+    "afd,ba,cc,dc->bf",
+    "adb,bc,fa,cfc->d",
+    "bbd,bda,fc,db->acf",
+    "dba,ead,cad->bce",
+    "aef,fbc,dca->bde",
   ]
 end

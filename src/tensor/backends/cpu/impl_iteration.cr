@@ -429,7 +429,8 @@ module Num
     Tensor(U, V).new(a.data, shape, strides, offset)
   end
 
-  private def normalize_axis_index(axis : Int, rank : Int)
+  # :nodoc:
+  def normalize_axis_index(axis : Int, rank : Int)
     axis = rank + axis if axis < 0
     raise "Axis out of range for Tensor" if axis >= rank
     return axis

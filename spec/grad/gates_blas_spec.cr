@@ -41,20 +41,22 @@ describe Num::Grad do
     Num::Testing.tensor_equal(a.grad, expected)
   end
 
-  it "backpropogates for matrix multiplication opencl", tags: ["opencl", "clblast"] do
-    ctx = Num::Grad::Context(Float32ClTensor).new
+  {% if flag?(:opencl) %}
+    it "backpropogates for matrix multiplication opencl", tags: ["opencl", "clblast"] do
+      ctx = Num::Grad::Context(Float32ClTensor).new
 
-    at = [[1, 2] of Float32, [3, 4] of Float32].to_tensor(OCL)
-    bt = [[1, 2] of Float32, [3, 4] of Float32].to_tensor(OCL)
+      at = [[1, 2] of Float32, [3, 4] of Float32].to_tensor(OCL)
+      bt = [[1, 2] of Float32, [3, 4] of Float32].to_tensor(OCL)
 
-    a = ctx.variable(at)
-    b = ctx.variable(bt)
+      a = ctx.variable(at)
+      b = ctx.variable(bt)
 
-    result = a.matmul(b)
-    result.backprop
+      result = a.matmul(b)
+      result.backprop
 
-    expected = [[3, 7], [3, 7]].to_tensor
+      expected = [[3, 7], [3, 7]].to_tensor
 
-    Num::Testing.tensor_equal(a.grad.cpu, expected)
-  end
+      Num::Testing.tensor_equal(a.grad.cpu, expected)
+    end
+  {% end %}
 end

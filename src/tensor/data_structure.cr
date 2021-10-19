@@ -97,6 +97,14 @@ class Tensor(T, S)
     self.to_unsafe + self.offset
   end
 
+  def get_offset_ptr_c
+    {% if T == Complex %}
+      self.get_offset_ptr.as(LibCblas::ComplexDouble*)
+    {% else %}
+      self.get_offset_ptr
+    {% end %}
+  end
+
   private macro assert_types
     {% if T != S.type_vars[0] %}
       {% raise "A Tensor and it's storage must share the same dtype" %}

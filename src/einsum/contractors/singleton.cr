@@ -21,23 +21,23 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-abstract struct Num::Einsum::SingletonViewer
-  abstract def view(arr : Tensor(U, CPU(U))) forall U
-end
+# abstract struct Num::Einsum::SingletonViewer
+#   abstract def view(arr : Tensor(U, CPU(U))) forall U
+# end
 
 abstract struct Num::Einsum::SingletonContractor
   abstract def contract(arr : Tensor(U, CPU(U))) forall U
 end
 
-abstract struct Num::Einsum::SingletonViewerAndContractor
-  abstract def view(arr : Tensor(U, CPU(U))) forall U
-  abstract def contract(arr : Tensor(U, CPU(U))) forall U
-end
+# abstract struct Num::Einsum::SingletonViewerAndContractor
+#   abstract def view(arr : Tensor(U, CPU(U))) forall U
+#   abstract def contract(arr : Tensor(U, CPU(U))) forall U
+# end
 
 # Returns a view or clone of the input tensor.
 #
 # Example: `ij->ij`
-struct Num::Einsum::Identity < Num::Einsum::SingletonViewerAndContractor
+struct Num::Einsum::Identity < Num::Einsum::SingletonContractor
   def contract(arr : Tensor(U, CPU(U))) forall U
     arr.dup(Num::RowMajor)
   end
@@ -51,7 +51,7 @@ end
 # the elements.
 #
 # Example: `ij->ji`
-struct Num::Einsum::Permutation < Num::Einsum::SingletonViewerAndContractor
+struct Num::Einsum::Permutation < Num::Einsum::SingletonContractor
   @permutation : Array(Int32)
 
   def initialize(sc : Num::Einsum::SizedContraction)

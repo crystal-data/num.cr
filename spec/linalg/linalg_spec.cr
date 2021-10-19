@@ -213,14 +213,16 @@ describe Tensor do
     Num::Testing.tensor_equal(b, expected).should be_true
   end
 
-  it "calculates the dot product of two vectors opencl", tags: ["clblast", "opencl"] do
-    a = [1_f32, 2_f32, 3_f32, 4_f32, 5_f32].to_tensor(OCL)
-    b = a.dot(a)
+  {% if flag?(:opencl) %}
+    it "calculates the dot product of two vectors opencl", tags: ["clblast", "opencl"] do
+      a = [1_f32, 2_f32, 3_f32, 4_f32, 5_f32].to_tensor(OCL)
+      b = a.dot(a)
 
-    expected = [55.0].to_tensor
+      expected = [55.0].to_tensor
 
-    Num::Testing.tensor_equal(b.cpu, expected).should be_true
-  end
+      Num::Testing.tensor_equal(b.cpu, expected).should be_true
+    end
+  {% end %}
 
   it "calculates the dot product of two matrices", tags: "blas" do
     a = [[1, 1], [1, 1]].to_tensor.as_type(Float32)
@@ -231,12 +233,14 @@ describe Tensor do
     Num::Testing.tensor_equal(b, expected).should be_true
   end
 
-  it "calculates the dot product of two matrices opencl", tags: ["clblast", "opencl"] do
-    a = [[1, 1] of Float32, [1, 1] of Float32].to_tensor(OCL)
-    b = a.matmul(a)
+  {% if flag?(:opencl) %}
+    it "calculates the dot product of two matrices opencl", tags: ["clblast", "opencl"] do
+      a = [[1, 1] of Float32, [1, 1] of Float32].to_tensor(OCL)
+      b = a.matmul(a)
 
-    expected = [[2, 2], [2, 2]].to_tensor
+      expected = [[2, 2], [2, 2]].to_tensor
 
-    Num::Testing.tensor_equal(b.cpu, expected).should be_true
-  end
+      Num::Testing.tensor_equal(b.cpu, expected).should be_true
+    end
+  {% end %}
 end

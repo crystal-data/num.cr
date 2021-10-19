@@ -128,6 +128,9 @@ class Tensor(T, S)
   # #  [ 2, 99]]
   # ```
   def []=(*args : *U) forall U
+    unless @flags.write?
+      raise Num::Exceptions::ValueError.new("Tensor is read-only")
+    end
     {% begin %}
        set(
          {% for i in 0...U.size - 1 %}
@@ -164,6 +167,9 @@ class Tensor(T, S)
   # #  [ 2, 99]]
   # ```
   def []=(args : Array, value)
+    unless @flags.write?
+      raise Num::Exceptions::ValueError.new("Tensor is read-only")
+    end
     Num.set(self, args, value)
   end
 

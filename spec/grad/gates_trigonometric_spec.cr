@@ -38,19 +38,21 @@ describe Num::Grad do
     Num::Testing.tensor_equal(x.grad, expected).should be_true
   end
 
-  it "backpropogates for sin opencl", tags: "opencl" do
-    ctx = Num::Grad::Context(Tensor(Float32, OCL(Float32))).new
+  {% if flag?(:opencl) %}
+    it "backpropogates for sin opencl", tags: "opencl" do
+      ctx = Num::Grad::Context(Tensor(Float32, OCL(Float32))).new
 
-    a = [1_f32].to_tensor(OCL)
-    x = ctx.variable(a)
+      a = [1_f32].to_tensor(OCL)
+      x = ctx.variable(a)
 
-    result = x.sin
-    result.backprop
+      result = x.sin
+      result.backprop
 
-    expected = [Math.cos(1)].to_tensor
+      expected = [Math.cos(1)].to_tensor
 
-    Num::Testing.tensor_equal(x.grad.cpu, expected).should be_true
-  end
+      Num::Testing.tensor_equal(x.grad.cpu, expected).should be_true
+    end
+  {% end %}
 
   it "backpropogates for cos" do
     ctx = Num::Grad::Context(Tensor(Float32, CPU(Float32))).new
@@ -66,19 +68,21 @@ describe Num::Grad do
     Num::Testing.tensor_equal(x.grad, expected).should be_true
   end
 
-  it "backpropogates for cos opencl", tags: "opencl" do
-    ctx = Num::Grad::Context(Tensor(Float32, OCL(Float32))).new
+  {% if flag?(:opencl) %}
+    it "backpropogates for cos opencl", tags: "opencl" do
+      ctx = Num::Grad::Context(Tensor(Float32, OCL(Float32))).new
 
-    a = [1_f32].to_tensor(OCL)
-    x = ctx.variable(a)
+      a = [1_f32].to_tensor(OCL)
+      x = ctx.variable(a)
 
-    result = x.cos
-    result.backprop
+      result = x.cos
+      result.backprop
 
-    expected = [-Math.sin(1)].to_tensor
+      expected = [-Math.sin(1)].to_tensor
 
-    Num::Testing.tensor_equal(x.grad.cpu, expected).should be_true
-  end
+      Num::Testing.tensor_equal(x.grad.cpu, expected).should be_true
+    end
+  {% end %}
 
   it "backpropogates for tan" do
     ctx = Num::Grad::Context(Tensor(Float32, CPU(Float32))).new
@@ -94,19 +98,21 @@ describe Num::Grad do
     Num::Testing.tensor_equal(x.grad, expected).should be_true
   end
 
-  it "backpropogates for tan opencl", tags: "opencl" do
-    ctx = Num::Grad::Context(Tensor(Float32, OCL(Float32))).new
+  {% if flag?(:opencl) %}
+    it "backpropogates for tan opencl", tags: "opencl" do
+      ctx = Num::Grad::Context(Tensor(Float32, OCL(Float32))).new
 
-    a = [1_f32].to_tensor(OCL)
-    x = ctx.variable(a)
+      a = [1_f32].to_tensor(OCL)
+      x = ctx.variable(a)
 
-    result = x.tan
-    result.backprop
+      result = x.tan
+      result.backprop
 
-    expected = [1 / (Math.cos(1) ** 2)].to_tensor
+      expected = [1 / (Math.cos(1) ** 2)].to_tensor
 
-    Num::Testing.tensor_equal(x.grad.cpu, expected).should be_true
-  end
+      Num::Testing.tensor_equal(x.grad.cpu, expected).should be_true
+    end
+  {% end %}
 
   it "backpropogates for asin" do
     ctx = Num::Grad::Context(Tensor(Float32, CPU(Float32))).new
@@ -122,19 +128,21 @@ describe Num::Grad do
     Num::Testing.tensor_equal(x.grad, expected).should be_true
   end
 
-  it "backpropogates for asin opencl", tags: "opencl" do
-    ctx = Num::Grad::Context(Tensor(Float32, OCL(Float32))).new
+  {% if flag?(:opencl) %}
+    it "backpropogates for asin opencl", tags: "opencl" do
+      ctx = Num::Grad::Context(Tensor(Float32, OCL(Float32))).new
 
-    a = [0.5_f32].to_tensor(OCL)
-    x = ctx.variable(a)
+      a = [0.5_f32].to_tensor(OCL)
+      x = ctx.variable(a)
 
-    result = x.asin
-    result.backprop
+      result = x.asin
+      result.backprop
 
-    expected = [1 / Math.sqrt(1 - 0.5 ** 2)].to_tensor
+      expected = [1 / Math.sqrt(1 - 0.5 ** 2)].to_tensor
 
-    Num::Testing.tensor_equal(x.grad.cpu, expected).should be_true
-  end
+      Num::Testing.tensor_equal(x.grad.cpu, expected).should be_true
+    end
+  {% end %}
 
   it "backpropogates for acos" do
     ctx = Num::Grad::Context(Tensor(Float32, CPU(Float32))).new
@@ -150,19 +158,21 @@ describe Num::Grad do
     Num::Testing.tensor_equal(x.grad, expected).should be_true
   end
 
-  it "backpropogates for acos opencl", tags: "opencl" do
-    ctx = Num::Grad::Context(Tensor(Float32, OCL(Float32))).new
+  {% if flag?(:opencl) %}
+    it "backpropogates for acos opencl", tags: "opencl" do
+      ctx = Num::Grad::Context(Tensor(Float32, OCL(Float32))).new
 
-    a = [0.5_f32].to_tensor(OCL)
-    x = ctx.variable(a)
+      a = [0.5_f32].to_tensor(OCL)
+      x = ctx.variable(a)
 
-    result = x.acos
-    result.backprop
+      result = x.acos
+      result.backprop
 
-    expected = [-1 / Math.sqrt(1 - 0.5 ** 2)].to_tensor
+      expected = [-1 / Math.sqrt(1 - 0.5 ** 2)].to_tensor
 
-    Num::Testing.tensor_equal(x.grad.cpu, expected).should be_true
-  end
+      Num::Testing.tensor_equal(x.grad.cpu, expected).should be_true
+    end
+  {% end %}
 
   it "backpropogates for atan" do
     ctx = Num::Grad::Context(Tensor(Float32, CPU(Float32))).new
@@ -178,17 +188,19 @@ describe Num::Grad do
     Num::Testing.tensor_equal(x.grad, expected).should be_true
   end
 
-  it "backpropogates for atan opencl", tags: "opencl" do
-    ctx = Num::Grad::Context(Tensor(Float32, OCL(Float32))).new
+  {% if flag?(:opencl) %}
+    it "backpropogates for atan opencl", tags: "opencl" do
+      ctx = Num::Grad::Context(Tensor(Float32, OCL(Float32))).new
 
-    a = [0.5_f32].to_tensor(OCL)
-    x = ctx.variable(a)
+      a = [0.5_f32].to_tensor(OCL)
+      x = ctx.variable(a)
 
-    result = x.atan
-    result.backprop
+      result = x.atan
+      result.backprop
 
-    expected = [1 / (1 + 0.5 ** 2)].to_tensor
+      expected = [1 / (1 + 0.5 ** 2)].to_tensor
 
-    Num::Testing.tensor_equal(x.grad.cpu, expected).should be_true
-  end
+      Num::Testing.tensor_equal(x.grad.cpu, expected).should be_true
+    end
+  {% end %}
 end

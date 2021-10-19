@@ -37,16 +37,18 @@ describe Num::Grad do
     Num::Testing.tensor_equal(x.grad, expected, tolerance: 1e-3).should be_true
   end
 
-  it "backpropogates for exp opencl", tags: "opencl" do
-    ctx = Num::Grad::Context(Tensor(Float32, OCL(Float32))).new
+  {% if flag?(:opencl) %}
+    it "backpropogates for exp opencl", tags: "opencl" do
+      ctx = Num::Grad::Context(Tensor(Float32, OCL(Float32))).new
 
-    a = Tensor.new([10], device: OCL) { |i| i.to_f32 / 10 }
-    x = ctx.variable(a)
+      a = Tensor.new([10], device: OCL) { |i| i.to_f32 / 10 }
+      x = ctx.variable(a)
 
-    result = x.exp
-    result.backprop
+      result = x.exp
+      result.backprop
 
-    expected = [1, 1.10517, 1.2214, 1.34986, 1.49182, 1.64872, 1.82212, 2.01375, 2.22554, 2.4596].to_tensor
-    Num::Testing.tensor_equal(x.grad.cpu, expected, tolerance: 1e-3).should be_true
-  end
+      expected = [1, 1.10517, 1.2214, 1.34986, 1.49182, 1.64872, 1.82212, 2.01375, 2.22554, 2.4596].to_tensor
+      Num::Testing.tensor_equal(x.grad.cpu, expected, tolerance: 1e-3).should be_true
+    end
+  {% end %}
 end
