@@ -13,5 +13,3 @@ dependencies:
     github: crystal-data/opencl.cr
   alea:
     github: nin93/alea
-  stbimage:
-    github: crystal-data/stbimage.cr

@@ -22,6 +22,20 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 class Array(T)
+  # Converts a standard library array of any shape to a `Tensor`.
+  # The array, if nested, must have a uniform shape in all dimensions,
+  # and each innermost element must have the same data type.
+  #
+  # ## Arguments
+  #
+  # * device : `Num::Storage` - The storage backend on which to place the `Tensor`
+  #
+  # ## Examples
+  #
+  # ```
+  # a = [1, 2, 3]
+  # typeof(a.to_tensor) # => Tensor(Int32, CPU(Float32))
+  # ```
   def to_tensor(device = CPU)
     Tensor.from_array self, device: device
   end

@@ -31,16 +31,15 @@ class Tensor(T, S)
     Tensor(T, S).new({{ shape }}, device: S) { |i| T.new(ptr[i]) }
   end
 
-  # Reads a .npy file and returns a Tensor of the specified type.
+  # Reads a .npy file and returns a `Tensor` of the specified type.
   # If the ndarray is stored in a different type inside the file, it will be converted.
   #
-  # Input:
-  #   - The path to a numpy file as string
-  # Output:
-  #   - Tensor
+  # ## Arguments
   #
-  # Only integer, unsigned integer and float ndarrays are supported at the moment.
-  # Only little endian files can be read due to laziness by the num.cr developer
+  # * path : `String` - Filename of npy file to load
+  #
+  # NOTE: Only integer, unsigned integer and float ndarrays are supported at the moment.
+  # NOTE: Only little endian files can be read due to laziness by the num.cr developer
   def self.from_npy(path : String) : Tensor(T, S)
     file = File.open(path, "r")
     file.read_fully(Bytes.new(8))
@@ -85,9 +84,9 @@ class Tensor(T, S)
 
   # Export a Tensor to the Numpy format
   #
-  # Input:
-  #   - The tensor
-  #   - The path to a numpy file as string
+  # ## Arguments
+  #
+  # * path : `String` - filename of output `.npy` file.
   #
   # Only integer, unsigned integer and float ndarrays are supported at the moment.
   def to_npy(path : String)

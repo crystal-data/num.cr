@@ -21,6 +21,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+# :nodoc:
 struct Num::Einsum::Parse
   getter operand_indices : Array(String)
   getter output_indices : String?
@@ -29,6 +30,7 @@ struct Num::Einsum::Parse
   end
 end
 
+# :nodoc:
 struct Num::Einsum::Contraction
   # An array with as many elements as input operands, where each
   # member of the array is an Array(Char) with each char representing the label for
@@ -115,6 +117,7 @@ struct Num::Einsum::Contraction
   end
 end
 
+# :nodoc:
 # Alias for `Hash(Char, Int32)`. Contains the axis lengths for all indices
 # in the contraction.
 #
@@ -153,6 +156,7 @@ class Num::Einsum::OutputSize < Hash(Char, Int32)
   end
 end
 
+# :nodoc:
 # A `SizedContraction` contains a `Contraction` as well as a `Hash(Char, Int32)`
 # specifying the axis lengths for each index in the contraction.
 #
@@ -250,6 +254,7 @@ end
 module Num::Einsum
   extend self
 
+  # :nodoc:
   # Runs an input string through a regex and convert it to an EinsumParse.
   def parse_einsum_string(input_string : String)
     rgx = /^([a-z]+)((?:,[a-z]+)*)(?:->([a-z]*))?$/
@@ -271,6 +276,7 @@ module Num::Einsum
     Num::Einsum::Parse.new(operand_indices, output)
   end
 
+  # :nodoc:
   # Create a SizedContraction and then optimize the order in which pairs of
   # inputs will be contracted.
   def validate_and_optimize_order(input_string : String, operands : Array(Tensor))

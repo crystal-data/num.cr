@@ -60,6 +60,7 @@ class Tensor(T, S)
     {% end %}
   end
 
+  # :nodoc:
   macro lapack_util(name, worksize, *args)
     Num::WORK_POOL.reallocate(worksize*{% if T == Complex %} sizeof(Float64) {% else %} sizeof(T) {% end %})
     %buf = alloc_real_type(worksize)
@@ -90,6 +91,7 @@ class Tensor(T, S)
     %result
   end
 
+  # :nodoc:
   macro lapack(name, *args, worksize = nil)
       {% unless S < CPU %}
         {% raise "LAPACK is only supported for CPUs" %}
@@ -371,6 +373,7 @@ class Tensor(T, S)
     raise "LAPACK.{{typ}}{{name}} returned #{%info}" if %info != 0
   end
 
+  # :nodoc:
   macro blas(storage, name, *args)
     {%
       if T == Float32
@@ -384,6 +387,7 @@ class Tensor(T, S)
     LibCblas.{{typ}}{{storage}}{{name}}(LibCblas::ROW_MAJOR, {{*args}})
   end
 
+  # :nodoc:
   macro blas_call(fn, *args)
     {%
       if T == Float32
@@ -405,6 +409,7 @@ class Tensor(T, S)
     {% end %}
   end
 
+  # :nodoc:
   macro blast(name, *args, prefix = "")
     {%
       if T == Float32

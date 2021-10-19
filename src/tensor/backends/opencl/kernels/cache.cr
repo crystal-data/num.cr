@@ -44,6 +44,7 @@ module Num
   compile_op gen_cl_apply_scalar_rhs, ew_scalar_rhs
   compile_op gen_cl_apply_scalar_lhs, ew_scalar_lhs
 
+  # :nodoc:
   class OpenCLKernelCache
     macro ops(*args)
       {% for dt in [{:s, "float"}, {:d, "double"}] %}

@@ -22,6 +22,8 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 module Num::Grad
+
+  # :nodoc:
   def divide_backward(
     gradient : Tensor(U, CPU(U)),
     a : Variable(Tensor(U, CPU(U))),
@@ -32,6 +34,7 @@ module Num::Grad
     [r0, r1]
   end
 
+  # :nodoc:
   def power_backward(
     gradient : Tensor(U, CPU(U)),
     a : Variable(Tensor(U, CPU(U))),
@@ -46,6 +49,7 @@ module Num::Grad
     [r0, r1]
   end
 
+  # :nodoc:
   def exp_backward(
     gradient : Tensor(U, CPU(U)),
     a : Variable(Tensor(U, CPU(U)))
@@ -56,6 +60,7 @@ module Num::Grad
     [r0]
   end
 
+  # :nodoc:
   def sin_backward(
     gradient : Tensor(U, CPU(U)),
     a : Variable(Tensor(U, CPU(U)))
@@ -66,6 +71,7 @@ module Num::Grad
     [r0]
   end
 
+  # :nodoc:
   def cos_backward(
     gradient : Tensor(U, CPU(U)),
     a : Variable(Tensor(U, CPU(U)))
@@ -76,6 +82,7 @@ module Num::Grad
     [r0]
   end
 
+  # :nodoc:
   def tan_backward(
     gradient : Tensor(U, CPU(U)),
     a : Variable(Tensor(U, CPU(U)))
@@ -86,6 +93,7 @@ module Num::Grad
     [r0]
   end
 
+  # :nodoc:
   def asin_backward(
     gradient : Tensor(U, CPU(U)),
     a : Variable(Tensor(U, CPU(U)))
@@ -100,6 +108,7 @@ module Num::Grad
     [r0]
   end
 
+  # :nodoc:
   def acos_backward(
     gradient : Tensor(U, CPU(U)),
     a : Variable(Tensor(U, CPU(U)))
@@ -114,6 +123,7 @@ module Num::Grad
     [r0]
   end
 
+  # :nodoc:
   def atan_backward(
     gradient : Tensor(U, CPU(U)),
     a : Variable(Tensor(U, CPU(U)))

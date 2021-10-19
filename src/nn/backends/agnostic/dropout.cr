@@ -22,6 +22,12 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 module Num::NN
+  # Computes a forward dropout activation
+  # 
+  # ## Arguments
+  #
+  # * input : `Tensor` - `Tensor` to activate
+  # * mask : `Tensor` - Mask to dropout
   def dropout(input : Tensor(U, V), mask : Tensor(U, V)) forall U, V
     input * mask
   end

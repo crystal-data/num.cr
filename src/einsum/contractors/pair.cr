@@ -21,10 +21,12 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+# :nodoc:
 abstract struct Num::Einsum::PairContractor
   abstract def contract(lhs : Tensor(U, CPU(U)), rhs : Tensor(U, CPU(U))) forall U
 end
 
+# :nodoc:
 # Performs tensor dot product for two tensors where no permutation needs to be performed,
 # e.g. `ijk,jkl->il` or `ijk,klm->ijlm`.
 #
@@ -136,6 +138,7 @@ struct Num::Einsum::TensordotFixedPosition < Num::Einsum::PairContractor
   end
 end
 
+# :nodoc:
 # Computes the tensor dot product of two tensors, with individual permutations of the
 # LHS and RHS performed as necessary, as well as a final permutation of the output.
 #
@@ -232,6 +235,7 @@ struct Num::Einsum::TensordotGeneral < Num::Einsum::PairContractor
   end
 end
 
+# :nodoc:
 # Computes the Hadamard (element-wise) product of two tensors.
 #
 # All instances of `SizedContraction` making use of this contractor must have the form
@@ -244,6 +248,7 @@ struct Num::Einsum::HadamardProduct < Num::Einsum::PairContractor
   end
 end
 
+# :nodoc:
 # Permutes the axes of the LHS and RHS tensors to the order in which those axes appear in the
 # output before computing the Hadamard (element-wise) product.
 #
@@ -278,6 +283,7 @@ struct Num::Einsum::HadamardProductGeneral < Num::Einsum::PairContractor
   end
 end
 
+# :nodoc:
 # Multiplies every element of the RHS tensor by the single scalar in the 0-d LHS tensor.
 #
 # This contraction can arise when the simplification of the LHS tensor results in all the
@@ -290,6 +296,7 @@ struct Num::Einsum::ScalarMatrixProduct < Num::Einsum::PairContractor
   end
 end
 
+# :nodoc:
 # Permutes the axes of the RHS tensor to the output order and multiply all elements by the single
 # scalar in the 0-d LHS tensor.
 #
@@ -317,6 +324,7 @@ struct Num::Einsum::ScalarMatrixProductGeneral < Num::Einsum::PairContractor
   end
 end
 
+# :nodoc:
 # Multiplies every element of the LHS tensor by the single scalar in the 0-d RHS tensor.
 #
 # This contraction can arise when the simplification of the LHS tensor results in all the
@@ -329,6 +337,7 @@ struct Num::Einsum::MatrixScalarProduct < Num::Einsum::PairContractor
   end
 end
 
+# :nodoc:
 # Permutes the axes of the LHS tensor to the output order and multiply all elements by the single
 # scalar in the 0-d RHS tensor.
 #
@@ -358,6 +367,7 @@ struct Num::Einsum::MatrixScalarProductGeneral < Num::Einsum::PairContractor
   end
 end
 
+# :nodoc:
 # Repeatedly computes the tensor dot of subviews of the two tensors, iterating over
 # indices which appear in the LHS, RHS, and output.
 #

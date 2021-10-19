@@ -24,6 +24,13 @@
 module Num::NN
   extend self
 
+  # Computes gradients of mean squared error loss
+  #
+  # ## Arguments
+  #
+  # * gradient : `Tensor` - `Tensor` gradient computed from MSE forwards
+  # * cache : `Tensor` 4D - Cached `Tensor` from activation
+  # * target : `Tensor` - `Tensor` truth values
   def mse_backwards(
     gradient : Tensor(U, CPU(U)),
     cache : Tensor(U, CPU(U)),
@@ -36,6 +43,13 @@ module Num::NN
     [result]
   end
 
+  # Computes gradients of sigmoid cross entropy loss
+  #
+  # ## Arguments
+  #
+  # * gradient : `Tensor` - `Tensor` gradient computed from SCE forwards
+  # * cache : `Tensor` 4D - Cached `Tensor` from activation
+  # * target : `Tensor` - `Tensor` truth values
   def sigmoid_cross_entropy_backwards(
     gradient : Tensor(U, CPU(U)),
     cache : Tensor(U, CPU(U)),
@@ -49,24 +63,18 @@ module Num::NN
     [output]
   end
 
-  # Brief description of softmaxcrossentropybackward
+  # Computes gradients of SmCE loss
   #
-  # Arguments
-  # ---------
-  # gradient : U
-  #   Brief description of gradient : U
-  # cached : Tensor(U)
-  #   Brief description of cached : Tensor(U)
-  # target : Tensor(U)
-  #   Brief description of target : Tensor(U)
+  # ## Arguments
   #
-  # Returns
-  # -------
-  # nil
-  #
-  # Examples
-  # --------
-  def softmax_cross_entropy_backward(gradient : Tensor(U, CPU(U)), cached : Tensor(U, CPU(U)), target : Tensor(U, CPU(U))) forall U
+  # * gradient : `Tensor` - `Tensor` gradient computed from SmCE forwards
+  # * cache : `Tensor` 4D - Cached `Tensor` from activation
+  # * target : `Tensor` - `Tensor` truth values
+  def softmax_cross_entropy_backward(
+    gradient : Tensor(U, CPU(U)),
+    cached : Tensor(U, CPU(U)),
+    target : Tensor(U, CPU(U))
+  ) forall U
     n = cached.shape[0]
     grad = gradient.value
 

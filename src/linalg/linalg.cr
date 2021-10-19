@@ -25,13 +25,12 @@ class Tensor(T, S)
   # Computes the upper triangle of a `Tensor`.  Zeros
   # out values below the `k`th diagonal
   #
-  # Arguments
-  # ---------
-  # *k* : Int
-  #   Diagonal
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * k : `Int` - Diagonal
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor(Int32).ones([3, 3])
   # a.triu!
@@ -59,13 +58,12 @@ class Tensor(T, S)
   # Computes the lower triangle of a `Tensor`.  Zeros
   # out values above the `k`th diagonal
   #
-  # Arguments
-  # ---------
-  # *k* : Int
-  #   Diagonal
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * k : `Int` - Diagonal
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor(Int32).ones([3, 3])
   # a.tril!
@@ -98,13 +96,12 @@ class Tensor(T, S)
   # (symmetric if real-valued) and positive-definite. Only L is actually
   # returned.
   #
-  # Arguments
-  # ---------
-  # *lower*
-  #   Triangular of decomposition to return
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * lower : `Bool` - Which triangular of decomposition to return
+  #
+  # ## Examples
+  #
   # ```
   # t = [[2, -1, 0], [-1, 2, -1], [0, -1, 2]].to_tensor.astype(Float32)
   # t.cholesky
@@ -125,13 +122,10 @@ class Tensor(T, S)
   # Compute the qr factorization of a matrix.
   #
   # Factor the matrix a as qr, where q is orthonormal and r is
-  # upper-triangular.
+  # upper-triangular
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # t = [[0, 1], [1, 1], [1, 1], [2, 1]].to_tensor.as_type(Float32)
   # q, r = t.qr
@@ -166,11 +160,8 @@ class Tensor(T, S)
   # where u and vh are 2D unitary arrays and s is a 1D array of a’s singular
   # values.
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # t = [[0, 1], [1, 1], [1, 1], [2, 1]].to_tensor.as_type(Float32)
   # a, b, c = t.svd
@@ -202,11 +193,8 @@ class Tensor(T, S)
 
   # Compute the eigenvalues and right eigenvectors of a square `Tensor`.
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # t = [[0, 1], [1, 1]].to_tensor.as_type(Float32)
   # w, v = t.eigh
@@ -237,11 +225,8 @@ class Tensor(T, S)
 
   # Compute the eigenvalues and right eigenvectors of a square array.
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # t = [[0, 1], [1, 1]].to_tensor.as_type(Float32)
   # w, v = t.eig
@@ -270,11 +255,8 @@ class Tensor(T, S)
   # Main difference between eigvals and eig: the eigenvectors aren’t
   # returned.
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # t = [[0, 1], [1, 1]].to_tensor.as_type(Float32)
   # puts t.eigvalsh
@@ -295,11 +277,8 @@ class Tensor(T, S)
   # Main difference between eigvals and eig: the eigenvectors aren’t
   # returned.
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # t = [[0, 1], [1, 1]].to_tensor.as_type(Float32)
   # puts t.eigvals
@@ -323,13 +302,12 @@ class Tensor(T, S)
   #
   # This function is able to return one of eight different matrix norms
   #
-  # Arguments
+  # ## Arguments
   # ---------
-  # *order* : String
-  #   Type of norm
+  # * order : `String` - Type of norm
   #
-  # Examples
-  # --------
+  # ## Examples
+  #
   # ```
   # t = [[0, 1], [1, 1], [1, 1], [2, 1]].to_tensor.as_type(Float32)
   # t.norm # => 3.6055512
@@ -347,11 +325,8 @@ class Tensor(T, S)
 
   # Compute the determinant of an array.
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # t = [[1, 2], [3, 4]].to_tensor.as_type(Float32)
   # puts t.det # => -2.0
@@ -387,11 +362,8 @@ class Tensor(T, S)
   # Given a square matrix a, return the matrix ainv satisfying
   # dot(a, ainv) = dot(ainv, a) = eye(a.shape[0])
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # t = [[1, 2], [3, 4]].to_tensor.as_type(Float32)
   # puts t.inv
@@ -414,13 +386,12 @@ class Tensor(T, S)
   # Computes the “exact” solution, x, of the well-determined, i.e., full rank,
   # linear matrix equation ax = b.
   #
-  # Arguments
-  # ---------
-  # *x* : Tensor
-  #   Argument with which to solve
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * x : `Tensor` - Argument with which to solve
+  #
+  # ## Examples
+  #
   # ```
   # a = [[3, 1], [1, 2]].to_tensor.as_type(Float32)
   # b = [9, 8].to_tensor.as_type(Float32)
@@ -449,11 +420,8 @@ class Tensor(T, S)
   #
   # where Q is unitary/orthogonal and H has only zero elements below the first sub-diagonal.
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # a = [[2, 5, 8, 7],
   #      [5, 2, 2, 8],
@@ -488,13 +456,12 @@ class Tensor(T, S)
   # DOT forms the dot product of two vectors.
   # Uses unrolled loops for increments equal to one.
   #
-  # Arguments
-  # ---------
-  # *u* : Tensor
-  #   Right hand side of the dot product
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * u : `Tensor` - Right hand side of the dot product
+  #
+  # ## Examples
+  #
   # ```
   # a = [1, 2, 3, 4, 5].to_tensor
   # a.dot(a) # => 55.0
@@ -525,13 +492,12 @@ class Tensor(T, S)
   # only Float and Complex `Tensor`s are supported, as BLAS is used
   # for this operation
   #
-  # Arguments
-  # ---------
-  # *other* : Tensor(T)
-  #   The right hand side of the operation
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * other : `Tensor` - The right hand side of the operation
+  #
+  # ## Examples
+  #
   # ```
   # Num::Rand.set_seed(0)
   # a = Tensor.random(0.0...10.0, [3, 3])
@@ -644,10 +610,12 @@ class Tensor(T, S)
     raise "Matrix must be fortran contiguous" unless self.is_f_contiguous
   end
 
+  # :nodoc:
   def assert_is_vector
     raise "Inputs must be vectors" unless self.rank == 1
   end
 
+  # :nodoc:
   def assert_is_matrix
     raise "Input must be a matrix" unless self.rank == 2
   end

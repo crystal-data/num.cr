@@ -22,6 +22,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 struct Number
+  # :nodoc:
   macro op(name, operator)
     @[AlwaysInline]
     def {{operator.id}}(other : Tensor)
@@ -29,9 +30,78 @@ struct Number
     end
   end
 
+  # Adds a `Tensor` to a number.  The number is broadcasted across
+  # all elements of the `Tensor`.
+  #
+  # ## Arguments
+  #
+  # * other : `Tensor` - `Tensor` on which to perform the operation
+  #
+  # ## Examples
+  #
+  # ```
+  # a = [1, 2, 3].to_tensor
+  # 3 + a # => [4, 5, 6]
+  # ```
   op add, :+
+
+  # Divides a number by a `Tensor`.  The number is broadcasted across
+  # all elements of the `Tensor`.
+  #
+  # ## Arguments
+  #
+  # * other : `Tensor` - `Tensor` on which to perform the operation
+  #
+  # ## Examples
+  #
+  # ```
+  # a = [3, 3, 3].to_tensor
+  # 3 / a # => [1, 1, 1]
+  # ```
   op divide, :/
+
+  # Multiplies a `Tensor` with a number.  The number is broadcasted across
+  # all elements of the `Tensor`.
+  #
+  # ## Arguments
+  #
+  # * other : `Tensor` - `Tensor` on which to perform the operation
+  #
+  # ## Examples
+  #
+  # ```
+  # a = [1, 2, 3].to_tensor
+  # 3 * a # => [3, 6, 9]
+  # ```
   op multiply, :*
+
+  # Subtracts a `Tensor` from a number.  The number is broadcasted across
+  # all elements of the `Tensor`.
+  #
+  # ## Arguments
+  #
+  # * other : `Tensor` - `Tensor` on which to perform the operation
+  #
+  # ## Examples
+  #
+  # ```
+  # a = [3, 3, 3].to_tensor
+  # 3 - a # => [0, 0, 0]
+  # ```
   op subtract, :-
+
+  # Raises a number to a `Tensor`.  The number is broadcasted across
+  # all elements of the `Tensor`.
+  #
+  # ## Arguments
+  #
+  # * other : `Tensor` - `Tensor` on which to perform the operation
+  #
+  # ## Examples
+  #
+  # ```
+  # a = [1, 2, 3].to_tensor
+  # 2 ** a # => [2, 4, 8]
+  # ```
   op power, :**
 end

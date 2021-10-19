@@ -26,8 +26,11 @@ require "csv"
 module Num::NN
   extend self
 
+  # :nodoc:
   IRIS_URL = "https://gist.githubusercontent.com/curran/a08a1080b88344b0c8a7/raw/639388c2cbc2120a14dcf466e85730eb8be498bb/iris.csv"
 
+  # Returns labels, as well as X and Y training inputs for
+  # the IRIS dataset.
   def load_iris_dataset
     csv = CSV.parse(load_dataset_http(IRIS_URL))
 

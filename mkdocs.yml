@@ -1,0 +1,36 @@
+site_name: Num.cr
+site_url: https://crystal-data.github.io/num.cr/
+repo_url: https://github.com/crystal-data/num.cr
+edit_uri: blob/master/docs/
+
+theme:
+  name: material
+  icon:
+    repo: fontawesome/brands/github
+  palette:
+    - scheme: default
+      primary: black
+      accent: blue
+  features:
+    - navigation.tabs
+
+extra_css:
+  - css/mkdocstrings.css
+
+plugins:
+  - search
+  - gen-files:
+      scripts:
+        - docs/gen_doc_stubs.py
+  - mkdocstrings:
+      default_handler: crystal
+      watch: [src]
+  - literate-nav:
+      nav_file: SUMMARY.md
+  - section-index
+
+markdown_extensions:
+  - pymdownx.highlight
+  - deduplicate-toc
+  - toc:
+      permalink: "#"

@@ -22,7 +22,21 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 module Num::NN
-  def maxpool(input : Tensor(U, CPU(U)), kernel : Tuple(Int, Int), padding = {0, 0}, stride = {0, 0}) : Tuple(Tensor(Int32, CPU(Int32)), Tensor(U, CPU(U))) forall U
+  # Computes the maxpooling of a `Tensor`
+  #
+  # ## Arguments
+  #
+  # * input : `Tensor` - `Tensor` to pool
+  # * kernel : Tuple - Kernel height and width
+  # * target : `Tensor` - `Tensor` truth values
+  # * padding : `Tuple` - `Tuple` with height and width of the padding
+  # * stride : `Tuple` - `Tuple` with height and width of the stride
+  def maxpool(
+    input : Tensor(U, CPU(U)),
+    kernel : Tuple(Int, Int),
+    padding = {0, 0},
+    stride = {0, 0}
+  ) : Tuple(Tensor(Int32, CPU(Int32)), Tensor(U, CPU(U))) forall U
     nn = input.shape[0]
     cc = input.shape[1]
     hh = input.shape[2]
@@ -76,7 +90,18 @@ module Num::NN
     {max_indices, maxpooled}
   end
 
-  def maxpool_backward(shape : Array(Int), max_indices : Tensor(Int32, CPU(Int32)), grad_output : Tensor(U, CPU(U))) forall U
+  # Computes the maxpooling gradient
+  #
+  # ## Arguments
+  #
+  # * shape : `Array` - Shape of gradient output
+  # * max_indices : `Tensor` - Pooled max indices
+  # * grad_output : `Tensor` - Output from forward pass
+  def maxpool_backward(
+    shape : Array(Int),
+    max_indices : Tensor(Int32, CPU(Int32)),
+    grad_output : Tensor(U, CPU(U))
+  ) : Tensor(U, CPU(U)) forall U
     unless grad_output.size == max_indices.size
       raise "Invalid shape"
     end

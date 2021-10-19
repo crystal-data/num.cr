@@ -47,13 +47,12 @@ class Num::Grad::Variable(T)
   # the derivative of the operation in the computational
   # graph.
   #
-  # Arguments
-  # ---------
-  # *other* : Num::Grad::Variable(T)
-  #   - right hand side of the operation
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * other : `Num::Grad::Variable` - right hand side of the operation
+  #
+  # ## Examples
+  #
   # ```
   # ctx = Num::Grad::Context(Tensor(Float64)).new
   #
@@ -69,13 +68,12 @@ class Num::Grad::Variable(T)
   # the derivative of the operation in the computational
   # graph.
   #
-  # Arguments
-  # ---------
-  # *other* : Num::Grad::Variable(T)
-  #   - right hand side of the operation
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * other : `Num::Grad::Variable` - right hand side of the operation
+  #
+  # ## Examples
+  #
   # ```
   # ctx = Num::Grad::Context(Tensor(Float64)).new
   #
@@ -91,13 +89,12 @@ class Num::Grad::Variable(T)
   # the derivative of the operation in the computational
   # graph.
   #
-  # Arguments
-  # ---------
-  # *other* : Num::Grad::Variable(T)
-  #   - right hand side of the operation
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * other : `Num::Grad::Variable` - right hand side of the operation
+  #
+  # ## Examples
+  #
   # ```
   # ctx = Num::Grad::Context(Tensor(Float64)).new
   #
@@ -113,13 +110,12 @@ class Num::Grad::Variable(T)
   # the derivative of the operation in the computational
   # graph.
   #
-  # Arguments
-  # ---------
-  # *other* : Num::Grad::Variable(T)
-  #   - right hand side of the operation
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * other : `Num::Grad::Variable` - right hand side of the operation
+  #
+  # ## Examples
+  #
   # ```
   # ctx = Num::Grad::Context(Tensor(Float64)).new
   #
@@ -135,13 +131,12 @@ class Num::Grad::Variable(T)
   # the derivative of the operation in the computational
   # graph.
   #
-  # Arguments
-  # ---------
-  # *other* : Num::Grad::Variable(T)
-  #   - right hand side of the operation
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * other : `Num::Grad::Variable` - right hand side of the operation
+  #
+  # ## Examples
+  #
   # ```
   # ctx = Num::Grad::Context(Tensor(Float64)).new
   #
@@ -157,13 +152,12 @@ class Num::Grad::Variable(T)
   # dot product of two matrices and stores the result in the
   # computational graph
   #
-  # Arguments
-  # ---------
-  # *other* : Num::Grad::Variable(T)
-  #   - right hand side of the operation
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * other : `Num::Grad::Variable` - right hand side of the operation
+  #
+  # ## Examples
+  #
   # ```
   # ctx = Num::Grad::Context(Tensor(Float64)).new
   #
@@ -190,14 +184,13 @@ class Num::Grad::Variable(T)
   # Slices a variable.  Slices the gradient of the variable
   # using the same arguments
   #
-  # Arguments
-  # ---------
-  # *args*
-  #   Slicing arguments, slicing behavior is the same as
-  #   it is for a standard Tensor
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * args - Slicing arguments, slicing behavior is the same as
+  #   it is for a standard `Tensor`
+  #
+  # ## Examples
+  #
   # ```
   # ctx = Num::Grad::Context(Tensor(Float64)).new
   #
@@ -223,11 +216,80 @@ class Num::Grad::Variable(T)
     end
   end
 
+  # Computes the sine of a variable
+  #
+  # ## Examples
+  #
+  # ```
+  # ctx = Num::Grad::Context(Tensor(Float64, CPU(Float64))).new
+  # x = ctx.variable([1.0])
+  # x.sin # => [0.841471]
+  # ```
   num_op sin, Num::Grad::SinGate(T)
+
+  # Computes the cosine of a variable
+  #
+  # ## Examples
+  #
+  # ```
+  # ctx = Num::Grad::Context(Tensor(Float64, CPU(Float64))).new
+  # x = ctx.variable([1.0])
+  # x.cos # => [0.540302]
+  # ```
   num_op cos, Num::Grad::CosGate(T)
+
+  # Computes the tangent of a variable
+  #
+  # ## Examples
+  #
+  # ```
+  # ctx = Num::Grad::Context(Tensor(Float64, CPU(Float64))).new
+  # x = ctx.variable([1.0])
+  # x.tan # => [1.55741]
+  # ```
   num_op tan, Num::Grad::TanGate(T)
+
+  # Computes the arcsine of a variable
+  #
+  # ## Examples
+  #
+  # ```
+  # ctx = Num::Grad::Context(Tensor(Float64, CPU(Float64))).new
+  # x = ctx.variable([1.0])
+  # x.asin # => [1.5708]
+  # ```
   num_op asin, Num::Grad::ASinGate(T)
+
+  # Computes the arccosine of a variable
+  #
+  # ## Examples
+  #
+  # ```
+  # ctx = Num::Grad::Context(Tensor(Float64, CPU(Float64))).new
+  # x = ctx.variable([1.0])
+  # x.acos # => [0]
+  # ```
   num_op acos, Num::Grad::ACosGate(T)
+
+  # Computes the arctangent of a variable
+  #
+  # ## Examples
+  #
+  # ```
+  # ctx = Num::Grad::Context(Tensor(Float64, CPU(Float64))).new
+  # x = ctx.variable([1.0])
+  # x.atan # => [0.785398]
+  # ```
   num_op atan, Num::Grad::ATanGate(T)
+
+  # Computes the exp of a variable
+  #
+  # ## Examples
+  #
+  # ```
+  # ctx = Num::Grad::Context(Tensor(Float64, CPU(Float64))).new
+  # x = ctx.variable([1.0])
+  # x.exp # => [2.71828]
+  # ```
   num_op exp, Num::Grad::ExpGate(T)
 end

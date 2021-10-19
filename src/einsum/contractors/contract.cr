@@ -21,15 +21,15 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-# /// Holds a `Box`ed `SingletonContractor` trait object.
-# ///
-# /// Constructed at runtime based on the number of diagonalized, summed, and permuted axes
-# /// in the input. Reimplements the `SingletonContractor` trait by delegating to the inner
-# /// object.
-# ///
-# /// For example, the contraction `iij->i` will be performed by assigning a `Box`ed
-# /// `DiagonalizationAndSummation` to `op`. The contraction `ijk->kij` will be performed
-# /// by assigning a `Box`ed `Permutation` to `op`.
+# :nodoc:
+# Holds a `Box`ed `SingletonContractor` trait object.
+# Constructed at runtime based on the number of diagonalized, summed, and permuted axes
+# in the input. Reimplements the `SingletonContractor` trait by delegating to the inner
+# object.
+#
+# For example, the contraction `iij->i` will be performed by assigning a `Box`ed
+# `DiagonalizationAndSummation` to `op`. The contraction `ijk->kij` will be performed
+# by assigning a `Box`ed `Permutation` to `op`.
 struct Num::Einsum::SingletonContraction(T)
   getter method : Num::Einsum::SingletonMethod
   getter op : T
@@ -64,7 +64,8 @@ struct Num::Einsum::SingletonContraction(T)
   delegate contract, to: @op
 end
 
-# /// Holds a `SingletonContractor` and the resulting simplified indices.
+# :nodoc:
+# Holds a `SingletonContractor` and the resulting simplified indices.
 struct Num::Einsum::SimplificationMethodAndOutput(T)
   getter method : Num::Einsum::SingletonMethod
   getter op : T
@@ -79,9 +80,10 @@ struct Num::Einsum::SimplificationMethodAndOutput(T)
   )
   end
 
-  # /// Based on the number of diagonalized, permuted, and summed axes, chooses a struct implementing
-  # /// `SingletonContractor` to simplify the tensor (or `None` if the tensor doesn't need simplification)
-  # /// and computes the indices of the simplified tensor.
+  # Based on the number of diagonalized, permuted, and summed axes, chooses a struct implementing
+  # `SingletonContractor` to simplify the tensor (or `None` if the tensor doesn't need simplification)
+  # and computes the indices of the simplified tensor.
+  # :nodoc:
   def self.from_indices_and_sizes(
     this_input_indices : Array(Char),
     other_input_indices : Array(Char),
@@ -112,24 +114,20 @@ struct Num::Einsum::SimplificationMethodAndOutput(T)
   end
 end
 
-# /// Holds a `Box`ed `PairContractor` trait object and two `Optional` simplifications for the LHS and RHS tensors.
-# ///
-# /// For example, the contraction `ijk,kj->jk` will currently be performed as follows:
-# ///
-# /// 1. Simplify the LHS with the contraction `ijk->jk`
-# /// 2. Don't simplify the RHS
-# /// 3. Use HadamardProductGeneral to compute `jk,kj->jk`
-# ///
-# /// A second example is the contraction `iij,jkk->ik`:
-# ///
-# /// 1. Simplify the LHS with the contraction `iij->ij`
-# /// 2. Simplify the RHS with the contraction `jkk->jk`
-# /// 3. Use TensordotGeneral to compute `ij,jk->ik`
-# ///
-# /// Since the axis lengths aren't known until runtime, and the actual einsum string may not
-# /// be either, it is generally not possible to know at compile time which specific PairContractor
-# /// will be used to perform a given contraction, or even which contractions will be performed;
-# /// the optimizer could choose a different order.
+# :nodoc:
+# Holds a `Box`ed `PairContractor` trait object and two `Optional` simplifications for the LHS and RHS tensors.
+# # For example, the contraction `ijk,kj->jk` will currently be performed as follows:
+# # 1. Simplify the LHS with the contraction `ijk->jk`
+# 2. Don't simplify the RHS
+# 3. Use HadamardProductGeneral to compute `jk,kj->jk`
+# # A second example is the contraction `iij,jkk->ik`:
+# # 1. Simplify the LHS with the contraction `iij->ij`
+# 2. Simplify the RHS with the contraction `jkk->jk`
+# 3. Use TensordotGeneral to compute `ij,jk->ik`
+# # Since the axis lengths aren't known until runtime, and the actual einsum string may not
+# be either, it is generally not possible to know at compile time which specific PairContractor
+# will be used to perform a given contraction, or even which contractions will be performed;
+# the optimizer could choose a different order.
 struct Num::Einsum::PairContraction(T, U)
   getter lhs_simplification : Num::Einsum::SimplificationMethodAndOutput(U)?
   getter rhs_simplification : Num::Einsum::SimplificationMethodAndOutput(U)?

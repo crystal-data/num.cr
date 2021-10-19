@@ -24,14 +24,17 @@
 module Num::Grad
   extend self
 
+  # :nodoc:
   def add_backward(gradient : U) : Array(U) forall U
     [gradient, gradient]
   end
 
+  # :nodoc:
   def subtract_backward(gradient : U) : Array(U) forall U
     [gradient, gradient * -1]
   end
 
+  # :nodoc:
   def multiply_backward(
     gradient : U,
     a : Variable(U),
@@ -40,6 +43,7 @@ module Num::Grad
     [gradient * b.value, a.value * gradient]
   end
 
+  # :nodoc:
   def matmul_backward(
     gradient : U,
     a : Variable(U),

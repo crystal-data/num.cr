@@ -21,6 +21,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+# :nodoc:
 enum Num::Einsum::SingletonMethod
   Identity
   Permutation
@@ -30,6 +31,7 @@ enum Num::Einsum::SingletonMethod
   DiagonalizationAndSummation
 end
 
+# :nodoc:
 struct Num::Einsum::SingletonSummary
   getter num_summed_axes : Int32
   getter num_diagonalized_axes : Int32
@@ -69,6 +71,7 @@ struct Num::Einsum::SingletonSummary
   end
 end
 
+# :nodoc:
 enum Num::Einsum::PairMethod
   HadamardProduct
   HadamardProductGeneral
@@ -82,6 +85,7 @@ enum Num::Einsum::PairMethod
   StackedTensordotGeneral
 end
 
+# :nodoc:
 struct Num::Einsum::PairSummary
   @num_stacked_axes : Int32
   @num_lhs_outer_axes : Int32
@@ -122,6 +126,7 @@ struct Num::Einsum::PairSummary
   end
 end
 
+# :nodoc:
 struct Num::Einsum::EinsumPath(T)
   getter order : T
 
@@ -172,19 +177,50 @@ struct Num::Einsum::EinsumPath(T)
 end
 
 module Num::Einsum
+  # Evaluates the Einstein summation convention on the operands.
+  #
+  # The Einstein summation convention can be used to compute many
+  # multi-dimensional, linear algebraic array operations. einsum provides a
+  # succinct way of representing these.
+  #
+  # A non-exhaustive list of these operations, which can be computed by
+  # einsum, is shown below along with examples:
+  #
+  #     Trace of an array
+  #     Return a diagonal
+  #     Array axis summations
+  #     Transpositions and permutations
+  #     Matrix multiplication and dot product
+  #     Vector inner and outer products
+  #     Broadcasting, element-wise and scalar multiplication
+  #     Tensor contractions
+  #
+  # The subscripts string is a comma-separated list of subscript labels,
+  # where each label refers to a dimension of the corresponding operand.
+  # Whenever a label is repeated it is summed, so
+  # `Num::Einsum.einsum("i,i", a, b)` is equivalent to an inner operation.
+  # If a label appears only once, it is not summed, so
+  # `Num::Einsum.einsum("i", a)` produces a view of a with no changes.
+  # A further example `Num::Einsum.einsum("ij,jk", a, b)` describes traditional
+  # matrix multiplication and is equivalent to a.matmul(b). Repeated
+  # subscript labels in one operand take the diagonal. For example,
+  # `Num::Einsum.einsum("ii", a)` gets the trace of a matrix
   def einsum(input_string : String, *operands : Tensor(U, CPU(U))) forall U
     einsum(input_string, operands.to_a)
   end
 
+  # :ditto:
   def einsum(input_string : String, operands : Array(Tensor(U, CPU(U)))) forall U
     path = Num::Einsum::EinsumPath.new(input_string, operands)
     path.contract_operands(operands.to_a)
   end
 
+  # :nodoc:
   def einsum_path(input_string : String, *operands : Tensor(U, CPU(U))) forall U
     einsum_path(input_string, operands.to_a)
   end
 
+  # :nodoc:
   def einsum_path(input_string : String, operands : Array(Tensor(U, CPU(U)))) forall U
     Num::Einsum::EinsumPath.new(input_string, operands)
   end

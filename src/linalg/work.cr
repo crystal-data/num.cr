@@ -1,4 +1,5 @@
 module Num
+  # :nodoc:
   # Work arrays pool for lapack routines
   # It isn't thread safe for now because crystal isn't multithreaded
   class WorkPool
@@ -60,5 +61,6 @@ module Num
     end
   end
 
+  # :nodoc:
   WORK_POOL = WorkPool.new
 end

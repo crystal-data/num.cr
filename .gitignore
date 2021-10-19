@@ -1,6 +1,7 @@
 /lib/
 /docs/
 /bin/
+/site/
 /.shards/
 *.dwarf
 .DS_Store

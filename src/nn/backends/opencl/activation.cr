@@ -28,13 +28,12 @@ module Num::NN
   # But unlike Sigmoid, its output is zero-centered. Therefore, in practice
   # the tanh non-linearity is always preferred to the sigmoid nonlinearity.
   #
-  # Arguments
-  # ---------
-  # *x* : Tensor
-  #   Tensor to activate
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * x : `Tensor` - `Tensor` to activate
+  #
+  # ## Examples
+  #
   # ```
   # a = [0.1, 0.34, 0.65].to_tensor
   # Num::NN.tanh(a) # => [0.099668, 0.327477, 0.57167 ]
@@ -99,13 +98,13 @@ module Num::NN
 
   # Derivative of the Tanh function
   #
-  # Arguments
-  # ---------
-  # *x* : Tensor
-  #   Tensor to derive
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * x : `Tensor` - `Tensor` to derive
+  # * cached : `Tensor` - Cached `Tensor` from activation
+  #
+  # ## Examples
+  #
   # ```
   # a = [0.1, 0.34, 0.65].to_tensor
   # Num::NN.d_tanh(a) # => [0.990066, 0.892759, 0.673193]
@@ -120,13 +119,12 @@ module Num::NN
   # continuously differentiable, monotonic, and has a fixed
   # output range.
   #
-  # Arguments
-  # ---------
-  # *x* : Tensor
-  #   Tensor to activate
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * x : `Tensor` - `Tensor` to activate
+  #
+  # ## Examples
+  #
   # ```
   # a = [0.1, 0.34, 0.65].to_tensor
   # puts Num::NN.sigmoid(a) # => [0.524979, 0.584191, 0.65701 ]
@@ -142,13 +140,13 @@ module Num::NN
 
   # Derivative of the Sigmoid function
   #
-  # Arguments
-  # ---------
-  # *x* : Tensor
-  #   Tensor to derive
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * gradient : `Tensor` - `Tensor` to derive
+  # * cached : `Tensor` - Cached `Tensor` from activation
+  #
+  # ## Examples
+  #
   # ```
   # a = [0.1, 0.34, 0.65].to_tensor
   # puts Num::NN.d_sigmoid(a) # => [0.249376, 0.242912, 0.225348]
@@ -166,17 +164,9 @@ module Num::NN
 
   # ReLU activation function
   #
-  # Arguments
-  # ---------
-  # x : Tensor(Float32, OCL(Float32))
-  #   Argument to activate
+  # ## Arguments
   #
-  # Returns
-  # -------
-  # Tensor(Float32, OCL(Float32))
-  #
-  # Examples
-  # --------
+  # * x : `Tensor` - Argument to activate
   def relu(x : Tensor(Float32, OCL(Float32))) : Tensor(Float32, OCL(Float32))
     opencl_forwards(Num::OpenCLKernelCache.reluForwards, x)
   end
@@ -188,15 +178,10 @@ module Num::NN
 
   # Derivative of the ReLU activation function
   #
-  # Arguments
-  # ---------
+  # ## Arguments
   #
-  # Returns
-  # -------
-  # nil
-  #
-  # Examples
-  # --------
+  # * gradient : `Tensor` - `Tensor` to derive
+  # * cached : `Tensor` Cached `Tensor` from activation
   def relu_prime(
     gradient : Tensor(Float32, OCL(Float32)),
     cached : Tensor(Float32, OCL(Float32))
@@ -210,17 +195,9 @@ module Num::NN
 
   # Leaky ReLU activation function
   #
-  # Arguments
-  # ---------
-  # x : Tensor(Float32, OCL(Float32))
-  #   Argument to activate
+  # ## Arguments
   #
-  # Returns
-  # -------
-  # Tensor(Float32, OCL(Float32))
-  #
-  # Examples
-  # --------
+  # * x : `Tensor` - Argument to activate
   def leaky_relu(x : Tensor(Float32, OCL(Float32))) : Tensor(Float32, OCL(Float32))
     opencl_forwards(Num::OpenCLKernelCache.leakyReluForwards, x)
   end
@@ -230,21 +207,12 @@ module Num::NN
     opencl_forwards_inplace(Num::OpenCLKernelCache.leakyReluForwardsInplace, x)
   end
 
-  # Brief description of leakyreluprime
+  # Leaky ReLU derivative
   #
-  # Arguments
-  # ---------
-  # gradient : Tensor(Float32, OCL(Float32))
-  #   Gradient value
-  # cached : Tensor(Float32, OCL(Float32))
-  #   Stored value
+  # ## Arguments
   #
-  # Returns
-  # -------
-  # Tensor(Float32, OCL(Float32))
-  #
-  # Examples
-  # --------
+  # * gradient : `Tensor` - `Tensor` to derive
+  # * cached : `Tensor` - Cached `Tensor` from activation
   def leaky_relu_prime(
     gradient : Tensor(Float32, OCL(Float32)),
     cached : Tensor(Float32, OCL(Float32))
@@ -258,19 +226,10 @@ module Num::NN
 
   # Sigmoid cross entropy loss
   #
-  # Arguments
-  # ---------
-  # input : Tensor(Float32, OCL(Float32))
-  #   Predicted values
-  # target : Tensor(Float32, OCL(Float32))
-  #   Truth values
+  # ## Arguments
   #
-  # Returns
-  # -------
-  # Tensor(Float32, OCL(Float32))
-  #
-  # Examples
-  # --------
+  # * input : `Tensor` - Predicted values
+  # * target : `Tensor` - Truth values
   def sigmoid_cross_entropy(input : Tensor(Float32, OCL(Float32)), target : Tensor(Float32, OCL(Float32)))
     batch_size = input.shape[0]
     result = opencl_backwards_template(
@@ -286,19 +245,10 @@ module Num::NN
 
   # Mean squared error loss
   #
-  # Arguments
-  # ---------
-  # input : Tensor(Float32, OCL(Float32))
-  #   Predicted values
-  # target : Tensor(Float32, OCL(Float32))
-  #   Truth values
+  # ## Arguments
   #
-  # Returns
-  # -------
-  # Tensor(Float32, OCL(Float32))
-  #
-  # Examples
-  # --------
+  # * input : `Tensor` - Predicted values
+  # * target : `Tensor` - Truth values
   def mse(input : Tensor(Float32, OCL(Float32)), target : Tensor(Float32, OCL(Float32)))
     result = opencl_backwards_template(
       Num::OpenCLKernelCache.mseLoss,

@@ -24,6 +24,17 @@
 module Num::NN
   extend self
 
+  # Computes a 2D convolution over input images. Intended to be used
+  # in 2d convolution forward pass. This applies a 2D cross-correlation,
+  # not to be confused with the mathematical convolution.
+  #
+  # ## Arguments
+  #
+  # * input : `Tensor` - 4D `Tensor` batch of images of the size [N,C_in,H_in,W_in]
+  # * weight : `Tensor` - 4D `Tensor` convolving kernel weights of the size [C_out,C_in,kH,kW]
+  # * bias : `Tensor` - 3D `Tensor` bias of the size [C_out,1,1]
+  # * padding : `Tuple` - `Tuple` with height and width of the padding
+  # * stride : `Tuple` - `Tuple` with height and width of the stride
   def conv2d(
     input : Tensor(Float32, CPU(Float32)),
     weight : Tensor(Float32, CPU(Float32)),
@@ -65,6 +76,17 @@ module Num::NN
     result
   end
 
+  # Computes gradients of a 2D convolution. Intended to be used after
+  # `conv2d` to calculate gradients in backward pass.
+  #
+  # ## Arguments
+  #
+  # * input : `Tensor` - 4D `Tensor` batch of images of the size [N,C_in,H_in,W_in]
+  # * weight : `Tensor` - 4D `Tensor` convolving kernel weights of the size [C_out,C_in,kH,kW]
+  # * bias : `Tensor` - 3D `Tensor` bias of the size [C_out,1,1]
+  # * grad_output : `Tensor` - 4D `Tensor` gradient of size [N, C_out, H_out, W_out]
+  # * padding : `Tuple` - `Tuple` with height and width of the padding
+  # * stride : `Tuple` - `Tuple` with height and width of the stride
   def conv2d_backward(
     input : Tensor(Float32, CPU(Float32)),
     weight : Tensor(Float32, CPU(Float32)),
@@ -138,6 +160,7 @@ module Num::NN
     {grad_input, grad_weight, grad_bias}
   end
 
+  # :nodoc:
   def im2col(
     input : Tensor(U, CPU(U)),
     kernel : Tuple(Int, Int),
@@ -186,6 +209,7 @@ module Num::NN
     result
   end
 
+  # :nodoc:
   def col2im(
     input : Tensor(U, CPU(U)),
     channels : Int,
@@ -222,6 +246,17 @@ module Num::NN
     result
   end
 
+  # Computes a 2D convolution over input images. Intended to be used
+  # in 2d convolution forward pass. This applies a 2D cross-correlation,
+  # not to be confused with the mathematical convolution.
+  #
+  # ## Arguments
+  #
+  # * input : `Tensor` - 4D `Tensor` batch of images of the size [N,C_in,H_in,W_in]
+  # * weight : `Tensor` - 4D `Tensor` convolving kernel weights of the size [C_out,C_in,kH,kW]
+  # * bias : `Tensor` - 3D `Tensor` bias of the size [C_out,1,1]
+  # * padding : `Tuple` - `Tuple` with height and width of the padding
+  # * stride : `Tuple` - `Tuple` with height and width of the stride
   def im2colgemm_conv2d(
     input : Tensor(U, CPU(U)),
     kernel : Tensor(U, CPU(U)),
@@ -247,6 +282,17 @@ module Num::NN
     result + bias
   end
 
+  # Computes gradients of a 2D convolution. Intended to be used after
+  # `conv2d` to calculate gradients in backward pass.
+  #
+  # ## Arguments
+  #
+  # * input : `Tensor` - 4D `Tensor` batch of images of the size [N,C_in,H_in,W_in]
+  # * weight : `Tensor` - 4D `Tensor` convolving kernel weights of the size [C_out,C_in,kH,kW]
+  # * bias : `Tensor` - 3D `Tensor` bias of the size [C_out,1,1]
+  # * grad_output : `Tensor` - 4D `Tensor` gradient of size [N, C_out, H_out, W_out]
+  # * padding : `Tuple` - `Tuple` with height and width of the padding
+  # * stride : `Tuple` - `Tuple` with height and width of the stride
   def im2colgemm_conv2d_gradient(
     input : Tensor(U, CPU(U)),
     kernel : Tensor(U, CPU(U)),

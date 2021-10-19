@@ -25,11 +25,10 @@ class Tensor(T, S)
   # Converts a Tensor to an Array.  To avoid return
   # type ambiguity this will always return a 1D Array
   #
-  # Arguments
-  # ---------
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # ## Examples
+  #
   # ```
   # a = Tensor.from_array [[1, 2], [3, 4]]
   # a.to_a # => [1, 2, 3, 4]
@@ -41,11 +40,10 @@ class Tensor(T, S)
   # Places a Tensor onto a CPU backend.  No copy is done
   # if the Tensor is already on a CPU
   #
-  # Arguments
-  # ---------
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # ## Examples
+  #
   # ```
   # a = Tensor(Float32, OCL(Float32)).ones([3])
   # a.cpu # => [1, 1, 1]
@@ -57,13 +55,12 @@ class Tensor(T, S)
   # Converts a Tensor to a given dtype.  No rounding
   # is done on floating point values.
   #
-  # Arguments
-  # ---------
-  # *dtype* : U.class
-  #   Dtype of the returned Tensor
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * dtype : `U.class` - desired data type of the returned `Tensor`
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.from_array [1.5, 2.2, 3.2]
   # a.as_type(Int32) # => [1, 2, 3]

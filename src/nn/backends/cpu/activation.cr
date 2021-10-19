@@ -28,13 +28,12 @@ module Num::NN
   # But unlike Sigmoid, its output is zero-centered. Therefore, in practice
   # the tanh non-linearity is always preferred to the sigmoid nonlinearity.
   #
-  # Arguments
-  # ---------
-  # *x* : Tensor
-  #   Tensor to activate
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * x : `Tensor` - `Tensor` to activate
+  #
+  # ## Examples
+  #
   # ```
   # a = [0.1, 0.34, 0.65].to_tensor
   # Num::NN.tanh(a) # => [0.099668, 0.327477, 0.57167 ]
@@ -50,13 +49,13 @@ module Num::NN
 
   # Derivative of the Tanh function
   #
-  # Arguments
-  # ---------
-  # *x* : Tensor
-  #   Tensor to derive
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * x : `Tensor` - `Tensor` to derive
+  # * cached : `Tensor` - Cached `Tensor` from activation
+  #
+  # ## Examples
+  #
   # ```
   # a = [0.1, 0.34, 0.65].to_tensor
   # Num::NN.d_tanh(a) # => [0.990066, 0.892759, 0.673193]
@@ -73,13 +72,12 @@ module Num::NN
   # continuously differentiable, monotonic, and has a fixed
   # output range.
   #
-  # Arguments
-  # ---------
-  # *x* : Tensor
-  #   Tensor to activate
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * x : `Tensor` - `Tensor` to activate
+  #
+  # ## Examples
+  #
   # ```
   # a = [0.1, 0.34, 0.65].to_tensor
   # puts Num::NN.sigmoid(a) # => [0.524979, 0.584191, 0.65701 ]
@@ -99,13 +97,13 @@ module Num::NN
 
   # Derivative of the Sigmoid function
   #
-  # Arguments
-  # ---------
-  # *x* : Tensor
-  #   Tensor to derive
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * gradient : `Tensor` - `Tensor` to derive
+  # * cached : `Tensor` - Cached `Tensor` from activation
+  #
+  # ## Examples
+  #
   # ```
   # a = [0.1, 0.34, 0.65].to_tensor
   # puts Num::NN.d_sigmoid(a) # => [0.249376, 0.242912, 0.225348]
@@ -118,17 +116,9 @@ module Num::NN
 
   # ReLU activation function
   #
-  # Arguments
-  # ---------
-  # x : Tensor(U, CPU(U))
-  #   Argument to activate
+  # ## Arguments
   #
-  # Returns
-  # -------
-  # Tensor(U, CPU(U))
-  #
-  # Examples
-  # --------
+  # * x : `Tensor` - Argument to activate
   def relu(x : Tensor(U, CPU(U))) : Tensor(U, CPU(U)) forall U
     Num.max(U.new(0), x)
   end
@@ -140,15 +130,10 @@ module Num::NN
 
   # Derivative of the ReLU activation function
   #
-  # Arguments
-  # ---------
+  # ## Arguments
   #
-  # Returns
-  # -------
-  # nil
-  #
-  # Examples
-  # --------
+  # * gradient : `Tensor` - `Tensor` to derive
+  # * cached : `Tensor` Cached `Tensor` from activation
   def relu_prime(gradient : Tensor(U, CPU(U)), cached : Tensor(U, CPU(U))) : Tensor(U, CPU(U)) forall U
     cached.map(gradient) do |x, y|
       if x <= 0
@@ -161,17 +146,9 @@ module Num::NN
 
   # Leaky ReLU activation function
   #
-  # Arguments
-  # ---------
-  # x : Tensor(U, CPU(U))
-  #   Argument to activate
+  # ## Arguments
   #
-  # Returns
-  # -------
-  # Tensor(U, CPU(U))
-  #
-  # Examples
-  # --------
+  # * x : `Tensor` - Argument to activate
   def leaky_relu(x : Tensor(U, CPU(U))) : Tensor(U, CPU(U)) forall U
     x.map do |i|
       i > 0 ? i : U.new(i * 0.01)
@@ -185,21 +162,12 @@ module Num::NN
     end
   end
 
-  # Brief description of leakyreluprime
+  # Leaky ReLU derivative
   #
-  # Arguments
-  # ---------
-  # gradient : Tensor(U, CPU(U))
-  #   Gradient value
-  # cached : Tensor(U, CPU(U))
-  #   Stored value
+  # ## Arguments
   #
-  # Returns
-  # -------
-  # Tensor(U, CPU(U))
-  #
-  # Examples
-  # --------
+  # * gradient : `Tensor` - `Tensor` to derive
+  # * cached : `Tensor` - Cached `Tensor` from activation
   def leaky_relu_prime(gradient : Tensor(U, CPU(U)), cached : Tensor(U, CPU(U))) : Tensor(U, CPU(U)) forall U
     cached.map(gradient) do |x, y|
       if x <= 0
@@ -212,17 +180,9 @@ module Num::NN
 
   # Exponential linear unit activation
   #
-  # Arguments
-  # ---------
-  # x : Tensor(U, CPU(U))
-  #   Argument to activate
+  # ## Arguments
   #
-  # Returns
-  # -------
-  # Tensor(U, CPU(U))
-  #
-  # Examples
-  # --------
+  # * x : `Tensor` - `Tensor` to activate
   def elu(x : Tensor(U, CPU(U)), alpha = 0.01) : Tensor(U, CPU(U)) forall U
     x.map do |i|
       if i > 0
@@ -244,21 +204,12 @@ module Num::NN
     end
   end
 
-  # Derivative of the ELU activation
+  # ELU derivative
   #
-  # Arguments
-  # ---------
-  # gradient : Tensor(U, CPU(U))
-  #   Gradient value
-  # cached : Tensor(U, CPU(U))
-  #   Stored value
+  # ## Arguments
   #
-  # Returns
-  # -------
-  # Tensor(U, CPU(U))
-  #
-  # Examples
-  # --------
+  # * gradient : `Tensor` - `Tensor` to derive
+  # * cached : `Tensor` - Cached `Tensor` from activation
   def elu_prime(gradient : Tensor(U, CPU(U)), cached : Tensor(U, CPU(U))) : Tensor(U, CPU(U)) forall U
     cached.map(gradient) do |x, y|
       if x <= 0
@@ -271,19 +222,10 @@ module Num::NN
 
   # Sigmoid cross entropy loss
   #
-  # Arguments
-  # ---------
-  # input : Tensor(U, CPU(U))
-  #   Predicted values
-  # target : Tensor(U, CPU(U))
-  #   Truth values
+  # ## Arguments
   #
-  # Returns
-  # -------
-  # Tensor(U, CPU(U))
-  #
-  # Examples
-  # --------
+  # * input : `Tensor` - Predicted values
+  # * target : `Tensor` - Truth values
   def sigmoid_cross_entropy(input : Tensor(U, CPU(U)), target : Tensor(U, CPU(U))) forall U
     batch_size = input.shape[0]
     result = input.map(target) do |x, y|
@@ -294,19 +236,10 @@ module Num::NN
 
   # Mean squared error loss
   #
-  # Arguments
-  # ---------
-  # input : Tensor(U, CPU(U))
-  #   Predicted values
-  # target : Tensor(U, CPU(U))
-  #   Truth values
+  # ## Arguments
   #
-  # Returns
-  # -------
-  # Tensor(U, CPU(U))
-  #
-  # Examples
-  # --------
+  # * input : `Tensor` - Predicted values
+  # * target : `Tensor` - Truth values
   def mse(input : Tensor(U, CPU(U)), target : Tensor(U, CPU(U))) : Tensor(U, CPU(U)) forall U
     result = input.map(target) do |i, j|
       (i - j) ** 2
@@ -314,19 +247,7 @@ module Num::NN
     [U.new(result.mean)].to_tensor
   end
 
-  # Brief description of streamingmaxsumexp
-  #
-  # Arguments
-  # ---------
-  # t : Tensor(U)
-  #   Brief description of t : Tensor(U)
-  #
-  # Returns
-  # -------
-  # nil
-  #
-  # Examples
-  # --------
+  # :nodoc:
   def streaming_max_sumexp(t : Tensor(U, CPU(U))) forall U
     mx = U::MIN
     sumexp = U.new(0)
@@ -342,60 +263,23 @@ module Num::NN
     {mx, sumexp}
   end
 
-  # Brief description of logsumexp
-  #
-  # Arguments
-  # ---------
-  # t : Tensor(U)
-  #   Brief description of t : Tensor(U)
-  #
-  # Returns
-  # -------
-  # nil
-  #
-  # Examples
-  # --------
+  # :nodoc:
   def logsumexp(t : Tensor(U, CPU(U))) forall U
     mx, sumexp = streaming_max_sumexp(t)
     mx + Math.log(sumexp, Math::E)
   end
 
-  # Brief description of stablesoftmax
-  #
-  # Arguments
-  # ---------
-  # x : U
-  #   Brief description of x : U
-  # mx : U
-  #   Brief description of mx : U
-  # sumexp : U
-  #   Brief description of sumexp : U
-  #
-  # Returns
-  # -------
-  # nil
-  #
-  # Examples
-  # --------
+  # :nodoc:
   def stable_softmax(x : U, mx : U, sumexp : U) forall U
     Math.exp(x - mx) / sumexp
   end
 
-  # Brief description of softmaxcrossentropy
+  # Computes softmax cross entropy loss
   #
-  # Arguments
-  # ---------
-  # input : Tensor(U)
-  #   Brief description of input : Tensor(U)
-  # target : Tensor(U)
-  #   Brief description of target : Tensor(U)
+  # ## Arguments
   #
-  # Returns
-  # -------
-  # U
-  #
-  # Examples
-  # --------
+  # * input : `Tensor` - Predicted values
+  # * target : `Tensor` - Truth values
   def softmax_cross_entropy(input : Tensor(U, CPU(U)), target : Tensor(U, CPU(U))) forall U
     n = input.shape[0]
     result = (input * target).sum

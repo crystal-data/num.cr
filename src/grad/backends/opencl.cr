@@ -22,6 +22,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 module Num::Grad
+  # :nodoc:
   def subtract_backward(gradient : Tensor(U, OCL(U))) : Array(Tensor(U, OCL(U))) forall U
     negative_one = [U.new(-1)].to_tensor(OCL)
     [gradient, gradient * negative_one]
@@ -41,6 +42,7 @@ module Num::Grad
     result
   end
 
+  # :nodoc:
   def divide_backward(
     gradient : Tensor(Float32, OCL(Float32)),
     av : Variable(Tensor(Float32, OCL(Float32))),
@@ -60,6 +62,7 @@ module Num::Grad
     [r0, r1]
   end
 
+  # :nodoc:
   def power_backward(
     gradient : Tensor(Float32, OCL(Float32)),
     av : Variable(Tensor(Float32, OCL(Float32))),
@@ -81,6 +84,7 @@ module Num::Grad
     [r0, r1]
   end
 
+  # :nodoc:
   def exp_backward(
     gradient : Tensor(Float32, OCL(Float32)),
     av : Variable(Tensor(Float32, OCL(Float32)))
@@ -110,6 +114,7 @@ module Num::Grad
     [result]
   end
 
+  # :nodoc:
   def sin_backward(
     gradient : Tensor(Float32, OCL(Float32)),
     a : Variable(Tensor(Float32, OCL(Float32)))
@@ -117,6 +122,7 @@ module Num::Grad
     trig_backward(Num::OpenCLKernelCache.sinBackwards, gradient, a.value)
   end
 
+  # :nodoc:
   def cos_backward(
     gradient : Tensor(Float32, OCL(Float32)),
     a : Variable(Tensor(Float32, OCL(Float32)))
@@ -124,6 +130,7 @@ module Num::Grad
     trig_backward(Num::OpenCLKernelCache.cosBackwards, gradient, a.value)
   end
 
+  # :nodoc:
   def tan_backward(
     gradient : Tensor(Float32, OCL(Float32)),
     a : Variable(Tensor(Float32, OCL(Float32)))
@@ -131,6 +138,7 @@ module Num::Grad
     trig_backward(Num::OpenCLKernelCache.tanBackwards, gradient, a.value)
   end
 
+  # :nodoc:
   def asin_backward(
     gradient : Tensor(Float32, OCL(Float32)),
     a : Variable(Tensor(Float32, OCL(Float32)))
@@ -138,6 +146,7 @@ module Num::Grad
     trig_backward(Num::OpenCLKernelCache.asinBackwards, gradient, a.value)
   end
 
+  # :nodoc:
   def acos_backward(
     gradient : Tensor(Float32, OCL(Float32)),
     a : Variable(Tensor(Float32, OCL(Float32)))
@@ -145,6 +154,7 @@ module Num::Grad
     trig_backward(Num::OpenCLKernelCache.acosBackwards, gradient, a.value)
   end
 
+  # :nodoc:
   def atan_backward(
     gradient : Tensor(Float32, OCL(Float32)),
     a : Variable(Tensor(Float32, OCL(Float32)))

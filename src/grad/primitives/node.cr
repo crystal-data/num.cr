@@ -21,6 +21,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+# :nodoc:
 # A Node is a member of a computational graph that contains
 # a reference to a gate, as well as the parents of the operation
 # and the payload that resulted from the operation.

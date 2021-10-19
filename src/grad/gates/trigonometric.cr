@@ -21,6 +21,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+# :nodoc:
 class Num::Grad::Trig1dGate(T) < Num::Grad::Gate(T)
   getter a : Num::Grad::Variable(T)
   @@name = "Trig1d"
@@ -40,6 +41,7 @@ class Num::Grad::Trig1dGate(T) < Num::Grad::Gate(T)
   end
 end
 
+# :nodoc:
 class Num::Grad::SinGate(T) < Num::Grad::Trig1dGate(T)
   @@name = "Sin"
 
@@ -48,6 +50,7 @@ class Num::Grad::SinGate(T) < Num::Grad::Trig1dGate(T)
   end
 end
 
+# :nodoc:
 class Num::Grad::CosGate(T) < Num::Grad::Trig1dGate(T)
   @@name = "Cos"
 
@@ -56,6 +59,7 @@ class Num::Grad::CosGate(T) < Num::Grad::Trig1dGate(T)
   end
 end
 
+# :nodoc:
 class Num::Grad::TanGate(T) < Num::Grad::Trig1dGate(T)
   @@name = "Tan"
 
@@ -64,6 +68,7 @@ class Num::Grad::TanGate(T) < Num::Grad::Trig1dGate(T)
   end
 end
 
+# :nodoc:
 class Num::Grad::ASinGate(T) < Num::Grad::Trig1dGate(T)
   @@name = "ASin"
 
@@ -72,6 +77,7 @@ class Num::Grad::ASinGate(T) < Num::Grad::Trig1dGate(T)
   end
 end
 
+# :nodoc:
 class Num::Grad::ACosGate(T) < Num::Grad::Trig1dGate(T)
   @@name = "ACos"
 
@@ -80,6 +86,7 @@ class Num::Grad::ACosGate(T) < Num::Grad::Trig1dGate(T)
   end
 end
 
+# :nodoc:
 class Num::Grad::ATanGate(T) < Num::Grad::Trig1dGate(T)
   @@name = "Sin"
 

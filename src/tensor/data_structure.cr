@@ -93,10 +93,16 @@ class Tensor(T, S)
   end
 
   # :nodoc:
+  def to_tensor
+    self
+  end
+
+  # :nodoc:
   def get_offset_ptr
     self.to_unsafe + self.offset
   end
 
+  # :nodoc:
   def get_offset_ptr_c
     {% if T == Complex %}
       self.get_offset_ptr.as(LibCblas::ComplexDouble*)

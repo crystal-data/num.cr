@@ -27,6 +27,7 @@ enum Num::Einsum::OperandType
   Intermediate
 end
 
+# :nodoc:
 # Either an input operand or an intermediate result
 struct Num::Einsum::OperandNumber
   getter flag : OperandType
@@ -36,6 +37,7 @@ struct Num::Einsum::OperandNumber
   end
 end
 
+# :nodoc:
 # Which two tensors to contract
 struct Num::Einsum::OperandNumPair
   getter lhs : OperandNumber
@@ -45,6 +47,7 @@ struct Num::Einsum::OperandNumPair
   end
 end
 
+# :nodoc:
 # A single pairwise contraction between two input operands, an input
 # operand and an intermediate result, or two intermediate results.
 struct Num::Einsum::Pair
@@ -75,6 +78,7 @@ enum Num::Einsum::ContractionOrderType
   Pair
 end
 
+# :nodoc:
 # The order in which to contract pairs of tensors and the specific
 # contractions to be performed between the pairs.
 #
@@ -96,6 +100,7 @@ struct Num::Einsum::ContractionOrder(T)
   end
 end
 
+# :nodoc:
 # Strategy for optimizing the contraction. The only currently supported
 # options are "Naive" and "Reverse".
 enum Num::Einsum::OptimizationMethod
@@ -112,6 +117,7 @@ end
 module Num::Einsum
   extend self
 
+  # :nodoc:
   # Returns a set of all the indices in any of the remaining operands
   # or in the output
   def get_remaining_operand_indices(
@@ -121,11 +127,13 @@ module Num::Einsum
     operand_indices.to_set + output_indices.to_set
   end
 
+  # :nodoc:
   # Returns a set of all the indices in the LHS or the RHS
   def get_existing_indices(lhs_indices : Array(Char), rhs_indices : Array(Char))
     lhs_indices.to_set + rhs_indices.to_set
   end
 
+  # :nodoc:
   # Returns a permuted version of `sized_contraction`, specified by
   # `tensor_order`
   def generate_permutated_contraction(
@@ -141,6 +149,7 @@ module Num::Einsum
     )
   end
 
+  # :nodoc:
   # Generates a mini-contraction corresponding to `lhs_operand_indices`,
   # `rhs_operand_indices`->`output_indices`
   def generate_sized_contraction_pair(
@@ -154,6 +163,7 @@ module Num::Einsum
     )
   end
 
+  # :nodoc:
   # Generate the actual path consisting of all the mini-contractions. Currently always
   # contracts two input operands and then repeatedly uses the result as the LHS of the
   # next pairwise contraction.
@@ -240,18 +250,21 @@ module Num::Einsum
     end
   end
 
+  # :nodoc:
   # Contracts the first two operands, then contracts the result with the
   # third operand, etc.
   def naive_order(sized_contraction : Num::Einsum::SizedContraction)
     (0...sized_contraction.contraction.operand_indices.size).to_a
   end
 
+  # :nodoc:
   # Contracts the last two operands, then contracts the result with the
   # third-to-last operand, etc.
   def reverse_order(sized_contraction : Num::Einsum::SizedContraction)
     naive_order(sized_contraction).reverse
   end
 
+  # :nodoc:
   # Given a `SizedContraction` and an optimization strategy, returns an
   # order in which to perform pairwise contractions in order to produce
   # the final result

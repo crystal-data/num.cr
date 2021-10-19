@@ -21,6 +21,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+# :nodoc:
 class Num::Grad::AddGate(T) < Num::Grad::Gate(T)
   # :nodoc:
   def backward(payload : Num::Grad::Payload(T)) : Array(T)
@@ -38,6 +39,7 @@ class Num::Grad::AddGate(T) < Num::Grad::Gate(T)
   end
 end
 
+# :nodoc:
 class Num::Grad::SubtractGate(T) < Num::Grad::Gate(T)
   # :nodoc:
   def backward(payload : Num::Grad::Payload(T)) : Array(T)
@@ -54,6 +56,7 @@ class Num::Grad::SubtractGate(T) < Num::Grad::Gate(T)
   end
 end
 
+# :nodoc:
 class Num::Grad::TwoOpGate(T) < Num::Grad::Gate(T)
   getter a : Num::Grad::Variable(T)
   getter b : Num::Grad::Variable(T)
@@ -77,6 +80,7 @@ class Num::Grad::TwoOpGate(T) < Num::Grad::Gate(T)
   end
 end
 
+# :nodoc:
 class Num::Grad::MultiplyGate(T) < Num::Grad::TwoOpGate(T)
   @@name = "Multiply"
 
@@ -85,6 +89,7 @@ class Num::Grad::MultiplyGate(T) < Num::Grad::TwoOpGate(T)
   end
 end
 
+# :nodoc:
 class Num::Grad::DivideGate(T) < Num::Grad::TwoOpGate(T)
   @@name = "Divide"
 
@@ -93,6 +98,7 @@ class Num::Grad::DivideGate(T) < Num::Grad::TwoOpGate(T)
   end
 end
 
+# :nodoc:
 class Num::Grad::PowerGate(T) < Num::Grad::TwoOpGate(T)
   @@name = "Power"
 

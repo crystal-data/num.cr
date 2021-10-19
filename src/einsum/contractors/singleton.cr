@@ -21,19 +21,12 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-# abstract struct Num::Einsum::SingletonViewer
-#   abstract def view(arr : Tensor(U, CPU(U))) forall U
-# end
-
+# :nodoc:
 abstract struct Num::Einsum::SingletonContractor
   abstract def contract(arr : Tensor(U, CPU(U))) forall U
 end
 
-# abstract struct Num::Einsum::SingletonViewerAndContractor
-#   abstract def view(arr : Tensor(U, CPU(U))) forall U
-#   abstract def contract(arr : Tensor(U, CPU(U))) forall U
-# end
-
+# :nodoc:
 # Returns a view or clone of the input tensor.
 #
 # Example: `ij->ij`
@@ -47,6 +40,7 @@ struct Num::Einsum::Identity < Num::Einsum::SingletonContractor
   end
 end
 
+# :nodoc:
 # Permutes the axes of the input tensor and returns a view or clones
 # the elements.
 #
@@ -76,6 +70,7 @@ struct Num::Einsum::Permutation < Num::Einsum::SingletonContractor
   end
 end
 
+# :nodoc:
 # Sums across the elements of the input tensor that don't appear in the output
 # tensor.
 #
@@ -109,6 +104,7 @@ struct Num::Einsum::Summation < Num::Einsum::SingletonContractor
   end
 end
 
+# :nodoc:
 # Returns the elements of the input tensor where all instances of the repeated
 # indices are equal to one another.
 #
@@ -153,6 +149,7 @@ struct Num::Einsum::Diagonalization < Num::Einsum::SingletonContractor
   end
 end
 
+# :nodoc:
 # Permutes the elements of the input tensor and sums across elements that don't appear in the output.
 #
 # Example: `ijk->kj`
@@ -189,6 +186,7 @@ struct Num::Einsum::PermutationAndSummation < Num::Einsum::SingletonContractor
   end
 end
 
+# :nodoc:
 # Returns the elements of the input tensor where all instances of the repeated
 # indices are equal to one another, optionally permuting the axes, and
 # sums across indices that don't appear in the output.
