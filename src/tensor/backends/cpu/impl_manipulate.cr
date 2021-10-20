@@ -118,7 +118,7 @@ module Num
   # #
   # #  [[3]]]
   # ```
-  def with_broadcast(arr : Tensor(U, CPU(U)), n : Int) : Tensor(U, CPU(U))
+  def with_broadcast(arr : Tensor(U, CPU(U)), n : Int) : Tensor(U, CPU(U)) forall U
     shape = arr.shape + [1] * n
     strides = arr.strides + [0] * n
     arr.as_strided(shape, strides)
@@ -137,7 +137,7 @@ module Num
   #
   # Examples
   # --------
-  def expand_dims(arr : Tensor(U, CPU(U)), axis : Int) : Tensor(U, CPU(U))
+  def expand_dims(arr : Tensor(U, CPU(U)), axis : Int) : Tensor(U, CPU(U)) forall U
     shape = arr.shape.dup
     shape.insert(axis, 1)
     strides = arr.strides.dup

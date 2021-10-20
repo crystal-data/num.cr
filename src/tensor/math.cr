@@ -35,13 +35,12 @@ class Tensor(T, S)
 
   # Adds two `Tensor`s elementwise
   #
-  # Arguments
-  # ---------
-  # *other* : Tensor | Number
-  #   RHS argument
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * other : `Tensor` | `Number` - RHS argument
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.from_array [1.5, 2.2, 3.2]
   # a + a
@@ -50,13 +49,12 @@ class Tensor(T, S)
 
   # Subtracts two `Tensor`s elementwise
   #
-  # Arguments
-  # ---------
-  # *other* : Tensor | Number
-  #   RHS argument
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * other : `Tensor` | `Number` - RHS argument
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.from_array [1.5, 2.2, 3.2]
   # a - a
@@ -65,13 +63,12 @@ class Tensor(T, S)
 
   # Multiplies two `Tensor`s elementwise
   #
-  # Arguments
-  # ---------
-  # *other* : Tensor | Number
-  #   RHS argument
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * other : `Tensor` | `Number` - RHS argument
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.from_array [1.5, 2.2, 3.2]
   # a * a
@@ -80,13 +77,12 @@ class Tensor(T, S)
 
   # Divides two `Tensor`s elementwise
   #
-  # Arguments
-  # ---------
-  # *other* : Tensor | Number
-  #   RHS argument
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * other : `Tensor` | `Number` - RHS argument
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.from_array [1.5, 2.2, 3.2]
   # a / a
@@ -95,13 +91,12 @@ class Tensor(T, S)
 
   # Floor divides two `Tensor`s elementwise
   #
-  # Arguments
-  # ---------
-  # *other* : Tensor | Number
-  #   RHS argument
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * other : `Tensor` | `Number` - RHS argument
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.from_array [1.5, 2.2, 3.2]
   # a // a
@@ -110,13 +105,12 @@ class Tensor(T, S)
 
   # Exponentiates two `Tensor`s elementwise
   #
-  # Arguments
-  # ---------
-  # *other* : Tensor | Number
-  #   RHS argument
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * other : `Tensor` | `Number` - RHS argument
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.from_array [1.5, 2.2, 3.2]
   # a ** a
@@ -125,13 +119,12 @@ class Tensor(T, S)
 
   # Return element-wise remainder of division for two `Tensor`s elementwise
   #
-  # Arguments
-  # ---------
-  # *other* : Tensor | Number
-  #   RHS argument
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * other : `Tensor` | `Number` - RHS argument
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.from_array [1.5, 2.2, 3.2]
   # a % a
@@ -143,13 +136,12 @@ class Tensor(T, S)
   # Since the internal representation of numbers is in binary format,
   # this operation is equivalent to multiplying x1 by 2**x2.
   #
-  # Arguments
-  # ---------
-  # *other* : Tensor | Number
-  #   RHS argument
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * other : `Tensor` | `Number` - RHS argument
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.from_array [1, 2, 3]
   # a << a
@@ -162,13 +154,12 @@ class Tensor(T, S)
   # of numbers is in binary format, this operation is equivalent to
   # dividing x1 by 2**x2.
   #
-  # Arguments
-  # ---------
-  # *other* : Tensor | Number
-  #   RHS argument
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * other : `Tensor` | `Number` - RHS argument
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.from_array [1, 2, 3]
   # a >> a
@@ -177,13 +168,12 @@ class Tensor(T, S)
 
   # Compute the bit-wise AND of two `Tensor`s element-wise.
   #
-  # Arguments
-  # ---------
-  # *other* : Tensor | Number
-  #   RHS argument
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * other : `Tensor` | `Number` - RHS argument
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.from_array [1, 2, 3]
   # a & a
@@ -192,13 +182,12 @@ class Tensor(T, S)
 
   # Compute the bit-wise OR of two `Tensor`s element-wise.
   #
-  # Arguments
-  # ---------
-  # *other* : Tensor | Number
-  #   RHS argument
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * other : `Tensor` | `Number` - RHS argument
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.from_array [1, 2, 3]
   # a | a
@@ -207,13 +196,12 @@ class Tensor(T, S)
 
   # Compute the bit-wise XOR of two `Tensor`s element-wise.
   #
-  # Arguments
-  # ---------
-  # *other* : Tensor | Number
-  #   RHS argument
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * other : `Tensor` | `Number` - RHS argument
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.from_array [1, 2, 3]
   # a ^ a
@@ -228,11 +216,8 @@ class Tensor(T, S)
 
   # Trigonometric inverse cosine, element-wise.
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # a = Tensor.from_array [1, 2, 3]
   # a.acos
@@ -241,11 +226,8 @@ class Tensor(T, S)
 
   # Inverse hyperbolic cosine, element-wise.
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # a = Tensor.from_array [1, 2, 3]
   # a.acos
@@ -254,11 +236,8 @@ class Tensor(T, S)
 
   # Inverse sine, element-wise.
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # a = Tensor.from_array [1, 2, 3]
   # a.asin
@@ -267,11 +246,8 @@ class Tensor(T, S)
 
   # Inverse hyperbolic sine, element-wise.
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # a = Tensor.from_array [1, 2, 3]
   # a.asinh
@@ -280,11 +256,8 @@ class Tensor(T, S)
 
   # Inverse tangent, element-wise.
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # a = Tensor.from_array [1, 2, 3]
   # a.atan
@@ -293,11 +266,8 @@ class Tensor(T, S)
 
   # Inverse hyperbolic tangent, element-wise.
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # a = Tensor.from_array [1, 2, 3]
   # a.atanh
@@ -306,11 +276,8 @@ class Tensor(T, S)
 
   # Calculates besselj0, elementwise
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # a = Tensor.from_array [1, 2, 3]
   # a.besselj0
@@ -319,11 +286,8 @@ class Tensor(T, S)
 
   # Calculates besselj1, elementwise
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # a = Tensor.from_array [1, 2, 3]
   # a.besselj1
@@ -332,11 +296,8 @@ class Tensor(T, S)
 
   # Calculates bessely0, elementwise
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # a = Tensor.from_array [1, 2, 3]
   # a.bessely0
@@ -345,11 +306,8 @@ class Tensor(T, S)
 
   # Calculates bessely1, elementwise
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # a = Tensor.from_array [1, 2, 3]
   # a.bessely1
@@ -358,11 +316,8 @@ class Tensor(T, S)
 
   # Calculates cube root, elementwise
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # a = Tensor.from_array [1, 2, 3]
   # a.cbrt
@@ -371,11 +326,8 @@ class Tensor(T, S)
 
   # Calculates cosine, elementwise
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # a = Tensor.from_array [1, 2, 3]
   # a.cos
@@ -384,11 +336,8 @@ class Tensor(T, S)
 
   # Calculates hyperbolic cosine, elementwise
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # a = Tensor.from_array [1, 2, 3]
   # a.cosh
@@ -397,11 +346,8 @@ class Tensor(T, S)
 
   # Calculates erf, elementwise
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # a = Tensor.from_array [1, 2, 3]
   # a.erf
@@ -410,11 +356,8 @@ class Tensor(T, S)
 
   # Calculates erfc, elementwise
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # a = Tensor.from_array [1, 2, 3]
   # a.erfc
@@ -423,11 +366,8 @@ class Tensor(T, S)
 
   # Calculates exp, elementwise
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # a = Tensor.from_array [1, 2, 3]
   # a.exp
@@ -436,11 +376,8 @@ class Tensor(T, S)
 
   # Calculates exp2, elementwise
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # a = Tensor.from_array [1, 2, 3]
   # a.exp2
@@ -449,11 +386,8 @@ class Tensor(T, S)
 
   # Calculates expm1, elementwise
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # a = Tensor.from_array [1, 2, 3]
   # a.expm1
@@ -462,11 +396,8 @@ class Tensor(T, S)
 
   # Calculates gamma function, elementwise
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # a = Tensor.from_array [1, 2, 3]
   # a.gamma
@@ -475,11 +406,8 @@ class Tensor(T, S)
 
   # Calculates ilogb, elementwise
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # a = Tensor.from_array [1, 2, 3]
   # a.ilogb
@@ -488,11 +416,8 @@ class Tensor(T, S)
 
   # Calculates logarithmic gamma, elementwise
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # a = Tensor.from_array [1, 2, 3]
   # a.lgamma
@@ -501,11 +426,8 @@ class Tensor(T, S)
 
   # Calculates log, elementwise
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # a = Tensor.from_array [1, 2, 3]
   # a.log
@@ -514,11 +436,8 @@ class Tensor(T, S)
 
   # Calculates log10, elementwise
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # a = Tensor.from_array [1, 2, 3]
   # a.log10
@@ -527,11 +446,8 @@ class Tensor(T, S)
 
   # Calculates log1p, elementwise
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # a = Tensor.from_array [1, 2, 3]
   # a.log1p
@@ -540,11 +456,8 @@ class Tensor(T, S)
 
   # Calculates log2, elementwise
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # a = Tensor.from_array [1, 2, 3]
   # a.log2
@@ -553,11 +466,8 @@ class Tensor(T, S)
 
   # Calculates logb, elementwise
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # a = Tensor.from_array [1, 2, 3]
   # a.logb
@@ -566,11 +476,8 @@ class Tensor(T, S)
 
   # Calculates sine, elementwise
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # a = Tensor.from_array [1, 2, 3]
   # a.sin
@@ -579,11 +486,8 @@ class Tensor(T, S)
 
   # Calculates hyperbolic sine, elementwise
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # a = Tensor.from_array [1, 2, 3]
   # a.sinh
@@ -592,11 +496,8 @@ class Tensor(T, S)
 
   # Calculates square root, elementwise
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # a = Tensor.from_array [1, 2, 3]
   # a.sqrt
@@ -605,11 +506,8 @@ class Tensor(T, S)
 
   # Calculates tangent, elementwise
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # a = Tensor.from_array [1, 2, 3]
   # a.tan
@@ -618,11 +516,8 @@ class Tensor(T, S)
 
   # Calculates hyperbolic tangent, elementwise
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # a = Tensor.from_array [1, 2, 3]
   # a.tanh

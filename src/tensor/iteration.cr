@@ -25,12 +25,9 @@ class Tensor(T, S)
   # Yields the elements of a `Tensor`, always in RowMajor order,
   # as if the `Tensor` was flat.
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
-  # ```
+  # ```crystal
   # a = Tensor.new(2, 2) { |i| i }
   # a.each do |el|
   #   puts el
@@ -52,12 +49,11 @@ class Tensor(T, S)
   #
   # Arguments
   # ---------
-  # *b* : Tensor
-  #   The other tensor to iterate along
+  # * b : `Tensor` - The other `Tensor` with which to iterate
   #
-  # Examples
-  # --------
-  # ```
+  # ## Examples
+  #
+  # ```crystal
   # a = Tensor.new(2, 2) { |i| i }
   # b = Tensor.new(2, 2) { |i| i + 2 }
   # a.zip(b) do |el|
@@ -79,12 +75,10 @@ class Tensor(T, S)
   # Yields the elements of a `Tensor` lazily, always in RowMajor order,
   # as if the `Tensor` was flat.
   #
-  # Arguments
-  # ---------
   #
-  # Examples
-  # --------
-  # ```
+  # ## Examples
+  #
+  # ```crystal
   # a = Tensor.new(2, 2) { |i| i }
   # iter = a.each
   # a.size.times do
@@ -107,12 +101,9 @@ class Tensor(T, S)
   # as `map!` provided more convenient access to editing the values
   # of a `Tensor`
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
-  # ```
+  # ```crystal
   # a = Tensor.new(2, 2) { |i| i }
   # a.each_pointer do |el|
   #   puts el.value
@@ -133,12 +124,9 @@ class Tensor(T, S)
   # as if the `Tensor` was flat.  Also yields the flat index of each
   # element.
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
-  # ```
+  # ```crystal
   # a = Tensor.new(2, 2) { |i| i }
   # a.each_with_index do |el, i|
   #   puts "#{el}_#{i}"
@@ -163,12 +151,9 @@ class Tensor(T, S)
   # as `map!` provided more convenient access to editing the values
   # of a `Tensor`
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
-  # ```
+  # ```crystal
   # a = Tensor.new(2, 2) { |i| i }
   # a.each_pointer_with_index do |el, i|
   #   puts "#{el.value}_#{i}"
@@ -192,14 +177,13 @@ class Tensor(T, S)
   # The generic type of the returned `Tensor` is inferred from
   # the block
   #
-  # Arguments
-  # ---------
-  # *block* Proc(T, U)
-  #   Proc to map across the `Tensor`
+  # ## Arguments
   #
-  # Examples
-  # --------
-  # ```
+  # * block :  `Proc(T, U)` - `Proc` to map across the `Tensor`
+  #
+  # ## Examples
+  #
+  # ```crystal
   # a = Tensor.new([3]) { |i| i }
   # a.map { |e| e + 5 } # => [5, 6, 7]
   # ```
@@ -213,14 +197,13 @@ class Tensor(T, S)
   # as flat during iteration, and iteration is always done
   # in RowMajor order
   #
-  # Arguments
-  # ---------
-  # *block* Proc(T, U)
-  #   Proc to map across the `Tensor`
+  # ## Arguments
   #
-  # Examples
-  # --------
-  # ```
+  # * block :  `Proc(T, U)` - `Proc` to map across the `Tensor`
+  #
+  # ## Examples
+  #
+  # ```crystal
   # a = Tensor.new([3]) { |i| i }
   # a.map! { |e| e + 5 }
   # a # => [5, 6, 7]
@@ -237,17 +220,15 @@ class Tensor(T, S)
   #
   # The generic type of the returned `Tensor` is inferred from a block
   #
-  # Arguments
-  # ---------
-  # *t* : Tensor(U)
-  #   The second `Tensor` for iteration.  Must be broadcastable
-  #   against the `shape` of `self`
-  # *block* : Proc(T, U, V)
-  #   The block to map across both `Tensor`s
+  # ## Arguments
   #
-  # Examples
-  # --------
-  # ```
+  # * t : `Tensor` - The second `Tensor` for iteration.  Must be broadcastable
+  #   against the `shape` of `self`
+  # * block :  `Proc(T, U, V)` - `Proc` to map across the `Tensor`
+  #
+  # ## Examples
+  #
+  # ```crystal
   # a = Tensor.new([3]) { |i| i }
   # b = Tensor.new([3]) { |i| i }
   #
@@ -267,17 +248,15 @@ class Tensor(T, S)
   # Broadcasting rules still apply, but since this is an in place
   # operation, the other `Tensor` must broadcast to the shape of `self`
   #
-  # Arguments
-  # ---------
-  # *t* : Tensor(U)
-  #   The second `Tensor` for iteration.  Must be broadcastable
-  #   against the `shape` of `self`
-  # *block* : Proc(T, U, T)
-  #   The block to map across both `Tensor`s
+  # ## Arguments
   #
-  # Examples
-  # --------
-  # ```
+  # * t : `Tensor` - The second `Tensor` for iteration.  Must be broadcastable
+  #   against the `shape` of `self`
+  # * block :  `Proc(T, U, T)` - `Proc` to map across the `Tensor`
+  #
+  # ## Examples
+  #
+  # ```crystal
   # a = Tensor.new([3]) { |i| i }
   # b = Tensor.new([3]) { |i| i }
   #
@@ -296,20 +275,17 @@ class Tensor(T, S)
   #
   # The generic type of the returned `Tensor` is inferred from a block
   #
-  # Arguments
-  # ---------
-  # *t* : Tensor(U)
-  #   The second `Tensor` for iteration.  Must be broadcastable
-  #   against the `shape` of `self` and `v`
-  # *v) : Tensor(V)
-  #   The third `Tensor` for iteration.  Must be broadcastable
-  #   against the `shape` of `self` and `t`
-  # *block* : Proc(T, U, V, W)
-  #   The block to map across all `Tensor`s
+  # ## Arguments
   #
-  # Examples
-  # --------
-  # ```
+  # * t : `Tensor` - The second `Tensor` for iteration.  Must be broadcastable
+  #   against the `shape` of `self` and `v`
+  # * v : `Tensor` - The third `Tensor` for iteration.  Must be broadcastable
+  #   against the `shape` of `self` and `t`
+  # * block : `Proc(T, U, V, W)` - The `Proc` to map across all `Tensor`s
+  #
+  # ## Examples
+  #
+  # ```crystal
   # a = Tensor.new([3]) { |i| i }
   # b = Tensor.new([3]) { |i| i }
   # c = Tensor.new([3]) { |i| i }
@@ -330,20 +306,17 @@ class Tensor(T, S)
   # Broadcasting rules still apply, but since this is an in place
   # operation, the other `Tensor`'s must broadcast to the shape of `self`
   #
-  # Arguments
-  # ---------
-  # *t* : Tensor(U)
-  #   The second `Tensor` for iteration.  Must be broadcastable
-  #   against the `shape` of `self` and `v`
-  # *v) : Tensor(V)
-  #   The third `Tensor` for iteration.  Must be broadcastable
-  #   against the `shape` of `self` and `t`
-  # *block* : Proc(T, U, V, W)
-  #   The block to map across all `Tensor`s
+  # ## Arguments
   #
-  # Examples
-  # --------
-  # ```
+  # * t : `Tensor` - The second `Tensor` for iteration.  Must be broadcastable
+  #   against the `shape` of `self` and `v`
+  # * v : `Tensor` - The third `Tensor` for iteration.  Must be broadcastable
+  #   against the `shape` of `self` and `t`
+  # * block : `Proc(T, U, V, T)` - The `Proc` to map across all `Tensor`s
+  #
+  # ## Examples
+  #
+  # ```crystal
   # a = Tensor.new([3]) { |i| i }
   # b = Tensor.new([3]) { |i| i }
   # c = Tensor.new([3]) { |i| i }
@@ -368,7 +341,9 @@ class Tensor(T, S)
   #
   # Raises `Enumerable::EmptyError` if the Tensor is empty.
   #
-  # ```
+  # ## Examples
+  #
+  # ```crystal
   # [1, 2, 3, 4, 5].to_tensor.reduce { |acc, i| acc + i } # => 15
   # ```
   def reduce
@@ -386,7 +361,9 @@ class Tensor(T, S)
   # Just like the other variant, but you can set the initial value of the
   # accumulator.
   #
-  # ```
+  # ## Examples
+  #
+  # ```crystal
   # [1, 2, 3, 4, 5].to_tensor.reduce(10) { |acc, i| acc + i } # => 25
   # ```
   def reduce(memo)
@@ -404,7 +381,9 @@ class Tensor(T, S)
   # also appended to the returned Tensor. The initial value for the accumulator
   # is the first element in the Tensor.
   #
-  # ```
+  # ## Examples
+  #
+  # ```crystal
   # [2, 3, 4, 5]..to_tensor.accumulate { |x, y| x * y } # => [2, 6, 24, 120]
   # ```
   def accumulate(&block : T, T -> T) : Tensor(T, S)
@@ -420,59 +399,102 @@ class Tensor(T, S)
     values
   end
 
+  # Equivalent of calling `reduce` on each slice into an `axis`.
+  # Used primarily for reductions like `Num.sum`, `Num.prod`, in their
+  # axis versions.
   #
+  # ## Arguments
   #
+  # * axis : `Int` - Axis of reduction
+  # * dims : `Bool` - Indicates if the axis of reduction should be removed
+  #   from the result
   #
+  # ## Examples
   #
-  #
-  #
-  #
-  #
-  #
-  #
-  #
+  # ```crystal
+  # a = Tensor.new([3, 3]) { |i| i }
+  # a.reduce_axis(0) { |i, j| i + j } # => [ 9, 12, 15]
+  # ```
   def reduce_axis(axis : Int, dims : Bool = false, &block)
     Num.reduce_axis(self, axis, dims) do |i, j|
       yield i, j
     end
   end
 
+  # Yields a view of each lane of an `axis`.  Changes made in
+  # the passed block will be reflected in the original `Tensor`
   #
+  # ## Arguments
   #
+  # * axis : `Int` - Axis of reduction
+  # * dims : `Bool` - Indicates if the axis of reduction should be removed
+  #   from the result
   #
+  # ## Examples
   #
+  # ```crystal
+  # a = Tensor.new([3, 3]) { |i| i }
+  # a.each_axis(1) do |ax|
+  #   puts ax
+  # end
   #
-  #
-  #
-  #
-  #
-  #
+  # # [0, 3, 6]
+  # # [1, 4, 7]
+  # # [2, 5, 8]
+  # ```
   def each_axis(axis : Int, dims : Bool = false, &block)
     Num.each_axis(self, axis, dims) do |ax|
       yield ax
     end
   end
 
+  # Returns an iterator along each element of an `axis`.
+  # Each element returned by the iterator is a view, not a copy
   #
+  # ## Arguments
   #
+  # * axis : `Int` - Axis of reduction
+  # * dims : `Bool` - Indicates if the axis of reduction should be removed
+  #   from the result
   #
+  # ## Examples
   #
-  #
-  #
-  #
-  #
+  # ```crystal
+  # a = Tensor.new([3, 3]) { |i| i }
+  # a.each_axis(1).next # => [0, 3, 6]
+  # ```
   def each_axis(axis : Int, dims : Bool = false)
     Num.each_axis(self, axis, dims)
   end
 
+  # Similar to `each_axis`, but instead of yielding slices of
+  # an axis, it yields slices along an axis, useful for methods
+  # that require an entire view of an `axis` slice for a reduction
+  # operation, such as `std`, rather than being able to incrementally
+  # reduce.
   #
+  # ## Arguments
   #
+  # * axis : `Int` - Axis of reduction
   #
+  # ## Examples
   #
+  # ```crystal
+  # a = Tensor.new([3, 3, 3]) { |i| i }
+  # a.yield_along_axis(0) do |ax|
+  #   puts ax
+  # end
   #
-  #
-  #
-  #
+  # # [ 0,  9, 18]
+  # # [ 1, 10, 19]
+  # # [ 2, 11, 20]
+  # # [ 3, 12, 21]
+  # # [ 4, 13, 22]
+  # # [ 5, 14, 23]
+  # # [ 6, 15, 24]
+  # # [ 7, 16, 25]
+  # # [ 8, 17, 26]
+  # ```
   def yield_along_axis(axis : Int)
     Num.yield_along_axis(self, axis) do |ax|
       yield ax

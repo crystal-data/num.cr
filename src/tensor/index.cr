@@ -30,7 +30,7 @@ class Tensor(T, S)
   # When an Integer argument is passed, an axis will be removed from
   # the `Tensor`, and a view at that index will be returned.
   #
-  # ```
+  # ```crystal
   # a = Tensor.new([2, 2]) { |i| i }
   # a[0] # => [0, 1]
   # ```
@@ -38,7 +38,7 @@ class Tensor(T, S)
   # When a Range argument is passed, an axis will be sliced based on
   # the endpoints of the range.
   #
-  # ```
+  # ```crystal
   # a = Tensor.new([2, 2, 2]) { |i| i }
   # a[1...]
   #
@@ -51,7 +51,7 @@ class Tensor(T, S)
   # axis are updated to reflect the step.  Negative steps will reflect
   # the array along an axis.
   #
-  # ```
+  # ```crystal
   # a = Tensor.new([2, 2]) { |i| i }
   # a[{..., -1}]
   #
@@ -70,7 +70,7 @@ class Tensor(T, S)
   # When an Integer argument is passed, an axis will be removed from
   # the `Tensor`, and a view at that index will be returned.
   #
-  # ```
+  # ```crystal
   # a = Tensor.new([2, 2]) { |i| i }
   # a[0] # => [0, 1]
   # ```
@@ -78,7 +78,7 @@ class Tensor(T, S)
   # When a Range argument is passed, an axis will be sliced based on
   # the endpoints of the range.
   #
-  # ```
+  # ```crystal
   # a = Tensor.new([2, 2, 2]) { |i| i }
   # a[1...]
   #
@@ -91,7 +91,7 @@ class Tensor(T, S)
   # axis are updated to reflect the step.  Negative steps will reflect
   # the array along an axis.
   #
-  # ```
+  # ```crystal
   # a = Tensor.new([2, 2]) { |i| i }
   # a[{..., -1}]
   #
@@ -109,17 +109,16 @@ class Tensor(T, S)
   # to the shape of the slice if possible.  If a scalar is passed, it will
   # be tiled across the slice.
   #
-  # Arguments
-  # ---------
-  # *args* : *U
-  #   Tuple of arguments.  All but the last argument must be valid
-  #   indexer, so a `Range`, `Int`, or `Tuple(Range, Int)`.  The final
+  # ## Arguments
+  #
+  # * args : `*U` - Tuple of arguments.  All but the last argument must be
+  #   valid indexer, so a `Range`, `Int`, or `Tuple(Range, Int)`.  The final
   #   argument passed is used to set the values of the `Tensor`.  It can
   #   be either a `Tensor`, or a scalar value.
   #
-  # Examples
-  # --------
-  # ```
+  # ## Examples
+  #
+  # ```crystal
   # a = Tensor.new([2, 2]) { |i| i }
   # a[1.., 1..] = 99
   # a
@@ -148,17 +147,15 @@ class Tensor(T, S)
   # to the shape of the slice if possible.  If a scalar is passed, it will
   # be tiled across the slice.
   #
-  # Arguments
-  # ---------
-  # *args* : *U
-  #   Tuple of arguments.  All but the last argument must be valid
-  #   indexer, so a `Range`, `Int`, or `Tuple(Range, Int)`.  The final
-  #   argument passed is used to set the values of the `Tensor`.  It can
-  #   be either a `Tensor`, or a scalar value.
+  # ## Arguments
   #
-  # Examples
-  # --------
-  # ```
+  # * args : `Array` - Array of arguments.  All but the last argument must be
+  #   valid indexer, so a `Range`, `Int`, or `Tuple(Range, Int)`.
+  # * value : `Tensor` | `Number` - Value to assign to the slice
+  #
+  # ## Examples
+  #
+  # ```crystal
   # a = Tensor.new([2, 2]) { |i| i }
   # a[1.., 1..] = 99
   # a
@@ -186,7 +183,7 @@ class Tensor(T, S)
   # When an Integer argument is passed, an axis will be removed from
   # the `Tensor`, and a view at that index will be returned.
   #
-  # ```
+  # ```crystal
   # a = Tensor.new([2, 2]) { |i| i }
   # a[0] # => [0, 1]
   # ```
@@ -194,7 +191,7 @@ class Tensor(T, S)
   # When a Range argument is passed, an axis will be sliced based on
   # the endpoints of the range.
   #
-  # ```
+  # ```crystal
   # a = Tensor.new([2, 2, 2]) { |i| i }
   # a[1...]
   #
@@ -207,7 +204,7 @@ class Tensor(T, S)
   # axis are updated to reflect the step.  Negative steps will reflect
   # the array along an axis.
   #
-  # ```
+  # ```crystal
   # a = Tensor.new([2, 2]) { |i| i }
   # a[{..., -1}]
   #
@@ -225,17 +222,15 @@ class Tensor(T, S)
   # to the shape of the slice if possible.  If a scalar is passed, it will
   # be tiled across the slice.
   #
-  # Arguments
-  # ---------
-  # *args* : *U
-  #   Tuple of arguments.  All but the last argument must be valid
-  #   indexer, so a `Range`, `Int`, or `Tuple(Range, Int)`.  The final
-  #   argument passed is used to set the values of the `Tensor`.  It can
-  #   be either a `Tensor`, or a scalar value.
+  # ## Arguments
   #
-  # Examples
-  # --------
-  # ```
+  # * args : `Tuple` - Tuple of arguments.  All must be
+  #   valid indexers, so a `Range`, `Int`, or `Tuple(Range, Int)`.
+  # * value : `Tensor` | `Number` - Value to assign to the slice
+  #
+  # ## Examples
+  #
+  # ```crystal
   # a = Tensor.new([2, 2]) { |i| i }
   # a[1.., 1..] = 99
   # a
@@ -244,6 +239,9 @@ class Tensor(T, S)
   # #  [ 2, 99]]
   # ```
   def set(*args, value)
+    unless @flags.write?
+      raise Num::Exceptions::ValueError.new("Tensor is read-only")
+    end
     Num.set(self, *args, value: value)
   end
 end

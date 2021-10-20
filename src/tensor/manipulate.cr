@@ -30,14 +30,13 @@ class Tensor(T, S)
   # Shapes must be broadcastable, and an error will be raised
   # if broadcasting fails.
   #
-  # Arguments
-  # ---------
-  # *shape* : Array(Int)
-  #   The shape of the desired output `Tensor`
+  # ## Arguments
   #
-  # Examples
-  # --------
-  # ```
+  # * shape : `Array(Int)` - The shape of the desired output `Tensor`
+  #
+  # ## Examples
+  #
+  # ```crystal
   # a = Tensor.from_array [1, 2, 3]
   # a.broadcast_to([3, 3])
   #
@@ -53,14 +52,13 @@ class Tensor(T, S)
   # the shape and strides.  No data is copied, and the result
   # is a read-only view of the original `Tensor`
   #
-  # Arguments
-  # ---------
-  # *n* : Int
-  #   Number of dimensions to broadcast
+  # ## Arguments
   #
-  # Examples
-  # --------
-  # ```
+  # * n : `Int` - Number of dimensions to broadcast
+  #
+  # ## Examples
+  #
+  # ```crystal
   # a = [1, 2, 3].to_tensor
   # a.with_broadcast(2)
   #
@@ -74,19 +72,22 @@ class Tensor(T, S)
     Num.with_broadcast(self, n)
   end
 
-  # Brief description of expanddims
+  # Expands the dimensions of a `Tensor`, along a single axis
   #
-  # Arguments
-  # ---------
-  # axis : Int
-  #   Brief description of axis : Int
+  # ## Arguments
   #
-  # Returns
-  # -------
-  # Tensor(T)
+  # * axis : `Int` - Axis on which to expand dimensions
   #
-  # Examples
-  # --------
+  # ## Examples
+  #
+  # ```crystal
+  # a = Tensor.new([2, 2]) { |i| i }
+  # a.expand_dims(1)
+  #
+  # # [[[0, 1]],
+  # #
+  # # [[2, 3]]]
+  # ```
   def expand_dims(axis : Int) : Tensor(T, S)
     Num.expand_dims(self, axis)
   end
@@ -107,16 +108,14 @@ class Tensor(T, S)
   # unpredictable. They may even give different results for small,
   # large, or transposed `Tensor`s.
   #
-  # Arguments
-  # ---------
-  # *shape*
-  #   Shape of the new `Tensor`
-  # *strides*
-  #   Strides of the new `Tensor`
+  # ## Arguments
   #
-  # Examples
-  # --------
-  # ```
+  # * shape : `Array(Int)` - Shape of the new `Tensor`
+  # * strides : `Array(Int)` - Strides of the new `Tensor`
+  #
+  # ## Examples
+  #
+  # ```crystal
   # a = Tensor.from_array [1, 2, 3]
   # a.as_strided([3, 3], [0, 1])
   #
@@ -135,14 +134,19 @@ class Tensor(T, S)
   # Broadcasting rules apply, and imcompatible shapes will raise
   # an error.
   #
-  # Examples
-  # ````````
+  # ## Arguments
+  #
+  # * other : `Tensor` - RHS of the broadcast
+  #
+  # ## Examples
+  #
+  # ```crystal
   # a = Tensor.from_array [1, 2, 3]
   # b = Tensor.new([3, 3]) { |i| i }
   #
   # x, y = a.broadcast(b)
   # x.shape # => [3, 3]
-  # ````````
+  # ```
   def broadcast(other : Tensor(U, V)) forall U, V
     Num.broadcast(self, other)
   end
@@ -154,15 +158,21 @@ class Tensor(T, S)
   # Broadcasting rules apply, and imcompatible shapes will raise
   # an error.
   #
-  # Examples
-  # ````````
+  # ## Arguments
+  #
+  # * other1 : `Tensor` - `Tensor` to broadcast
+  # * other2 : `Tensor` - Additional `Tensor` to broadcast
+  #
+  # ## Examples
+  #
+  # ```crystal
   # a = Tensor.from_array [1, 2, 3]
   # b = Tensor.new([3, 3]) { |i| i }
   # c = Tensor.new([3, 3, 3]) { |i| i }
   #
   # x, y, z = a.broadcast(b, c)
   # x.shape # => [3, 3, 3]
-  # ````````
+  # ```
   def broadcast(other1 : Tensor(U, V), other2 : Tensor(W, X)) forall U, V, W, X
     Num.broadcast(self, other1, other2)
   end
@@ -171,14 +181,13 @@ class Tensor(T, S)
   # the reshape will not copy data.  The number of elements
   # in the `Tensor` must remain the same.
   #
-  # Arguments
-  # ---------
-  # *result_shape* : Array(Int)
-  #   Result shape for the `Tensor`
+  # ## Arguments
   #
-  # Examples
-  # --------
-  # ```
+  # * result_shape : `Array(Int)` - Result shape for the `Tensor`
+  #
+  # ## Examples
+  #
+  # ```crystal
   # a = Tensor.from_array [1, 2, 3, 4]
   # a.reshape([2, 2])
   #
@@ -197,12 +206,9 @@ class Tensor(T, S)
   # Flattens a `Tensor` to a single dimension.  If a view can be created,
   # the reshape operation will not copy data.
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
-  # ```
+  # ```crystal
   # a = Tensor.new([2, 2]) { |i| i }
   # a.flat # => [0, 1, 2, 3]
   # ```
@@ -213,20 +219,16 @@ class Tensor(T, S)
   # Move axes of a Tensor to new positions, other axes remain
   # in their original order
   #
-  # Arguments
-  # ---------
-  # *arr* : Tensor
-  #   Tensor to permute
-  # *source* : Array(Int)
-  #   Original positions of axes to move
-  # *destination*
-  #   Destination positions to permute axes
+  # ## Arguments
   #
-  # Examples
-  # --------
-  # ```
+  # * source : `Array(Int)` - Original positions of axes to move
+  # * destination : `Array(Int)` - Destination positions to permute axes
+  #
+  # ## Examples
+  #
+  # ```crystal
   # a = Tensor(Int8, CPU(Int8)).new([3, 4, 5])
-  # moveaxis(a, [0], [-1]).shape # => 4, 5, 3
+  # a.moveaxis([0], [-1]).shape # => 4, 5, 3
   # ```
   def move_axis(source : Array(Int), destination : Array(Int)) : Tensor(T, S)
     Num.move_axis(self, source, destination)
@@ -235,20 +237,16 @@ class Tensor(T, S)
   # Move axes of a Tensor to new positions, other axes remain
   # in their original order
   #
-  # Arguments
-  # ---------
-  # *arr* : Tensor
-  #   Tensor to permute
-  # *source* : Array(Int)
-  #   Original positions of axes to move
-  # *destination*
-  #   Destination positions to permute axes
+  # ## Arguments
   #
-  # Examples
-  # --------
-  # ```
+  # * source : `Int` - Original position of axis to move
+  # * destination : `Int` - Destination position of axis
+  #
+  # ## Examples
+  #
+  # ```crystal
   # a = Tensor(Int8, CPU(Int8)).new([3, 4, 5])
-  # moveaxis(a, [0], [-1]).shape # => 4, 5, 3
+  # a.moveaxis(0, -1).shape # => 4, 5, 3
   # ```
   def move_axis(source : Int, destination : Int) : Tensor(T, S)
     Num.move_axis(self, source, destination)
@@ -257,16 +255,14 @@ class Tensor(T, S)
   # Permutes two axes of a `Tensor`.  This will always create a view
   # of the permuted `Tensor`
   #
-  # Arguments
-  # ---------
-  # *a* : Int
-  #   First axis of permutation
-  # *b* : Int
-  #   Second axis of permutation
+  # ## Arguments
   #
-  # Examples
-  # --------
-  # ```
+  # * a : `Int` - First axis of permutation
+  # * b : `Int` - Second axis of permutation
+  #
+  # ## Examples
+  #
+  # ```crystal
   # a = Tensor.new([4, 3, 2]) { |i| i }
   # a.swap_axes(2, 0)
   #
@@ -285,15 +281,14 @@ class Tensor(T, S)
   # Permutes a `Tensor`'s axes to a different order.  This will
   # always create a view of the permuted `Tensor`.
   #
-  # Arguments
-  # ---------
-  # *axes* : Array(Int)
-  #   New ordering of axes for the permuted `Tensor`.  If empty,
-  #   a full transpose will occur
+  # ## Arguments
   #
-  # Examples
-  # --------
-  # ```
+  # * axes : `Array(Int)` - New ordering of axes for the permuted `Tensor`.
+  #   If empty, a full transpose will occur
+  #
+  # ## Examples
+  #
+  # ```crystal
   # a = Tensor.new([4, 3, 2]) { |i| i }
   # a.transpose([2, 0, 1])
   #
@@ -319,17 +314,15 @@ class Tensor(T, S)
   # Repeat elements of a `Tensor`, treating the `Tensor`
   # as flat
   #
-  # Arguments
-  # ---------
-  # - `a` : Tensor | Enumerable
-  #   Object to repeat
-  # - `n` : Int
-  #   Number of times to repeat
+  # ## Arguments
   #
-  # Examples
-  # ```
+  # * n : `Int` - Number of times to repeat
+  #
+  # ## Examples
+  #
+  # ```crystal
   # a = [1, 2, 3]
-  # Num.repeat(a, 2) # => [1, 1, 2, 2, 3, 3]
+  # a.repeat(2) # => [1, 1, 2, 2, 3, 3]
   # ```
   def repeat(n : Int) : Tensor(T, S)
     Num.repeat(self, n)
@@ -337,20 +330,16 @@ class Tensor(T, S)
 
   # Repeat elements of a `Tensor` along an axis
   #
-  # Arguments
-  # ---------
-  # - `a` : Tensor | Enumerable
-  #   Object to repeat
-  # - `n` : Int
-  #   Number of times to repeat
-  # - `axis` : Int
-  #   Axis along which to repeat
+  # ## Arguments
   #
-  # Examples
-  # --------
-  # ```
+  # * n : Int - Number of times to repeat
+  # * axis : `Int` - Axis along which to repeat
+  #
+  # ## Examples
+  #
+  # ```crystal
   # a = [[1, 2, 3], [4, 5, 6]]
-  # Num.repeat(a, 2, 1)
+  # a.repeat(2, 1)
   #
   # # [[1, 1, 2, 2, 3, 3],
   # #  [4, 4, 5, 5, 6, 6]]
@@ -361,18 +350,15 @@ class Tensor(T, S)
 
   # Tile elements of a `Tensor`
   #
-  # Arguments
-  # ---------
-  # - `a` : Tensor | Enumerable
-  #   Argument to tile
-  # - `n` : Int
-  #   Number of times to tile
+  # ## Arguments
   #
-  # Examples
-  # --------
-  # ```
+  # * n : `Int` - Number of times to tile
+  #
+  # ## Examples
+  #
+  # ```crystal
   # a = [[1, 2, 3], [4, 5, 6]]
-  # puts Num.tile(a, 2)
+  # puts a.tile(2)
   #
   # # [[1, 2, 3, 1, 2, 3],
   # #  [4, 5, 6, 4, 5, 6]]
@@ -383,16 +369,13 @@ class Tensor(T, S)
 
   # Tile elements of a `Tensor`
   #
-  # Arguments
-  # ---------
-  # - `a` : Tensor | Enumerable
-  #   Argument to tile
-  # - `n` : Int
-  #   Number of times to tile
+  # ## Arguments
   #
-  # Examples
-  # --------
-  # ```
+  # * n : `Int` - Number of times to tile
+  #
+  # ## Examples
+  #
+  # ```crystal
   # a = [[1, 2, 3], [4, 5, 6]]
   # puts Num.tile(a, 2)
   #
@@ -405,16 +388,11 @@ class Tensor(T, S)
 
   # Flips a `Tensor` along all axes, returning a view
   #
-  # Arguments
-  # ---------
-  # - `a` : Tensor | Enumerable
-  #   Argument to flip
+  # ## Examples
   #
-  # Examples
-  # --------
-  # ```
+  # ```crystal
   # a = [[1, 2, 3], [4, 5, 6]]
-  # puts Num.flip(a)
+  # a.flip
   #
   # # [[6, 5, 4],
   # #  [3, 2, 1]]
@@ -425,18 +403,15 @@ class Tensor(T, S)
 
   # Flips a `Tensor` along an axis, returning a view
   #
-  # Arguments
-  # ---------
-  # - `a` : Tensor | Enumerable
-  #   Argument to flip
-  # - `axis` : Int
-  #   Axis to flip
+  # ## Arguments
   #
-  # Examples
-  # --------
-  # ```
+  # * axis : `Int` - Axis to flip
+  #
+  # ## Examples
+  #
+  # ```crystal
   # a = [[1, 2, 3], [4, 5, 6]]
-  # puts Num.flip(a, 1)
+  # a.flip(1)
   #
   # # [[3, 2, 1],
   # #  [6, 5, 4]]
@@ -450,12 +425,9 @@ class Tensor(T, S)
   #
   # TODO: Implement views for offset diagonals
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
-  # ```
+  # ```crystal
   # a = Tensor.new(3, 3) { |i, _| i }
   # a.diagonal # => [0, 1, 2]
   # ```

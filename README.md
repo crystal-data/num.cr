@@ -183,7 +183,7 @@ For representing certain complex contractions of `Tensor`s, Einstein notation
 can be used to simplify the operation.  For example, the following matrix
 multiplication + summation operation:
 
-```
+```crystal
 a = Tensor.new([30, 40, 50]) { |i| i * 1_f32 }
 b = Tensor.new([40, 30, 20]) { |i| i * 1_f32 }
 
@@ -199,7 +199,7 @@ end
 
 Can instead be represented in Einstein notiation as the following:
 
-```
+```crystal
 Num::Einsum.einsum("ijk,jil->kl", a, b)
 ```
 

@@ -80,7 +80,9 @@ class Tensor(T, S)
   # Initializes a Tensor onto a device with a provided shape and memory
   # layout.
   #
-  # ```
+  # ## Examples
+  #
+  # ```crystal
   # a = Tensor(Float32).new([3, 3, 2], device: OCL(Float32)) # => GPU Tensor
   # b = Tensor(Float32).new([2, 3, 4])                       # => CPU Tensor
   # ```
@@ -92,7 +94,9 @@ class Tensor(T, S)
   # Initializes a Tensor onto a device with a provided shape and memory
   # layout, containing a specified value.
   #
-  # ```
+  # ## Examples
+  #
+  # ```crystal
   # a = Tensor.new([2, 2], 3.5) # => CPU Tensor filled with 3.5
   # ```
   def self.new(shape : Array(Int), value : T, device = CPU(T), order : Num::OrderType = Num::RowMajor)
@@ -103,7 +107,9 @@ class Tensor(T, S)
   # Creates a Tensor from a block onto a specified device. The type of the
   # Tensor is inferred from the return type of the block
   #
-  # ```
+  # ## Examples
+  #
+  # ```crystal
   # a = Tensor.new([3, 3, 2]) { |i| i } # => Int32 Tensor stored on a CPU
   # ```
   def self.new(shape : Array(Int), order : Num::OrderType = Num::RowMajor, device = CPU, &block : Int32 -> T)
@@ -117,7 +123,9 @@ class Tensor(T, S)
   # Creates a matrix Tensor from a block onto a specified device.  The type
   # of the Tensor is inferred from the return type of the block
   #
-  # ```
+  # ## Examples
+  #
+  # ```crystal
   # a = Tensor.new(3, 3) { |i, j| i / j } # => Float64 Tensor stored on a CPU
   # ```
   def self.new(m : Int, n : Int, device = CPU, &block : Int32, Int32 -> T)
@@ -134,7 +142,9 @@ class Tensor(T, S)
   # The type of Tensor is inferred from the innermost element type, and
   # the Array's shape must be uniform along all subarrays.
   #
-  # ```
+  # ## Examples
+  #
+  # ```crystal
   # a = [[1, 2], [3, 4], [5, 6]]
   # Tensor.from_array(a, device: OCL) # => [3, 2] Tensor stored on a GPU
   # ```
@@ -148,14 +158,13 @@ class Tensor(T, S)
   # Creates a `Tensor` of a provided shape, filled with 0.  The generic type
   # must be specified.
   #
-  # Arguments
-  # ---------
-  # *shape*
-  #   Shape of returned `Tensor`
+  # ## Arguments
   #
-  # Examples
-  # --------
-  # ```
+  # * shape : `Array(Int)` - shape of returned `Tensor`
+  #
+  # ## Examples
+  #
+  # ```crystal
   # t = Tensor(Int8).zeros([3]) # => [0, 0, 0]
   # ```
   def self.zeros(shape : Array(Int)) : Tensor(T, S)
@@ -165,14 +174,13 @@ class Tensor(T, S)
   # Creates a `Tensor` filled with 0, sharing the shape of another
   # provided `Tensor`
   #
-  # Arguments
-  # ---------
-  # *t*
-  #   `Tensor` to use for output shape
+  # ## Arguments
   #
-  # Examples
-  # --------
-  # ```
+  # * t : `Tensor` - `Tensor` to use for output shape
+  #
+  # ## Examples
+  #
+  # ```crystal
   # t = Tensor(Int8, CPU(Int8)).new([3]) &.to_f
   # u = Tensor(Int8, CPU(Int8)).zeros_like(t) # => [0, 0, 0]
   # ```
@@ -183,14 +191,13 @@ class Tensor(T, S)
   # Creates a `Tensor` of a provided shape, filled with 1.  The generic type
   # must be specified.
   #
-  # Arguments
-  # ---------
-  # *shape*
-  #   Shape of returned `Tensor`
+  # ## Arguments
   #
-  # Examples
-  # --------
-  # ```
+  # * shape : `Array(Int)` - shape of returned `Tensor`
+  #
+  # ## Examples
+  #
+  # ```crystal
   # t = Tensor(Int8, CPU(Int8)).ones([3]) # => [1, 1, 1]
   # ```
   def self.ones(shape : Array(Int)) : Tensor(T, S)
@@ -200,14 +207,13 @@ class Tensor(T, S)
   # Creates a `Tensor` filled with 1, sharing the shape of another
   # provided `Tensor`
   #
-  # Arguments
-  # ---------
-  # *t*
-  #   `Tensor` to use for output shape
+  # ## Arguments
   #
-  # Examples
-  # --------
-  # ```
+  # * t : `Tensor` - `Tensor` to use for output shape
+  #
+  # ## Examples
+  #
+  # ```crystal
   # t = Tensor(Int8, CPU(Int8)) &.to_f
   # u = Tensor(Int8, CPU(Int8)).ones_like(t) # => [0, 0, 0]
   # ```
@@ -218,14 +224,13 @@ class Tensor(T, S)
   # Creates a `Tensor` of a provided shape, filled with a value.  The generic type
   # is inferred from the value
   #
-  # Arguments
-  # ---------
-  # *shape*
-  #   Shape of returned `Tensor`
+  # ## Arguments
   #
-  # Examples
-  # --------
-  # ```
+  # * shape : `Array(Int)` - shape of returned `Tensor`
+  #
+  # ## Examples
+  #
+  # ```crystal
   # t = Tensor(Int8, CPU(Int8)).full([3], 1) # => [1, 1, 1]
   # ```
   def self.full(shape : Array(Int), value : Number) : Tensor(T, S)
@@ -235,14 +240,13 @@ class Tensor(T, S)
   # Creates a `Tensor` filled with a value, sharing the shape of another
   # provided `Tensor`
   #
-  # Arguments
-  # ---------
-  # *t*
-  #   `Tensor` to use for output shape
+  # ## Arguments
   #
-  # Examples
-  # --------
-  # ```
+  # * t : `Tensor` - `Tensor` to use for output shape
+  #
+  # ## Examples
+  #
+  # ```crystal
   # t = Tensor(Int8, CPU(Int8)) &.to_f
   # u = Tensor(Int8, CPU(Int8)).full_like(t, 3) # => [3, 3, 3]
   # ```
@@ -254,18 +258,15 @@ class Tensor(T, S)
   # or decreasing range.  The generic type is inferred from
   # the inputs to the method
   #
-  # Arguments
-  # ---------
-  # *start*
-  #   Beginning value for the range
-  # *stop*
-  #   End value for the range
-  # *step*
-  #   Offset between values of the range
+  # ## Arguments
   #
-  # Examples
-  # --------
-  # ```
+  # * start : `T` - Beginning value for the range
+  # * stop : `T` - End value for the range
+  # * step : `T` - Offset between values of the range
+  #
+  # ## Examples
+  #
+  # ```crystal
   # Tensor.range(0, 5, 2)       # => [0, 2, 4]
   # Tensor.range(5, 0, -1)      # => [5, 4, 3, 2, 1]
   # Tensor.range(0.0, 3.5, 0.7) # => [0  , 0.7, 1.4, 2.1, 2.8]
@@ -282,50 +283,12 @@ class Tensor(T, S)
     end
   end
 
-  # Creates a flat `Tensor` containing a monotonically increasing
-  # or decreasing range.  The generic type is inferred from
-  # the inputs to the method
-  #
-  # Arguments
-  # ---------
-  # *start*
-  #   Beginning value for the range
-  # *stop*
-  #   End value for the range
-  # *step*
-  #   Offset between values of the range
-  #
-  # Examples
-  # --------
-  # ```
-  # Tensor.range(0, 5, 2)       # => [0, 2, 4]
-  # Tensor.range(5, 0, -1)      # => [5, 4, 3, 2, 1]
-  # Tensor.range(0.0, 3.5, 0.7) # => [0  , 0.7, 1.4, 2.1, 2.8]
-  # ```
+  # :ditto:
   def self.range(stop : T, device = CPU)
     self.range(T.new(0), stop, T.new(1), device)
   end
 
-  # Creates a flat `Tensor` containing a monotonically increasing
-  # or decreasing range.  The generic type is inferred from
-  # the inputs to the method
-  #
-  # Arguments
-  # ---------
-  # *start*
-  #   Beginning value for the range
-  # *stop*
-  #   End value for the range
-  # *step*
-  #   Offset between values of the range
-  #
-  # Examples
-  # --------
-  # ```
-  # Tensor.range(0, 5, 2)       # => [0, 2, 4]
-  # Tensor.range(5, 0, -1)      # => [5, 4, 3, 2, 1]
-  # Tensor.range(0.0, 3.5, 0.7) # => [0  , 0.7, 1.4, 2.1, 2.8]
-  # ```
+  # :ditto:
   def self.range(start : T, stop : T, device = CPU)
     self.range(start, stop, T.new(1), device)
   end
@@ -333,18 +296,16 @@ class Tensor(T, S)
   # Return a two-dimensional `Tensor` with ones along the diagonal,
   # and zeros elsewhere
   #
-  # Arguments
-  # ---------
-  # *m* : Int
-  #   Number of rows in the `Tensor`
-  # *n* : Int?
-  #   Number of columsn in the `Tensor`, defaults to `m` if nil
-  # *offset* : Int
-  #   Indicates which diagonal to fill with ones
+  # ## Arguments
   #
-  # Examples
-  # --------
-  # ```
+  # * m : `Int` - Number of rows in the returned `Tensor`
+  # * n : `Int?` - Number of columns in the `Tensor`, defaults to `m`
+  #   if nil
+  # * offset : `Int` - Indicates which diagonal to fill with ones
+  #
+  # ## Examples
+  #
+  # ```crystal
   # Tensor(Int8, CPU(Int8)).eye(3, offset: -1)
   #
   # # [[0, 0, 0],
@@ -366,13 +327,13 @@ class Tensor(T, S)
   # Returns an identity `Tensor` with ones along the diagonal,
   # and zeros elsewhere
   #
-  # Arguments
-  # ---------
-  # *n* : Number of rows and columns in output
+  # ## Arguments
   #
-  # Examples
-  # --------
-  # ```
+  # * n : `Int` - Number of rows and columns in output
+  #
+  # ## Examples
+  #
+  # ```crystal
   # Tensor(Int8, CPU(Int8)).identity(2)
   #
   # # [[1, 0],
@@ -387,17 +348,13 @@ class Tensor(T, S)
   # Deep-copies a `Tensor`.  If an order is provided, the returned
   # `Tensor`'s memory layout will respect that order.
   #
-  # If no order is provided, the `Tensor` will retain it's same
-  # memory layout.
+  # ## Arguments
   #
-  # Arguments
-  # ---------
-  # *order* : Num::OrderType?
-  #   Memory layout to use for the returned `Tensor`
+  # * order : `Num::OrderType` - Memory layout to use for the returned `Tensor`
   #
-  # Examples
-  # --------
-  # ```
+  # ## Examples
+  #
+  # ```crystal
   # a = Tensor.from_array [1, 2, 3]
   # a.dup # => [1, 2, 3]
   # ```
@@ -409,12 +366,9 @@ class Tensor(T, S)
   # is shared, but the `Tensor` owns its other attributes.  Changes
   # to a view of a `Tensor` will be reflected in the original `Tensor`
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
-  # ```
+  # ```crystal
   # a = Tensor(Int32, CPU(Int32)).new([3, 3])
   # b = a.view
   # b[...] = 99

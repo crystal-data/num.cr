@@ -25,16 +25,11 @@ class Tensor(T, S)
   # Reduces a `Tensor` to a scalar by summing all of its
   # elements
   #
-  # Arguments
-  # ---------
-  # *a* : Tensor | Enumerable
-  #   Argument to sum
+  # ## Examples
   #
-  # Examples
-  # --------
-  # ```
+  # ```crystal
   # a = [1, 2, 3]
-  # Num.sum(a) # => 6
+  # a.sum # => 6
   # ```
   def sum : T
     Num.sum(self)
@@ -43,21 +38,18 @@ class Tensor(T, S)
   # Reduces a `Tensor` along an axis, summing each view into
   # the `Tensor`
   #
-  # Arguments
-  # ---------
-  # *a* : Tensor | Enumerable
-  #   Argument to sum
-  # *axis* : Int
-  #   Axis of summation
-  # *dims* : Bool
-  #   Indicate if the axis of reduction should remain in the result
+  # ## Arguments
   #
-  # Examples
-  # --------
-  # ```
+  # * axis : `Int` - Axis of summation
+  # * dims : `Bool` - Indicate if the axis of reduction should remain in the
+  #   result
+  #
+  # ## Examples
+  #
+  # ```crystal
   # a = Tensor.new([2, 2]) { |i| i }
-  # Num.sum(a, 0) # => [2, 4]
-  # Num.sum(a, 1, dims: true)
+  # a.sum(0) # => [2, 4]
+  # a.sum(1, dims: true)
   # # [[1],
   # #  [5]]
   # ```
@@ -68,16 +60,11 @@ class Tensor(T, S)
   # Reduces a `Tensor` to a scalar by multiplying all of its
   # elements
   #
-  # Arguments
-  # ---------
-  # *a* : Tensor
-  #   Argument to reduce
+  # ## Examples
   #
-  # Examples
-  # --------
-  # ```
+  # ```crystal
   # a = [1, 2, 3]
-  # Num.prod(a) # => 6
+  # a.prod # => 6
   # ```
   def prod : T
     Num.prod(self)
@@ -86,21 +73,18 @@ class Tensor(T, S)
   # Reduces a `Tensor` along an axis, multiplying each view into
   # the `Tensor`
   #
-  # Arguments
-  # ---------
-  # *a* : Tensor
-  #   Argument to reduce
-  # *axis* : Int
-  #   Axis of reduction
-  # *dims* : Bool
-  #   Indicate if the axis of reduction should remain in the result
+  # ## Arguments
   #
-  # Examples
-  # --------
-  # ```
+  # * axis : `Int` - Axis of reduction
+  # * dims : `Bool` - Indicate if the axis of reduction should remain in the
+  #   result
+  #
+  # ## Examples
+  #
+  # ```crystal
   # a = Tensor.new([2, 2]) { |i| i }
-  # Num.prod(a, 0) # => [0, 3]
-  # Num.prod(a, 1, dims: true)
+  # a.prod(0) # => [0, 3]
+  # a.prod(1, dims: true)
   # # [[0],
   # #  [6]]
   # ```
@@ -111,16 +95,11 @@ class Tensor(T, S)
   # Reduces a `Tensor` to a boolean by asserting the truthiness of
   # all elements
   #
-  # Arguments
-  # ---------
-  # *a* : Tensor
-  #   Argument to reduce
+  # ## Examples
   #
-  # Examples
-  # --------
-  # ```
-  # a = [0, 2, 3]
-  # Num.all(a) # => false
+  # ```crystal
+  # a = [0, 2, 3].to_tensor
+  # a.all # => false
   # ```
   def all : Bool
     Num.all(self)
@@ -129,21 +108,18 @@ class Tensor(T, S)
   # Reduces a `Tensor` along an axis, asserting the truthiness of all values
   # in each view into the `Tensor`
   #
-  # Arguments
-  # ---------
-  # *a* : Tensor
-  #   Argument to reduce
-  # *axis* : Int
-  #   Axis of reduction
-  # *dims* : Bool
-  #   Indicate if the axis of reduction should remain in the result
+  # ## Arguments
   #
-  # Examples
-  # --------
-  # ```
+  # * axis : `Int` - Axis of reduction
+  # * dims : `Bool` - Indicate if the axis of reduction should remain in the
+  #   result
+  #
+  # ## Examples
+  #
+  # ```crystal
   # a = Tensor.new([2, 2]) { |i| i }
-  # Num.all(a, 0) # => [false, true]
-  # Num.all(a, 1, dims: true)
+  # a.all(0) # => [false, true]
+  # a.all(1, dims: true)
   # # [[false],
   # #  [ true]]
   # ```
@@ -154,16 +130,11 @@ class Tensor(T, S)
   # Reduces a `Tensor` to a boolean by asserting the truthiness of
   # any element
   #
-  # Arguments
-  # ---------
-  # *a* : Tensor
-  #   Argument to reduce
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
-  # a = [0, 2, 3]
-  # Num.any(a) # => true
+  # a = [0, 2, 3].to_tensor
+  # a.any # => true
   # ```
   def any : Bool
     Num.any(self)
@@ -172,21 +143,18 @@ class Tensor(T, S)
   # Reduces a `Tensor` along an axis, asserting the truthiness of any values
   # in each view into the `Tensor`
   #
-  # Arguments
-  # ---------
-  # *a* : Tensor
-  #   Argument to reduce
-  # *axis* : Int
-  #   Axis of reduction
-  # *dims* : Bool
-  #   Indicate if the axis of reduction should remain in the result
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * axis : `Int` - Axis of reduction
+  # * dims : `Bool` - Indicate if the axis of reduction should remain in the
+  #   result
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.new([2, 2]) { |i| i }
-  # Num.any(a, 0) # => [true, true]
-  # Num.any(a, 1, dims: true)
+  # a.any(0) # => [true, true]
+  # a.any(1, dims: true)
   # # [[true],
   # #  [ true]]
   # ```
