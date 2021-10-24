@@ -122,7 +122,7 @@ class Num::NN::NetworkInfo(T)
     @layers << Num::NN::MaxPoolLayer(T).new(@context, shape, kernel, padding, stride)
   end
 
-  def dropout(prob : Float32 = 0.5_f32)
+  def dropout(prob : Float = 0.5_f32)
     shape = @layers.last.output_shape
     @layers << Num::NN::DropoutLayer(T).new(@context, shape, prob)
   end

@@ -35,7 +35,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # Num::Rand.set_seed(0)
   # t = Tensor.random(0...10, [2, 2])
   # t
@@ -57,7 +57,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # Num::Rand.set_seed(0)
   # a = Tensor(Float32, CPU(Float32)).rand([5])
   # puts a # => [0.411575 , 0.548264 , 0.388604 , 0.0106621, 0.183558 ]
@@ -85,7 +85,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # Num::Rand.set_seed(0)
   # a = Tensor(Float32, CPU(Float32)).beta([5], 0.1, 0.5)
   # puts a # => [0.000463782, 0.40858    , 1.67573e-07, 0.143055, 3.08452e-08]
@@ -111,7 +111,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # Num::Rand.set_seed(0)
   # a = Tensor(Float32, CPU(Float32)).chisq([5], 30.0)
   # puts a # => [32.2738, 27.2351, 26.0258, 22.136 , 31.9774]
@@ -138,7 +138,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # Num::Rand.set_seed(0)
   # a = Tensor(Float32, CPU(Float32)).exp([5])
   # puts a # => [0.697832 , 0.710307 , 1.35733  , 0.0423776, 0.209743 ]
@@ -168,7 +168,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # Num::Rand.set_seed(0)
   # a = Tensor(Float32, CPU(Float32)).fsned([5], 30.0, 50.0)
   # puts a # => [1.15436 , 1.08983 , 0.971573, 1.75811 , 2.06518 ]
@@ -197,7 +197,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # Num::Rand.set_seed(0)
   # a = Tensor(Float32, CPU(Float32)).gamma([5], 0.5)
   # puts a # => [0.169394 , 0.0336937, 0.921517 , 0.0210972, 0.0487926]
@@ -226,7 +226,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # Num::Rand.set_seed(0)
   # a = Tensor(Float32, CPU(Float32)).laplace([5], 0.5)
   # puts a # => [0.305384 , 0.601509 , 0.247952 , -3.34791 , -0.502075]
@@ -255,7 +255,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # Num::Rand.set_seed(0)
   # a = Tensor(Float32, CPU(Float32)).lognormal([5], 0.5)
   # puts a # => [1.41285 , 5.00594 , 0.766401, 1.61069 , 2.29073 ]
@@ -282,7 +282,7 @@ class Tensor(T, S)
   # * sigma : `Float` - Standard deviation
   #
   # ## Examples
-  # ```crystal
+  # ```
   # Num::Rand.set_seed(0)
   # a = Tensor(Float32, CPU(Float32)).normal([5], 0.5)
   # puts a # => 0.345609, 1.61063 , -0.26605, 0.476662, 0.828871]
@@ -309,7 +309,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # Num::Rand.set_seed(0)
   # a = Tensor(Int64, CPU(Int64)).poisson([5])
   # puts a # => [1, 0, 1, 0, 3]
@@ -333,7 +333,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # Num::Rand.set_seed(0)
   # a = Tensor(Float32, CPU(Float32)).t_student([5], 30.0)
   # puts a # => [-0.148853, -0.803994, 0.353089 , -1.25613 , -0.141144]
@@ -363,7 +363,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # Num::Rand.set_seed(0)
   # a = Tensor(Float32, CPU(Float32)).binomial([5], 50, 0.5)
   # puts a # => [23, 30, 22, 18, 28]

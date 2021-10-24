@@ -115,14 +115,16 @@ require "./nn/loss/softmax_cross_entropy"
 require "./nn/optimizers/sgd"
 require "./nn/optimizers/adam"
 
-require "./nn/backends/agnostic/dropout"
-
 require "./nn/backends/cpu/activation"
 require "./nn/backends/cpu/convolution"
 require "./nn/backends/cpu/loss"
 require "./nn/backends/cpu/maxpool"
+require "./nn/backends/cpu/dropout"
 
 require "./nn/backends/opencl/activation"
+require "./nn/backends/opencl/dropout"
+require "./nn/backends/opencl/loss"
+require "./nn/backends/opencl/optimizers"
 
 require "./num/exceptions"
 require "./num/aliases"

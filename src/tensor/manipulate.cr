@@ -36,7 +36,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.from_array [1, 2, 3]
   # a.broadcast_to([3, 3])
   #
@@ -58,7 +58,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = [1, 2, 3].to_tensor
   # a.with_broadcast(2)
   #
@@ -80,7 +80,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.new([2, 2]) { |i| i }
   # a.expand_dims(1)
   #
@@ -115,7 +115,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.from_array [1, 2, 3]
   # a.as_strided([3, 3], [0, 1])
   #
@@ -140,7 +140,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.from_array [1, 2, 3]
   # b = Tensor.new([3, 3]) { |i| i }
   #
@@ -165,7 +165,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.from_array [1, 2, 3]
   # b = Tensor.new([3, 3]) { |i| i }
   # c = Tensor.new([3, 3, 3]) { |i| i }
@@ -187,7 +187,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.from_array [1, 2, 3, 4]
   # a.reshape([2, 2])
   #
@@ -208,7 +208,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.new([2, 2]) { |i| i }
   # a.flat # => [0, 1, 2, 3]
   # ```
@@ -226,7 +226,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor(Int8, CPU(Int8)).new([3, 4, 5])
   # a.moveaxis([0], [-1]).shape # => 4, 5, 3
   # ```
@@ -244,7 +244,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor(Int8, CPU(Int8)).new([3, 4, 5])
   # a.moveaxis(0, -1).shape # => 4, 5, 3
   # ```
@@ -262,7 +262,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.new([4, 3, 2]) { |i| i }
   # a.swap_axes(2, 0)
   #
@@ -288,7 +288,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.new([4, 3, 2]) { |i| i }
   # a.transpose([2, 0, 1])
   #
@@ -320,7 +320,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = [1, 2, 3]
   # a.repeat(2) # => [1, 1, 2, 2, 3, 3]
   # ```
@@ -337,7 +337,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = [[1, 2, 3], [4, 5, 6]]
   # a.repeat(2, 1)
   #
@@ -356,7 +356,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = [[1, 2, 3], [4, 5, 6]]
   # puts a.tile(2)
   #
@@ -375,7 +375,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = [[1, 2, 3], [4, 5, 6]]
   # puts Num.tile(a, 2)
   #
@@ -390,7 +390,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = [[1, 2, 3], [4, 5, 6]]
   # a.flip
   #
@@ -409,7 +409,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = [[1, 2, 3], [4, 5, 6]]
   # a.flip(1)
   #
@@ -427,7 +427,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.new(3, 3) { |i, _| i }
   # a.diagonal # => [0, 1, 2]
   # ```

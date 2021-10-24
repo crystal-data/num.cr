@@ -30,7 +30,7 @@ class Tensor(T, S)
   # When an Integer argument is passed, an axis will be removed from
   # the `Tensor`, and a view at that index will be returned.
   #
-  # ```crystal
+  # ```
   # a = Tensor.new([2, 2]) { |i| i }
   # a[0] # => [0, 1]
   # ```
@@ -38,7 +38,7 @@ class Tensor(T, S)
   # When a Range argument is passed, an axis will be sliced based on
   # the endpoints of the range.
   #
-  # ```crystal
+  # ```
   # a = Tensor.new([2, 2, 2]) { |i| i }
   # a[1...]
   #
@@ -51,7 +51,7 @@ class Tensor(T, S)
   # axis are updated to reflect the step.  Negative steps will reflect
   # the array along an axis.
   #
-  # ```crystal
+  # ```
   # a = Tensor.new([2, 2]) { |i| i }
   # a[{..., -1}]
   #
@@ -70,7 +70,7 @@ class Tensor(T, S)
   # When an Integer argument is passed, an axis will be removed from
   # the `Tensor`, and a view at that index will be returned.
   #
-  # ```crystal
+  # ```
   # a = Tensor.new([2, 2]) { |i| i }
   # a[0] # => [0, 1]
   # ```
@@ -78,7 +78,7 @@ class Tensor(T, S)
   # When a Range argument is passed, an axis will be sliced based on
   # the endpoints of the range.
   #
-  # ```crystal
+  # ```
   # a = Tensor.new([2, 2, 2]) { |i| i }
   # a[1...]
   #
@@ -91,7 +91,7 @@ class Tensor(T, S)
   # axis are updated to reflect the step.  Negative steps will reflect
   # the array along an axis.
   #
-  # ```crystal
+  # ```
   # a = Tensor.new([2, 2]) { |i| i }
   # a[{..., -1}]
   #
@@ -118,7 +118,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.new([2, 2]) { |i| i }
   # a[1.., 1..] = 99
   # a
@@ -155,7 +155,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.new([2, 2]) { |i| i }
   # a[1.., 1..] = 99
   # a
@@ -183,7 +183,7 @@ class Tensor(T, S)
   # When an Integer argument is passed, an axis will be removed from
   # the `Tensor`, and a view at that index will be returned.
   #
-  # ```crystal
+  # ```
   # a = Tensor.new([2, 2]) { |i| i }
   # a[0] # => [0, 1]
   # ```
@@ -191,7 +191,7 @@ class Tensor(T, S)
   # When a Range argument is passed, an axis will be sliced based on
   # the endpoints of the range.
   #
-  # ```crystal
+  # ```
   # a = Tensor.new([2, 2, 2]) { |i| i }
   # a[1...]
   #
@@ -204,7 +204,7 @@ class Tensor(T, S)
   # axis are updated to reflect the step.  Negative steps will reflect
   # the array along an axis.
   #
-  # ```crystal
+  # ```
   # a = Tensor.new([2, 2]) { |i| i }
   # a[{..., -1}]
   #
@@ -230,7 +230,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.new([2, 2]) { |i| i }
   # a[1.., 1..] = 99
   # a

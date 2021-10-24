@@ -27,7 +27,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.new(2, 2) { |i| i }
   # a.each do |el|
   #   puts el
@@ -53,7 +53,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.new(2, 2) { |i| i }
   # b = Tensor.new(2, 2) { |i| i + 2 }
   # a.zip(b) do |el|
@@ -78,7 +78,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.new(2, 2) { |i| i }
   # iter = a.each
   # a.size.times do
@@ -103,7 +103,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.new(2, 2) { |i| i }
   # a.each_pointer do |el|
   #   puts el.value
@@ -126,7 +126,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.new(2, 2) { |i| i }
   # a.each_with_index do |el, i|
   #   puts "#{el}_#{i}"
@@ -153,7 +153,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.new(2, 2) { |i| i }
   # a.each_pointer_with_index do |el, i|
   #   puts "#{el.value}_#{i}"
@@ -183,7 +183,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.new([3]) { |i| i }
   # a.map { |e| e + 5 } # => [5, 6, 7]
   # ```
@@ -203,7 +203,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.new([3]) { |i| i }
   # a.map! { |e| e + 5 }
   # a # => [5, 6, 7]
@@ -228,7 +228,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.new([3]) { |i| i }
   # b = Tensor.new([3]) { |i| i }
   #
@@ -256,7 +256,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.new([3]) { |i| i }
   # b = Tensor.new([3]) { |i| i }
   #
@@ -285,7 +285,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.new([3]) { |i| i }
   # b = Tensor.new([3]) { |i| i }
   # c = Tensor.new([3]) { |i| i }
@@ -316,7 +316,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.new([3]) { |i| i }
   # b = Tensor.new([3]) { |i| i }
   # c = Tensor.new([3]) { |i| i }
@@ -343,7 +343,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # [1, 2, 3, 4, 5].to_tensor.reduce { |acc, i| acc + i } # => 15
   # ```
   def reduce
@@ -363,7 +363,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # [1, 2, 3, 4, 5].to_tensor.reduce(10) { |acc, i| acc + i } # => 25
   # ```
   def reduce(memo)
@@ -383,7 +383,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # [2, 3, 4, 5]..to_tensor.accumulate { |x, y| x * y } # => [2, 6, 24, 120]
   # ```
   def accumulate(&block : T, T -> T) : Tensor(T, S)
@@ -411,7 +411,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.new([3, 3]) { |i| i }
   # a.reduce_axis(0) { |i, j| i + j } # => [ 9, 12, 15]
   # ```
@@ -432,7 +432,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.new([3, 3]) { |i| i }
   # a.each_axis(1) do |ax|
   #   puts ax
@@ -459,7 +459,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.new([3, 3]) { |i| i }
   # a.each_axis(1).next # => [0, 3, 6]
   # ```
@@ -479,7 +479,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.new([3, 3, 3]) { |i| i }
   # a.yield_along_axis(0) do |ax|
   #   puts ax

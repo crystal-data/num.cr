@@ -27,7 +27,7 @@ module Num::NN
   extend self
 
   # :nodoc:
-  MNIST_TEST_URL  = "https://pjreddie.com/media/files/mnist_test.csv"
+  MNIST_TEST_URL = "https://pjreddie.com/media/files/mnist_test.csv"
 
   # :nodoc:
   MNIST_TRAIN_URL = "https://pjreddie.com/media/files/mnist_train.csv"

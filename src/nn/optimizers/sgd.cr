@@ -40,9 +40,7 @@ class Num::NN::SGDOptimizer(T) < Num::NN::Optimizer(T)
   def update
     @params.each do |v|
       if v.requires_grad
-        v.value.map!(v.grad) do |x, y|
-          x - @learning_rate * y
-        end
+        Num::NN.sgd_optimize(v.value, v.grad, @learning_rate)
         v.grad = T.zeros_like(v.value)
       end
     end

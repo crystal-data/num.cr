@@ -136,6 +136,14 @@ module Num
       Num.transpose_kernel
     end
 
+    class_getter sigmoidCrossEntropyLossBackwards do
+      Num.sigmoid_cross_entropy_backwards_kernel
+    end
+
+    class_getter sgdOptimize do
+      Num.sgd_optimizer_kernel
+    end
+
     class_getter expBackwards do
       Num.custom_kernel("expBackwards", "float", "C[c] = A[a] * exp(B[b]);", "C", "A", "B")
     end

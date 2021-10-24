@@ -22,7 +22,6 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 module Num::Grad
-
   # :nodoc:
   def divide_backward(
     gradient : Tensor(U, CPU(U)),

@@ -467,8 +467,6 @@ class Tensor(T, S)
   # a.dot(a) # => 55.0
   # ```
   def dot(u : Tensor(T, S))
-    self.assert_is_vector
-    u.assert_is_vector
     result = Tensor(T, S).new([1])
 
     {% if S < OCL %}

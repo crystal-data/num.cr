@@ -1,4 +1,4 @@
-# Copyright (c) 2020 Crystal Data Contributors
+# Copyright (c) 2021 Crystal Data Contributors
 #
 # MIT License
 #
@@ -21,23 +21,38 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-# :nodoc:
-class Num::NN::DropoutGate(T) < Num::Grad::Gate(T)
-  getter mask : T
-  getter prob : Float32 | Float64
-
-  def initialize(@mask : T, @prob : Float32 | Float64)
+module Num::NN
+  # Computes a forward dropout activation
+  #
+  # ## Arguments
+  #
+  # * input : `Tensor` - `Tensor` to activate
+  # * mask : `Tensor` - Mask to dropout
+  # * probability : `Float` - Probability of dropout
+  def dropout(
+    input : Tensor(U, CPU(U)),
+    mask : Tensor(U, CPU(U)),
+    probability : Float
+  ) : Tensor(U, CPU(U)) forall U
+    input.map(mask) do |i, j|
+      i * j / probability
+    end
   end
 
-  def backward(payload : Num::Grad::Payload(T)) : Array(T)
-    gradient = payload.variable.grad
-    [gradient * @mask / @prob]
-  end
-
-  def cache(result : Num::Grad::Variable(T), *args)
-    result.grad = T.zeros_like(result.value)
-    result.requires_grad = true
-
-    Num::Grad.register("Dropout", self, result, *args)
+  # Computes a backwards dropout derivative
+  #
+  # ## Arguments
+  #
+  # * gradient : `Tensor` - `Tensor` used to compute backwards pass
+  # * mask : `Tensor` - Mask to apply to the gradient
+  # * probability : `Float` - Probability of dropout
+  def dropout_backwards(
+    gradient : Tensor(U, CPU(U)),
+    mask : Tensor(U, CPU(U)),
+    probability : Float
+  ) : Tensor(U, CPU(U)) forall U
+    gradient.map(mask) do |i, j|
+      i * j / probability
+    end
   end
 end

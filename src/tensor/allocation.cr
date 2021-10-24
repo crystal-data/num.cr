@@ -82,7 +82,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor(Float32).new([3, 3, 2], device: OCL(Float32)) # => GPU Tensor
   # b = Tensor(Float32).new([2, 3, 4])                       # => CPU Tensor
   # ```
@@ -96,7 +96,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.new([2, 2], 3.5) # => CPU Tensor filled with 3.5
   # ```
   def self.new(shape : Array(Int), value : T, device = CPU(T), order : Num::OrderType = Num::RowMajor)
@@ -109,7 +109,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.new([3, 3, 2]) { |i| i } # => Int32 Tensor stored on a CPU
   # ```
   def self.new(shape : Array(Int), order : Num::OrderType = Num::RowMajor, device = CPU, &block : Int32 -> T)
@@ -125,7 +125,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.new(3, 3) { |i, j| i / j } # => Float64 Tensor stored on a CPU
   # ```
   def self.new(m : Int, n : Int, device = CPU, &block : Int32, Int32 -> T)
@@ -144,7 +144,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = [[1, 2], [3, 4], [5, 6]]
   # Tensor.from_array(a, device: OCL) # => [3, 2] Tensor stored on a GPU
   # ```
@@ -164,7 +164,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # t = Tensor(Int8).zeros([3]) # => [0, 0, 0]
   # ```
   def self.zeros(shape : Array(Int)) : Tensor(T, S)
@@ -180,7 +180,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # t = Tensor(Int8, CPU(Int8)).new([3]) &.to_f
   # u = Tensor(Int8, CPU(Int8)).zeros_like(t) # => [0, 0, 0]
   # ```
@@ -197,7 +197,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # t = Tensor(Int8, CPU(Int8)).ones([3]) # => [1, 1, 1]
   # ```
   def self.ones(shape : Array(Int)) : Tensor(T, S)
@@ -213,7 +213,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # t = Tensor(Int8, CPU(Int8)) &.to_f
   # u = Tensor(Int8, CPU(Int8)).ones_like(t) # => [0, 0, 0]
   # ```
@@ -230,7 +230,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # t = Tensor(Int8, CPU(Int8)).full([3], 1) # => [1, 1, 1]
   # ```
   def self.full(shape : Array(Int), value : Number) : Tensor(T, S)
@@ -246,7 +246,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # t = Tensor(Int8, CPU(Int8)) &.to_f
   # u = Tensor(Int8, CPU(Int8)).full_like(t, 3) # => [3, 3, 3]
   # ```
@@ -266,7 +266,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # Tensor.range(0, 5, 2)       # => [0, 2, 4]
   # Tensor.range(5, 0, -1)      # => [5, 4, 3, 2, 1]
   # Tensor.range(0.0, 3.5, 0.7) # => [0  , 0.7, 1.4, 2.1, 2.8]
@@ -305,7 +305,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # Tensor(Int8, CPU(Int8)).eye(3, offset: -1)
   #
   # # [[0, 0, 0],
@@ -333,7 +333,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # Tensor(Int8, CPU(Int8)).identity(2)
   #
   # # [[1, 0],
@@ -354,7 +354,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.from_array [1, 2, 3]
   # a.dup # => [1, 2, 3]
   # ```
@@ -368,7 +368,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor(Int32, CPU(Int32)).new([3, 3])
   # b = a.view
   # b[...] = 99

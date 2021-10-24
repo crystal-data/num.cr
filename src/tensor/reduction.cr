@@ -27,7 +27,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = [1, 2, 3]
   # a.sum # => 6
   # ```
@@ -46,7 +46,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.new([2, 2]) { |i| i }
   # a.sum(0) # => [2, 4]
   # a.sum(1, dims: true)
@@ -62,7 +62,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = [1, 2, 3]
   # a.prod # => 6
   # ```
@@ -81,7 +81,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.new([2, 2]) { |i| i }
   # a.prod(0) # => [0, 3]
   # a.prod(1, dims: true)
@@ -97,7 +97,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = [0, 2, 3].to_tensor
   # a.all # => false
   # ```
@@ -116,7 +116,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.new([2, 2]) { |i| i }
   # a.all(0) # => [false, true]
   # a.all(1, dims: true)
@@ -132,7 +132,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = [0, 2, 3].to_tensor
   # a.any # => true
   # ```
@@ -151,7 +151,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.new([2, 2]) { |i| i }
   # a.any(0) # => [true, true]
   # a.any(1, dims: true)
@@ -166,7 +166,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = [1, 2, 3]
   # a.mean # => 2.0
   # ```
@@ -185,7 +185,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.new([2, 2]) { |i| i }
   # a.mean(0) # => [1, 2]
   # a.mean(1, dims: true)
@@ -200,7 +200,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = [1, 2, 3]
   # a.max # => 3
   # ```
@@ -219,7 +219,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.new([2, 2]) { |i| i }
   # a.max(0) # => [2, 3]
   # a.max(1, dims: true)
@@ -234,7 +234,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = [1, 2, 3]
   # Num.min(a) # => 3
   # ```
@@ -253,7 +253,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = Tensor.new([2, 2]) { |i| i }
   # a.min(0) # => [0, 1]
   # a.min(1, dims: true)
@@ -301,7 +301,7 @@ class Tensor(T, S)
   # Find the maximum index value of a Tensor
   #
   # ## Examples
-  # ```crystal
+  # ```
   # a = [1, 2, 3].to_tensor
   # a.argmax # => 2
   # ```
@@ -320,7 +320,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = [[4, 2], [0, 1]].to_tensor
   # a.argmax(1) # => [0, 1]
   # ```
@@ -331,7 +331,7 @@ class Tensor(T, S)
   # Find the minimum index value of a Tensor
   #
   # ## Examples
-  # ```crystal
+  # ```
   # a = [1, 2, 3].to_tensor
   # a.argmin # => 0
   # ```
@@ -350,7 +350,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = [[4, 2], [0, 1]].to_tensor
   # a.argmin(1) # => [1, 0]
   # ```
@@ -363,7 +363,7 @@ class Tensor(T, S)
   #
   # ## Examples
   #
-  # ```crystal
+  # ```
   # a = [3, 2, 1].to_tensor
   # a.sort # => [1, 2, 3]
   # ```
@@ -458,7 +458,7 @@ class Tensor(T, S)
   # ```
   # a = [0.0, 0.0, 0.0000000001].to_tensor
   # b = [0.0, 0.0, 0.0].to_tensor
-  # a.all_close(b) # => true
+  # a.all_close(b)        # => true
   # a.all_close(b, 1e-12) # => false
   # ```
   def all_close(other : Tensor, epsilon : Float = 1e-6) : Bool
