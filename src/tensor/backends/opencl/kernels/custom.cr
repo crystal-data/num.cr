@@ -110,7 +110,7 @@ module Num
                 __global const int * restrict dst_shape,
                 __global const int * restrict dst_strides,
                 const int dst_offset,
-                __global       float * restrict const dst_data,
+                __global       float * dst_data,
                 __global const int * restrict A_shape,
                 __global const int * restrict A_strides,
                 const int A_offset,

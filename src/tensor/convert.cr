@@ -52,6 +52,19 @@ class Tensor(T, S)
     Num.cpu(self)
   end
 
+  # Places a Tensor onto an OpenCL backend.  No copy is done
+  # if the Tensor is already on a CPU
+  #
+  # ## Examples
+  #
+  # ```
+  # a = Tensor(Float32, CPU(Float32)).ones([3])
+  # a.opencl # => <[3] on OpenCL Backend>
+  # ```
+  def opencl : Tensor(T, OCL(T))
+    Num.opencl(self)
+  end
+
   # Converts a Tensor to a given dtype.  No rounding
   # is done on floating point values.
   #

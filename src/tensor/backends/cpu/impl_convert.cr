@@ -43,6 +43,15 @@ module Num
     a
   end
 
+  @[AlwaysInline]
+  def opencl(arr : Tensor(U, CPU(U))) : Tensor(U, OCL(U)) forall U
+    unless arr.flags.contiguous?
+      arr = arr.dup
+    end
+    storage = OCL(U).new(arr.to_unsafe, arr.shape, arr.strides)
+    Tensor(U, OCL(U)).new(storage, arr.shape)
+  end
+
   # Casts a `Tensor` to a new dtype, by making a copy.  Information may
   # be lost when converting between data types, for example Float to Int
   # or Int to Bool.

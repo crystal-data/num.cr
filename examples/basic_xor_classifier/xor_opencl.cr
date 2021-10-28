@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Crystal Data Contributors
+# Copyright (c) 2020 Crystal Data Contributors
 #
 # MIT License
 #
@@ -21,12 +21,48 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-describe Num::NN do
-  it "Drop out forward drops out correctly" do
-    input = Tensor(Float32, CPU(Float32)).ones([3])
-    mask = [0_f32, 1_f32, 0_f32].to_tensor
-    expected = [0_f32, 2_f32, 0_f32].to_tensor
-    result = Num::NN.dropout(input, mask, 0.5)
-    Num::Testing.tensor_equal(result, expected).should be_true
+require "../../src/num"
+require "gc"
+
+Num::Rand.set_seed(2)
+
+ctx = Num::Grad::Context(Tensor(Float32, OCL(Float32))).new
+
+bsz = 32
+
+x_train_bool = Tensor.random(0_u8...2_u8, [bsz * 100, 2])
+
+y_bool = x_train_bool[..., ...1] ^ x_train_bool[..., 1...]
+
+x_train = ctx.variable(x_train_bool.as_type(Float32).opencl)
+y = y_bool.as_type(Float32).opencl
+
+net = Num::NN::Network.new(ctx) do
+  input [2]
+  linear 3
+  relu
+  linear 1
+  sgd 0.7
+  sigmoid_cross_entropy_loss
+end
+
+losses = [] of Float64
+
+5.times do |epoch|
+  25.times do |batch_id|
+    offset = batch_id * 32
+    x = x_train[offset...offset + 32]
+    target = y[offset...offset + 32]
+
+    y_pred = net.forward(x)
+
+    loss = net.loss(y_pred, target)
+
+    puts "Epoch is: #{epoch}"
+    puts "Batch id: #{batch_id}"
+    puts "Loss is: #{loss.value.cpu}"
+
+    loss.backprop
+    net.optimizer.update
   end
 end

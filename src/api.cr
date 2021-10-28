@@ -120,6 +120,7 @@ require "./nn/backends/cpu/convolution"
 require "./nn/backends/cpu/loss"
 require "./nn/backends/cpu/maxpool"
 require "./nn/backends/cpu/dropout"
+require "./nn/backends/cpu/optimizers"
 
 require "./nn/backends/opencl/activation"
 require "./nn/backends/opencl/dropout"

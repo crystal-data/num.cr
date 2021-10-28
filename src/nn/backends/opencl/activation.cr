@@ -188,8 +188,8 @@ module Num::NN
   ) : Tensor(Float32, OCL(Float32))
     opencl_backwards_template(
       Num::OpenCLKernelCache.reluBackwards,
-      gradient,
       cached,
+      gradient,
     )
   end
 
@@ -240,7 +240,10 @@ module Num::NN
 
     ones = Tensor(Float32, OCL(Float32)).ones_like(result)
     summed = result.dot(ones)
-    summed / batch_size
+    ones.data.finalize
+    result = summed / batch_size
+    summed.data.finalize
+    result
   end
 
   # Mean squared error loss
@@ -258,6 +261,9 @@ module Num::NN
 
     ones = Tensor(Float32, OCL(Float32)).ones_like(result)
     summed = result.dot(ones)
-    summed / input.size
+    ones.data.finalize
+    result = summed / input.size
+    summed.data.finalze
+    result
   end
 end

@@ -35,7 +35,7 @@ module Num::NN
     probability : Float
   ) : Tensor(U, CPU(U)) forall U
     input.map(mask) do |i, j|
-      i * j / probability
+      U.new(i * j / probability)
     end
   end
 

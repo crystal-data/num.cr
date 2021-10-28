@@ -21,12 +21,14 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-describe Num::NN do
-  it "Drop out forward drops out correctly" do
-    input = Tensor(Float32, CPU(Float32)).ones([3])
-    mask = [0_f32, 1_f32, 0_f32].to_tensor
-    expected = [0_f32, 2_f32, 0_f32].to_tensor
-    result = Num::NN.dropout(input, mask, 0.5)
-    Num::Testing.tensor_equal(result, expected).should be_true
+module Num::NN
+  def sgd_optimize(
+    value : Tensor(U, CPU(U)),
+    gradient : Tensor(U, CPU(U)),
+    learning_rate : Float
+  ) forall U
+    value.map!(gradient) do |x, y|
+      x - learning_rate * y
+    end
   end
 end

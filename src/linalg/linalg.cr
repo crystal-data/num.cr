@@ -470,7 +470,7 @@ class Tensor(T, S)
     result = Tensor(T, S).new([1])
 
     {% if S < OCL %}
-      blast(dot, @size, result.get_offset_ptr_c, 0, self.get_offset_ptr_c, @offset, @strides[0], u.get_offset_ptr_c, u.offset, u.strides[0])
+      blast(dot, @size, result.to_unsafe, 0, self.to_unsafe, @offset, @strides[0], u.to_unsafe, u.offset, u.strides[0])
     {% else %}
       dotvalue = blas_call(
         dot,
@@ -482,6 +482,46 @@ class Tensor(T, S)
       )
       result.get_offset_ptr_c.value = dotvalue
     {% end %}
+    result
+  end
+
+  def im2col(
+    kernel : Tuple(Int, Int),
+    padding : Tuple(Int, Int) = {0, 0},
+    stride : Tuple(Int, Int) = {1, 1}
+  ) : Tensor(T, S)
+    channels = @shape[-3]
+    height = @shape[-2]
+    width = @shape[-1]
+
+    channels_col = channels * kernel[0] * kernel[1]
+    height_col = (height + (2 * padding[0]) - kernel[0]) // stride[0] + 1
+    width_col = (width + (2 * padding[1]) - kernel[1]) // stride[1] + 1
+    flatten_size_col = height_col * width_col
+    flatten_size = height * width
+
+    result = Tensor(T, S).new([channels_col, flatten_size_col])
+
+    blast(
+      im2col,
+      LibBlast::CLBlastKernelMode::CLBlastKernelModeCrossCorrelation,
+      channels,
+      height,
+      width,
+      kernel[0],
+      kernel[1],
+      padding[0],
+      padding[1],
+      stride[0],
+      stride[1],
+      0,
+      0,
+      self.to_unsafe,
+      self.offset,
+      result.to_unsafe,
+      0
+    )
+
     result
   end
 
@@ -548,14 +588,14 @@ class Tensor(T, S)
         n,
         k,
         T.new(1.0),
-        self.get_offset_ptr_c,
+        self.to_unsafe,
         @offset,
         k,
-        other.get_offset_ptr_c,
+        other.to_unsafe,
         other.offset,
         n,
         0.0,
-        result.get_offset_ptr_c,
+        result.to_unsafe,
         0,
         n
       )
