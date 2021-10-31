@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.0.0">
+<meta name="generator" content="Crystal Docs 1.1.1">
 <meta name="crystal_docs.project_version" content="HEAD">
 <meta name="crystal_docs.project_name" content="num">
 
@@ -547,7 +547,6 @@
   <p>A Gate is an object that can cache the result of an operation,
 as well as backpropogate a payload backwards along the
 computational graph</p>
-
 <p>Child classes that inherit from this class can add instance
 variables if additional caching is needed, and these need
 to be populated when writing the cached operation</p>
@@ -623,7 +622,7 @@ to be populated when writing the cached operation</p>
   </h2>
   
     
-      <a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/grad/primitives/gate.cr#L31" target="_blank">
+      <a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/grad/primitives/gate.cr#L31" target="_blank">
         grad/primitives/gate.cr
       </a>
     
@@ -649,14 +648,14 @@ to be populated when writing the cached operation</p>
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#backward(payload:Num::Grad::Payload(T)):Array(T)-instance-method" class="signature"><strong>#backward</strong>(payload : Num::Grad::Payload(T)) : Array(T)</a>
+        <a href="#backward%28payload%3ANum%3A%3AGrad%3A%3APayload%28T%29%29%3AArray%28T%29-instance-method" class="signature"><strong>#backward</strong>(payload : Num::Grad::Payload(T)) : Array(T)</a>
         
           <div class="summary"><p>Propogates an operation backwards, transforming a payload and returning an array of Tensors</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#cache(result:Num::Grad::Variable(T),*args)-instance-method" class="signature"><strong>#cache</strong>(result : Num::Grad::Variable(T), *args)</a>
+        <a href="#cache%28result%3ANum%3A%3AGrad%3A%3AVariable%28T%29%2C%2Aargs%29-instance-method" class="signature"><strong>#cache</strong>(result : Num::Grad::Variable(T), *args)</a>
         
           <div class="summary"><p>Caches the result of an operation on a context</p></div>
         
@@ -711,7 +710,7 @@ to be populated when writing the cached operation</p>
         abstract 
         def <strong>backward</strong>(payload : <a href="../../Num/Grad/Payload.html">Num::Grad::Payload</a>(T)) : <a href="../../Array.html">Array</a>(T)
 
-        <a class="method-permalink" href="#backward(payload:Num::Grad::Payload(T)):Array(T)-instance-method">#</a>
+        <a class="method-permalink" href="#backward%28payload%3ANum%3A%3AGrad%3A%3APayload%28T%29%29%3AArray%28T%29-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -723,7 +722,7 @@ and returning an array of Tensors</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/grad/primitives/gate.cr#L34" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/grad/primitives/gate.cr#L34" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -733,7 +732,7 @@ and returning an array of Tensors</p>
         abstract 
         def <strong>cache</strong>(result : <a href="../../Num/Grad/Variable.html">Num::Grad::Variable</a>(T), *args)
 
-        <a class="method-permalink" href="#cache(result:Num::Grad::Variable(T),*args)-instance-method">#</a>
+        <a class="method-permalink" href="#cache%28result%3ANum%3A%3AGrad%3A%3AVariable%28T%29%2C%2Aargs%29-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -744,7 +743,7 @@ and returning an array of Tensors</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/grad/primitives/gate.cr#L37" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/grad/primitives/gate.cr#L37" target="_blank">View source</a>]
         
       </div>
     </div>

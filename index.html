@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.0.0">
+<meta name="generator" content="Crystal Docs 1.1.1">
 <meta name="crystal_docs.project_version" content="HEAD">
 <meta name="crystal_docs.project_name" content="num">
 
@@ -523,77 +523,72 @@
 
 
 <div class="main-content">
-<p><img src="https://raw.githubusercontent.com/crystal-data/bottle/rename/static/numcr_logo.png" alt="num.cr"/></p>
-
-<p><a href="https://gitter.im/crystal-data/bottle?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge"><img src="https://badges.gitter.im/crystal-data/bottle.svg" alt="Join the chat at https://gitter.im/crystal-data/bottle"/></a>
-<img src="https://github.com/crystal-data/num.cr/workflows/Crystal%20CI/badge.svg" alt="Crystal CI"/></p>
-
+<p><img src="https://raw.githubusercontent.com/crystal-data/bottle/rename/static/numcr_logo.png" alt="num.cr" /></p>
+<p><a href="https://gitter.im/crystal-data/bottle?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://badges.gitter.im/crystal-data/bottle.svg" alt="Join the chat at https://gitter.im/crystal-data/bottle" /></a>
+<img src="https://github.com/crystal-data/num.cr/workflows/Crystal%20CI/badge.svg" alt="Crystal CI" /></p>
 <p>Num.cr is the core shard needed for scientific computing with Crystal</p>
-
-<ul><li><strong>Website:</strong> https://crystal-data.github.io/num.cr</li><li><strong>API Documentation:</strong> https://crystal-data.github.io/num.cr/</li><li><strong>Source code:</strong> https://github.com/crystal-data/num.cr</li><li><strong>Bug reports:</strong> https://github.com/crystal-data/num.cr/issues</li></ul>
-
+<ul>
+<li><strong>Website:</strong> https://crystal-data.github.io/num.cr</li>
+<li><strong>API Documentation:</strong> https://crystal-data.github.io/num.cr/</li>
+<li><strong>Source code:</strong> https://github.com/crystal-data/num.cr</li>
+<li><strong>Bug reports:</strong> https://github.com/crystal-data/num.cr/issues</li>
+</ul>
 <p>It provides:</p>
-
-<ul><li>An n-dimensional <code><a href="Tensor.html">Tensor</a></code> data structure</li><li>Efficient <code>map</code>, <code>reduce</code> and <code>accumulate</code> routines</li><li>GPU accelerated routines backed by <code>OpenCL</code></li><li>Linear algebra routines backed by <code>LAPACK</code> and <code>BLAS</code></li></ul>
-
+<ul>
+<li>An n-dimensional <code><a href="Tensor.html">Tensor</a></code> data structure</li>
+<li>Efficient <code>map</code>, <code>reduce</code> and <code>accumulate</code> routines</li>
+<li>GPU accelerated routines backed by <code>OpenCL</code></li>
+<li>Linear algebra routines backed by <code>LAPACK</code> and <code>BLAS</code></li>
+</ul>
 <h2><a id="prerequisites" class="anchor" href="#prerequisites">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Prerequisites</h2>
-
 <p><code>Num.cr</code> aims to be a scientific computing library written in pure Crystal.
 All standard operations and data structures are written in Crystal.  Certain
 routines, primarily linear algebra routines, are instead provided by a
 <code>BLAS</code> or <code>LAPACK</code> implementation.</p>
-
 <p>Several implementations can be used, including <code>Cblas</code>, <code>Openblas</code>, and the
 <code>Accelerate</code> framework on Darwin systems.  For GPU accelerated <code>BLAS</code> routines,
 the <code>ClBlast</code> library is required.</p>
-
 <p><code>Num.cr</code> also supports <code><a href="Tensor.html">Tensor</a></code>s stored on a <code>GPU</code>.  This is currently limited
 to <code>OpenCL</code>, and a valid <code>OpenCL</code> installation and device(s) are required.</p>
-
 <h2><a id="installation" class="anchor" href="#installation">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Installation</h2>
-
 <p>Add this to your applications <code>shard.yml</code></p>
-
 <pre><code class="language-crystal">dependencies:
   num:
     github: crystal-data/num.cr</code></pre>
-
 <p>Several third-party libraries are required to use certain features of <code>Num.cr</code>.
 They are:</p>
-
-<ul><li>BLAS</li><li>LAPACK</li><li>OpenCL</li><li>ClBlast</li></ul>
-
+<ul>
+<li>BLAS</li>
+<li>LAPACK</li>
+<li>OpenCL</li>
+<li>ClBlast</li>
+</ul>
 <p>While not at all required, they provide additional functionality than is
 provided by the basic library.</p>
-
 <h2><a id="just-show-me-the-code" class="anchor" href="#just-show-me-the-code">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Just show me the code</h2>
-
 <p>The core data structure implemented by <code>Num.cr</code> is the <code><a href="Tensor.html">Tensor</a></code>, an N-dimensional
 data structure.  A <code><a href="Tensor.html">Tensor</a></code> supports slicing, mutation, permutation, reduction,
 and accumulation.  A <code><a href="Tensor.html">Tensor</a></code> can be a view of another <code><a href="Tensor.html">Tensor</a></code>, and can support
 either C-style or Fortran-style storage.</p>
-
 <h3><a id="creation" class="anchor" href="#creation">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Creation</h3>
-
 <p>There are many ways to initialize a <code><a href="Tensor.html">Tensor</a></code>.  Most creation methods can
 allocate a <code><a href="Tensor.html">Tensor</a></code> backed by either <code>CPU</code> or <code>GPU</code> based storage.</p>
-
 <pre><code class="language-crystal">[<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>].to_tensor
 <span class="t">Tensor</span>.from_array [<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>]
 <span class="t">Tensor</span>(<span class="t">UInt8</span>).zeros([<span class="n">3</span>, <span class="n">3</span>, <span class="n">2</span>])
@@ -601,17 +596,14 @@ allocate a <code><a href="Tensor.html">Tensor</a></code> backed by either <code>
 
 <span class="t">ClTensor</span>(<span class="t">Float32</span>).zeros([<span class="n">3</span>, <span class="n">2</span>, <span class="n">2</span>])
 <span class="t">ClTensor</span>(<span class="t">Float64</span>).full([<span class="n">3</span>, <span class="n">4</span>, <span class="n">5</span>], <span class="n">3.8</span>)</code></pre>
-
 <h3><a id="operations" class="anchor" href="#operations">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Operations</h3>
-
 <p>A <code><a href="Tensor.html">Tensor</a></code> supports a wide variety of numerical operations.  Many of these
 operations are provided by <code>Num.cr</code>, but any operation can be mapped across
 one or more <code><a href="Tensor.html">Tensor</a></code>s using sophisticated broadcasted mapping routines.</p>
-
 <pre><code class="language-crystal">a <span class="o">=</span> [<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>].to_tensor
 b <span class="o">=</span> [[<span class="n">3</span>, <span class="n">4</span>, <span class="n">5</span>, <span class="n">6</span>], [<span class="n">5</span>, <span class="n">6</span>, <span class="n">7</span>, <span class="n">8</span>]].to_tensor
 
@@ -623,11 +615,9 @@ puts <span class="t">Num</span>.add(a, b)
 <span class="c"># a is broadcast to b&#39;s shape</span>
 <span class="c"># [[ 4,  6,  8, 10],</span>
 <span class="c">#  [ 6,  8, 10, 12]]</span></code></pre>
-
 <p>When operating on more than two <code><a href="Tensor.html">Tensor</a></code>s, it is recommended to use <code>map</code>
 rather than builtin functions to avoid the allocation of intermediate
 results.  All <code>map</code> operations support broadcasting.</p>
-
 <pre><code class="language-crystal">a <span class="o">=</span> [<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>, <span class="n">4</span>].to_tensor
 b <span class="o">=</span> [[<span class="n">3</span>, <span class="n">4</span>, <span class="n">5</span>, <span class="n">6</span>], [<span class="n">5</span>, <span class="n">6</span>, <span class="n">7</span>, <span class="n">8</span>]].to_tensor
 c <span class="o">=</span> [<span class="n">3</span>, <span class="n">5</span>, <span class="n">7</span>, <span class="n">9</span>].to_tensor
@@ -638,17 +628,14 @@ a.map(b, c) <span class="k">do</span> <span class="o">|</span>i, j, k<span class
 
 <span class="c"># [[12.1667, 20     , 27.9   , 35.8333],</span>
 <span class="c">#  [11.9   , 19.8333, 27.7857, 35.75  ]]</span></code></pre>
-
 <h3><a id="mutation" class="anchor" href="#mutation">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Mutation</h3>
-
 <p><code><a href="Tensor.html">Tensor</a></code>s support flexible slicing and mutation operations.  Many of these
 operations return views, not copies, so any changes made to the results might
 also be reflected in the parent.</p>
-
 <pre><code class="language-crystal">a <span class="o">=</span> <span class="t">Tensor</span>.<span class="k">new</span>([<span class="n">3</span>, <span class="n">2</span>, <span class="n">2</span>]) { <span class="o">|</span>i<span class="o">|</span> i }
 
 puts a.transpose
@@ -685,16 +672,13 @@ puts a[<span class="n">1</span>..., {..., <span class="n">-1</span>}]
 puts a[<span class="n">0</span>, <span class="n">1</span>, <span class="n">1</span>].value
 
 <span class="c"># 3</span></code></pre>
-
 <h3><a id="linear-algebra" class="anchor" href="#linear-algebra">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Linear Algebra</h3>
-
 <p><code><a href="Tensor.html">Tensor</a></code>s provide easy access to power Linear Algebra routines backed by
 LAPACK and BLAS implementations, and ClBlast for GPU backed <code><a href="Tensor.html">Tensor</a></code>s.</p>
-
 <pre><code class="language-crystal">a <span class="o">=</span> [[<span class="n">1</span>, <span class="n">2</span>], [<span class="n">3</span>, <span class="n">4</span>]].to_tensor.map <span class="o">&amp;</span>.to_f32
 
 puts a.inv
@@ -718,17 +702,14 @@ puts a.matmul(a)
 
 <span class="c"># [[7 , 10],</span>
 <span class="c">#  [15, 22]]</span></code></pre>
-
 <h3><a id="machine-learning" class="anchor" href="#machine-learning">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Machine Learning</h3>
-
 <p><code><a href="Num/Grad.html">Num::Grad</a></code> provides a pure-crystal approach to find derivatives of
 mathematical functions.  Use a <code><a href="Num/Grad/Variable.html">Num::Grad::Variable</a></code> with a <code><a href="Num/Grad/Context.html">Num::Grad::Context</a></code>
 to easily compute these derivatives.</p>
-
 <pre><code class="language-crystal">ctx <span class="o">=</span> <span class="t">Num</span><span class="t">::</span><span class="t">Grad</span><span class="t">::</span><span class="t">Context</span>(<span class="t">Tensor</span>(<span class="t">Float64</span>)).<span class="k">new</span>
 
 x <span class="o">=</span> ctx.variable([<span class="n">3.0</span>])
@@ -742,11 +723,9 @@ f.backprop
 
 <span class="c"># df/dx = y * x = 6.0</span>
 puts x.grad <span class="c"># =&gt; [6.0]</span></code></pre>
-
 <p><code><a href="Num/NN.html">Num::NN</a></code> contains an extension to <code><a href="Num/Grad.html">Num::Grad</a></code> that provides an easy-to-use
 interface to assist in creating neural networks.  Designing and creating
 a network is simple using Crystal's block syntax.</p>
-
 <pre><code class="language-crystal">ctx <span class="o">=</span> <span class="t">Num</span><span class="t">::</span><span class="t">Grad</span><span class="t">::</span><span class="t">Context</span>(<span class="t">Tensor</span>(<span class="t">Float64</span>)).<span class="k">new</span>
 
 x_train <span class="o">=</span> [[<span class="n">0.0</span>, <span class="n">0.0</span>], [<span class="n">1.0</span>, <span class="n">0.0</span>], [<span class="n">0.0</span>, <span class="n">1.0</span>], [<span class="n">1.0</span>, <span class="n">1.0</span>]].to_tensor
@@ -784,7 +763,6 @@ puts net.forward(x).value.map { <span class="o">|</span>el<span class="o">|</spa
 <span class="c">#  [1],</span>
 <span class="c">#  [1],</span>
 <span class="c">#  [0]]</span></code></pre>
-
 <p>Review the documentation for full implementation details, and if something is missing,
 open an issue to add it!</p>
 </div>

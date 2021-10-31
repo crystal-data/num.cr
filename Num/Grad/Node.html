@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.0.0">
+<meta name="generator" content="Crystal Docs 1.1.1">
 <meta name="crystal_docs.project_version" content="HEAD">
 <meta name="crystal_docs.project_name" content="num">
 
@@ -571,7 +571,7 @@ and the payload that resulted from the operation.</p>
   </h2>
   
     
-      <a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/grad/primitives/node.cr#L27" target="_blank">
+      <a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/grad/primitives/node.cr#L27" target="_blank">
         grad/primitives/node.cr
       </a>
     
@@ -593,7 +593,7 @@ and the payload that resulted from the operation.</p>
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#new(gate:Gate(T),parents:Array(Num::Grad::Variable(T)),payload:Num::Grad::Payload(T),name:String=%22%22)-class-method" class="signature"><strong>.new</strong>(gate : Gate(T), parents : Array(Num::Grad::Variable(T)), payload : Num::Grad::Payload(T), name : String = <span class="s">&quot;&quot;</span>)</a>
+        <a href="#new%28gate%3AGate%28T%29%2Cparents%3AArray%28Num%3A%3AGrad%3A%3AVariable%28T%29%29%2Cpayload%3ANum%3A%3AGrad%3A%3APayload%28T%29%2Cname%3AString%3D%22%22%29-class-method" class="signature"><strong>.new</strong>(gate : Gate(T), parents : Array(Num::Grad::Variable(T)), payload : Num::Grad::Payload(T), name : String = <span class="s">&quot;&quot;</span>)</a>
         
           <div class="summary"><p>This initializer shouldn't ever be called outside of Num::Grad.register.</p></div>
         
@@ -616,28 +616,28 @@ and the payload that resulted from the operation.</p>
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#gate:Num::Grad::Gate(T)-instance-method" class="signature"><strong>#gate</strong> : Num::Grad::Gate(T)</a>
+        <a href="#gate%3ANum%3A%3AGrad%3A%3AGate%28T%29-instance-method" class="signature"><strong>#gate</strong> : Num::Grad::Gate(T)</a>
         
           <div class="summary"><p>A Gate containing a backwards and cache function for a node</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#name:String-instance-method" class="signature"><strong>#name</strong> : String</a>
+        <a href="#name%3AString-instance-method" class="signature"><strong>#name</strong> : String</a>
         
           <div class="summary"><p>Debug use only, contains a name for a node</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#parents:Array(Num::Grad::Variable(T))-instance-method" class="signature"><strong>#parents</strong> : Array(Num::Grad::Variable(T))</a>
+        <a href="#parents%3AArray%28Num%3A%3AGrad%3A%3AVariable%28T%29%29-instance-method" class="signature"><strong>#parents</strong> : Array(Num::Grad::Variable(T))</a>
         
           <div class="summary"><p>The variables that created this node</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#payload:Num::Grad::Payload(T)-instance-method" class="signature"><strong>#payload</strong> : Num::Grad::Payload(T)</a>
+        <a href="#payload%3ANum%3A%3AGrad%3A%3APayload%28T%29-instance-method" class="signature"><strong>#payload</strong> : Num::Grad::Payload(T)</a>
         
           <div class="summary"><p>Wrapper around a Tensor, contains operation data</p></div>
         
@@ -688,14 +688,13 @@ and the payload that resulted from the operation.</p>
         
         def self.<strong>new</strong>(gate : <a href="../../Num/Grad/Gate.html">Gate</a>(T), parents : <a href="../../Array.html">Array</a>(<a href="../../Num/Grad/Variable.html">Num::Grad::Variable</a>(T)), payload : <a href="../../Num/Grad/Payload.html">Num::Grad::Payload</a>(T), name : String = <span class="s">&quot;&quot;</span>)
 
-        <a class="method-permalink" href="#new(gate:Gate(T),parents:Array(Num::Grad::Variable(T)),payload:Num::Grad::Payload(T),name:String=%22%22)-class-method">#</a>
+        <a class="method-permalink" href="#new%28gate%3AGate%28T%29%2Cparents%3AArray%28Num%3A%3AGrad%3A%3AVariable%28T%29%29%2Cpayload%3ANum%3A%3AGrad%3A%3APayload%28T%29%2Cname%3AString%3D%22%22%29-class-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>This initializer shouldn't ever be called outside of
 Num::Grad.register.</p>
-
 <p>Users defining custom gradients and gates should
 follow the same rule</p>
         </div>
@@ -703,7 +702,7 @@ follow the same rule</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/grad/primitives/node.cr#L46" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/grad/primitives/node.cr#L46" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -727,7 +726,7 @@ follow the same rule</p>
         
         def <strong>gate</strong> : <a href="../../Num/Grad/Gate.html">Num::Grad::Gate</a>(T)
 
-        <a class="method-permalink" href="#gate:Num::Grad::Gate(T)-instance-method">#</a>
+        <a class="method-permalink" href="#gate%3ANum%3A%3AGrad%3A%3AGate%28T%29-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -739,7 +738,7 @@ a node</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/grad/primitives/node.cr#L30" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/grad/primitives/node.cr#L30" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -749,7 +748,7 @@ a node</p>
         
         def <strong>name</strong> : String
 
-        <a class="method-permalink" href="#name:String-instance-method">#</a>
+        <a class="method-permalink" href="#name%3AString-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -760,7 +759,7 @@ a node</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/grad/primitives/node.cr#L39" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/grad/primitives/node.cr#L39" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -770,7 +769,7 @@ a node</p>
         
         def <strong>parents</strong> : <a href="../../Array.html">Array</a>(<a href="../../Num/Grad/Variable.html">Num::Grad::Variable</a>(T))
 
-        <a class="method-permalink" href="#parents:Array(Num::Grad::Variable(T))-instance-method">#</a>
+        <a class="method-permalink" href="#parents%3AArray%28Num%3A%3AGrad%3A%3AVariable%28T%29%29-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -781,7 +780,7 @@ a node</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/grad/primitives/node.cr#L33" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/grad/primitives/node.cr#L33" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -791,7 +790,7 @@ a node</p>
         
         def <strong>payload</strong> : <a href="../../Num/Grad/Payload.html">Num::Grad::Payload</a>(T)
 
-        <a class="method-permalink" href="#payload:Num::Grad::Payload(T)-instance-method">#</a>
+        <a class="method-permalink" href="#payload%3ANum%3A%3AGrad%3A%3APayload%28T%29-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -802,7 +801,7 @@ a node</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/grad/primitives/node.cr#L36" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/grad/primitives/node.cr#L36" target="_blank">View source</a>]
         
       </div>
     </div>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.0.0">
+<meta name="generator" content="Crystal Docs 1.1.1">
 <meta name="crystal_docs.project_version" content="HEAD">
 <meta name="crystal_docs.project_name" content="num">
 
@@ -570,14 +570,14 @@
   </h2>
   
     
-      <a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/scikit/clustering/kmeans.cr#L26" target="_blank">
+      <a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/scikit/clustering/kmeans.cr#L26" target="_blank">
         scikit/clustering/kmeans.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/scikit/matrices.cr#L24" target="_blank">
+      <a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/scikit/matrices.cr#L24" target="_blank">
         scikit/matrices.cr
       </a>
     
@@ -603,56 +603,56 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#block_diag(*arrs:Tensor%7CEnumerable)-instance-method" class="signature"><strong>#block_diag</strong>(*arrs : Tensor | Enumerable)</a>
+        <a href="#block_diag%28%2Aarrs%3ATensor%7CEnumerable%29-instance-method" class="signature"><strong>#block_diag</strong>(*arrs : Tensor | Enumerable)</a>
         
           <div class="summary"><p>Create a block diagonal matrix from provided arrays.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#circulant(c:Tensor%7CEnumerable)-instance-method" class="signature"><strong>#circulant</strong>(c : Tensor | Enumerable)</a>
+        <a href="#circulant%28c%3ATensor%7CEnumerable%29-instance-method" class="signature"><strong>#circulant</strong>(c : Tensor | Enumerable)</a>
         
           <div class="summary"><p>Construct a circulant matrix.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#hadamard(n:Int,dtype:U.class=Int32)forallU-instance-method" class="signature"><strong>#hadamard</strong>(n : Int, dtype : <span class="t">U</span>.<span class="k">class</span> = <span class="t">Int32</span>) forall U</a>
+        <a href="#hadamard%28n%3AInt%2Cdtype%3AU.class%3DInt32%29forallU-instance-method" class="signature"><strong>#hadamard</strong>(n : Int, dtype : <span class="t">U</span>.<span class="k">class</span> = <span class="t">Int32</span>) forall U</a>
         
           <div class="summary"><p>Construct an Hadamard matrix.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#hankel(c:Tensor%7CEnumerable,r:Tensor%7CEnumerable)-instance-method" class="signature"><strong>#hankel</strong>(c : Tensor | Enumerable, r : Tensor | Enumerable)</a>
+        <a href="#hankel%28c%3ATensor%7CEnumerable%2Cr%3ATensor%7CEnumerable%29-instance-method" class="signature"><strong>#hankel</strong>(c : Tensor | Enumerable, r : Tensor | Enumerable)</a>
         
           <div class="summary"><p>Construct a Hankel matrix.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#hankel(c:Tensor%7CEnumerable)-instance-method" class="signature"><strong>#hankel</strong>(c : Tensor | Enumerable)</a>
+        <a href="#hankel%28c%3ATensor%7CEnumerable%29-instance-method" class="signature"><strong>#hankel</strong>(c : Tensor | Enumerable)</a>
         
           <div class="summary"><p>Construct a Hankel matrix.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#kmeans(obs:Tensor(Float64),guess:Tensor(Float64),iter:Int=20)-instance-method" class="signature"><strong>#kmeans</strong>(obs : Tensor(Float64), guess : Tensor(Float64), iter : Int = <span class="n">20</span>)</a>
+        <a href="#kmeans%28obs%3ATensor%28Float64%29%2Cguess%3ATensor%28Float64%29%2Citer%3AInt%3D20%29-instance-method" class="signature"><strong>#kmeans</strong>(obs : Tensor(Float64), guess : Tensor(Float64), iter : Int = <span class="n">20</span>)</a>
         
           <div class="summary"><p>In the K-Means problem, a set of N points X(I) in M-dimensions is given.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#toeplitz(c:Tensor%7CEnumerable,r:Tensor%7CEnumerable)-instance-method" class="signature"><strong>#toeplitz</strong>(c : Tensor | Enumerable, r : Tensor | Enumerable)</a>
+        <a href="#toeplitz%28c%3ATensor%7CEnumerable%2Cr%3ATensor%7CEnumerable%29-instance-method" class="signature"><strong>#toeplitz</strong>(c : Tensor | Enumerable, r : Tensor | Enumerable)</a>
         
           <div class="summary"><p>The Toeplitz matrix has constant diagonals, with c as its first column and r as its first row.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#toeplitz(c:Tensor%7CEnumerable)-instance-method" class="signature"><strong>#toeplitz</strong>(c : Tensor | Enumerable)</a>
+        <a href="#toeplitz%28c%3ATensor%7CEnumerable%29-instance-method" class="signature"><strong>#toeplitz</strong>(c : Tensor | Enumerable)</a>
         
           <div class="summary"><p>The Toeplitz matrix has constant diagonals, with c as its first column and r as its first row.</p></div>
         
@@ -687,31 +687,26 @@
         
         def <strong>block_diag</strong>(*arrs : <a href="Tensor.html">Tensor</a> | <a href="Enumerable.html">Enumerable</a>)
 
-        <a class="method-permalink" href="#block_diag(*arrs:Tensor%7CEnumerable)-instance-method">#</a>
+        <a class="method-permalink" href="#block_diag%28%2Aarrs%3ATensor%7CEnumerable%29-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Create a block diagonal matrix from provided arrays.</p>
-
 <p>Given the inputs A, B and C, the output will have these
 arrays arranged on the diagonal</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <p><em>arrs</em> : Tensor | Enumerable
-  Arguments to place along the diagonal, must be a common dtype</p>
-
+Arguments to place along the diagonal, must be a common dtype</p>
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">puts <span class="t">SciKit</span>.block_diag([<span class="n">1</span>, <span class="n">2</span>], [[<span class="n">5</span>, <span class="n">6</span>], [<span class="n">7</span>, <span class="n">8</span>]])
 
 <span class="c"># [[1, 2, 0, 0],</span>
@@ -722,7 +717,7 @@ arrays arranged on the diagonal</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/scikit/matrices.cr#L182" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/scikit/matrices.cr#L182" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -732,28 +727,24 @@ arrays arranged on the diagonal</p>
         
         def <strong>circulant</strong>(c : <a href="Tensor.html">Tensor</a> | <a href="Enumerable.html">Enumerable</a>)
 
-        <a class="method-permalink" href="#circulant(c:Tensor%7CEnumerable)-instance-method">#</a>
+        <a class="method-permalink" href="#circulant%28c%3ATensor%7CEnumerable%29-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Construct a circulant matrix.</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <p><em>c</em> : Tensor | Enumerable
-  First column of the matrix</p>
-
+First column of the matrix</p>
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal"><span class="t">SciKit</span>.circulant([<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>])
 
 <span class="c"># [[1, 3, 2],</span>
@@ -764,7 +755,7 @@ arrays arranged on the diagonal</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/scikit/matrices.cr#L43" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/scikit/matrices.cr#L43" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -774,31 +765,26 @@ arrays arranged on the diagonal</p>
         
         def <strong>hadamard</strong>(n : Int, dtype : <span class="t">U</span>.<span class="k">class</span> = <span class="t">Int32</span>) forall U
 
-        <a class="method-permalink" href="#hadamard(n:Int,dtype:U.class=Int32)forallU-instance-method">#</a>
+        <a class="method-permalink" href="#hadamard%28n%3AInt%2Cdtype%3AU.class%3DInt32%29forallU-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Construct an Hadamard matrix.</p>
-
 <p>Constructs an n-by-n Hadamard matrix, using Sylvester’s
 construction. n must be a power of 2.</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <p><em>n</em> : Int
-  The order of the matrix, must be a power of 2</p>
-
+The order of the matrix, must be a power of 2</p>
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal"><span class="t">SciKit</span>.hadamard(<span class="n">2</span>, dtype: <span class="t">Complex</span>)
 
 <span class="c"># [[1+0j , 1+0j ],</span>
@@ -808,7 +794,7 @@ construction. n must be a power of 2.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/scikit/matrices.cr#L145" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/scikit/matrices.cr#L145" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -818,34 +804,29 @@ construction. n must be a power of 2.</p>
         
         def <strong>hankel</strong>(c : <a href="Tensor.html">Tensor</a> | <a href="Enumerable.html">Enumerable</a>, r : <a href="Tensor.html">Tensor</a> | <a href="Enumerable.html">Enumerable</a>)
 
-        <a class="method-permalink" href="#hankel(c:Tensor%7CEnumerable,r:Tensor%7CEnumerable)-instance-method">#</a>
+        <a class="method-permalink" href="#hankel%28c%3ATensor%7CEnumerable%2Cr%3ATensor%7CEnumerable%29-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Construct a Hankel matrix.</p>
-
 <p>The Hankel matrix has constant anti-diagonals, with c as
 its first column and r as its last row. If r is not given,
 then r = zeros_like(c) is assumed.</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <p><em>c</em> : Tensor
-  The first column of the matrix
+The first column of the matrix
 <em>r</em> : Tensor
-  Last row of the matrix</p>
-
+Last row of the matrix</p>
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">puts <span class="t">SciKit</span>.hankel([<span class="n">1</span>, <span class="n">2</span>, <span class="n">99</span>])
 
 <span class="c"># [[ 1,  2, 99],</span>
@@ -856,7 +837,7 @@ then r = zeros_like(c) is assumed.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/scikit/matrices.cr#L111" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/scikit/matrices.cr#L111" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -866,34 +847,29 @@ then r = zeros_like(c) is assumed.</p>
         
         def <strong>hankel</strong>(c : <a href="Tensor.html">Tensor</a> | <a href="Enumerable.html">Enumerable</a>)
 
-        <a class="method-permalink" href="#hankel(c:Tensor%7CEnumerable)-instance-method">#</a>
+        <a class="method-permalink" href="#hankel%28c%3ATensor%7CEnumerable%29-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Construct a Hankel matrix.</p>
-
 <p>The Hankel matrix has constant anti-diagonals, with c as
 its first column and r as its last row. If r is not given,
 then r = zeros_like(c) is assumed.</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <p><em>c</em> : Tensor
-  The first column of the matrix
+The first column of the matrix
 <em>r</em> : Tensor
-  Last row of the matrix</p>
-
+Last row of the matrix</p>
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">puts <span class="t">SciKit</span>.hankel([<span class="n">1</span>, <span class="n">2</span>, <span class="n">99</span>])
 
 <span class="c"># [[ 1,  2, 99],</span>
@@ -904,7 +880,7 @@ then r = zeros_like(c) is assumed.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/scikit/matrices.cr#L121" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/scikit/matrices.cr#L121" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -914,7 +890,7 @@ then r = zeros_like(c) is assumed.</p>
         
         def <strong>kmeans</strong>(obs : <a href="Tensor.html">Tensor</a>(<a href="Float64.html">Float64</a>), guess : <a href="Tensor.html">Tensor</a>(<a href="Float64.html">Float64</a>), iter : Int = <span class="n">20</span>)
 
-        <a class="method-permalink" href="#kmeans(obs:Tensor(Float64),guess:Tensor(Float64),iter:Int=20)-instance-method">#</a>
+        <a class="method-permalink" href="#kmeans%28obs%3ATensor%28Float64%29%2Cguess%3ATensor%28Float64%29%2Citer%3AInt%3D20%29-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -923,49 +899,41 @@ then r = zeros_like(c) is assumed.</p>
 The goal is to arrange these points into K clusters, with each cluster
 having a representative point Z(J), usually chosen as the centroid
 of the points in the cluster. The energy of each cluster is</p>
-
 <pre><code class="language-crystal">    <span class="t">E</span>(<span class="t">J</span>) <span class="o">=</span> <span class="t">Sum</span> ( all points <span class="t">X</span>(<span class="t">I</span>) <span class="k">in</span> cluster <span class="t">J</span> ) || <span class="t">X</span>(<span class="t">I</span>) <span class="o">-</span> <span class="t">Z</span>(<span class="t">J</span>) ||<span class="o">^</span><span class="n">2</span></code></pre>
-
 <p>For a given set of clusters, the total energy is then simply the
 sum of the cluster energies E(J). The goal is to choose the clusters
 in such a way that the total energy is minimized. Usually, a point X(I)
 goes into the cluster with the closest representative point Z(J). So
 to define the clusters, it's enough simply to specify the locations
 of the cluster representatives.</p>
-
 <p>This is actually a fairly hard problem. Most algorithms do reasonably
 well, but cannot guarantee that the best solution has been found.
 It is very common for algorithms to get stuck at a solution which
-is merely a "local minimum". For such a local minimum, every slight
+is merely a &quot;local minimum&quot;. For such a local minimum, every slight
 rearrangement of the solution makes the energy go up; however a major
 rearrangement would result in a big drop in energy.</p>
-
-<p>A simple algorithm for the problem is known as "H-Means". It alternates
+<p>A simple algorithm for the problem is known as &quot;H-Means&quot;. It alternates
 between two procedures:</p>
-
 <p>Using the given cluster centers, assign each point to the cluster
 with the nearest center;
 Using the given cluster assignments, replace each cluster center
 by the centroid or average of the points in the cluster.
 These steps are repeated until no points are moved, or some other
 termination criterion is reached.
-A more sophisticated algorithm, known as "K-Means", takes advantage
+A more sophisticated algorithm, known as &quot;K-Means&quot;, takes advantage
 of the fact that it is possible to quickly determine the decrease in
 energy caused by moving a point from its current cluster to another.
 It repeats the following procedure:</p>
-
 <p>For each point, move it to another cluster if that would lower the energy.
 If you move a point, immediately update the cluster centers of the two
 affected clusters.
 This procedure is repeated until no points are moved, or some other
 termination criterion is reached.</p>
-
 <h2><a id="references" class="anchor" href="#references">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>References</h2>
-
 <p>John Hartigan, Manchek Wong,
 Algorithm AS 136: A K-Means Clustering Algorithm,
 Applied Statistics,
@@ -983,7 +951,7 @@ Volume 22, Number 1, 1973, pages 126-130.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/scikit/clustering/kmeans.cr#L82" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/scikit/clustering/kmeans.cr#L82" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -993,7 +961,7 @@ Volume 22, Number 1, 1973, pages 126-130.</p>
         
         def <strong>toeplitz</strong>(c : <a href="Tensor.html">Tensor</a> | <a href="Enumerable.html">Enumerable</a>, r : <a href="Tensor.html">Tensor</a> | <a href="Enumerable.html">Enumerable</a>)
 
-        <a class="method-permalink" href="#toeplitz(c:Tensor%7CEnumerable,r:Tensor%7CEnumerable)-instance-method">#</a>
+        <a class="method-permalink" href="#toeplitz%28c%3ATensor%7CEnumerable%2Cr%3ATensor%7CEnumerable%29-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1001,24 +969,20 @@ Volume 22, Number 1, 1973, pages 126-130.</p>
           <p>The Toeplitz matrix has constant diagonals, with c as its
 first column and r as its first row. If r is not given,
 r == conjugate(c) is assumed.</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <p><em>c</em> : Tensor | Enumerable
-  First column of the Matrix, assumed flat
+First column of the Matrix, assumed flat
 <em>r</em> : Tensor | Enumerable
-  First row of the Matrix, assumed flat</p>
-
+First row of the Matrix, assumed flat</p>
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal"><span class="t">SciKit</span>.toeplitz([<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>], [<span class="n">1</span>, <span class="n">4</span>, <span class="n">5</span>, <span class="n">6</span>])
 
 <span class="c"># [[1, 4, 5, 6],</span>
@@ -1029,7 +993,7 @@ r == conjugate(c) is assumed.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/scikit/matrices.cr#L73" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/scikit/matrices.cr#L73" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1039,7 +1003,7 @@ r == conjugate(c) is assumed.</p>
         
         def <strong>toeplitz</strong>(c : <a href="Tensor.html">Tensor</a> | <a href="Enumerable.html">Enumerable</a>)
 
-        <a class="method-permalink" href="#toeplitz(c:Tensor%7CEnumerable)-instance-method">#</a>
+        <a class="method-permalink" href="#toeplitz%28c%3ATensor%7CEnumerable%29-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1047,24 +1011,20 @@ r == conjugate(c) is assumed.</p>
           <p>The Toeplitz matrix has constant diagonals, with c as its
 first column and r as its first row. If r is not given,
 r == conjugate(c) is assumed.</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <p><em>c</em> : Tensor | Enumerable
-  First column of the Matrix, assumed flat
+First column of the Matrix, assumed flat
 <em>r</em> : Tensor | Enumerable
-  First row of the Matrix, assumed flat</p>
-
+First row of the Matrix, assumed flat</p>
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal"><span class="t">SciKit</span>.toeplitz([<span class="n">1</span>, <span class="n">2</span>, <span class="n">3</span>], [<span class="n">1</span>, <span class="n">4</span>, <span class="n">5</span>, <span class="n">6</span>])
 
 <span class="c"># [[1, 4, 5, 6],</span>
@@ -1075,7 +1035,7 @@ r == conjugate(c) is assumed.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/scikit/matrices.cr#L83" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/scikit/matrices.cr#L83" target="_blank">View source</a>]
         
       </div>
     </div>

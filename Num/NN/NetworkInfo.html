@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.0.0">
+<meta name="generator" content="Crystal Docs 1.1.1">
 <meta name="crystal_docs.project_version" content="HEAD">
 <meta name="crystal_docs.project_name" content="num">
 
@@ -558,7 +558,7 @@
   </h2>
   
     
-      <a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/nn/network.cr#L24" target="_blank">
+      <a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/nn/network.cr#L24" target="_blank">
         nn/network.cr
       </a>
     
@@ -580,7 +580,7 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#new(context:Num::Grad::Context(T))-class-method" class="signature"><strong>.new</strong>(context : Num::Grad::Context(T))</a>
+        <a href="#new%28context%3ANum%3A%3AGrad%3A%3AContext%28T%29%29-class-method" class="signature"><strong>.new</strong>(context : Num::Grad::Context(T))</a>
         
           <div class="summary"><p>This should always be initialized with an empty array of layers that can be tapped and yielded by Network creation</p></div>
         
@@ -603,24 +603,24 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#adam(*args)-instance-method" class="signature"><strong>#adam</strong>(*args)</a>
+        <a href="#adam%28%2Aargs%29-instance-method" class="signature"><strong>#adam</strong>(*args)</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#context:Num::Grad::Context(T)-instance-method" class="signature"><strong>#context</strong> : Num::Grad::Context(T)</a>
+        <a href="#context%3ANum%3A%3AGrad%3A%3AContext%28T%29-instance-method" class="signature"><strong>#context</strong> : Num::Grad::Context(T)</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#conv2d(n:Int32,kh:Int32,kw:Int32)-instance-method" class="signature"><strong>#conv2d</strong>(n : Int32, kh : Int32, kw : Int32)</a>
+        <a href="#conv2d%28n%3AInt32%2Ckh%3AInt32%2Ckw%3AInt32%29-instance-method" class="signature"><strong>#conv2d</strong>(n : Int32, kh : Int32, kw : Int32)</a>
         
           <div class="summary"><p>Convolution layer for a neural network</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#dropout(prob:Float32=0.5_f32)-instance-method" class="signature"><strong>#dropout</strong>(prob : Float32 = <span class="n">0.5_f32</span>)</a>
+        <a href="#dropout%28prob%3AFloat32%3D0.5_f32%29-instance-method" class="signature"><strong>#dropout</strong>(prob : Float32 = <span class="n">0.5_f32</span>)</a>
         
       </li>
     
@@ -639,12 +639,12 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#input(shape:Array(Int))-instance-method" class="signature"><strong>#input</strong>(shape : Array(Int))</a>
+        <a href="#input%28shape%3AArray%28Int%29%29-instance-method" class="signature"><strong>#input</strong>(shape : Array(Int))</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#layers:Array(Num::NN::Layer(T))-instance-method" class="signature"><strong>#layers</strong> : Array(Num::NN::Layer(T))</a>
+        <a href="#layers%3AArray%28Num%3A%3ANN%3A%3ALayer%28T%29%29-instance-method" class="signature"><strong>#layers</strong> : Array(Num::NN::Layer(T))</a>
         
       </li>
     
@@ -656,19 +656,19 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#linear(output_size:Int)-instance-method" class="signature"><strong>#linear</strong>(output_size : Int)</a>
+        <a href="#linear%28output_size%3AInt%29-instance-method" class="signature"><strong>#linear</strong>(output_size : Int)</a>
         
           <div class="summary"><p>Add a linear layer to the Network.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#loss:Num::NN::Loss(T)-instance-method" class="signature"><strong>#loss</strong> : Num::NN::Loss(T)</a>
+        <a href="#loss%3ANum%3A%3ANN%3A%3ALoss%28T%29-instance-method" class="signature"><strong>#loss</strong> : Num::NN::Loss(T)</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#maxpool(kernel:Tuple(Int,Int),padding:Tuple(Int,Int),stride:Tuple(Int,Int))-instance-method" class="signature"><strong>#maxpool</strong>(kernel : Tuple(Int, Int), padding : Tuple(Int, Int), stride : Tuple(Int, Int))</a>
+        <a href="#maxpool%28kernel%3ATuple%28Int%2CInt%29%2Cpadding%3ATuple%28Int%2CInt%29%2Cstride%3ATuple%28Int%2CInt%29%29-instance-method" class="signature"><strong>#maxpool</strong>(kernel : Tuple(Int, Int), padding : Tuple(Int, Int), stride : Tuple(Int, Int))</a>
         
           <div class="summary"><p>Maxpool layer for a neural network</p></div>
         
@@ -682,7 +682,7 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#optimizer:Num::NN::Optimizer(T)-instance-method" class="signature"><strong>#optimizer</strong> : Num::NN::Optimizer(T)</a>
+        <a href="#optimizer%3ANum%3A%3ANN%3A%3AOptimizer%28T%29-instance-method" class="signature"><strong>#optimizer</strong> : Num::NN::Optimizer(T)</a>
         
       </li>
     
@@ -694,7 +694,7 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#sgd(learning_rate:Float64=0.01)-instance-method" class="signature"><strong>#sgd</strong>(learning_rate : Float64 = <span class="n">0.01</span>)</a>
+        <a href="#sgd%28learning_rate%3AFloat64%3D0.01%29-instance-method" class="signature"><strong>#sgd</strong>(learning_rate : Float64 = <span class="n">0.01</span>)</a>
         
           <div class="summary"><p>Add an SGD optimizer to the Network.</p></div>
         
@@ -734,7 +734,7 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#method_missing(call)-macro" class="signature"><strong>method_missing</strong>(call)</a>
+        <a href="#method_missing%28call%29-macro" class="signature"><strong>method_missing</strong>(call)</a>
         
       </li>
     
@@ -781,7 +781,7 @@
         
         def self.<strong>new</strong>(context : <a href="../../Num/Grad/Context.html">Num::Grad::Context</a>(T))
 
-        <a class="method-permalink" href="#new(context:Num::Grad::Context(T))-class-method">#</a>
+        <a class="method-permalink" href="#new%28context%3ANum%3A%3AGrad%3A%3AContext%28T%29%29-class-method">#</a>
       </div>
       
         <div class="doc">
@@ -794,7 +794,7 @@ by Network creation</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/nn/network.cr#L33" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/nn/network.cr#L33" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -818,13 +818,13 @@ by Network creation</p>
         
         def <strong>adam</strong>(*args)
 
-        <a class="method-permalink" href="#adam(*args)-instance-method">#</a>
+        <a class="method-permalink" href="#adam%28%2Aargs%29-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/nn/network.cr#L245" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/nn/network.cr#L245" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -834,13 +834,13 @@ by Network creation</p>
         
         def <strong>context</strong> : <a href="../../Num/Grad/Context.html">Num::Grad::Context</a>(T)
 
-        <a class="method-permalink" href="#context:Num::Grad::Context(T)-instance-method">#</a>
+        <a class="method-permalink" href="#context%3ANum%3A%3AGrad%3A%3AContext%28T%29-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/nn/network.cr#L27" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/nn/network.cr#L27" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -850,36 +850,31 @@ by Network creation</p>
         
         def <strong>conv2d</strong>(n : Int32, kh : Int32, kw : Int32)
 
-        <a class="method-permalink" href="#conv2d(n:Int32,kh:Int32,kw:Int32)-instance-method">#</a>
+        <a class="method-permalink" href="#conv2d%28n%3AInt32%2Ckh%3AInt32%2Ckw%3AInt32%29-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Convolution layer for a neural network</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <p>shape : Array(Int32)
-  Shape of the input to the layer
+Shape of the input to the layer
 n : Int32
-  Number of filters to apply
+Number of filters to apply
 kh : Int32
-  Filter height
+Filter height
 kw : Int32
-  Filter width</p>
-
+Filter width</p>
 <h2><a id="returns" class="anchor" href="#returns">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Returns</h2>
-
 <p>nil</p>
-
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
@@ -890,7 +885,7 @@ kw : Int32
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/nn/network.cr#L90" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/nn/network.cr#L90" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -900,13 +895,13 @@ kw : Int32
         
         def <strong>dropout</strong>(prob : <a href="../../Float32.html">Float32</a> = <span class="n">0.5_f32</span>)
 
-        <a class="method-permalink" href="#dropout(prob:Float32=0.5_f32)-instance-method">#</a>
+        <a class="method-permalink" href="#dropout%28prob%3AFloat32%3D0.5_f32%29-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/nn/network.cr#L125" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/nn/network.cr#L125" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -922,21 +917,17 @@ kw : Int32
         <div class="doc">
           
           <p>Adds an ELU layer to the network</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <h2><a id="returns" class="anchor" href="#returns">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Returns</h2>
-
 <p>nil</p>
-
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
@@ -947,7 +938,7 @@ kw : Int32
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/nn/network.cr#L199" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/nn/network.cr#L199" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -963,24 +954,19 @@ kw : Int32
         <div class="doc">
           
           <p>Adds a Flattening layer to a neural network</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <p>shape : Array(Int32)
-  Shape of input to the layer</p>
-
+Shape of input to the layer</p>
 <h2><a id="returns" class="anchor" href="#returns">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Returns</h2>
-
 <p>nil</p>
-
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
@@ -991,7 +977,7 @@ kw : Int32
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/nn/network.cr#L147" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/nn/network.cr#L147" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1001,13 +987,13 @@ kw : Int32
         
         def <strong>input</strong>(shape : <a href="../../Array.html">Array</a>(Int))
 
-        <a class="method-permalink" href="#input(shape:Array(Int))-instance-method">#</a>
+        <a class="method-permalink" href="#input%28shape%3AArray%28Int%29%29-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/nn/network.cr#L39" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/nn/network.cr#L39" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1017,13 +1003,13 @@ kw : Int32
         
         def <strong>layers</strong> : <a href="../../Array.html">Array</a>(<a href="../../Num/NN/Layer.html">Num::NN::Layer</a>(T))
 
-        <a class="method-permalink" href="#layers:Array(Num::NN::Layer(T))-instance-method">#</a>
+        <a class="method-permalink" href="#layers%3AArray%28Num%3A%3ANN%3A%3ALayer%28T%29%29-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/nn/network.cr#L25" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/nn/network.cr#L25" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1039,21 +1025,17 @@ kw : Int32
         <div class="doc">
           
           <p>Adds a Leaky ReLU layer to a network.</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <h2><a id="returns" class="anchor" href="#returns">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Returns</h2>
-
 <p>nil</p>
-
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
@@ -1064,7 +1046,7 @@ kw : Int32
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/nn/network.cr#L183" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/nn/network.cr#L183" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1074,7 +1056,7 @@ kw : Int32
         
         def <strong>linear</strong>(output_size : Int)
 
-        <a class="method-permalink" href="#linear(output_size:Int)-instance-method">#</a>
+        <a class="method-permalink" href="#linear%28output_size%3AInt%29-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1082,29 +1064,24 @@ kw : Int32
           <p>Add a linear layer to the Network.  Since activation functions
 are just treated as additional layers, this simply requires
 the dimensions of the transformation.</p>
-
 <p>Dimensions should be <code>NUM_FEATURES</code> x <code>NUM_OUTPUTS</code>, so
 if the data set is 100x10, with 200 neurons in the hidden layers,
 the dimensions of the layer would be 10, 100, the 200 will be handled
 by dynamically.</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <p><em>i</em> : Int
-  The number of features in the linear layer
+The number of features in the linear layer
 <em>j</em> : Int
-  The number of outputs in the linear layer</p>
-
+The number of outputs in the linear layer</p>
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">net <span class="o">=</span> <span class="t">Num</span><span class="t">::</span><span class="t">NN</span><span class="t">::</span><span class="t">Network</span>.<span class="k">new</span>(ctx) <span class="k">do</span>
   linear <span class="n">2</span>, <span class="n">3</span>
 <span class="k">end</span></code></pre>
@@ -1113,7 +1090,7 @@ by dynamically.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/nn/network.cr#L66" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/nn/network.cr#L66" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1123,13 +1100,13 @@ by dynamically.</p>
         
         def <strong>loss</strong> : <a href="../../Num/NN/Loss.html">Num::NN::Loss</a>(T)
 
-        <a class="method-permalink" href="#loss:Num::NN::Loss(T)-instance-method">#</a>
+        <a class="method-permalink" href="#loss%3ANum%3A%3ANN%3A%3ALoss%28T%29-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/nn/network.cr#L28" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/nn/network.cr#L28" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1139,42 +1116,37 @@ by dynamically.</p>
         
         def <strong>maxpool</strong>(kernel : Tuple(Int, Int), padding : Tuple(Int, Int), stride : Tuple(Int, Int))
 
-        <a class="method-permalink" href="#maxpool(kernel:Tuple(Int,Int),padding:Tuple(Int,Int),stride:Tuple(Int,Int))-instance-method">#</a>
+        <a class="method-permalink" href="#maxpool%28kernel%3ATuple%28Int%2CInt%29%2Cpadding%3ATuple%28Int%2CInt%29%2Cstride%3ATuple%28Int%2CInt%29%29-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Maxpool layer for a neural network</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <p>shape : Array(Int)
-  Brief description of shape : Array(Int)
+Brief description of shape : Array(Int)
 kernel : Tuple(Int
-  Brief description of kernel : Tuple(Int
+Brief description of kernel : Tuple(Int
 Int)
-  Brief description of Int)
+Brief description of Int)
 padding : Tuple(Int
-  Brief description of padding : Tuple(Int
+Brief description of padding : Tuple(Int
 Int)
-  Brief description of Int)
+Brief description of Int)
 stride : Tuple(Int
-  Brief description of stride : Tuple(Int
+Brief description of stride : Tuple(Int
 Int)
-  Brief description of Int)</p>
-
+Brief description of Int)</p>
 <h2><a id="returns" class="anchor" href="#returns">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Returns</h2>
-
 <p>nil</p>
-
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
@@ -1185,7 +1157,7 @@ Int)
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/nn/network.cr#L120" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/nn/network.cr#L120" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1202,19 +1174,16 @@ Int)
           
           <p>Uses Mean Squared Error to compute the loss for
 the Network</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">net <span class="o">=</span> <span class="t">Num</span><span class="t">::</span><span class="t">NN</span><span class="t">::</span><span class="t">Network</span>.<span class="k">new</span>(ctx) <span class="k">do</span>
   linear <span class="n">2</span>, <span class="n">3</span>
   sigmoid
@@ -1227,7 +1196,7 @@ the Network</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/nn/network.cr#L287" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/nn/network.cr#L287" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1237,13 +1206,13 @@ the Network</p>
         
         def <strong>optimizer</strong> : <a href="../../Num/NN/Optimizer.html">Num::NN::Optimizer</a>(T)
 
-        <a class="method-permalink" href="#optimizer:Num::NN::Optimizer(T)-instance-method">#</a>
+        <a class="method-permalink" href="#optimizer%3ANum%3A%3ANN%3A%3AOptimizer%28T%29-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/nn/network.cr#L26" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/nn/network.cr#L26" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1261,19 +1230,16 @@ the Network</p>
           <p>Add a ReLU layer to the Network.  Activation functions are handled
 the same way as other layers, but do not change the dimensions
 of the input</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">net <span class="o">=</span> <span class="t">Num</span><span class="t">::</span><span class="t">NN</span><span class="t">::</span><span class="t">Network</span>.<span class="k">new</span>(ctx) <span class="k">do</span>
   linear <span class="n">2</span>, <span class="n">3</span>
   relu
@@ -1283,7 +1249,7 @@ of the input</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/nn/network.cr#L167" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/nn/network.cr#L167" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1293,28 +1259,24 @@ of the input</p>
         
         def <strong>sgd</strong>(learning_rate : <a href="../../Float64.html">Float64</a> = <span class="n">0.01</span>)
 
-        <a class="method-permalink" href="#sgd(learning_rate:Float64=0.01)-instance-method">#</a>
+        <a class="method-permalink" href="#sgd%28learning_rate%3AFloat64%3D0.01%29-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Add an SGD optimizer to the Network.</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <p><em>learning_rate</em> : Float64
-  Learning rate for all layers in the Network</p>
-
+Learning rate for all layers in the Network</p>
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">net <span class="o">=</span> <span class="t">Num</span><span class="t">::</span><span class="t">NN</span><span class="t">::</span><span class="t">Network</span>.<span class="k">new</span>(ctx) <span class="k">do</span>
   linear <span class="n">2</span>, <span class="n">3</span>
   sigmoid
@@ -1326,7 +1288,7 @@ of the input</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/nn/network.cr#L241" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/nn/network.cr#L241" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1344,19 +1306,16 @@ of the input</p>
           <p>Add a Sigmoid layer to the Network.  Activation functions are handled
 the same way as other layers, but do not change the dimensions
 of the input</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">net <span class="o">=</span> <span class="t">Num</span><span class="t">::</span><span class="t">NN</span><span class="t">::</span><span class="t">Network</span>.<span class="k">new</span>(ctx) <span class="k">do</span>
   linear <span class="n">2</span>, <span class="n">3</span>
   sigmoid
@@ -1366,7 +1325,7 @@ of the input</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/nn/network.cr#L219" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/nn/network.cr#L219" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1383,19 +1342,16 @@ of the input</p>
           
           <p>Uses Sigmoid Cross Entropy to compute the loss for
 the Network</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">net <span class="o">=</span> <span class="t">Num</span><span class="t">::</span><span class="t">NN</span><span class="t">::</span><span class="t">Network</span>.<span class="k">new</span>(ctx) <span class="k">do</span>
   linear <span class="n">2</span>, <span class="n">3</span>
   sigmoid
@@ -1408,7 +1364,7 @@ the Network</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/nn/network.cr#L266" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/nn/network.cr#L266" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1424,7 +1380,7 @@ the Network</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/nn/network.cr#L130" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/nn/network.cr#L130" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1446,13 +1402,13 @@ the Network</p>
         
         macro <strong>method_missing</strong>(call)
 
-        <a class="method-permalink" href="#method_missing(call)-macro">#</a>
+        <a class="method-permalink" href="#method_missing%28call%29-macro">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/nn/network.cr#L291" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/nn/network.cr#L291" target="_blank">View source</a>]
         
       </div>
     </div>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.0.0">
+<meta name="generator" content="Crystal Docs 1.1.1">
 <meta name="crystal_docs.project_version" content="HEAD">
 <meta name="crystal_docs.project_name" content="num">
 
@@ -544,12 +544,9 @@
 
   <p>The <code><a href="Enumerable.html">Enumerable</a></code> mixin provides collection classes with several traversal, searching,
 filtering and querying methods.</p>
-
 <p>Including types must provide an <code>each</code> method, which yields successive members
 of the collection.</p>
-
 <p>For example:</p>
-
 <pre><code class="language-crystal"><span class="k">class</span> <span class="t">Three</span>
   <span class="k">include</span> <span class="t">Enumerable</span>(<span class="t">Int32</span>)
 
@@ -564,7 +561,6 @@ three <span class="o">=</span> <span class="t">Three</span>.<span class="k">new<
 three.to_a                <span class="c"># =&gt; [1, 2, 3]</span>
 three.<span class="k">select</span> <span class="o">&amp;</span>.odd?       <span class="c"># =&gt; [1, 3]</span>
 three.all? { <span class="o">|</span>x<span class="o">|</span> x <span class="o">&lt;</span> <span class="n">10</span> } <span class="c"># =&gt; true</span></code></pre>
-
 <p>Note that most search and filter methods traverse an Enumerable eagerly,
 producing an <code><a href="Array.html">Array</a></code> as the result. For a lazy alternative refer to
 the <code>Iterator</code> and <code>Iterable</code> modules.</p>
@@ -592,7 +588,7 @@ the <code>Iterator</code> and <code>Iterable</code> modules.</p>
   </h2>
   
     
-      <a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/extensions/enumerable.cr#L25" target="_blank">
+      <a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/tensor/extensions/enumerable.cr#L25" target="_blank">
         tensor/extensions/enumerable.cr
       </a>
     
@@ -618,7 +614,7 @@ the <code>Iterator</code> and <code>Iterable</code> modules.</p>
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#to_tensor:Tensor(T)-instance-method" class="signature"><strong>#to_tensor</strong> : Tensor(T)</a>
+        <a href="#to_tensor%3ATensor%28T%29-instance-method" class="signature"><strong>#to_tensor</strong> : Tensor(T)</a>
         
       </li>
     
@@ -651,13 +647,13 @@ the <code>Iterator</code> and <code>Iterable</code> modules.</p>
         
         def <strong>to_tensor</strong> : <a href="Tensor.html">Tensor</a>(T)
 
-        <a class="method-permalink" href="#to_tensor:Tensor(T)-instance-method">#</a>
+        <a class="method-permalink" href="#to_tensor%3ATensor%28T%29-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/tensor/extensions/enumerable.cr#L26" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/tensor/extensions/enumerable.cr#L26" target="_blank">View source</a>]
         
       </div>
     </div>

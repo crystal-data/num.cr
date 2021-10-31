@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.0.0">
+<meta name="generator" content="Crystal Docs 1.1.1">
 <meta name="crystal_docs.project_version" content="HEAD">
 <meta name="crystal_docs.project_name" content="num">
 
@@ -548,7 +548,6 @@
 the operations done to the Tensor.  It also keeps
 track of the gradient of the operation if a Variable
 needs to backpropogate.</p>
-
 <p>This is the fundamental object used in automatic
 differentiation, as well as the neural network aspects
 of Num.cr</p>
@@ -576,35 +575,35 @@ of Num.cr</p>
   </h2>
   
     
-      <a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/grad/primitives/variable.cr#L32" target="_blank">
+      <a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/grad/primitives/variable.cr#L32" target="_blank">
         grad/primitives/variable.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/grad/variable_ops.cr#L32" target="_blank">
+      <a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/grad/variable_ops.cr#L32" target="_blank">
         grad/variable_ops.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/nn/layers/elu.cr#L42" target="_blank">
+      <a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/nn/layers/elu.cr#L42" target="_blank">
         nn/layers/elu.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/nn/layers/leaky_relu.cr#L42" target="_blank">
+      <a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/nn/layers/leaky_relu.cr#L42" target="_blank">
         nn/layers/leaky_relu.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/nn/layers/relu.cr#L42" target="_blank">
+      <a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/nn/layers/relu.cr#L42" target="_blank">
         nn/layers/relu.cr
       </a>
     
@@ -626,7 +625,7 @@ of Num.cr</p>
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#new(context:Num::Grad::Context(T),value:T,requires_grad:Bool=false)-class-method" class="signature"><strong>.new</strong>(context : Num::Grad::Context(T), value : T, requires_grad : Bool = <span class="n">false</span>)</a>
+        <a href="#new%28context%3ANum%3A%3AGrad%3A%3AContext%28T%29%2Cvalue%3AT%2Crequires_grad%3ABool%3Dfalse%29-class-method" class="signature"><strong>.new</strong>(context : Num::Grad::Context(T), value : T, requires_grad : Bool = <span class="n">false</span>)</a>
         
           <div class="summary"><p>Initialization method for a Variable.</p></div>
         
@@ -649,78 +648,78 @@ of Num.cr</p>
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#*(other:Num::Grad::Variable(T)):Num::Grad::Variable(T)-instance-method" class="signature"><strong>#*</strong>(other : Num::Grad::Variable(T)) : Num::Grad::Variable(T)</a>
+        <a href="#%2A%28other%3ANum%3A%3AGrad%3A%3AVariable%28T%29%29%3ANum%3A%3AGrad%3A%3AVariable%28T%29-instance-method" class="signature"><strong>#*</strong>(other : Num::Grad::Variable(T)) : Num::Grad::Variable(T)</a>
         
           <div class="summary"><p>Multiples a variable to another variable and stores the derivative of the operation in the computational graph.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#**(other:Num::Grad::Variable(T)):Num::Grad::Variable(T)-instance-method" class="signature"><strong>#**</strong>(other : Num::Grad::Variable(T)) : Num::Grad::Variable(T)</a>
+        <a href="#%2A%2A%28other%3ANum%3A%3AGrad%3A%3AVariable%28T%29%29%3ANum%3A%3AGrad%3A%3AVariable%28T%29-instance-method" class="signature"><strong>#**</strong>(other : Num::Grad::Variable(T)) : Num::Grad::Variable(T)</a>
         
           <div class="summary"><p>Raises a variable to another variable and stores the derivative of the operation in the computational graph.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#+(other:Num::Grad::Variable(T)):Num::Grad::Variable(T)-instance-method" class="signature"><strong>#+</strong>(other : Num::Grad::Variable(T)) : Num::Grad::Variable(T)</a>
+        <a href="#%2B%28other%3ANum%3A%3AGrad%3A%3AVariable%28T%29%29%3ANum%3A%3AGrad%3A%3AVariable%28T%29-instance-method" class="signature"><strong>#+</strong>(other : Num::Grad::Variable(T)) : Num::Grad::Variable(T)</a>
         
           <div class="summary"><p>Adds a variable to another variable and stores the derivative of the operation in the computational graph.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#-(other:Num::Grad::Variable(T)):Num::Grad::Variable(T)-instance-method" class="signature"><strong>#-</strong>(other : Num::Grad::Variable(T)) : Num::Grad::Variable(T)</a>
+        <a href="#-%28other%3ANum%3A%3AGrad%3A%3AVariable%28T%29%29%3ANum%3A%3AGrad%3A%3AVariable%28T%29-instance-method" class="signature"><strong>#-</strong>(other : Num::Grad::Variable(T)) : Num::Grad::Variable(T)</a>
         
           <div class="summary"><p>Subtracts a variable from another variable and stores the derivative of the operation in the computational graph.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#/(other:Num::Grad::Variable(T)):Num::Grad::Variable(T)-instance-method" class="signature"><strong>#/</strong>(other : Num::Grad::Variable(T)) : Num::Grad::Variable(T)</a>
+        <a href="#/%28other%3ANum%3A%3AGrad%3A%3AVariable%28T%29%29%3ANum%3A%3AGrad%3A%3AVariable%28T%29-instance-method" class="signature"><strong>#/</strong>(other : Num::Grad::Variable(T)) : Num::Grad::Variable(T)</a>
         
           <div class="summary"><p>Divides a variable by another variable and stores the derivative of the operation in the computational graph.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#[](*args)-instance-method" class="signature"><strong>#[]</strong>(*args)</a>
+        <a href="#%5B%5D%28%2Aargs%29-instance-method" class="signature"><strong>#[]</strong>(*args)</a>
         
           <div class="summary"><p>Slices a variable.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#acos:Num::Grad::Variable(T)-instance-method" class="signature"><strong>#acos</strong> : Num::Grad::Variable(T)</a>
+        <a href="#acos%3ANum%3A%3AGrad%3A%3AVariable%28T%29-instance-method" class="signature"><strong>#acos</strong> : Num::Grad::Variable(T)</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#asin:Num::Grad::Variable(T)-instance-method" class="signature"><strong>#asin</strong> : Num::Grad::Variable(T)</a>
+        <a href="#asin%3ANum%3A%3AGrad%3A%3AVariable%28T%29-instance-method" class="signature"><strong>#asin</strong> : Num::Grad::Variable(T)</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#atan:Num::Grad::Variable(T)-instance-method" class="signature"><strong>#atan</strong> : Num::Grad::Variable(T)</a>
+        <a href="#atan%3ANum%3A%3AGrad%3A%3AVariable%28T%29-instance-method" class="signature"><strong>#atan</strong> : Num::Grad::Variable(T)</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#backprop(debug:Bool=false)-instance-method" class="signature"><strong>#backprop</strong>(debug : Bool = <span class="n">false</span>)</a>
+        <a href="#backprop%28debug%3ABool%3Dfalse%29-instance-method" class="signature"><strong>#backprop</strong>(debug : Bool = <span class="n">false</span>)</a>
         
           <div class="summary"><p>Back propogates an operation along a computational graph.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#context:Num::Grad::Context(T)-instance-method" class="signature"><strong>#context</strong> : Num::Grad::Context(T)</a>
+        <a href="#context%3ANum%3A%3AGrad%3A%3AContext%28T%29-instance-method" class="signature"><strong>#context</strong> : Num::Grad::Context(T)</a>
         
           <div class="summary"><p>The graph the variable is associated with.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#cos:Num::Grad::Variable(T)-instance-method" class="signature"><strong>#cos</strong> : Num::Grad::Variable(T)</a>
+        <a href="#cos%3ANum%3A%3AGrad%3A%3AVariable%28T%29-instance-method" class="signature"><strong>#cos</strong> : Num::Grad::Variable(T)</a>
         
       </li>
     
@@ -730,19 +729,19 @@ of Num.cr</p>
       </li>
     
       <li class="entry-summary">
-        <a href="#exp:Num::Grad::Variable(T)-instance-method" class="signature"><strong>#exp</strong> : Num::Grad::Variable(T)</a>
+        <a href="#exp%3ANum%3A%3AGrad%3A%3AVariable%28T%29-instance-method" class="signature"><strong>#exp</strong> : Num::Grad::Variable(T)</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#grad:T-instance-method" class="signature"><strong>#grad</strong> : T</a>
+        <a href="#grad%3AT-instance-method" class="signature"><strong>#grad</strong> : T</a>
         
           <div class="summary"><p>The gradient of the Variable.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#grad=(grad:T)-instance-method" class="signature"><strong>#grad=</strong>(grad : T)</a>
+        <a href="#grad%3D%28grad%3AT%29-instance-method" class="signature"><strong>#grad=</strong>(grad : T)</a>
         
           <div class="summary"><p>The gradient of the Variable.</p></div>
         
@@ -754,7 +753,7 @@ of Num.cr</p>
       </li>
     
       <li class="entry-summary">
-        <a href="#matmul(b:Num::Grad::Variable(T)):Num::Grad::Variable(T)-instance-method" class="signature"><strong>#matmul</strong>(b : Num::Grad::Variable(T)) : Num::Grad::Variable(T)</a>
+        <a href="#matmul%28b%3ANum%3A%3AGrad%3A%3AVariable%28T%29%29%3ANum%3A%3AGrad%3A%3AVariable%28T%29-instance-method" class="signature"><strong>#matmul</strong>(b : Num::Grad::Variable(T)) : Num::Grad::Variable(T)</a>
         
           <div class="summary"><p>Matrix multiply operator for two variables.</p></div>
         
@@ -766,31 +765,31 @@ of Num.cr</p>
       </li>
     
       <li class="entry-summary">
-        <a href="#requires_grad:Bool-instance-method" class="signature"><strong>#requires_grad</strong> : Bool</a>
+        <a href="#requires_grad%3ABool-instance-method" class="signature"><strong>#requires_grad</strong> : Bool</a>
         
           <div class="summary"><p>If set to true, this variable will track its operations, otherwise it will act similar to a Tensor, only calculating forward operations</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#requires_grad=(requires_grad:Bool)-instance-method" class="signature"><strong>#requires_grad=</strong>(requires_grad : Bool)</a>
+        <a href="#requires_grad%3D%28requires_grad%3ABool%29-instance-method" class="signature"><strong>#requires_grad=</strong>(requires_grad : Bool)</a>
         
           <div class="summary"><p>If set to true, this variable will track its operations, otherwise it will act similar to a Tensor, only calculating forward operations</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#sin:Num::Grad::Variable(T)-instance-method" class="signature"><strong>#sin</strong> : Num::Grad::Variable(T)</a>
+        <a href="#sin%3ANum%3A%3AGrad%3A%3AVariable%28T%29-instance-method" class="signature"><strong>#sin</strong> : Num::Grad::Variable(T)</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#tan:Num::Grad::Variable(T)-instance-method" class="signature"><strong>#tan</strong> : Num::Grad::Variable(T)</a>
+        <a href="#tan%3ANum%3A%3AGrad%3A%3AVariable%28T%29-instance-method" class="signature"><strong>#tan</strong> : Num::Grad::Variable(T)</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#value:T-instance-method" class="signature"><strong>#value</strong> : T</a>
+        <a href="#value%3AT-instance-method" class="signature"><strong>#value</strong> : T</a>
         
           <div class="summary"><p>The value of the Variable.</p></div>
         
@@ -841,13 +840,12 @@ of Num.cr</p>
         
         def self.<strong>new</strong>(context : <a href="../../Num/Grad/Context.html">Num::Grad::Context</a>(T), value : T, requires_grad : Bool = <span class="n">false</span>)
 
-        <a class="method-permalink" href="#new(context:Num::Grad::Context(T),value:T,requires_grad:Bool=false)-class-method">#</a>
+        <a class="method-permalink" href="#new%28context%3ANum%3A%3AGrad%3A%3AContext%28T%29%2Cvalue%3AT%2Crequires_grad%3ABool%3Dfalse%29-class-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Initialization method for a Variable.</p>
-
 <p>This method should only be called by a context, as it creates
 a Variable.  Context provides a helper method to add a
 Variable to the computational graph that handles ownership
@@ -857,7 +855,7 @@ of the context and other related instance variables</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/grad/primitives/variable.cr#L59" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/grad/primitives/variable.cr#L59" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -881,7 +879,7 @@ of the context and other related instance variables</p>
         
         def <strong>*</strong>(other : <a href="../../Num/Grad/Variable.html">Num::Grad::Variable</a>(T)) : <a href="../../Num/Grad/Variable.html">Num::Grad::Variable</a>(T)
 
-        <a class="method-permalink" href="#*(other:Num::Grad::Variable(T)):Num::Grad::Variable(T)-instance-method">#</a>
+        <a class="method-permalink" href="#%2A%28other%3ANum%3A%3AGrad%3A%3AVariable%28T%29%29%3ANum%3A%3AGrad%3A%3AVariable%28T%29-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -889,23 +887,20 @@ of the context and other related instance variables</p>
           <p>Multiples a variable to another variable and stores
 the derivative of the operation in the computational
 graph.</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <p><em>other</em> : Num::Grad::Variable(T)</p>
-
-<ul><li>right hand side of the operation</li></ul></ul>
-
+<ul>
+<li>right hand side of the operation</li>
+</ul>
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">ctx <span class="o">=</span> <span class="t">Num</span><span class="t">::</span><span class="t">Grad</span><span class="t">::</span><span class="t">Context</span>(<span class="t">Tensor</span>(<span class="t">Float64</span>)).<span class="k">new</span>
 
 a <span class="o">=</span> ctx.variable([<span class="n">2.0</span>])
@@ -918,7 +913,7 @@ f.backprop</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/grad/variable_ops.cr#L110" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/grad/variable_ops.cr#L110" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -928,7 +923,7 @@ f.backprop</code></pre>
         
         def <strong>**</strong>(other : <a href="../../Num/Grad/Variable.html">Num::Grad::Variable</a>(T)) : <a href="../../Num/Grad/Variable.html">Num::Grad::Variable</a>(T)
 
-        <a class="method-permalink" href="#**(other:Num::Grad::Variable(T)):Num::Grad::Variable(T)-instance-method">#</a>
+        <a class="method-permalink" href="#%2A%2A%28other%3ANum%3A%3AGrad%3A%3AVariable%28T%29%29%3ANum%3A%3AGrad%3A%3AVariable%28T%29-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -936,23 +931,20 @@ f.backprop</code></pre>
           <p>Raises a variable to another variable and stores
 the derivative of the operation in the computational
 graph.</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <p><em>other</em> : Num::Grad::Variable(T)</p>
-
-<ul><li>right hand side of the operation</li></ul></ul>
-
+<ul>
+<li>right hand side of the operation</li>
+</ul>
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">ctx <span class="o">=</span> <span class="t">Num</span><span class="t">::</span><span class="t">Grad</span><span class="t">::</span><span class="t">Context</span>(<span class="t">Tensor</span>(<span class="t">Float64</span>)).<span class="k">new</span>
 
 a <span class="o">=</span> ctx.variable([<span class="n">2.0</span>])
@@ -965,7 +957,7 @@ f.backprop</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/grad/variable_ops.cr#L132" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/grad/variable_ops.cr#L132" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -975,7 +967,7 @@ f.backprop</code></pre>
         
         def <strong>+</strong>(other : <a href="../../Num/Grad/Variable.html">Num::Grad::Variable</a>(T)) : <a href="../../Num/Grad/Variable.html">Num::Grad::Variable</a>(T)
 
-        <a class="method-permalink" href="#+(other:Num::Grad::Variable(T)):Num::Grad::Variable(T)-instance-method">#</a>
+        <a class="method-permalink" href="#%2B%28other%3ANum%3A%3AGrad%3A%3AVariable%28T%29%29%3ANum%3A%3AGrad%3A%3AVariable%28T%29-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -983,23 +975,20 @@ f.backprop</code></pre>
           <p>Adds a variable to another variable and stores
 the derivative of the operation in the computational
 graph.</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <p><em>other</em> : Num::Grad::Variable(T)</p>
-
-<ul><li>right hand side of the operation</li></ul></ul>
-
+<ul>
+<li>right hand side of the operation</li>
+</ul>
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">ctx <span class="o">=</span> <span class="t">Num</span><span class="t">::</span><span class="t">Grad</span><span class="t">::</span><span class="t">Context</span>(<span class="t">Tensor</span>(<span class="t">Float64</span>)).<span class="k">new</span>
 
 a <span class="o">=</span> ctx.variable([<span class="n">2.0</span>])
@@ -1012,7 +1001,7 @@ f.backprop</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/grad/variable_ops.cr#L66" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/grad/variable_ops.cr#L66" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1022,7 +1011,7 @@ f.backprop</code></pre>
         
         def <strong>-</strong>(other : <a href="../../Num/Grad/Variable.html">Num::Grad::Variable</a>(T)) : <a href="../../Num/Grad/Variable.html">Num::Grad::Variable</a>(T)
 
-        <a class="method-permalink" href="#-(other:Num::Grad::Variable(T)):Num::Grad::Variable(T)-instance-method">#</a>
+        <a class="method-permalink" href="#-%28other%3ANum%3A%3AGrad%3A%3AVariable%28T%29%29%3ANum%3A%3AGrad%3A%3AVariable%28T%29-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1030,23 +1019,20 @@ f.backprop</code></pre>
           <p>Subtracts a variable from another variable and stores
 the derivative of the operation in the computational
 graph.</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <p><em>other</em> : Num::Grad::Variable(T)</p>
-
-<ul><li>right hand side of the operation</li></ul></ul>
-
+<ul>
+<li>right hand side of the operation</li>
+</ul>
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">ctx <span class="o">=</span> <span class="t">Num</span><span class="t">::</span><span class="t">Grad</span><span class="t">::</span><span class="t">Context</span>(<span class="t">Tensor</span>(<span class="t">Float64</span>)).<span class="k">new</span>
 
 a <span class="o">=</span> ctx.variable([<span class="n">2.0</span>])
@@ -1059,7 +1045,7 @@ f.backprop</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/grad/variable_ops.cr#L88" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/grad/variable_ops.cr#L88" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1069,7 +1055,7 @@ f.backprop</code></pre>
         
         def <strong>/</strong>(other : <a href="../../Num/Grad/Variable.html">Num::Grad::Variable</a>(T)) : <a href="../../Num/Grad/Variable.html">Num::Grad::Variable</a>(T)
 
-        <a class="method-permalink" href="#/(other:Num::Grad::Variable(T)):Num::Grad::Variable(T)-instance-method">#</a>
+        <a class="method-permalink" href="#/%28other%3ANum%3A%3AGrad%3A%3AVariable%28T%29%29%3ANum%3A%3AGrad%3A%3AVariable%28T%29-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1077,23 +1063,20 @@ f.backprop</code></pre>
           <p>Divides a variable by another variable and stores
 the derivative of the operation in the computational
 graph.</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <p><em>other</em> : Num::Grad::Variable(T)</p>
-
-<ul><li>right hand side of the operation</li></ul></ul>
-
+<ul>
+<li>right hand side of the operation</li>
+</ul>
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">ctx <span class="o">=</span> <span class="t">Num</span><span class="t">::</span><span class="t">Grad</span><span class="t">::</span><span class="t">Context</span>(<span class="t">Tensor</span>(<span class="t">Float64</span>)).<span class="k">new</span>
 
 a <span class="o">=</span> ctx.variable([<span class="n">2.0</span>])
@@ -1106,7 +1089,7 @@ f.backprop</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/grad/variable_ops.cr#L154" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/grad/variable_ops.cr#L154" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1116,30 +1099,26 @@ f.backprop</code></pre>
         
         def <strong>[]</strong>(*args)
 
-        <a class="method-permalink" href="#[](*args)-instance-method">#</a>
+        <a class="method-permalink" href="#%5B%5D%28%2Aargs%29-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Slices a variable.  Slices the gradient of the variable
 using the same arguments</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <p><em>args</em>
-  Slicing arguments, slicing behavior is the same as
-  it is for a standard Tensor</p>
-
+Slicing arguments, slicing behavior is the same as
+it is for a standard Tensor</p>
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">ctx <span class="o">=</span> <span class="t">Num</span><span class="t">::</span><span class="t">Grad</span><span class="t">::</span><span class="t">Context</span>(<span class="t">Tensor</span>(<span class="t">Float64</span>)).<span class="k">new</span>
 
 a <span class="o">=</span> ctx.variable([[<span class="n">2.0</span>], [<span class="n">3.0</span>]])
@@ -1150,7 +1129,7 @@ b <span class="c"># =&gt; [3]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/grad/variable_ops.cr#L208" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/grad/variable_ops.cr#L208" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1160,13 +1139,13 @@ b <span class="c"># =&gt; [3]</span></code></pre>
         
         def <strong>acos</strong> : <a href="../../Num/Grad/Variable.html">Num::Grad::Variable</a>(T)
 
-        <a class="method-permalink" href="#acos:Num::Grad::Variable(T)-instance-method">#</a>
+        <a class="method-permalink" href="#acos%3ANum%3A%3AGrad%3A%3AVariable%28T%29-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/grad/variable_ops.cr#L230" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/grad/variable_ops.cr#L230" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1176,13 +1155,13 @@ b <span class="c"># =&gt; [3]</span></code></pre>
         
         def <strong>asin</strong> : <a href="../../Num/Grad/Variable.html">Num::Grad::Variable</a>(T)
 
-        <a class="method-permalink" href="#asin:Num::Grad::Variable(T)-instance-method">#</a>
+        <a class="method-permalink" href="#asin%3ANum%3A%3AGrad%3A%3AVariable%28T%29-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/grad/variable_ops.cr#L229" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/grad/variable_ops.cr#L229" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1192,13 +1171,13 @@ b <span class="c"># =&gt; [3]</span></code></pre>
         
         def <strong>atan</strong> : <a href="../../Num/Grad/Variable.html">Num::Grad::Variable</a>(T)
 
-        <a class="method-permalink" href="#atan:Num::Grad::Variable(T)-instance-method">#</a>
+        <a class="method-permalink" href="#atan%3ANum%3A%3AGrad%3A%3AVariable%28T%29-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/grad/variable_ops.cr#L231" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/grad/variable_ops.cr#L231" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1208,7 +1187,7 @@ b <span class="c"># =&gt; [3]</span></code></pre>
         
         def <strong>backprop</strong>(debug : Bool = <span class="n">false</span>)
 
-        <a class="method-permalink" href="#backprop(debug:Bool=false)-instance-method">#</a>
+        <a class="method-permalink" href="#backprop%28debug%3ABool%3Dfalse%29-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1217,7 +1196,6 @@ b <span class="c"># =&gt; [3]</span></code></pre>
 This operation will destroy the operational graph, populating
 the gradients for all variables that are predecessors of
 the Variable this is called on.</p>
-
 <p>Even if this is called on the first node in a graph, it will
 destroy all descendents of this variable stored by the
 Context</p>
@@ -1226,7 +1204,7 @@ Context</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/grad/primitives/variable.cr#L89" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/grad/primitives/variable.cr#L89" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1236,7 +1214,7 @@ Context</p>
         
         def <strong>context</strong> : <a href="../../Num/Grad/Context.html">Num::Grad::Context</a>(T)
 
-        <a class="method-permalink" href="#context:Num::Grad::Context(T)-instance-method">#</a>
+        <a class="method-permalink" href="#context%3ANum%3A%3AGrad%3A%3AContext%28T%29-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1248,7 +1226,7 @@ as a variable does not own its context</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/grad/primitives/variable.cr#L35" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/grad/primitives/variable.cr#L35" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1258,13 +1236,13 @@ as a variable does not own its context</p>
         
         def <strong>cos</strong> : <a href="../../Num/Grad/Variable.html">Num::Grad::Variable</a>(T)
 
-        <a class="method-permalink" href="#cos:Num::Grad::Variable(T)-instance-method">#</a>
+        <a class="method-permalink" href="#cos%3ANum%3A%3AGrad%3A%3AVariable%28T%29-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/grad/variable_ops.cr#L227" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/grad/variable_ops.cr#L227" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1280,7 +1258,7 @@ as a variable does not own its context</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/nn/layers/elu.cr#L43" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/nn/layers/elu.cr#L43" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1290,13 +1268,13 @@ as a variable does not own its context</p>
         
         def <strong>exp</strong> : <a href="../../Num/Grad/Variable.html">Num::Grad::Variable</a>(T)
 
-        <a class="method-permalink" href="#exp:Num::Grad::Variable(T)-instance-method">#</a>
+        <a class="method-permalink" href="#exp%3ANum%3A%3AGrad%3A%3AVariable%28T%29-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/grad/variable_ops.cr#L232" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/grad/variable_ops.cr#L232" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1306,13 +1284,13 @@ as a variable does not own its context</p>
         
         def <strong>grad</strong> : T
 
-        <a class="method-permalink" href="#grad:T-instance-method">#</a>
+        <a class="method-permalink" href="#grad%3AT-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>The gradient of the Variable.  This is set as a reference to
-the value of a Variable unless <code><a href="../../Num/Grad/Variable.html#backprop(debug:Bool=false)-instance-method">#backprop</a></code> has been called, in
+the value of a Variable unless <code><a href="../../Num/Grad/Variable.html#backprop%28debug%3ABool%3Dfalse%29-instance-method">#backprop</a></code> has been called, in
 which case all related Variables will have their gradient
 updated correctly</p>
         </div>
@@ -1320,7 +1298,7 @@ updated correctly</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/grad/primitives/variable.cr#L46" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/grad/primitives/variable.cr#L46" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1330,13 +1308,13 @@ updated correctly</p>
         
         def <strong>grad=</strong>(grad : T)
 
-        <a class="method-permalink" href="#grad=(grad:T)-instance-method">#</a>
+        <a class="method-permalink" href="#grad%3D%28grad%3AT%29-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>The gradient of the Variable.  This is set as a reference to
-the value of a Variable unless <code><a href="../../Num/Grad/Variable.html#backprop(debug:Bool=false)-instance-method">#backprop</a></code> has been called, in
+the value of a Variable unless <code><a href="../../Num/Grad/Variable.html#backprop%28debug%3ABool%3Dfalse%29-instance-method">#backprop</a></code> has been called, in
 which case all related Variables will have their gradient
 updated correctly</p>
         </div>
@@ -1344,7 +1322,7 @@ updated correctly</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/grad/primitives/variable.cr#L46" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/grad/primitives/variable.cr#L46" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1360,7 +1338,7 @@ updated correctly</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/nn/layers/leaky_relu.cr#L43" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/nn/layers/leaky_relu.cr#L43" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1370,7 +1348,7 @@ updated correctly</p>
         
         def <strong>matmul</strong>(b : <a href="../../Num/Grad/Variable.html">Num::Grad::Variable</a>(T)) : <a href="../../Num/Grad/Variable.html">Num::Grad::Variable</a>(T)
 
-        <a class="method-permalink" href="#matmul(b:Num::Grad::Variable(T)):Num::Grad::Variable(T)-instance-method">#</a>
+        <a class="method-permalink" href="#matmul%28b%3ANum%3A%3AGrad%3A%3AVariable%28T%29%29%3ANum%3A%3AGrad%3A%3AVariable%28T%29-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1378,23 +1356,20 @@ updated correctly</p>
           <p>Matrix multiply operator for two variables.  Computes the
 dot product of two matrices and stores the result in the
 computational graph</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <p><em>other</em> : Num::Grad::Variable(T)</p>
-
-<ul><li>right hand side of the operation</li></ul></ul>
-
+<ul>
+<li>right hand side of the operation</li>
+</ul>
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">ctx <span class="o">=</span> <span class="t">Num</span><span class="t">::</span><span class="t">Grad</span><span class="t">::</span><span class="t">Context</span>(<span class="t">Tensor</span>(<span class="t">Float64</span>)).<span class="k">new</span>
 
 a <span class="o">=</span> ctx.variable([[<span class="n">2.0</span>], [<span class="n">2.0</span>]])
@@ -1411,7 +1386,7 @@ f.backprop</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/grad/variable_ops.cr#L180" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/grad/variable_ops.cr#L180" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1427,7 +1402,7 @@ f.backprop</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/nn/layers/relu.cr#L43" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/nn/layers/relu.cr#L43" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1437,7 +1412,7 @@ f.backprop</code></pre>
         
         def <strong>requires_grad</strong> : Bool
 
-        <a class="method-permalink" href="#requires_grad:Bool-instance-method">#</a>
+        <a class="method-permalink" href="#requires_grad%3ABool-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1450,7 +1425,7 @@ forward operations</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/grad/primitives/variable.cr#L51" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/grad/primitives/variable.cr#L51" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1460,7 +1435,7 @@ forward operations</p>
         
         def <strong>requires_grad=</strong>(requires_grad : Bool)
 
-        <a class="method-permalink" href="#requires_grad=(requires_grad:Bool)-instance-method">#</a>
+        <a class="method-permalink" href="#requires_grad%3D%28requires_grad%3ABool%29-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1473,7 +1448,7 @@ forward operations</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/grad/primitives/variable.cr#L51" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/grad/primitives/variable.cr#L51" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1483,13 +1458,13 @@ forward operations</p>
         
         def <strong>sin</strong> : <a href="../../Num/Grad/Variable.html">Num::Grad::Variable</a>(T)
 
-        <a class="method-permalink" href="#sin:Num::Grad::Variable(T)-instance-method">#</a>
+        <a class="method-permalink" href="#sin%3ANum%3A%3AGrad%3A%3AVariable%28T%29-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/grad/variable_ops.cr#L226" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/grad/variable_ops.cr#L226" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1499,13 +1474,13 @@ forward operations</p>
         
         def <strong>tan</strong> : <a href="../../Num/Grad/Variable.html">Num::Grad::Variable</a>(T)
 
-        <a class="method-permalink" href="#tan:Num::Grad::Variable(T)-instance-method">#</a>
+        <a class="method-permalink" href="#tan%3ANum%3A%3AGrad%3A%3AVariable%28T%29-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/grad/variable_ops.cr#L228" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/grad/variable_ops.cr#L228" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1515,7 +1490,7 @@ forward operations</p>
         
         def <strong>value</strong> : T
 
-        <a class="method-permalink" href="#value:T-instance-method">#</a>
+        <a class="method-permalink" href="#value%3AT-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1528,7 +1503,7 @@ and will lead to incorrect results</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/grad/primitives/variable.cr#L40" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/grad/primitives/variable.cr#L40" target="_blank">View source</a>]
         
       </div>
     </div>

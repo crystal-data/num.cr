@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.0.0">
+<meta name="generator" content="Crystal Docs 1.1.1">
 <meta name="crystal_docs.project_version" content="HEAD">
 <meta name="crystal_docs.project_name" content="num">
 
@@ -548,9 +548,8 @@
 computational model that consists of a network architecture
 composed of artificial neurons. This structure contains a set of
 parameters, which can be adjusted to perform specific tasks.</p>
-
 <p>This class is a loose wrapper that primarily provides syntactic
-sugar around moving data through a network -> forward, and propogating
+sugar around moving data through a network -&gt; forward, and propogating
 loss &lt;- backwards</p>
 
 
@@ -576,7 +575,7 @@ loss &lt;- backwards</p>
   </h2>
   
     
-      <a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/nn/network.cr#L302" target="_blank">
+      <a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/nn/network.cr#L302" target="_blank">
         nn/network.cr
       </a>
     
@@ -598,7 +597,7 @@ loss &lt;- backwards</p>
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#new(context:Num::Grad::Context(T),**options,&)-class-method" class="signature"><strong>.new</strong>(context : Num::Grad::Context(T), **options, &)</a>
+        <a href="#new%28context%3ANum%3A%3AGrad%3A%3AContext%28T%29%2C%2A%2Aoptions%2C%26%29-class-method" class="signature"><strong>.new</strong>(context : Num::Grad::Context(T), **options, &)</a>
         
           <div class="summary"><p>Convenience method to allow for creation of a Network with as little code as possible.</p></div>
         
@@ -621,19 +620,19 @@ loss &lt;- backwards</p>
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#forward(train:Num::Grad::Variable(T)):Num::Grad::Variable(T)-instance-method" class="signature"><strong>#forward</strong>(train : Num::Grad::Variable(T)) : Num::Grad::Variable(T)</a>
+        <a href="#forward%28train%3ANum%3A%3AGrad%3A%3AVariable%28T%29%29%3ANum%3A%3AGrad%3A%3AVariable%28T%29-instance-method" class="signature"><strong>#forward</strong>(train : Num::Grad::Variable(T)) : Num::Grad::Variable(T)</a>
         
           <div class="summary"><p>Propogates an input through a network, returning the final prediction from the network</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#layers:Num::NN::NetworkInfo(T)-instance-method" class="signature"><strong>#layers</strong> : Num::NN::NetworkInfo(T)</a>
+        <a href="#layers%3ANum%3A%3ANN%3A%3ANetworkInfo%28T%29-instance-method" class="signature"><strong>#layers</strong> : Num::NN::NetworkInfo(T)</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#loss(output:Num::Grad::Variable(T),target:T)-instance-method" class="signature"><strong>#loss</strong>(output : Num::Grad::Variable(T), target : T)</a>
+        <a href="#loss%28output%3ANum%3A%3AGrad%3A%3AVariable%28T%29%2Ctarget%3AT%29-instance-method" class="signature"><strong>#loss</strong>(output : Num::Grad::Variable(T), target : T)</a>
         
           <div class="summary"><p>Uses the Network's loss function to calculate the loss based on the final output from the Network, as well as the target output</p></div>
         
@@ -691,7 +690,7 @@ loss &lt;- backwards</p>
         
         def self.<strong>new</strong>(context : <a href="../../Num/Grad/Context.html">Num::Grad::Context</a>(T), **options, &)
 
-        <a class="method-permalink" href="#new(context:Num::Grad::Context(T),**options,&)-class-method">#</a>
+        <a class="method-permalink" href="#new%28context%3ANum%3A%3AGrad%3A%3AContext%28T%29%2C%2A%2Aoptions%2C%26%29-class-method">#</a>
       </div>
       
         <div class="doc">
@@ -700,19 +699,16 @@ loss &lt;- backwards</p>
 with as little code as possible.  Taps an instance of
 a LayerArray in order to allow layers to be added to the
 network in a block</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal"><span class="t">Network</span>(<span class="t">Float32</span>).<span class="k">new</span> <span class="k">do</span>
   layer(<span class="n">2</span>, <span class="n">3</span>, <span class="n">:tanh</span>)
   layer(<span class="n">3</span>, <span class="n">1</span>, <span class="n">:sigmoid</span>)
@@ -722,7 +718,7 @@ network in a block</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/nn/network.cr#L321" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/nn/network.cr#L321" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -746,29 +742,25 @@ network in a block</p>
         
         def <strong>forward</strong>(train : <a href="../../Num/Grad/Variable.html">Num::Grad::Variable</a>(T)) : <a href="../../Num/Grad/Variable.html">Num::Grad::Variable</a>(T)
 
-        <a class="method-permalink" href="#forward(train:Num::Grad::Variable(T)):Num::Grad::Variable(T)-instance-method">#</a>
+        <a class="method-permalink" href="#forward%28train%3ANum%3A%3AGrad%3A%3AVariable%28T%29%29%3ANum%3A%3AGrad%3A%3AVariable%28T%29-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Propogates an input through a network, returning
 the final prediction from the network</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <p><em>train</em> : Tensor(T)
-  Training input data</p>
-
+Training input data</p>
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">a <span class="o">=</span> [[<span class="n">0.0</span>, <span class="n">0.0</span>], [<span class="n">1.0</span>, <span class="n">0.0</span>], [<span class="n">0.0</span>, <span class="n">1.0</span>], [<span class="n">1.0</span>, <span class="n">1.0</span>]].to_tensor
 net.forward(a)</code></pre>
         </div>
@@ -776,7 +768,7 @@ net.forward(a)</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/nn/network.cr#L348" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/nn/network.cr#L348" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -786,13 +778,13 @@ net.forward(a)</code></pre>
         
         def <strong>layers</strong> : <a href="../../Num/NN/NetworkInfo.html">Num::NN::NetworkInfo</a>(T)
 
-        <a class="method-permalink" href="#layers:Num::NN::NetworkInfo(T)-instance-method">#</a>
+        <a class="method-permalink" href="#layers%3ANum%3A%3ANN%3A%3ANetworkInfo%28T%29-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/nn/network.cr#L303" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/nn/network.cr#L303" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -802,7 +794,7 @@ net.forward(a)</code></pre>
         
         def <strong>loss</strong>(output : <a href="../../Num/Grad/Variable.html">Num::Grad::Variable</a>(T), target : T)
 
-        <a class="method-permalink" href="#loss(output:Num::Grad::Variable(T),target:T)-instance-method">#</a>
+        <a class="method-permalink" href="#loss%28output%3ANum%3A%3AGrad%3A%3AVariable%28T%29%2Ctarget%3AT%29-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -810,24 +802,20 @@ net.forward(a)</code></pre>
           <p>Uses the Network's loss function to calculate the loss
 based on the final output from the Network, as well
 as the target output</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <p><em>output</em> : Num::Grad::Variable(T)
-  Prediction by the network
+Prediction by the network
 <em>target</em> : T
-  Tensor containing ground truth values</p>
-
+Tensor containing ground truth values</p>
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">epochs.times <span class="k">do</span> <span class="o">|</span>epoch<span class="o">|</span>
   y_pred <span class="o">=</span> net.forward(x)
   loss <span class="o">=</span> net.loss(y_pred, y_actual)
@@ -837,7 +825,7 @@ as the target output</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/nn/network.cr#L374" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/nn/network.cr#L374" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -854,19 +842,16 @@ as the target output</p>
           
           <p>Return the Network's optimizer to allow updating
 the weights and biases of the network</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">epochs.times <span class="k">do</span> <span class="o">|</span>epoch<span class="o">|</span>
   y_pred <span class="o">=</span> net.forward(x)
   loss <span class="o">=</span> net.loss(y_pred, y_actual)
@@ -877,7 +862,7 @@ the weights and biases of the network</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/nn/network.cr#L393" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/nn/network.cr#L393" target="_blank">View source</a>]
         
       </div>
     </div>

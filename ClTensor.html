@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.0.0">
+<meta name="generator" content="Crystal Docs 1.1.1">
 <meta name="crystal_docs.project_version" content="HEAD">
 <meta name="crystal_docs.project_name" content="num">
 
@@ -546,16 +546,12 @@
 
   <p>A <code><a href="ClTensor.html">ClTensor</a></code> is a multidimensional container of fixed size, containing
 elements of type T.</p>
-
-<p>The number of dimensions is specified by a <code><a href="ClTensor.html">ClTensor</a></code>'s <code><a href="ClTensor.html#shape:Array(Int32)-instance-method">#shape</a></code>, which
+<p>The number of dimensions is specified by a <code><a href="ClTensor.html">ClTensor</a></code>'s <code><a href="ClTensor.html#shape%3AArray%28Int32%29-instance-method">#shape</a></code>, which
 is an <code><a href="Array.html">Array</a></code> of integers specifying the size of a <code><a href="Tensor.html">Tensor</a></code> in each
 dimension.</p>
-
 <p>A <code><a href="ClTensor.html">ClTensor</a></code> can be created from a wide variety of creation methods.
-Including from a scalar value and <code><a href="ClTensor.html#shape:Array(Int32)-instance-method">#shape</a></code>.</p>
-
+Including from a scalar value and <code><a href="ClTensor.html#shape%3AArray%28Int32%29-instance-method">#shape</a></code>.</p>
 <p><code><a href="ClTensor.html">ClTensor</a></code>'s store data using a <code>LibCL::ClMem</code></p>
-
 <p><code><a href="ClTensor.html">ClTensor</a></code>'s cannot be resized, and any operation the changes the total
 number of elements in a <code><a href="ClTensor.html">ClTensor</a></code> will return a new object.</p>
 
@@ -582,21 +578,21 @@ number of elements in a <code><a href="ClTensor.html">ClTensor</a></code> will r
   </h2>
   
     
-      <a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/cl_tensor/cl_tensor.cr#L41" target="_blank">
+      <a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/cl_tensor/cl_tensor.cr#L41" target="_blank">
         cl_tensor/cl_tensor.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/cl_tensor/creation.cr#L26" target="_blank">
+      <a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/cl_tensor/creation.cr#L26" target="_blank">
         cl_tensor/creation.cr
       </a>
     
     <br/>
   
     
-      <a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/cl_tensor/linalg.cr#L28" target="_blank">
+      <a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/cl_tensor/linalg.cr#L28" target="_blank">
         cl_tensor/linalg.cr
       </a>
     
@@ -618,21 +614,21 @@ number of elements in a <code><a href="ClTensor.html">ClTensor</a></code> will r
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#new(buffer:LibCL::ClMem,shape:Array(Int))-class-method" class="signature"><strong>.new</strong>(buffer : LibCL::ClMem, shape : Array(Int))</a>
+        <a href="#new%28buffer%3ALibCL%3A%3AClMem%2Cshape%3AArray%28Int%29%29-class-method" class="signature"><strong>.new</strong>(buffer : LibCL::ClMem, shape : Array(Int))</a>
         
           <div class="summary"><p>Creates a <code><a href="ClTensor.html">ClTensor</a></code> from a provided buffer and shape.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#new(shape:Array(Int),value:T)-class-method" class="signature"><strong>.new</strong>(shape : Array(Int), value : T)</a>
+        <a href="#new%28shape%3AArray%28Int%29%2Cvalue%3AT%29-class-method" class="signature"><strong>.new</strong>(shape : Array(Int), value : T)</a>
         
           <div class="summary"><p>Creates a <code><a href="ClTensor.html">ClTensor</a></code> from a provided shape, initializing the <code><a href="ClTensor.html">ClTensor</a></code>'s buffer with a value specified by the user</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#new(shape:Array(Int))-class-method" class="signature"><strong>.new</strong>(shape : Array(Int))</a>
+        <a href="#new%28shape%3AArray%28Int%29%29-class-method" class="signature"><strong>.new</strong>(shape : Array(Int))</a>
         
           <div class="summary"><p>Creates a <code><a href="ClTensor.html">ClTensor</a></code> from a provided shape, initializing the <code><a href="ClTensor.html">ClTensor</a></code>'s buffer without filling it with data</p></div>
         
@@ -653,42 +649,42 @@ number of elements in a <code><a href="ClTensor.html">ClTensor</a></code> will r
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#full(shape:Array(Int),value:Number)-class-method" class="signature"><strong>.full</strong>(shape : Array(Int), value : Number)</a>
+        <a href="#full%28shape%3AArray%28Int%29%2Cvalue%3ANumber%29-class-method" class="signature"><strong>.full</strong>(shape : Array(Int), value : Number)</a>
         
           <div class="summary"><p>Creates a <code><a href="ClTensor.html">ClTensor</a></code> of a provided shape, filled with a value.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#full_like(other:ClTensor%7CTensor,value:Number)-class-method" class="signature"><strong>.full_like</strong>(other : ClTensor | Tensor, value : Number)</a>
+        <a href="#full_like%28other%3AClTensor%7CTensor%2Cvalue%3ANumber%29-class-method" class="signature"><strong>.full_like</strong>(other : ClTensor | Tensor, value : Number)</a>
         
           <div class="summary"><p>Creates a <code><a href="ClTensor.html">ClTensor</a></code> filled with a value, sharing the shape of another provided <code><a href="Tensor.html">Tensor</a></code> or <code><a href="ClTensor.html">ClTensor</a></code></p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#ones(shape:Array(Int))-class-method" class="signature"><strong>.ones</strong>(shape : Array(Int))</a>
+        <a href="#ones%28shape%3AArray%28Int%29%29-class-method" class="signature"><strong>.ones</strong>(shape : Array(Int))</a>
         
           <div class="summary"><p>Creates a <code><a href="ClTensor.html">ClTensor</a></code> of a provided shape, filled with 1.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#ones_like(other:ClTensor%7CTensor)-class-method" class="signature"><strong>.ones_like</strong>(other : ClTensor | Tensor)</a>
+        <a href="#ones_like%28other%3AClTensor%7CTensor%29-class-method" class="signature"><strong>.ones_like</strong>(other : ClTensor | Tensor)</a>
         
           <div class="summary"><p>Creates a <code><a href="ClTensor.html">ClTensor</a></code> filled with 1, sharing the shape of another provided <code><a href="Tensor.html">Tensor</a></code> or <code><a href="ClTensor.html">ClTensor</a></code></p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#zeros(shape:Array(Int))-class-method" class="signature"><strong>.zeros</strong>(shape : Array(Int))</a>
+        <a href="#zeros%28shape%3AArray%28Int%29%29-class-method" class="signature"><strong>.zeros</strong>(shape : Array(Int))</a>
         
           <div class="summary"><p>Creates a <code><a href="ClTensor.html">ClTensor</a></code> of a provided shape, filled with 0.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#zeros_like(other:ClTensor%7CTensor)-class-method" class="signature"><strong>.zeros_like</strong>(other : ClTensor | Tensor)</a>
+        <a href="#zeros_like%28other%3AClTensor%7CTensor%29-class-method" class="signature"><strong>.zeros_like</strong>(other : ClTensor | Tensor)</a>
         
           <div class="summary"><p>Creates a <code><a href="ClTensor.html">ClTensor</a></code> filled with 0, sharing the shape of another provided <code><a href="Tensor.html">Tensor</a></code> or <code><a href="ClTensor.html">ClTensor</a></code></p></div>
         
@@ -716,14 +712,14 @@ number of elements in a <code><a href="ClTensor.html">ClTensor</a></code> will r
       </li>
     
       <li class="entry-summary">
-        <a href="#axpy(a:Number,c:ClTensor(T))-instance-method" class="signature"><strong>#axpy</strong>(a : Number, c : ClTensor(T))</a>
+        <a href="#axpy%28a%3ANumber%2Cc%3AClTensor%28T%29%29-instance-method" class="signature"><strong>#axpy</strong>(a : Number, c : ClTensor(T))</a>
         
           <div class="summary"><p>AXPY constant times a vector plus a vector.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#axpy!(a:Number,c:ClTensor(T))-instance-method" class="signature"><strong>#axpy!</strong>(a : Number, c : ClTensor(T))</a>
+        <a href="#axpy%21%28a%3ANumber%2Cc%3AClTensor%28T%29%29-instance-method" class="signature"><strong>#axpy!</strong>(a : Number, c : ClTensor(T))</a>
         
           <div class="summary"><p>AXPY constant times a vector plus a vector.</p></div>
         
@@ -737,21 +733,21 @@ number of elements in a <code><a href="ClTensor.html">ClTensor</a></code> will r
       </li>
     
       <li class="entry-summary">
-        <a href="#cpu:Tensor(T)-instance-method" class="signature"><strong>#cpu</strong> : Tensor(T)</a>
+        <a href="#cpu%3ATensor%28T%29-instance-method" class="signature"><strong>#cpu</strong> : Tensor(T)</a>
         
           <div class="summary"><p>Move a <code><a href="ClTensor.html">ClTensor</a></code> from an OpenCL buffer to a CPU <code><a href="Tensor.html">Tensor</a></code> backed by a <code>Pointer</code>.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#dot(c:ClTensor(T))-instance-method" class="signature"><strong>#dot</strong>(c : ClTensor(T))</a>
+        <a href="#dot%28c%3AClTensor%28T%29%29-instance-method" class="signature"><strong>#dot</strong>(c : ClTensor(T))</a>
         
           <div class="summary"><p>DOT forms the dot product of two vectors.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#gemm(b:ClTensor(T))-instance-method" class="signature"><strong>#gemm</strong>(b : ClTensor(T))</a>
+        <a href="#gemm%28b%3AClTensor%28T%29%29-instance-method" class="signature"><strong>#gemm</strong>(b : ClTensor(T))</a>
         
           <div class="summary"><p>GEMM  performs one of the matrix-matrix operations</p></div>
         
@@ -765,26 +761,26 @@ number of elements in a <code><a href="ClTensor.html">ClTensor</a></code> will r
       </li>
     
       <li class="entry-summary">
-        <a href="#scal(a:Number)-instance-method" class="signature"><strong>#scal</strong>(a : Number)</a>
+        <a href="#scal%28a%3ANumber%29-instance-method" class="signature"><strong>#scal</strong>(a : Number)</a>
         
           <div class="summary"><p>SCAL scales a vector by a constant.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#scal!(a:Number)-instance-method" class="signature"><strong>#scal!</strong>(a : Number)</a>
+        <a href="#scal%21%28a%3ANumber%29-instance-method" class="signature"><strong>#scal!</strong>(a : Number)</a>
         
           <div class="summary"><p>SCAL scales a vector by a constant.</p></div>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#shape:Array(Int32)-instance-method" class="signature"><strong>#shape</strong> : Array(Int32)</a>
+        <a href="#shape%3AArray%28Int32%29-instance-method" class="signature"><strong>#shape</strong> : Array(Int32)</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#size:Int32-instance-method" class="signature"><strong>#size</strong> : Int32</a>
+        <a href="#size%3AInt32-instance-method" class="signature"><strong>#size</strong> : Int32</a>
         
       </li>
     
@@ -833,7 +829,7 @@ number of elements in a <code><a href="ClTensor.html">ClTensor</a></code> will r
         
         def self.<strong>new</strong>(buffer : LibCL::ClMem, shape : <a href="Array.html">Array</a>(Int))
 
-        <a class="method-permalink" href="#new(buffer:LibCL::ClMem,shape:Array(Int))-class-method">#</a>
+        <a class="method-permalink" href="#new%28buffer%3ALibCL%3A%3AClMem%2Cshape%3AArray%28Int%29%29-class-method">#</a>
       </div>
       
         <div class="doc">
@@ -842,34 +838,29 @@ number of elements in a <code><a href="ClTensor.html">ClTensor</a></code> will r
 This should primarily be used by internal methods that
 need to create <code><a href="ClTensor.html">ClTensor</a></code>s or pass to lower level
 libraries</p>
-
 <p>The generic type of the <code><a href="ClTensor.html">ClTensor</a></code> must be specified, as
 LibCL::ClMem does not store this information</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <p><em>buffer</em> : LibCL::ClMem
-  Memory buffer for a <code><a href="ClTensor.html">ClTensor</a></code>
+Memory buffer for a <code><a href="ClTensor.html">ClTensor</a></code>
 <em>shape</em> : Array(Int)
-  Size of the <code><a href="ClTensor.html">ClTensor</a></code> in each dimension</p>
-
+Size of the <code><a href="ClTensor.html">ClTensor</a></code> in each dimension</p>
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">t <span class="o">=</span> <span class="t">ClTensor</span>(<span class="t">Float32</span>).<span class="k">new</span>(buffer, [<span class="n">3</span>, <span class="n">3</span>, <span class="n">2</span>])</code></pre>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/cl_tensor/cl_tensor.cr#L92" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/cl_tensor/cl_tensor.cr#L92" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -879,7 +870,7 @@ LibCL::ClMem does not store this information</p>
         
         def self.<strong>new</strong>(shape : <a href="Array.html">Array</a>(Int), value : T)
 
-        <a class="method-permalink" href="#new(shape:Array(Int),value:T)-class-method">#</a>
+        <a class="method-permalink" href="#new%28shape%3AArray%28Int%29%2Cvalue%3AT%29-class-method">#</a>
       </div>
       
         <div class="doc">
@@ -887,34 +878,29 @@ LibCL::ClMem does not store this information</p>
           <p>Creates a <code><a href="ClTensor.html">ClTensor</a></code> from a provided shape, initializing
 the <code><a href="ClTensor.html">ClTensor</a></code>'s buffer with a value specified by the
 user</p>
-
 <p>The generic type of the <code><a href="ClTensor.html">ClTensor</a></code> is inferred from the
 provided value</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <p><em>shape</em> : Array(Int)
-  Size of <code><a href="ClTensor.html">ClTensor</a></code> in each dimension
+Size of <code><a href="ClTensor.html">ClTensor</a></code> in each dimension
 <em>value</em> : T
-  Value to fill the <code><a href="ClTensor.html">ClTensor</a></code></p>
-
+Value to fill the <code><a href="ClTensor.html">ClTensor</a></code></p>
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">t <span class="o">=</span> <span class="t">ClTensor</span>(<span class="t">Float32</span>).<span class="k">new</span>([<span class="n">3</span>, <span class="n">3</span>, <span class="n">2</span>], <span class="n">3.5</span>)</code></pre>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/cl_tensor/cl_tensor.cr#L118" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/cl_tensor/cl_tensor.cr#L118" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -924,39 +910,34 @@ provided value</p>
         
         def self.<strong>new</strong>(shape : <a href="Array.html">Array</a>(Int))
 
-        <a class="method-permalink" href="#new(shape:Array(Int))-class-method">#</a>
+        <a class="method-permalink" href="#new%28shape%3AArray%28Int%29%29-class-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Creates a <code><a href="ClTensor.html">ClTensor</a></code> from a provided shape, initializing
 the <code><a href="ClTensor.html">ClTensor</a></code>'s buffer without filling it with data</p>
-
 <p>When creating a <code><a href="ClTensor.html">ClTensor</a></code> from a shape alone, the generic
 type must be specified</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <p><em>shape</em> : Array(Int)
-  Size of <code><a href="ClTensor.html">ClTensor</a></code> in each dimension</p>
-
+Size of <code><a href="ClTensor.html">ClTensor</a></code> in each dimension</p>
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">t <span class="o">=</span> <span class="t">ClTensor</span>(<span class="t">Float32</span>).<span class="k">new</span>([<span class="n">3</span>, <span class="n">3</span>, <span class="n">2</span>])</code></pre>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/cl_tensor/cl_tensor.cr#L61" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/cl_tensor/cl_tensor.cr#L61" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -978,36 +959,32 @@ type must be specified</p>
         
         def self.<strong>full</strong>(shape : <a href="Array.html">Array</a>(Int), value : <a href="Number.html">Number</a>)
 
-        <a class="method-permalink" href="#full(shape:Array(Int),value:Number)-class-method">#</a>
+        <a class="method-permalink" href="#full%28shape%3AArray%28Int%29%2Cvalue%3ANumber%29-class-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Creates a <code><a href="ClTensor.html">ClTensor</a></code> of a provided shape, filled with a value.
 The generic type must be specified.</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <p><em>shape</em>
-  Shape of returned <code><a href="ClTensor.html">ClTensor</a></code></p>
-
+Shape of returned <code><a href="ClTensor.html">ClTensor</a></code></p>
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">t <span class="o">=</span> <span class="t">ClTensor</span>(<span class="t">Float32</span>).full([<span class="n">3</span>], <span class="n">3.5</span>)</code></pre>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/cl_tensor/creation.cr#L110" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/cl_tensor/creation.cr#L110" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1017,29 +994,25 @@ The generic type must be specified.</p>
         
         def self.<strong>full_like</strong>(other : <a href="ClTensor.html">ClTensor</a> | <a href="Tensor.html">Tensor</a>, value : <a href="Number.html">Number</a>)
 
-        <a class="method-permalink" href="#full_like(other:ClTensor%7CTensor,value:Number)-class-method">#</a>
+        <a class="method-permalink" href="#full_like%28other%3AClTensor%7CTensor%2Cvalue%3ANumber%29-class-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Creates a <code><a href="ClTensor.html">ClTensor</a></code> filled with a value, sharing the shape of another
 provided <code><a href="Tensor.html">Tensor</a></code> or <code><a href="ClTensor.html">ClTensor</a></code></p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <p><em>t</em>
-  Item to use for output shape</p>
-
+Item to use for output shape</p>
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">t <span class="o">=</span> <span class="t">Tensor</span>.<span class="k">new</span>([<span class="n">3</span>]) <span class="o">&amp;</span>.to_f
 u <span class="o">=</span> <span class="t">ClTensor</span>(<span class="t">Float32</span>).full_like(t, <span class="n">3.5</span>)</code></pre>
         </div>
@@ -1047,7 +1020,7 @@ u <span class="o">=</span> <span class="t">ClTensor</span>(<span class="t">Float
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/cl_tensor/creation.cr#L128" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/cl_tensor/creation.cr#L128" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1057,36 +1030,32 @@ u <span class="o">=</span> <span class="t">ClTensor</span>(<span class="t">Float
         
         def self.<strong>ones</strong>(shape : <a href="Array.html">Array</a>(Int))
 
-        <a class="method-permalink" href="#ones(shape:Array(Int))-class-method">#</a>
+        <a class="method-permalink" href="#ones%28shape%3AArray%28Int%29%29-class-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Creates a <code><a href="ClTensor.html">ClTensor</a></code> of a provided shape, filled with 1.  The generic type
 must be specified.</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <p><em>shape</em>
-  Shape of returned <code><a href="ClTensor.html">ClTensor</a></code></p>
-
+Shape of returned <code><a href="ClTensor.html">ClTensor</a></code></p>
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">t <span class="o">=</span> <span class="t">ClTensor</span>(<span class="t">Float32</span>).ones([<span class="n">3</span>])</code></pre>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/cl_tensor/creation.cr#L75" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/cl_tensor/creation.cr#L75" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1096,29 +1065,25 @@ must be specified.</p>
         
         def self.<strong>ones_like</strong>(other : <a href="ClTensor.html">ClTensor</a> | <a href="Tensor.html">Tensor</a>)
 
-        <a class="method-permalink" href="#ones_like(other:ClTensor%7CTensor)-class-method">#</a>
+        <a class="method-permalink" href="#ones_like%28other%3AClTensor%7CTensor%29-class-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Creates a <code><a href="ClTensor.html">ClTensor</a></code> filled with 1, sharing the shape of another
 provided <code><a href="Tensor.html">Tensor</a></code> or <code><a href="ClTensor.html">ClTensor</a></code></p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <p><em>t</em>
-  Item to use for output shape</p>
-
+Item to use for output shape</p>
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">t <span class="o">=</span> <span class="t">Tensor</span>.<span class="k">new</span>([<span class="n">3</span>]) <span class="o">&amp;</span>.to_f
 u <span class="o">=</span> <span class="t">ClTensor</span>(<span class="t">Float32</span>).ones_like(t)</code></pre>
         </div>
@@ -1126,7 +1091,7 @@ u <span class="o">=</span> <span class="t">ClTensor</span>(<span class="t">Float
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/cl_tensor/creation.cr#L93" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/cl_tensor/creation.cr#L93" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1136,36 +1101,32 @@ u <span class="o">=</span> <span class="t">ClTensor</span>(<span class="t">Float
         
         def self.<strong>zeros</strong>(shape : <a href="Array.html">Array</a>(Int))
 
-        <a class="method-permalink" href="#zeros(shape:Array(Int))-class-method">#</a>
+        <a class="method-permalink" href="#zeros%28shape%3AArray%28Int%29%29-class-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Creates a <code><a href="ClTensor.html">ClTensor</a></code> of a provided shape, filled with 0.  The generic type
 must be specified.</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <p><em>shape</em>
-  Shape of returned <code><a href="ClTensor.html">ClTensor</a></code></p>
-
+Shape of returned <code><a href="ClTensor.html">ClTensor</a></code></p>
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">t <span class="o">=</span> <span class="t">ClTensor</span>(<span class="t">Float32</span>).zeros([<span class="n">3</span>])</code></pre>
         </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/cl_tensor/creation.cr#L40" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/cl_tensor/creation.cr#L40" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1175,29 +1136,25 @@ must be specified.</p>
         
         def self.<strong>zeros_like</strong>(other : <a href="ClTensor.html">ClTensor</a> | <a href="Tensor.html">Tensor</a>)
 
-        <a class="method-permalink" href="#zeros_like(other:ClTensor%7CTensor)-class-method">#</a>
+        <a class="method-permalink" href="#zeros_like%28other%3AClTensor%7CTensor%29-class-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>Creates a <code><a href="ClTensor.html">ClTensor</a></code> filled with 0, sharing the shape of another
 provided <code><a href="Tensor.html">Tensor</a></code> or <code><a href="ClTensor.html">ClTensor</a></code></p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <p><em>t</em>
-  Item to use for output shape</p>
-
+Item to use for output shape</p>
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">t <span class="o">=</span> <span class="t">Tensor</span>.<span class="k">new</span>([<span class="n">3</span>]) <span class="o">&amp;</span>.to_f
 u <span class="o">=</span> <span class="t">ClTensor</span>(<span class="t">Float32</span>).zeros_like(t)</code></pre>
         </div>
@@ -1205,7 +1162,7 @@ u <span class="o">=</span> <span class="t">ClTensor</span>(<span class="t">Float
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/cl_tensor/creation.cr#L58" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/cl_tensor/creation.cr#L58" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1234,19 +1191,16 @@ u <span class="o">=</span> <span class="t">ClTensor</span>(<span class="t">Float
           
           <p>ASUM sums the absolute values of the elements of a
 vector</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">a <span class="o">=</span> <span class="t">ClTensor</span>(<span class="t">Flaot32</span>).<span class="k">new</span>([<span class="n">3</span>, <span class="n">3</span>, <span class="n">2</span>])
 a.asum</code></pre>
         </div>
@@ -1254,7 +1208,7 @@ a.asum</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/cl_tensor/linalg.cr#L175" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/cl_tensor/linalg.cr#L175" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1264,31 +1218,27 @@ a.asum</code></pre>
         
         def <strong>axpy</strong>(a : <a href="Number.html">Number</a>, c : <a href="ClTensor.html">ClTensor</a>(T))
 
-        <a class="method-permalink" href="#axpy(a:Number,c:ClTensor(T))-instance-method">#</a>
+        <a class="method-permalink" href="#axpy%28a%3ANumber%2Cc%3AClTensor%28T%29%29-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>AXPY constant times a vector plus a vector.
 uses unrolled loops for increments equal to one.</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <p><em>a</em> : Number
-  Scalar alpha
+Scalar alpha
 <em>c</em> : ClTensor
-  Argument to add</p>
-
+Argument to add</p>
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">a <span class="o">=</span> <span class="t">ClTensor</span>(<span class="t">Float32</span>).ones([<span class="n">3</span>])
 b <span class="o">=</span> <span class="t">ClTensor</span>(<span class="t">Float32</span>).ones([<span class="n">3</span>])
 c <span class="o">=</span> <span class="n">1.45</span>
@@ -1298,7 +1248,7 @@ a.axpy!(c, b)</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/cl_tensor/linalg.cr#L93" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/cl_tensor/linalg.cr#L93" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1308,31 +1258,27 @@ a.axpy!(c, b)</code></pre>
         
         def <strong>axpy!</strong>(a : <a href="Number.html">Number</a>, c : <a href="ClTensor.html">ClTensor</a>(T))
 
-        <a class="method-permalink" href="#axpy!(a:Number,c:ClTensor(T))-instance-method">#</a>
+        <a class="method-permalink" href="#axpy%21%28a%3ANumber%2Cc%3AClTensor%28T%29%29-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>AXPY constant times a vector plus a vector.
 uses unrolled loops for increments equal to one.</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <p><em>a</em> : Number
-  Scalar alpha
+Scalar alpha
 <em>c</em> : ClTensor
-  Argument to add</p>
-
+Argument to add</p>
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">a <span class="o">=</span> <span class="t">ClTensor</span>(<span class="t">Float32</span>).ones([<span class="n">3</span>])
 b <span class="o">=</span> <span class="t">ClTensor</span>(<span class="t">Float32</span>).ones([<span class="n">3</span>])
 c <span class="o">=</span> <span class="n">1.45</span>
@@ -1342,7 +1288,7 @@ a.axpy!(c, b)</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/cl_tensor/linalg.cr#L88" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/cl_tensor/linalg.cr#L88" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1359,19 +1305,16 @@ a.axpy!(c, b)</code></pre>
           
           <p>COPY copies a vector, x, to a vector, y.
 uses unrolled loops for increments equal to 1.</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">a <span class="o">=</span> <span class="t">ClTensor</span>(<span class="t">Float32</span>).ones([<span class="n">3</span>, <span class="n">3</span>, <span class="n">2</span>])
 b <span class="o">=</span> a.copy
 b.shape <span class="c"># =&gt; [3, 3, 2]</span></code></pre>
@@ -1380,7 +1323,7 @@ b.shape <span class="c"># =&gt; [3, 3, 2]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/cl_tensor/linalg.cr#L157" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/cl_tensor/linalg.cr#L157" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1390,7 +1333,7 @@ b.shape <span class="c"># =&gt; [3, 3, 2]</span></code></pre>
         
         def <strong>cpu</strong> : <a href="Tensor.html">Tensor</a>(T)
 
-        <a class="method-permalink" href="#cpu:Tensor(T)-instance-method">#</a>
+        <a class="method-permalink" href="#cpu%3ATensor%28T%29-instance-method">#</a>
       </div>
       
         <div class="doc">
@@ -1399,21 +1342,17 @@ b.shape <span class="c"># =&gt; [3, 3, 2]</span></code></pre>
 by a <code>Pointer</code>.  This operation is slow, and should not be
 used frequently.  Operations are most efficient when done exclusively
 on a single architecture</p>
-
 <p>This method always blocks on write</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">t <span class="o">=</span> <span class="t">ClTensor</span>(<span class="t">Float32</span>).<span class="k">new</span>([<span class="n">5</span>], <span class="n">2.2</span>)
 t.cpu <span class="c"># =&gt; [2.2, 2.2, 2.2, 2.2, 2.2]</span></code></pre>
         </div>
@@ -1421,7 +1360,7 @@ t.cpu <span class="c"># =&gt; [2.2, 2.2, 2.2, 2.2, 2.2]</span></code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/cl_tensor/cl_tensor.cr#L146" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/cl_tensor/cl_tensor.cr#L146" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1431,31 +1370,26 @@ t.cpu <span class="c"># =&gt; [2.2, 2.2, 2.2, 2.2, 2.2]</span></code></pre>
         
         def <strong>dot</strong>(c : <a href="ClTensor.html">ClTensor</a>(T))
 
-        <a class="method-permalink" href="#dot(c:ClTensor(T))-instance-method">#</a>
+        <a class="method-permalink" href="#dot%28c%3AClTensor%28T%29%29-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>DOT forms the dot product of two vectors.
 uses unrolled loops for increments equal to one.</p>
-
 <p>This method treats all inputs as though they were one-dimensional</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <p><em>c</em> : ClTensor
-  Argument to dot against self</p>
-
+Argument to dot against self</p>
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">a <span class="o">=</span> <span class="t">ClTensor</span>(<span class="t">Float32</span>).ones([<span class="n">3</span>])
 b <span class="o">=</span> <span class="t">ClTensor</span>(<span class="t">Float32</span>).ones([<span class="n">3</span>])
 c <span class="o">=</span> a.dot(b)</code></pre>
@@ -1464,7 +1398,7 @@ c <span class="o">=</span> a.dot(b)</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/cl_tensor/linalg.cr#L116" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/cl_tensor/linalg.cr#L116" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1474,37 +1408,29 @@ c <span class="o">=</span> a.dot(b)</code></pre>
         
         def <strong>gemm</strong>(b : <a href="ClTensor.html">ClTensor</a>(T))
 
-        <a class="method-permalink" href="#gemm(b:ClTensor(T))-instance-method">#</a>
+        <a class="method-permalink" href="#gemm%28b%3AClTensor%28T%29%29-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>GEMM  performs one of the matrix-matrix operations</p>
-
-<p>C := alpha<em>op( A )</em>op( B ) + beta*C,</p>
-
+<p>C := alpha*op( A )<em>op( B ) + beta</em>C,</p>
 <p>where  op( X ) is one of</p>
-
 <p>op( X ) = X   or   op( X ) = X**T,</p>
-
 <p>alpha and beta are scalars, and A, B and C are matrices, with op( A )
 an m by k matrix,  op( B )  a  k by n matrix and  C an m by n matrix.</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <pre><code class="language-crystal"><span class="o">*</span>b<span class="o">*</span> : <span class="t">ClTensor</span>
   <span class="t">Second</span> operand <span class="k">for</span> the matrix multiplication</code></pre>
-
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">a <span class="o">=</span> <span class="t">ClTensor</span>(<span class="t">Float32</span>).ones([<span class="n">3</span>, <span class="n">3</span>])
 b <span class="o">=</span> a.copy
 puts a.gemm(b).cpu
@@ -1517,7 +1443,7 @@ puts a.gemm(b).cpu
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/cl_tensor/linalg.cr#L210" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/cl_tensor/linalg.cr#L210" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1534,23 +1460,18 @@ puts a.gemm(b).cpu
           
           <p>NRM2 returns the euclidean norm of a vector via the function
 name, so that</p>
-
 <p>DNRM2 := sqrt( x'*x )</p>
-
 <p>Treats <code><a href="ClTensor.html">ClTensor</a></code> as though they were one-dimensional</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">a <span class="o">=</span> <span class="t">ClTensor</span>(<span class="t">Float32</span>).<span class="k">new</span>([<span class="n">3</span>])
 a.nrm2</code></pre>
         </div>
@@ -1558,7 +1479,7 @@ a.nrm2</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/cl_tensor/linalg.cr#L138" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/cl_tensor/linalg.cr#L138" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1568,29 +1489,25 @@ a.nrm2</code></pre>
         
         def <strong>scal</strong>(a : <a href="Number.html">Number</a>)
 
-        <a class="method-permalink" href="#scal(a:Number)-instance-method">#</a>
+        <a class="method-permalink" href="#scal%28a%3ANumber%29-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>SCAL scales a vector by a constant.
 Uses unrolled loops for increment equal to 1.</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <p><em>a</em> : Number
-  Scalar alpha</p>
-
+Scalar alpha</p>
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">a <span class="o">=</span> <span class="t">ClTensor</span>(<span class="t">Float32</span>).ones([<span class="n">3</span>])
 a.scal!(<span class="n">3</span>)</code></pre>
         </div>
@@ -1598,7 +1515,7 @@ a.scal!(<span class="n">3</span>)</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/cl_tensor/linalg.cr#L64" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/cl_tensor/linalg.cr#L64" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1608,29 +1525,25 @@ a.scal!(<span class="n">3</span>)</code></pre>
         
         def <strong>scal!</strong>(a : <a href="Number.html">Number</a>)
 
-        <a class="method-permalink" href="#scal!(a:Number)-instance-method">#</a>
+        <a class="method-permalink" href="#scal%21%28a%3ANumber%29-instance-method">#</a>
       </div>
       
         <div class="doc">
           
           <p>SCAL scales a vector by a constant.
 Uses unrolled loops for increment equal to 1.</p>
-
 <h2><a id="arguments" class="anchor" href="#arguments">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Arguments</h2>
-
 <p><em>a</em> : Number
-  Scalar alpha</p>
-
+Scalar alpha</p>
 <h2><a id="examples" class="anchor" href="#examples">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Examples</h2>
-
 <pre><code class="language-crystal">a <span class="o">=</span> <span class="t">ClTensor</span>(<span class="t">Float32</span>).ones([<span class="n">3</span>])
 a.scal!(<span class="n">3</span>)</code></pre>
         </div>
@@ -1638,7 +1551,7 @@ a.scal!(<span class="n">3</span>)</code></pre>
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/cl_tensor/linalg.cr#L59" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/cl_tensor/linalg.cr#L59" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1648,13 +1561,13 @@ a.scal!(<span class="n">3</span>)</code></pre>
         
         def <strong>shape</strong> : <a href="Array.html">Array</a>(Int32)
 
-        <a class="method-permalink" href="#shape:Array(Int32)-instance-method">#</a>
+        <a class="method-permalink" href="#shape%3AArray%28Int32%29-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/cl_tensor/cl_tensor.cr#L42" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/cl_tensor/cl_tensor.cr#L42" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1664,13 +1577,13 @@ a.scal!(<span class="n">3</span>)</code></pre>
         
         def <strong>size</strong> : Int32
 
-        <a class="method-permalink" href="#size:Int32-instance-method">#</a>
+        <a class="method-permalink" href="#size%3AInt32-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/crystal-data/num.cr/blob/2cc4afe5c5e6e3eff4b9268d309aae68b98e65e2/src/cl_tensor/cl_tensor.cr#L43" target="_blank">View source</a>]
+          [<a href="https://github.com/crystal-data/num.cr/blob/3133fd31a0e4fdefb44d21ef572e37cc9f95b4a3/src/cl_tensor/cl_tensor.cr#L43" target="_blank">View source</a>]
         
       </div>
     </div>
