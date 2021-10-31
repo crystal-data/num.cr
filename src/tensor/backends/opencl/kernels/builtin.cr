@@ -21,16 +21,9 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class Num::BuiltinKernel(T) < Num::Kernel(T)
+# :nodoc:
+abstract class Num::BuiltinKernel(T) < Num::Kernel(T)
   @@fn : String = ""
-  @@name : String = ""
-
-  def initialize
-    {% if T != Float32 && T != Float64 %}
-      {% raise "Builtin OpenCL functions only accept doubles and floats" %}
-    {% end %}
-    super
-  end
 
   def get_program(dtype)
     "
@@ -80,51 +73,3 @@ class Num::BuiltinKernel(T) < Num::Kernel(T)
     result
   end
 end
-
-macro generate_builtin_kernels(cls, fn)
-  class Num::{{ cls }}(T) < Num::BuiltinKernel(T)
-    @@fn = "{{ fn.id }}"
-    @@name = "{{ fn.id }}Kernel"
-  end
-end
-
-generate_builtin_kernels(AcosKernel, :acos)
-generate_builtin_kernels(AcoshKernel, :acosh)
-generate_builtin_kernels(AcospiKernel, :acospi)
-generate_builtin_kernels(AsinKernel, :asin)
-generate_builtin_kernels(AsinhKernel, :asinh)
-generate_builtin_kernels(AsinpiKernel, :asinpi)
-generate_builtin_kernels(AtanKernel, :atan)
-generate_builtin_kernels(AtanhKernel, :atanh)
-generate_builtin_kernels(AtanpiKernel, :atanpi)
-generate_builtin_kernels(CbrtKernel, :cbrt)
-generate_builtin_kernels(CeilKernel, :ceil)
-generate_builtin_kernels(CosKernel, :cos)
-generate_builtin_kernels(CoshKernel, :cosh)
-generate_builtin_kernels(CospiKernel, :cospi)
-generate_builtin_kernels(ErfcKernel, :erfc)
-generate_builtin_kernels(ErfKernel, :erf)
-generate_builtin_kernels(ExpKernel, :exp)
-generate_builtin_kernels(Exp2Kernel, :exp2)
-generate_builtin_kernels(Exp10Kernel, :exp10)
-generate_builtin_kernels(Expm1Kernel, :expm1)
-generate_builtin_kernels(FabsKernel, :fabs)
-generate_builtin_kernels(FloorKernel, :floor)
-generate_builtin_kernels(LgammaKernel, :lgamma)
-generate_builtin_kernels(LogKernel, :log)
-generate_builtin_kernels(Log2Kernel, :log2)
-generate_builtin_kernels(Log10Kernel, :log10)
-generate_builtin_kernels(Log1pKernel, :log1p)
-generate_builtin_kernels(LogbKernel, :logb)
-generate_builtin_kernels(RintKernel, :rint)
-generate_builtin_kernels(RoundKernel, :round)
-generate_builtin_kernels(RsqrtKernel, :rsqrt)
-generate_builtin_kernels(SinKernel, :sin)
-generate_builtin_kernels(SinhKernel, :sinh)
-generate_builtin_kernels(SinpiKernel, :sinpi)
-generate_builtin_kernels(SqrtKernel, :sqrt)
-generate_builtin_kernels(TanKernel, :tan)
-generate_builtin_kernels(TanhKernel, :tanh)
-generate_builtin_kernels(TanpiKernel, :tanpi)
-generate_builtin_kernels(TgammaKernel, :tgamma)
-generate_builtin_kernels(TruncKernel, :trunc)

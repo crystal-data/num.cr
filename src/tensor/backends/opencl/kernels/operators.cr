@@ -21,9 +21,9 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class Num::ArithmeticKernel(T) < Num::Kernel(T)
+# :nodoc:
+abstract class Num::ArithmeticKernel(T) < Num::Kernel(T)
   @@operator : String = ""
-  @@name : String = ""
 
   def get_program(dtype)
     "
@@ -84,57 +84,8 @@ class Num::ArithmeticKernel(T) < Num::Kernel(T)
   end
 end
 
-class Num::AddKernel(T) < Num::ArithmeticKernel(T)
-  @@operator : String = "+"
-  @@name : String = "addKernel"
-end
-
-class Num::SubtractKernel(T) < Num::ArithmeticKernel(T)
-  @@operator : String = "-"
-  @@name : String = "subtractKernel"
-end
-
-class Num::MultiplyKernel(T) < Num::ArithmeticKernel(T)
-  @@operator : String = "*"
-  @@name : String = "multiplyKernel"
-end
-
-class Num::DivideKernel(T) < Num::ArithmeticKernel(T)
-  @@operator : String = "/"
-  @@name : String = "divideKernel"
-end
-
-class Num::ModuloKernel(T) < Num::ArithmeticKernel(T)
-  @@operator : String = "-"
-  @@name : String = "subtractKernel"
-end
-
-class Num::BitwiseAndKernel(T) < Num::ArithmeticKernel(T)
-  @@operator : String = "&"
-  @@name : String = "bitwiseAndKernel"
-end
-
-class Num::BitwiseOrKernel(T) < Num::ArithmeticKernel(T)
-  @@operator : String = "|"
-  @@name : String = "bitwiseOrKernel"
-end
-
-class Num::BitwiseXorKernel(T) < Num::ArithmeticKernel(T)
-  @@operator : String = "^"
-  @@name : String = "bitwiseXorKernel"
-end
-
-class Num::RightShiftKernel(T) < Num::ArithmeticKernel(T)
-  @@operator : String = ">>"
-  @@name : String = "rightShiftKernel"
-end
-
-class Num::LeftShiftKernel(T) < Num::ArithmeticKernel(T)
-  @@operator : String = "<<"
-  @@name : String = "leftShiftKernel"
-end
-
-class Num::RelationalKernel(T) < Num::Kernel(T)
+# :nodoc:
+abstract class Num::RelationalKernel(T) < Num::Kernel(T)
   @@operator : String = ""
   @@name : String = ""
 
@@ -197,37 +148,8 @@ class Num::RelationalKernel(T) < Num::Kernel(T)
   end
 end
 
-class Num::GreaterKernel(T) < Num::RelationalKernel(T)
-  @@operator : String = ">"
-  @@name : String = "greaterKernel"
-end
-
-class Num::GreaterEqualKernel(T) < Num::RelationalKernel(T)
-  @@operator : String = ">="
-  @@name : String = "greaterEqualKernel"
-end
-
-class Num::LessKernel(T) < Num::RelationalKernel(T)
-  @@operator : String = "<"
-  @@name : String = "lessKernel"
-end
-
-class Num::LessEqualKernel(T) < Num::RelationalKernel(T)
-  @@operator : String = "<="
-  @@name : String = "lessEqualKernel"
-end
-
-class Num::EqualKernel(T) < Num::RelationalKernel(T)
-  @@operator : String = "=="
-  @@name : String = "equalKernel"
-end
-
-class Num::NotEqualKernel(T) < Num::RelationalKernel(T)
-  @@operator : String = "!="
-  @@name : String = "notEqualKernel"
-end
-
-class Num::ArithmeticInplaceKernel(T) < Num::Kernel(T)
+# :nodoc:
+abstract class Num::ArithmeticInplaceKernel(T) < Num::Kernel(T)
   @@operator : String = ""
   @@name : String = ""
 
@@ -278,24 +200,4 @@ class Num::ArithmeticInplaceKernel(T) < Num::Kernel(T)
     Cl.run(Num::ClContext.instance.queue, @kernel, a.size)
     nil
   end
-end
-
-class Num::AddInplaceKernel(T) < Num::ArithmeticInplaceKernel(T)
-  @@operator : String = "+"
-  @@name : String = "addInplaceKernel"
-end
-
-class Num::SubtractInplaceKernel(T) < Num::ArithmeticInplaceKernel(T)
-  @@operator : String = "-"
-  @@name : String = "subtractInplaceKernel"
-end
-
-class Num::MultiplyInplaceKernel(T) < Num::ArithmeticInplaceKernel(T)
-  @@operator : String = "*"
-  @@name : String = "multiplyInplaceKernel"
-end
-
-class Num::DivideInplaceKernel(T) < Num::ArithmeticInplaceKernel(T)
-  @@operator : String = "/"
-  @@name : String = "divideInplaceKernel"
 end

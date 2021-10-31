@@ -21,25 +21,23 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-module Num
-  # :nodoc:
-  CTYPE_MAPPING = {
+abstract class Num::Kernel(T)
+  @@name : String = ""
+  getter program : LibCL::ClProgram
+  getter kernel : LibCL::ClKernel
+
+  TYPE_MAPPING = {
     Float32 => "float",
     Float64 => "double",
     Int32   => "int",
     UInt32  => "uint",
   }
-end
-
-# :nodoc:
-abstract class Num::Kernel(T)
-  macro inherited
-    class_getter instance : self { self.new }
-    @@name : String = ""
-  end
 
   def initialize
-    dtype = CTYPE_MAPPING[T]
+    {% if T != Float32 && T != Float64 && T != Int32 && T != UInt32 %}
+      {% raise "Invalid OpenCL Kernel Type" %}
+    {% end %}
+    dtype = TYPE_MAPPING[T]
     program_string = get_program(dtype)
 
     @program = Cl.create_and_build(
@@ -52,7 +50,7 @@ abstract class Num::Kernel(T)
       puts Cl.build_errors(@program, [Num::ClContext.instance.device])
     {% end %}
 
-    @kernel = Cl.create_kernel(@program, @@name)
+    @kernel = Cl.create_kernel(program, @@name)
   end
 
   def get_program(dtype : String) : String
