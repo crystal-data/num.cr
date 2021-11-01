@@ -258,14 +258,6 @@ module Num
       }
     }
     "
-
-    program = Cl.create_and_build(
-      Num::ClContext.instance.context,
-      fn, Num::ClContext.instance.device
-    )
-    {% if flag?(:debugcl) %}
-      puts Cl.build_errors(program, [Num::ClContext.instance.device])
-    {% end %}
-    prok = Cl.create_kernel(program, name)
+    fn
   end
 end

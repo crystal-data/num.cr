@@ -35,6 +35,19 @@ module Num
         @@operator = "{{ operator.id }}"
         @@name = "{{ fn }}Kernel"
       end
+
+      # :nodoc:
+      class {{ dtype }}{{ fn.stringify.capitalize.id }}TensorScalar < Num::ArithmeticTensorScalarKernel({{ dtype }})
+        @@operator = "{{ operator.id }}"
+        @@name = "{{ fn }}Kernel"
+      end
+
+      # :nodoc:
+      class {{ dtype }}{{ fn.stringify.capitalize.id }}ScalarTensor < Num::ArithmeticScalarTensorKernel({{ dtype }})
+        @@operator = "{{ operator.id }}"
+        @@name = "{{ fn }}Kernel"
+      end
+
     {% end %}
 
     # {{ fn.stringify.capitalize.id }} two `Tensor`s elementwise
@@ -100,6 +113,68 @@ module Num
         \{% raise "Invalid Dtype" %}
       \{% end %}
     end
+
+    # {{ fn.stringify.capitalize.id }} a `Tensor` and a `Number` elementwise
+    #
+    # ## Arguments
+    #
+    # * a : `Tensor(U, OCL(U))` - LHS argument to {{ fn }}
+    # * b : `U` - RHS argument to {{ fn }}
+    #
+    # ## Examples
+    #
+    # ```
+    # a = [1.5, 2.2, 3.2].to_tensor(OCL)
+    # Num.{{ fn }}(a, 3.5)
+    # ```
+    def {{ fn.id }}(a : Tensor(U, OCL(U)), b : U) : Tensor(U, OCL(U)) forall U
+      \{% if U == Int32 %}
+        singleton = Int32{{ fn.stringify.capitalize.id }}TensorScalar.instance
+        singleton.call(a, b)
+      \{% elsif U == UInt32 %}
+        singleton = UInt32{{ fn.stringify.capitalize.id }}TensorScalar.instance
+        singleton.call(a, b)
+      \{% elsif U == Float32 %}
+        singleton = Float32{{ fn.stringify.capitalize.id }}TensorScalar.instance
+        singleton.call(a, b)
+      \{% elsif U == Float64 %}
+        singleton = Float64{{ fn.stringify.capitalize.id }}TensorScalar.instance
+        singleton.call(a, b)
+      \{% else %}
+        \{% raise "Invalid Dtype" %}
+      \{% end %}
+    end
+
+    # {{ fn.stringify.capitalize.id }} a `Number` and a `Tensor` elementwise
+    #
+    # ## Arguments
+    #
+    # * a : `U` - LHS argument to {{ fn }}
+    # * b : `Tensor(U, OCL(U))` - RHS argument to {{ fn }}
+    #
+    # ## Examples
+    #
+    # ```
+    # a = [1.5, 2.2, 3.2].to_tensor(OCL)
+    # Num.{{ fn }}(a, 3.5)
+    # ```
+    def {{ fn.id }}(a : U, b : Tensor(U, OCL(U))) : Tensor(U, OCL(U)) forall U
+      \{% if U == Int32 %}
+        singleton = Int32{{ fn.stringify.capitalize.id }}ScalarTensor.instance
+        singleton.call(a, b)
+      \{% elsif U == UInt32 %}
+        singleton = UInt32{{ fn.stringify.capitalize.id }}ScalarTensor.instance
+        singleton.call(a, b)
+      \{% elsif U == Float32 %}
+        singleton = Float32{{ fn.stringify.capitalize.id }}ScalarTensor.instance
+        singleton.call(a, b)
+      \{% elsif U == Float64 %}
+        singleton = Float64{{ fn.stringify.capitalize.id }}ScalarTensor.instance
+        singleton.call(a, b)
+      \{% else %}
+        \{% raise "Invalid Dtype" %}
+      \{% end %}
+    end
   end
 
   operator_op add, "+"
@@ -111,6 +186,18 @@ module Num
     {% for dtype in [Int32, UInt32, Float32, Float64] %}
       # :nodoc:
       class {{ dtype }}{{ fn.stringify.capitalize.id }} < Num::RelationalKernel({{ dtype }})
+        @@operator = "{{ operator.id }}"
+        @@name = "{{ fn }}Kernel"
+      end
+
+      # :nodoc:
+      class {{ dtype }}{{ fn.stringify.capitalize.id }}TensorScalar < Num::RelationalTensorScalarKernel({{ dtype }})
+        @@operator = "{{ operator.id }}"
+        @@name = "{{ fn }}Kernel"
+      end
+
+      # :nodoc:
+      class {{ dtype }}{{ fn.stringify.capitalize.id }}ScalarTensor < Num::RelationalScalarTensorKernel({{ dtype }})
         @@operator = "{{ operator.id }}"
         @@name = "{{ fn }}Kernel"
       end
@@ -132,7 +219,7 @@ module Num
     # b = [1, 8, 5.to_tensor(OCL)
     # Num.{{ fn }}(a, a)
     # ```
-    def {{ fn.id }}(a : Tensor(U, OCL(U)), b : Tensor(U, OCL(U))) : Tensor(U, OCL(U)) forall U
+    def {{ fn.id }}(a : Tensor(U, OCL(U)), b : Tensor(U, OCL(U))) : Tensor(Int32, OCL(Int32)) forall U
       \{% if U == Int32 %}
         singleton = Int32{{ fn.stringify.capitalize.id }}.instance
         singleton.call(a, b)
@@ -144,6 +231,76 @@ module Num
         singleton.call(a, b)
       \{% elsif U == Float64 %}
         singleton = Float64{{ fn.stringify.capitalize.id }}.instance
+        singleton.call(a, b)
+      \{% else %}
+        \{% raise "Invalid Dtype" %}
+      \{% end %}
+    end
+
+    # Implements the comparison operator {{ operator }} between a `Tensor`
+    # and a `Number`.
+    # `
+    # The returned result of OpenCL relational operators will always be
+    # `Tensor(Int32, OCL(Int32))`.
+    #
+    # ## Arguments
+    #
+    # * a : `Tensor(U, OCL(U))` - LHS argument to the {{ operator }} operator
+    # * b : `U` - RHS argument to the {{ operator }} operator
+    #
+    # ## Examples
+    #
+    # ```
+    # a = [12, 3, 5].to_tensor(OCL)
+    # Num.{{ fn }}(a, 3)
+    # ```
+    def {{ fn.id }}(a : Tensor(U, OCL(U)), b : U) : Tensor(Int32, OCL(Int32)) forall U
+      \{% if U == Int32 %}
+        singleton = Int32{{ fn.stringify.capitalize.id }}TensorScalar.instance
+        singleton.call(a, b)
+      \{% elsif U == UInt32 %}
+        singleton = UInt32{{ fn.stringify.capitalize.id }}TensorScalar.instance
+        singleton.call(a, b)
+      \{% elsif U == Float32 %}
+        singleton = Float32{{ fn.stringify.capitalize.id }}TensorScalar.instance
+        singleton.call(a, b)
+      \{% elsif U == Float64 %}
+        singleton = Float64{{ fn.stringify.capitalize.id }}TensorScalar.instance
+        singleton.call(a, b)
+      \{% else %}
+        \{% raise "Invalid Dtype" %}
+      \{% end %}
+    end
+
+    # Implements the comparison operator {{ operator }} between a `Number`
+    # and a `Tensor`.
+    # `
+    # The returned result of OpenCL relational operators will always be
+    # `Tensor(Int32, OCL(Int32))`.
+    #
+    # ## Arguments
+    #
+    # * a : `U` - LHS argument to the {{ operator }} operator
+    # * b : `Tensor(U, OCL(U))` - RHS argument to the {{ operator }} operator
+    #
+    # ## Examples
+    #
+    # ```
+    # a = [12, 3, 5].to_tensor(OCL)
+    # Num.{{ fn }}(3, a)
+    # ```
+    def {{ fn.id }}(a : U, b : Tensor(U, OCL(U))) : Tensor(Int32, OCL(Int32)) forall U
+      \{% if U == Int32 %}
+        singleton = Int32{{ fn.stringify.capitalize.id }}ScalarTensor.instance
+        singleton.call(a, b)
+      \{% elsif U == UInt32 %}
+        singleton = UInt32{{ fn.stringify.capitalize.id }}ScalarTensor.instance
+        singleton.call(a, b)
+      \{% elsif U == Float32 %}
+        singleton = Float32{{ fn.stringify.capitalize.id }}ScalarTensor.instance
+        singleton.call(a, b)
+      \{% elsif U == Float64 %}
+        singleton = Float64{{ fn.stringify.capitalize.id }}ScalarTensor.instance
         singleton.call(a, b)
       \{% else %}
         \{% raise "Invalid Dtype" %}
@@ -161,7 +318,19 @@ module Num
   macro bitwise_op(fn, operator)
     {% for dtype in [Int32, UInt32] %}
       # :nodoc:
-      class {{ dtype }}{{ fn.stringify.capitalize.id }} < Num::RelationalKernel({{ dtype }})
+      class {{ dtype }}{{ fn.stringify.capitalize.id }} < Num::ArithmeticKernel({{ dtype }})
+        @@operator = "{{ operator.id }}"
+        @@name = "{{ fn }}Kernel"
+      end
+
+      # :nodoc:
+      class {{ dtype }}{{ fn.stringify.capitalize.id }}TensorScalar < Num::ArithmeticTensorScalarKernel({{ dtype }})
+        @@operator = "{{ operator.id }}"
+        @@name = "{{ fn }}Kernel"
+      end
+
+      # :nodoc:
+      class {{ dtype }}{{ fn.stringify.capitalize.id }}ScalarTensor < Num::ArithmeticScalarTensorKernel({{ dtype }})
         @@operator = "{{ operator.id }}"
         @@name = "{{ fn }}Kernel"
       end
@@ -188,6 +357,62 @@ module Num
         singleton.call(a, b)
       \{% elsif U == UInt32 %}
         singleton = UInt32{{ fn.stringify.capitalize.id }}.instance
+        singleton.call(a, b)
+      \{% else %}
+        \{% raise "Invalid Dtype" %}
+      \{% end %}
+    end
+
+    # Implements the bitwise operator {{ operator }} between a `Tensor` and
+    # a `Number`
+    #
+    # Only `Int32` and `UInt32` `Tensor`s are supported
+    #
+    # ## Arguments
+    #
+    # * a : `Tensor(U, OCL(U))` - LHS argument to the {{ operator }} operator
+    # * b : `U` - RHS argument to the {{ operator }} operator
+    #
+    # ## Examples
+    #
+    # ```
+    # a = [12, 3, 5].to_tensor(OCL)
+    # Num.{{ fn }}(a, 3)
+    # ```
+    def {{ fn.id }}(a : Tensor(U, OCL(U)), b : U) : Tensor(U, OCL(U)) forall U
+      \{% if U == Int32 %}
+        singleton = Int32{{ fn.stringify.capitalize.id }}TensorScalar.instance
+        singleton.call(a, b)
+      \{% elsif U == UInt32 %}
+        singleton = UInt32{{ fn.stringify.capitalize.id }}TensorScalar.instance
+        singleton.call(a, b)
+      \{% else %}
+        \{% raise "Invalid Dtype" %}
+      \{% end %}
+    end
+
+    # Implements the bitwise operator {{ operator }} between a `Tensor` and
+    # a `Number`
+    #
+    # Only `Int32` and `UInt32` `Tensor`s are supported
+    #
+    # ## Arguments
+    #
+    # * a : `U` - LHS argument to the {{ operator }} operator
+    # * b : `Tensor(U, OCL(U))` - RHS argument to the {{ operator }} operator
+    #
+    # ## Examples
+    #
+    # ```
+    # a = [12, 3, 5].to_tensor(OCL)
+    # Num.{{ fn }}(3, a)
+    # ```
+    def {{ fn.id }}(a : U, b : Tensor(U, OCL(U))) : Tensor(U, OCL(U)) forall U
+      \{% if U == Int32 %}
+        singleton = Int32{{ fn.stringify.capitalize.id }}ScalarTensor.instance
+        singleton.call(a, b)
+      \{% elsif U == UInt32 %}
+        singleton = UInt32{{ fn.stringify.capitalize.id }}ScalarTensor.instance
         singleton.call(a, b)
       \{% else %}
         \{% raise "Invalid Dtype" %}
