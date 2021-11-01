@@ -433,6 +433,12 @@ module Num
         @@fn = "{{ fn }}"
         @@name = "{{ fn }}Kernel"
       end
+
+      # :nodoc:
+      class {{ dtype }}{{ fn.stringify.capitalize.id }}Inplace < Num::BuiltinInplaceKernel({{ dtype }})
+        @@fn = "{{ fn }}"
+        @@name = "{{ fn }}Kernel"
+      end
     {% end %}
 
     # Implements the OpenCL builtin function {{ fn.id }} for a single `Tensor`.
@@ -454,6 +460,32 @@ module Num
         singleton.call(a)
       \{% elsif U == Float64 %}
         singleton = Float64{{ fn.stringify.capitalize.id }}.instance
+        singleton.call(a)
+      \{% else %}
+        \{% raise "Invalid dtype #{U} for OpenCL method {{ fn.id }}" %}
+      \{% end %}
+    end
+
+    # Implements the OpenCL builtin function {{ fn.id }} for a single `Tensor`.
+    # Only `Float32` and `Float64` `Tensor`s are supported.  This method
+    # mutates the original `Tensor`, modifying it in place.
+    #
+    # ## Arguments
+    #
+    # * a : `Tensor(U, OCL(U))` -`Tensor` on which to operate
+    #
+    # ## Examples
+    #
+    # ```
+    # a = [0.45, 0.3, 2.4].to_tensor(OCL)
+    # Num.{{ fn.id }}!(a)
+    # ```
+    def {{ fn.id }}!(a : Tensor(U, OCL(U))) : Nil forall U
+      \{% if U == Float32 %}
+        singleton = Float32{{ fn.stringify.capitalize.id }}Inplace.instance
+        singleton.call(a)
+      \{% elsif U == Float64 %}
+        singleton = Float64{{ fn.stringify.capitalize.id }}Inplace.instance
         singleton.call(a)
       \{% else %}
         \{% raise "Invalid dtype #{U} for OpenCL method {{ fn.id }}" %}
@@ -501,4 +533,143 @@ module Num
   builtin_op tanpi
   builtin_op tgamma
   builtin_op trunc
+
+  macro builtin_two_op(fn, name)
+    {% for dtype in [Float32, Float64] %}
+      # :nodoc:
+      class {{ dtype }}{{ fn.stringify.capitalize.id }} < Num::BuiltinTwoKernel({{ dtype }})
+        @@fn = "{{ fn }}"
+        @@name = "{{ fn }}Kernel"
+      end
+
+      # :nodoc:
+      class {{ dtype }}{{ fn.stringify.capitalize.id }}Inplace < Num::BuiltinTwoInplaceKernel({{ dtype }})
+        @@fn = "{{ fn }}"
+        @@name = "{{ fn }}Kernel"
+      end
+
+      # :nodoc:
+      class {{ dtype }}{{ fn.stringify.capitalize.id }}TensorScalar < Num::BuiltinTwoTensorScalarKernel({{ dtype }})
+        @@fn = "{{ fn }}"
+        @@name = "{{ fn }}Kernel"
+      end
+
+      # :nodoc:
+      class {{ dtype }}{{ fn.stringify.capitalize.id }}ScalarTensor < Num::BuiltinTwoScalarTensorKernel({{ dtype }})
+        @@fn = "{{ fn }}"
+        @@name = "{{ fn }}Kernel"
+      end
+    {% end %}
+
+    # Implements the OpenCL builtin function {{ fn.id }} between two `Tensor`s
+    #
+    # ## Arguments
+    #
+    # * a : `Tensor(U, OCL(U))` - LHS `Tensor` for the operation
+    # * b : `Tensor(U, OCL(U))` - RHS `Tensor` for the operation
+    #
+    # ## Examples
+    #
+    # ```
+    # a = [0.45, 0.3, 2.4].to_tensor(OCL)
+    # b = [0.2, 0.5, 0.1].to_tensor(OCL)
+    # Num.{{ fn.id }}(a, b)
+    # ```
+    def {{ name.id }}(a : Tensor(U, OCL(U)), b : Tensor(U, OCL(U))) : Tensor(U, OCL(U)) forall U
+      \{% if U == Float32 %}
+        singleton = Float32{{ fn.stringify.capitalize.id }}.instance
+        singleton.call(a, b)
+      \{% elsif U == Float64 %}
+        singleton = Float64{{ fn.stringify.capitalize.id }}.instance
+        singleton.call(a, b)
+      \{% else %}
+        \{% raise "Invalid dtype #{U} for OpenCL method {{ fn.id }}" %}
+      \{% end %}
+    end
+
+    # Implements the OpenCL builtin function {{ fn.id }} between two `Tensor`s,
+    # mutating the first `Tensor`, modifying it to store the result of the
+    # operation
+    #
+    # ## Arguments
+    #
+    # * a : `Tensor(U, OCL(U))` - LHS `Tensor` for the operation
+    # * b : `Tensor(U, OCL(U))` - RHS `Tensor` for the operation
+    #
+    # ## Examples
+    #
+    # ```
+    # a = [0.45, 0.3, 2.4].to_tensor(OCL)
+    # b = [0.2, 0.5, 0.1].to_tensor(OCL)
+    # Num.{{ fn.id }}!(a, b)
+    # ```
+    def {{ name.id }}!(a : Tensor(U, OCL(U)), b : Tensor(U, OCL(U))) : Nil forall U
+      \{% if U == Float32 %}
+        singleton = Float32{{ fn.stringify.capitalize.id }}Inplace.instance
+        singleton.call(a, b)
+      \{% elsif U == Float64 %}
+        singleton = Float64{{ fn.stringify.capitalize.id }}Inplace.instance
+        singleton.call(a, b)
+      \{% else %}
+        \{% raise "Invalid dtype #{U} for OpenCL method {{ fn.id }}" %}
+      \{% end %}
+    end
+
+    # Implements the OpenCL builtin function {{ fn.id }} between two a `Tensor`
+    # and a `Number`
+    #
+    # ## Arguments
+    #
+    # * a : `Tensor(U, OCL(U))` - LHS `Tensor` for the operation
+    # * b : `U` - RHS `Number` for the operation
+    #
+    # ## Examples
+    #
+    # ```
+    # a = [0.45, 0.3, 2.4].to_tensor(OCL)
+    # Num.{{ fn.id }}(a, 3_f64)
+    # ```
+    def {{ name.id }}(a : Tensor(U, OCL(U)), b : U) : Tensor(U, OCL(U)) forall U
+      \{% if U == Float32 %}
+        singleton = Float32{{ fn.stringify.capitalize.id }}TensorScalar.instance
+        singleton.call(a, b)
+      \{% elsif U == Float64 %}
+        singleton = Float64{{ fn.stringify.capitalize.id }}TensorScalar.instance
+        singleton.call(a, b)
+      \{% else %}
+        \{% raise "Invalid dtype #{U} for OpenCL method {{ fn.id }}" %}
+      \{% end %}
+    end
+
+    # Implements the OpenCL builtin function {{ fn.id }} between two a `Tensor`
+    # and a `Number`
+    #
+    # ## Arguments
+    #
+    # * a : `U` - LHS `Number` for the operation
+    # * b : `Tensor(U, OCL(U))` - RHS `Tensor` for the operation
+    #
+    # ## Examples
+    #
+    # ```
+    # a = [0.45, 0.3, 2.4].to_tensor(OCL)
+    # Num.{{ fn.id }}(3_f64, a)
+    # ```
+    def {{ name.id }}(a : U, b : Tensor(U, OCL(U))) : Tensor(U, OCL(U)) forall U
+      \{% if U == Float32 %}
+        singleton = Float32{{ fn.stringify.capitalize.id }}ScalarTensor.instance
+        singleton.call(a, b)
+      \{% elsif U == Float64 %}
+        singleton = Float64{{ fn.stringify.capitalize.id }}ScalarTensor.instance
+        singleton.call(a, b)
+      \{% else %}
+        \{% raise "Invalid dtype #{U} for OpenCL method {{ fn.id }}" %}
+      \{% end %}
+    end
+  end
+
+  builtin_two_op pow, power
+  builtin_two_op atan2, atan2
+  builtin_two_op fmax, max
+  builtin_two_op fmin, min
 end

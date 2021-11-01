@@ -36,19 +36,14 @@ module Num::NN
     cache : Tensor(U, OCL(U)),
     target : Tensor(U, OCL(U))
   ) forall U
-    batch_size = cache.shape[0]
-    fn = Num::OpenCLKernelCache.sigmoidCrossEntropyLossBackwards
-    result = Tensor(U, OCL(U)).zeros_like(cache)
-    Cl.args(
-      fn, result.rank, result.size,
-      result.data.shape, result.data.strides, result.offset, result.data.to_unsafe,
-      gradient.data.shape, gradient.data.strides, gradient.offset, gradient.data.to_unsafe,
-      cache.data.shape, cache.data.strides, cache.offset, cache.data.to_unsafe,
-      target.data.shape, target.data.strides, target.offset, target.data.to_unsafe,
-      batch_size
-    )
-
-    Cl.run(Num::ClContext.instance.queue, fn, result.size)
-    [result]
+    {% if U == Float32 %}
+      singleton = Float32SigmoidCrossEntropyBackwardKernel.instance
+      singleton.call(gradient, cache, target)
+    {% elsif U == Float64 %}
+      singleton = Float64SigmoidCrossEntropyBackwardKernel.instance
+      singleton.call(gradient, cache, target)
+    {% else %}
+      \{% raise "Invalid Dtype" %}
+    {% end %}
   end
 end

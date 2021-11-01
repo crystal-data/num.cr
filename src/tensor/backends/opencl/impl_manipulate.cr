@@ -99,16 +99,22 @@ module Num
   # #   [19, 21, 23]]]
   # ```
   @[AlwaysInline]
-  def transpose(arr : Tensor(Float32, OCL(Float32)), axes : Array(Int) = [] of Int32) forall U
-    unless arr.rank == 2
-      raise Num::Exceptions::ValueError.new("Only CLTensors of rank 2 can be transposed")
-    end
-    prok = Num::OpenCLKernelCache.transposeFloat
-    m, n = arr.shape
-    result = arr.class.new([n, m])
-    Cl.args(prok, m, n, arr.data.to_unsafe, result.data.to_unsafe)
-    Cl.run(Num::ClContext.instance.queue, prok, result.size)
-    result
+  def transpose(arr : Tensor(U, OCL(U)), axes : Array(Int) = [] of Int32) forall U
+    {% if U == Int32 %}
+      singleton = Int32TransposeKernel.instance
+      singleton.call(arr)
+    {% elsif U == UInt32 %}
+      singleton = UInt32TransposeKernel.instance
+      singleton.call(arr)
+    {% elsif U == Float32 %}
+      singleton = Float32TransposeKernel.instance
+      singleton.call(arr)
+    {% elsif U == Float64 %}
+      singleton = Float64TransposeKernel.instance
+      singleton.call(arr)
+    {% else %}
+      \{% raise "Invalid Dtype" %}
+    {% end %}
   end
 
   # Permutes a `Tensor`'s axes to a different order.  This will
