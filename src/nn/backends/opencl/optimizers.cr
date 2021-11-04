@@ -27,14 +27,14 @@ module Num::NN
     gradient : Tensor(U, OCL(U)),
     learning_rate : Float
   ) forall U
-    fn = Num::OpenCLKernelCache.sgdOptimize
-    Cl.args(
-      fn, value.rank, value.size,
-      value.data.shape, value.data.strides, value.offset, value.data.to_unsafe,
-      gradient.data.shape, gradient.data.strides, gradient.offset, gradient.data.to_unsafe,
-      Float32.new(learning_rate),
-    )
-
-    Cl.run(Num::ClContext.instance.queue, fn, value.size)
+    {% if U == Float32 %}
+      singleton = Float32SGDOptimizeKernel.instance
+      singleton.call(value, gradient, learning_rate)
+    {% elsif U == Float64 %}
+      singleton = Float64SGDOptimizeKernel.instance
+      singleton.call(gradient, cache, target)
+    {% else %}
+      \{% raise "Invalid Dtype" %}
+    {% end %}
   end
 end

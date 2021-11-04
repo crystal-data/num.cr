@@ -233,12 +233,12 @@ module Num
         __global const int * restrict #{arg}_shape,
         __global const int * restrict #{arg}_strides,
         const int #{arg}_offset,
-        __global float * restrict #{arg},"
+        __global \#{dtype} * restrict #{arg},"
       else
         "__global const int * restrict #{arg}_shape,
         __global const int * restrict #{arg}_strides,
         const int #{arg}_offset,
-        __global const float * restrict const #{arg},"
+        __global const \#{dtype} * restrict const #{arg},"
       end
     end
 

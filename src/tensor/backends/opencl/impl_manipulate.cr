@@ -101,16 +101,16 @@ module Num
   @[AlwaysInline]
   def transpose(arr : Tensor(U, OCL(U)), axes : Array(Int) = [] of Int32) forall U
     {% if U == Int32 %}
-      singleton = Int32TransposeKernel.instance
+      singleton = Num::Int32TransposeKernel.instance
       singleton.call(arr)
     {% elsif U == UInt32 %}
-      singleton = UInt32TransposeKernel.instance
+      singleton = Num::UInt32TransposeKernel.instance
       singleton.call(arr)
     {% elsif U == Float32 %}
-      singleton = Float32TransposeKernel.instance
+      singleton = Num::Float32TransposeKernel.instance
       singleton.call(arr)
     {% elsif U == Float64 %}
-      singleton = Float64TransposeKernel.instance
+      singleton = Num::Float64TransposeKernel.instance
       singleton.call(arr)
     {% else %}
       \{% raise "Invalid Dtype" %}
