@@ -60,7 +60,7 @@ module Num::NN
     output = cache.map(target) do |x, y|
       grad * ((1 / (1 + Math.exp(-x))) - y) / batch_size
     end
-    [output]
+    output
   end
 
   # Computes gradients of SmCE loss

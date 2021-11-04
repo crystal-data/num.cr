@@ -167,7 +167,7 @@ module Num::NN
       U,
       ReluBackwardKernel,
       [Float32, Float64],
-      gradient, cached
+      cached, gradient
     )
   end
 

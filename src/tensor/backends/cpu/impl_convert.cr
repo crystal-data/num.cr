@@ -81,4 +81,8 @@ module Num
     end
     r
   end
+
+  def cpu(arr : Tensor(U, CPU(U))) forall U
+    arr
+  end
 end
