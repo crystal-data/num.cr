@@ -38,62 +38,13 @@ module Num::NN
   # a = [0.1, 0.34, 0.65].to_tensor
   # Num::NN.tanh(a) # => [0.099668, 0.327477, 0.57167 ]
   # ```
-  def tanh(x : Tensor(Float32, OCL(Float32))) : Tensor(Float32, OCL(Float32)) forall U
+  def tanh(x : Tensor(U, OCL(U))) : Tensor(U, OCL(U)) forall U
     Num.tanh(x)
   end
 
   # :ditto:
-  def tanh!(x : Tensor(Float32, OCL(Float32))) forall U
+  def tanh!(x : Tensor(U, OCL(U))) forall U
     Num.tanh!(x)
-  end
-
-  # :nodoc:
-  private def opencl_backwards_template(
-    fn,
-    a : Tensor(Float32, OCL(Float32)),
-    b : Tensor(Float32, OCL(Float32))
-  )
-    result = Tensor(Float32, OCL(Float32)).zeros_like(a)
-
-    Cl.args(
-      fn, result.rank, result.size,
-      result.data.shape, result.data.strides, result.offset, result.data.to_unsafe,
-      a.data.shape, a.data.strides, a.offset, a.data.to_unsafe,
-      b.data.shape, b.data.strides, b.offset, b.data.to_unsafe,
-    )
-
-    Cl.run(Num::ClContext.instance.queue, fn, result.size)
-    result
-  end
-
-  # :nodoc:
-  private def opencl_forwards(
-    fn,
-    a : Tensor(Float32, OCL(Float32))
-  )
-    result = Tensor(Float32, OCL(Float32)).zeros_like(a)
-
-    Cl.args(
-      fn, result.rank, result.size,
-      result.data.shape, result.data.strides, result.offset, result.data.to_unsafe,
-      a.data.shape, a.data.strides, a.offset, a.data.to_unsafe
-    )
-
-    Cl.run(Num::ClContext.instance.queue, fn, result.size)
-    result
-  end
-
-  # :nodoc:
-  private def opencl_forwards_inplace(
-    fn,
-    a : Tensor(Float32, OCL(Float32))
-  )
-    Cl.args(
-      fn, a.rank, a.size,
-      a.data.shape, a.data.strides, a.offset, a.data.to_unsafe
-    )
-
-    Cl.run(Num::ClContext.instance.queue, fn, a.size)
   end
 
   # Derivative of the Tanh function
@@ -109,8 +60,13 @@ module Num::NN
   # a = [0.1, 0.34, 0.65].to_tensor
   # Num::NN.d_tanh(a) # => [0.990066, 0.892759, 0.673193]
   # ```
-  def tanh_prime(gradient : Tensor(Float32, OCL(Float32)), cached : Tensor(Float32, OCL(Float32)))
-    opencl_backwards_template(Num::OpenCLKernelCache.tanhBackwards, gradient, cached)
+  def tanh_prime(gradient : Tensor(U, OCL(U)), cached : Tensor(U, OCL(U))) forall U
+    call_opencl_kernel(
+      U,
+      TanhBackwardKernel,
+      [Float32, Float64],
+      gradient, cached
+    )
   end
 
   # Sigmoid takes a real value as input and outputs another value
@@ -129,13 +85,23 @@ module Num::NN
   # a = [0.1, 0.34, 0.65].to_tensor
   # puts Num::NN.sigmoid(a) # => [0.524979, 0.584191, 0.65701 ]
   # ```
-  def sigmoid(x : Tensor(Float32, OCL(Float32)))
-    opencl_forwards(Num::OpenCLKernelCache.sigmoidForwards, x)
+  def sigmoid(x : Tensor(U, OCL(U))) forall U
+    call_opencl_kernel(
+      U,
+      SigmoidKernel,
+      [Float32, Float64],
+      x
+    )
   end
 
   # :ditto:
-  def sigmoid!(x : Tensor(Float32, OCL(Float32)))
-    opencl_forwards_inplace(Num::OpenCLKernelCache.sigmoidForwardsInplace, x)
+  def sigmoid!(x : Tensor(U, OCL(U))) forall U
+    call_opencl_kernel(
+      U,
+      SigmoidInplaceKernel,
+      [Float32, Float64],
+      x
+    )
   end
 
   # Derivative of the Sigmoid function
@@ -152,13 +118,14 @@ module Num::NN
   # puts Num::NN.d_sigmoid(a) # => [0.249376, 0.242912, 0.225348]
   # ```
   def sigmoid_prime(
-    gradient : Tensor(Float32, OCL(Float32)),
-    cached : Tensor(Float32, OCL(Float32))
-  ) : Tensor(Float32, OCL(Float32))
-    opencl_backwards_template(
-      Num::OpenCLKernelCache.sigmoidBackwards,
-      gradient,
-      cached
+    gradient : Tensor(U, OCL(U)),
+    cached : Tensor(U, OCL(U))
+  ) : Tensor(U, OCL(U)) forall U
+    call_opencl_kernel(
+      U,
+      SigmoidBackwardKernel,
+      [Float32, Float64],
+      gradient, cached
     )
   end
 
@@ -167,13 +134,23 @@ module Num::NN
   # ## Arguments
   #
   # * x : `Tensor` - Argument to activate
-  def relu(x : Tensor(Float32, OCL(Float32))) : Tensor(Float32, OCL(Float32))
-    opencl_forwards(Num::OpenCLKernelCache.reluForwards, x)
+  def relu(x : Tensor(U, OCL(U))) : Tensor(U, OCL(U)) forall U
+    call_opencl_kernel(
+      U,
+      ReluKernel,
+      [Float32, Float64],
+      x
+    )
   end
 
   # :ditto:
-  def relu!(x : Tensor(Float32, OCL(Float32))) : Tensor(Float32, OCL(Float32))
-    opencl_forwards_inplace(Num::OpenCLKernelCache.reluForwardsInplace, x)
+  def relu!(x : Tensor(U, OCL(U))) forall U
+    call_opencl_kernel(
+      U,
+      ReluInplaceKernel,
+      [Float32, Float64],
+      x
+    )
   end
 
   # Derivative of the ReLU activation function
@@ -183,13 +160,14 @@ module Num::NN
   # * gradient : `Tensor` - `Tensor` to derive
   # * cached : `Tensor` Cached `Tensor` from activation
   def relu_prime(
-    gradient : Tensor(Float32, OCL(Float32)),
-    cached : Tensor(Float32, OCL(Float32))
-  ) : Tensor(Float32, OCL(Float32))
-    opencl_backwards_template(
-      Num::OpenCLKernelCache.reluBackwards,
-      cached,
-      gradient,
+    gradient : Tensor(U, OCL(U)),
+    cached : Tensor(U, OCL(U))
+  ) : Tensor(U, OCL(U)) forall U
+    call_opencl_kernel(
+      U,
+      ReluBackwardKernel,
+      [Float32, Float64],
+      gradient, cached
     )
   end
 
@@ -198,13 +176,23 @@ module Num::NN
   # ## Arguments
   #
   # * x : `Tensor` - Argument to activate
-  def leaky_relu(x : Tensor(Float32, OCL(Float32))) : Tensor(Float32, OCL(Float32))
-    opencl_forwards(Num::OpenCLKernelCache.leakyReluForwards, x)
+  def leaky_relu(x : Tensor(U, OCL(U))) : Tensor(U, OCL(U)) forall U
+    call_opencl_kernel(
+      U,
+      LeakyReluKernel,
+      [Float32, Float64],
+      x
+    )
   end
 
   # :ditto:
-  def leaky_relu!(x : Tensor(Float32, OCL(Float32)))
-    opencl_forwards_inplace(Num::OpenCLKernelCache.leakyReluForwardsInplace, x)
+  def leaky_relu!(x : Tensor(U, OCL(U))) forall U
+    call_opencl_kernel(
+      U,
+      LeakyReluInplaceKernel,
+      [Float32, Float64],
+      x
+    )
   end
 
   # Leaky ReLU derivative
@@ -214,13 +202,14 @@ module Num::NN
   # * gradient : `Tensor` - `Tensor` to derive
   # * cached : `Tensor` - Cached `Tensor` from activation
   def leaky_relu_prime(
-    gradient : Tensor(Float32, OCL(Float32)),
-    cached : Tensor(Float32, OCL(Float32))
-  ) : Tensor(Float32, OCL(Float32))
-    opencl_backwards_template(
-      Num::OpenCLKernelCache.leakyReluBackwards,
-      gradient,
-      cached,
+    gradient : Tensor(U, OCL(U)),
+    cached : Tensor(U, OCL(U))
+  ) : Tensor(U, OCL(U)) forall U
+    call_opencl_kernel(
+      U,
+      LeakyReluBackwardKernel,
+      [Float32, Float64],
+      gradient, cached
     )
   end
 
@@ -230,40 +219,18 @@ module Num::NN
   #
   # * input : `Tensor` - Predicted values
   # * target : `Tensor` - Truth values
-  def sigmoid_cross_entropy(input : Tensor(Float32, OCL(Float32)), target : Tensor(Float32, OCL(Float32)))
+  def sigmoid_cross_entropy(input : Tensor(U, OCL(U)), target : Tensor(U, OCL(U))) forall U
     batch_size = input.shape[0]
-    result = opencl_backwards_template(
-      Num::OpenCLKernelCache.sigmoidCrossEntropyLoss,
-      input,
-      target
+    result = call_opencl_kernel(
+      U,
+      SigmoidCrossEntropyKernel,
+      [Float32, Float64],
+      input, target
     )
 
-    ones = Tensor(Float32, OCL(Float32)).ones_like(result)
+    ones = Tensor(U, OCL(U)).ones_like(result)
     summed = result.dot(ones)
-    ones.data.finalize
-    result = summed / batch_size
-    summed.data.finalize
-    result
-  end
-
-  # Mean squared error loss
-  #
-  # ## Arguments
-  #
-  # * input : `Tensor` - Predicted values
-  # * target : `Tensor` - Truth values
-  def mse(input : Tensor(Float32, OCL(Float32)), target : Tensor(Float32, OCL(Float32)))
-    result = opencl_backwards_template(
-      Num::OpenCLKernelCache.mseLoss,
-      input,
-      target
-    )
-
-    ones = Tensor(Float32, OCL(Float32)).ones_like(result)
-    summed = result.dot(ones)
-    ones.data.finalize
-    result = summed / input.size
-    summed.data.finalze
+    result = summed / U.new(batch_size)
     result
   end
 end

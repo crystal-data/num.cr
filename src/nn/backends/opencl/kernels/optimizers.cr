@@ -66,12 +66,4 @@ class Num::SGDOptimizeKernel(T) < Num::Kernel(T)
   end
 end
 
-# :nodoc:
-class Num::Float32SGDOptimizeKernel(T) < Num::SGDOptimizeKernel(Float32)
-  @@name = "sgdOptimize"
-end
-
-# :nodoc:
-class Num::Float64SGDOptimizeKernel(T) < Num::SGDOptimizeKernel(Float64)
-  @@name = "sgdOptimize"
-end
+create_kernel_children(SGDOptimizeKernel, [Float32, Float64])

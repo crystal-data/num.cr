@@ -22,16 +22,6 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 # :nodoc:
-macro create_kernel_children(kernel, dtypes)
-  {% for dtype in dtypes %}
-    # :nodoc:
-    class Num::{{ dtype }}{{ kernel }} < Num::{{ kernel }}({{ dtype }})
-      @@name = "{{ kernel }}"
-    end
-  {% end %}
-end
-
-# :nodoc:
 class Num::TransposeKernel(T) < Num::Kernel(T)
   def get_program(dtype)
     "

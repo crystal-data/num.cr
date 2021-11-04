@@ -81,3 +81,31 @@ abstract class Num::Kernel(T)
     Cl.release_kernel(@kernel)
   end
 end
+
+# :nodoc:
+macro create_kernel_children(kernel, dtypes)
+  {% for dtype in dtypes %}
+    # :nodoc:
+    class Num::{{ dtype }}{{ kernel }} < Num::{{ kernel }}({{ dtype }})
+      @@name = "{{ kernel }}"
+    end
+  {% end %}
+end
+
+# :nodoc:
+macro call_opencl_kernel(generic, kernel, dtypes, *args)
+  {% for dtype, index in dtypes %}
+    {% if index == 0 %}
+      \{% if {{ generic }} == {{ dtype }} %}
+        Num::{{dtype}}{{ kernel }}.instance.call({{ *args }})
+    {% else %}
+      \{% elsif {{ generic }} == {{ dtype }} %}
+        Num::{{ dtype }}{{ kernel }}.instance.call({{ *args }})
+    {% end %}
+    {% if index == dtypes.size - 1 %}
+      \{% else %}
+        \{% raise "Invalid dtype" %}
+      \{% end %}
+    {% end %}
+  {% end %}
+end

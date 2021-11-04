@@ -100,21 +100,12 @@ module Num
   # ```
   @[AlwaysInline]
   def transpose(arr : Tensor(U, OCL(U)), axes : Array(Int) = [] of Int32) forall U
-    {% if U == Int32 %}
-      singleton = Num::Int32TransposeKernel.instance
-      singleton.call(arr)
-    {% elsif U == UInt32 %}
-      singleton = Num::UInt32TransposeKernel.instance
-      singleton.call(arr)
-    {% elsif U == Float32 %}
-      singleton = Num::Float32TransposeKernel.instance
-      singleton.call(arr)
-    {% elsif U == Float64 %}
-      singleton = Num::Float64TransposeKernel.instance
-      singleton.call(arr)
-    {% else %}
-      \{% raise "Invalid Dtype" %}
-    {% end %}
+    call_opencl_kernel(
+      U,
+      TransposeKernel,
+      [Int32, UInt32, Float32, Float64],
+      arr
+    )
   end
 
   # Permutes a `Tensor`'s axes to a different order.  This will

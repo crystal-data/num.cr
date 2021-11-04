@@ -27,14 +27,11 @@ module Num::NN
     gradient : Tensor(U, OCL(U)),
     learning_rate : Float
   ) forall U
-    {% if U == Float32 %}
-      singleton = Float32SGDOptimizeKernel.instance
-      singleton.call(value, gradient, learning_rate)
-    {% elsif U == Float64 %}
-      singleton = Float64SGDOptimizeKernel.instance
-      singleton.call(gradient, cache, target)
-    {% else %}
-      \{% raise "Invalid Dtype" %}
-    {% end %}
+    call_opencl_kernel(
+      U,
+      SGDOptimizeKernel,
+      [Float32, Float64],
+      value, gradient, learning_rate
+    )
   end
 end

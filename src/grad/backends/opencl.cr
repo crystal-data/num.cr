@@ -38,14 +38,12 @@ module Num::Grad
     b = bv.value
 
     r0 = gradient / b
-    r1 = {% if U == Float32 %}
-           Num::Float32DivideBackwardsTwoKernel.instance.call(gradient, a, b)
-         {% elsif U == Float64 %}
-           Num::Float64DivideBackwardsTwoKernel.instance.call(gradient, a, b)
-         {% else %}
-      {% raise "Invalid Dtype" %}
-    {% end %}
-
+    r1 = call_opencl_kernel(
+      U,
+      DivideBackwardsTwoKernel,
+      [Float32, Float64],
+      gradient, a, b
+    )
     [r0, r1]
   end
 
@@ -55,20 +53,18 @@ module Num::Grad
     av : Variable(Tensor(U, OCL(U))),
     bv : Variable(Tensor(U, OCL(U)))
   ) forall U
-    r0 = {% if U == Float32 %}
-           Num::Float32PowerBackwardsOneKernel.instance.call(gradient, av.value, bv.value)
-         {% elsif U == Float64 %}
-           Num::Float64PowerBackwardsOneKernel.instance.call(gradient, av.value, bv.value)
-         {% else %}
-      {% raise "Invalid Dtype" %}
-    {% end %}
-    r1 = {% if U == Float32 %}
-           Num::Float32PowerBackwardsTwoKernel.instance.call(gradient, av.value, bv.value)
-         {% elsif U == Float64 %}
-           Num::Float64PowerBackwardsTwoKernel.instance.call(gradient, av.value, bv.value)
-         {% else %}
-      {% raise "Invalid Dtype" %}
-    {% end %}
+    r0 = call_opencl_kernel(
+      U,
+      PowerBackwardsOneKernel,
+      [Float32, Float64],
+      gradient, av.value, bv.value
+    )
+    r1 = call_opencl_kernel(
+      U,
+      PowerBackwardsTwoKernel,
+      [Float32, Float64],
+      gradient, av.value, bv.value
+    )
 
     [r0, r1]
   end
@@ -78,13 +74,12 @@ module Num::Grad
     gradient : Tensor(U, OCL(U)),
     av : Variable(Tensor(U, OCL(U)))
   ) forall U
-    result = {% if U == Float32 %}
-               Num::Float32ExpBackwardsKernel.instance.call(gradient, av.value)
-             {% elsif U == Float64 %}
-               Num::Float64ExpBackwardsKernel.instance.call(gradient, av.value)
-             {% else %}
-      {% raise "Invalid Dtype" %}
-    {% end %}
+    result = call_opencl_kernel(
+      U,
+      ExpBackwardsKernel,
+      [Float32, Float64],
+      gradient, av.value
+    )
     [result]
   end
 
@@ -93,13 +88,12 @@ module Num::Grad
     gradient : Tensor(U, OCL(U)),
     a : Variable(Tensor(U, OCL(U)))
   ) forall U
-    result = {% if U == Float32 %}
-               Num::Float32SinBackwardKernel.instance.call(gradient, a.value)
-             {% elsif U == Float64 %}
-               Num::Float64SinBackwardKernel.instance.call(gradient, a.value)
-             {% else %}
-      {% raise "Invalid Dtype" %}
-    {% end %}
+    result = call_opencl_kernel(
+      U,
+      SinBackwardKernel,
+      [Float32, Float64],
+      gradient, a.value
+    )
     [result]
   end
 
@@ -108,13 +102,12 @@ module Num::Grad
     gradient : Tensor(U, OCL(U)),
     a : Variable(Tensor(U, OCL(U)))
   ) forall U
-    result = {% if U == Float32 %}
-               Num::Float32CosBackwardKernel.instance.call(gradient, a.value)
-             {% elsif U == Float64 %}
-               Num::Float64CosBackwardKernel.instance.call(gradient, a.value)
-             {% else %}
-      {% raise "Invalid Dtype" %}
-    {% end %}
+    result = call_opencl_kernel(
+      U,
+      CosBackwardKernel,
+      [Float32, Float64],
+      gradient, a.value
+    )
     [result]
   end
 
@@ -123,13 +116,12 @@ module Num::Grad
     gradient : Tensor(U, OCL(U)),
     a : Variable(Tensor(U, OCL(U)))
   ) forall U
-    result = {% if U == Float32 %}
-               Num::Float32TanBackwardKernel.instance.call(gradient, a.value)
-             {% elsif U == Float64 %}
-               Num::Float64TanBackwardKernel.instance.call(gradient, a.value)
-             {% else %}
-      {% raise "Invalid Dtype" %}
-    {% end %}
+    result = call_opencl_kernel(
+      U,
+      TanBackwardKernel,
+      [Float32, Float64],
+      gradient, a.value
+    )
     [result]
   end
 
@@ -138,13 +130,12 @@ module Num::Grad
     gradient : Tensor(U, OCL(U)),
     a : Variable(Tensor(U, OCL(U)))
   ) forall U
-    result = {% if U == Float32 %}
-               Num::Float32AsinBackwardKernel.instance.call(gradient, a.value)
-             {% elsif U == Float64 %}
-               Num::Float64AsinBackwardKernel.instance.call(gradient, a.value)
-             {% else %}
-      {% raise "Invalid Dtype" %}
-    {% end %}
+    result = call_opencl_kernel(
+      U,
+      AsinBackwardKernel,
+      [Float32, Float64],
+      gradient, a.value
+    )
     [result]
   end
 
@@ -153,13 +144,12 @@ module Num::Grad
     gradient : Tensor(U, OCL(U)),
     a : Variable(Tensor(U, OCL(U)))
   ) forall U
-    result = {% if U == Float32 %}
-               Num::Float32AcosBackwardKernel.instance.call(gradient, a.value)
-             {% elsif U == Float64 %}
-               Num::Float64AcosBackwardKernel.instance.call(gradient, a.value)
-             {% else %}
-      {% raise "Invalid Dtype" %}
-    {% end %}
+    result = call_opencl_kernel(
+      U,
+      AcosBackwardKernel,
+      [Float32, Float64],
+      gradient, a.value
+    )
     [result]
   end
 
@@ -168,13 +158,12 @@ module Num::Grad
     gradient : Tensor(U, OCL(U)),
     a : Variable(Tensor(U, OCL(U)))
   ) forall U
-    result = {% if U == Float32 %}
-               Num::Float32AtanBackwardKernel.instance.call(gradient, a.value)
-             {% elsif U == Float64 %}
-               Num::Float64AtanBackwardKernel.instance.call(gradient, a.value)
-             {% else %}
-      {% raise "Invalid Dtype" %}
-    {% end %}
+    result = call_opencl_kernel(
+      U,
+      AtanBackwardKernel,
+      [Float32, Float64],
+      gradient, a.value
+    )
     [result]
   end
 end

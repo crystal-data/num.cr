@@ -36,14 +36,11 @@ module Num::NN
     cache : Tensor(U, OCL(U)),
     target : Tensor(U, OCL(U))
   ) forall U
-    {% if U == Float32 %}
-      singleton = Float32SigmoidCrossEntropyBackwardKernel.instance
-      singleton.call(gradient, cache, target)
-    {% elsif U == Float64 %}
-      singleton = Float64SigmoidCrossEntropyBackwardKernel.instance
-      singleton.call(gradient, cache, target)
-    {% else %}
-      \{% raise "Invalid Dtype" %}
-    {% end %}
+    call_opencl_kernel(
+      U,
+      SigmoidCrossEntropyBackwardKernel,
+      [Float32, Float64],
+      gradient, cache, target
+    )
   end
 end

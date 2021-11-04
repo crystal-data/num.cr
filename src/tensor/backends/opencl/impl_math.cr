@@ -64,21 +64,12 @@ module Num
     # Num.{{ fn }}(a, a)
     # ```
     def {{ fn.id }}(a : Tensor(U, OCL(U)), b : Tensor(U, OCL(U))) : Tensor(U, OCL(U)) forall U
-      \{% if U == Int32 %}
-        singleton = Int32{{ fn.stringify.capitalize.id }}.instance
-        singleton.call(a, b)
-      \{% elsif U == UInt32 %}
-        singleton = UInt32{{ fn.stringify.capitalize.id }}.instance
-        singleton.call(a, b)
-      \{% elsif U == Float32 %}
-        singleton = Float32{{ fn.stringify.capitalize.id }}.instance
-        singleton.call(a, b)
-      \{% elsif U == Float64 %}
-        singleton = Float64{{ fn.stringify.capitalize.id }}.instance
-        singleton.call(a, b)
-      \{% else %}
-        \{% raise "Invalid Dtype" %}
-      \{% end %}
+      call_opencl_kernel(
+        U,
+        {{ fn.stringify.capitalize.id }},
+        [Int32, UInt32, Float32, Float64],
+        a, b
+      )
     end
 
     # {{ fn.stringify.capitalize }} two `Tensor`s elementwise, storing
@@ -97,21 +88,12 @@ module Num
     # Num.{{ fn }}!(a, a)
     # ```
     def {{ fn.id }}!(a : Tensor(U, OCL(U)), b : Tensor(U, OCL(U))) : Nil forall U
-      \{% if U == Int32 %}
-        singleton = Int32{{ fn.stringify.capitalize.id }}Inplace.instance
-        singleton.call(a, b)
-      \{% elsif U == UInt32 %}
-        singleton = UInt32{{ fn.stringify.capitalize.id }}Inplace.instance
-        singleton.call(a, b)
-      \{% elsif U == Float32 %}
-        singleton = Float32{{ fn.stringify.capitalize.id }}Inplace.instance
-        singleton.call(a, b)
-      \{% elsif U == Float64 %}
-        singleton = Float64{{ fn.stringify.capitalize.id }}Inplace.instance
-        singleton.call(a, b)
-      \{% else %}
-        \{% raise "Invalid Dtype" %}
-      \{% end %}
+      call_opencl_kernel(
+        U,
+        {{ fn.stringify.capitalize.id }}Inplace,
+        [Int32, UInt32, Float32, Float64],
+        a, b
+      )
     end
 
     # {{ fn.stringify.capitalize.id }} a `Tensor` and a `Number` elementwise
@@ -128,21 +110,12 @@ module Num
     # Num.{{ fn }}(a, 3.5)
     # ```
     def {{ fn.id }}(a : Tensor(U, OCL(U)), b : U) : Tensor(U, OCL(U)) forall U
-      \{% if U == Int32 %}
-        singleton = Int32{{ fn.stringify.capitalize.id }}TensorScalar.instance
-        singleton.call(a, b)
-      \{% elsif U == UInt32 %}
-        singleton = UInt32{{ fn.stringify.capitalize.id }}TensorScalar.instance
-        singleton.call(a, b)
-      \{% elsif U == Float32 %}
-        singleton = Float32{{ fn.stringify.capitalize.id }}TensorScalar.instance
-        singleton.call(a, b)
-      \{% elsif U == Float64 %}
-        singleton = Float64{{ fn.stringify.capitalize.id }}TensorScalar.instance
-        singleton.call(a, b)
-      \{% else %}
-        \{% raise "Invalid Dtype" %}
-      \{% end %}
+      call_opencl_kernel(
+        U,
+        {{ fn.stringify.capitalize.id }}TensorScalar,
+        [Int32, UInt32, Float32, Float64],
+        a, b
+      )
     end
 
     # {{ fn.stringify.capitalize.id }} a `Number` and a `Tensor` elementwise
@@ -159,21 +132,12 @@ module Num
     # Num.{{ fn }}(a, 3.5)
     # ```
     def {{ fn.id }}(a : U, b : Tensor(U, OCL(U))) : Tensor(U, OCL(U)) forall U
-      \{% if U == Int32 %}
-        singleton = Int32{{ fn.stringify.capitalize.id }}ScalarTensor.instance
-        singleton.call(a, b)
-      \{% elsif U == UInt32 %}
-        singleton = UInt32{{ fn.stringify.capitalize.id }}ScalarTensor.instance
-        singleton.call(a, b)
-      \{% elsif U == Float32 %}
-        singleton = Float32{{ fn.stringify.capitalize.id }}ScalarTensor.instance
-        singleton.call(a, b)
-      \{% elsif U == Float64 %}
-        singleton = Float64{{ fn.stringify.capitalize.id }}ScalarTensor.instance
-        singleton.call(a, b)
-      \{% else %}
-        \{% raise "Invalid Dtype" %}
-      \{% end %}
+      call_opencl_kernel(
+        U,
+        {{ fn.stringify.capitalize.id }}ScalarTensor,
+        [Int32, UInt32, Float32, Float64],
+        a, b
+      )
     end
   end
 
@@ -220,21 +184,12 @@ module Num
     # Num.{{ fn }}(a, a)
     # ```
     def {{ fn.id }}(a : Tensor(U, OCL(U)), b : Tensor(U, OCL(U))) : Tensor(Int32, OCL(Int32)) forall U
-      \{% if U == Int32 %}
-        singleton = Int32{{ fn.stringify.capitalize.id }}.instance
-        singleton.call(a, b)
-      \{% elsif U == UInt32 %}
-        singleton = UInt32{{ fn.stringify.capitalize.id }}.instance
-        singleton.call(a, b)
-      \{% elsif U == Float32 %}
-        singleton = Float32{{ fn.stringify.capitalize.id }}.instance
-        singleton.call(a, b)
-      \{% elsif U == Float64 %}
-        singleton = Float64{{ fn.stringify.capitalize.id }}.instance
-        singleton.call(a, b)
-      \{% else %}
-        \{% raise "Invalid Dtype" %}
-      \{% end %}
+      call_opencl_kernel(
+        U,
+        {{ fn.stringify.capitalize.id }},
+        [Int32, UInt32, Float32, Float64],
+        a, b
+      )
     end
 
     # Implements the comparison operator {{ operator }} between a `Tensor`
@@ -255,21 +210,12 @@ module Num
     # Num.{{ fn }}(a, 3)
     # ```
     def {{ fn.id }}(a : Tensor(U, OCL(U)), b : U) : Tensor(Int32, OCL(Int32)) forall U
-      \{% if U == Int32 %}
-        singleton = Int32{{ fn.stringify.capitalize.id }}TensorScalar.instance
-        singleton.call(a, b)
-      \{% elsif U == UInt32 %}
-        singleton = UInt32{{ fn.stringify.capitalize.id }}TensorScalar.instance
-        singleton.call(a, b)
-      \{% elsif U == Float32 %}
-        singleton = Float32{{ fn.stringify.capitalize.id }}TensorScalar.instance
-        singleton.call(a, b)
-      \{% elsif U == Float64 %}
-        singleton = Float64{{ fn.stringify.capitalize.id }}TensorScalar.instance
-        singleton.call(a, b)
-      \{% else %}
-        \{% raise "Invalid Dtype" %}
-      \{% end %}
+      call_opencl_kernel(
+        U,
+        {{ fn.stringify.capitalize.id }}TensorScalar,
+        [Int32, UInt32, Float32, Float64],
+        a, b
+      )
     end
 
     # Implements the comparison operator {{ operator }} between a `Number`
@@ -290,21 +236,12 @@ module Num
     # Num.{{ fn }}(3, a)
     # ```
     def {{ fn.id }}(a : U, b : Tensor(U, OCL(U))) : Tensor(Int32, OCL(Int32)) forall U
-      \{% if U == Int32 %}
-        singleton = Int32{{ fn.stringify.capitalize.id }}ScalarTensor.instance
-        singleton.call(a, b)
-      \{% elsif U == UInt32 %}
-        singleton = UInt32{{ fn.stringify.capitalize.id }}ScalarTensor.instance
-        singleton.call(a, b)
-      \{% elsif U == Float32 %}
-        singleton = Float32{{ fn.stringify.capitalize.id }}ScalarTensor.instance
-        singleton.call(a, b)
-      \{% elsif U == Float64 %}
-        singleton = Float64{{ fn.stringify.capitalize.id }}ScalarTensor.instance
-        singleton.call(a, b)
-      \{% else %}
-        \{% raise "Invalid Dtype" %}
-      \{% end %}
+      call_opencl_kernel(
+        U,
+        {{ fn.stringify.capitalize.id }}ScalarTensor,
+        [Int32, UInt32, Float32, Float64],
+        a, b
+      )
     end
   end
 
@@ -352,15 +289,12 @@ module Num
     # Num.{{ fn }}(a, a)
     # ```
     def {{ fn.id }}(a : Tensor(U, OCL(U)), b : Tensor(U, OCL(U))) : Tensor(U, OCL(U)) forall U
-      \{% if U == Int32 %}
-        singleton = Int32{{ fn.stringify.capitalize.id }}.instance
-        singleton.call(a, b)
-      \{% elsif U == UInt32 %}
-        singleton = UInt32{{ fn.stringify.capitalize.id }}.instance
-        singleton.call(a, b)
-      \{% else %}
-        \{% raise "Invalid Dtype" %}
-      \{% end %}
+      call_opencl_kernel(
+        U,
+        {{ fn.stringify.capitalize.id }},
+        [Int32, UInt32],
+        a, b
+      )
     end
 
     # Implements the bitwise operator {{ operator }} between a `Tensor` and
@@ -380,15 +314,12 @@ module Num
     # Num.{{ fn }}(a, 3)
     # ```
     def {{ fn.id }}(a : Tensor(U, OCL(U)), b : U) : Tensor(U, OCL(U)) forall U
-      \{% if U == Int32 %}
-        singleton = Int32{{ fn.stringify.capitalize.id }}TensorScalar.instance
-        singleton.call(a, b)
-      \{% elsif U == UInt32 %}
-        singleton = UInt32{{ fn.stringify.capitalize.id }}TensorScalar.instance
-        singleton.call(a, b)
-      \{% else %}
-        \{% raise "Invalid Dtype" %}
-      \{% end %}
+      call_opencl_kernel(
+        U,
+        {{ fn.stringify.capitalize.id }}TensorScalar,
+        [Int32, UInt32],
+        a, b
+      )
     end
 
     # Implements the bitwise operator {{ operator }} between a `Tensor` and
@@ -408,15 +339,12 @@ module Num
     # Num.{{ fn }}(3, a)
     # ```
     def {{ fn.id }}(a : U, b : Tensor(U, OCL(U))) : Tensor(U, OCL(U)) forall U
-      \{% if U == Int32 %}
-        singleton = Int32{{ fn.stringify.capitalize.id }}ScalarTensor.instance
-        singleton.call(a, b)
-      \{% elsif U == UInt32 %}
-        singleton = UInt32{{ fn.stringify.capitalize.id }}ScalarTensor.instance
-        singleton.call(a, b)
-      \{% else %}
-        \{% raise "Invalid Dtype" %}
-      \{% end %}
+      call_opencl_kernel(
+        U,
+        {{ fn.stringify.capitalize.id }}ScalarTensor,
+        [Int32, UInt32],
+        a, b
+      )
     end
   end
 
@@ -455,15 +383,12 @@ module Num
     # Num.{{ fn.id }}(a)
     # ```
     def {{ fn.id }}(a : Tensor(U, OCL(U))) : Tensor(U, OCL(U)) forall U
-      \{% if U == Float32 %}
-        singleton = Float32{{ fn.stringify.capitalize.id }}.instance
-        singleton.call(a)
-      \{% elsif U == Float64 %}
-        singleton = Float64{{ fn.stringify.capitalize.id }}.instance
-        singleton.call(a)
-      \{% else %}
-        \{% raise "Invalid dtype #{U} for OpenCL method {{ fn.id }}" %}
-      \{% end %}
+      call_opencl_kernel(
+        U,
+        {{ fn.stringify.capitalize.id }},
+        [Float32, Float64],
+        a
+      )
     end
 
     # Implements the OpenCL builtin function {{ fn.id }} for a single `Tensor`.
@@ -481,15 +406,12 @@ module Num
     # Num.{{ fn.id }}!(a)
     # ```
     def {{ fn.id }}!(a : Tensor(U, OCL(U))) : Nil forall U
-      \{% if U == Float32 %}
-        singleton = Float32{{ fn.stringify.capitalize.id }}Inplace.instance
-        singleton.call(a)
-      \{% elsif U == Float64 %}
-        singleton = Float64{{ fn.stringify.capitalize.id }}Inplace.instance
-        singleton.call(a)
-      \{% else %}
-        \{% raise "Invalid dtype #{U} for OpenCL method {{ fn.id }}" %}
-      \{% end %}
+      call_opencl_kernel(
+        U,
+        {{ fn.stringify.capitalize.id }}Inplace,
+        [Float32, Float64],
+        a
+      )
     end
   end
 
@@ -576,15 +498,12 @@ module Num
     # Num.{{ fn.id }}(a, b)
     # ```
     def {{ name.id }}(a : Tensor(U, OCL(U)), b : Tensor(U, OCL(U))) : Tensor(U, OCL(U)) forall U
-      \{% if U == Float32 %}
-        singleton = Float32{{ fn.stringify.capitalize.id }}.instance
-        singleton.call(a, b)
-      \{% elsif U == Float64 %}
-        singleton = Float64{{ fn.stringify.capitalize.id }}.instance
-        singleton.call(a, b)
-      \{% else %}
-        \{% raise "Invalid dtype #{U} for OpenCL method {{ fn.id }}" %}
-      \{% end %}
+      call_opencl_kernel(
+        U,
+        {{ fn.stringify.capitalize.id }},
+        [Float32, Float64],
+        a, b
+      )
     end
 
     # Implements the OpenCL builtin function {{ fn.id }} between two `Tensor`s,
@@ -604,15 +523,12 @@ module Num
     # Num.{{ fn.id }}!(a, b)
     # ```
     def {{ name.id }}!(a : Tensor(U, OCL(U)), b : Tensor(U, OCL(U))) : Nil forall U
-      \{% if U == Float32 %}
-        singleton = Float32{{ fn.stringify.capitalize.id }}Inplace.instance
-        singleton.call(a, b)
-      \{% elsif U == Float64 %}
-        singleton = Float64{{ fn.stringify.capitalize.id }}Inplace.instance
-        singleton.call(a, b)
-      \{% else %}
-        \{% raise "Invalid dtype #{U} for OpenCL method {{ fn.id }}" %}
-      \{% end %}
+      call_opencl_kernel(
+        U,
+        {{ fn.stringify.capitalize.id }}Inplace,
+        [Float32, Float64],
+        a, b
+      )
     end
 
     # Implements the OpenCL builtin function {{ fn.id }} between two a `Tensor`
@@ -630,15 +546,12 @@ module Num
     # Num.{{ fn.id }}(a, 3_f64)
     # ```
     def {{ name.id }}(a : Tensor(U, OCL(U)), b : U) : Tensor(U, OCL(U)) forall U
-      \{% if U == Float32 %}
-        singleton = Float32{{ fn.stringify.capitalize.id }}TensorScalar.instance
-        singleton.call(a, b)
-      \{% elsif U == Float64 %}
-        singleton = Float64{{ fn.stringify.capitalize.id }}TensorScalar.instance
-        singleton.call(a, b)
-      \{% else %}
-        \{% raise "Invalid dtype #{U} for OpenCL method {{ fn.id }}" %}
-      \{% end %}
+      call_opencl_kernel(
+        U,
+        {{ fn.stringify.capitalize.id }}TensorScalar,
+        [Float32, Float64],
+        a, b
+      )
     end
 
     # Implements the OpenCL builtin function {{ fn.id }} between two a `Tensor`
@@ -656,15 +569,12 @@ module Num
     # Num.{{ fn.id }}(3_f64, a)
     # ```
     def {{ name.id }}(a : U, b : Tensor(U, OCL(U))) : Tensor(U, OCL(U)) forall U
-      \{% if U == Float32 %}
-        singleton = Float32{{ fn.stringify.capitalize.id }}ScalarTensor.instance
-        singleton.call(a, b)
-      \{% elsif U == Float64 %}
-        singleton = Float64{{ fn.stringify.capitalize.id }}ScalarTensor.instance
-        singleton.call(a, b)
-      \{% else %}
-        \{% raise "Invalid dtype #{U} for OpenCL method {{ fn.id }}" %}
-      \{% end %}
+      call_opencl_kernel(
+        U,
+        {{ fn.stringify.capitalize.id }}ScalarTensor,
+        [Float32, Float64],
+        a, b
+      )
     end
   end
 

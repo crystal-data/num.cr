@@ -31,7 +31,7 @@ class Num::NN::SigmoidCrossEntropy(T) < Num::Grad::Gate(T)
 
   def backward(payload : Num::Grad::Payload(T)) : Array(T)
     gradient = payload.variable.grad
-    Num::NN.sigmoid_cross_entropy_backwards(gradient, cache.value, target)
+    [Num::NN.sigmoid_cross_entropy_backwards(gradient, cache.value, target)]
   end
 
   def cache(result : Num::Grad::Variable, *args)
