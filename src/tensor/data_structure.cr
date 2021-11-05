@@ -26,6 +26,8 @@ class Tensor(T, S)
 
   # Returns the size of a Tensor along each dimension
   #
+  # ## Examples
+  #
   # ```
   # a = Tensor(Int8, CPU(Int8)).new([2, 3, 4])
   # a.shape # => [2, 3, 4]
@@ -34,6 +36,8 @@ class Tensor(T, S)
 
   # Returns the step of a Tensor along each dimension
   #
+  # ## Examples
+  #
   # ```
   # a = Tensor(Int8, CPU(Int8)).new([3, 3, 2])
   # a.shape # => [4, 2, 1]
@@ -41,6 +45,8 @@ class Tensor(T, S)
   getter strides : Array(Int32)
 
   # Returns the offset of a Tensor's data
+  #
+  # ## Examples
   #
   # ```
   # a = Tensor(Int8, CPU(Int8)).new([2, 3, 4])
@@ -59,6 +65,8 @@ class Tensor(T, S)
   # Returns the flags of a Tensor, describing its memory
   # and read status
   #
+  # ## Examples
+  #
   # ```
   # a = Tensor(Float32, CPU(Float32)).new([2, 3, 4])
   # b = a[..., 1]
@@ -68,6 +76,8 @@ class Tensor(T, S)
   getter flags : Num::ArrayFlags
 
   # Returns the number of dimensions in a Tensor
+  #
+  # ## Examples
   #
   # ```
   # a = Tensor(Int8, CPU(Int8)).new([3, 3, 3, 3])

@@ -22,87 +22,6 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 module Num
-  # Returns a view of a `Tensor` from any valid indexers. This view
-  # must be able to be represented as valid strided/shaped view, slicing
-  # as a copy is not supported.
-  #
-  #
-  # When an Integer argument is passed, an axis will be removed from
-  # the `Tensor`, and a view at that index will be returned.
-  #
-  # ```
-  # a = Tensor.new([2, 2]) { |i| i }
-  # a[0] # => [0, 1]
-  # ```
-  #
-  # When a Range argument is passed, an axis will be sliced based on
-  # the endpoints of the range.
-  #
-  # ```
-  # a = Tensor.new([2, 2, 2]) { |i| i }
-  # a[1...]
-  #
-  # # [[[4, 5],
-  # #   [6, 7]]]
-  # ```
-  #
-  # When a Tuple containing a Range and an Integer step is passed, an axis is
-  # sliced based on the endpoints of the range, and the strides of the
-  # axis are updated to reflect the step.  Negative steps will reflect
-  # the array along an axis.
-  #
-  # ```
-  # a = Tensor.new([2, 2]) { |i| i }
-  # a[{..., -1}]
-  #
-  # # [[2, 3],
-  # #  [0, 1]]
-  # ```
-  def slice(arr : Tensor(U, OCL(U)), *args) forall U
-    slice(arr, args.to_a)
-  end
-
-  # Returns a view of a `Tensor` from any valid indexers. This view
-  # must be able to be represented as valid strided/shaped view, slicing
-  # as a copy is not supported.
-  #
-  #
-  # When an Integer argument is passed, an axis will be removed from
-  # the `Tensor`, and a view at that index will be returned.
-  #
-  # ```
-  # a = Tensor.new([2, 2]) { |i| i }
-  # a[0] # => [0, 1]
-  # ```
-  #
-  # When a Range argument is passed, an axis will be sliced based on
-  # the endpoints of the range.
-  #
-  # ```
-  # a = Tensor.new([2, 2, 2]) { |i| i }
-  # a[1...]
-  #
-  # # [[[4, 5],
-  # #   [6, 7]]]
-  # ```
-  #
-  # When a Tuple containing a Range and an Integer step is passed, an axis is
-  # sliced based on the endpoints of the range, and the strides of the
-  # axis are updated to reflect the step.  Negative steps will reflect
-  # the array along an axis.
-  #
-  # ```
-  # a = Tensor.new([2, 2]) { |i| i }
-  # a[{..., -1}]
-  #
-  # # [[2, 3],
-  # #  [0, 1]]
-  # ```
-  def slice(arr : Tensor(U, OCL(U)), args : Array) forall U
-    offset, shape, strides = Num::Internal.offset_for_index(arr, args)
-    Tensor.new(arr.data, shape, strides, offset, U)
-  end
-
   # The primary method of setting Tensor values.  The slicing behavior
   # for this method is identical to the `[]` method.
   #
@@ -129,7 +48,7 @@ module Num
   # #  [ 2, 99]]
   # ```
   def set(arr : Tensor(U, OCL(U)), *args, value) forall U
-    {% raise "Assignment not implemented" %}
+    set(arr, args.to_a, value)
   end
 
   # The primary method of setting Tensor values.  The slicing behavior
@@ -157,8 +76,17 @@ module Num
   # # [[ 0,  1],
   # #  [ 2, 99]]
   # ```
-  def set(arr : Tensor(U, OCL(U)), args : Array, t : Tensor(V, OCL(V))) forall U, V
-    {% raise "Assignment not implemented" %}
+  def set(arr : Tensor(U, OCL(U)), args : Array, t : Tensor(U, OCL(U))) forall U
+    selected = arr[args]
+    if t.rank > selected.rank
+      raise Num::Exceptions::ValueError.new("Setting a Tensor with a sequence")
+    end
+    call_opencl_kernel(
+      U,
+      AssignmentKernel,
+      [Int32, UInt32, Float32, Float64],
+      selected, t
+    )
   end
 
   # The primary method of setting Tensor values.  The slicing behavior
@@ -186,8 +114,14 @@ module Num
   # # [[ 0,  1],
   # #  [ 2, 99]]
   # ```
-  def set(arr : Tensor(U, OCL(U)), args : Array, t : V) forall U, V
-    {% raise "Assignment not implemented" %}
+  def set(arr : Tensor(U, OCL(U)), args : Array, t : U) forall U
+    selected = arr[args]
+    call_opencl_kernel(
+      U,
+      AssignmentScalarKernel,
+      [Int32, UInt32, Float32, Float64],
+      selected, t
+    )
   end
 
   # Return a shallow copy of a `Tensor`.  The underlying data buffer

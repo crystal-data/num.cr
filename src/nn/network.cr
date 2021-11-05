@@ -36,6 +36,13 @@ class Num::NN::NetworkInfo(T)
     @loss = Num::NN::Loss(T).new
   end
 
+  # Adds an input layer to a `Network`.  This is simply a wrapper
+  # around the input `Tensor`, in order to allow layers further along
+  # in the network to infer input shapes
+  #
+  # ## Arguments
+  #
+  # * shape : `Array(Int)` - Shape of input data
   def input(shape : Array(Int))
     @layers << Num::NN::InputLayer(T).new(@context, shape)
   end
@@ -49,15 +56,12 @@ class Num::NN::NetworkInfo(T)
   # the dimensions of the layer would be 10, 100, the 200 will be handled
   # by dynamically.
   #
-  # Arguments
-  # ---------
-  # *i* : Int
-  #   The number of features in the linear layer
-  # *j* : Int
-  #   The number of outputs in the linear layer
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * output_size : `Int` - The number of outputs in the linear layer
+  #
+  # ## Examples
+  #
   # ```
   # net = Num::NN::Network.new(ctx) do
   #   linear 2, 3
@@ -70,23 +74,11 @@ class Num::NN::NetworkInfo(T)
 
   # Convolution layer for a neural network
   #
-  # Arguments
-  # ---------
-  # shape : Array(Int32)
-  #   Shape of the input to the layer
-  # n : Int32
-  #   Number of filters to apply
-  # kh : Int32
-  #   Filter height
-  # kw : Int32
-  #   Filter width
+  # ## Arguments
   #
-  # Returns
-  # -------
-  # nil
-  #
-  # Examples
-  # --------
+  # * n : `Int32` - Number of filters to apply
+  # * kh : `Int32` - Filter height
+  # * kw : `Int32` - Filter width
   def conv2d(n : Int32, kh : Int32, kw : Int32)
     input_shape = @layers.last.output_shape
     @layers << Num::NN::ConvolutionalLayer(T).new(@context, input_shape, n, kh, kw)
@@ -94,56 +86,33 @@ class Num::NN::NetworkInfo(T)
 
   # Maxpool layer for a neural network
   #
-  # Arguments
-  # ---------
-  # shape : Array(Int)
-  #   Brief description of shape : Array(Int)
-  # kernel : Tuple(Int
-  #   Brief description of kernel : Tuple(Int
-  # Int)
-  #   Brief description of Int)
-  # padding : Tuple(Int
-  #   Brief description of padding : Tuple(Int
-  # Int)
-  #   Brief description of Int)
-  # stride : Tuple(Int
-  #   Brief description of stride : Tuple(Int
-  # Int)
-  #   Brief description of Int)
+  # ## Arguments
   #
-  # Returns
-  # -------
-  # nil
-  #
-  # Examples
-  # --------
+  # * kernel : `Tuple(Int, Int)` - Kernel height and width
+  # * padding : Tuple(Int, Int)` - Padding height and width
+  # * stride : Tuple(Int, Int)` - Stride height and width
   def maxpool(kernel : Tuple(Int, Int), padding : Tuple(Int, Int), stride : Tuple(Int, Int))
     shape = @layers.last.output_shape
     @layers << Num::NN::MaxPoolLayer(T).new(@context, shape, kernel, padding, stride)
   end
 
+  # Adds a dropout layer for a neural network
+  #
+  # ## Arguments
+  #
+  # * prob : `Float` - Probability of a neuron being dropped out
   def dropout(prob : Float = 0.5_f32)
     shape = @layers.last.output_shape
     @layers << Num::NN::DropoutLayer(T).new(@context, shape, prob)
   end
 
+  # Specifies Softmax Cross Entropy as the method of loss to be
+  # used with the Network
   def softmax_cross_entropy_loss
     @loss = Num::NN::SoftmaxCrossEntropyLoss(T).new
   end
 
   # Adds a Flattening layer to a neural network
-  #
-  # Arguments
-  # ---------
-  # shape : Array(Int32)
-  #   Shape of input to the layer
-  #
-  # Returns
-  # -------
-  # nil
-  #
-  # Examples
-  # --------
   def flatten
     shape = @layers.last.output_shape
     @layers << Num::NN::FlattenLayer(T).new(@context, shape)
@@ -153,11 +122,8 @@ class Num::NN::NetworkInfo(T)
   # the same way as other layers, but do not change the dimensions
   # of the input
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # net = Num::NN::Network.new(ctx) do
   #   linear 2, 3
@@ -170,32 +136,12 @@ class Num::NN::NetworkInfo(T)
   end
 
   # Adds a Leaky ReLU layer to a network.
-  #
-  # Arguments
-  # ---------
-  #
-  # Returns
-  # -------
-  # nil
-  #
-  # Examples
-  # --------
   def leaky_relu
     shape = @layers.last.output_shape
     @layers << Num::NN::LeakyReluLayer(T).new(@context, shape)
   end
 
   # Adds an ELU layer to the network
-  #
-  # Arguments
-  # ---------
-  #
-  # Returns
-  # -------
-  # nil
-  #
-  # Examples
-  # --------
   def elu
     shape = @layers.last.output_shape
     @layers << Num::NN::EluLayer(T).new(@context, shape)
@@ -205,11 +151,8 @@ class Num::NN::NetworkInfo(T)
   # the same way as other layers, but do not change the dimensions
   # of the input
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # net = Num::NN::Network.new(ctx) do
   #   linear 2, 3
@@ -223,13 +166,12 @@ class Num::NN::NetworkInfo(T)
 
   # Add an SGD optimizer to the Network.
   #
-  # Arguments
-  # ---------
-  # *learning_rate* : Float64
-  #   Learning rate for all layers in the Network
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * learning_rate : `Float64` - Learning rate for all layers in the Network
+  #
+  # ## Examples
+  #
   # ```
   # net = Num::NN::Network.new(ctx) do
   #   linear 2, 3
@@ -242,6 +184,7 @@ class Num::NN::NetworkInfo(T)
     @optimizer = Num::NN::SGDOptimizer(T).new(learning_rate)
   end
 
+  # Adds an Adam optimizer to the Network
   def adam(*args)
     @optimizer = Num::NN::AdamOptimizer(T).new(*args)
   end
@@ -249,11 +192,8 @@ class Num::NN::NetworkInfo(T)
   # Uses Sigmoid Cross Entropy to compute the loss for
   # the Network
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # net = Num::NN::Network.new(ctx) do
   #   linear 2, 3
@@ -270,11 +210,8 @@ class Num::NN::NetworkInfo(T)
   # Uses Mean Squared Error to compute the loss for
   # the Network
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # net = Num::NN::Network.new(ctx) do
   #   linear 2, 3
@@ -307,11 +244,8 @@ class Num::NN::Network(T)
   # a LayerArray in order to allow layers to be added to the
   # network in a block
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # Network(Float32).new do
   #   layer(2, 3, :tanh)
@@ -334,16 +268,16 @@ class Num::NN::Network(T)
   # Propogates an input through a network, returning
   # the final prediction from the network
   #
-  # Arguments
-  # ---------
-  # *train* : Tensor(T)
-  #   Training input data
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * train : `Num::Grad::Variable(T)` - Training input data
+  #
+  # ## Examples
+  #
   # ```
   # a = [[0.0, 0.0], [1.0, 0.0], [0.0, 1.0], [1.0, 1.0]].to_tensor
-  # net.forward(a)
+  # v = ctx.variable(a)
+  # net.forward(v)
   # ```
   def forward(train : Num::Grad::Variable(T)) : Num::Grad::Variable(T)
     @layers.each do |layer|
@@ -356,15 +290,13 @@ class Num::NN::Network(T)
   # based on the final output from the Network, as well
   # as the target output
   #
-  # Arguments
-  # ---------
-  # *output* : Num::Grad::Variable(T)
-  #   Prediction by the network
-  # *target* : T
-  #   Tensor containing ground truth values
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * output : `Num::Grad::Variable(T)` - Prediction by the network
+  # * target : `T` - `Tensor` containing ground truth values
+  #
+  # ## Examples
+  #
   # ```
   # epochs.times do |epoch|
   #   y_pred = net.forward(x)
@@ -378,11 +310,8 @@ class Num::NN::Network(T)
   # Return the Network's optimizer to allow updating
   # the weights and biases of the network
   #
-  # Arguments
-  # ---------
+  # ## Examples
   #
-  # Examples
-  # --------
   # ```
   # epochs.times do |epoch|
   #   y_pred = net.forward(x)

@@ -25,6 +25,13 @@ class CPU(T) < Num::Backend::Storage(T)
   # Initialize a CPU storage from an initial capacity.
   # The data will be filled with zeros
   #
+  # ## Arguments
+  #
+  # * shape : `Array(Int)` - Shape of the parent `Tensor`
+  # * order : `Array(Int)` - Memory layout of the parent `Tensor`
+  #
+  # ## Examples
+  #
   # ```
   # CPU.new([2, 3, 4])
   # ```
@@ -34,6 +41,13 @@ class CPU(T) < Num::Backend::Storage(T)
 
   # Initialize a CPU storage from an initial capacity.
   # The data will be filled with zeros
+  #
+  # ## Arguments
+  #
+  # * shape : `Array(Int)` - Shape of the parent `Tensor`
+  # * strides : `Array(Int)` - Strides of the parent `Tensor`
+  #
+  # ## Examples
   #
   # ```
   # CPU.new([2, 3, 4])
@@ -45,6 +59,14 @@ class CPU(T) < Num::Backend::Storage(T)
   # Initialize a CPU storage from an initial capacity and
   # an initial value, which will fill the buffer
   #
+  # ## Arguments
+  #
+  # * shape : `Array(Int)` - Shape of the parent `Tensor`
+  # * order : `Array(Int)` - Memory layout of the parent `Tensor`
+  # * value : `T` - Initial value to populate the buffer
+  #
+  # ## Examples
+  #
   # ```
   # CPU.new([10, 10], 3.4)
   # ```
@@ -54,6 +76,14 @@ class CPU(T) < Num::Backend::Storage(T)
 
   # Initialize a CPU storage from an initial capacity and
   # an initial value, which will fill the buffer
+  #
+  # ## Arguments
+  #
+  # * shape : `Array(Int)` - Shape of the parent `Tensor`
+  # * strides : `Array(Int)` - Strides of the parent `Tensor`
+  # * value : `T` - Initial value to populate the buffer
+  #
+  # ## Examples
   #
   # ```
   # CPU.new([10, 10], 3.4)
@@ -67,6 +97,14 @@ class CPU(T) < Num::Backend::Storage(T)
   # but is needed by other implementations to ensure copy
   # requirements have the right pointer size.
   #
+  # ## Arguments
+  #
+  # * data : `Pointer(T)` - Existing databuffer for a `Tensor`
+  # * shape : `Array(Int)` - Shape of the parent `Tensor`
+  # * strides : `Array(Int)` - Strides of the parent `Tensor`
+  #
+  # ## Examples
+  #
   # ```
   # a = Pointer(Int32).malloc(10)
   # s = CPU.new(a, [5, 2])
@@ -76,6 +114,8 @@ class CPU(T) < Num::Backend::Storage(T)
   end
 
   # Converts a CPU storage to a crystal pointer
+  #
+  # ## Examples
   #
   # ```
   # a = CPU(Int32).new([3, 3, 2])
@@ -90,6 +130,8 @@ class CPU(T) < Num::Backend::Storage(T)
   # for explicit return types in functions that return a different
   # storage type than the parent Tensor
   #
+  # ## Examples
+  #
   # ```
   # a = CPU(Float32).new([10])
   #
@@ -103,6 +145,7 @@ class CPU(T) < Num::Backend::Storage(T)
     CPU(U)
   end
 
+  # :nodoc:
   @[AlwaysInline]
   def update_metadata(shape : Array(Int32), strides : Array(Int32))
   end
@@ -115,13 +158,13 @@ module Num
   # If no order is provided, the `Tensor` will retain it's same
   # memory layout.
   #
-  # Arguments
-  # ---------
-  # *order* : Num::OrderType?
-  #   Memory layout to use for the returned `Tensor`
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * t : `Tensor(U, CPU(U))` - `Tensor` to duplicate
+  # * order : `Num::OrderType` - Memory layout to use for the returned `Tensor`
+  #
+  # ## Examples
+  # -
   # ```
   # a = Tensor.from_array [1, 2, 3]
   # a.dup # => [1, 2, 3]

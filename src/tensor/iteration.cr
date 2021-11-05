@@ -47,8 +47,8 @@ class Tensor(T, S)
   # Yields the elements of two `Tensor`s, always in RowMajor order,
   # as if the `Tensor`s were flat.
   #
-  # Arguments
-  # ---------
+  # ## Arguments
+  #
   # * b : `Tensor` - The other `Tensor` with which to iterate
   #
   # ## Examples
@@ -74,7 +74,6 @@ class Tensor(T, S)
 
   # Yields the elements of a `Tensor` lazily, always in RowMajor order,
   # as if the `Tensor` was flat.
-  #
   #
   # ## Examples
   #
@@ -360,6 +359,9 @@ class Tensor(T, S)
 
   # Just like the other variant, but you can set the initial value of the
   # accumulator.
+  #
+  # ## Arguments
+  # * memo - Value to start off the accumulator
   #
   # ## Examples
   #

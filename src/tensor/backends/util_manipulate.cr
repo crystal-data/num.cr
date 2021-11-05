@@ -148,7 +148,7 @@ module Num::Internal
   end
 
   # :nodoc:
-  private def concat_shape(ts : Array(Tensor), axis : Int, shape : Array(Int))
+  def concat_shape(ts : Array(Tensor), axis : Int, shape : Array(Int))
     rank = shape.size
     ts.each do |t|
       if t.rank != rank

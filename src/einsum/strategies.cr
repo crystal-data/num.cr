@@ -184,7 +184,7 @@ module Num::Einsum
   # succinct way of representing these.
   #
   # A non-exhaustive list of these operations, which can be computed by
-  # einsum, is shown below along with examples:
+  # einsum, is shown below:
   #
   #     Trace of an array
   #     Return a diagonal

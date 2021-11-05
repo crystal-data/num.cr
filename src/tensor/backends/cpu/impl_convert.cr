@@ -70,6 +70,7 @@ module Num
   # a.astype(Bool)    # => [true, true, true]
   # a.astype(Float32) # => [1.5, 2.5, 3.5]
   # ```
+  @[AlwaysInline]
   def as_type(arr : Tensor(U, CPU(U)), dtype : V.class) forall U, V
     r = Tensor(V, CPU(V)).new(arr.shape)
     r.map!(arr) do |_, j|
@@ -82,6 +83,7 @@ module Num
     r
   end
 
+  # :nodoc:
   def cpu(arr : Tensor(U, CPU(U))) forall U
     arr
   end

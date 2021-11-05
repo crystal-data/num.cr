@@ -301,6 +301,7 @@ class Tensor(T, S)
   # Find the maximum index value of a Tensor
   #
   # ## Examples
+  #
   # ```
   # a = [1, 2, 3].to_tensor
   # a.argmax # => 2
@@ -331,6 +332,7 @@ class Tensor(T, S)
   # Find the minimum index value of a Tensor
   #
   # ## Examples
+  #
   # ```
   # a = [1, 2, 3].to_tensor
   # a.argmin # => 0

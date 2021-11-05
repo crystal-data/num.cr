@@ -32,6 +32,9 @@ require "./tensor/backends/hostptr/unsafe_iter"
 require "./tensor/backends/hostptr/yield_iterators"
 require "./tensor/backends/hostptr/ndindex"
 
+require "./tensor/backends/agnostic/impl_index"
+require "./tensor/backends/agnostic/impl_manipulate"
+
 require "./tensor/backends/cpu/impl_allocation"
 require "./tensor/backends/cpu/impl_manipulate"
 require "./tensor/backends/cpu/impl_iteration"

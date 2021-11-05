@@ -303,7 +303,7 @@ class Tensor(T, S)
   # This function is able to return one of eight different matrix norms
   #
   # ## Arguments
-  # ---------
+  #
   # * order : `String` - Type of norm
   #
   # ## Examples
@@ -485,6 +485,7 @@ class Tensor(T, S)
     result
   end
 
+  # :nodoc:
   def im2col(
     kernel : Tuple(Int, Int),
     padding : Tuple(Int, Int) = {0, 0},
@@ -549,9 +550,9 @@ class Tensor(T, S)
     self.assert_is_matrix
     other.assert_is_matrix
 
-    # unless self.shape[1] == other.shape[0]
-    #   raise "Invalid shapes for matrix multiplication: #{@shape}, #{other.shape}"
-    # end
+    unless self.shape[1] == other.shape[0]
+      raise "Invalid shapes for matrix multiplication: #{@shape}, #{other.shape}"
+    end
 
     if output.nil?
     else

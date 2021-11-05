@@ -282,6 +282,7 @@ class Tensor(T, S)
   # * sigma : `Float` - Standard deviation
   #
   # ## Examples
+  #
   # ```
   # Num::Rand.set_seed(0)
   # a = Tensor(Float32, CPU(Float32)).normal([5], 0.5)

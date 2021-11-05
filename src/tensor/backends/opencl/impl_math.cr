@@ -22,6 +22,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 module Num
+  # :nodoc:
   macro operator_op(fn, operator)
     {% for dtype in [Int32, UInt32, Float32, Float64] %}
       # :nodoc:
@@ -146,6 +147,7 @@ module Num
   operator_op multiply, "*"
   operator_op divide, "/"
 
+  # :nodoc:
   macro relational_op(fn, operator)
     {% for dtype in [Int32, UInt32, Float32, Float64] %}
       # :nodoc:
@@ -252,6 +254,7 @@ module Num
   relational_op equal, "=="
   relational_op not_equal, "!="
 
+  # :nodoc:
   macro bitwise_op(fn, operator)
     {% for dtype in [Int32, UInt32] %}
       # :nodoc:
@@ -354,6 +357,7 @@ module Num
   bitwise_op left_shift, "<<"
   bitwise_op right_shift, ">>"
 
+  # :nodoc:
   macro builtin_op(fn)
     {% for dtype in [Float32, Float64] %}
       # :nodoc:
@@ -456,6 +460,7 @@ module Num
   builtin_op tgamma
   builtin_op trunc
 
+  # :nodoc:
   macro builtin_two_op(fn, name)
     {% for dtype in [Float32, Float64] %}
       # :nodoc:

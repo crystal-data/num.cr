@@ -511,3 +511,82 @@ class Num::AtanBackwardKernel(T) < Num::TrigBackwardKernel(T)
 end
 
 create_kernel_children(AtanBackwardKernel, [Float32, Float64])
+
+# :nodoc:
+class Num::AssignmentKernel(T) < Num::Kernel(T)
+  def get_program(dtype)
+    "
+    #{super}
+
+    #pragma OPENCL EXTENSION cl_khr_fp64: enable
+
+    __kernel void #{@@name}(const int rank,
+        const int len,
+        __global const int * restrict A_shape,
+        __global const int * restrict A_strides,
+        const int A_offset,
+        __global #{dtype} * restrict A,
+        __global const int * restrict B_shape,
+        __global const int * restrict B_strides,
+        const int B_offset,
+        __global const #{dtype} * restrict const B) {
+      for (int elemID = get_global_id(0); elemID < len; elemID += get_global_size(0)) {
+        const int a = opencl_getIndexOfElementID(rank, A_shape, A_strides, A_offset, elemID);
+        const int b = opencl_getIndexOfElementID(rank, B_shape, B_strides, B_offset, elemID);
+        A[a] = B[b];
+      }
+    }
+    "
+  end
+
+  def call(a : Tensor(T, OCL(T)), b : Tensor(T, OCL(T)))
+    b = b.broadcast_to(a.shape)
+    Cl.args(
+      @kernel,
+      a.rank, a.size,
+      a.data.shape, a.data.strides, a.offset, a.to_unsafe,
+      b.data.shape, b.data.strides, b.offset, b.to_unsafe,
+    )
+    Cl.run(Num::ClContext.instance.queue, @kernel, a.size)
+    nil
+  end
+end
+
+create_kernel_children(AssignmentKernel, [Int32, UInt32, Float32, Float64])
+
+# :nodoc:
+class Num::AssignmentScalarKernel(T) < Num::Kernel(T)
+  def get_program(dtype)
+    "
+    #{super}
+
+    #pragma OPENCL EXTENSION cl_khr_fp64: enable
+
+    __kernel void #{@@name}(const int rank,
+        const int len,
+        __global const int * restrict A_shape,
+        __global const int * restrict A_strides,
+        const int A_offset,
+        __global #{dtype} * restrict A,
+        const #{dtype} B) {
+      for (int elemID = get_global_id(0); elemID < len; elemID += get_global_size(0)) {
+        const int a = opencl_getIndexOfElementID(rank, A_shape, A_strides, A_offset, elemID);
+        A[a] = B;
+      }
+    }
+    "
+  end
+
+  def call(a : Tensor(T, OCL(T)), b : T)
+    Cl.args(
+      @kernel,
+      a.rank, a.size,
+      a.data.shape, a.data.strides, a.offset, a.to_unsafe,
+      b
+    )
+    Cl.run(Num::ClContext.instance.queue, @kernel, a.size)
+    nil
+  end
+end
+
+create_kernel_children(AssignmentScalarKernel, [Int32, UInt32, Float32, Float64])

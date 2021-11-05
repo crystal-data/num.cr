@@ -22,8 +22,11 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 class CPU(T) < Num::Backend::Storage(T)
+  # Raw Crystal pointer that holds a `CPU(T)`s data
   getter data : Pointer(T)
 
+  # Returns the raw Crystal pointer associated with
+  # a `CPU(T)`
   def to_unsafe
     @data
   end

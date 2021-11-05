@@ -25,6 +25,21 @@ module Num
   extend self
 
   private macro elementwise(name, operator)
+    # Implements the {{ operator }} operator between two `Tensor`s.
+    # Broadcasting rules apply, the method is applied elementwise.
+    #
+    # ## Arguments
+    #
+    # * a : `Tensor(U, CPU(U))` - LHS to the operation
+    # * b : `Tensor(U, CPU(U))` - RHS to the operation
+    #
+    # ## Examples
+    #
+    # ```crystal
+    # a = [1, 2, 3].to_tensor
+    # b = [4, 5, 6].to_tensor
+    # Num.{{ name }}(a, b)
+    # ```
     @[AlwaysInline]
     def {{name}}(a : Tensor(U, CPU(U)), b : Tensor(V, CPU(V))) forall U, V
       a.map(b) do |i, j|
@@ -32,7 +47,25 @@ module Num
       end
     end
 
-    # :ditto:
+    # Implements the {{ operator }} operator between two `Tensor`s.
+    # Broadcasting rules apply, the method is applied elementwise.
+    # This method applies the operation inplace, storing the result
+    # in the LHS argument.  Broadcasting cannot occur for the LHS
+    # operand, so the second argument must broadcast to the first
+    # operand's shape.
+    #
+    # ## Arguments
+    #
+    # * a : `Tensor(U, CPU(U))` - LHS to the operation
+    # * b : `Tensor(U, CPU(U))` - RHS to the operation
+    #
+    # ## Examples
+    #
+    # ```crystal
+    # a = [1, 2, 3].to_tensor
+    # b = [4, 5, 6].to_tensor
+    # Num.{{ name }}!(a, b) # a is modified
+    # ```
     @[AlwaysInline]
     def {{name}}!(a : Tensor(U, CPU(U)), b : Tensor(V, CPU(V))) forall U, V
       a.map!(b) do |i, j|
@@ -40,7 +73,21 @@ module Num
       end
     end
 
-    # :ditto:
+    # Implements the {{ operator }} operator between a `Tensor` and scalar.
+    # The scalar is broadcasted across all elements of the `Tensor`
+    #
+    # ## Arguments
+    #
+    # * a : `Tensor(U, CPU(U))` - LHS to the operation
+    # * b : `Number | Complex` - RHS to the operation
+    #
+    # ## Examples
+    #
+    # ```crystal
+    # a = [1, 2, 3].to_tensor
+    # b = 4
+    # Num.{{ name }}(a, b)
+    # ```
     @[AlwaysInline]
     def {{name}}(a : Tensor(U, CPU(U)), b : Number | Complex) forall U
       a.map do |i|
@@ -48,7 +95,22 @@ module Num
       end
     end
 
-    # :ditto:
+    # Implements the {{ operator }} operator between a `Tensor` and scalar.
+    # The scalar is broadcasted across all elements of the `Tensor`, and the
+    # `Tensor` is modified inplace.
+    #
+    # ## Arguments
+    #
+    # * a : `Tensor(U, CPU(U))` - LHS to the operation
+    # * b : `Number | Complex` - RHS to the operation
+    #
+    # ## Examples
+    #
+    # ```crystal
+    # a = [1, 2, 3].to_tensor
+    # b = 4
+    # Num.{{ name }}!(a, b)
+    # ```
     @[AlwaysInline]
     def {{name}}!(a : Tensor(U, CPU(U)), b : Number | Complex) forall U
       a.map! do |i|
@@ -56,7 +118,21 @@ module Num
       end
     end
 
-    # :ditto:
+    # Implements the {{ operator }} operator between a scalar and `Tensor`.
+    # The scalar is broadcasted across all elements of the `Tensor`
+    #
+    # ## Arguments
+    #
+    # * a : `Number | Complex` - RHS to the operation
+    # * b : `Tensor(U, CPU(U))` - LHS to the operation
+    #
+    # ## Examples
+    #
+    # ```crystal
+    # a = [1, 2, 3].to_tensor
+    # b = 4
+    # Num.{{ name }}(b, a)
+    # ```
     @[AlwaysInline]
     def {{name}}(a : Number | Complex, b : Tensor(U, CPU(U))) forall U
       b.map do |i|
@@ -71,218 +147,33 @@ module Num
     end
   end
 
-  # Adds two `Tensor`s elementwise
-  #
-  # Arguments
-  # ---------
-  # *a* : Tensor | Number
-  #   LHS argument
-  # *b* : Tensor | Number
-  #   RHS argument
-  #
-  # Examples
-  # --------
-  # ```
-  # a = Tensor.from_array [1.5, 2.2, 3.2]
-  # a + a
-  # ```
   elementwise add, :+
-
-  # Subtracts two `Tensor`s elementwise
-  #
-  # Arguments
-  # ---------
-  # *a* : Tensor | Number
-  #   LHS argument
-  # *b* : Tensor | Number
-  #   RHS argument
-  #
-  # Examples
-  # --------
-  # ```
-  # a = Tensor.from_array [1.5, 2.2, 3.2]
-  # a - a
-  # ```
   elementwise subtract, :-
-
-  # Multiplies two `Tensor`s elementwise
-  #
-  # Arguments
-  # ---------
-  # *a* : Tensor | Number
-  #   LHS argument
-  # *b* : Tensor | Number
-  #   RHS argument
-  #
-  # Examples
-  # --------
-  # ```
-  # a = Tensor.from_array [1.5, 2.2, 3.2]
-  # a * a
-  # ```
   elementwise multiply, :*
-
-  # Divides two `Tensor`s elementwise
-  #
-  # Arguments
-  # ---------
-  # *a* : Tensor | Number
-  #   LHS argument
-  # *b* : Tensor | Number
-  #   RHS argument
-  #
-  # Examples
-  # --------
-  # ```
-  # a = Tensor.from_array [1.5, 2.2, 3.2]
-  # a / a
-  # ```
   elementwise divide, :/
-
-  # Floor divides two `Tensor`s elementwise
-  #
-  # Arguments
-  # ---------
-  # *a* : Tensor | Number
-  #   LHS argument
-  # *b* : Tensor | Number
-  #   RHS argument
-  #
-  # Examples
-  # --------
-  # ```
-  # a = Tensor.from_array [1.5, 2.2, 3.2]
-  # a // a
-  # ```
   elementwise floordiv, ://
-
-  # Exponentiates two `Tensor`s elementwise
-  #
-  # Arguments
-  # ---------
-  # *a* : Tensor | Number
-  #   LHS argument
-  # *b* : Tensor | Number
-  #   RHS argument
-  #
-  # Examples
-  # --------
-  # ```
-  # a = Tensor.from_array [1.5, 2.2, 3.2]
-  # a ** a
-  # ```
   elementwise power, :**
-
-  # Return element-wise remainder of division for two `Tensor`s elementwise
-  #
-  # Arguments
-  # ---------
-  # *a* : Tensor | Number
-  #   LHS argument
-  # *b* : Tensor | Number
-  #   RHS argument
-  #
-  # Examples
-  # --------
-  # ```
-  # a = Tensor.from_array [1.5, 2.2, 3.2]
-  # a % a
-  # ```
   elementwise modulo, :%
-
-  # Shift the bits of an integer to the left.
-  # Bits are shifted to the left by appending x2 0s at the right of x1.
-  # Since the internal representation of numbers is in binary format,
-  # this operation is equivalent to multiplying x1 by 2**x2.
-  #
-  # Arguments
-  # ---------
-  # *a* : Tensor | Number
-  #   LHS argument
-  # *b* : Tensor | Number
-  #   RHS argument
-  #
-  # Examples
-  # --------
-  # ```
-  # a = Tensor.from_array [1, 2, 3]
-  # a << a
-  # ```
   elementwise left_shift, :<<
-
-  # Shift the bits of an integer to the right.
-  #
-  # Bits are shifted to the right x2. Because the internal representation
-  # of numbers is in binary format, this operation is equivalent to
-  # dividing x1 by 2**x2.
-  #
-  # Arguments
-  # ---------
-  # *a* : Tensor | Number
-  #   LHS argument
-  # *b* : Tensor | Number
-  #   RHS argument
-  #
-  # Examples
-  # --------
-  # ```
-  # a = Tensor.from_array [1, 2, 3]
-  # a >> a
-  # ```
   elementwise right_shift, :>>
-
-  # Compute the bit-wise AND of two `Tensor`s element-wise.
-  #
-  # Arguments
-  # ---------
-  # *a* : Tensor | Number
-  #   LHS argument
-  # *b* : Tensor | Number
-  #   RHS argument
-  #
-  # Examples
-  # --------
-  # ```
-  # a = Tensor.from_array [1, 2, 3]
-  # a & a
-  # ```
   elementwise bitwise_and, :&
-
-  # Compute the bit-wise OR of two `Tensor`s element-wise.
-  #
-  # Arguments
-  # ---------
-  # *a* : Tensor | Number
-  #   LHS argument
-  # *b* : Tensor | Number
-  #   RHS argument
-  #
-  # Examples
-  # --------
-  # ```
-  # a = Tensor.from_array [1, 2, 3]
-  # a | a
-  # ```
   elementwise bitwise_or, :|
-
-  # Compute the bit-wise XOR of two `Tensor`s element-wise.
-  #
-  # Arguments
-  # ---------
-  # *a* : Tensor | Number
-  #   LHS argument
-  # *b* : Tensor | Number
-  #   RHS argument
-  #
-  # Examples
-  # --------
-  # ```
-  # a = Tensor.from_array [1, 2, 3]
-  # a ^ a
-  # ```
   elementwise bitwise_xor, :^
 
   private macro stdlibwrap1d(fn)
+    # Implements the stdlib Math method {{ fn }} on a `Tensor`,
+    # broadcasting the operation across all elements of the `Tensor`
+    #
+    # ## Arguments
+    #
+    # * a : `Tensor(U, CPU(U))` - Argument to be operated upon
+    #
+    # ## Examples
+    #
+    # ```crystal
+    # a = [2.0, 3.65, 3.141].to_tensor
+    # Num.{{ fn }}(a)
+    # ```
     @[AlwaysInline]
     def {{fn.id}}(a : Tensor(U, CPU(U))) forall U
       a.map do |i|
@@ -290,7 +181,20 @@ module Num
       end
     end
 
-    # :ditto:
+    # Implements the stdlib Math method {{ fn }} on a `Tensor`,
+    # broadcasting the operation across all elements of the `Tensor`.
+    # The `Tensor` is modified inplace to store the result
+    #
+    # ## Arguments
+    #
+    # * a : `Tensor(U, CPU(U))` - Argument to be operated upon
+    #
+    # ## Examples
+    #
+    # ```crystal
+    # a = [2.0, 3.65, 3.141].to_tensor
+    # Num.{{ fn }}(a)
+    # ```
     @[AlwaysInline]
     def {{fn.id}}!(a : Tensor(U, CPU(U))) forall U
       a.map! do |i|
