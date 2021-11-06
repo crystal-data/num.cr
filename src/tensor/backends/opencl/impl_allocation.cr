@@ -25,8 +25,15 @@ class OCL(T) < Num::Backend::Storage(T)
   # Initialize an OpenCL storage from an initial capacity.
   # The data will be filled with zeros
   #
+  # ## Arguments
+  #
+  # * shape : `Array(Int)` - Shape for parent `Tensor`
+  # * order : `Num::OrderType` - Memory layout for parent `Tensor`
+  #
+  # ## Examples
+  #
   # ```
-  # OCL.new([100])
+  # OCL.new([100], Num::RowMajor)
   # ```
   def initialize(shape : Array(Int), order : Num::OrderType)
     @data = Cl.buffer(Num::ClContext.instance.context, shape.product.to_u64, dtype: T)
@@ -38,8 +45,15 @@ class OCL(T) < Num::Backend::Storage(T)
   # Initialize an OpenCL storage from an initial capacity.
   # The data will be filled with zeros
   #
+  # ## Arguments
+  #
+  # * shape : `Array(Int)` - Shape for parent `Tensor`
+  # * strides : `Array(Int)` - Strides for parent `Tensor`
+  #
+  # ## Examples
+  #
   # ```
-  # OCL.new([100])
+  # OCL.new([100], [1])
   # ```
   def initialize(shape : Array(Int), strides : Array(Int))
     @data = Cl.buffer(Num::ClContext.instance.context, shape.product.to_u64, dtype: T)
@@ -51,8 +65,16 @@ class OCL(T) < Num::Backend::Storage(T)
   # Initialize an OpenCL storage from an initial capacity and
   # an initial value, which will fill the buffer
   #
+  # ## Arguments
+  #
+  # * shape : `Array(Int)` - Shape for parent `Tensor`
+  # * order : `Num::OrderType` - Memory layout for parent `Tensor`
+  # * value : `T` - Value to initially populate the buffer
+  #
+  # ## Examples
+  #
   # ```
-  # OCL.new([10, 10], 3.4)
+  # OCL.new([10, 10], Num::RowMajor, 3.4)
   # ```
   def initialize(shape : Array(Int), order : Num::OrderType, value : T)
     @data = Cl.buffer(Num::ClContext.instance.context, shape.product.to_u64, dtype: T)
@@ -65,8 +87,16 @@ class OCL(T) < Num::Backend::Storage(T)
   # Initialize an OpenCL storage from an initial capacity and
   # an initial value, which will fill the buffer
   #
+  # ## Arguments
+  #
+  # * shape : `Array(Int)` - Shape for parent `Tensor`
+  # * strides : `Array(Int)` - Strides for parent `Tensor`
+  # * value : `T` - Value to initially populate the buffer
+  #
+  # ## Examples
+  #
   # ```
-  # OCL.new([10, 10], 3.4)
+  # OCL.new([10, 10], [10, 1], 3.4)
   # ```
   def initialize(shape : Array(Int), strides : Array(Int), value : T)
     @data = Cl.buffer(Num::ClContext.instance.context, shape.product.to_u64, dtype: T)
@@ -79,9 +109,18 @@ class OCL(T) < Num::Backend::Storage(T)
   # Initialize an OpenCL storage from a standard library Crystal
   # pointer
   #
+  # ## Arguments
+  #
+  # * hostptr : `Pointer(T)` - Stdlib Crystal pointer containing the `Tensor`s
+  #   data
+  # * shape : `Array(Int)` - Shape for parent `Tensor`
+  # * strides : `Array(Int)` - Strides for parent `Tensor`
+  #
+  # ## Examples
+  #
   # ```
   # ptr = Pointer(Int32).malloc(9)
-  # OCL.new(ptr, [3, 3])
+  # OCL.new(ptr, [3, 3], [3, 1])
   # ```
   def initialize(hostptr : Pointer(T), shape : Array(Int), strides : Array(Int))
     @data = Cl.buffer(Num::ClContext.instance.context, shape.product.to_u64, dtype: T)
@@ -118,6 +157,9 @@ class OCL(T) < Num::Backend::Storage(T)
     buffer
   end
 
+  # Releases the underlying `LibCL::ClMem` buffers containing the
+  # data for a `Tensor`, as well as the buffers containing the
+  # shape and strides for the `Tensor`
   def finalize
     Cl.release_buffer(@data)
     Cl.release_buffer(@shape)

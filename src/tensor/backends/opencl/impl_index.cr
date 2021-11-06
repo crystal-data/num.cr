@@ -29,20 +29,19 @@ module Num
   # to the shape of the slice if possible.  If a scalar is passed, it will
   # be tiled across the slice.
   #
-  # Arguments
-  # ---------
-  # *args* : *U
-  #   Tuple of arguments.  All but the last argument must be valid
-  #   indexer, so a `Range`, `Int`, or `Tuple(Range, Int)`.  The final
-  #   argument passed is used to set the values of the `Tensor`.  It can
-  #   be either a `Tensor`, or a scalar value.
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * arr : `Tensor(U, OCL(U))` - `Tensor` to which values will be assigned
+  # * args : `Tuple` - Tuple of arguments.  All arguments must be valid
+  #   indexers, so a `Range`, `Int`, or `Tuple(Range, Int)`.
+  # * value : `Tensor | Number` - Argument to assign to the `Tensor`
+  #
+  # ## Examples
+  #
   # ```
-  # a = Tensor.new([2, 2]) { |i| i }
+  # a = Tensor.new([2, 2], device: OCL) { |i| i }
   # a[1.., 1..] = 99
-  # a
+  # a.cpu
   #
   # # [[ 0,  1],
   # #  [ 2, 99]]
@@ -58,18 +57,17 @@ module Num
   # to the shape of the slice if possible.  If a scalar is passed, it will
   # be tiled across the slice.
   #
-  # Arguments
-  # ---------
-  # *args* : *U
-  #   Tuple of arguments.  All but the last argument must be valid
-  #   indexer, so a `Range`, `Int`, or `Tuple(Range, Int)`.  The final
-  #   argument passed is used to set the values of the `Tensor`.  It can
-  #   be either a `Tensor`, or a scalar value.
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * arr : `Tensor(U, OCL(U))` - `Tensor` to which values will be assigned
+  # * args : `Array` - Array of arguments.  All arguments must be valid
+  #   indexers, so a `Range`, `Int`, or `Tuple(Range, Int)`.
+  # * value : `Tensor(U, OCL(U))` - Argument to assign to the `Tensor`
+  #
+  # ## Examples
+  #
   # ```
-  # a = Tensor.new([2, 2]) { |i| i }
+  # a = Tensor.new([2, 2], device: OCL) { |i| i }
   # a[1.., 1..] = 99
   # a
   #
@@ -96,18 +94,17 @@ module Num
   # to the shape of the slice if possible.  If a scalar is passed, it will
   # be tiled across the slice.
   #
-  # Arguments
-  # ---------
-  # *args* : *U
-  #   Tuple of arguments.  All but the last argument must be valid
-  #   indexer, so a `Range`, `Int`, or `Tuple(Range, Int)`.  The final
-  #   argument passed is used to set the values of the `Tensor`.  It can
-  #   be either a `Tensor`, or a scalar value.
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * arr : `Tensor(U, OCL(U))` - `Tensor` to which values will be assigned
+  # * args : `Array` - Array of arguments.  All arguments must be valid
+  #   indexers, so a `Range`, `Int`, or `Tuple(Range, Int)`.
+  # * value : `U` - Argument to assign to the `Tensor`
+  #
+  # ## Examples
+  #
   # ```
-  # a = Tensor.new([2, 2]) { |i| i }
+  # a = Tensor.new([2, 2], device: OCL) { |i| i }
   # a[1.., 1..] = 99
   # a
   #
@@ -122,63 +119,5 @@ module Num
       [Int32, UInt32, Float32, Float64],
       selected, t
     )
-  end
-
-  # Return a shallow copy of a `Tensor`.  The underlying data buffer
-  # is shared, but the `Tensor` owns its other attributes.  Changes
-  # to a view of a `Tensor` will be reflected in the original `Tensor`
-  #
-  # Arguments
-  # ---------
-  #
-  # Examples
-  # --------
-  # ```
-  # a = Tensor(Int32).new([3, 3])
-  # b = a.view
-  # b[...] = 99
-  # a
-  #
-  # # [[99, 99, 99],
-  # #  [99, 99, 99],
-  # #  [99, 99, 99]]
-  # ```
-  def view(arr : Tensor(U, OCL(U))) forall U
-  end
-
-  # Return a shallow copy of a `Tensor` with a new dtype.  The underlying
-  # data buffer is shared, but the `Tensor` owns its other attributes.
-  # The size of the new dtype must be a multiple of the current dtype
-  #
-  # Arguments
-  # ---------
-  # *u* : U.class
-  #   The data type used to reintepret the underlying data buffer
-  #   of a `Tensor`
-  #
-  # Examples
-  # --------
-  # ```
-  # a = Tensor.new([3]) { |i| i }
-  # a.view(Int16) # => [0, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0]
-  # ```
-  def view(arr : Tensor(U, OCL(U)), dtype : U.class) forall U
-  end
-
-  # Returns a view of the diagonal of a `Tensor`.  This method only works
-  # for two-dimensional arrays.
-  #
-  # TODO: Implement views for offset diagonals
-  #
-  # Arguments
-  # ---------
-  #
-  # Examples
-  # --------
-  # ```
-  # a = Tensor.new(3, 3) { |i, _| i }
-  # a.diagonal # => [0, 1, 2]
-  # ```
-  def diagonal(arr : Tensor(U, OCL(U)))
   end
 end

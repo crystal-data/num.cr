@@ -25,11 +25,12 @@ module Num
   # Converts a `Tensor` to a standard library array.  The returned array
   # will always be one-dimensional to avoid return type ambiguity
   #
-  # Arguments
-  # ---------
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * arr : `Tensor(U, CPU(U))` - `Tensor` to convert to an `Array`
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.new([2, 2]) { |i| i }
   # a.to_a # => [0, 1, 2, 3]
@@ -43,6 +44,18 @@ module Num
     a
   end
 
+  # Places a `Tensor` stored on a CPU onto an OpenCL Device.
+  #
+  # ## Arguments
+  #
+  # * arr : `Tensor(U, CPU(U))` - `Tensor` to place on OpenCL device.
+  #
+  # ## Examples
+  #
+  # ```
+  # a = Tensor.new([2, 2]) { |i| i }
+  # a.opencl # => "<4> on OpenCL Backend"
+  # ```
   @[AlwaysInline]
   def opencl(arr : Tensor(U, CPU(U))) : Tensor(U, OCL(U)) forall U
     unless arr.flags.contiguous?
@@ -56,13 +69,12 @@ module Num
   # be lost when converting between data types, for example Float to Int
   # or Int to Bool.
   #
-  # Arguments
-  # ---------
-  # *u* : U.class
-  #   Data type the `Tensor` will be cast to
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * u : `U.class` - Data type the `Tensor` will be cast to
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.from_array [1.5, 2.5, 3.5]
   #
@@ -83,7 +95,20 @@ module Num
     r
   end
 
-  # :nodoc:
+  # Converts a CPU `Tensor` to CPU.  Returns the input array,
+  # no copy is performed.
+  #
+  # ## Arguments
+  #
+  # * arr : `Tensor(U, CPU(U))` - `Tensor` to return
+  #
+  # ## Examples
+  #
+  # ```
+  # a = Tensor.new([2, 2]) { |i| i }
+  # a.opencl # => "<4> on OpenCL Backend"
+  # ```
+  @[AlwaysInline]
   def cpu(arr : Tensor(U, CPU(U))) forall U
     arr
   end

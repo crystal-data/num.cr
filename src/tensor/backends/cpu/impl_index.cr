@@ -29,16 +29,15 @@ module Num
   # to the shape of the slice if possible.  If a scalar is passed, it will
   # be tiled across the slice.
   #
-  # Arguments
-  # ---------
-  # *args* : *U
-  #   Tuple of arguments.  All but the last argument must be valid
-  #   indexer, so a `Range`, `Int`, or `Tuple(Range, Int)`.  The final
-  #   argument passed is used to set the values of the `Tensor`.  It can
-  #   be either a `Tensor`, or a scalar value.
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * arr : `Tensor(U, CPU(U))` - `Tensor` to which values will be assigned
+  # * args : `Tuple` - Tuple of arguments.  All arguments must be valid
+  #   indexers, so a `Range`, `Int`, or `Tuple(Range, Int)`.
+  # * value : `Tensor | Number` - Argument to assign to the `Tensor`
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.new([2, 2]) { |i| i }
   # a[1.., 1..] = 99
@@ -47,6 +46,7 @@ module Num
   # # [[ 0,  1],
   # #  [ 2, 99]]
   # ```
+  @[AlwaysInline]
   def set(arr : Tensor(U, CPU(U)), *args, value) forall U
     set(arr, args.to_a, value)
   end
@@ -58,16 +58,15 @@ module Num
   # to the shape of the slice if possible.  If a scalar is passed, it will
   # be tiled across the slice.
   #
-  # Arguments
-  # ---------
-  # *args* : *U
-  #   Tuple of arguments.  All but the last argument must be valid
-  #   indexer, so a `Range`, `Int`, or `Tuple(Range, Int)`.  The final
-  #   argument passed is used to set the values of the `Tensor`.  It can
-  #   be either a `Tensor`, or a scalar value.
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * arr : `Tensor(U, CPU(U))` - `Tensor` to which values will be assigned
+  # * args : `Array` - Array of arguments.  All arguments must be valid
+  #   indexers, so a `Range`, `Int`, or `Tuple(Range, Int)`.
+  # * value : `Tensor(V, CPU(V))` - Argument to assign to the `Tensor`
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.new([2, 2]) { |i| i }
   # a[1.., 1..] = 99
@@ -76,6 +75,7 @@ module Num
   # # [[ 0,  1],
   # #  [ 2, 99]]
   # ```
+  @[AlwaysInline]
   def set(arr : Tensor(U, CPU(U)), args : Array, t : Tensor(V, CPU(V))) forall U, V
     s = arr[args]
     t = t.broadcast_to(s.shape)
@@ -94,16 +94,15 @@ module Num
   # to the shape of the slice if possible.  If a scalar is passed, it will
   # be tiled across the slice.
   #
-  # Arguments
-  # ---------
-  # *args* : *U
-  #   Tuple of arguments.  All but the last argument must be valid
-  #   indexer, so a `Range`, `Int`, or `Tuple(Range, Int)`.  The final
-  #   argument passed is used to set the values of the `Tensor`.  It can
-  #   be either a `Tensor`, or a scalar value.
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * arr : `Tensor(U, CPU(U))` - `Tensor` to which values will be assigned
+  # * args : `Array` - Tuple of arguments.  All arguments must be valid
+  #   indexers, so a `Range`, `Int`, or `Tuple(Range, Int)`.
+  # * value : `V` - Argument to assign to the `Tensor`
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.new([2, 2]) { |i| i }
   # a[1.., 1..] = 99
@@ -112,6 +111,7 @@ module Num
   # # [[ 0,  1],
   # #  [ 2, 99]]
   # ```
+  @[AlwaysInline]
   def set(arr : Tensor(U, CPU(U)), args : Array, t : V) forall U, V
     s = arr[args]
     s.map! do
@@ -119,45 +119,39 @@ module Num
     end
   end
 
-  # Return a shallow copy of a `Tensor`.  The underlying data buffer
-  # is shared, but the `Tensor` owns its other attributes.  Changes
-  # to a view of a `Tensor` will be reflected in the original `Tensor`
-  #
-  # Arguments
-  # ---------
-  #
-  # Examples
-  # --------
-  # ```
-  # a = Tensor(Int32).new([3, 3])
-  # b = a.view
-  # b[...] = 99
-  # a
-  #
-  # # [[99, 99, 99],
-  # #  [99, 99, 99],
-  # #  [99, 99, 99]]
-  # ```
-  def view(arr : Tensor(U, CPU(U))) forall U
-  end
-
   # Return a shallow copy of a `Tensor` with a new dtype.  The underlying
   # data buffer is shared, but the `Tensor` owns its other attributes.
   # The size of the new dtype must be a multiple of the current dtype
   #
-  # Arguments
-  # ---------
-  # *u* : U.class
-  #   The data type used to reintepret the underlying data buffer
+  # ## Arguments
+  #
+  # * arr : `Tensor(U, CPU(U))` - `Tensor` to view as a different data type
+  # * u : `V.class` - The data type used to reintepret the underlying data buffer
   #   of a `Tensor`
   #
-  # Examples
-  # --------
+  # ## Examples
+  #
   # ```
   # a = Tensor.new([3]) { |i| i }
-  # a.view(Int16) # => [0, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0]
+  # a.view(Int8) # => [0, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0]
   # ```
-  def view(arr : Tensor(U, CPU(U)), dtype : U.class) forall U
+  @[AlwaysInline]
+  def view(arr : Tensor(U, CPU(U)), dtype : V.class) forall U, V
+    s0 = sizeof(U)
+    s1 = sizeof(V)
+
+    shape = arr.shape.dup
+    s0g = s0 > s1
+
+    m = s0g ? (s0 // s1) : (s1 // s0)
+
+    offset = s0g ? arr.offset * m : arr.offset // m
+    shape[-1] = s0g ? shape[-1] * m : shape[-1] // m
+
+    strides = Num::Internal.shape_to_strides(shape)
+    data = arr.to_unsafe.unsafe_as(Pointer(V))
+    storage = CPU(V).new(data, shape, strides)
+    Tensor(V, CPU(V)).new(storage, shape, strides, offset, arr.flags.dup)
   end
 
   # Returns a view of the diagonal of a `Tensor`.  This method only works
@@ -165,15 +159,17 @@ module Num
   #
   # TODO: Implement views for offset diagonals
   #
-  # Arguments
-  # ---------
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * arr : `Tensor(U, CPU(U))` - `Tensor` to view along the diagonal
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.new(3, 3) { |i, _| i }
   # a.diagonal # => [0, 1, 2]
   # ```
+  @[AlwaysInline]
   def diagonal(arr : Tensor(U, CPU(U))) forall U
     unless arr.rank == 2
       raise Num::Exceptions::ValueError.new("Tensor must be 2D")

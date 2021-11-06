@@ -25,21 +25,19 @@ module Num
   # Reduces a `Tensor` along an axis, summing each view into
   # the `Tensor`
   #
-  # Arguments
-  # ---------
-  # *a* : Tensor | Enumerable
-  #   Argument to sum
-  # *axis* : Int
-  #   Axis of summation
-  # *dims* : Bool
-  #   Indicate if the axis of reduction should remain in the result
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * a : `Tensor(U, OCL(U))` - `Tensor` to reduce
+  # * axis : `Int` - Axis of reduction
+  # * dims : `Bool` - Indicate if the axis of reduction should remain in the
+  #   result
+  #
+  # ## Examples
+  #
   # ```
-  # a = Tensor.new([2, 2]) { |i| i }
-  # Num.sum(a, 0) # => [2, 4]
-  # Num.sum(a, 1, dims: true)
+  # a = Tensor.new([2, 2], device: OCL) { |i| i }
+  # Num.sum(a, 0).cpu # => [2, 4]
+  # Num.sum(a, 1, dims: true).cpu
   # # [[1],
   # #  [5]]
   # ```

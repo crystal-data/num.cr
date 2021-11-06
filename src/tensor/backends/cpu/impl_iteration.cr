@@ -27,11 +27,12 @@ module Num
   # Yields the elements of a `Tensor`, always in RowMajor order,
   # as if the `Tensor` was flat.
   #
-  # Arguments
-  # ---------
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * arr : `Tensor(U, CPU(U))` - `Tensor` from which values will be yielded
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.new(2, 2) { |i| i }
   # a.each do |el|
@@ -53,13 +54,13 @@ module Num
   # Yields the elements of two `Tensor`s, always in RowMajor order,
   # as if the `Tensor`s were flat.
   #
-  # Arguments
-  # ---------
-  # *b* : Tensor
-  #   The other tensor to iterate along
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * a : `Tensor(U, CPU(U))` - First `Tensor` of iteration
+  # * b : `Tensor(U, CPU(U))` - Second `Tensor` of iteration
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.new(2, 2) { |i| i }
   # b = Tensor.new(2, 2) { |i| i + 2 }
@@ -83,11 +84,12 @@ module Num
   # Yields the elements of a `Tensor` lazily, always in RowMajor order,
   # as if the `Tensor` was flat.
   #
-  # Arguments
-  # ---------
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * arr : `Tensor(U, CPU(U))` - `Tensor` from which to create an iterator
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.new(2, 2) { |i| i }
   # iter = a.each
@@ -112,11 +114,12 @@ module Num
   # as `map!` provided more convenient access to editing the values
   # of a `Tensor`
   #
-  # Arguments
-  # ---------
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * arr : `Tensor(U, CPU(U))` - `Tensor` from which values will be yielded
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.new(2, 2) { |i| i }
   # a.each_pointer do |el|
@@ -139,11 +142,12 @@ module Num
   # as if the `Tensor` was flat.  Also yields the flat index of each
   # element.
   #
-  # Arguments
-  # ---------
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * arr : `Tensor(U, CPU(U))` - `Tensor` from which values will be yielded
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.new(2, 2) { |i| i }
   # a.each_with_index do |el, i|
@@ -169,11 +173,12 @@ module Num
   # as `map!` provided more convenient access to editing the values
   # of a `Tensor`
   #
-  # Arguments
-  # ---------
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * arr : `Tensor(U, CPU(U))` - `Tensor` from which values will be yielded
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.new(2, 2) { |i| i }
   # a.each_pointer do |el|
@@ -199,13 +204,13 @@ module Num
   # The generic type of the returned `Tensor` is inferred from
   # the block
   #
-  # Arguments
-  # ---------
-  # *block* Proc(T, U)
-  #   Proc to map across the `Tensor`
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * arr : `Tensor(U, CPU(U))` - `Tensor` to map the `Proc` across
+  # * block : `Proc(T, U)` - Proc to map across the `Tensor`
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.new([3]) { |i| i }
   # a.map { |e| e + 5 } # => [5, 6, 7]
@@ -224,13 +229,13 @@ module Num
   # as flat during iteration, and iteration is always done
   # in RowMajor order
   #
-  # Arguments
-  # ---------
-  # *block* Proc(T, U)
-  #   Proc to map across the `Tensor`
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * arr : `Tensor(U, CPU(U))` - `Tensor` to map the `Proc` across
+  # * block : `Proc(T, U)` - Proc to map across the `Tensor`
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.new([3]) { |i| i }
   # a.map! { |e| e + 5 }
@@ -256,16 +261,16 @@ module Num
   #
   # The generic type of the returned `Tensor` is inferred from a block
   #
-  # Arguments
-  # ---------
-  # *t* : Tensor(U)
-  #   The second `Tensor` for iteration.  Must be broadcastable
-  #   against the `shape` of `self`
-  # *block* : Proc(T, U, V)
-  #   The block to map across both `Tensor`s
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * a0 : `Tensor(U, CPU(U))` - First `Tensor` for iteration, must be
+  #   broadcastable against the shape of a1
+  # * a1 : `Tensor(V, CPU(V))` - Second `Tensor` for iteration, must be
+  #   broadcastable against the shape of a0
+  # * block : `Proc(T, U, V)` - The block to map across both `Tensor`s
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.new([3]) { |i| i }
   # b = Tensor.new([3]) { |i| i }
@@ -291,16 +296,15 @@ module Num
   # Broadcasting rules still apply, but since this is an in place
   # operation, the other `Tensor` must broadcast to the shape of `self`
   #
-  # Arguments
-  # ---------
-  # *t* : Tensor(U)
-  #   The second `Tensor` for iteration.  Must be broadcastable
-  #   against the `shape` of `self`
-  # *block* : Proc(T, U, T)
-  #   The block to map across both `Tensor`s
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * a0 : `Tensor(U, CPU(U))` - First `Tensor` for iteration
+  # * a1 : `Tensor(V, CPU(V))` - Second `Tensor` for iteration, must be
+  #   broadcastable against the shape of a0
+  # * block : `Proc(T, U, V)` - The block to map across both `Tensor`s
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.new([3]) { |i| i }
   # b = Tensor.new([3]) { |i| i }
@@ -329,19 +333,18 @@ module Num
   #
   # The generic type of the returned `Tensor` is inferred from a block
   #
-  # Arguments
-  # ---------
-  # *t* : Tensor(U)
-  #   The second `Tensor` for iteration.  Must be broadcastable
-  #   against the `shape` of `self` and `v`
-  # *v) : Tensor(V)
-  #   The third `Tensor` for iteration.  Must be broadcastable
-  #   against the `shape` of `self` and `t`
-  # *block* : Proc(T, U, V, W)
-  #   The block to map across all `Tensor`s
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * a0 : `Tensor(U, CPU(U))` - First `Tensor` for iteration, must be
+  #   broadcastable against the shape of a1 and a2
+  # * a1 : `Tensor(V, CPU(V))` - Second `Tensor` for iteration, must be
+  #   broadcastable against the shape of a0 and a2
+  # * a2 : `Tensor(W, CPU(W))` - Third `Tensor` for iteration, must be
+  #   broadcastable against the shape of a0 and a1
+  # * block : `Proc(T, U, V)` - The block to map across both `Tensor`s
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.new([3]) { |i| i }
   # b = Tensor.new([3]) { |i| i }
@@ -373,19 +376,17 @@ module Num
   # Broadcasting rules still apply, but since this is an in place
   # operation, the other `Tensor`'s must broadcast to the shape of `self`
   #
-  # Arguments
-  # ---------
-  # *t* : Tensor(U)
-  #   The second `Tensor` for iteration.  Must be broadcastable
-  #   against the `shape` of `self` and `v`
-  # *v) : Tensor(V)
-  #   The third `Tensor` for iteration.  Must be broadcastable
-  #   against the `shape` of `self` and `t`
-  # *block* : Proc(T, U, V, W)
-  #   The block to map across all `Tensor`s
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * a0 : `Tensor(U, CPU(U))` - First `Tensor` for iteration
+  # * a1 : `Tensor(V, CPU(V))` - Second `Tensor` for iteration, must be
+  #   broadcastable against the shape of a0
+  # * a2 : `Tensor(W, CPU(W))` - Third `Tensor` for iteration, must be
+  #   broadcastable against the shape of a0
+  # * block : `Proc(T, U, V)` - The block to map across both `Tensor`s
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.new([3]) { |i| i }
   # b = Tensor.new([3]) { |i| i }
@@ -411,6 +412,7 @@ module Num
   end
 
   # :nodoc:
+  @[AlwaysInline]
   private def at_axis_index(
     a : Tensor(U, V),
     axis : Int,
@@ -430,13 +432,32 @@ module Num
   end
 
   # :nodoc:
+  @[AlwaysInline]
   def normalize_axis_index(axis : Int, rank : Int)
     axis = rank + axis if axis < 0
     raise "Axis out of range for Tensor" if axis >= rank
     return axis
   end
 
-  # :nodoc:
+  # Reduces a `Tensor` along an axis. Returns a `Tensor`, with the axis
+  # of reduction either removed, or reduced to 1 if `dims` is True, which
+  # allows the result to broadcast against its previous shape
+  #
+  # ## Arguments
+  #
+  # * a0 : `Tensor(U, CPU(U))` - `Tensor` to reduce along an axis
+  # * axis : `Int` - Axis of reduction
+  # * dims : `Bool` - Flag determining whether the axis of reduction should be
+  #   kept in the result
+  # * block : `Proc(U, U, _)` - `Proc` to apply to values along an axis
+  #
+  # ## Examples
+  #
+  # ```
+  # a = Tensor.new([2, 2]) { |i| i }
+  # a.reduce_axis(0) { |i, j| i + j } # => [2, 4]
+  # ```
+  @[AlwaysInline]
   def reduce_axis(a0 : Tensor(U, CPU(U)), axis : Int, dims : Bool = false, &block : U, U -> _) forall U
     axis = normalize_axis_index(axis, a0.rank)
     result = at_axis_index(a0, axis, 0, dims).dup
@@ -448,7 +469,29 @@ module Num
     result
   end
 
-  # :nodoc:
+  # Yields a view of each lane of an `axis`.  Changes made in
+  # the passed block will be reflected in the original `Tensor`
+  #
+  # ## Arguments
+  #
+  # * a0 : `Tensor(U, CPU(U))` - `Tensor` to iterate along
+  # * axis : `Int` - Axis of reduction
+  # * dims : `Bool` - Indicates if the axis of reduction should be removed
+  #   from the result
+  #
+  # ## Examples
+  #
+  # ```
+  # a = Tensor.new([3, 3]) { |i| i }
+  # a.each_axis(1) do |ax|
+  #   puts ax
+  # end
+  #
+  # # [0, 3, 6]
+  # # [1, 4, 7]
+  # # [2, 5, 8]
+  # ```
+  @[AlwaysInline]
   def each_axis(a0 : Tensor(U, CPU(U)), axis : Int, dims : Bool = false, &block : Tensor(U, CPU(U)) -> _) forall U
     axis = normalize_axis_index(axis, a0.rank)
     0.step(to: a0.shape[axis] - 1) do |i|
@@ -456,12 +499,57 @@ module Num
     end
   end
 
-  # :nodoc:
+  # Returns an iterator along each element of an `axis`.
+  # Each element returned by the iterator is a view, not a copy
+  #
+  # ## Arguments
+  #
+  # * arr : `Tensor(U, CPU(U))` - `Tensor` to iterate along
+  # * axis : `Int` - Axis of reduction
+  # * dims : `Bool` - Indicates if the axis of reduction should be removed
+  #   from the result
+  #
+  # ## Examples
+  #
+  # ```
+  # a = Tensor.new([3, 3]) { |i| i }
+  # a.each_axis(1).next # => [0, 3, 6]
+  # ```
+  @[AlwaysInline]
   def each_axis(arr : Tensor(U, CPU(U)), axis : Int, dims : Bool = false) forall U
     Num::Internal::UnsafeAxisIter.new(arr, axis, dims)
   end
 
-  # :nodoc:
+  # Similar to `each_axis`, but instead of yielding slices of
+  # an axis, it yields slices along an axis, useful for methods
+  # that require an entire view of an `axis` slice for a reduction
+  # operation, such as `std`, rather than being able to incrementally
+  # reduce.
+  #
+  # ## Arguments
+  #
+  # * a0 : `Tensor(U, CPU(U))` - `Tensor` along which to iterate
+  # * axis : `Int` - Axis of reduction
+  #
+  # ## Examples
+  #
+  # ```
+  # a = Tensor.new([3, 3, 3]) { |i| i }
+  # a.yield_along_axis(0) do |ax|
+  #   puts ax
+  # end
+  #
+  # # [ 0,  9, 18]
+  # # [ 1, 10, 19]
+  # # [ 2, 11, 20]
+  # # [ 3, 12, 21]
+  # # [ 4, 13, 22]
+  # # [ 5, 14, 23]
+  # # [ 6, 15, 24]
+  # # [ 7, 16, 25]
+  # # [ 8, 17, 26]
+  # ```
+  @[AlwaysInline]
   def yield_along_axis(a0 : Tensor(U, CPU(U)), axis : Int) forall U
     axis = normalize_axis_index(axis, a0.rank)
     nd = a0.rank

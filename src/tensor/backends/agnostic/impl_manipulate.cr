@@ -22,24 +22,141 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 module Num
+  # Broadcasts a `Tensor` to a new shape.  Returns a read-only
+  # view of the original `Tensor`.  Many elements in the `Tensor`
+  # will refer to the same memory location, and the result is
+  # rarely contiguous.
+  #
+  # Shapes must be broadcastable, and an error will be raised
+  # if broadcasting fails.
+  #
+  # ## Arguments
+  #
+  # * arr : `Tensor` - `Tensor` to broadcast
+  # * shape : `Array(Int)` - The shape of the desired output `Tensor`
+  #
+  # ## Examples
+  #
+  # ```
+  # a = [1, 2, 3].to_tensor
+  # a.broadcast_to([3, 3])
+  #
+  # # [[1, 2, 3],
+  # #  [1, 2, 3],
+  # #  [1, 2, 3]]
+  # ```
+  @[AlwaysInline]
+  def broadcast_to(arr : Tensor(U, V), shape : Array(Int)) forall U, V
+    strides = Num::Internal.strides_for_broadcast(arr.shape, arr.strides, shape)
+    flags = arr.flags.dup
+    flags &= ~Num::ArrayFlags::OwnData
+    flags &= ~Num::ArrayFlags::Write
+    Tensor.new(arr.data, shape, strides, arr.offset, flags, U)
+  end
+
+  # `as_strided` creates a view into the `Tensor` given the exact strides
+  # and shape. This means it manipulates the internal data structure
+  # of a `Tensor` and, if done incorrectly, the array elements can point
+  # to invalid memory and can corrupt results or crash your program.
+  #
+  # It is advisable to always use the original `strides` when
+  # calculating new strides to avoid reliance on a contiguous
+  # memory layout.
+  #
+  #
+  # Furthermore, `Tensor`s created with this function often contain
+  # self overlapping memory, so that two elements are identical.
+  # Vectorized write operations on such `Tensor`s will typically be
+  # unpredictable. They may even give different results for small,
+  # large, or transposed `Tensor`s.
+  #
+  # ## Arguments
+  #
+  # * arr : `Tensor` - `Tensor` to broadcast
+  # * shape : `Array(Int)` - Shape of broadcasted `Tensor`
+  # * strides : `Array(Int)` - Strides of broadcasted `Tensor`
+  #
+  # ## Examples
+  #
+  # ```
+  # a = Tensor.from_array [1, 2, 3]
+  # a.as_strided([3, 3], [0, 1])
+  #
+  # # [[1, 2, 3],
+  # #  [1, 2, 3],
+  # #  [1, 2, 3]]
+  # ```
+  @[AlwaysInline]
+  def as_strided(arr : Tensor(U, V), shape : Array(Int), strides : Array(Int)) : Tensor(U, V) forall U, V
+    flags = arr.flags.dup
+    flags &= ~Num::ArrayFlags::OwnData
+    flags &= ~Num::ArrayFlags::Write
+    Tensor.new(arr.data, shape, strides, arr.offset, flags, U)
+  end
+
+  # Expands a `Tensor`s dimensions n times by broadcasting
+  # the shape and strides.  No data is copied, and the result
+  # is a read-only view of the original `Tensor`
+  #
+  # ## Arguments
+  #
+  # * arr : `Tensor` - `Tensor` to broadcast
+  # * n : `Int` - Number of dimensions to broadcast
+  #
+  # ## Examples
+  #
+  # ```
+  # a = [1, 2, 3].to_tensor
+  # a.with_broadcast(2)
+  #
+  # # [[[1]],
+  # #
+  # #  [[2]],
+  # #
+  # #  [[3]]]
+  # ```
+  @[AlwaysInline]
+  def with_broadcast(arr : Tensor(U, V), n : Int) : Tensor(U, V) forall U, V
+    shape = arr.shape + [1] * n
+    strides = arr.strides + [0] * n
+    arr.as_strided(shape, strides)
+  end
+
+  # Expands a `Tensor` along an `axis`
+  #
+  # ## Arguments
+  #
+  # * arr : `Tensor` - `Tensor` to expand
+  # * axis : `Int` - `Axis` along which to expand
+  #
+  # ## Examples
+  #
+  # ```
+  # a = [1, 2, 3].to_tensor
+  # a.expand_dims(0) # => [[1, 2, 3]]
+  # ```
+  @[AlwaysInline]
+  def expand_dims(arr : Tensor(U, V), axis : Int) : Tensor(U, V) forall U, V
+    shape = arr.shape.dup
+    shape.insert(axis, 1)
+    strides = arr.strides.dup
+    strides.insert(axis, 0)
+    arr.as_strided(shape, strides)
+  end
+
   # Join a sequence of `Tensor`s along an existing axis.  The `Tensor`s
   # must have the same shape for all axes other than the axis of
   # concatenation
   #
-  # Arguments
-  # ---------
-  # *t_array* : Array(Tensor | Enumerable)
-  #   Array of items to concatenate.  All elements
-  #   will be cast to `Tensor`, so arrays can be passed here, but
-  #   all inputs must have the same generic type.  Union types
-  #   are not allowed
-  # *axis* : Int
-  #   Axis of concatenation, negative axes are allowed
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * arrs : `Array(Tensor)` - `Tensor`s to concatenate
+  # * axis : `Int` - Axis of concatenation, negative axes are allowed
+  #
+  # ## Examples
+  #
   # ```
-  # a = [1, 2, 3]
+  # a = [1, 2, 3].to_tensor
   # b = Tensor.from_array [4, 5, 6]
   # Num.concat([a, b], 0) # => [1, 2, 3, 4, 5, 6]
   #
@@ -87,20 +204,15 @@ module Num
   # must have the same shape for all axes other than the axis of
   # concatenation
   #
-  # Arguments
-  # ---------
-  # *t_array* : Array(Tensor | Enumerable)
-  #   Array of items to concatenate.  All elements
-  #   will be cast to `Tensor`, so arrays can be passed here, but
-  #   all inputs must have the same generic type.  Union types
-  #   are not allowed
-  # *axis* : Int
-  #   Axis of concatenation, negative axes are allowed
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * arrs : `Tuple(Tensor)` - `Tensor`s to concatenate
+  # * axis : `Int` - Axis of concatenation, negative axes are allowed
+  #
+  # ## Examples
+  #
   # ```
-  # a = [1, 2, 3]
+  # a = [1, 2, 3].to_tensor
   # b = Tensor.from_array [4, 5, 6]
   # Num.concat([a, b], 0) # => [1, 2, 3, 4, 5, 6]
   #
@@ -125,12 +237,12 @@ module Num
   # method can take `Tensor`s with any number of dimensions, it makes
   # the most sense with rank <= 3
   #
-  # Arguments
-  # *t_array* : Array(Tensor | Enumerable)
-  #   `Tensor`s to concatenate
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * arrs : `Array(Tensor)` - `Tensor`s to concatenate
+  #
+  # ## Examples
+  #
   # ```
   # a = [1, 2, 3].to_tensor
   # Num.vstack([a, a])
@@ -147,12 +259,12 @@ module Num
   # method can take `Tensor`s with any number of dimensions, it makes
   # the most sense with rank <= 3
   #
-  # Arguments
-  # *t_array* : Array(Tensor | Enumerable)
-  #   `Tensor`s to concatenate
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * arrs : `Tuple(Tensor)` - `Tensor`s to concatenate
+  #
+  # ## Examples
+  #
   # ```
   # a = [1, 2, 3].to_tensor
   # Num.vstack([a, a])
@@ -172,12 +284,12 @@ module Num
   # For one dimensional `Tensor`s, this will still stack along the
   # first axis
   #
-  # Arguments
-  # *t_array* : Array(Tensor | Enumerable)
-  #   `Tensor`s to concatenate
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * arrs : `Array(Tensor)` - `Tensor`s to concatenate
+  #
+  # ## Examples
+  #
   # ```
   # a = [1, 2, 3].to_tensor
   # Num.h_concat([a, a]) # => [1, 2, 3, 1, 2, 3]
@@ -200,12 +312,12 @@ module Num
   # For one dimensional `Tensor`s, this will still stack along the
   # first axis
   #
-  # Arguments
-  # *t_array* : Array(Tensor | Enumerable)
-  #   `Tensor`s to concatenate
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * arrs : `Tuple(Tensor)` - `Tensor`s to concatenate
+  #
+  # ## Examples
+  #
   # ```
   # a = [1, 2, 3].to_tensor
   # Num.h_concat([a, a]) # => [1, 2, 3, 1, 2, 3]

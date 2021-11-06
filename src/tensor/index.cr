@@ -226,7 +226,7 @@ class Tensor(T, S)
   #
   # * args : `Tuple` - Tuple of arguments.  All must be
   #   valid indexers, so a `Range`, `Int`, or `Tuple(Range, Int)`.
-  # * value : `Tensor` | `Number` - Value to assign to the slice
+  # * value : `Tensor | Number` - Value to assign to the slice
   #
   # ## Examples
   #

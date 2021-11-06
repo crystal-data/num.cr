@@ -27,13 +27,12 @@ module Num
   # Reduces a `Tensor` to a scalar by summing all of its
   # elements
   #
-  # Arguments
-  # ---------
-  # *a* : Tensor | Enumerable
-  #   Argument to sum
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  #
+  # ## Examples
+  #
   # ```
   # a = [1, 2, 3]
   # Num.sum(a) # => 6
@@ -46,17 +45,15 @@ module Num
   # Reduces a `Tensor` along an axis, summing each view into
   # the `Tensor`
   #
-  # Arguments
-  # ---------
-  # *a* : Tensor | Enumerable
-  #   Argument to sum
-  # *axis* : Int
-  #   Axis of summation
-  # *dims* : Bool
-  #   Indicate if the axis of reduction should remain in the result
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  # * axis : `Int` - Axis of reduction
+  # * dims : `Bool` - Indicate if the axis of reduction should remain in the
+  #   result
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.new([2, 2]) { |i| i }
   # Num.sum(a, 0) # => [2, 4]
@@ -72,13 +69,12 @@ module Num
   # Reduces a `Tensor` to a scalar by multiplying all of its
   # elements
   #
-  # Arguments
-  # ---------
-  # *a* : Tensor
-  #   Argument to reduce
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  #
+  # ## Examples
+  #
   # ```
   # a = [1, 2, 3]
   # Num.prod(a) # => 6
@@ -91,17 +87,15 @@ module Num
   # Reduces a `Tensor` along an axis, multiplying each view into
   # the `Tensor`
   #
-  # Arguments
-  # ---------
-  # *a* : Tensor
-  #   Argument to reduce
-  # *axis* : Int
-  #   Axis of reduction
-  # *dims* : Bool
-  #   Indicate if the axis of reduction should remain in the result
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  # * axis : `Int` - Axis of reduction
+  # * dims : `Bool` - Indicate if the axis of reduction should remain in the
+  #   result
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.new([2, 2]) { |i| i }
   # Num.prod(a, 0) # => [0, 3]
@@ -117,13 +111,12 @@ module Num
   # Reduces a `Tensor` to a boolean by asserting the truthiness of
   # all elements
   #
-  # Arguments
-  # ---------
-  # *a* : Tensor
-  #   Argument to reduce
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  #
+  # ## Examples
+  #
   # ```
   # a = [0, 2, 3]
   # Num.all(a) # => false
@@ -137,17 +130,15 @@ module Num
   # Reduces a `Tensor` along an axis, asserting the truthiness of all values
   # in each view into the `Tensor`
   #
-  # Arguments
-  # ---------
-  # *a* : Tensor
-  #   Argument to reduce
-  # *axis* : Int
-  #   Axis of reduction
-  # *dims* : Bool
-  #   Indicate if the axis of reduction should remain in the result
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  # * axis : `Int` - Axis of reduction
+  # * dims : `Bool` - Indicate if the axis of reduction should remain in the
+  #   result
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.new([2, 2]) { |i| i }
   # Num.all(a, 0) # => [false, true]
@@ -164,13 +155,12 @@ module Num
   # Reduces a `Tensor` to a boolean by asserting the truthiness of
   # any element
   #
-  # Arguments
-  # ---------
-  # *a* : Tensor
-  #   Argument to reduce
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  #
+  # ## Examples
+  #
   # ```
   # a = [0, 2, 3]
   # Num.any(a) # => true
@@ -184,17 +174,15 @@ module Num
   # Reduces a `Tensor` along an axis, asserting the truthiness of any values
   # in each view into the `Tensor`
   #
-  # Arguments
-  # ---------
-  # *a* : Tensor
-  #   Argument to reduce
-  # *axis* : Int
-  #   Axis of reduction
-  # *dims* : Bool
-  #   Indicate if the axis of reduction should remain in the result
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  # * axis : `Int` - Axis of reduction
+  # * dims : `Bool` - Indicate if the axis of reduction should remain in the
+  #   result
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.new([2, 2]) { |i| i }
   # Num.any(a, 0) # => [true, true]
@@ -210,13 +198,12 @@ module Num
 
   # Reduces a `Tensor` to a scalar by finding the average
   #
-  # Arguments
-  # ---------
-  # *a* : Tensor | Enumerable
-  #   Argument to reduce
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  #
+  # ## Examples
+  #
   # ```
   # a = [1, 2, 3]
   # Num.mean(a) # => 2.0
@@ -229,17 +216,15 @@ module Num
   # Reduces a `Tensor` along an axis, finding the average of each
   # view into the `Tensor`
   #
-  # Arguments
-  # ---------
-  # *a* : Tensor
-  #   Argument to reduce
-  # *axis* : Int
-  #   Axis of reduction
-  # *dims* : Bool
-  #   Indicate if the axis of reduction should remain in the result
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  # * axis : `Int` - Axis of reduction
+  # * dims : `Bool` - Indicate if the axis of reduction should remain in the
+  #   result
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.new([2, 2]) { |i| i }
   # Num.mean(a, 0) # => [1, 2]
@@ -255,13 +240,12 @@ module Num
 
   # Reduces a `Tensor` to a scalar by finding the maximum value
   #
-  # Arguments
-  # ---------
-  # *a* : Tensor
-  #   Argument to reduce
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  #
+  # ## Examples
+  #
   # ```
   # a = [1, 2, 3]
   # Num.max(a) # => 3
@@ -278,17 +262,15 @@ module Num
   # Reduces a `Tensor` along an axis, finding the max of each
   # view into the `Tensor`
   #
-  # Arguments
-  # ---------
-  # *a* : Tensor
-  #   Argument to reduce
-  # *axis* : Int
-  #   Axis of reduction
-  # *dims* : Bool
-  #   Indicate if the axis of reduction should remain in the result
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  # * axis : `Int` - Axis of reduction
+  # * dims : `Bool` - Indicate if the axis of reduction should remain in the
+  #   result
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.new([2, 2]) { |i| i }
   # Num.max(a, 0) # => [2, 3]
@@ -303,13 +285,12 @@ module Num
 
   # Reduces a `Tensor` to a scalar by finding the minimum value
   #
-  # Arguments
-  # ---------
-  # *a* : Tensor
-  #   Argument to reduce
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  #
+  # ## Examples
+  #
   # ```
   # a = [1, 2, 3]
   # Num.min(a) # => 3
@@ -326,17 +307,15 @@ module Num
   # Reduces a `Tensor` along an axis, finding the min of each
   # view into the `Tensor`
   #
-  # Arguments
-  # ---------
-  # *a* : Tensor
-  #   Argument to reduce
-  # *axis* : Int
-  #   Axis of reduction
-  # *dims* : Bool
-  #   Indicate if the axis of reduction should remain in the result
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  # * axis : `Int` - Axis of reduction
+  # * dims : `Bool` - Indicate if the axis of reduction should remain in the
+  #   result
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.new([2, 2]) { |i| i }
   # Num.min(a, 0) # => [0, 1]
@@ -351,13 +330,12 @@ module Num
 
   # Reduces a `Tensor` to a scalar by finding the standard deviation
   #
-  # Arguments
-  # ---------
-  # *a* : Tensor | Enumerable
-  #   Argument to reduce
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  #
+  # ## Examples
+  #
   # ```
   # a = [1, 2, 3]
   # Num.std(a) # => 0.816496580927726
@@ -372,17 +350,15 @@ module Num
   # Reduces a `Tensor` along an axis, finding the std of each
   # view into the `Tensor`
   #
-  # Arguments
-  # ---------
-  # *a* : Tensor | Enumerable
-  #   Argument to reduce
-  # *axis* : Int
-  #   Axis of reduction
-  # *dims* : Bool
-  #   Indicate if the axis of reduction should remain in the result
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  # * axis : `Int` - Axis of reduction
+  # * dims : `Bool` - Indicate if the axis of reduction should remain in the
+  #   result
+  #
+  # ## Examples
+  #
   # ```
   # a = Tensor.new([2, 2]) { |i| i }
   # Num.std(a, 0) # => [1, 1]
@@ -403,17 +379,16 @@ module Num
 
   # Find the maximum index value of a Tensor
   #
-  # Arguments
-  # ---------
-  # a : Tensor | Enumerable
-  #   Input tensor
+  # ## Arguments
   #
-  # Returns
-  # -------
-  # Index of the maximum value
+  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
   #
-  # Examples
-  # --------
+  # ## Examples
+  #
+  # ```
+  # a = [1, 10, 1].to_tensor
+  # a.argmax # => 1
+  # ```
   @[AlwaysInline]
   def argmax(a : Tensor(U, CPU(U))) : Int32 forall U
     m = a.value
@@ -430,21 +405,19 @@ module Num
   # Find the maximum index value of a Tensor along
   # an axis
   #
-  # Arguments
-  # ---------
-  # *a* : Tensor | Enumerable
-  #   Argument to reduce
-  # *axis* : Int
-  #   Axis of reduction
-  # *dims* : Bool
-  #   Indicate if the axis of reduction should remain in the result
+  # ## Arguments
   #
-  # Returns
-  # -------
-  # Tensor(Int32, CPU(Int32))
+  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  # * axis : `Int` - Axis of reduction
+  # * dims : `Bool` - Indicate if the axis of reduction should remain in the
+  #   result
   #
-  # Examples
-  # --------
+  # ## Examples
+  #
+  # ```
+  # a = [[2, 1], [1, 2]].to_tensor
+  # puts a.argmax(1) # => [0, 1]
+  # ```
   @[AlwaysInline]
   def argmax(a : Tensor(U, CPU(U)), axis : Int, dims : Bool = false) forall U
     result = at_axis_index(a, axis, 0, dims).as_type(Int32)
@@ -458,17 +431,16 @@ module Num
 
   # Find the minimum index value of a Tensor
   #
-  # Arguments
-  # ---------
-  # a : Tensor | Enumerable
-  #   Input tensor
+  # ## Arguments
   #
-  # Returns
-  # -------
-  # Index of the minimum value
+  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
   #
-  # Examples
-  # --------
+  # ## Examples
+  #
+  # ```
+  # a = [10, 1, 10].to_tensor
+  # a.argmin # => 1
+  # ```
   @[AlwaysInline]
   def argmin(a : Tensor(U, CPU(U))) : Int32 forall U
     m = a.value
@@ -485,21 +457,19 @@ module Num
   # Find the minimum index value of a Tensor along
   # an axis
   #
-  # Arguments
-  # ---------
-  # *a* : Tensor | Enumerable
-  #   Argument to reduce
-  # *axis* : Int
-  #   Axis of reduction
-  # *dims* : Bool
-  #   Indicate if the axis of reduction should remain in the result
+  # ## Arguments
   #
-  # Returns
-  # -------
-  # Tensor(Int32)
+  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  # * axis : `Int` - Axis of reduction
+  # * dims : `Bool` - Indicate if the axis of reduction should remain in the
+  #   result
   #
-  # Examples
-  # --------
+  # ## Examples
+  #
+  # ```
+  # a = [[2, 1], [1, 2]].to_tensor
+  # puts a.argmin(1) # => [1, 0]
+  # ```
   @[AlwaysInline]
   def argmin(a : Tensor(U, CPU(U)), axis : Int, dims : Bool = false) forall U
     result = at_axis_index(a, axis, 0, dims).as_type(Int32)
@@ -514,14 +484,12 @@ module Num
   # Sorts a `Tensor`, treating it's elements like the `Tensor`
   # is flat.
   #
-  # Arguments
-  # ---------
-  # *a* : Tensor | Enumerable
-  #   Argument to sort
-  # *axis* : Int
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * a : `Tensor(U, CPU(U))` - `Tensor` to sort
+  #
+  # ## Examples
+  #
   # ```
   # a = [3, 2, 1].to_tensor
   # Num.sort(a) # => [1, 2, 3]
@@ -536,14 +504,13 @@ module Num
   # Sorts a `Tensor`, treating it's elements like the `Tensor`
   # is flat.
   #
-  # Arguments
-  # ---------
-  # *a* : Tensor | Enumerable
-  #   Argument to sort
-  # *axis* : Int
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * a : `Tensor(U, CPU(U))` - `Tensor` to sort
+  # * block : `Proc(U, U, _)` - `Proc` to use to compare values
+  #
+  # ## Examples
+  #
   # ```
   # a = [3, 2, 1].to_tensor
   # Num.sort(a) # => [1, 2, 3]
@@ -557,15 +524,13 @@ module Num
 
   # Sorts a `Tensor` along an axis.
   #
-  # Arguments
-  # ---------
-  # *a* : Tensor | Enumerable
-  #   Argument to sort
-  # *axis* : Int
-  #   Axis to sort along
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * a : `Tensor(U, CPU(U))` - `Tensor` to sort
+  # * axis : `Int` - Axis along which to sort
+  #
+  # ## Examples
+  #
   # ```
   # t = Tensor.random(0...10, [3, 3, 2])
   # puts Num.sort(t, axis: 1)
@@ -593,30 +558,28 @@ module Num
 
   # Sorts a `Tensor` along an axis.
   #
-  # Arguments
-  # ---------
-  # *a* : Tensor | Enumerable
-  #   Argument to sort
-  # *axis* : Int
-  #   Axis to sort along
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * a : `Tensor(U, CPU(U))` - `Tensor` to sort
+  # * axis : `Int` - Axis along which to sort
+  # * block : `Proc(U, U, _)` - `Proc` to use to sort
+  #
+  # ## Examples
+  #
   # ```
   # t = Tensor.random(0...10, [3, 3, 2])
-  # puts Num.sort(t, axis: 1)
-  #
-  # # [[[1, 1],
-  # #   [4, 5],
-  # #   [5, 7]],
+  # puts Num.sort(t, axis: 1) { |i, j| i <=> j }
+  # # [[[3, 1],
+  # #   [4, 3],
+  # #   [6, 8]],
   # #
-  # #  [[0, 0],
-  # #   [2, 3],
-  # #   [8, 4]],
+  # #  [[4, 2],
+  # #   [5, 3],
+  # #   [9, 7]],
   # #
-  # #  [[2, 5],
-  # #   [5, 7],
-  # #   [5, 7]]]
+  # #  [[0, 1],
+  # #   [2, 2],
+  # #   [4, 9]]]
   # ```
   @[AlwaysInline]
   def sort(a : Tensor(U, CPU(U)), axis : Int, &block : U, U -> _) forall U
@@ -631,17 +594,14 @@ module Num
   # margins of errors with floating point values using
   # an EPSILON value.
   #
-  # Arguments
-  # ---------
-  # *a* : Tensor | Enumerable
-  #   First `Tensor` to compare
-  # *b* : Tensor | Enumerable
-  #   Second `Tensor` to compare
-  # *epsilon* : Number
-  #   Allowed variance between numbers
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * a : `Tensor(U, CPU(U))` - LHS argument to compare
+  # * b : `Tensor(V, CPU(V))` - RHS argument to compare
+  # * epsilon : `Number` - Allowed variance between numbers
+  #
+  # ## Examples
+  #
   # ```
   # a = [0.0, 0.0, 0.0000000001].to_tensor
   # b = [0.0, 0.0, 0.0].to_tensor
@@ -668,12 +628,12 @@ module Num
   # Finds the difference between the maximum and minimum
   # elements of a `Tensor`
   #
-  # Arguments
-  # ---------
-  # *a* : Tensor to find peak to peak value
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  #
+  # ## Examples
+  #
   # ```
   # a = [1, 2, 3]
   # Num.ptp(a) # => 2
@@ -697,18 +657,15 @@ module Num
   # Finds the difference between the maximum and minimum
   # elements of a `Tensor` along an axis
   #
-  # Arguments
-  # ---------
-  # *a* : Tensor
-  #   Argument to reduce
-  # *axis* : Tensor
-  #   Axis of reduction
-  # *dims* : Bool
-  #   Keep axis of reduction in output
+  # ## Arguments
   #
+  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  # * axis : `Int` - Axis of reduction
+  # * dims : `Bool` - Indicate if the axis of reduction should remain in the
+  #   result
   #
-  # Examples
-  # --------
+  # ## Examples
+  #
   # ```
   # a = [[3, 4], [1, 2], [6, 2]]
   # Num.ptp(a, 1) # [1, 1, 4]
