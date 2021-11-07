@@ -1,0 +1,2371 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="canonical" href="https://crystal-data.github.io/num.cr/Num/NN/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.4">
+    
+    
+      
+        <title>NN - Num.cr</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.db9e7362.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../css/mkdocstrings.css">
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="blue">
+  
+    
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+      <script>var palette=__get("__palette");if(null!==palette&&"object"==typeof palette.color)for(var key in palette.color)document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#Num::NN" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Num.cr" class="md-header__button md-logo" aria-label="Num.cr" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Num.cr
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              NN
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="blue"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/crystal-data/num.cr/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../.." class="md-tabs__link">
+      Introduction
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../Array/" class="md-tabs__link">
+      Array
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../CPU/" class="md-tabs__link">
+      CPU
+    </a>
+  </li>
+
+      
+        
+  
+  
+    
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../" class="md-tabs__link md-tabs__link--active">
+      Num
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../Number/" class="md-tabs__link">
+      Number
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../OCL/" class="md-tabs__link">
+      OCL
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../Tensor/" class="md-tabs__link">
+      Tensor
+    </a>
+  </li>
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Num.cr" class="md-nav__button md-logo" aria-label="Num.cr" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    Num.cr
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/crystal-data/num.cr/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Array/" class="md-nav__link">
+        Array
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CPU/" class="md-nav__link">
+        CPU
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../">Num</a>
+          
+            <label for="__nav_4">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Num" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Num
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ArrayFlags/" class="md-nav__link">
+        ArrayFlags
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Einsum/" class="md-nav__link">
+        Einsum
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_3" type="checkbox" id="__nav_4_3" >
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../Exceptions/">Exceptions</a>
+          
+            <label for="__nav_4_3">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Exceptions" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_3">
+          <span class="md-nav__icon md-icon"></span>
+          Exceptions
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Exceptions/AxisError/" class="md-nav__link">
+        AxisError
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Exceptions/IndexError/" class="md-nav__link">
+        IndexError
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Exceptions/LinAlgError/" class="md-nav__link">
+        LinAlgError
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Exceptions/ValueError/" class="md-nav__link">
+        ValueError
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_4" type="checkbox" id="__nav_4_4" >
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../Grad/">Grad</a>
+          
+            <label for="__nav_4_4">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Grad" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_4">
+          <span class="md-nav__icon md-icon"></span>
+          Grad
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Grad/Context/" class="md-nav__link">
+        Context
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Grad/Variable/" class="md-nav__link">
+        Variable
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_5" type="checkbox" id="__nav_4_5" checked>
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index md-nav__link--active">
+          <a href="./">NN</a>
+          
+            <label for="__nav_4_5">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="NN" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_5">
+          <span class="md-nav__icon md-icon"></span>
+          NN
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="AdamOptimizer/" class="md-nav__link">
+        AdamOptimizer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ConvolutionalLayer/" class="md-nav__link">
+        ConvolutionalLayer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Distribution/" class="md-nav__link">
+        Distribution
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="DropoutLayer/" class="md-nav__link">
+        DropoutLayer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="EluLayer/" class="md-nav__link">
+        EluLayer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="FanMode/" class="md-nav__link">
+        FanMode
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="FlattenLayer/" class="md-nav__link">
+        FlattenLayer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="InputLayer/" class="md-nav__link">
+        InputLayer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Layer/" class="md-nav__link">
+        Layer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="LeakyReluLayer/" class="md-nav__link">
+        LeakyReluLayer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="LinearLayer/" class="md-nav__link">
+        LinearLayer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Loss/" class="md-nav__link">
+        Loss
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="MSELoss/" class="md-nav__link">
+        MSELoss
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="MaxPoolLayer/" class="md-nav__link">
+        MaxPoolLayer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Network/" class="md-nav__link">
+        Network
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="NetworkInfo/" class="md-nav__link">
+        NetworkInfo
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="Optimizer/" class="md-nav__link">
+        Optimizer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ReluLayer/" class="md-nav__link">
+        ReluLayer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="SGDMomentumOptimizer/" class="md-nav__link">
+        SGDMomentumOptimizer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="SGDOptimizer/" class="md-nav__link">
+        SGDOptimizer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="SigmoidCrossEntropyLoss/" class="md-nav__link">
+        SigmoidCrossEntropyLoss
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="SigmoidLayer/" class="md-nav__link">
+        SigmoidLayer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="SoftmaxCrossEntropyLoss/" class="md-nav__link">
+        SoftmaxCrossEntropyLoss
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../OrderType/" class="md-nav__link">
+        OrderType
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Rand/" class="md-nav__link">
+        Rand
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Number/" class="md-nav__link">
+        Number
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../OCL/" class="md-nav__link">
+        OCL
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tensor/" class="md-nav__link">
+        Tensor
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#Num::NN-methods" class="md-nav__link">
+    Methods
+  </a>
+  
+    <nav class="md-nav" aria-label="Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#compute_fans(*)" class="md-nav__link">
+    #compute_fans
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#conv2d(input,weight,bias,padding,stride)" class="md-nav__link">
+    #conv2d
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#conv2d_backward(input,weight,bias,grad_output,padding,stride)" class="md-nav__link">
+    #conv2d_backward
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#dropout(input,mask,probability)" class="md-nav__link">
+    #dropout
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#dropout_backwards(gradient,mask,probability)" class="md-nav__link">
+    #dropout_backwards
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#elu(x,alpha)" class="md-nav__link">
+    #elu
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#elu!(x,alpha)" class="md-nav__link">
+    #elu!
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#elu_prime(gradient,cached)" class="md-nav__link">
+    #elu_prime
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#im2colgemm_conv2d(input,kernel,bias,padding,stride)" class="md-nav__link">
+    #im2colgemm_conv2d
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#im2colgemm_conv2d_gradient(input,kernel,bias,grad_output,padding,stride)" class="md-nav__link">
+    #im2colgemm_conv2d_gradient
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#kaiming_normal(*,dtype)" class="md-nav__link">
+    #kaiming_normal
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#kaiming_uniform(*,dtype)" class="md-nav__link">
+    #kaiming_uniform
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#leaky_relu(x)" class="md-nav__link">
+    #leaky_relu
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#leaky_relu!(x)" class="md-nav__link">
+    #leaky_relu!
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#leaky_relu_prime(gradient,cached)" class="md-nav__link">
+    #leaky_relu_prime
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#load_iris_dataset" class="md-nav__link">
+    #load_iris_dataset
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#load_mnist_dataset" class="md-nav__link">
+    #load_mnist_dataset
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#maxpool(input,kernel,padding,stride)" class="md-nav__link">
+    #maxpool
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#maxpool_backward(shape,max_indices,grad_output)" class="md-nav__link">
+    #maxpool_backward
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#mean_relative_error(y,y_true)" class="md-nav__link">
+    #mean_relative_error
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#mse(input,target)" class="md-nav__link">
+    #mse
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#mse_backwards(gradient,cache,target)" class="md-nav__link">
+    #mse_backwards
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#numerical_gradient(input,f,h)" class="md-nav__link">
+    #numerical_gradient
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#relu(x)" class="md-nav__link">
+    #relu
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#relu!(x)" class="md-nav__link">
+    #relu!
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#relu_prime(gradient,cached)" class="md-nav__link">
+    #relu_prime
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#sgd_optimize(value,gradient,learning_rate)" class="md-nav__link">
+    #sgd_optimize
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#sigmoid(x)" class="md-nav__link">
+    #sigmoid
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#sigmoid!(x)" class="md-nav__link">
+    #sigmoid!
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#sigmoid_cross_entropy(input,target)" class="md-nav__link">
+    #sigmoid_cross_entropy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#sigmoid_cross_entropy_backwards(gradient,cache,target)" class="md-nav__link">
+    #sigmoid_cross_entropy_backwards
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#sigmoid_prime(gradient,cached)" class="md-nav__link">
+    #sigmoid_prime
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#softmax_cross_entropy(input,target)" class="md-nav__link">
+    #softmax_cross_entropy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#softmax_cross_entropy_backward(gradient,cached,target)" class="md-nav__link">
+    #softmax_cross_entropy_backward
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#tanh(x)" class="md-nav__link">
+    #tanh
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#tanh!(x)" class="md-nav__link">
+    #tanh!
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#tanh_prime(gradient,cached)" class="md-nav__link">
+    #tanh_prime
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::NN#variance_scaled(*,dtype,device,scale,mode,distribution)" class="md-nav__link">
+    #variance_scaled
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/cpu/activation.cr#L24" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <div class="doc doc-object doc-type module">
+<h1 id="Num::NN" class="doc doc-heading">module <code>Num::NN</code>
+<a href="#Num::NN" class="headerlink" title="Permanent link">#</a></h1>
+  <div class="doc doc-contents first">
+
+      <div class="doc doc-children">
+
+            <h2>Extended modules</h2>
+              <code><a href="#Num::NN">Num::NN</a></code>
+
+
+<h2 id="Num::NN-methods">Methods<a href="#Num::NN-methods" class="headerlink" title="Permanent link">#</a></h2>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#compute_fans(*)" class="doc doc-heading">    <code>
+      #compute_fans<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="o">*</span><span class="n">shape</span> <span class="p">:</span> <span class="n">Int</span><span class="p">)</span></code></span>
+    </code>
+<a href="#Num::NN#compute_fans(*)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/initialization.cr#L43">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#conv2d(input,weight,bias,padding,stride)" class="doc doc-heading">    <code>
+      #conv2d<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">input</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">Float32</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">Float32</span><span class="p">)),</span> <span class="n">weight</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">Float32</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">Float32</span><span class="p">)),</span> <span class="n">bias</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">Float32</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">Float32</span><span class="p">)),</span> <span class="n">padding</span> <span class="p">:</span> <span class="n">Tuple</span><span class="p">(</span><span class="n">Int</span><span class="p">,</span> <span class="n">Int</span><span class="p">),</span> <span class="n">stride</span> <span class="p">:</span> <span class="n">Tuple</span><span class="p">(</span><span class="n">Int</span><span class="p">,</span> <span class="n">Int</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">})</span></code></span>
+    </code>
+<a href="#Num::NN#conv2d(input,weight,bias,padding,stride)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Computes a 2D convolution over input images. Intended to be used
+in 2d convolution forward pass. This applies a 2D cross-correlation,
+not to be confused with the mathematical convolution.</p>
+<h5 id="Num::NN#conv2d(input,weight,bias,padding,stride)--arguments">Arguments<a class="headerlink" href="#Num::NN#conv2d(input,weight,bias,padding,stride)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>input : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - 4D <a href="../../Tensor/#Tensor"><code>Tensor</code></a> batch of images of the size [N,C_in,H_in,W_in]</li>
+<li>weight : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - 4D <a href="../../Tensor/#Tensor"><code>Tensor</code></a> convolving kernel weights of the size [C_out,C_in,kH,kW]</li>
+<li>bias : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - 3D <a href="../../Tensor/#Tensor"><code>Tensor</code></a> bias of the size [C_out,1,1]</li>
+<li>padding : <code>Tuple</code> - <code>Tuple</code> with height and width of the padding</li>
+<li>stride : <code>Tuple</code> - <code>Tuple</code> with height and width of the stride</li>
+</ul>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/cpu/convolution.cr#L38">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#conv2d_backward(input,weight,bias,grad_output,padding,stride)" class="doc doc-heading">    <code>
+      #conv2d_backward<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">input</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">Float32</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">Float32</span><span class="p">)),</span> <span class="n">weight</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">Float32</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">Float32</span><span class="p">)),</span> <span class="n">bias</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">Float32</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">Float32</span><span class="p">)),</span> <span class="n">grad_output</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">Float32</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">Float32</span><span class="p">)),</span> <span class="n">padding</span> <span class="p">:</span> <span class="n">Tuple</span><span class="p">(</span><span class="n">Int</span><span class="p">,</span> <span class="n">Int</span><span class="p">),</span> <span class="n">stride</span> <span class="p">:</span> <span class="n">Tuple</span><span class="p">(</span><span class="n">Int</span><span class="p">,</span> <span class="n">Int</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">})</span></code></span>
+    </code>
+<a href="#Num::NN#conv2d_backward(input,weight,bias,grad_output,padding,stride)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Computes gradients of a 2D convolution. Intended to be used after
+<a href="#Num::NN#conv2d(input,weight,bias,padding,stride)"><code>conv2d</code></a> to calculate gradients in backward pass.</p>
+<h5 id="Num::NN#conv2d_backward(input,weight,bias,grad_output,padding,stride)--arguments">Arguments<a class="headerlink" href="#Num::NN#conv2d_backward(input,weight,bias,grad_output,padding,stride)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>input : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - 4D <a href="../../Tensor/#Tensor"><code>Tensor</code></a> batch of images of the size [N,C_in,H_in,W_in]</li>
+<li>weight : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - 4D <a href="../../Tensor/#Tensor"><code>Tensor</code></a> convolving kernel weights of the size [C_out,C_in,kH,kW]</li>
+<li>bias : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - 3D <a href="../../Tensor/#Tensor"><code>Tensor</code></a> bias of the size [C_out,1,1]</li>
+<li>grad_output : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - 4D <a href="../../Tensor/#Tensor"><code>Tensor</code></a> gradient of size [N, C_out, H_out, W_out]</li>
+<li>padding : <code>Tuple</code> - <code>Tuple</code> with height and width of the padding</li>
+<li>stride : <code>Tuple</code> - <code>Tuple</code> with height and width of the stride</li>
+</ul>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/cpu/convolution.cr#L90">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#dropout(input,mask,probability)" class="doc doc-heading">    <code>
+      #dropout<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">input</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">mask</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">probability</span> <span class="p">:</span> <span class="n">Float</span><span class="p">)</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#dropout(input,mask,probability)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Computes a forward dropout activation</p>
+<h5 id="Num::NN#dropout(input,mask,probability)--arguments">Arguments<a class="headerlink" href="#Num::NN#dropout(input,mask,probability)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>input : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - <a href="../../Tensor/#Tensor"><code>Tensor</code></a> to activate</li>
+<li>mask : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - Mask to dropout</li>
+<li>probability : <code>Float</code> - Probability of dropout</li>
+</ul>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/cpu/dropout.cr#L32">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#dropout(input,mask,probability)" class="doc doc-heading">    <code>
+      #dropout<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">input</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../OCL/#OCL">OCL</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">mask</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../OCL/#OCL">OCL</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">probability</span> <span class="p">:</span> <span class="n">Float</span><span class="p">)</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../OCL/#OCL">OCL</a><span class="p">(</span><span class="n">U</span><span class="p">))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#dropout(input,mask,probability)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Computes a forward dropout activation</p>
+<h5 id="Num::NN#dropout(input,mask,probability)--arguments">Arguments<a class="headerlink" href="#Num::NN#dropout(input,mask,probability)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>input : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - <a href="../../Tensor/#Tensor"><code>Tensor</code></a> to activate</li>
+<li>mask : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - Mask to dropout</li>
+<li>probability : <code>Float</code> - Probability of dropout</li>
+</ul>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/opencl/dropout.cr#L32">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#dropout_backwards(gradient,mask,probability)" class="doc doc-heading">    <code>
+      #dropout_backwards<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">gradient</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">mask</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">probability</span> <span class="p">:</span> <span class="n">Float</span><span class="p">)</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../OCL/#OCL">OCL</a><span class="p">(</span><span class="n">U</span><span class="p">))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#dropout_backwards(gradient,mask,probability)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Computes a backwards dropout derivative</p>
+<h5 id="Num::NN#dropout_backwards(gradient,mask,probability)--arguments">Arguments<a class="headerlink" href="#Num::NN#dropout_backwards(gradient,mask,probability)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>gradient : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - <a href="../../Tensor/#Tensor"><code>Tensor</code></a> used to compute backwards pass</li>
+<li>mask : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - Mask to apply to the gradient</li>
+<li>probability : <code>Float</code> - Probability of dropout</li>
+</ul>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/opencl/dropout.cr#L47">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#elu(x,alpha)" class="doc doc-heading">    <code>
+      #elu<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">x</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">)</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#elu(x,alpha)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Exponential linear unit activation</p>
+<h5 id="Num::NN#elu(x,alpha)--arguments">Arguments<a class="headerlink" href="#Num::NN#elu(x,alpha)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>x : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - <a href="../../Tensor/#Tensor"><code>Tensor</code></a> to activate</li>
+</ul>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/cpu/activation.cr#L186">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#elu!(x,alpha)" class="doc doc-heading">    <code>
+      #elu!<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">x</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">)</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#elu!(x,alpha)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Exponential linear unit activation</p>
+<h5 id="Num::NN#elu!(x,alpha)--arguments">Arguments<a class="headerlink" href="#Num::NN#elu!(x,alpha)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>x : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - <a href="../../Tensor/#Tensor"><code>Tensor</code></a> to activate</li>
+</ul>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/cpu/activation.cr#L197">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#elu_prime(gradient,cached)" class="doc doc-heading">    <code>
+      #elu_prime<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">gradient</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">cached</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)))</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#elu_prime(gradient,cached)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>ELU derivative</p>
+<h5 id="Num::NN#elu_prime(gradient,cached)--arguments">Arguments<a class="headerlink" href="#Num::NN#elu_prime(gradient,cached)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>gradient : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - <a href="../../Tensor/#Tensor"><code>Tensor</code></a> to derive</li>
+<li>cached : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - Cached <a href="../../Tensor/#Tensor"><code>Tensor</code></a> from activation</li>
+</ul>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/cpu/activation.cr#L213">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#im2colgemm_conv2d(input,kernel,bias,padding,stride)" class="doc doc-heading">    <code>
+      #im2colgemm_conv2d<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">input</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">kernel</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">bias</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">padding</span> <span class="p">:</span> <span class="n">Tuple</span><span class="p">(</span><span class="n">Int</span><span class="p">,</span> <span class="n">Int</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">},</span> <span class="n">stride</span> <span class="p">:</span> <span class="n">Tuple</span><span class="p">(</span><span class="n">Int</span><span class="p">,</span> <span class="n">Int</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">})</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#im2colgemm_conv2d(input,kernel,bias,padding,stride)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Computes a 2D convolution over input images. Intended to be used
+in 2d convolution forward pass. This applies a 2D cross-correlation,
+not to be confused with the mathematical convolution.</p>
+<h5 id="Num::NN#im2colgemm_conv2d(input,kernel,bias,padding,stride)--arguments">Arguments<a class="headerlink" href="#Num::NN#im2colgemm_conv2d(input,kernel,bias,padding,stride)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>input : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - 4D <a href="../../Tensor/#Tensor"><code>Tensor</code></a> batch of images of the size [N,C_in,H_in,W_in]</li>
+<li>weight : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - 4D <a href="../../Tensor/#Tensor"><code>Tensor</code></a> convolving kernel weights of the size [C_out,C_in,kH,kW]</li>
+<li>bias : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - 3D <a href="../../Tensor/#Tensor"><code>Tensor</code></a> bias of the size [C_out,1,1]</li>
+<li>padding : <code>Tuple</code> - <code>Tuple</code> with height and width of the padding</li>
+<li>stride : <code>Tuple</code> - <code>Tuple</code> with height and width of the stride</li>
+</ul>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/cpu/convolution.cr#L260">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#im2colgemm_conv2d_gradient(input,kernel,bias,grad_output,padding,stride)" class="doc doc-heading">    <code>
+      #im2colgemm_conv2d_gradient<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">input</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">kernel</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">bias</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">grad_output</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">padding</span> <span class="p">:</span> <span class="n">Tuple</span><span class="p">(</span><span class="n">Int</span><span class="p">,</span> <span class="n">Int</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">},</span> <span class="n">stride</span> <span class="p">:</span> <span class="n">Tuple</span><span class="p">(</span><span class="n">Int</span><span class="p">,</span> <span class="n">Int</span><span class="p">)</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">})</span> <span class="p">:</span> <span class="n">Tuple</span><span class="p">(</span><a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#im2colgemm_conv2d_gradient(input,kernel,bias,grad_output,padding,stride)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Computes gradients of a 2D convolution. Intended to be used after
+<a href="#Num::NN#conv2d(input,weight,bias,padding,stride)"><code>conv2d</code></a> to calculate gradients in backward pass.</p>
+<h5 id="Num::NN#im2colgemm_conv2d_gradient(input,kernel,bias,grad_output,padding,stride)--arguments">Arguments<a class="headerlink" href="#Num::NN#im2colgemm_conv2d_gradient(input,kernel,bias,grad_output,padding,stride)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>input : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - 4D <a href="../../Tensor/#Tensor"><code>Tensor</code></a> batch of images of the size [N,C_in,H_in,W_in]</li>
+<li>weight : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - 4D <a href="../../Tensor/#Tensor"><code>Tensor</code></a> convolving kernel weights of the size [C_out,C_in,kH,kW]</li>
+<li>bias : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - 3D <a href="../../Tensor/#Tensor"><code>Tensor</code></a> bias of the size [C_out,1,1]</li>
+<li>grad_output : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - 4D <a href="../../Tensor/#Tensor"><code>Tensor</code></a> gradient of size [N, C_out, H_out, W_out]</li>
+<li>padding : <code>Tuple</code> - <code>Tuple</code> with height and width of the padding</li>
+<li>stride : <code>Tuple</code> - <code>Tuple</code> with height and width of the stride</li>
+</ul>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/cpu/convolution.cr#L296">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#kaiming_normal(*,dtype)" class="doc doc-heading">    <code>
+      #kaiming_normal<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="o">*</span><span class="n">shape</span> <span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="n">dtype</span> <span class="p">:</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">V</span><span class="p">)</span><span class="o">.</span><span class="n">class</span><span class="p">)</span> <span class="kp">forall</span> <span class="n">U</span><span class="p">,</span> <span class="n">V</span></code></span>
+    </code>
+<a href="#Num::NN#kaiming_normal(*,dtype)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/initialization.cr#L94">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#kaiming_uniform(*,dtype)" class="doc doc-heading">    <code>
+      #kaiming_uniform<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="o">*</span><span class="n">shape</span> <span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="n">dtype</span> <span class="p">:</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">V</span><span class="p">)</span><span class="o">.</span><span class="n">class</span><span class="p">)</span> <span class="kp">forall</span> <span class="n">U</span><span class="p">,</span> <span class="n">V</span></code></span>
+    </code>
+<a href="#Num::NN#kaiming_uniform(*,dtype)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/initialization.cr#L83">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#leaky_relu(x)" class="doc doc-heading">    <code>
+      #leaky_relu<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">x</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)))</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#leaky_relu(x)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Leaky ReLU activation function</p>
+<h5 id="Num::NN#leaky_relu(x)--arguments">Arguments<a class="headerlink" href="#Num::NN#leaky_relu(x)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>x : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - Argument to activate</li>
+</ul>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/cpu/activation.cr#L152">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#leaky_relu(x)" class="doc doc-heading">    <code>
+      #leaky_relu<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">x</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../OCL/#OCL">OCL</a><span class="p">(</span><span class="n">U</span><span class="p">)))</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../OCL/#OCL">OCL</a><span class="p">(</span><span class="n">U</span><span class="p">))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#leaky_relu(x)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Leaky ReLU activation function</p>
+<h5 id="Num::NN#leaky_relu(x)--arguments">Arguments<a class="headerlink" href="#Num::NN#leaky_relu(x)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>x : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - Argument to activate</li>
+</ul>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/opencl/activation.cr#L179">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#leaky_relu!(x)" class="doc doc-heading">    <code>
+      #leaky_relu!<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">x</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#leaky_relu!(x)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Leaky ReLU activation function</p>
+<h5 id="Num::NN#leaky_relu!(x)--arguments">Arguments<a class="headerlink" href="#Num::NN#leaky_relu!(x)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>x : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - Argument to activate</li>
+</ul>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/cpu/activation.cr#L159">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#leaky_relu!(x)" class="doc doc-heading">    <code>
+      #leaky_relu!<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">x</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../OCL/#OCL">OCL</a><span class="p">(</span><span class="n">U</span><span class="p">)))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#leaky_relu!(x)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Leaky ReLU activation function</p>
+<h5 id="Num::NN#leaky_relu!(x)--arguments">Arguments<a class="headerlink" href="#Num::NN#leaky_relu!(x)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>x : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - Argument to activate</li>
+</ul>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/opencl/activation.cr#L189">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#leaky_relu_prime(gradient,cached)" class="doc doc-heading">    <code>
+      #leaky_relu_prime<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">gradient</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">cached</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)))</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#leaky_relu_prime(gradient,cached)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Leaky ReLU derivative</p>
+<h5 id="Num::NN#leaky_relu_prime(gradient,cached)--arguments">Arguments<a class="headerlink" href="#Num::NN#leaky_relu_prime(gradient,cached)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>gradient : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - <a href="../../Tensor/#Tensor"><code>Tensor</code></a> to derive</li>
+<li>cached : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - Cached <a href="../../Tensor/#Tensor"><code>Tensor</code></a> from activation</li>
+</ul>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/cpu/activation.cr#L171">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#leaky_relu_prime(gradient,cached)" class="doc doc-heading">    <code>
+      #leaky_relu_prime<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">gradient</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../OCL/#OCL">OCL</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">cached</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../OCL/#OCL">OCL</a><span class="p">(</span><span class="n">U</span><span class="p">)))</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../OCL/#OCL">OCL</a><span class="p">(</span><span class="n">U</span><span class="p">))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#leaky_relu_prime(gradient,cached)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Leaky ReLU derivative</p>
+<h5 id="Num::NN#leaky_relu_prime(gradient,cached)--arguments">Arguments<a class="headerlink" href="#Num::NN#leaky_relu_prime(gradient,cached)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>gradient : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - <a href="../../Tensor/#Tensor"><code>Tensor</code></a> to derive</li>
+<li>cached : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - Cached <a href="../../Tensor/#Tensor"><code>Tensor</code></a> from activation</li>
+</ul>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/opencl/activation.cr#L204">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#load_iris_dataset" class="doc doc-heading">    <code>
+      #load_iris_dataset<span style="font-weight: normal"><code class="highlight language-crystal"></code></span>
+    </code>
+<a href="#Num::NN#load_iris_dataset" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Returns labels, as well as X and Y training inputs for
+the IRIS dataset.</p>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/datasets/iris.cr#L34">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#load_mnist_dataset" class="doc doc-heading">    <code>
+      #load_mnist_dataset<span style="font-weight: normal"><code class="highlight language-crystal"></code></span>
+    </code>
+<a href="#Num::NN#load_mnist_dataset" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Returns a struct containing features, labels, as well as
+test_features and test_labels for the MNIST dataset</p>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/datasets/mnist.cr#L66">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#maxpool(input,kernel,padding,stride)" class="doc doc-heading">    <code>
+      #maxpool<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">input</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">kernel</span> <span class="p">:</span> <span class="n">Tuple</span><span class="p">(</span><span class="n">Int</span><span class="p">,</span> <span class="n">Int</span><span class="p">),</span> <span class="n">padding</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">},</span> <span class="n">stride</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">})</span> <span class="p">:</span> <span class="n">Tuple</span><span class="p">(</span><a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">Int32</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">Int32</span><span class="p">)),</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#maxpool(input,kernel,padding,stride)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Computes the maxpooling of a <a href="../../Tensor/#Tensor"><code>Tensor</code></a></p>
+<h5 id="Num::NN#maxpool(input,kernel,padding,stride)--arguments">Arguments<a class="headerlink" href="#Num::NN#maxpool(input,kernel,padding,stride)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>input : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - <a href="../../Tensor/#Tensor"><code>Tensor</code></a> to pool</li>
+<li>kernel : Tuple - Kernel height and width</li>
+<li>target : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - <a href="../../Tensor/#Tensor"><code>Tensor</code></a> truth values</li>
+<li>padding : <code>Tuple</code> - <code>Tuple</code> with height and width of the padding</li>
+<li>stride : <code>Tuple</code> - <code>Tuple</code> with height and width of the stride</li>
+</ul>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/cpu/maxpool.cr#L34">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#maxpool_backward(shape,max_indices,grad_output)" class="doc doc-heading">    <code>
+      #maxpool_backward<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">shape</span> <span class="p">:</span> <a href="../../Array/#Array">Array</a><span class="p">(</span><span class="n">Int</span><span class="p">),</span> <span class="n">max_indices</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">Int32</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">Int32</span><span class="p">)),</span> <span class="n">grad_output</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)))</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#maxpool_backward(shape,max_indices,grad_output)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Computes the maxpooling gradient</p>
+<h5 id="Num::NN#maxpool_backward(shape,max_indices,grad_output)--arguments">Arguments<a class="headerlink" href="#Num::NN#maxpool_backward(shape,max_indices,grad_output)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>shape : <a href="../../Array/#Array"><code>Array</code></a> - Shape of gradient output</li>
+<li>max_indices : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - Pooled max indices</li>
+<li>grad_output : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - Output from forward pass</li>
+</ul>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/cpu/maxpool.cr#L100">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#mean_relative_error(y,y_true)" class="doc doc-heading">    <code>
+      #mean_relative_error<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">y</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">y_true</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#mean_relative_error(y,y_true)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Mean relative error for Tensor, mean of the element-wise
+|y_true - y|/max(|y_true|, |y|)
+Normally the relative error is defined as |y_true - y| / |y_true|,
+but here max is used to make it symmetric and to prevent dividing by zero,
+guaranteed to return zero in the case when both values are zero.</p>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/primitives/validation.cr#L63">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#mse(input,target)" class="doc doc-heading">    <code>
+      #mse<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">input</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">target</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)))</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#mse(input,target)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Mean squared error loss</p>
+<h5 id="Num::NN#mse(input,target)--arguments">Arguments<a class="headerlink" href="#Num::NN#mse(input,target)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>input : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - Predicted values</li>
+<li>target : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - Truth values</li>
+</ul>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/cpu/activation.cr#L243">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#mse_backwards(gradient,cache,target)" class="doc doc-heading">    <code>
+      #mse_backwards<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">gradient</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">cache</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">target</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#mse_backwards(gradient,cache,target)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Computes gradients of mean squared error loss</p>
+<h5 id="Num::NN#mse_backwards(gradient,cache,target)--arguments">Arguments<a class="headerlink" href="#Num::NN#mse_backwards(gradient,cache,target)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>gradient : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - <a href="../../Tensor/#Tensor"><code>Tensor</code></a> gradient computed from MSE forwards</li>
+<li>cache : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> 4D - Cached <a href="../../Tensor/#Tensor"><code>Tensor</code></a> from activation</li>
+<li>target : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - <a href="../../Tensor/#Tensor"><code>Tensor</code></a> truth values</li>
+</ul>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/cpu/loss.cr#L34">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#numerical_gradient(input,f,h)" class="doc doc-heading">    <code>
+      #numerical_gradient<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">input</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">f</span> <span class="p">:</span> <span class="n">Proc</span><span class="p">(</span><a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">U</span><span class="p">),</span> <span class="n">h</span> <span class="p">:</span> <span class="n">U</span> <span class="o">=</span> <span class="n">U</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mf">1e-5</span><span class="p">))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#numerical_gradient(input,f,h)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Compute numerical gradient for any function w.r.t. to an input Tensor,
+useful for gradient checking, recommend using float64 types to assure
+numerical precision. The gradient is calculated as:
+(f(x + h) - f(x - h)) / (2*h)
+where h is a small number, typically 1e-5
+f(x) will be called for each input elements with +h and -h pertubation.
+Iterate over all elements calculating each partial derivative</p>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/primitives/validation.cr#L32">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#numerical_gradient(input,f,h)" class="doc doc-heading">    <code>
+      #numerical_gradient<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">input</span> <span class="p">:</span> <span class="n">Float</span><span class="p">,</span> <span class="n">f</span> <span class="p">:</span> <span class="n">Proc</span><span class="p">(</span><span class="n">Float</span><span class="p">,</span> <span class="n">Float</span><span class="p">),</span> <span class="n">h</span> <span class="p">:</span> <span class="n">Float</span> <span class="o">=</span> <span class="mf">1e-5</span><span class="p">)</span> <span class="p">:</span> <span class="n">Float</span></code></span>
+    </code>
+<a href="#Num::NN#numerical_gradient(input,f,h)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Compute numerical gradient for any function w.r.t. to an input value,
+useful for gradient checking, recommend using float64 types to assure
+numerical precision. The gradient is calculated as:
+(f(x + h) - f(x - h)) / (2*h)
+where h is a small number, typically 1e-5.</p>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/primitives/validation.cr#L54">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#relu(x)" class="doc doc-heading">    <code>
+      #relu<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">x</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)))</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#relu(x)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>ReLU activation function</p>
+<h5 id="Num::NN#relu(x)--arguments">Arguments<a class="headerlink" href="#Num::NN#relu(x)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>x : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - Argument to activate</li>
+</ul>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/cpu/activation.cr#L122">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#relu(x)" class="doc doc-heading">    <code>
+      #relu<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">x</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../OCL/#OCL">OCL</a><span class="p">(</span><span class="n">U</span><span class="p">)))</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../OCL/#OCL">OCL</a><span class="p">(</span><span class="n">U</span><span class="p">))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#relu(x)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>ReLU activation function</p>
+<h5 id="Num::NN#relu(x)--arguments">Arguments<a class="headerlink" href="#Num::NN#relu(x)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>x : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - Argument to activate</li>
+</ul>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/opencl/activation.cr#L137">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#relu!(x)" class="doc doc-heading">    <code>
+      #relu!<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">x</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)))</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#relu!(x)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>ReLU activation function</p>
+<h5 id="Num::NN#relu!(x)--arguments">Arguments<a class="headerlink" href="#Num::NN#relu!(x)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>x : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - Argument to activate</li>
+</ul>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/cpu/activation.cr#L127">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#relu!(x)" class="doc doc-heading">    <code>
+      #relu!<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">x</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../OCL/#OCL">OCL</a><span class="p">(</span><span class="n">U</span><span class="p">)))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#relu!(x)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>ReLU activation function</p>
+<h5 id="Num::NN#relu!(x)--arguments">Arguments<a class="headerlink" href="#Num::NN#relu!(x)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>x : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - Argument to activate</li>
+</ul>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/opencl/activation.cr#L147">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#relu_prime(gradient,cached)" class="doc doc-heading">    <code>
+      #relu_prime<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">gradient</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">cached</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)))</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#relu_prime(gradient,cached)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Derivative of the ReLU activation function</p>
+<h5 id="Num::NN#relu_prime(gradient,cached)--arguments">Arguments<a class="headerlink" href="#Num::NN#relu_prime(gradient,cached)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>gradient : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - <a href="../../Tensor/#Tensor"><code>Tensor</code></a> to derive</li>
+<li>cached : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> Cached <a href="../../Tensor/#Tensor"><code>Tensor</code></a> from activation</li>
+</ul>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/cpu/activation.cr#L137">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#relu_prime(gradient,cached)" class="doc doc-heading">    <code>
+      #relu_prime<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">gradient</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../OCL/#OCL">OCL</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">cached</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../OCL/#OCL">OCL</a><span class="p">(</span><span class="n">U</span><span class="p">)))</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../OCL/#OCL">OCL</a><span class="p">(</span><span class="n">U</span><span class="p">))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#relu_prime(gradient,cached)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Derivative of the ReLU activation function</p>
+<h5 id="Num::NN#relu_prime(gradient,cached)--arguments">Arguments<a class="headerlink" href="#Num::NN#relu_prime(gradient,cached)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>gradient : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - <a href="../../Tensor/#Tensor"><code>Tensor</code></a> to derive</li>
+<li>cached : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> Cached <a href="../../Tensor/#Tensor"><code>Tensor</code></a> from activation</li>
+</ul>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/opencl/activation.cr#L162">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#sgd_optimize(value,gradient,learning_rate)" class="doc doc-heading">    <code>
+      #sgd_optimize<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">value</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">gradient</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">learning_rate</span> <span class="p">:</span> <span class="n">Float</span><span class="p">)</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#sgd_optimize(value,gradient,learning_rate)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/cpu/optimizers.cr#L25">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#sgd_optimize(value,gradient,learning_rate)" class="doc doc-heading">    <code>
+      #sgd_optimize<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">value</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../OCL/#OCL">OCL</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">gradient</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../OCL/#OCL">OCL</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">learning_rate</span> <span class="p">:</span> <span class="n">Float</span><span class="p">)</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#sgd_optimize(value,gradient,learning_rate)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/opencl/optimizers.cr#L25">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#sigmoid(x)" class="doc doc-heading">    <code>
+      #sigmoid<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">x</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../OCL/#OCL">OCL</a><span class="p">(</span><span class="n">U</span><span class="p">)))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#sigmoid(x)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Sigmoid takes a real value as input and outputs another value
+between 0 and 1. It’s easy to work with and has all the
+nice properties of activation functions: it’s non-linear,
+continuously differentiable, monotonic, and has a fixed
+output range.</p>
+<h5 id="Num::NN#sigmoid(x)--arguments">Arguments<a class="headerlink" href="#Num::NN#sigmoid(x)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>x : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - <a href="../../Tensor/#Tensor"><code>Tensor</code></a> to activate</li>
+</ul>
+<h5 id="Num::NN#sigmoid(x)--examples">Examples<a class="headerlink" href="#Num::NN#sigmoid(x)--examples" title="Permanent link">#</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">a</span> <span class="o">=</span> <span class="o">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.34</span><span class="p">,</span> <span class="mf">0.65</span><span class="o">].</span><span class="n">to_tensor</span>
+<span class="nb">puts</span> <span class="n">Num</span><span class="o">::</span><span class="n">NN</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="c1"># =&gt; [0.524979, 0.584191, 0.65701 ]</span>
+</code></pre></div>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/opencl/activation.cr#L88">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#sigmoid(x)" class="doc doc-heading">    <code>
+      #sigmoid<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">x</span><span class="p">)</span></code></span>
+    </code>
+<a href="#Num::NN#sigmoid(x)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Sigmoid takes a real value as input and outputs another value
+between 0 and 1. It’s easy to work with and has all the
+nice properties of activation functions: it’s non-linear,
+continuously differentiable, monotonic, and has a fixed
+output range.</p>
+<h5 id="Num::NN#sigmoid(x)--arguments">Arguments<a class="headerlink" href="#Num::NN#sigmoid(x)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>x : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - <a href="../../Tensor/#Tensor"><code>Tensor</code></a> to activate</li>
+</ul>
+<h5 id="Num::NN#sigmoid(x)--examples">Examples<a class="headerlink" href="#Num::NN#sigmoid(x)--examples" title="Permanent link">#</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">a</span> <span class="o">=</span> <span class="o">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.34</span><span class="p">,</span> <span class="mf">0.65</span><span class="o">].</span><span class="n">to_tensor</span>
+<span class="nb">puts</span> <span class="n">Num</span><span class="o">::</span><span class="n">NN</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="c1"># =&gt; [0.524979, 0.584191, 0.65701 ]</span>
+</code></pre></div>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/cpu/activation.cr#L85">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#sigmoid!(x)" class="doc doc-heading">    <code>
+      #sigmoid!<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">x</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)))</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#sigmoid!(x)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Sigmoid takes a real value as input and outputs another value
+between 0 and 1. It’s easy to work with and has all the
+nice properties of activation functions: it’s non-linear,
+continuously differentiable, monotonic, and has a fixed
+output range.</p>
+<h5 id="Num::NN#sigmoid!(x)--arguments">Arguments<a class="headerlink" href="#Num::NN#sigmoid!(x)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>x : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - <a href="../../Tensor/#Tensor"><code>Tensor</code></a> to activate</li>
+</ul>
+<h5 id="Num::NN#sigmoid!(x)--examples">Examples<a class="headerlink" href="#Num::NN#sigmoid!(x)--examples" title="Permanent link">#</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">a</span> <span class="o">=</span> <span class="o">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.34</span><span class="p">,</span> <span class="mf">0.65</span><span class="o">].</span><span class="n">to_tensor</span>
+<span class="nb">puts</span> <span class="n">Num</span><span class="o">::</span><span class="n">NN</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="c1"># =&gt; [0.524979, 0.584191, 0.65701 ]</span>
+</code></pre></div>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/cpu/activation.cr#L92">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#sigmoid!(x)" class="doc doc-heading">    <code>
+      #sigmoid!<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">x</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../OCL/#OCL">OCL</a><span class="p">(</span><span class="n">U</span><span class="p">)))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#sigmoid!(x)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Sigmoid takes a real value as input and outputs another value
+between 0 and 1. It’s easy to work with and has all the
+nice properties of activation functions: it’s non-linear,
+continuously differentiable, monotonic, and has a fixed
+output range.</p>
+<h5 id="Num::NN#sigmoid!(x)--arguments">Arguments<a class="headerlink" href="#Num::NN#sigmoid!(x)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>x : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - <a href="../../Tensor/#Tensor"><code>Tensor</code></a> to activate</li>
+</ul>
+<h5 id="Num::NN#sigmoid!(x)--examples">Examples<a class="headerlink" href="#Num::NN#sigmoid!(x)--examples" title="Permanent link">#</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">a</span> <span class="o">=</span> <span class="o">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.34</span><span class="p">,</span> <span class="mf">0.65</span><span class="o">].</span><span class="n">to_tensor</span>
+<span class="nb">puts</span> <span class="n">Num</span><span class="o">::</span><span class="n">NN</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="c1"># =&gt; [0.524979, 0.584191, 0.65701 ]</span>
+</code></pre></div>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/opencl/activation.cr#L98">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#sigmoid_cross_entropy(input,target)" class="doc doc-heading">    <code>
+      #sigmoid_cross_entropy<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">input</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">target</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#sigmoid_cross_entropy(input,target)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Sigmoid cross entropy loss</p>
+<h5 id="Num::NN#sigmoid_cross_entropy(input,target)--arguments">Arguments<a class="headerlink" href="#Num::NN#sigmoid_cross_entropy(input,target)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>input : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - Predicted values</li>
+<li>target : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - Truth values</li>
+</ul>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/cpu/activation.cr#L229">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#sigmoid_cross_entropy(input,target)" class="doc doc-heading">    <code>
+      #sigmoid_cross_entropy<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">input</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../OCL/#OCL">OCL</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">target</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../OCL/#OCL">OCL</a><span class="p">(</span><span class="n">U</span><span class="p">)))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#sigmoid_cross_entropy(input,target)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Sigmoid cross entropy loss</p>
+<h5 id="Num::NN#sigmoid_cross_entropy(input,target)--arguments">Arguments<a class="headerlink" href="#Num::NN#sigmoid_cross_entropy(input,target)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>input : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - Predicted values</li>
+<li>target : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - Truth values</li>
+</ul>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/opencl/activation.cr#L222">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#sigmoid_cross_entropy_backwards(gradient,cache,target)" class="doc doc-heading">    <code>
+      #sigmoid_cross_entropy_backwards<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">gradient</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">cache</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">target</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#sigmoid_cross_entropy_backwards(gradient,cache,target)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Computes gradients of sigmoid cross entropy loss</p>
+<h5 id="Num::NN#sigmoid_cross_entropy_backwards(gradient,cache,target)--arguments">Arguments<a class="headerlink" href="#Num::NN#sigmoid_cross_entropy_backwards(gradient,cache,target)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>gradient : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - <a href="../../Tensor/#Tensor"><code>Tensor</code></a> gradient computed from SCE forwards</li>
+<li>cache : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> 4D - Cached <a href="../../Tensor/#Tensor"><code>Tensor</code></a> from activation</li>
+<li>target : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - <a href="../../Tensor/#Tensor"><code>Tensor</code></a> truth values</li>
+</ul>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/cpu/loss.cr#L53">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#sigmoid_cross_entropy_backwards(gradient,cache,target)" class="doc doc-heading">    <code>
+      #sigmoid_cross_entropy_backwards<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">gradient</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../OCL/#OCL">OCL</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">cache</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../OCL/#OCL">OCL</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">target</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../OCL/#OCL">OCL</a><span class="p">(</span><span class="n">U</span><span class="p">)))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#sigmoid_cross_entropy_backwards(gradient,cache,target)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Computes gradients of sigmoid cross entropy loss</p>
+<h5 id="Num::NN#sigmoid_cross_entropy_backwards(gradient,cache,target)--arguments">Arguments<a class="headerlink" href="#Num::NN#sigmoid_cross_entropy_backwards(gradient,cache,target)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>gradient : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - <a href="../../Tensor/#Tensor"><code>Tensor</code></a> gradient computed from SCE forwards</li>
+<li>cache : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> 4D - Cached <a href="../../Tensor/#Tensor"><code>Tensor</code></a> from activation</li>
+<li>target : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - <a href="../../Tensor/#Tensor"><code>Tensor</code></a> truth values</li>
+</ul>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/opencl/loss.cr#L34">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#sigmoid_prime(gradient,cached)" class="doc doc-heading">    <code>
+      #sigmoid_prime<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">gradient</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">cached</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)))</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#sigmoid_prime(gradient,cached)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Derivative of the Sigmoid function</p>
+<h5 id="Num::NN#sigmoid_prime(gradient,cached)--arguments">Arguments<a class="headerlink" href="#Num::NN#sigmoid_prime(gradient,cached)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>gradient : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - <a href="../../Tensor/#Tensor"><code>Tensor</code></a> to derive</li>
+<li>cached : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - Cached <a href="../../Tensor/#Tensor"><code>Tensor</code></a> from activation</li>
+</ul>
+<h5 id="Num::NN#sigmoid_prime(gradient,cached)--examples">Examples<a class="headerlink" href="#Num::NN#sigmoid_prime(gradient,cached)--examples" title="Permanent link">#</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">a</span> <span class="o">=</span> <span class="o">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.34</span><span class="p">,</span> <span class="mf">0.65</span><span class="o">].</span><span class="n">to_tensor</span>
+<span class="nb">puts</span> <span class="n">Num</span><span class="o">::</span><span class="n">NN</span><span class="o">.</span><span class="n">d_sigmoid</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="c1"># =&gt; [0.249376, 0.242912, 0.225348]</span>
+</code></pre></div>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/cpu/activation.cr#L111">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#sigmoid_prime(gradient,cached)" class="doc doc-heading">    <code>
+      #sigmoid_prime<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">gradient</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../OCL/#OCL">OCL</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">cached</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../OCL/#OCL">OCL</a><span class="p">(</span><span class="n">U</span><span class="p">)))</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../OCL/#OCL">OCL</a><span class="p">(</span><span class="n">U</span><span class="p">))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#sigmoid_prime(gradient,cached)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Derivative of the Sigmoid function</p>
+<h5 id="Num::NN#sigmoid_prime(gradient,cached)--arguments">Arguments<a class="headerlink" href="#Num::NN#sigmoid_prime(gradient,cached)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>gradient : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - <a href="../../Tensor/#Tensor"><code>Tensor</code></a> to derive</li>
+<li>cached : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - Cached <a href="../../Tensor/#Tensor"><code>Tensor</code></a> from activation</li>
+</ul>
+<h5 id="Num::NN#sigmoid_prime(gradient,cached)--examples">Examples<a class="headerlink" href="#Num::NN#sigmoid_prime(gradient,cached)--examples" title="Permanent link">#</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">a</span> <span class="o">=</span> <span class="o">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.34</span><span class="p">,</span> <span class="mf">0.65</span><span class="o">].</span><span class="n">to_tensor</span>
+<span class="nb">puts</span> <span class="n">Num</span><span class="o">::</span><span class="n">NN</span><span class="o">.</span><span class="n">d_sigmoid</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="c1"># =&gt; [0.249376, 0.242912, 0.225348]</span>
+</code></pre></div>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/opencl/activation.cr#L120">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#softmax_cross_entropy(input,target)" class="doc doc-heading">    <code>
+      #softmax_cross_entropy<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">input</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">target</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#softmax_cross_entropy(input,target)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Computes softmax cross entropy loss</p>
+<h5 id="Num::NN#softmax_cross_entropy(input,target)--arguments">Arguments<a class="headerlink" href="#Num::NN#softmax_cross_entropy(input,target)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>input : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - Predicted values</li>
+<li>target : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - Truth values</li>
+</ul>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/cpu/activation.cr#L283">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#softmax_cross_entropy_backward(gradient,cached,target)" class="doc doc-heading">    <code>
+      #softmax_cross_entropy_backward<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">gradient</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">cached</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">target</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#softmax_cross_entropy_backward(gradient,cached,target)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Computes gradients of SmCE loss</p>
+<h5 id="Num::NN#softmax_cross_entropy_backward(gradient,cached,target)--arguments">Arguments<a class="headerlink" href="#Num::NN#softmax_cross_entropy_backward(gradient,cached,target)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>gradient : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - <a href="../../Tensor/#Tensor"><code>Tensor</code></a> gradient computed from SmCE forwards</li>
+<li>cache : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> 4D - Cached <a href="../../Tensor/#Tensor"><code>Tensor</code></a> from activation</li>
+<li>target : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - <a href="../../Tensor/#Tensor"><code>Tensor</code></a> truth values</li>
+</ul>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/cpu/loss.cr#L73">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#tanh(x)" class="doc doc-heading">    <code>
+      #tanh<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">x</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)))</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#tanh(x)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Tanh squashes a real-valued number to the range [-1, 1]. It’s non-linear.
+But unlike Sigmoid, its output is zero-centered. Therefore, in practice
+the tanh non-linearity is always preferred to the sigmoid nonlinearity.</p>
+<h5 id="Num::NN#tanh(x)--arguments">Arguments<a class="headerlink" href="#Num::NN#tanh(x)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>x : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - <a href="../../Tensor/#Tensor"><code>Tensor</code></a> to activate</li>
+</ul>
+<h5 id="Num::NN#tanh(x)--examples">Examples<a class="headerlink" href="#Num::NN#tanh(x)--examples" title="Permanent link">#</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">a</span> <span class="o">=</span> <span class="o">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.34</span><span class="p">,</span> <span class="mf">0.65</span><span class="o">].</span><span class="n">to_tensor</span>
+<span class="n">Num</span><span class="o">::</span><span class="n">NN</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="c1"># =&gt; [0.099668, 0.327477, 0.57167 ]</span>
+</code></pre></div>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/cpu/activation.cr#L41">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#tanh(x)" class="doc doc-heading">    <code>
+      #tanh<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">x</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../OCL/#OCL">OCL</a><span class="p">(</span><span class="n">U</span><span class="p">)))</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../OCL/#OCL">OCL</a><span class="p">(</span><span class="n">U</span><span class="p">))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#tanh(x)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Tanh squashes a real-valued number to the range [-1, 1]. It’s non-linear.
+But unlike Sigmoid, its output is zero-centered. Therefore, in practice
+the tanh non-linearity is always preferred to the sigmoid nonlinearity.</p>
+<h5 id="Num::NN#tanh(x)--arguments">Arguments<a class="headerlink" href="#Num::NN#tanh(x)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>x : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - <a href="../../Tensor/#Tensor"><code>Tensor</code></a> to activate</li>
+</ul>
+<h5 id="Num::NN#tanh(x)--examples">Examples<a class="headerlink" href="#Num::NN#tanh(x)--examples" title="Permanent link">#</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">a</span> <span class="o">=</span> <span class="o">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.34</span><span class="p">,</span> <span class="mf">0.65</span><span class="o">].</span><span class="n">to_tensor</span>
+<span class="n">Num</span><span class="o">::</span><span class="n">NN</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="c1"># =&gt; [0.099668, 0.327477, 0.57167 ]</span>
+</code></pre></div>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/opencl/activation.cr#L41">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#tanh!(x)" class="doc doc-heading">    <code>
+      #tanh!<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">x</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#tanh!(x)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Tanh squashes a real-valued number to the range [-1, 1]. It’s non-linear.
+But unlike Sigmoid, its output is zero-centered. Therefore, in practice
+the tanh non-linearity is always preferred to the sigmoid nonlinearity.</p>
+<h5 id="Num::NN#tanh!(x)--arguments">Arguments<a class="headerlink" href="#Num::NN#tanh!(x)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>x : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - <a href="../../Tensor/#Tensor"><code>Tensor</code></a> to activate</li>
+</ul>
+<h5 id="Num::NN#tanh!(x)--examples">Examples<a class="headerlink" href="#Num::NN#tanh!(x)--examples" title="Permanent link">#</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">a</span> <span class="o">=</span> <span class="o">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.34</span><span class="p">,</span> <span class="mf">0.65</span><span class="o">].</span><span class="n">to_tensor</span>
+<span class="n">Num</span><span class="o">::</span><span class="n">NN</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="c1"># =&gt; [0.099668, 0.327477, 0.57167 ]</span>
+</code></pre></div>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/cpu/activation.cr#L46">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#tanh!(x)" class="doc doc-heading">    <code>
+      #tanh!<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">x</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../OCL/#OCL">OCL</a><span class="p">(</span><span class="n">U</span><span class="p">)))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#tanh!(x)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Tanh squashes a real-valued number to the range [-1, 1]. It’s non-linear.
+But unlike Sigmoid, its output is zero-centered. Therefore, in practice
+the tanh non-linearity is always preferred to the sigmoid nonlinearity.</p>
+<h5 id="Num::NN#tanh!(x)--arguments">Arguments<a class="headerlink" href="#Num::NN#tanh!(x)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>x : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - <a href="../../Tensor/#Tensor"><code>Tensor</code></a> to activate</li>
+</ul>
+<h5 id="Num::NN#tanh!(x)--examples">Examples<a class="headerlink" href="#Num::NN#tanh!(x)--examples" title="Permanent link">#</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">a</span> <span class="o">=</span> <span class="o">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.34</span><span class="p">,</span> <span class="mf">0.65</span><span class="o">].</span><span class="n">to_tensor</span>
+<span class="n">Num</span><span class="o">::</span><span class="n">NN</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="c1"># =&gt; [0.099668, 0.327477, 0.57167 ]</span>
+</code></pre></div>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/opencl/activation.cr#L46">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#tanh_prime(gradient,cached)" class="doc doc-heading">    <code>
+      #tanh_prime<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">gradient</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">cached</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../CPU/#CPU">CPU</a><span class="p">(</span><span class="n">U</span><span class="p">)))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#tanh_prime(gradient,cached)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Derivative of the Tanh function</p>
+<h5 id="Num::NN#tanh_prime(gradient,cached)--arguments">Arguments<a class="headerlink" href="#Num::NN#tanh_prime(gradient,cached)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>x : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - <a href="../../Tensor/#Tensor"><code>Tensor</code></a> to derive</li>
+<li>cached : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - Cached <a href="../../Tensor/#Tensor"><code>Tensor</code></a> from activation</li>
+</ul>
+<h5 id="Num::NN#tanh_prime(gradient,cached)--examples">Examples<a class="headerlink" href="#Num::NN#tanh_prime(gradient,cached)--examples" title="Permanent link">#</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">a</span> <span class="o">=</span> <span class="o">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.34</span><span class="p">,</span> <span class="mf">0.65</span><span class="o">].</span><span class="n">to_tensor</span>
+<span class="n">Num</span><span class="o">::</span><span class="n">NN</span><span class="o">.</span><span class="n">d_tanh</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="c1"># =&gt; [0.990066, 0.892759, 0.673193]</span>
+</code></pre></div>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/cpu/activation.cr#L63">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#tanh_prime(gradient,cached)" class="doc doc-heading">    <code>
+      #tanh_prime<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">gradient</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../OCL/#OCL">OCL</a><span class="p">(</span><span class="n">U</span><span class="p">)),</span> <span class="n">cached</span> <span class="p">:</span> <a href="../../Tensor/#Tensor">Tensor</a><span class="p">(</span><span class="n">U</span><span class="p">,</span> <a href="../../OCL/#OCL">OCL</a><span class="p">(</span><span class="n">U</span><span class="p">)))</span> <span class="kp">forall</span> <span class="n">U</span></code></span>
+    </code>
+<a href="#Num::NN#tanh_prime(gradient,cached)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Derivative of the Tanh function</p>
+<h5 id="Num::NN#tanh_prime(gradient,cached)--arguments">Arguments<a class="headerlink" href="#Num::NN#tanh_prime(gradient,cached)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>x : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - <a href="../../Tensor/#Tensor"><code>Tensor</code></a> to derive</li>
+<li>cached : <a href="../../Tensor/#Tensor"><code>Tensor</code></a> - Cached <a href="../../Tensor/#Tensor"><code>Tensor</code></a> from activation</li>
+</ul>
+<h5 id="Num::NN#tanh_prime(gradient,cached)--examples">Examples<a class="headerlink" href="#Num::NN#tanh_prime(gradient,cached)--examples" title="Permanent link">#</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">a</span> <span class="o">=</span> <span class="o">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.34</span><span class="p">,</span> <span class="mf">0.65</span><span class="o">].</span><span class="n">to_tensor</span>
+<span class="n">Num</span><span class="o">::</span><span class="n">NN</span><span class="o">.</span><span class="n">d_tanh</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="c1"># =&gt; [0.990066, 0.892759, 0.673193]</span>
+</code></pre></div>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/backends/opencl/activation.cr#L63">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::NN#variance_scaled(*,dtype,device,scale,mode,distribution)" class="doc doc-heading">    <code>
+      #variance_scaled<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="o">*</span><span class="n">shape</span> <span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="n">dtype</span> <span class="p">:</span> <span class="n">U</span><span class="o">.</span><span class="n">class</span><span class="p">,</span> <span class="n">device</span> <span class="p">:</span> <span class="n">V</span><span class="o">.</span><span class="n">class</span><span class="p">,</span> <span class="n">scale</span> <span class="p">:</span> <span class="n">U</span> <span class="o">=</span> <span class="n">U</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">mode</span> <span class="p">:</span> <a href="FanMode/#Num::NN::FanMode">FanMode</a> <span class="o">=</span> <span class="n">FanMode</span><span class="o">::</span><span class="n">FanIn</span><span class="p">,</span> <span class="n">distribution</span> <span class="p">:</span> <a href="Distribution/#Num::NN::Distribution">Distribution</a> <span class="o">=</span> <span class="n">Distribution</span><span class="o">::</span><span class="n">Normal</span><span class="p">)</span> <span class="kp">forall</span> <span class="n">U</span><span class="p">,</span> <span class="n">V</span></code></span>
+    </code>
+<a href="#Num::NN#variance_scaled(*,dtype,device,scale,mode,distribution)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/initialization.cr#L55">View source</a>
+</div>      </div>
+  </div>
+
+</div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../Grad/Variable/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Variable" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Variable
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="AdamOptimizer/" class="md-footer__link md-footer__link--next" aria-label="Next: AdamOptimizer" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              AdamOptimizer
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        
+          Made with
+          <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+            Material for MkDocs
+          </a>
+        
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.8397ff9e.min.js", "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.1e84347e.min.js"></script>
+      
+    
+  </body>
+</html>

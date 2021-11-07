@@ -1,0 +1,2050 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="canonical" href="https://crystal-data.github.io/num.cr/Num/Grad/Variable/">
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.4">
+    
+    
+      
+        <title>Variable - Num.cr</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.db9e7362.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../css/mkdocstrings.css">
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="blue">
+  
+    
+    <script>function __prefix(e){return new URL("../../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+      <script>var palette=__get("__palette");if(null!==palette&&"object"==typeof palette.color)for(var key in palette.color)document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#Num::Grad::Variable" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Num.cr" class="md-header__button md-logo" aria-label="Num.cr" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Num.cr
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Variable
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="blue"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/crystal-data/num.cr/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../.." class="md-tabs__link">
+      Introduction
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../../Array/" class="md-tabs__link">
+      Array
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../../CPU/" class="md-tabs__link">
+      CPU
+    </a>
+  </li>
+
+      
+        
+  
+  
+    
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../" class="md-tabs__link md-tabs__link--active">
+      Num
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../../Number/" class="md-tabs__link">
+      Number
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../../OCL/" class="md-tabs__link">
+      OCL
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../../Tensor/" class="md-tabs__link">
+      Tensor
+    </a>
+  </li>
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Num.cr" class="md-nav__button md-logo" aria-label="Num.cr" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    Num.cr
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/crystal-data/num.cr/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Array/" class="md-nav__link">
+        Array
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../CPU/" class="md-nav__link">
+        CPU
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../">Num</a>
+          
+            <label for="__nav_4">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Num" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Num
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ArrayFlags/" class="md-nav__link">
+        ArrayFlags
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Einsum/" class="md-nav__link">
+        Einsum
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_3" type="checkbox" id="__nav_4_3" >
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../Exceptions/">Exceptions</a>
+          
+            <label for="__nav_4_3">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Exceptions" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_3">
+          <span class="md-nav__icon md-icon"></span>
+          Exceptions
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Exceptions/AxisError/" class="md-nav__link">
+        AxisError
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Exceptions/IndexError/" class="md-nav__link">
+        IndexError
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Exceptions/LinAlgError/" class="md-nav__link">
+        LinAlgError
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Exceptions/ValueError/" class="md-nav__link">
+        ValueError
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_4" type="checkbox" id="__nav_4_4" checked>
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../">Grad</a>
+          
+            <label for="__nav_4_4">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Grad" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_4">
+          <span class="md-nav__icon md-icon"></span>
+          Grad
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Context/" class="md-nav__link">
+        Context
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Variable
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Variable
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#Num::Grad::Variable-constructors" class="md-nav__link">
+    Constructors
+  </a>
+  
+    <nav class="md-nav" aria-label="Constructors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable.new(context,value,requires_grad)" class="md-nav__link">
+    .new
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#Num::Grad::Variable-methods" class="md-nav__link">
+    Methods
+  </a>
+  
+    <nav class="md-nav" aria-label="Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#*(other)" class="md-nav__link">
+    #*
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#**(other)" class="md-nav__link">
+    #**
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#+(other)" class="md-nav__link">
+    #+
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#-(other)" class="md-nav__link">
+    #-
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#/(other)" class="md-nav__link">
+    #/
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#[](*)" class="md-nav__link">
+    #[]
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#acos" class="md-nav__link">
+    #acos
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#asin" class="md-nav__link">
+    #asin
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#atan" class="md-nav__link">
+    #atan
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#backprop(debug)" class="md-nav__link">
+    #backprop
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#context" class="md-nav__link">
+    #context
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#cos" class="md-nav__link">
+    #cos
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#elu(alpha)" class="md-nav__link">
+    #elu
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#exp" class="md-nav__link">
+    #exp
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#grad" class="md-nav__link">
+    #grad
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#grad=(grad)" class="md-nav__link">
+    #grad=
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#leaky_relu" class="md-nav__link">
+    #leaky_relu
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#matmul(b)" class="md-nav__link">
+    #matmul
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#relu" class="md-nav__link">
+    #relu
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#requires_grad" class="md-nav__link">
+    #requires_grad
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#requires_grad=(requires_grad)" class="md-nav__link">
+    #requires_grad=
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#sin" class="md-nav__link">
+    #sin
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#tan" class="md-nav__link">
+    #tan
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#value" class="md-nav__link">
+    #value
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_5" type="checkbox" id="__nav_4_5" >
+      
+      
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../NN/">NN</a>
+          
+            <label for="__nav_4_5">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="NN" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_5">
+          <span class="md-nav__icon md-icon"></span>
+          NN
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../NN/AdamOptimizer/" class="md-nav__link">
+        AdamOptimizer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../NN/ConvolutionalLayer/" class="md-nav__link">
+        ConvolutionalLayer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../NN/Distribution/" class="md-nav__link">
+        Distribution
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../NN/DropoutLayer/" class="md-nav__link">
+        DropoutLayer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../NN/EluLayer/" class="md-nav__link">
+        EluLayer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../NN/FanMode/" class="md-nav__link">
+        FanMode
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../NN/FlattenLayer/" class="md-nav__link">
+        FlattenLayer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../NN/InputLayer/" class="md-nav__link">
+        InputLayer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../NN/Layer/" class="md-nav__link">
+        Layer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../NN/LeakyReluLayer/" class="md-nav__link">
+        LeakyReluLayer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../NN/LinearLayer/" class="md-nav__link">
+        LinearLayer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../NN/Loss/" class="md-nav__link">
+        Loss
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../NN/MSELoss/" class="md-nav__link">
+        MSELoss
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../NN/MaxPoolLayer/" class="md-nav__link">
+        MaxPoolLayer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../NN/Network/" class="md-nav__link">
+        Network
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../NN/NetworkInfo/" class="md-nav__link">
+        NetworkInfo
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../NN/Optimizer/" class="md-nav__link">
+        Optimizer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../NN/ReluLayer/" class="md-nav__link">
+        ReluLayer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../NN/SGDMomentumOptimizer/" class="md-nav__link">
+        SGDMomentumOptimizer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../NN/SGDOptimizer/" class="md-nav__link">
+        SGDOptimizer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../NN/SigmoidCrossEntropyLoss/" class="md-nav__link">
+        SigmoidCrossEntropyLoss
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../NN/SigmoidLayer/" class="md-nav__link">
+        SigmoidLayer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../NN/SoftmaxCrossEntropyLoss/" class="md-nav__link">
+        SoftmaxCrossEntropyLoss
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../OrderType/" class="md-nav__link">
+        OrderType
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Rand/" class="md-nav__link">
+        Rand
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Number/" class="md-nav__link">
+        Number
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../OCL/" class="md-nav__link">
+        OCL
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../Tensor/" class="md-nav__link">
+        Tensor
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#Num::Grad::Variable-constructors" class="md-nav__link">
+    Constructors
+  </a>
+  
+    <nav class="md-nav" aria-label="Constructors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable.new(context,value,requires_grad)" class="md-nav__link">
+    .new
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#Num::Grad::Variable-methods" class="md-nav__link">
+    Methods
+  </a>
+  
+    <nav class="md-nav" aria-label="Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#*(other)" class="md-nav__link">
+    #*
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#**(other)" class="md-nav__link">
+    #**
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#+(other)" class="md-nav__link">
+    #+
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#-(other)" class="md-nav__link">
+    #-
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#/(other)" class="md-nav__link">
+    #/
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#[](*)" class="md-nav__link">
+    #[]
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#acos" class="md-nav__link">
+    #acos
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#asin" class="md-nav__link">
+    #asin
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#atan" class="md-nav__link">
+    #atan
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#backprop(debug)" class="md-nav__link">
+    #backprop
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#context" class="md-nav__link">
+    #context
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#cos" class="md-nav__link">
+    #cos
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#elu(alpha)" class="md-nav__link">
+    #elu
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#exp" class="md-nav__link">
+    #exp
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#grad" class="md-nav__link">
+    #grad
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#grad=(grad)" class="md-nav__link">
+    #grad=
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#leaky_relu" class="md-nav__link">
+    #leaky_relu
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#matmul(b)" class="md-nav__link">
+    #matmul
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#relu" class="md-nav__link">
+    #relu
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#requires_grad" class="md-nav__link">
+    #requires_grad
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#requires_grad=(requires_grad)" class="md-nav__link">
+    #requires_grad=
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#sin" class="md-nav__link">
+    #sin
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#tan" class="md-nav__link">
+    #tan
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Num::Grad::Variable#value" class="md-nav__link">
+    #value
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/grad/primitives/variable.cr#L32" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <div class="doc doc-object doc-type class">
+<h1 id="Num::Grad::Variable" class="doc doc-heading">class <code>Num::Grad::Variable(T)</code>
+      <br/><small>inherits <code>Reference</code></small>
+<a href="#Num::Grad::Variable" class="headerlink" title="Permanent link">#</a></h1>
+  <div class="doc doc-contents first">
+<p>A variable is an abstraction of a Tensor that tracks
+the operations done to the Tensor.  It also keeps
+track of the gradient of the operation if a Variable
+needs to backpropogate.</p>
+<p>This is the fundamental object used in automatic
+differentiation, as well as the neural network aspects
+of Num.cr</p>
+      <div class="doc doc-children">
+
+
+
+<h2 id="Num::Grad::Variable-constructors">Constructors<a href="#Num::Grad::Variable-constructors" class="headerlink" title="Permanent link">#</a></h2>
+
+<div class="doc doc-object doc-method doc-class_method">
+<h3 id="Num::Grad::Variable.new(context,value,requires_grad)" class="doc doc-heading">    <code>
+      .new<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">context</span> <span class="p">:</span> <a href="../Context/#Num::Grad::Context">Num::Grad::Context</a><span class="p">(</span><span class="n">T</span><span class="p">),</span> <span class="n">value</span> <span class="p">:</span> <span class="n">T</span><span class="p">,</span> <span class="n">requires_grad</span> <span class="p">:</span> <span class="n">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span></code></span>
+    </code>
+<a href="#Num::Grad::Variable.new(context,value,requires_grad)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Initialization method for a Variable.</p>
+<p>This method should only be called by a context, as it creates
+a Variable.  Context provides a helper method to add a
+Variable to the computational graph that handles ownership
+of the context and other related instance variables</p>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/grad/primitives/variable.cr#L59">View source</a>
+</div><h2 id="Num::Grad::Variable-methods">Methods<a href="#Num::Grad::Variable-methods" class="headerlink" title="Permanent link">#</a></h2>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::Grad::Variable#*(other)" class="doc doc-heading">    <code>
+      #*<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">other</span> <span class="p">:</span> <a href="#Num::Grad::Variable">Num::Grad::Variable</a><span class="p">(</span><span class="n">T</span><span class="p">))</span> <span class="p">:</span> <a href="#Num::Grad::Variable">Num::Grad::Variable</a><span class="p">(</span><span class="n">T</span><span class="p">)</span></code></span>
+    </code>
+<a href="#Num::Grad::Variable#*(other)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Multiples a variable to another variable and stores
+the derivative of the operation in the computational
+graph.</p>
+<h5 id="Num::Grad::Variable#*(other)--arguments">Arguments<a class="headerlink" href="#Num::Grad::Variable#*(other)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>other : <a href="#Num::Grad::Variable"><code>Num::Grad::Variable</code></a> - right hand side of the operation</li>
+</ul>
+<h5 id="Num::Grad::Variable#*(other)--examples">Examples<a class="headerlink" href="#Num::Grad::Variable#*(other)--examples" title="Permanent link">#</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">ctx</span> <span class="o">=</span> <span class="n">Num</span><span class="o">::</span><span class="n">Grad</span><span class="o">::</span><span class="n">Context</span><span class="p">(</span><span class="n">Tensor</span><span class="p">(</span><span class="n">Float64</span><span class="p">))</span><span class="o">.</span><span class="n">new</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="o">[</span><span class="mf">2.0</span><span class="o">]</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="o">[</span><span class="mf">3.0</span><span class="o">]</span><span class="p">)</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span> <span class="c1"># =&gt; [6.0]</span>
+<span class="n">f</span><span class="o">.</span><span class="n">backprop</span>
+</code></pre></div>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/grad/variable.cr#L107">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::Grad::Variable#**(other)" class="doc doc-heading">    <code>
+      #**<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">other</span> <span class="p">:</span> <a href="#Num::Grad::Variable">Num::Grad::Variable</a><span class="p">(</span><span class="n">T</span><span class="p">))</span> <span class="p">:</span> <a href="#Num::Grad::Variable">Num::Grad::Variable</a><span class="p">(</span><span class="n">T</span><span class="p">)</span></code></span>
+    </code>
+<a href="#Num::Grad::Variable#**(other)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Raises a variable to another variable and stores
+the derivative of the operation in the computational
+graph.</p>
+<h5 id="Num::Grad::Variable#**(other)--arguments">Arguments<a class="headerlink" href="#Num::Grad::Variable#**(other)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>other : <a href="#Num::Grad::Variable"><code>Num::Grad::Variable</code></a> - right hand side of the operation</li>
+</ul>
+<h5 id="Num::Grad::Variable#**(other)--examples">Examples<a class="headerlink" href="#Num::Grad::Variable#**(other)--examples" title="Permanent link">#</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">ctx</span> <span class="o">=</span> <span class="n">Num</span><span class="o">::</span><span class="n">Grad</span><span class="o">::</span><span class="n">Context</span><span class="p">(</span><span class="n">Tensor</span><span class="p">(</span><span class="n">Float64</span><span class="p">))</span><span class="o">.</span><span class="n">new</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="o">[</span><span class="mf">2.0</span><span class="o">]</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="o">[</span><span class="mf">3.0</span><span class="o">]</span><span class="p">)</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="n">a</span> <span class="o">**</span> <span class="n">b</span> <span class="c1"># =&gt; [8.0]</span>
+<span class="n">f</span><span class="o">.</span><span class="n">backprop</span>
+</code></pre></div>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/grad/variable.cr#L128">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::Grad::Variable#+(other)" class="doc doc-heading">    <code>
+      #+<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">other</span> <span class="p">:</span> <a href="#Num::Grad::Variable">Num::Grad::Variable</a><span class="p">(</span><span class="n">T</span><span class="p">))</span> <span class="p">:</span> <a href="#Num::Grad::Variable">Num::Grad::Variable</a><span class="p">(</span><span class="n">T</span><span class="p">)</span></code></span>
+    </code>
+<a href="#Num::Grad::Variable#+(other)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Adds a variable to another variable and stores
+the derivative of the operation in the computational
+graph.</p>
+<h5 id="Num::Grad::Variable#+(other)--arguments">Arguments<a class="headerlink" href="#Num::Grad::Variable#+(other)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>other : <a href="#Num::Grad::Variable"><code>Num::Grad::Variable</code></a> - right hand side of the operation</li>
+</ul>
+<h5 id="Num::Grad::Variable#+(other)--examples">Examples<a class="headerlink" href="#Num::Grad::Variable#+(other)--examples" title="Permanent link">#</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">ctx</span> <span class="o">=</span> <span class="n">Num</span><span class="o">::</span><span class="n">Grad</span><span class="o">::</span><span class="n">Context</span><span class="p">(</span><span class="n">Tensor</span><span class="p">(</span><span class="n">Float64</span><span class="p">))</span><span class="o">.</span><span class="n">new</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="o">[</span><span class="mf">2.0</span><span class="o">]</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="o">[</span><span class="mf">3.0</span><span class="o">]</span><span class="p">)</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="c1"># =&gt; [5.0]</span>
+<span class="n">f</span><span class="o">.</span><span class="n">backprop</span>
+</code></pre></div>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/grad/variable.cr#L65">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::Grad::Variable#-(other)" class="doc doc-heading">    <code>
+      #-<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">other</span> <span class="p">:</span> <a href="#Num::Grad::Variable">Num::Grad::Variable</a><span class="p">(</span><span class="n">T</span><span class="p">))</span> <span class="p">:</span> <a href="#Num::Grad::Variable">Num::Grad::Variable</a><span class="p">(</span><span class="n">T</span><span class="p">)</span></code></span>
+    </code>
+<a href="#Num::Grad::Variable#-(other)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Subtracts a variable from another variable and stores
+the derivative of the operation in the computational
+graph.</p>
+<h5 id="Num::Grad::Variable#-(other)--arguments">Arguments<a class="headerlink" href="#Num::Grad::Variable#-(other)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>other : <a href="#Num::Grad::Variable"><code>Num::Grad::Variable</code></a> - right hand side of the operation</li>
+</ul>
+<h5 id="Num::Grad::Variable#-(other)--examples">Examples<a class="headerlink" href="#Num::Grad::Variable#-(other)--examples" title="Permanent link">#</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">ctx</span> <span class="o">=</span> <span class="n">Num</span><span class="o">::</span><span class="n">Grad</span><span class="o">::</span><span class="n">Context</span><span class="p">(</span><span class="n">Tensor</span><span class="p">(</span><span class="n">Float64</span><span class="p">))</span><span class="o">.</span><span class="n">new</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="o">[</span><span class="mf">2.0</span><span class="o">]</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="o">[</span><span class="mf">3.0</span><span class="o">]</span><span class="p">)</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span> <span class="c1"># =&gt; [-1.0]</span>
+<span class="n">f</span><span class="o">.</span><span class="n">backprop</span>
+</code></pre></div>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/grad/variable.cr#L86">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::Grad::Variable#/(other)" class="doc doc-heading">    <code>
+      #/<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">other</span> <span class="p">:</span> <a href="#Num::Grad::Variable">Num::Grad::Variable</a><span class="p">(</span><span class="n">T</span><span class="p">))</span> <span class="p">:</span> <a href="#Num::Grad::Variable">Num::Grad::Variable</a><span class="p">(</span><span class="n">T</span><span class="p">)</span></code></span>
+    </code>
+<a href="#Num::Grad::Variable#/(other)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Divides a variable by another variable and stores
+the derivative of the operation in the computational
+graph.</p>
+<h5 id="Num::Grad::Variable#/(other)--arguments">Arguments<a class="headerlink" href="#Num::Grad::Variable#/(other)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>other : <a href="#Num::Grad::Variable"><code>Num::Grad::Variable</code></a> - right hand side of the operation</li>
+</ul>
+<h5 id="Num::Grad::Variable#/(other)--examples">Examples<a class="headerlink" href="#Num::Grad::Variable#/(other)--examples" title="Permanent link">#</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">ctx</span> <span class="o">=</span> <span class="n">Num</span><span class="o">::</span><span class="n">Grad</span><span class="o">::</span><span class="n">Context</span><span class="p">(</span><span class="n">Tensor</span><span class="p">(</span><span class="n">Float64</span><span class="p">))</span><span class="o">.</span><span class="n">new</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="o">[</span><span class="mf">2.0</span><span class="o">]</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="o">[</span><span class="mf">3.0</span><span class="o">]</span><span class="p">)</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="n">a</span> <span class="o">/</span> <span class="n">b</span> <span class="c1"># =&gt; [0.66667]</span>
+<span class="n">f</span><span class="o">.</span><span class="n">backprop</span>
+</code></pre></div>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/grad/variable.cr#L149">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::Grad::Variable#[](*)" class="doc doc-heading">    <code>
+      #[]<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span></code></span>
+    </code>
+<a href="#Num::Grad::Variable#[](*)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Slices a variable.  Slices the gradient of the variable
+using the same arguments</p>
+<h5 id="Num::Grad::Variable#[](*)--arguments">Arguments<a class="headerlink" href="#Num::Grad::Variable#[](*)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>args - Slicing arguments, slicing behavior is the same as
+  it is for a standard <a href="../../../Tensor/#Tensor"><code>Tensor</code></a></li>
+</ul>
+<h5 id="Num::Grad::Variable#[](*)--examples">Examples<a class="headerlink" href="#Num::Grad::Variable#[](*)--examples" title="Permanent link">#</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">ctx</span> <span class="o">=</span> <span class="n">Num</span><span class="o">::</span><span class="n">Grad</span><span class="o">::</span><span class="n">Context</span><span class="p">(</span><span class="n">Tensor</span><span class="p">(</span><span class="n">Float64</span><span class="p">))</span><span class="o">.</span><span class="n">new</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="o">[[</span><span class="mf">2.0</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="mf">3.0</span><span class="o">]]</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">a</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span>
+<span class="n">b</span> <span class="c1"># =&gt; [3]</span>
+</code></pre></div>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/grad/variable.cr#L201">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::Grad::Variable#acos" class="doc doc-heading">    <code>
+      #acos<span style="font-weight: normal"> <code class="highlight language-crystal"><span class="p">:</span> <a href="#Num::Grad::Variable">Num::Grad::Variable</a><span class="p">(</span><span class="n">T</span><span class="p">)</span></code></span>
+    </code>
+<a href="#Num::Grad::Variable#acos" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Computes the arccosine of a variable</p>
+<h5 id="Num::Grad::Variable#acos--examples">Examples<a class="headerlink" href="#Num::Grad::Variable#acos--examples" title="Permanent link">#</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">ctx</span> <span class="o">=</span> <span class="n">Num</span><span class="o">::</span><span class="n">Grad</span><span class="o">::</span><span class="n">Context</span><span class="p">(</span><span class="n">Tensor</span><span class="p">(</span><span class="n">Float64</span><span class="p">,</span> <span class="no">CPU</span><span class="p">(</span><span class="n">Float64</span><span class="p">)))</span><span class="o">.</span><span class="n">new</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="o">[</span><span class="mf">1.0</span><span class="o">]</span><span class="p">)</span>
+<span class="n">x</span><span class="o">.</span><span class="n">acos</span> <span class="c1"># =&gt; [0]</span>
+</code></pre></div>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/grad/variable.cr#L272">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::Grad::Variable#asin" class="doc doc-heading">    <code>
+      #asin<span style="font-weight: normal"> <code class="highlight language-crystal"><span class="p">:</span> <a href="#Num::Grad::Variable">Num::Grad::Variable</a><span class="p">(</span><span class="n">T</span><span class="p">)</span></code></span>
+    </code>
+<a href="#Num::Grad::Variable#asin" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Computes the arcsine of a variable</p>
+<h5 id="Num::Grad::Variable#asin--examples">Examples<a class="headerlink" href="#Num::Grad::Variable#asin--examples" title="Permanent link">#</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">ctx</span> <span class="o">=</span> <span class="n">Num</span><span class="o">::</span><span class="n">Grad</span><span class="o">::</span><span class="n">Context</span><span class="p">(</span><span class="n">Tensor</span><span class="p">(</span><span class="n">Float64</span><span class="p">,</span> <span class="no">CPU</span><span class="p">(</span><span class="n">Float64</span><span class="p">)))</span><span class="o">.</span><span class="n">new</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="o">[</span><span class="mf">1.0</span><span class="o">]</span><span class="p">)</span>
+<span class="n">x</span><span class="o">.</span><span class="n">asin</span> <span class="c1"># =&gt; [1.5708]</span>
+</code></pre></div>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/grad/variable.cr#L261">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::Grad::Variable#atan" class="doc doc-heading">    <code>
+      #atan<span style="font-weight: normal"> <code class="highlight language-crystal"><span class="p">:</span> <a href="#Num::Grad::Variable">Num::Grad::Variable</a><span class="p">(</span><span class="n">T</span><span class="p">)</span></code></span>
+    </code>
+<a href="#Num::Grad::Variable#atan" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Computes the arctangent of a variable</p>
+<h5 id="Num::Grad::Variable#atan--examples">Examples<a class="headerlink" href="#Num::Grad::Variable#atan--examples" title="Permanent link">#</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">ctx</span> <span class="o">=</span> <span class="n">Num</span><span class="o">::</span><span class="n">Grad</span><span class="o">::</span><span class="n">Context</span><span class="p">(</span><span class="n">Tensor</span><span class="p">(</span><span class="n">Float64</span><span class="p">,</span> <span class="no">CPU</span><span class="p">(</span><span class="n">Float64</span><span class="p">)))</span><span class="o">.</span><span class="n">new</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="o">[</span><span class="mf">1.0</span><span class="o">]</span><span class="p">)</span>
+<span class="n">x</span><span class="o">.</span><span class="n">atan</span> <span class="c1"># =&gt; [0.785398]</span>
+</code></pre></div>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/grad/variable.cr#L283">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::Grad::Variable#backprop(debug)" class="doc doc-heading">    <code>
+      #backprop<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">debug</span> <span class="p">:</span> <span class="n">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">)</span></code></span>
+    </code>
+<a href="#Num::Grad::Variable#backprop(debug)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Back propogates an operation along a computational graph.
+This operation will destroy the operational graph, populating
+the gradients for all variables that are predecessors of
+the Variable this is called on.</p>
+<p>Even if this is called on the first node in a graph, it will
+destroy all descendents of this variable stored by the
+Context</p>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/grad/primitives/variable.cr#L89">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::Grad::Variable#context" class="doc doc-heading">    <code>
+      #context<span style="font-weight: normal"> <code class="highlight language-crystal"><span class="p">:</span> <a href="../Context/#Num::Grad::Context">Num::Grad::Context</a><span class="p">(</span><span class="n">T</span><span class="p">)</span></code></span>
+    </code>
+<a href="#Num::Grad::Variable#context" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>The graph the variable is associated with.  This is a reference,
+as a variable does not own its context</p>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/grad/primitives/variable.cr#L35">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::Grad::Variable#cos" class="doc doc-heading">    <code>
+      #cos<span style="font-weight: normal"> <code class="highlight language-crystal"><span class="p">:</span> <a href="#Num::Grad::Variable">Num::Grad::Variable</a><span class="p">(</span><span class="n">T</span><span class="p">)</span></code></span>
+    </code>
+<a href="#Num::Grad::Variable#cos" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Computes the cosine of a variable</p>
+<h5 id="Num::Grad::Variable#cos--examples">Examples<a class="headerlink" href="#Num::Grad::Variable#cos--examples" title="Permanent link">#</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">ctx</span> <span class="o">=</span> <span class="n">Num</span><span class="o">::</span><span class="n">Grad</span><span class="o">::</span><span class="n">Context</span><span class="p">(</span><span class="n">Tensor</span><span class="p">(</span><span class="n">Float64</span><span class="p">,</span> <span class="no">CPU</span><span class="p">(</span><span class="n">Float64</span><span class="p">)))</span><span class="o">.</span><span class="n">new</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="o">[</span><span class="mf">1.0</span><span class="o">]</span><span class="p">)</span>
+<span class="n">x</span><span class="o">.</span><span class="n">cos</span> <span class="c1"># =&gt; [0.540302]</span>
+</code></pre></div>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/grad/variable.cr#L239">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::Grad::Variable#elu(alpha)" class="doc doc-heading">    <code>
+      #elu<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">)</span></code></span>
+    </code>
+<a href="#Num::Grad::Variable#elu(alpha)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Exponential Linear Unit activation function</p>
+<h5 id="Num::Grad::Variable#elu(alpha)--arguments">Arguments<a class="headerlink" href="#Num::Grad::Variable#elu(alpha)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>alpha : <code>Float</code> - Scale for the negative factor</li>
+</ul>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/layers/elu.cr#L75">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::Grad::Variable#exp" class="doc doc-heading">    <code>
+      #exp<span style="font-weight: normal"> <code class="highlight language-crystal"><span class="p">:</span> <a href="#Num::Grad::Variable">Num::Grad::Variable</a><span class="p">(</span><span class="n">T</span><span class="p">)</span></code></span>
+    </code>
+<a href="#Num::Grad::Variable#exp" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Computes the exp of a variable</p>
+<h5 id="Num::Grad::Variable#exp--examples">Examples<a class="headerlink" href="#Num::Grad::Variable#exp--examples" title="Permanent link">#</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">ctx</span> <span class="o">=</span> <span class="n">Num</span><span class="o">::</span><span class="n">Grad</span><span class="o">::</span><span class="n">Context</span><span class="p">(</span><span class="n">Tensor</span><span class="p">(</span><span class="n">Float64</span><span class="p">,</span> <span class="no">CPU</span><span class="p">(</span><span class="n">Float64</span><span class="p">)))</span><span class="o">.</span><span class="n">new</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="o">[</span><span class="mf">1.0</span><span class="o">]</span><span class="p">)</span>
+<span class="n">x</span><span class="o">.</span><span class="n">exp</span> <span class="c1"># =&gt; [2.71828]</span>
+</code></pre></div>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/grad/variable.cr#L294">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::Grad::Variable#grad" class="doc doc-heading">    <code>
+      #grad<span style="font-weight: normal"> <code class="highlight language-crystal"><span class="p">:</span> <span class="n">T</span></code></span>
+    </code>
+<a href="#Num::Grad::Variable#grad" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>The gradient of the Variable.  This is set as a reference to
+the value of a Variable unless <a href="#Num::Grad::Variable#backprop(debug)"><code>backprop</code></a> has been called, in
+which case all related Variables will have their gradient
+updated correctly</p>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/grad/primitives/variable.cr#L46">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::Grad::Variable#grad=(grad)" class="doc doc-heading">    <code>
+      #grad=<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">grad</span> <span class="p">:</span> <span class="n">T</span><span class="p">)</span></code></span>
+    </code>
+<a href="#Num::Grad::Variable#grad=(grad)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>The gradient of the Variable.  This is set as a reference to
+the value of a Variable unless <a href="#Num::Grad::Variable#backprop(debug)"><code>backprop</code></a> has been called, in
+which case all related Variables will have their gradient
+updated correctly</p>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/grad/primitives/variable.cr#L46">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::Grad::Variable#leaky_relu" class="doc doc-heading">    <code>
+      #leaky_relu<span style="font-weight: normal"><code class="highlight language-crystal"></code></span>
+    </code>
+<a href="#Num::Grad::Variable#leaky_relu" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/layers/leaky_relu.cr#L43">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::Grad::Variable#matmul(b)" class="doc doc-heading">    <code>
+      #matmul<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">b</span> <span class="p">:</span> <a href="#Num::Grad::Variable">Num::Grad::Variable</a><span class="p">(</span><span class="n">T</span><span class="p">))</span> <span class="p">:</span> <a href="#Num::Grad::Variable">Num::Grad::Variable</a><span class="p">(</span><span class="n">T</span><span class="p">)</span></code></span>
+    </code>
+<a href="#Num::Grad::Variable#matmul(b)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Matrix multiply operator for two variables.  Computes the
+dot product of two matrices and stores the result in the
+computational graph</p>
+<h5 id="Num::Grad::Variable#matmul(b)--arguments">Arguments<a class="headerlink" href="#Num::Grad::Variable#matmul(b)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>other : <a href="#Num::Grad::Variable"><code>Num::Grad::Variable</code></a> - right hand side of the operation</li>
+</ul>
+<h5 id="Num::Grad::Variable#matmul(b)--examples">Examples<a class="headerlink" href="#Num::Grad::Variable#matmul(b)--examples" title="Permanent link">#</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">ctx</span> <span class="o">=</span> <span class="n">Num</span><span class="o">::</span><span class="n">Grad</span><span class="o">::</span><span class="n">Context</span><span class="p">(</span><span class="n">Tensor</span><span class="p">(</span><span class="n">Float64</span><span class="p">))</span><span class="o">.</span><span class="n">new</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="o">[[</span><span class="mf">2.0</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="mf">2.0</span><span class="o">]]</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="o">[[</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="o">]]</span><span class="p">)</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+
+<span class="c1"># [[6, 6],</span>
+<span class="c1">#  [6, 6]]</span>
+
+<span class="n">f</span><span class="o">.</span><span class="n">backprop</span>
+</code></pre></div>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/grad/variable.cr#L174">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::Grad::Variable#relu" class="doc doc-heading">    <code>
+      #relu<span style="font-weight: normal"><code class="highlight language-crystal"></code></span>
+    </code>
+<a href="#Num::Grad::Variable#relu" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/nn/layers/relu.cr#L43">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::Grad::Variable#requires_grad" class="doc doc-heading">    <code>
+      #requires_grad<span style="font-weight: normal"> <code class="highlight language-crystal"><span class="p">:</span> <span class="n">Bool</span></code></span>
+    </code>
+<a href="#Num::Grad::Variable#requires_grad" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>If set to true, this variable will track its operations,
+otherwise it will act similar to a Tensor, only calculating
+forward operations</p>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/grad/primitives/variable.cr#L51">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::Grad::Variable#requires_grad=(requires_grad)" class="doc doc-heading">    <code>
+      #requires_grad=<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">requires_grad</span> <span class="p">:</span> <span class="n">Bool</span><span class="p">)</span></code></span>
+    </code>
+<a href="#Num::Grad::Variable#requires_grad=(requires_grad)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>If set to true, this variable will track its operations,
+otherwise it will act similar to a Tensor, only calculating
+forward operations</p>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/grad/primitives/variable.cr#L51">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::Grad::Variable#sin" class="doc doc-heading">    <code>
+      #sin<span style="font-weight: normal"> <code class="highlight language-crystal"><span class="p">:</span> <a href="#Num::Grad::Variable">Num::Grad::Variable</a><span class="p">(</span><span class="n">T</span><span class="p">)</span></code></span>
+    </code>
+<a href="#Num::Grad::Variable#sin" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Computes the sine of a variable</p>
+<h5 id="Num::Grad::Variable#sin--examples">Examples<a class="headerlink" href="#Num::Grad::Variable#sin--examples" title="Permanent link">#</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">ctx</span> <span class="o">=</span> <span class="n">Num</span><span class="o">::</span><span class="n">Grad</span><span class="o">::</span><span class="n">Context</span><span class="p">(</span><span class="n">Tensor</span><span class="p">(</span><span class="n">Float64</span><span class="p">,</span> <span class="no">CPU</span><span class="p">(</span><span class="n">Float64</span><span class="p">)))</span><span class="o">.</span><span class="n">new</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="o">[</span><span class="mf">1.0</span><span class="o">]</span><span class="p">)</span>
+<span class="n">x</span><span class="o">.</span><span class="n">sin</span> <span class="c1"># =&gt; [0.841471]</span>
+</code></pre></div>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/grad/variable.cr#L228">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::Grad::Variable#tan" class="doc doc-heading">    <code>
+      #tan<span style="font-weight: normal"> <code class="highlight language-crystal"><span class="p">:</span> <a href="#Num::Grad::Variable">Num::Grad::Variable</a><span class="p">(</span><span class="n">T</span><span class="p">)</span></code></span>
+    </code>
+<a href="#Num::Grad::Variable#tan" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Computes the tangent of a variable</p>
+<h5 id="Num::Grad::Variable#tan--examples">Examples<a class="headerlink" href="#Num::Grad::Variable#tan--examples" title="Permanent link">#</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">ctx</span> <span class="o">=</span> <span class="n">Num</span><span class="o">::</span><span class="n">Grad</span><span class="o">::</span><span class="n">Context</span><span class="p">(</span><span class="n">Tensor</span><span class="p">(</span><span class="n">Float64</span><span class="p">,</span> <span class="no">CPU</span><span class="p">(</span><span class="n">Float64</span><span class="p">)))</span><span class="o">.</span><span class="n">new</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">variable</span><span class="p">(</span><span class="o">[</span><span class="mf">1.0</span><span class="o">]</span><span class="p">)</span>
+<span class="n">x</span><span class="o">.</span><span class="n">tan</span> <span class="c1"># =&gt; [1.55741]</span>
+</code></pre></div>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/grad/variable.cr#L250">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-instance_method">
+<h3 id="Num::Grad::Variable#value" class="doc doc-heading">    <code>
+      #value<span style="font-weight: normal"> <code class="highlight language-crystal"><span class="p">:</span> <span class="n">T</span></code></span>
+    </code>
+<a href="#Num::Grad::Variable#value" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>The value of the Variable.  This should not be edited outside
+of Variable operations, as other edits will not be tracked
+and will lead to incorrect results</p>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/3461689d13958ad535e557df53ab0ab2fd15606d/src/grad/primitives/variable.cr#L40">View source</a>
+</div>      </div>
+  </div>
+
+</div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../Context/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Context" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Context
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../../NN/" class="md-footer__link md-footer__link--next" aria-label="Next: NN" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              NN
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        
+          Made with
+          <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+            Material for MkDocs
+          </a>
+        
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../../assets/javascripts/workers/search.8397ff9e.min.js", "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.1e84347e.min.js"></script>
+      
+    
+  </body>
+</html>
