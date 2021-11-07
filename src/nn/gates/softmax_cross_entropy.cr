@@ -1,4 +1,4 @@
-# Copyright (c) 2020 Crystal Data Contributors
+# Copyright (c) 2021 Crystal Data Contributors
 #
 # MIT License
 #
@@ -21,6 +21,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+# :nodoc:
 class Num::NN::SoftmaxCrossEntropy(T) < Num::Grad::Gate(T)
   getter target : T
   getter cache : Num::Grad::Variable(T)
@@ -30,9 +31,7 @@ class Num::NN::SoftmaxCrossEntropy(T) < Num::Grad::Gate(T)
 
   def backward(payload : Num::Grad::Payload(T)) : Array(T)
     gradient = payload.variable.grad
-    grad = gradient.value
-    result = Num::NN.softmax_cross_entropy_backward(grad, cache.value, target)
-    [result]
+    Num::NN.softmax_cross_entropy_backward(gradient, cache.value, target)
   end
 
   def cache(result : Num::Grad::Variable, *args)

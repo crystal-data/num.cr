@@ -21,6 +21,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+# :nodoc:
 class Num::NN::ReluGate(T) < Num::Grad::Gate(T)
   getter cache : T
 
@@ -36,6 +37,6 @@ class Num::NN::ReluGate(T) < Num::Grad::Gate(T)
     result.grad = T.zeros_like(result.value)
     result.requires_grad = true
 
-    Num::Grad.register("Softmax", self, result, *args)
+    Num::Grad.register("Relu", self, result, *args)
   end
 end

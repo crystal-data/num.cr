@@ -21,6 +21,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+# :nodoc:
 class Num::NN::MSEGate(T) < Num::Grad::Gate(T)
   getter target : T
   getter cache : Num::Grad::Variable(T)
@@ -30,15 +31,7 @@ class Num::NN::MSEGate(T) < Num::Grad::Gate(T)
 
   def backward(payload : Num::Grad::Payload(T)) : Array(T)
     gradient = payload.variable.grad
-
-    grad = gradient.value
-    norm = grad * 2 / gradient.size
-
-    output = @cache.value.map(target) do |x, y|
-      norm * (x - y)
-    end
-
-    [output]
+    Num::NN.mse_backwards(gradient, cache.value, target)
   end
 
   def cache(result : Num::Grad::Variable(T), *args)

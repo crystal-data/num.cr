@@ -71,26 +71,58 @@ class Num::Grad::Context(T)
   # Creates a new variable within the `Context`.  This variable
   # must be able to be cast to a `Tensor` of type `T`.
   #
-  # Arguments
-  # ---------
-  # *value* : Tensor-like
-  #   A value that can be converted to a `Tensor`
-  # *requires_grad* : Bool
-  #   Flag to indicate if operations should be cached for this
-  #   variable
+  # ## Arguments
   #
-  # Examples
-  # --------
+  # * value : `Tensor` - `Tensor` to be monitored
+  # * requires_grad : `Bool` - Flag to indicate if operations should be cached
+  #   for this variable
+  #
+  # ## Examples
+  #
+  # ```
+  # ctx = Context(Tensor(Float64)).new
+  # ctx.variable([1.0, 2.0, 3.0].to_tensor)
+  # ```
+  def variable(value : T, requires_grad : Bool = true) : Num::Grad::Variable(T)
+    Num::Grad::Variable.new(self, value, requires_grad)
+  end
+
+  # Creates a new variable within the `Context`.  This variable
+  # must be able to be cast to a `Tensor` of type `T`.
+  #
+  # ## Arguments
+  #
+  # * value : `Number` - `Number` to be monitored
+  # * requires_grad : `Bool` - Flag to indicate if operations should be cached
+  #   for this variable
+  #
+  # ## Examples
+  #
+  # ```
+  # ctx = Context(Tensor(Float64)).new
+  # ctx.variable(3.0)
+  # ```
+  def variable(value : Number, requires_grad : Bool = true) : Num::Grad::Variable(T)
+    Num::Grad::Variable.new(self, T.new(value), requires_grad)
+  end
+
+  # Creates a new variable within the `Context`.  This variable
+  # must be able to be cast to a `Tensor` of type `T`.
+  #
+  # ## Arguments
+  #
+  # * value : `Array` - `Array` to be monitored
+  # * requires_grad : `Bool` - Flag to indicate if operations should be cached
+  #   for this variable
+  #
+  # ## Examples
+  #
   # ```
   # ctx = Context(Tensor(Float64)).new
   # ctx.variable([1.0, 2.0, 3.0])
   # ```
-  def variable(value, requires_grad : Bool = true) : Num::Grad::Variable(T)
+  def variable(value : Array, requires_grad : Bool = true) : Num::Grad::Variable(T)
     Num::Grad::Variable.new(self, value.to_tensor, requires_grad)
-  end
-
-  def variable(value : Number, requires_grad : Bool = true) : Num::Grad::Variable(T)
-    Num::Grad::Variable.new(self, T.new(value), requires_grad)
   end
 
   # :nodoc:
@@ -123,17 +155,13 @@ module Num::Grad
   # Cached a node in the computational graph.  This is only required
   # if an operation needs to be backpropogated.
   #
-  # Arguments
-  # ---------
-  # *name* : String
-  #   Description of the operation
-  # *gate* : Gate(U)
-  #   Operation gate containing a backward method and
+  # ## Arguments
+  #
+  # * name : `String` - Description of the operation
+  # * gate : `Gate` - Operation gate containing a backward method and
   #   cached arguments
-  # *result* : Variable(U)
-  #   The result of the operation being cached
-  # *parents* : *Variable(U)
-  #   The operands present in operation being cached
+  # * result : `Variable` - The result of the operation being cached
+  # * parents : `Variable` - The operands present in operation being cached
   #
   # This method should be used sparingly by Users of the application.
   # It should only be necessary when a User is defining their own

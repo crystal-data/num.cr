@@ -26,39 +26,46 @@ require "csv"
 module Num::NN
   extend self
 
-  MNIST_TEST_URL  = "https://pjreddie.com/media/files/mnist_test.csv"
+  # :nodoc:
+  MNIST_TEST_URL = "https://pjreddie.com/media/files/mnist_test.csv"
+
+  # :nodoc:
   MNIST_TRAIN_URL = "https://pjreddie.com/media/files/mnist_train.csv"
 
+  # :nodoc:
   struct MNIST
-    getter features : Tensor(Float32)
-    getter labels : Tensor(Float32)
-    getter test_features : Tensor(Float32)
-    getter test_labels : Tensor(Float32)
+    getter features : Tensor(Float32, CPU(Float32))
+    getter labels : Tensor(Float32, CPU(Float32))
+    getter test_features : Tensor(Float32, CPU(Float32))
+    getter test_labels : Tensor(Float32, CPU(Float32))
 
     def initialize(
-      @features : Tensor(Float32),
-      @labels : Tensor(Float32),
-      @test_features : Tensor(Float32),
-      @test_labels : Tensor(Float32)
+      @features : Tensor(Float32, CPU(Float32)),
+      @labels : Tensor(Float32, CPU(Float32)),
+      @test_features : Tensor(Float32, CPU(Float32)),
+      @test_labels : Tensor(Float32, CPU(Float32))
     )
     end
   end
 
+  # :nodoc:
   def load_mnist_helper(url)
     csv = CSV.parse(load_dataset_http(url))
     features = csv[1...].map &.[1...]
     labels = csv[1...].map &.[0]
     l = labels.to_tensor.as_type(Int32)
-    lf = Tensor(Int32).zeros([l.shape[0], 10])
+    lf = Tensor(Int32, CPU(Int32)).zeros([l.shape[0], 10])
     l.each_with_index do |el, i|
       lf[i, el] = 1
     end
     {features.to_tensor.as_type(Float32), lf.as_type(Float32)}
   end
 
+  # Returns a struct containing features, labels, as well as
+  # test_features and test_labels for the MNIST dataset
   def load_mnist_dataset
     f, l = load_mnist_helper(MNIST_TEST_URL)
-    tf, tl = load_mnist_helper(MNIST_TEST_URL)
+    tf, tl = load_mnist_helper(MNIST_TRAIN_URL)
     return MNIST.new(f, l, tf, tl)
   end
 end

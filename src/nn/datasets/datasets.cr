@@ -27,6 +27,7 @@ require "digest"
 module Num::NN
   extend self
 
+  # :nodoc:
   BASE_DATASET_CACHE_PATH = "#{Path.home}/.cache/num.cr/datasets"
 
   private def load_dataset_http(url : String)

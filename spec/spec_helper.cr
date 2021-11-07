@@ -1,6 +1,16 @@
 require "spec"
-require "../src/num"
+require "../src/api"
 
-def assert_array_equal(a, b)
-  Num.all_close(a, b).should be_true
+Num::Rand.set_seed(101)
+
+module Num::Testing
+  extend self
+
+  def tensor_equal(a : Tensor(U, CPU(U)), b : Tensor(V, CPU(V)), tolerance = 1e-6) forall U, V
+    return false unless a.shape == b.shape
+    a.zip(b) do |i, j|
+      return false unless (i - j).abs <= tolerance
+    end
+    true
+  end
 end

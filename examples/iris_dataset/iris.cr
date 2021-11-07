@@ -25,7 +25,7 @@ require "../../src/num"
 
 Num::Rand.set_seed(2)
 
-ctx = Num::Grad::Context(Tensor(Float64)).new
+ctx = Num::Grad::Context(Tensor(Float64, CPU(Float64))).new
 
 labels, x_train, y_train = Num::NN.load_iris_dataset
 

@@ -1,4 +1,4 @@
-# Copyright (c) 2020 Crystal Data Contributors
+# Copyright (c) 2021 Crystal Data Contributors
 #
 # MIT License
 #
@@ -24,61 +24,81 @@
 module Num::NN
   extend self
 
+  # Represents the type of Fan meant to be discovered,
+  # whether it is the maximum number of inputs or
+  # outputs.
   enum FanMode
     FanAvg
     FanIn
     FanOut
   end
 
+  # Type of distribution to return from the random
+  # initial values
   enum Distribution
     Uniform
     Normal
   end
 
   def compute_fans(*shape : Int)
-    fan_out = shape[0]
-    fan_in = shape[1]
+    f0 = shape[0]
+    f1 = shape[1]
+    return {f0, f1} unless shape.size != 1
 
-    if shape.size == 1
-      return {fan_out, fan_in}
-    end
+    product = shape[1...].reduce(1) { |i, j| i * j }
+    f0 *= product
+    f1 *= product
 
-    product = 1
-    1.step(to: shape.size - 1) do |i|
-      product *= shape[i]
-    end
-
-    fan_out *= product
-    fan_in *= product
-
-    {fan_out, fan_in}
+    {f0, f1}
   end
 
-  def variance_scaled(*shape : Int, dtype : U.class, scale : U = U.new(1), mode : FanMode = FanMode::FanIn, distribution : Distribution = Distribution::Normal) forall U
-    fan_in, fan_out = compute_fans(*shape)
-    case mode
-    when FanMode::FanIn
-      std = Math.sqrt(scale / U.new(fan_in))
-    when FanMode::FanOut
-      std = Math.sqrt(scale / U.new(fan_out))
-    else
-      std = Math.sqrt(scale * U.new(2) / U.new(fan_in + fan_out))
-    end
+  def variance_scaled(
+    *shape : Int,
+    dtype : U.class,
+    device : V.class,
+    scale : U = U.new(1),
+    mode : FanMode = FanMode::FanIn,
+    distribution : Distribution = Distribution::Normal
+  ) forall U, V
+    f0, f1 = compute_fans(*shape)
+
+    std = case mode
+          when FanMode::FanIn
+            Math.sqrt(scale / U.new(f0))
+          when FanMode::FanOut
+            Math.sqrt(scale / U.new(f1))
+          else
+            Math.sqrt(scale * U.new(2) / U.new(f0 + f1))
+          end
 
     case distribution
     when Distribution::Uniform
       limit = Math.sqrt(U.new(3)) * std
-      Tensor.random(-limit...limit, shape.to_a)
+      Tensor.random(-limit...limit, shape.to_a, device: V)
     else
-      Tensor(U).normal(shape.to_a, U.new(0), std)
+      Tensor(U, V).normal(shape.to_a, U.new(0), std)
     end
   end
 
-  def kaiming_uniform(*shape : Int, dtype : Tensor(U).class) forall U
-    variance_scaled(*shape, dtype: U, scale: U.new(2), mode: FanMode::FanIn, distribution: Distribution::Uniform)
+  def kaiming_uniform(*shape : Int, dtype : Tensor(U, V).class) forall U, V
+    variance_scaled(
+      *shape,
+      dtype: U,
+      device: V,
+      scale: U.new(2),
+      mode: FanMode::FanIn,
+      distribution: Distribution::Uniform
+    )
   end
 
-  def kaiming_normal(*shape : Int, dtype : Tensor(U).class) forall U
-    variance_scaled(*shape, dtype: U, scale: U.new(2), mode: FanMode::FanIn, distribution: Distribution::Normal)
+  def kaiming_normal(*shape : Int, dtype : Tensor(U, V).class) forall U, V
+    variance_scaled(
+      *shape,
+      dtype: U,
+      device: V,
+      scale: U.new(2),
+      mode: FanMode::FanIn,
+      distribution: Distribution::Normal
+    )
   end
 end

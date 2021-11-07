@@ -1,10 +1,10 @@
 name: num
-version: 0.4.7
+version: 1.0.0
 
 authors:
   - Chris Zimmerman <chris-zimmerman@live.com>
 
-crystal: 1.0.0
+crystal: ">= 1.0.0"
 
 license: MIT
 
@@ -13,7 +13,3 @@ dependencies:
     github: crystal-data/opencl.cr
   alea:
     github: nin93/alea
-    branch: master
-
-scripts:
-  postinstall: make ext

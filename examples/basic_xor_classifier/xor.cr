@@ -25,7 +25,7 @@ require "../../src/num"
 
 Num::Rand.set_seed(2)
 
-ctx = Num::Grad::Context(Tensor(Float64)).new
+ctx = Num::Grad::Context(Tensor(Float64, CPU(Float64))).new
 
 bsz = 32
 
@@ -65,11 +65,4 @@ losses = [] of Float64
     loss.backprop
     net.optimizer.update
   end
-end
-
-Num::Plot::Plot.plot do
-  scatter (0...losses.size), losses
-  x_label "Epochs"
-  y_label "Loss"
-  label "XOR Classifier Loss"
 end

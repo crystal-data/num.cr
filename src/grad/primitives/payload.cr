@@ -21,6 +21,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+# :nodoc:
 # A Payload is a simple wrapper around a Variable.  It
 # is only abstracted out to be a bit more explicit that
 # it is being passed around through an operation

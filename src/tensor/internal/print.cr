@@ -20,13 +20,11 @@
 # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-require "../tensor"
-require "./constants"
 
 module Num::Internal
   extend self
 
-  def concatenate(alist : Array(Tensor(U)), axis : Int32) forall U
+  def concatenate(alist : Array(Tensor(U, V)), axis : Int32) forall U, V
     # This particular method does not allow zero dimensional items, even
     # if they can be upcast, since they can't match a shape off axis, and
     # concatenation must occur along an existing axis.
@@ -60,12 +58,12 @@ module Num::Internal
   def assert_shape_off_axis(ts, axis, shape)
     ts.each do |t|
       if t.shape.size != shape.size
-        raise ShapeError.new("All inputs must share the same number of axes")
+        raise "All inputs must share the same number of axes"
       end
 
       shape.size.times do |i|
         if i != axis && t.shape[i] != shape[i]
-          raise ShapeError.new("All inputs must share a shape off axis")
+          raise "All inputs must share a shape off axis"
         end
       end
       shape[axis] += t.shape[axis]
@@ -75,7 +73,7 @@ module Num::Internal
 
   def raise_zerod(items)
     if items.any? { |i| i.rank == 0 }
-      raise ShapeError.new("Zero dimensional arrays cannot be concatenated")
+      raise "Zero dimensional arrays cannot be concatenated"
     end
   end
 
@@ -84,7 +82,7 @@ module Num::Internal
       axis += size
     end
     if axis < 0 || axis > size
-      raise AxisError.new("Axis out of range")
+      raise "Axis out of range"
     end
     axis
   end

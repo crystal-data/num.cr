@@ -21,16 +21,17 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+# :nodoc:
 class Num::NN::MaxPoolGate(T) < Num::Grad::Gate(T)
   getter input_shape : Array(Int32)
-  getter max_indices : Tensor(Int32)
+  getter max_indices : Tensor(Int32, CPU(Int32))
   getter kernel : Tuple(Int32, Int32)
   getter padding : Tuple(Int32, Int32)
   getter stride : Tuple(Int32, Int32)
 
   def initialize(
     @input_shape : Array(Int32),
-    @max_indices : Tensor(Int32),
+    @max_indices : Tensor(Int32, CPU(Int32)),
     @kernel : Tuple(Int32, Int32),
     @padding : Tuple(Int32, Int32),
     @stride : Tuple(Int32, Int32)

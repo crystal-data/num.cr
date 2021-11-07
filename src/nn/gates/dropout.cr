@@ -21,15 +21,17 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+# :nodoc:
 class Num::NN::DropoutGate(T) < Num::Grad::Gate(T)
   getter mask : T
+  getter prob : Float32 | Float64
 
-  def initialize(@mask : T)
+  def initialize(@mask : T, @prob : Float32 | Float64)
   end
 
   def backward(payload : Num::Grad::Payload(T)) : Array(T)
     gradient = payload.variable.grad
-    [gradient * @mask]
+    [gradient * @mask / @prob]
   end
 
   def cache(result : Num::Grad::Variable(T), *args)

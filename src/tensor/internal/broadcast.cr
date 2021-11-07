@@ -20,10 +20,8 @@
 # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-require "../tensor"
-require "./constants"
-require "./exceptions"
 
+# :nodoc:
 module Num::Internal
   extend self
 
@@ -50,36 +48,13 @@ module Num::Internal
         end
       end
     end
-    raise Num::Internal::ShapeError.new(
+    raise Num::Exceptions::ValueError.new(
       "Shapes #{arr.shape} and #{other.shape} are not broadcastable"
     )
   end
 
   # :nodoc:
-  def broadcast_to(a : Tensor, shape : Array(Int32))
-    dim = shape.size
-    strides = [0] * dim
-    size = 1
-    dim.times do |i|
-      strides[dim - i - 1] = size
-      size *= shape[dim - i - 1]
-    end
-
-    new_strides = broadcast_strides(
-      shape,
-      a.shape,
-      strides,
-      a.strides
-    )
-    new_flags = a.flags.dup
-    new_flags &= ~Num::ArrayFlags::Write
-    new_flags &= ~Num::ArrayFlags::OwnData
-
-    Tensor.new(a.to_unsafe, shape, new_strides, new_flags)
-  end
-
-  # :nodoc:
-  def broadcast(a : Tensor(U), b : Tensor(V)) forall U, V
+  def broadcast(a : Tensor, b : Tensor)
     t = {a, b}
     if a.shape == b.shape
       return t
@@ -102,7 +77,7 @@ module Num::Internal
   end
 
   # :nodoc:
-  def broadcast(a : Tensor(U), b : Tensor(V), c : Tensor(W)) forall U, V, W
+  def broadcast(a : Tensor, b : Tensor, c : Num::Backend::Storage(W)) forall U, V, W
     t = {a, b, c}
     if a.shape == b.shape && b.shape == c.shape
       return t
@@ -124,11 +99,11 @@ module Num::Internal
     {bcast_if(t[0], shape), bcast_if(t[1], shape), bcast_if(t[2], shape)}
   end
 
-  private def bcast_if(item : Tensor, shape : Array(Int32))
-    shape == item.shape ? item : item.as_shape(shape)
+  private def bcast_if(item : Num::Backend::Storage, shape : Array(Int32))
+    shape == item.shape ? item : broadcast_to(item, shape)
   end
 
-  private def broadcast_strides(dest_shape, src_shape, dest_strides, src_strides)
+  def broadcast_strides(dest_shape, src_shape, dest_strides, src_strides)
     dims = dest_shape.size
     start = dims - src_shape.size
 
@@ -141,7 +116,7 @@ module Num::Internal
       when dest_shape[i]
         ret[i] = src_strides[i - start]
       else
-        raise Num::Internal::ShapeError.new(
+        raise Num::Exceptions::ValueError.new(
           "Cannot broadcast from #{src_shape} to #{dest_shape}"
         )
       end

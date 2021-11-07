@@ -1,7 +1,7 @@
 require "../../src/num"
 
 dataset = Num::NN.load_mnist_dataset
-ctx = Num::Grad::Context(Tensor(Float32)).new
+ctx = Num::Grad::Context(Tensor(Float32, CPU(Float32))).new
 
 batch_size = 32
 
@@ -49,11 +49,4 @@ losses = [] of Float32
   accuracy = y_trues.zip(y_preds).map { |t, p| (t == p).to_unsafe }.sum / y_trues.size
 
   puts "Epoch: #{epoch} | Accuracy: #{accuracy}"
-end
-
-Num::Plot::Plot.plot do
-  scatter (0...losses.size), losses
-  x_label "Epochs"
-  y_label "Loss"
-  label "MNIST Accuracy"
 end

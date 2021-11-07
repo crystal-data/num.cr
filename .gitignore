@@ -1,6 +1,6 @@
 /lib/
-/docs/
 /bin/
+/site/
 /.shards/
 *.dwarf
 .DS_Store
@@ -10,13 +10,8 @@ debug.cr
 # Dependencies will be locked in applications that use them
 /shard.lock
 
-# docs
-/_build
-/doc/_build
-
-elementwise_arraymancer
-elementwise_num
-matmul_arraymancer
-matmul_num
-
-*.o
+# Docs
+!docs
+docs/*
+!docs/gen_doc_stubs.py
+!docs/index.md
