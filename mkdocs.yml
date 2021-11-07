@@ -9,7 +9,7 @@ theme:
     repo: fontawesome/brands/github
   palette:
     - scheme: default
-      primary: black
+      primary: white
       accent: blue
   features:
     - navigation.tabs
@@ -25,8 +25,6 @@ plugins:
   - mkdocstrings:
       default_handler: crystal
       watch: [src]
-  - literate-nav:
-      nav_file: SUMMARY.md
   - section-index
 
 markdown_extensions:
@@ -38,4 +36,5 @@ markdown_extensions:
   - pymdownx.superfences
   - deduplicate-toc
   - toc:
-      permalink: "#"
+      permalink: '#'
+      toc_depth: 3
