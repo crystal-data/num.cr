@@ -35,6 +35,7 @@ markdown_extensions:
   - pymdownx.saneheaders
   - pymdownx.superfences
   - deduplicate-toc
+  - tables
   - toc:
       permalink: '#'
       toc_depth: 3

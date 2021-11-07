@@ -281,3 +281,66 @@ puts net.forward(x).value.map { |el| el > 0 ? 1 : 0}
 
 Review the documentation for full implementation details, and if something is missing,
 open an issue to add it!
+
+## Numpy Comparison
+
+This contains a table of manipulation + creation routines.  All operators,
+trigonometric, binary, equality, and mathematical functions have been
+implemented as well.  These follow the naming convention of the Crystal `Math`
+module.  They have also all been implemented for both `CPU` and `OpenCL` backends.
+
+| Method      | Description                          | CPU | OpenCL|
+| ----------- | ------------------------------------ | --- | ----- |
+| `empty`       | In Crystal, same as `Tensor.zeros`| |  |
+| `empty_like`  | In Crystal, same as `Tensor.zeros_like`|  | |
+| `eye`    | `Tensor.eye` | Yes | Yes |
+| `identity` | `Tensor.identity`| Yes | Yes |
+| `ones` | `Tensor.ones`|Yes | Yes |
+| `ones_like` | `Tensor.ones_like`|Yes | Yes |
+| `zeros` | `Tensor.zeros`|Yes | Yes |
+| `zeros_like` | `Tensor.zeros_like`|Yes | Yes |
+| `full` | `Tensor.full`|Yes | Yes |
+| `full_like` | `Tensor.full_like`|Yes | Yes |
+| `array` | `.to_tensor` | Yes | Yes |
+| `from_npy` | `Tensor.from_npy` | Yes | Yes |
+| `arange` | `Tensor.range` | Yes | Yes |
+| `linspace` | `Tensor.linear_space` | Yes | Yes |
+| `geomspace` | `Tensor.geometric_space` | Yes | Yes |
+| `logspace` | `Tensor.logarithmic_space` | Yes | Yes |
+| `meshgrid` | | | |
+| `mgrid` | | | |
+| `ogrid` | | | |
+| `diag` | | | |
+| `diagflat` |  |  | |
+| `tri` | | | |
+| `tril` | `Tensor.tril` | Yes | No |
+| `triu` | `Tensor.triu` | Yes | No |
+| `vander` | `Tensor.vandermonde` | Yes | No |
+| `reshape` | `Tensor.reshape` | Yes | Yes |
+| `ravel` | `Tensor.flat` | Yes | Yes |
+| `ndarray.flat` | `Tensor.flat.each` | Yes | No |
+| `moveaxis` | `Tensor.move_axis` | Yes | No |
+| `rollaxis` | | | |
+| `swapaxes` | `Tensor.swap_axes` | Yes | No |
+| `transpose` | `Tensor.transpose`| Yes | Only full transpose|
+| `broadcast` | | | |
+| `broadcast_to` | `Tensor.broadcast_to` | Yes | Yes |
+| `broadcast_arrays` | `Tensor.broadcast`, only 2 or 3 | Yes | Yes |
+| `expand_dims` | `Tensor.expand_dims` | Yes | No |
+| `squeeze` | | | |
+| `concatenate` | `Num.concatenate`| Yes | Yes |
+| `stack` | | | |
+| `block` | | | |
+| `vstack` | `Num.vstack`| Yes | Yes |
+| `hstack` | `Num.hstack`| Yes | Yes |
+| `column_stack` | | | |
+| `row_stack` | | | |
+| `split` | | | |
+| `array_split` | | | |
+| `dsplit` | | | |
+| `hsplit` | | | |
+| `vsplit` | | | |
+| `tile` | `Num.tile`| Yes | No |
+| `repeat` | `Num.repeat` | Yes | Yes |
+| `unique` | | | |
+| `flip` | `Tensor.flip`| Yes | Yes |
