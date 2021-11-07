@@ -36,7 +36,8 @@ module Num::Internal
 
     s1.each_with_index do |axis, index|
       if axis < 0
-        raise "Only a single dimension can be automatic" if auto >= 0
+        raise Num::Exceptions::ValueError.new(
+          "Only a single dimension can be automatic") if auto >= 0
         auto = index
       else
         size1 *= axis
@@ -50,7 +51,7 @@ module Num::Internal
     end
 
     if size0 != size1
-      raise "Shapes #{s0} cannot be reshaped to #{s1}"
+      raise Num::Exceptions::ValueError.new "Shapes #{s0} cannot be reshaped to #{s1}"
     end
 
     {s1, Num::Internal.shape_to_strides(s1, Num::RowMajor)}
@@ -81,10 +82,10 @@ module Num::Internal
         axis = rank + axis
       end
       if axis < 0 || axis >= rank
-        raise "Invalid axis for Tensor"
+        raise Num::Exceptions::ValueError.new "Invalid axis for Tensor"
       end
       if r_perm[axis] != -1
-        raise "Repeated axis in transpose"
+        raise Num::Exceptions::ValueError.new "Repeated axis in transpose"
       end
       r_perm[axis] = i
       perm[i] = axis
@@ -122,7 +123,7 @@ module Num::Internal
       t.rank < min
     end
     if unbounded
-      raise "Wrong number of dimensions"
+      raise Num::Exceptions::ValueError.new "Wrong number of dimensions"
     end
   end
 
@@ -131,7 +132,7 @@ module Num::Internal
     s0 = shapes[0]
     shapes[1...].each do |s|
       unless s0 == s
-        raise "All inputs must share a shape"
+        raise Num::Exceptions::ValueError.new "All inputs must share a shape"
       end
     end
   end
@@ -142,7 +143,7 @@ module Num::Internal
       axis += size
     end
     if axis < 0 || axis > size
-      raise "Axis out of range"
+      raise Num::Exceptions::ValueError.new "Axis out of range"
     end
     axis
   end
@@ -152,12 +153,12 @@ module Num::Internal
     rank = shape.size
     ts.each do |t|
       if t.rank != rank
-        raise "All inputs must share the same dimensions"
+        raise Num::Exceptions::ValueError.new "All inputs must share the same dimensions"
       end
 
       rank.times do |i|
         if i != axis && t.shape[i] != shape[i]
-          raise "All inputs must share a shape off-axis"
+          raise Num::Exceptions::ValueError.new "All inputs must share a shape off-axis"
         end
       end
       shape[axis] += t.shape[axis]

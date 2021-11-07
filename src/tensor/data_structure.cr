@@ -22,6 +22,8 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 class Tensor(T, S)
+  include Enumerable(T)
+
   getter data : S
 
   # Returns the size of a Tensor along each dimension

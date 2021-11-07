@@ -244,4 +244,23 @@ class Tensor(T, S)
     end
     Num.set(self, *args, value: value)
   end
+
+  # Return a shallow copy of a `Tensor` with a new dtype.  The underlying
+  # data buffer is shared, but the `Tensor` owns its other attributes.
+  # The size of the new dtype must be a multiple of the current dtype
+  #
+  # ## Arguments
+  #
+  # * u : `U.class` - The data type used to reintepret the underlying data buffer
+  #   of a `Tensor`
+  #
+  # ## Examples
+  #
+  # ```
+  # a = Tensor.new([3]) { |i| i }
+  # a.view(Int8) # => [0, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0]
+  # ```
+  def view(u : U.class) forall U
+    Num.view(self, U)
+  end
 end

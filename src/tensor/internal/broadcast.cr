@@ -48,7 +48,9 @@ module Num::Internal
         end
       end
     end
-    raise "Shapes #{arr.shape} and #{other.shape} are not broadcastable"
+    raise Num::Exceptions::ValueError.new(
+      "Shapes #{arr.shape} and #{other.shape} are not broadcastable"
+    )
   end
 
   # :nodoc:
@@ -114,7 +116,9 @@ module Num::Internal
       when dest_shape[i]
         ret[i] = src_strides[i - start]
       else
-        raise "Cannot broadcast from #{src_shape} to #{dest_shape}"
+        raise Num::Exceptions::ValueError.new(
+          "Cannot broadcast from #{src_shape} to #{dest_shape}"
+        )
       end
     end
     ret

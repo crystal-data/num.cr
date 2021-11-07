@@ -183,6 +183,12 @@ module Num
   elementwise bitwise_and, :&
   elementwise bitwise_or, :|
   elementwise bitwise_xor, :^
+  elementwise greater, :>
+  elementwise greater_equal, :>=
+  elementwise equal, :==
+  elementwise not_equal, :!=
+  elementwise less, :<
+  elementwise less_equal, :<=
 
   private macro stdlibwrap1d(fn)
     # Implements the stdlib Math method {{ fn }} on a `Tensor`,

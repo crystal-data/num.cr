@@ -64,7 +64,9 @@ module Num::Internal
       arg += arr.shape[i]
     end
     if arg < 0 || arg >= arr.shape[i]
-      raise "Index #{arg} out of range for axis #{i} with size #{arr.shape[i]}"
+      raise Num::Exceptions::IndexError.new(
+        "Index #{arg} out of range for axis #{i} with size #{arr.shape[i]}"
+      )
     end
     {0, 0, arg.to_i}
   end
@@ -78,7 +80,9 @@ module Num::Internal
     end
     s, o = Indexable.range_to_index_and_count(arg, arr.shape[i]).not_nil!
     if s >= arr.shape[i]
-      raise "Index #{arg} out of range for axis #{i} with size #{arr.shape[i]}"
+      raise Num::Exceptions::IndexError.new(
+        "Index #{arg} out of range for axis #{i} with size #{arr.shape[i]}"
+      )
     end
     {o.to_i, arr.strides[i], s.to_i}
   end
@@ -88,7 +92,9 @@ module Num::Internal
     abs_step = step.abs
     start, offset = Indexable.range_to_index_and_count(range, arr.shape[i]).not_nil!
     if start >= arr.shape[i]
-      raise "Index #{arg} out of range for axis #{i} with size #{arr.shape[i]}"
+      raise Num::Exceptions::IndexError.new(
+        "Index #{arg} out of range for axis #{i} with size #{arr.shape[i]}"
+      )
     end
     {offset // abs_step + offset % abs_step, step * arr.strides[i], start}
   end

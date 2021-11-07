@@ -208,6 +208,90 @@ class Tensor(T, S)
   # ```
   alias_to_backend bitwise_xor, :^
 
+  # Implements the > operator for two `Tensor`s element-wise.
+  #
+  # ## Arguments
+  #
+  # * other : `Tensor` | `Number` - RHS argument
+  #
+  # ## Examples
+  #
+  # ```
+  # a = Tensor.from_array [1, 2, 3]
+  # a > a
+  # ```
+  alias_to_backend greater, :>
+
+  # Implements the >= operator for two `Tensor`s element-wise.
+  #
+  # ## Arguments
+  #
+  # * other : `Tensor` | `Number` - RHS argument
+  #
+  # ## Examples
+  #
+  # ```
+  # a = Tensor.from_array [1, 2, 3]
+  # a >= a
+  # ```
+  alias_to_backend greater_equal, :>=
+
+  # Implements the == operator for two `Tensor`s element-wise.
+  #
+  # ## Arguments
+  #
+  # * other : `Tensor` | `Number` - RHS argument
+  #
+  # ## Examples
+  #
+  # ```
+  # a = Tensor.from_array [1, 2, 3]
+  # a == a
+  # ```
+  alias_to_backend equal, :==
+
+  # Implements the != operator for two `Tensor`s element-wise.
+  #
+  # ## Arguments
+  #
+  # * other : `Tensor` | `Number` - RHS argument
+  #
+  # ## Examples
+  #
+  # ```
+  # a = Tensor.from_array [1, 2, 3]
+  # a != a
+  # ```
+  alias_to_backend not_equal, :!=
+
+  # Implements the < operator for two `Tensor`s element-wise.
+  #
+  # ## Arguments
+  #
+  # * other : `Tensor` | `Number` - RHS argument
+  #
+  # ## Examples
+  #
+  # ```
+  # a = Tensor.from_array [1, 2, 3]
+  # a < a
+  # ```
+  alias_to_backend less, :<
+
+  # Implements the <= operator for two `Tensor`s element-wise.
+  #
+  # ## Arguments
+  #
+  # * other : `Tensor` | `Number` - RHS argument
+  #
+  # ## Examples
+  #
+  # ```
+  # a = Tensor.from_array [1, 2, 3]
+  # a <= a
+  # ```
+  alias_to_backend less_equal, :<=
+
   private macro delegate_to_backend(name)
     def {{name.id}}
       Num.{{name.id}}(self)
