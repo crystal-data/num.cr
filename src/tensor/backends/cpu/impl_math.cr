@@ -40,7 +40,6 @@ module Num
     # b = [4, 5, 6].to_tensor
     # Num.{{ name }}(a, b)
     # ```
-    
     def {{name}}(
       a : Tensor(U, CPU(U)),
       b : Tensor(V, CPU(V))
@@ -69,7 +68,6 @@ module Num
     # b = [4, 5, 6].to_tensor
     # Num.{{ name }}!(a, b) # a is modified
     # ```
-    
     def {{name}}!(
       a : Tensor(U, CPU(U)),
       b : Tensor(V, CPU(V))
@@ -94,7 +92,6 @@ module Num
     # b = 4
     # Num.{{ name }}(a, b)
     # ```
-    
     def {{name}}(
       a : Tensor(U, CPU(U)),
       b : Number | Complex
@@ -120,7 +117,6 @@ module Num
     # b = 4
     # Num.{{ name }}!(a, b)
     # ```
-    
     def {{name}}!(a : Tensor(U, CPU(U)), b : Number | Complex) : Nil forall U
       a.map! do |i|
         i {{operator.id}} b
@@ -142,7 +138,6 @@ module Num
     # b = 4
     # Num.{{ name }}(b, a)
     # ```
-    
     def {{name}}(
       a : Number | Complex,
       b : Tensor(U, CPU(U))
@@ -204,7 +199,6 @@ module Num
     # a = [2.0, 3.65, 3.141].to_tensor
     # Num.{{ fn }}(a)
     # ```
-    
     def {{fn.id}}(a : Tensor(U, CPU(U))) : Tensor forall U
       a.map do |i|
         Math.{{fn.id}}(i)
@@ -225,7 +219,6 @@ module Num
     # a = [2.0, 3.65, 3.141].to_tensor
     # Num.{{ fn }}(a)
     # ```
-    
     def {{fn.id}}!(a : Tensor(U, CPU(U))) : Nil forall U
       a.map! do |i|
         Math.{{fn.id}}(i)
@@ -281,7 +274,6 @@ module Num
     # b = [1.45, 3.2, 1.18]
     # Num.{{ fn }}(a, b)
     # ```
-    
     def {{fn.id}}(
       a : Tensor(U, CPU(U)),
       b : Tensor(V, CPU(V))
@@ -308,7 +300,6 @@ module Num
     # b = [1.45, 3.2, 1.18]
     # Num.{{ fn }}!(a, b)
     # ```
-    
     def {{fn.id}}!(
       a : Tensor(U, CPU(U)),
       b : Tensor(V, CPU(V))
@@ -333,7 +324,6 @@ module Num
     # b = 1.5
     # Num.{{ fn }}(a, b)
     # ```
-    
     def {{fn.id}}(
       a : Tensor(U, CPU(U)),
       b : Number
@@ -359,7 +349,6 @@ module Num
     # b = 1.5
     # Num.{{ fn }}!(a, b)
     # ```
-    
     def {{fn.id}}!(a : Tensor(U, CPU(U)), b : Number) : Nil forall U
       a.map! do |i|
         Math.{{fn.id}}(i, b)
@@ -381,7 +370,6 @@ module Num
     # b = [2.0, 3.65, 3.141].to_tensor
     # Num.{{ fn }}(a, b)
     # ```
-    
     def {{fn.id}}(
       a : Number,
       b : Tensor(U, CPU(U))

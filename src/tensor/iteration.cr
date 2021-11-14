@@ -65,7 +65,6 @@ class Tensor(T, S)
   # # { 2, 4}
   # # { 3, 5}
   # ```
-  
   def zip(b : Tensor(U, CPU(U)), &block : T, U -> _) forall U, V
     Num.zip(self, b) do |i, j|
       yield i, j

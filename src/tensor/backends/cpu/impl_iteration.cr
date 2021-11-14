@@ -44,7 +44,6 @@ module Num
   # # 2
   # # 3
   # ```
-  
   def each(arr : Tensor(U, CPU(U)), &block : U -> _) forall U
     each_pointer_with_index(arr) do |el, _|
       yield el.value
@@ -73,7 +72,6 @@ module Num
   # # { 2, 4}
   # # { 3, 5}
   # ```
-  
   def zip(a : Tensor(U, CPU(U)), b : Tensor(V, CPU(V)), &block : U, V -> _) forall U, V
     a, b = a.broadcast(b)
     Num::Backend.dual_strided_iteration(a, b) do |idx, i, j|
@@ -102,7 +100,6 @@ module Num
   # # 2
   # # 3
   # ```
-  
   def each(arr : Tensor(U, CPU(U))) forall U
     Num::Internal::UnsafeNDFlatIter.new(arr)
   end
@@ -131,7 +128,6 @@ module Num
   # # 2
   # # 3
   # ```
-  
   def each_pointer(arr : Tensor(U, CPU(U)), &block : Pointer(U) -> _) forall U
     each_pointer_with_index(arr) do |el, _|
       yield el
@@ -159,7 +155,6 @@ module Num
   # # 2_2
   # # 3_3
   # ```
-  
   def each_with_index(arr : Tensor(U, CPU(U)), &block : U, Int32 -> _) forall U
     each_pointer_with_index(arr) do |el, i|
       yield el.value, i
@@ -190,7 +185,6 @@ module Num
   # # 2
   # # 3
   # ```
-  
   def each_pointer_with_index(arr : Tensor(U, CPU(U)), &block : Pointer(U), Int32 -> _) forall U
     Num::Backend.strided_iteration(arr) do |i, el|
       yield el, i
@@ -215,7 +209,6 @@ module Num
   # a = Tensor.new([3]) { |i| i }
   # a.map { |e| e + 5 } # => [5, 6, 7]
   # ```
-  
   def map(arr : Tensor(U, CPU(U)), &block : U -> V) : Tensor(V, CPU(V)) forall U, V
     result = Tensor(V, CPU(V)).new(arr.shape)
     data = result.data.to_hostptr
@@ -241,7 +234,6 @@ module Num
   # a.map! { |e| e + 5 }
   # a # => [5, 6, 7]
   # ```
-  
   def map!(arr : Tensor(U, CPU(U)), &block : U -> _) forall U
     each_pointer(arr) do |ptr|
       value = yield(ptr.value)
@@ -277,7 +269,6 @@ module Num
   #
   # a.map(b) { |i, j| i + j } # => [0, 2, 4]
   # ```
-  
   def map(a0 : Tensor(U, CPU(U)), a1 : Tensor(V, CPU(V)), &block : U, V -> W) forall U, V, W
     a0, a1 = a0.broadcast(a1)
     result = Tensor(W, CPU(W)).new(a0.shape)
@@ -312,7 +303,6 @@ module Num
   # a.map!(b) { |i, j| i + j }
   # a # => [0, 2, 4]
   # ```
-  
   def map!(a0 : Tensor(U, CPU(U)), a1 : Tensor(V, CPU(V)), &block : U, V -> _) forall U, V
     a1 = a1.broadcast_to(a0.shape)
     Num::Backend.dual_strided_iteration(a0, a1) do |_, i, j|
@@ -352,7 +342,6 @@ module Num
   #
   # a.map(b, c) { |i, j, k| i + j + k } # => [0, 3, 6]
   # ```
-  
   def map(
     a0 : Tensor(U, CPU(U)),
     a1 : Tensor(V, CPU(V)),
@@ -395,7 +384,6 @@ module Num
   # a.map!(b, c) { |i, j, k| i + j + k }
   # a # => [0, 3, 6]
   # ```
-  
   def map!(a0 : Tensor(U, CPU(U)), a1 : Tensor(V, CPU(V)), a2 : Tensor(W, CPU(W)), &block) forall U, V, W
     a1 = a1.broadcast_to(a0.shape)
     a2 = a2.broadcast_to(a2.shape)
@@ -412,7 +400,6 @@ module Num
   end
 
   # :nodoc:
-  
   private def at_axis_index(
     a : Tensor(U, V),
     axis : Int,
@@ -432,7 +419,6 @@ module Num
   end
 
   # :nodoc:
-  
   def normalize_axis_index(axis : Int, rank : Int)
     axis = rank + axis if axis < 0
     raise "Axis out of range for Tensor" if axis >= rank
@@ -457,7 +443,6 @@ module Num
   # a = Tensor.new([2, 2]) { |i| i }
   # a.reduce_axis(0) { |i, j| i + j } # => [2, 4]
   # ```
-  
   def reduce_axis(a0 : Tensor(U, CPU(U)), axis : Int, dims : Bool = false, &block : U, U -> _) forall U
     axis = normalize_axis_index(axis, a0.rank)
     result = at_axis_index(a0, axis, 0, dims).dup
@@ -491,7 +476,6 @@ module Num
   # # [1, 4, 7]
   # # [2, 5, 8]
   # ```
-  
   def each_axis(a0 : Tensor(U, CPU(U)), axis : Int, dims : Bool = false, &block : Tensor(U, CPU(U)) -> _) forall U
     axis = normalize_axis_index(axis, a0.rank)
     0.step(to: a0.shape[axis] - 1) do |i|
@@ -515,7 +499,6 @@ module Num
   # a = Tensor.new([3, 3]) { |i| i }
   # a.each_axis(1).next # => [0, 3, 6]
   # ```
-  
   def each_axis(arr : Tensor(U, CPU(U)), axis : Int, dims : Bool = false) forall U
     Num::Internal::UnsafeAxisIter.new(arr, axis, dims)
   end
@@ -549,7 +532,6 @@ module Num
   # # [ 7, 16, 25]
   # # [ 8, 17, 26]
   # ```
-  
   def yield_along_axis(a0 : Tensor(U, CPU(U)), axis : Int) forall U
     axis = normalize_axis_index(axis, a0.rank)
     nd = a0.rank
