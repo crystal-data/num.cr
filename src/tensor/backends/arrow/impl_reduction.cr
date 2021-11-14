@@ -29,7 +29,7 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  # * a : `Tensor(U, ARROW(U))` - `Tensor` to reduce
   #
   # ## Examples
   #
@@ -38,7 +38,7 @@ module Num
   # Num.sum(a) # => 6
   # ```
   @[Inline]
-  def sum(a : Tensor(U, CPU(U))) forall U
+  def sum(a : Tensor(U, ARROW(U))) forall U
     a.reduce { |i, j| i + j }
   end
 
@@ -47,7 +47,7 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  # * a : `Tensor(U, ARROW(U))` - `Tensor` to reduce
   # * axis : `Int` - Axis of reduction
   # * dims : `Bool` - Indicate if the axis of reduction should remain in the
   #   result
@@ -62,7 +62,7 @@ module Num
   # #  [5]]
   # ```
   @[Inline]
-  def sum(a : Tensor(U, CPU(U)), axis : Int, dims : Bool = false) forall U
+  def sum(a : Tensor(U, ARROW(U)), axis : Int, dims : Bool = false) forall U
     a.reduce_axis(axis, dims) { |i, j| i + j }
   end
 
@@ -71,7 +71,7 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  # * a : `Tensor(U, ARROW(U))` - `Tensor` to reduce
   #
   # ## Examples
   #
@@ -80,7 +80,7 @@ module Num
   # Num.prod(a) # => 6
   # ```
   @[Inline]
-  def prod(a : Tensor(U, CPU(U))) forall U
+  def prod(a : Tensor(U, ARROW(U))) forall U
     a.reduce { |i, j| i * j }
   end
 
@@ -89,7 +89,7 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  # * a : `Tensor(U, ARROW(U))` - `Tensor` to reduce
   # * axis : `Int` - Axis of reduction
   # * dims : `Bool` - Indicate if the axis of reduction should remain in the
   #   result
@@ -104,7 +104,7 @@ module Num
   # #  [6]]
   # ```
   @[Inline]
-  def prod(a : Tensor(U, CPU(U)), axis : Int, dims : Bool = false) forall U
+  def prod(a : Tensor(U, ARROW(U)), axis : Int, dims : Bool = false) forall U
     a.reduce_axis(axis, dims) { |i, j| i * j }
   end
 
@@ -113,7 +113,7 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  # * a : `Tensor(U, ARROW(U))` - `Tensor` to reduce
   #
   # ## Examples
   #
@@ -122,7 +122,7 @@ module Num
   # Num.all(a) # => false
   # ```
   @[Inline]
-  def all(a : Tensor(U, CPU(U))) forall U
+  def all(a : Tensor(U, ARROW(U))) forall U
     result = a.as_type(Bool)
     result.reduce { |i, j| i & j }
   end
@@ -132,7 +132,7 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  # * a : `Tensor(U, ARROW(U))` - `Tensor` to reduce
   # * axis : `Int` - Axis of reduction
   # * dims : `Bool` - Indicate if the axis of reduction should remain in the
   #   result
@@ -147,7 +147,7 @@ module Num
   # #  [ true]]
   # ```
   @[Inline]
-  def all(a : Tensor(U, CPU(U)), axis : Int, dims : Bool = false) forall U
+  def all(a : Tensor(U, ARROW(U)), axis : Int, dims : Bool = false) forall U
     result = a.as_type(Bool)
     result.reduce_axis(axis, dims) { |i, j| i & j }
   end
@@ -157,7 +157,7 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  # * a : `Tensor(U, ARROW(U))` - `Tensor` to reduce
   #
   # ## Examples
   #
@@ -166,7 +166,7 @@ module Num
   # Num.any(a) # => true
   # ```
   @[Inline]
-  def any(a : Tensor(U, CPU(U))) forall U
+  def any(a : Tensor(U, ARROW(U))) forall U
     result = a.as_type(Bool)
     result.reduce { |i, j| i | j }
   end
@@ -176,7 +176,7 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  # * a : `Tensor(U, ARROW(U))` - `Tensor` to reduce
   # * axis : `Int` - Axis of reduction
   # * dims : `Bool` - Indicate if the axis of reduction should remain in the
   #   result
@@ -191,7 +191,7 @@ module Num
   # #  [ true]]
   # ```
   @[Inline]
-  def any(a : Tensor(U, CPU(U)), axis : Int, dims : Bool = false) forall U
+  def any(a : Tensor(U, ARROW(U)), axis : Int, dims : Bool = false) forall U
     result = a.as_type(Bool)
     result.reduce_axis(axis, dims) { |i, j| i | j }
   end
@@ -200,7 +200,7 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  # * a : `Tensor(U, ARROW(U))` - `Tensor` to reduce
   #
   # ## Examples
   #
@@ -209,7 +209,7 @@ module Num
   # Num.mean(a) # => 2.0
   # ```
   @[Inline]
-  def mean(a : Tensor(U, CPU(U))) forall U
+  def mean(a : Tensor(U, ARROW(U))) forall U
     Num.sum(a) / a.size
   end
 
@@ -218,7 +218,7 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  # * a : `Tensor(U, ARROW(U))` - `Tensor` to reduce
   # * axis : `Int` - Axis of reduction
   # * dims : `Bool` - Indicate if the axis of reduction should remain in the
   #   result
@@ -233,7 +233,7 @@ module Num
   # #  [2]]
   # ```
   @[Inline]
-  def mean(a : Tensor(U, CPU(U)), axis : Int, dims : Bool = false) forall U
+  def mean(a : Tensor(U, ARROW(U)), axis : Int, dims : Bool = false) forall U
     n = a.shape[axis]
     a.reduce_axis(axis, dims) { |i, j| i + j } / n
   end
@@ -242,7 +242,7 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  # * a : `Tensor(U, ARROW(U))` - `Tensor` to reduce
   #
   # ## Examples
   #
@@ -251,7 +251,7 @@ module Num
   # Num.max(a) # => 3
   # ```
   @[Inline]
-  def max(a : Tensor(U, CPU(U))) forall U
+  def max(a : Tensor(U, ARROW(U))) forall U
     m = a.value
     a.each do |el|
       m = el if el > m
@@ -264,7 +264,7 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  # * a : `Tensor(U, ARROW(U))` - `Tensor` to reduce
   # * axis : `Int` - Axis of reduction
   # * dims : `Bool` - Indicate if the axis of reduction should remain in the
   #   result
@@ -279,7 +279,7 @@ module Num
   # #  [3]]
   # ```
   @[Inline]
-  def max(a : Tensor(U, CPU(U)), axis : Int, dims : Bool = false) forall U
+  def max(a : Tensor(U, ARROW(U)), axis : Int, dims : Bool = false) forall U
     a.reduce_axis(axis, dims) { |i, j| Math.max(i, j) }
   end
 
@@ -287,7 +287,7 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  # * a : `Tensor(U, ARROW(U))` - `Tensor` to reduce
   #
   # ## Examples
   #
@@ -296,7 +296,7 @@ module Num
   # Num.min(a) # => 3
   # ```
   @[Inline]
-  def min(a : Tensor(U, CPU(U))) forall U
+  def min(a : Tensor(U, ARROW(U))) forall U
     m = a.value
     a.each do |el|
       m = el if el < m
@@ -309,7 +309,7 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  # * a : `Tensor(U, ARROW(U))` - `Tensor` to reduce
   # * axis : `Int` - Axis of reduction
   # * dims : `Bool` - Indicate if the axis of reduction should remain in the
   #   result
@@ -324,7 +324,7 @@ module Num
   # #  [2]]
   # ```
   @[Inline]
-  def min(a : Tensor(U, CPU(U)), axis : Int, dims : Bool = false) forall U
+  def min(a : Tensor(U, ARROW(U)), axis : Int, dims : Bool = false) forall U
     a.reduce_axis(axis, dims) { |i, j| Math.min(i, j) }
   end
 
@@ -332,7 +332,7 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  # * a : `Tensor(U, ARROW(U))` - `Tensor` to reduce
   #
   # ## Examples
   #
@@ -341,7 +341,7 @@ module Num
   # Num.std(a) # => 0.816496580927726
   # ```
   @[Inline]
-  def std(a : Tensor(U, CPU(U))) forall U
+  def std(a : Tensor(U, ARROW(U))) forall U
     avg = Num.mean(a)
     result = a.reduce(0) { |i, j| i + (j - avg) ** 2 }
     Math.sqrt(result / a.size)
@@ -352,7 +352,7 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  # * a : `Tensor(U, ARROW(U))` - `Tensor` to reduce
   # * axis : `Int` - Axis of reduction
   # * dims : `Bool` - Indicate if the axis of reduction should remain in the
   #   result
@@ -367,7 +367,7 @@ module Num
   # #  [0.707107]]
   # ```
   @[Inline]
-  def std(a : Tensor(U, CPU(U)), axis : Int, dims : Bool = false) forall U
+  def std(a : Tensor(U, ARROW(U)), axis : Int, dims : Bool = false) forall U
     result = at_axis_index(a, axis, 0, dims).as_type(Float64)
     idx = 0
     a.yield_along_axis(axis) do |ax|
@@ -381,7 +381,7 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  # * a : `Tensor(U, ARROW(U))` - `Tensor` to reduce
   #
   # ## Examples
   #
@@ -390,7 +390,7 @@ module Num
   # a.argmax # => 1
   # ```
   @[Inline]
-  def argmax(a : Tensor(U, CPU(U))) : Int32 forall U
+  def argmax(a : Tensor(U, ARROW(U))) : Int32 forall U
     m = a.value
     idx = 0
     a.each_with_index do |el, i|
@@ -407,7 +407,7 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  # * a : `Tensor(U, ARROW(U))` - `Tensor` to reduce
   # * axis : `Int` - Axis of reduction
   # * dims : `Bool` - Indicate if the axis of reduction should remain in the
   #   result
@@ -419,7 +419,7 @@ module Num
   # puts a.argmax(1) # => [0, 1]
   # ```
   @[Inline]
-  def argmax(a : Tensor(U, CPU(U)), axis : Int, dims : Bool = false) forall U
+  def argmax(a : Tensor(U, ARROW(U)), axis : Int, dims : Bool = false) forall U
     result = at_axis_index(a, axis, 0, dims).as_type(Int32)
     idx = 0
     a.yield_along_axis(axis) do |ax|
@@ -433,7 +433,7 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  # * a : `Tensor(U, ARROW(U))` - `Tensor` to reduce
   #
   # ## Examples
   #
@@ -442,7 +442,7 @@ module Num
   # a.argmin # => 1
   # ```
   @[Inline]
-  def argmin(a : Tensor(U, CPU(U))) : Int32 forall U
+  def argmin(a : Tensor(U, ARROW(U))) : Int32 forall U
     m = a.value
     idx = 0
     a.each_with_index do |el, i|
@@ -459,7 +459,7 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  # * a : `Tensor(U, ARROW(U))` - `Tensor` to reduce
   # * axis : `Int` - Axis of reduction
   # * dims : `Bool` - Indicate if the axis of reduction should remain in the
   #   result
@@ -471,7 +471,7 @@ module Num
   # puts a.argmin(1) # => [1, 0]
   # ```
   @[Inline]
-  def argmin(a : Tensor(U, CPU(U)), axis : Int, dims : Bool = false) forall U
+  def argmin(a : Tensor(U, ARROW(U)), axis : Int, dims : Bool = false) forall U
     result = at_axis_index(a, axis, 0, dims).as_type(Int32)
     idx = 0
     a.yield_along_axis(axis) do |ax|
@@ -486,7 +486,7 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - `Tensor` to sort
+  # * a : `Tensor(U, ARROW(U))` - `Tensor` to sort
   #
   # ## Examples
   #
@@ -495,7 +495,7 @@ module Num
   # Num.sort(a) # => [1, 2, 3]
   # ```
   @[Inline]
-  def sort(a : Tensor(U, CPU(U))) forall U
+  def sort(a : Tensor(U, ARROW(U))) forall U
     result = a.dup(Num::RowMajor)
     Slice.new(result.to_unsafe, result.size).sort!
     result
@@ -506,7 +506,7 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - `Tensor` to sort
+  # * a : `Tensor(U, ARROW(U))` - `Tensor` to sort
   # * block : `Proc(U, U, _)` - `Proc` to use to compare values
   #
   # ## Examples
@@ -516,7 +516,7 @@ module Num
   # Num.sort(a) # => [1, 2, 3]
   # ```
   @[Inline]
-  def sort(a : Tensor(U, CPU(U)), &block : U, U -> _) forall U
+  def sort(a : Tensor(U, ARROW(U)), &block : U, U -> _) forall U
     result = a.dup(Num::RowMajor)
     Slice.new(result.to_unsafe, result.size).sort!(&block)
     result
@@ -526,7 +526,7 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - `Tensor` to sort
+  # * a : `Tensor(U, ARROW(U))` - `Tensor` to sort
   # * axis : `Int` - Axis along which to sort
   #
   # ## Examples
@@ -548,7 +548,7 @@ module Num
   # #   [5, 7]]]
   # ```
   @[Inline]
-  def sort(a : Tensor(U, CPU(U)), axis : Int) forall U
+  def sort(a : Tensor(U, ARROW(U)), axis : Int) forall U
     result = a.dup(Num::RowMajor)
     result.yield_along_axis(axis) do |ax|
       ax[...] = Num.sort(ax)
@@ -560,7 +560,7 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - `Tensor` to sort
+  # * a : `Tensor(U, ARROW(U))` - `Tensor` to sort
   # * axis : `Int` - Axis along which to sort
   # * block : `Proc(U, U, _)` - `Proc` to use to sort
   #
@@ -582,7 +582,7 @@ module Num
   # #   [4, 9]]]
   # ```
   @[Inline]
-  def sort(a : Tensor(U, CPU(U)), axis : Int, &block : U, U -> _) forall U
+  def sort(a : Tensor(U, ARROW(U)), axis : Int, &block : U, U -> _) forall U
     result = a.dup(Num::RowMajor)
     result.yield_along_axis(axis) do |ax|
       ax[...] = Num.sort(ax, &block)
@@ -596,8 +596,8 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - LHS argument to compare
-  # * b : `Tensor(V, CPU(V))` - RHS argument to compare
+  # * a : `Tensor(U, ARROW(U))` - LHS argument to compare
+  # * b : `Tensor(V, ARROW(V))` - RHS argument to compare
   # * epsilon : `Number` - Allowed variance between numbers
   #
   # ## Examples
@@ -609,8 +609,8 @@ module Num
   # ```
   @[Inline]
   def all_close(
-    a : Tensor(U, CPU(U)),
-    b : Tensor(V, CPU(V)),
+    a : Tensor(U, ARROW(U)),
+    b : Tensor(V, ARROW(V)),
     epsilon = 1e-6
   ) : Bool forall U, V
     unless a.shape == b.shape
@@ -630,7 +630,7 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  # * a : `Tensor(U, ARROW(U))` - `Tensor` to reduce
   #
   # ## Examples
   #
@@ -639,7 +639,7 @@ module Num
   # Num.ptp(a) # => 2
   # ```
   @[Inline]
-  def ptp(a : Tensor(U, CPU(U))) forall U
+  def ptp(a : Tensor(U, ARROW(U))) forall U
     minimum = a.value
     maximum = a.value
 
@@ -659,7 +659,7 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - `Tensor` to reduce
+  # * a : `Tensor(U, ARROW(U))` - `Tensor` to reduce
   # * axis : `Int` - Axis of reduction
   # * dims : `Bool` - Indicate if the axis of reduction should remain in the
   #   result
@@ -671,7 +671,7 @@ module Num
   # Num.ptp(a, 1) # [1, 1, 4]
   # ```
   @[Inline]
-  def ptp(a : Tensor(U, CPU(U)), axis : Int, dims : Bool = false) forall U
+  def ptp(a : Tensor(U, ARROW(U)), axis : Int, dims : Bool = false) forall U
     Num.subtract(
       Num.max(a, axis, dims),
       Num.min(a, axis, dims)

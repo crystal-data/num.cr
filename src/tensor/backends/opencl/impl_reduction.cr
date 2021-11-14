@@ -41,7 +41,7 @@ module Num
   # # [[1],
   # #  [5]]
   # ```
-  @[AlwaysInline]
+  @[Inline]
   def sum(a : Tensor(U, OCL(U)), axis : Int, dims : Bool = false) forall U
     a.reduce_axis(axis, dims) { |i, j| Num.add!(i, j) }
   end

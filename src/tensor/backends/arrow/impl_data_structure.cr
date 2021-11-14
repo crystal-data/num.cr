@@ -21,22 +21,23 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class CPU(T) < Num::Backend::Storage(T)
+class ARROW(T) < Num::Backend::Storage(T)
   # Raw Crystal pointer that holds a `CPU(T)`s data
-  getter data : Pointer(T)
+  getter data : Arrow::NumericArray
 
-  # Returns the raw Crystal pointer associated with
-  # a `CPU(T)`
+  # Returns the raw Arrow::Array associated with
+  # an `Arrow(T)`
   @[Inline]
   def to_unsafe
-    @data
+    raw, _ = data.values
+    raw.to_unsafe.unsafe_as(Pointer(T))
   end
 end
 
 module Num
   # :nodoc:
   @[Inline]
-  def tensor_to_string(arr : Tensor(U, CPU(U))) forall U
+  def tensor_to_string(arr : Tensor(U, ARROW(U))) forall U
     Num::Internal.array_to_string(arr)
   end
 end

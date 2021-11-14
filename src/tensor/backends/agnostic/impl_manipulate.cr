@@ -45,7 +45,7 @@ module Num
   # #  [1, 2, 3],
   # #  [1, 2, 3]]
   # ```
-  @[AlwaysInline]
+  @[Inline]
   def broadcast_to(arr : Tensor(U, V), shape : Array(Int)) forall U, V
     strides = Num::Internal.strides_for_broadcast(arr.shape, arr.strides, shape)
     flags = arr.flags.dup
@@ -86,7 +86,7 @@ module Num
   # #  [1, 2, 3],
   # #  [1, 2, 3]]
   # ```
-  @[AlwaysInline]
+  @[Inline]
   def as_strided(arr : Tensor(U, V), shape : Array(Int), strides : Array(Int)) : Tensor(U, V) forall U, V
     flags = arr.flags.dup
     flags &= ~Num::ArrayFlags::OwnData
@@ -115,7 +115,7 @@ module Num
   # #
   # #  [[3]]]
   # ```
-  @[AlwaysInline]
+  @[Inline]
   def with_broadcast(arr : Tensor(U, V), n : Int) : Tensor(U, V) forall U, V
     shape = arr.shape + [1] * n
     strides = arr.strides + [0] * n
@@ -135,7 +135,7 @@ module Num
   # a = [1, 2, 3].to_tensor
   # a.expand_dims(0) # => [[1, 2, 3]]
   # ```
-  @[AlwaysInline]
+  @[Inline]
   def expand_dims(arr : Tensor(U, V), axis : Int) : Tensor(U, V) forall U, V
     shape = arr.shape.dup
     shape.insert(axis, 1)
@@ -172,7 +172,7 @@ module Num
   # # [[4  , 4.5, 4  , 4.5, 4  , 4.5],
   # #  [5  , 5.5, 5  , 5.5, 5  , 5.5]]]
   # ```
-  @[AlwaysInline]
+  @[Inline]
   def concatenate(arrs : Array(Tensor(U, V)), axis : Int) forall U, V
     Num::Internal.assert_min_dimension(arrs, 1)
     shape = arrs[0].shape.dup
@@ -228,7 +228,7 @@ module Num
   # # [[4  , 4.5, 4  , 4.5, 4  , 4.5],
   # #  [5  , 5.5, 5  , 5.5, 5  , 5.5]]]
   # ```
-  @[AlwaysInline]
+  @[Inline]
   def concatenate(*arrs : Tensor(U, V), axis : Int) forall U, V
     concatenate(arrs.to_a, axis)
   end
@@ -250,7 +250,7 @@ module Num
   # # [[1, 2, 3],
   # #  [1, 2, 3]]
   # ```
-  @[AlwaysInline]
+  @[Inline]
   def vstack(arrs : Array(Tensor(U, V))) forall U, V
     concatenate(arrs, 0)
   end
@@ -272,7 +272,7 @@ module Num
   # # [[1, 2, 3],
   # #  [1, 2, 3]]
   # ```
-  @[AlwaysInline]
+  @[Inline]
   def vstack(*arrs : Tensor(U, V)) forall U, V
     concatenate(arrs.to_a, 0)
   end
@@ -300,7 +300,7 @@ module Num
   # # [[1, 2, 1, 2],
   # #  [3, 4, 3, 4]]
   # ```
-  @[AlwaysInline]
+  @[Inline]
   def hstack(arrs : Array(Tensor(U, V))) forall U, V
     concatenate(arrs, 1)
   end
@@ -328,7 +328,7 @@ module Num
   # # [[1, 2, 1, 2],
   # #  [3, 4, 3, 4]]
   # ```
-  @[AlwaysInline]
+  @[Inline]
   def hstack(*arrs : Tensor(U, V)) forall U, V
     concatenate(arrs.to_a, 1)
   end

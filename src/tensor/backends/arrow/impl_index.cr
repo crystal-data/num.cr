@@ -31,7 +31,7 @@ module Num
   #
   # ## Arguments
   #
-  # * arr : `Tensor(U, CPU(U))` - `Tensor` to which values will be assigned
+  # * arr : `Tensor(U, ARROW(U))` - `Tensor` to which values will be assigned
   # * args : `Tuple` - Tuple of arguments.  All arguments must be valid
   #   indexers, so a `Range`, `Int`, or `Tuple(Range, Int)`.
   # * value : `Tensor | Number` - Argument to assign to the `Tensor`
@@ -47,7 +47,7 @@ module Num
   # #  [ 2, 99]]
   # ```
   @[Inline]
-  def set(arr : Tensor(U, CPU(U)), *args, value) forall U
+  def set(arr : Tensor(U, ARROW(U)), *args, value) forall U
     set(arr, args.to_a, value)
   end
 
@@ -60,10 +60,10 @@ module Num
   #
   # ## Arguments
   #
-  # * arr : `Tensor(U, CPU(U))` - `Tensor` to which values will be assigned
+  # * arr : `Tensor(U, ARROW(U))` - `Tensor` to which values will be assigned
   # * args : `Array` - Array of arguments.  All arguments must be valid
   #   indexers, so a `Range`, `Int`, or `Tuple(Range, Int)`.
-  # * value : `Tensor(V, CPU(V))` - Argument to assign to the `Tensor`
+  # * value : `Tensor(V, ARROW(V))` - Argument to assign to the `Tensor`
   #
   # ## Examples
   #
@@ -76,7 +76,7 @@ module Num
   # #  [ 2, 99]]
   # ```
   @[Inline]
-  def set(arr : Tensor(U, CPU(U)), args : Array, t : Tensor(V, CPU(V))) forall U, V
+  def set(arr : Tensor(U, ARROW(U)), args : Array, t : Tensor(V, ARROW(V))) forall U, V
     s = arr[args]
     t = t.broadcast_to(s.shape)
     if t.rank > s.rank
@@ -96,7 +96,7 @@ module Num
   #
   # ## Arguments
   #
-  # * arr : `Tensor(U, CPU(U))` - `Tensor` to which values will be assigned
+  # * arr : `Tensor(U, ARROW(U))` - `Tensor` to which values will be assigned
   # * args : `Array` - Tuple of arguments.  All arguments must be valid
   #   indexers, so a `Range`, `Int`, or `Tuple(Range, Int)`.
   # * value : `V` - Argument to assign to the `Tensor`
@@ -112,7 +112,7 @@ module Num
   # #  [ 2, 99]]
   # ```
   @[Inline]
-  def set(arr : Tensor(U, CPU(U)), args : Array, t : V) forall U, V
+  def set(arr : Tensor(U, ARROW(U)), args : Array, t : V) forall U, V
     s = arr[args]
     s.map! do
       t
@@ -125,7 +125,7 @@ module Num
   #
   # ## Arguments
   #
-  # * arr : `Tensor(U, CPU(U))` - `Tensor` to view as a different data type
+  # * arr : `Tensor(U, ARROW(U))` - `Tensor` to view as a different data type
   # * u : `V.class` - The data type used to reintepret the underlying data buffer
   #   of a `Tensor`
   #
@@ -136,7 +136,7 @@ module Num
   # a.view(Int8) # => [0, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0]
   # ```
   @[Inline]
-  def view(arr : Tensor(U, CPU(U)), dtype : V.class) forall U, V
+  def view(arr : Tensor(U, ARROW(U)), dtype : V.class) forall U, V
     s0 = sizeof(U)
     s1 = sizeof(V)
 
@@ -150,8 +150,8 @@ module Num
 
     strides = Num::Internal.shape_to_strides(shape)
     data = arr.to_unsafe.unsafe_as(Pointer(V))
-    storage = CPU(V).new(data, shape, strides)
-    Tensor(V, CPU(V)).new(storage, shape, strides, offset, arr.flags.dup)
+    storage = ARROW(V).new(data, shape, strides)
+    Tensor(V, ARROW(V)).new(storage, shape, strides, offset, arr.flags.dup)
   end
 
   # Returns a view of the diagonal of a `Tensor`.  This method only works
@@ -161,7 +161,7 @@ module Num
   #
   # ## Arguments
   #
-  # * arr : `Tensor(U, CPU(U))` - `Tensor` to view along the diagonal
+  # * arr : `Tensor(U, ARROW(U))` - `Tensor` to view along the diagonal
   #
   # ## Examples
   #
@@ -170,7 +170,7 @@ module Num
   # a.diagonal # => [0, 1, 2]
   # ```
   @[Inline]
-  def diagonal(arr : Tensor(U, CPU(U))) forall U
+  def diagonal(arr : Tensor(U, ARROW(U))) forall U
     unless arr.rank == 2
       raise Num::Exceptions::ValueError.new("Tensor must be 2D")
     end

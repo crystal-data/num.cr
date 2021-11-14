@@ -24,14 +24,14 @@
 module Num
   extend self
 
-  private macro elementwise(name, operator)
+  private macro elementwise_arrow(name, operator)
     # Implements the {{ operator }} operator between two `Tensor`s.
-    # Broadcasting rules apply, the method is applied elementwise.
+    # Broadcasting rules apply, the method is applied elementwise_arrow.
     #
     # ## Arguments
     #
-    # * a : `Tensor(U, CPU(U))` - LHS to the operation
-    # * b : `Tensor(U, CPU(U))` - RHS to the operation
+    # * a : `Tensor(U, ARROW(U))` - LHS to the operation
+    # * b : `Tensor(U, ARROW(U))` - RHS to the operation
     #
     # ## Examples
     #
@@ -42,8 +42,8 @@ module Num
     # ```
     @[Inline]
     def {{name}}(
-      a : Tensor(U, CPU(U)),
-      b : Tensor(V, CPU(V))
+      a : Tensor(U, ARROW(U)),
+      b : Tensor(V, ARROW(V))
     ) : Tensor forall U, V
       a.map(b) do |i, j|
         i {{operator.id}} j
@@ -59,8 +59,8 @@ module Num
     #
     # ## Arguments
     #
-    # * a : `Tensor(U, CPU(U))` - LHS to the operation
-    # * b : `Tensor(U, CPU(U))` - RHS to the operation
+    # * a : `Tensor(U, ARROW(U))` - LHS to the operation
+    # * b : `Tensor(U, ARROW(U))` - RHS to the operation
     #
     # ## Examples
     #
@@ -71,8 +71,8 @@ module Num
     # ```
     @[Inline]
     def {{name}}!(
-      a : Tensor(U, CPU(U)),
-      b : Tensor(V, CPU(V))
+      a : Tensor(U, ARROW(U)),
+      b : Tensor(V, ARROW(V))
     ) : Nil forall U, V
       a.map!(b) do |i, j|
         i {{operator.id}} j
@@ -84,8 +84,8 @@ module Num
     #
     # ## Arguments
     #
-    # * a : `Tensor(U, CPU(U))` - LHS to the operation
-    # * b : `Number | Complex` - RHS to the operation
+    # * a : `Tensor(U, ARROW(U))` - LHS to the operation
+    # * b : `Number` - RHS to the operation
     #
     # ## Examples
     #
@@ -96,8 +96,8 @@ module Num
     # ```
     @[Inline]
     def {{name}}(
-      a : Tensor(U, CPU(U)),
-      b : Number | Complex
+      a : Tensor(U, ARROW(U)),
+      b : Number
     ) : Tensor forall U
       a.map do |i|
         i {{operator.id}} b
@@ -110,8 +110,8 @@ module Num
     #
     # ## Arguments
     #
-    # * a : `Tensor(U, CPU(U))` - LHS to the operation
-    # * b : `Number | Complex` - RHS to the operation
+    # * a : `Tensor(U, ARROW(U))` - LHS to the operation
+    # * b : `Number` - RHS to the operation
     #
     # ## Examples
     #
@@ -121,7 +121,7 @@ module Num
     # Num.{{ name }}!(a, b)
     # ```
     @[Inline]
-    def {{name}}!(a : Tensor(U, CPU(U)), b : Number | Complex) : Nil forall U
+    def {{name}}!(a : Tensor(U, ARROW(U)), b : Number) : Nil forall U
       a.map! do |i|
         i {{operator.id}} b
       end
@@ -132,8 +132,8 @@ module Num
     #
     # ## Arguments
     #
-    # * a : `Number | Complex` - RHS to the operation
-    # * b : `Tensor(U, CPU(U))` - LHS to the operation
+    # * a : `Number` - RHS to the operation
+    # * b : `Tensor(U, ARROW(U))` - LHS to the operation
     #
     # ## Examples
     #
@@ -144,8 +144,8 @@ module Num
     # ```
     @[Inline]
     def {{name}}(
-      a : Number | Complex,
-      b : Tensor(U, CPU(U))
+      a : Number,
+      b : Tensor(U, ARROW(U))
     ) : Tensor forall U
       b.map do |i|
         a {{operator.id}} i
@@ -157,7 +157,7 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - `Tensor` to negate
+  # * a : `Tensor(U, ARROW(U))` - `Tensor` to negate
   #
   # ## Examples
   #
@@ -165,38 +165,38 @@ module Num
   # a = [1, 2, 3].to_tensor
   # Num.negate(a) # => [-1, -2, -3]
   # ```
-  def negate(a : Tensor(U, CPU(U))) : Tensor(U, CPU(U)) forall U
+  def negate(a : Tensor(U, ARROW(U))) : Tensor(U, ARROW(U)) forall U
     a.map do |i|
       -i
     end
   end
 
-  elementwise add, :+
-  elementwise subtract, :-
-  elementwise multiply, :*
-  elementwise divide, :/
-  elementwise floordiv, ://
-  elementwise power, :**
-  elementwise modulo, :%
-  elementwise left_shift, :<<
-  elementwise right_shift, :>>
-  elementwise bitwise_and, :&
-  elementwise bitwise_or, :|
-  elementwise bitwise_xor, :^
-  elementwise greater, :>
-  elementwise greater_equal, :>=
-  elementwise equal, :==
-  elementwise not_equal, :!=
-  elementwise less, :<
-  elementwise less_equal, :<=
+  elementwise_arrow add, :+
+  elementwise_arrow subtract, :-
+  elementwise_arrow multiply, :*
+  elementwise_arrow divide, :/
+  elementwise_arrow floordiv, ://
+  elementwise_arrow power, :**
+  elementwise_arrow modulo, :%
+  elementwise_arrow left_shift, :<<
+  elementwise_arrow right_shift, :>>
+  elementwise_arrow bitwise_and, :&
+  elementwise_arrow bitwise_or, :|
+  elementwise_arrow bitwise_xor, :^
+  elementwise_arrow greater, :>
+  elementwise_arrow greater_equal, :>=
+  elementwise_arrow equal, :==
+  elementwise_arrow not_equal, :!=
+  elementwise_arrow less, :<
+  elementwise_arrow less_equal, :<=
 
-  private macro stdlibwrap1d(fn)
+  private macro stdlibwrap1d_arrow(fn)
     # Implements the stdlib Math method {{ fn }} on a `Tensor`,
     # broadcasting the operation across all elements of the `Tensor`
     #
     # ## Arguments
     #
-    # * a : `Tensor(U, CPU(U))` - Argument to be operated upon
+    # * a : `Tensor(U, ARROW(U))` - Argument to be operated upon
     #
     # ## Examples
     #
@@ -205,7 +205,7 @@ module Num
     # Num.{{ fn }}(a)
     # ```
     @[Inline]
-    def {{fn.id}}(a : Tensor(U, CPU(U))) : Tensor forall U
+    def {{fn.id}}(a : Tensor(U, ARROW(U))) : Tensor forall U
       a.map do |i|
         Math.{{fn.id}}(i)
       end
@@ -217,7 +217,7 @@ module Num
     #
     # ## Arguments
     #
-    # * a : `Tensor(U, CPU(U))` - Argument to be operated upon
+    # * a : `Tensor(U, ARROW(U))` - Argument to be operated upon
     #
     # ## Examples
     #
@@ -226,53 +226,53 @@ module Num
     # Num.{{ fn }}(a)
     # ```
     @[Inline]
-    def {{fn.id}}!(a : Tensor(U, CPU(U))) : Nil forall U
+    def {{fn.id}}!(a : Tensor(U, ARROW(U))) : Nil forall U
       a.map! do |i|
         Math.{{fn.id}}(i)
       end
     end
   end
 
-  stdlibwrap1d acos
-  stdlibwrap1d acosh
-  stdlibwrap1d asin
-  stdlibwrap1d asinh
-  stdlibwrap1d atan
-  stdlibwrap1d atanh
-  stdlibwrap1d besselj0
-  stdlibwrap1d besselj1
-  stdlibwrap1d bessely0
-  stdlibwrap1d bessely1
-  stdlibwrap1d cbrt
-  stdlibwrap1d cos
-  stdlibwrap1d cosh
-  stdlibwrap1d erf
-  stdlibwrap1d erfc
-  stdlibwrap1d exp
-  stdlibwrap1d exp2
-  stdlibwrap1d expm1
-  stdlibwrap1d gamma
-  stdlibwrap1d ilogb
-  stdlibwrap1d lgamma
-  stdlibwrap1d log
-  stdlibwrap1d log10
-  stdlibwrap1d log1p
-  stdlibwrap1d log2
-  stdlibwrap1d logb
-  stdlibwrap1d sin
-  stdlibwrap1d sinh
-  stdlibwrap1d sqrt
-  stdlibwrap1d tan
-  stdlibwrap1d tanh
+  stdlibwrap1d_arrow acos
+  stdlibwrap1d_arrow acosh
+  stdlibwrap1d_arrow asin
+  stdlibwrap1d_arrow asinh
+  stdlibwrap1d_arrow atan
+  stdlibwrap1d_arrow atanh
+  stdlibwrap1d_arrow besselj0
+  stdlibwrap1d_arrow besselj1
+  stdlibwrap1d_arrow bessely0
+  stdlibwrap1d_arrow bessely1
+  stdlibwrap1d_arrow cbrt
+  stdlibwrap1d_arrow cos
+  stdlibwrap1d_arrow cosh
+  stdlibwrap1d_arrow erf
+  stdlibwrap1d_arrow erfc
+  stdlibwrap1d_arrow exp
+  stdlibwrap1d_arrow exp2
+  stdlibwrap1d_arrow expm1
+  stdlibwrap1d_arrow gamma
+  stdlibwrap1d_arrow ilogb
+  stdlibwrap1d_arrow lgamma
+  stdlibwrap1d_arrow log
+  stdlibwrap1d_arrow log10
+  stdlibwrap1d_arrow log1p
+  stdlibwrap1d_arrow log2
+  stdlibwrap1d_arrow logb
+  stdlibwrap1d_arrow sin
+  stdlibwrap1d_arrow sinh
+  stdlibwrap1d_arrow sqrt
+  stdlibwrap1d_arrow tan
+  stdlibwrap1d_arrow tanh
 
-  private macro stdlibwrap(fn)
+  private macro stdlibwrap_arrow(fn)
     # Implements the stdlib Math method {{ fn }} on two `Tensor`s,
     # broadcasting the `Tensor`s together.
     #
     # ## Arguments
     #
-    # * a : `Tensor(U, CPU(U))` - LHS argument to the method
-    # * b : `Tensor(V, CPU(V))` - RHS argument to the method
+    # * a : `Tensor(U, ARROW(U))` - LHS argument to the method
+    # * b : `Tensor(V, ARROW(V))` - RHS argument to the method
     #
     # ## Examples
     #
@@ -283,8 +283,8 @@ module Num
     # ```
     @[Inline]
     def {{fn.id}}(
-      a : Tensor(U, CPU(U)),
-      b : Tensor(V, CPU(V))
+      a : Tensor(U, ARROW(U)),
+      b : Tensor(V, ARROW(V))
     ) : Tensor forall U, V
       a.map(b) do |i, j|
         Math.{{fn.id}}(i, j)
@@ -298,8 +298,8 @@ module Num
     #
     # ## Arguments
     #
-    # * a : `Tensor(U, CPU(U))` - LHS argument to the method
-    # * b : `Tensor(V, CPU(V))` - RHS argument to the method
+    # * a : `Tensor(U, ARROW(U))` - LHS argument to the method
+    # * b : `Tensor(V, ARROW(V))` - RHS argument to the method
     #
     # ## Examples
     #
@@ -310,8 +310,8 @@ module Num
     # ```
     @[Inline]
     def {{fn.id}}!(
-      a : Tensor(U, CPU(U)),
-      b : Tensor(V, CPU(V))
+      a : Tensor(U, ARROW(U)),
+      b : Tensor(V, ARROW(V))
     ) : Nil forall U, V
       a.map(b) do |i, j|
         Math.{{fn.id}}(i, j)
@@ -323,7 +323,7 @@ module Num
     #
     # ## Arguments
     #
-    # * a : `Tensor(U, CPU(U))` - LHS argument to the method
+    # * a : `Tensor(U, ARROW(U))` - LHS argument to the method
     # * b : `Number` - RHS argument to the method
     #
     # ## Examples
@@ -335,7 +335,7 @@ module Num
     # ```
     @[Inline]
     def {{fn.id}}(
-      a : Tensor(U, CPU(U)),
+      a : Tensor(U, ARROW(U)),
       b : Number
     ) : Tensor forall U
       a.map do |i|
@@ -349,7 +349,7 @@ module Num
     #
     # ## Arguments
     #
-    # * a : `Tensor(U, CPU(U))` - LHS argument to the method
+    # * a : `Tensor(U, ARROW(U))` - LHS argument to the method
     # * b : `Number` - RHS argument to the method
     #
     # ## Examples
@@ -360,7 +360,7 @@ module Num
     # Num.{{ fn }}!(a, b)
     # ```
     @[Inline]
-    def {{fn.id}}!(a : Tensor(U, CPU(U)), b : Number) : Nil forall U
+    def {{fn.id}}!(a : Tensor(U, ARROW(U)), b : Number) : Nil forall U
       a.map! do |i|
         Math.{{fn.id}}(i, b)
       end
@@ -372,7 +372,7 @@ module Num
     # ## Arguments
     #
     # * a : `Number` - RHS argument to the method
-    # * b : `Tensor(U, CPU(U))` - LHS argument to the method
+    # * b : `Tensor(U, ARROW(U))` - LHS argument to the method
     #
     # ## Examples
     #
@@ -384,7 +384,7 @@ module Num
     @[Inline]
     def {{fn.id}}(
       a : Number,
-      b : Tensor(U, CPU(U))
+      b : Tensor(U, ARROW(U))
     ) : Tensor forall U
       b.map do |i|
         Math.{{fn.id}}(a, i)
@@ -392,12 +392,12 @@ module Num
     end
   end
 
-  stdlibwrap atan2
-  stdlibwrap besselj
-  stdlibwrap bessely
-  stdlibwrap copysign
-  stdlibwrap hypot
-  stdlibwrap ldexp
-  stdlibwrap max
-  stdlibwrap min
+  stdlibwrap_arrow atan2
+  stdlibwrap_arrow besselj
+  stdlibwrap_arrow bessely
+  stdlibwrap_arrow copysign
+  stdlibwrap_arrow hypot
+  stdlibwrap_arrow ldexp
+  stdlibwrap_arrow max
+  stdlibwrap_arrow min
 end

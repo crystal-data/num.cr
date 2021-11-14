@@ -13,3 +13,5 @@ dependencies:
     github: crystal-data/opencl.cr
   alea:
     github: nin93/alea
+  arrow:
+    github: crystal-data/arrow.cr

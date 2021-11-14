@@ -21,8 +21,56 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-class CPU(T) < Num::Backend::Storage(T)
-  # Initialize a CPU storage from an initial capacity.
+class ARROW(T) < Num::Backend::Storage(T)
+  private macro allocate_array(data)
+    {% if T == Int8 %}
+      Arrow::Int8Array.new {{ data.id }}
+    {% elsif T == UInt8 %}
+      Arrow::UInt8Array.new {{ data.id }}
+    {% elsif T == Int16 %}
+      Arrow::UInt8Array.new {{ data.id }}
+    {% elsif T == UInt16 %}
+      Arrow::UInt8Array.new {{ data.id }}
+    {% elsif T == Int32 %}
+      Arrow::Int32Array.new {{ data.id }}
+    {% elsif T == UInt32 %}
+      Arrow::UInt32Array.new {{ data.id }}
+    {% elsif T == Int64 %}
+      Arrow::Int64Array.new {{ data.id }}
+    {% elsif T == UInt64 %}
+      Arrow::UInt64Array.new {{ data.id }}
+    {% elsif T == String %}
+      Arrow::StringArray.new {{ data.id }}
+    {% else %}
+      {% raise "Invalid data type for Apache Arrow backed Tensor" %}
+    {% end %}
+  end
+
+  private macro allocate_array_from_buffer(*args)
+    {% if T == Int8 %}
+      Arrow::Int8Array.new {{ *args }}
+    {% elsif T == UInt8 %}
+      Arrow::UInt8Array.new {{ *args }}
+    {% elsif T == Int16 %}
+      Arrow::UInt8Array.new {{ *args }}
+    {% elsif T == UInt16 %}
+      Arrow::UInt8Array.new {{ *args }}
+    {% elsif T == Int32 %}
+      Arrow::Int32Array.new {{ *args }}
+    {% elsif T == UInt32 %}
+      Arrow::UInt32Array.new {{ *args }}
+    {% elsif T == Int64 %}
+      Arrow::Int64Array.new {{ *args }}
+    {% elsif T == UInt64 %}
+      Arrow::UInt64Array.new {{ *args }}
+    {% elsif T == String %}
+      Arrow::StringArray.new {{ *args }}
+    {% else %}
+      {% raise "Invalid data type for Apache Arrow backed Tensor" %}
+    {% end %}
+  end
+
+  # Initialize an ARROW backed storage from an initial capacity.
   # The data will be filled with zeros
   #
   # ## Arguments
@@ -36,7 +84,7 @@ class CPU(T) < Num::Backend::Storage(T)
   # CPU.new([2, 3, 4])
   # ```
   def initialize(shape : Array(Int), order : Num::OrderType)
-    @data = Pointer(T).malloc(shape.product)
+    @data = allocate_array Array(T).new(shape.product, T.new(0))
   end
 
   # Initialize a CPU storage from an initial capacity.
@@ -53,7 +101,7 @@ class CPU(T) < Num::Backend::Storage(T)
   # CPU.new([2, 3, 4])
   # ```
   def initialize(shape : Array(Int), strides : Array(Int))
-    @data = Pointer(T).malloc(shape.product)
+    @data = allocate_array Array(T).new(shape.product, T.new(0))
   end
 
   # Initialize a CPU storage from an initial capacity and
@@ -71,7 +119,7 @@ class CPU(T) < Num::Backend::Storage(T)
   # CPU.new([10, 10], 3.4)
   # ```
   def initialize(shape : Array(Int), order : Num::OrderType, value : T)
-    @data = Pointer(T).malloc(shape.product, value)
+    @data = allocate_array Array(T).new(shape.product, value)
   end
 
   # Initialize a CPU storage from an initial capacity and
@@ -89,7 +137,7 @@ class CPU(T) < Num::Backend::Storage(T)
   # CPU.new([10, 10], 3.4)
   # ```
   def initialize(shape : Array(Int), strides : Array(Int), value : T)
-    @data = Pointer(T).malloc(shape.product, value)
+    @data = allocate_array Array(T).new(shape.product, value)
   end
 
   # Initialize a CPU storage from a hostptr and initial
@@ -110,7 +158,9 @@ class CPU(T) < Num::Backend::Storage(T)
   # s = CPU.new(a, [5, 2])
   # ```
   def initialize(data : Pointer(T), shape : Array(Int), strides : Array(Int))
-    @data = data
+    bytes = Bytes.new(data.unsafe_as(Pointer(UInt8)), shape.product * sizeof(T))
+    buffer = Arrow::Buffer.new(bytes)
+    @data = allocate_array_from_buffer shape.product, buffer, nil, 0
   end
 
   # Converts a CPU storage to a crystal pointer
@@ -123,7 +173,7 @@ class CPU(T) < Num::Backend::Storage(T)
   # ```
   @[Inline]
   def to_hostptr : Pointer(T)
-    @data
+    self.to_unsafe
   end
 
   # Return a generic class of a specific generic type, to allow
@@ -141,8 +191,8 @@ class CPU(T) < Num::Backend::Storage(T)
   # a.class.base(Float64).new([10])
   # ```
   @[Inline]
-  def self.base(dtype : U.class) : CPU(U).class forall U
-    CPU(U)
+  def self.base(dtype : U.class) : ARROW(U).class forall U
+    ARROW(U)
   end
 
   # :nodoc:
@@ -170,8 +220,8 @@ module Num
   # a.dup # => [1, 2, 3]
   # ```
   @[Inline]
-  def dup(t : Tensor(U, CPU(U)), order : Num::OrderType = Num::RowMajor) forall U
-    result = Tensor(U, CPU(U)).new(t.shape, order)
+  def dup(t : Tensor(U, ARROW(U)), order : Num::OrderType = Num::RowMajor) forall U
+    result = Tensor(U, ARROW(U)).new(t.shape, order)
     result.map!(t) do |_, j|
       j
     end
