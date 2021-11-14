@@ -61,46 +61,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://crystal-data.github.io/num.cr/Num/Float32AddTensorScalarInplace/</loc>
-         <lastmod>2021-11-14</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://crystal-data.github.io/num.cr/Num/Float32DivideTensorScalarInplace/</loc>
-         <lastmod>2021-11-14</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://crystal-data.github.io/num.cr/Num/Float32MultiplyTensorScalarInplace/</loc>
-         <lastmod>2021-11-14</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://crystal-data.github.io/num.cr/Num/Float32SubtractTensorScalarInplace/</loc>
-         <lastmod>2021-11-14</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://crystal-data.github.io/num.cr/Num/Float64AddTensorScalarInplace/</loc>
-         <lastmod>2021-11-14</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://crystal-data.github.io/num.cr/Num/Float64DivideTensorScalarInplace/</loc>
-         <lastmod>2021-11-14</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://crystal-data.github.io/num.cr/Num/Float64MultiplyTensorScalarInplace/</loc>
-         <lastmod>2021-11-14</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://crystal-data.github.io/num.cr/Num/Float64SubtractTensorScalarInplace/</loc>
-         <lastmod>2021-11-14</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://crystal-data.github.io/num.cr/Num/Grad/</loc>
          <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
@@ -112,26 +72,6 @@
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/Grad/Variable/</loc>
-         <lastmod>2021-11-14</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://crystal-data.github.io/num.cr/Num/Int32AddTensorScalarInplace/</loc>
-         <lastmod>2021-11-14</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://crystal-data.github.io/num.cr/Num/Int32DivideTensorScalarInplace/</loc>
-         <lastmod>2021-11-14</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://crystal-data.github.io/num.cr/Num/Int32MultiplyTensorScalarInplace/</loc>
-         <lastmod>2021-11-14</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://crystal-data.github.io/num.cr/Num/Int32SubtractTensorScalarInplace/</loc>
          <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -262,26 +202,6 @@
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/Rand/</loc>
-         <lastmod>2021-11-14</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://crystal-data.github.io/num.cr/Num/UInt32AddTensorScalarInplace/</loc>
-         <lastmod>2021-11-14</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://crystal-data.github.io/num.cr/Num/UInt32DivideTensorScalarInplace/</loc>
-         <lastmod>2021-11-14</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://crystal-data.github.io/num.cr/Num/UInt32MultiplyTensorScalarInplace/</loc>
-         <lastmod>2021-11-14</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://crystal-data.github.io/num.cr/Num/UInt32SubtractTensorScalarInplace/</loc>
          <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
