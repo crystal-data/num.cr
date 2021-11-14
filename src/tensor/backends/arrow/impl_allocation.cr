@@ -87,7 +87,7 @@ class ARROW(T) < Num::Backend::Storage(T)
     @data = allocate_array Array(T).new(shape.product, T.new(0))
   end
 
-  # Initialize a CPU storage from an initial capacity.
+  # Initialize an ARROW storage from an initial capacity.
   # The data will be filled with zeros
   #
   # ## Arguments
@@ -98,13 +98,13 @@ class ARROW(T) < Num::Backend::Storage(T)
   # ## Examples
   #
   # ```
-  # CPU.new([2, 3, 4])
+  # ARROW(Int32).new([2, 3, 4])
   # ```
   def initialize(shape : Array(Int), strides : Array(Int))
     @data = allocate_array Array(T).new(shape.product, T.new(0))
   end
 
-  # Initialize a CPU storage from an initial capacity and
+  # Initialize an ARROW storage from an initial capacity and
   # an initial value, which will fill the buffer
   #
   # ## Arguments
@@ -116,13 +116,13 @@ class ARROW(T) < Num::Backend::Storage(T)
   # ## Examples
   #
   # ```
-  # CPU.new([10, 10], 3.4)
+  # ARROW.new([10, 10], 3.4)
   # ```
   def initialize(shape : Array(Int), order : Num::OrderType, value : T)
     @data = allocate_array Array(T).new(shape.product, value)
   end
 
-  # Initialize a CPU storage from an initial capacity and
+  # Initialize an ARROW storage from an initial capacity and
   # an initial value, which will fill the buffer
   #
   # ## Arguments
@@ -134,13 +134,13 @@ class ARROW(T) < Num::Backend::Storage(T)
   # ## Examples
   #
   # ```
-  # CPU.new([10, 10], 3.4)
+  # ARROW.new([10, 10], [10, 1], 3.4)
   # ```
   def initialize(shape : Array(Int), strides : Array(Int), value : T)
     @data = allocate_array Array(T).new(shape.product, value)
   end
 
-  # Initialize a CPU storage from a hostptr and initial
+  # Initialize an ARROW storage from a hostptr and initial
   # shape.  The shape is not required for this storage type,
   # but is needed by other implementations to ensure copy
   # requirements have the right pointer size.
@@ -155,7 +155,7 @@ class ARROW(T) < Num::Backend::Storage(T)
   #
   # ```
   # a = Pointer(Int32).malloc(10)
-  # s = CPU.new(a, [5, 2])
+  # s = ARROW.new(a, [5, 2])
   # ```
   def initialize(data : Pointer(T), shape : Array(Int), strides : Array(Int))
     bytes = Bytes.new(data.unsafe_as(Pointer(UInt8)), shape.product * sizeof(T))
@@ -163,12 +163,12 @@ class ARROW(T) < Num::Backend::Storage(T)
     @data = allocate_array_from_buffer shape.product, buffer, nil, 0
   end
 
-  # Converts a CPU storage to a crystal pointer
+  # Converts ARROW storage to a crystal pointer
   #
   # ## Examples
   #
   # ```
-  # a = CPU(Int32).new([3, 3, 2])
+  # a = ARROW(Int32).new([3, 3, 2])
   # a.to_hostptr
   # ```
   def to_hostptr : Pointer(T)
@@ -182,7 +182,7 @@ class ARROW(T) < Num::Backend::Storage(T)
   # ## Examples
   #
   # ```
-  # a = CPU(Float32).new([10])
+  # a = ARROW(Float32).new([10])
   #
   # # Cannot do
   # # a.class.new ...

@@ -21,12 +21,18 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+# :nodoc:
+module Arrow
+  class NumericArray
+  end
+end
+
 class ARROW(T) < Num::Backend::Storage(T)
-  # Raw Crystal pointer that holds a `CPU(T)`s data
+  # Raw Crystal pointer that holds an `ARROW(T)`s data
   getter data : Arrow::NumericArray
 
   # Returns the raw Arrow::Array associated with
-  # an `Arrow(T)`
+  # an `ARROW(T)`
   def to_unsafe
     raw, _ = data.values
     raw.to_unsafe.unsafe_as(Pointer(T))
