@@ -46,7 +46,6 @@ module Num
   # # [1, 4, 7]
   # # [2, 5, 8]
   # ```
-  @[AlwaysInline]
   def each_axis(
     a0 : Tensor(U, OCL(U)),
     axis : Int,
@@ -78,7 +77,6 @@ module Num
   # a = Tensor.new([2, 2]) { |i| i }
   # a.reduce_axis(0) { |i, j| Num.add!(i, j) } # => "<2> on OpenCL Backend"
   # ```
-  @[AlwaysInline]
   def reduce_axis(
     a0 : Tensor(U, OCL(U)),
     axis : Int,

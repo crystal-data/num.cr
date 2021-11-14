@@ -70,7 +70,6 @@ module Num
   # #   [13, 15, 17],
   # #   [19, 21, 23]]]
   # ```
-  @[AlwaysInline]
   def transpose(arr : Tensor(U, OCL(U)), axes : Array(Int) = [] of Int32) forall U
     call_opencl_kernel(
       U,
@@ -105,7 +104,6 @@ module Num
   # #   [13, 15, 17],
   # #   [19, 21, 23]]]
   # ```
-  @[AlwaysInline]
   def transpose(arr : Tensor(U, OCL(U)), *args : Int) forall U
     transpose(arr, args.to_a)
   end

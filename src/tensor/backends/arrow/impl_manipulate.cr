@@ -33,8 +33,8 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - First `Tensor` to broadcast
-  # * b : `Tensor(V, CPU(V))` - Second `Tensor` to broadcast
+  # * a : `Tensor(U, ARROW(U))` - First `Tensor` to broadcast
+  # * b : `Tensor(V, ARROW(V))` - Second `Tensor` to broadcast
   #
   # ## Examples
   #
@@ -45,7 +45,7 @@ module Num
   # x, y = a.broadcast(b)
   # x.shape # => [3, 3]
   # ```
-  def broadcast(a : Tensor(U, CPU(U)), b : Tensor(V, CPU(V))) forall U, V
+  def broadcast(a : Tensor(U, ARROW(U)), b : Tensor(V, ARROW(V))) forall U, V
     if a.shape == b.shape
       return {a, b}
     end
@@ -62,9 +62,9 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - First `Tensor` to broadcast
-  # * b : `Tensor(V, CPU(V))` - Second `Tensor` to broadcast
-  # * c : `Tensor(W, CPU(W))` - Third `Tensor` to broadcast
+  # * a : `Tensor(U, ARROW(U))` - First `Tensor` to broadcast
+  # * b : `Tensor(V, ARROW(V))` - Second `Tensor` to broadcast
+  # * c : `Tensor(W, ARROW(W))` - Third `Tensor` to broadcast
   #
   # ## Examples
   #
@@ -76,7 +76,7 @@ module Num
   # x, y, z = a.broadcast(b, c)
   # x.shape # => [3, 3, 3, 3]
   # ```
-  def broadcast(a : Tensor(U, CPU(U)), b : Tensor(V, CPU(V)), c : Tensor(W, CPU(W))) forall U, V, W
+  def broadcast(a : Tensor(U, ARROW(U)), b : Tensor(V, ARROW(V)), c : Tensor(W, ARROW(W))) forall U, V, W
     if a.shape == b.shape && a.shape == c.shape
       return {a, b, c}
     end
@@ -90,7 +90,7 @@ module Num
   #
   # ## Arguments
   #
-  # * arr : `Tensor(U, CPU(U))` - `Tensor` to reshape
+  # * arr : `Tensor(U, ARROW(U))` - `Tensor` to reshape
   # * shape : `Array(Int)` - New shape for the `Tensor`
   #
   # ## Examples
@@ -102,7 +102,7 @@ module Num
   # # [[1, 2],
   # #  [3, 4]]
   # ```
-  def reshape(arr : Tensor(U, CPU(U)), shape : Array(Int)) forall U
+  def reshape(arr : Tensor(U, ARROW(U)), shape : Array(Int)) forall U
     shape, strides = Num::Internal.strides_for_reshape(arr.shape, shape)
     flags = arr.flags.dup
     if arr.is_c_contiguous
@@ -110,11 +110,11 @@ module Num
     else
       arr = arr.dup(Num::RowMajor)
     end
-    Tensor(U, CPU(U)).new(arr.data, shape, strides, arr.offset, flags, U)
+    Tensor(U, ARROW(U)).new(arr.data, shape, strides, arr.offset, flags, U)
   end
 
   # :ditto:
-  def reshape(arr : Tensor(U, CPU(U)), *shape : Int) forall U
+  def reshape(arr : Tensor(U, ARROW(U)), *shape : Int) forall U
     reshape(arr, shape.to_a)
   end
 
@@ -123,7 +123,7 @@ module Num
   #
   # ## Arguments
   #
-  # * arr : `Tensor(U, CPU(U))` - `Tensor` to flatten
+  # * arr : `Tensor(U, ARROW(U))` - `Tensor` to flatten
   #
   # ## Examples
   #
@@ -131,7 +131,7 @@ module Num
   # a = Tensor.new([2, 2]) { |i| i }
   # a.flat # => [0, 1, 2, 3]
   # ```
-  def flat(arr : Tensor(U, CPU(U))) forall U
+  def flat(arr : Tensor(U, ARROW(U))) forall U
     reshape(arr, -1)
   end
 
@@ -140,17 +140,17 @@ module Num
   #
   # ## Arguments
   #
-  # * arr : `Tensor(U, CPU(U))` - `Tensor` to permute
+  # * arr : `Tensor(U, ARROW(U))` - `Tensor` to permute
   # * source : `Array(Int)` - Original positions of axes
   # * destination : `Array(Int)` - Destination positions of axes
   #
   # ## Examples
   #
   # ```
-  # a = Tensor(Int8, CPU(Int8)).new([3, 4, 5])
+  # a = Tensor(Int8, ARROW(Int8)).new([3, 4, 5])
   # Num.moveaxis(a, [0], [-1]).shape # => 4, 5, 3
   # ```
-  def move_axis(arr : Tensor(U, CPU(U)), source : Array(Int), destination : Array(Int)) forall U
+  def move_axis(arr : Tensor(U, ARROW(U)), source : Array(Int), destination : Array(Int)) forall U
     axes = Num::Internal.move_axes_for_transpose(arr.rank, source, destination)
     transpose(arr, axes)
   end
@@ -160,17 +160,17 @@ module Num
   #
   # ## Arguments
   #
-  # * arr : `Tensor(U, CPU(U))` - `Tensor` to permute
+  # * arr : `Tensor(U, ARROW(U))` - `Tensor` to permute
   # * source : `Int` - Original position of axis
   # * destination : `Int` - Destination position of axis
   #
   # ## Examples
   #
   # ```
-  # a = Tensor(Int8, CPU(Int8)).new([3, 4, 5])
+  # a = Tensor(Int8, ARROW(Int8)).new([3, 4, 5])
   # Num.moveaxis(a, 0, 1).shape # => 4, 5, 3
   # ```
-  def move_axis(arr : Tensor(U, CPU(U)), source : Int, destination : Int) forall U
+  def move_axis(arr : Tensor(U, ARROW(U)), source : Int, destination : Int) forall U
     moveaxis(arr, [source], [destination])
   end
 
@@ -179,7 +179,7 @@ module Num
   #
   # ## Arguments
   #
-  # * arr : `Tensor(U, CPU(U))` - `Tensor` to permute
+  # * arr : `Tensor(U, ARROW(U))` - `Tensor` to permute
   # * source : `Int` - First axis to swap
   # * destination : `Int` - Second axis to swap
   #
@@ -197,7 +197,7 @@ module Num
   # #   [ 3,  9, 15, 21]
   # #   [ 5, 11, 17, 23]]]
   # ```
-  def swap_axes(arr : Tensor(U, CPU(U)), a : Int, b : Int) forall U
+  def swap_axes(arr : Tensor(U, ARROW(U)), a : Int, b : Int) forall U
     axes = Num::Internal.swap_axes_for_transpose(arr.rank, a, b)
     transpose(arr, axes)
   end
@@ -209,7 +209,7 @@ module Num
   #
   # ## Arguments
   #
-  # * arr : `Tensor(U, CPU(U))` - `Tensor` to permute
+  # * arr : `Tensor(U, ARROW(U))` - `Tensor` to permute
   # * axes : `Array(Int)` - Order of axes to permute
   #
   # ## Examples
@@ -228,15 +228,15 @@ module Num
   # #   [13, 15, 17],
   # #   [19, 21, 23]]]
   # ```
-  def transpose(arr : Tensor(U, CPU(U)), axes : Array(Int) = [] of Int32) forall U
+  def transpose(arr : Tensor(U, ARROW(U)), axes : Array(Int) = [] of Int32) forall U
     shape, strides = Num::Internal.shape_and_strides_for_transpose(arr.shape, arr.strides, axes)
     flags = arr.flags.dup
     flags &= ~Num::ArrayFlags::OwnData
-    Tensor(U, CPU(U)).new(arr.data, shape, strides, arr.offset, U)
+    Tensor(U, ARROW(U)).new(arr.data, shape, strides, arr.offset, U)
   end
 
   # :ditto:
-  def transpose(arr : Tensor(U, CPU(U)), *args : Int) forall U
+  def transpose(arr : Tensor(U, ARROW(U)), *args : Int) forall U
     transpose(arr, args.to_a)
   end
 
@@ -245,7 +245,7 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - `Tensor` to repeat
+  # * a : `Tensor(U, ARROW(U))` - `Tensor` to repeat
   # * n : `Int` - Number of times to repeat
   #
   # ## Examples
@@ -254,8 +254,8 @@ module Num
   # a = [1, 2, 3]
   # Num.repeat(a, 2) # => [1, 1, 2, 2, 3, 3]
   # ```
-  def repeat(a : Tensor(U, CPU(U)), n : Int) forall U
-    result = Tensor(U, CPU(U)).new([a.size * n])
+  def repeat(a : Tensor(U, ARROW(U)), n : Int) forall U
+    result = Tensor(U, ARROW(U)).new([a.size * n])
     iter = result.each
     Num::Internal.repeat_inner(a, n) do |value|
       iter.next.value = value
@@ -267,7 +267,7 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - `Tensor` to repeat
+  # * a : `Tensor(U, ARROW(U))` - `Tensor` to repeat
   # * n : `Int` - Number of times to repeat
   # * axis : `Int` - Axis along which to repeat
   #
@@ -280,10 +280,10 @@ module Num
   # # [[1, 1, 2, 2, 3, 3],
   # #  [4, 4, 5, 5, 6, 6]]
   # ```
-  def repeat(a : Tensor(U, CPU(U)), n : Int, axis : Int) forall U
+  def repeat(a : Tensor(U, ARROW(U)), n : Int, axis : Int) forall U
     shape = a.shape.dup
     shape[axis] *= n
-    result = Tensor(U, CPU(U)).new(shape)
+    result = Tensor(U, ARROW(U)).new(shape)
     iter = each_axis(result, axis.to_i)
     each_axis(a, axis) do |ax|
       n.times do
@@ -297,7 +297,7 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - `Tensor` to repeat
+  # * a : `Tensor(U, ARROW(U))` - `Tensor` to repeat
   # * n : `Int` - Number of times to tile
   #
   # ## Examples
@@ -309,7 +309,7 @@ module Num
   # # [[1, 2, 3, 1, 2, 3],
   # #  [4, 5, 6, 4, 5, 6]]
   # ```
-  def tile(a : Tensor(U, CPU(U)), n : Int) forall U
+  def tile(a : Tensor(U, ARROW(U)), n : Int) forall U
     d = a.rank > 1 ? [1] * (a.rank - 1) + [n] : [1]
     Num::Internal.tile_inner(a, d)
   end
@@ -318,7 +318,7 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - `Tensor` to repeat
+  # * a : `Tensor(U, ARROW(U))` - `Tensor` to repeat
   # * n : `Array(Int)` - Number of times to repeat
   #
   # ## Examples
@@ -330,7 +330,7 @@ module Num
   # # [[1, 2, 3, 1, 2, 3],
   # #  [4, 5, 6, 4, 5, 6]]
   # ```
-  def tile(a : Tensor(U, CPU(U)), n : Array(Int)) forall U
+  def tile(a : Tensor(U, ARROW(U)), n : Array(Int)) forall U
     n = n.size < a.rank ? [1] * (a.rank - n.size) + n : n
     Num::Internal.tile_inner(a, n)
   end
@@ -339,7 +339,7 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - `Tensor` to flip
+  # * a : `Tensor(U, ARROW(U))` - `Tensor` to flip
   #
   # ## Examples
   #
@@ -350,7 +350,7 @@ module Num
   # # [[6, 5, 4],
   # #  [3, 2, 1]]
   # ```
-  def flip(a : Tensor(U, CPU(U))) forall U
+  def flip(a : Tensor(U, ARROW(U))) forall U
     i = [{..., -1}] * a.rank
     a[i]
   end
@@ -359,7 +359,7 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - `Tensor` to flip
+  # * a : `Tensor(U, ARROW(U))` - `Tensor` to flip
   # * axis : `Int` - Axis along which to flip
   #
   # ## Examples
@@ -371,7 +371,7 @@ module Num
   # # [[3, 2, 1],
   # #  [6, 5, 4]]
   # ```
-  def flip(a : Tensor(U, CPU(U)), axis : Int) forall U
+  def flip(a : Tensor(U, ARROW(U)), axis : Int) forall U
     s = (0...a.rank).map do |i|
       i == axis ? {..., -1} : (...)
     end
@@ -382,7 +382,7 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - `Tensor` to split`
+  # * a : `Tensor(U, ARROW(U))` - `Tensor` to split`
   # * ind : `Int` - Number of sections of resulting `Array`
   # * axis : `Int` - Axis along which to split
   #
@@ -393,10 +393,10 @@ module Num
   # puts Num.array_split(a, 2) # => [[0, 1, 2, 3, 4], [5, 6, 7, 8]]
   # ```
   def array_split(
-    a : Tensor(U, CPU(U)),
+    a : Tensor(U, ARROW(U)),
     ind : Int,
     axis : Int = 0
-  ) : Array(Tensor(U, CPU(U))) forall U
+  ) : Array(Tensor(U, ARROW(U))) forall U
     n = a.shape[axis]
     e = n // ind
     extra = n % ind
@@ -417,7 +417,7 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - `Tensor` to split`
+  # * a : `Tensor(U, ARROW(U))` - `Tensor` to split`
   # * ind : `Int` - Array of indices to use when splitting the `Tensor`
   # * axis : `Int` - Axis along which to split
   #
@@ -428,10 +428,10 @@ module Num
   # puts Num.array_split(a, [1, 3, 5]) # => [[0], [1, 2], [3, 4], [5, 6, 7, 8]]
   # ```
   def array_split(
-    a : Tensor(U, CPU(U)),
+    a : Tensor(U, ARROW(U)),
     ind : Array(Int),
     axis : Int = 0
-  ) : Array(Tensor(U, CPU(U))) forall U
+  ) : Array(Tensor(U, ARROW(U))) forall U
     n = ind.size + 1
     div_points = [0]
     div_points += ind
@@ -444,7 +444,7 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - `Tensor` to split`
+  # * a : `Tensor(U, ARROW(U))` - `Tensor` to split`
   # * ind : `Int` - Number of sections of resulting `Array`
   # * axis : `Int` - Axis along which to split
   #
@@ -455,10 +455,10 @@ module Num
   # puts Num.array_split(a, 2) # => [[1, 2, 3, 4], [5, 6, 7, 8]]
   # ```
   def split(
-    a : Tensor(U, CPU(U)),
+    a : Tensor(U, ARROW(U)),
     ind : Int,
     axis : Int = 0
-  ) : Array(Tensor(U, CPU(U))) forall U
+  ) : Array(Tensor(U, ARROW(U))) forall U
     n = a.shape[axis]
     if n % ind != 0
       raise Num::Exceptions::ValueError.new(
@@ -473,7 +473,7 @@ module Num
   #
   # ## Arguments
   #
-  # * a : `Tensor(U, CPU(U))` - `Tensor` to split`
+  # * a : `Tensor(U, ARROW(U))` - `Tensor` to split`
   # * ind : `Int` - Array of indices to use when splitting the `Tensor`
   # * axis : `Int` - Axis along which to split
   #
@@ -484,10 +484,10 @@ module Num
   # puts Num.array_split(a, [1, 3, 5]) # => [[0], [1, 2], [3, 4], [5, 6, 7, 8]]
   # ```
   def split(
-    a : Tensor(U, CPU(U)),
+    a : Tensor(U, ARROW(U)),
     ind : Array(Int),
     axis : Int = 0
-  ) : Array(Tensor(U, CPU(U))) forall U
+  ) : Array(Tensor(U, ARROW(U))) forall U
     array_split(a, ind, axis)
   end
 

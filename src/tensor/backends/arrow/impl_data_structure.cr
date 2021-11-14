@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Crystal Data Contributors
+# Copyright (c) 2020 Crystal Data Contributors
 #
 # MIT License
 #
@@ -21,27 +21,27 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+# :nodoc:
+module Arrow
+  class NumericArray
+  end
+end
+
+class ARROW(T) < Num::Backend::Storage(T)
+  # Raw Crystal pointer that holds an `ARROW(T)`s data
+  getter data : Arrow::NumericArray
+
+  # Returns the raw Arrow::Array associated with
+  # an `ARROW(T)`
+  def to_unsafe
+    raw, _ = data.values
+    raw.to_unsafe.unsafe_as(Pointer(T))
+  end
+end
+
 module Num
-  # Reduces a `Tensor` along an axis, summing each view into
-  # the `Tensor`
-  #
-  # ## Arguments
-  #
-  # * a : `Tensor(U, OCL(U))` - `Tensor` to reduce
-  # * axis : `Int` - Axis of reduction
-  # * dims : `Bool` - Indicate if the axis of reduction should remain in the
-  #   result
-  #
-  # ## Examples
-  #
-  # ```
-  # a = Tensor.new([2, 2], device: OCL) { |i| i }
-  # Num.sum(a, 0).cpu # => [2, 4]
-  # Num.sum(a, 1, dims: true).cpu
-  # # [[1],
-  # #  [5]]
-  # ```
-  def sum(a : Tensor(U, OCL(U)), axis : Int, dims : Bool = false) forall U
-    a.reduce_axis(axis, dims) { |i, j| Num.add!(i, j) }
+  # :nodoc:
+  def tensor_to_string(arr : Tensor(U, ARROW(U))) forall U
+    Num::Internal.array_to_string(arr)
   end
 end

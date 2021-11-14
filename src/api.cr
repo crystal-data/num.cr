@@ -4,6 +4,9 @@ require "./libs/clblast"
 require "./libs/nnpack"
 
 require "complex"
+{% if flag?(:arrow) %}
+  require "arrow"
+{% end %}
 
 require "./extensions/array"
 require "./extensions/number"
@@ -58,6 +61,17 @@ require "./tensor/backends/opencl/impl_index"
 require "./tensor/backends/opencl/impl_manipulate"
 require "./tensor/backends/opencl/impl_iteration"
 require "./tensor/backends/opencl/impl_reduction"
+
+{% if flag?(:arrow) %}
+  require "./tensor/backends/arrow/impl_data_structure"
+  require "./tensor/backends/arrow/impl_allocation"
+  require "./tensor/backends/arrow/impl_convert"
+  require "./tensor/backends/arrow/impl_index"
+  require "./tensor/backends/arrow/impl_iteration"
+  require "./tensor/backends/arrow/impl_manipulate"
+  require "./tensor/backends/arrow/impl_math"
+  require "./tensor/backends/arrow/impl_reduction"
+{% end %}
 
 require "./io/npy"
 

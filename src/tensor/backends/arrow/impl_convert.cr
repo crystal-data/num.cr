@@ -27,7 +27,7 @@ module Num
   #
   # ## Arguments
   #
-  # * arr : `Tensor(U, CPU(U))` - `Tensor` to convert to an `Array`
+  # * arr : `Tensor(U, ARROW(U))` - `Tensor` to convert to an `Array`
   #
   # ## Examples
   #
@@ -35,7 +35,7 @@ module Num
   # a = Tensor.new([2, 2]) { |i| i }
   # a.to_a # => [0, 1, 2, 3]
   # ```
-  def to_a(arr : Tensor(U, CPU(U))) forall U
+  def to_a(arr : Tensor(U, ARROW(U))) forall U
     a = [] of U
     each(arr) do |el|
       a << el
@@ -43,11 +43,11 @@ module Num
     a
   end
 
-  # Places a `Tensor` stored on a CPU onto an OpenCL Device.
+  # Places a `Tensor` stored on a ARROW onto an OpenCL Device.
   #
   # ## Arguments
   #
-  # * arr : `Tensor(U, CPU(U))` - `Tensor` to place on OpenCL device.
+  # * arr : `Tensor(U, ARROW(U))` - `Tensor` to place on OpenCL device.
   #
   # ## Examples
   #
@@ -55,7 +55,7 @@ module Num
   # a = Tensor.new([2, 2]) { |i| i }
   # a.opencl # => "<4> on OpenCL Backend"
   # ```
-  def opencl(arr : Tensor(U, CPU(U))) : Tensor(U, OCL(U)) forall U
+  def opencl(arr : Tensor(U, ARROW(U))) : Tensor(U, OCL(U)) forall U
     unless arr.flags.contiguous?
       arr = arr.dup
     end
@@ -80,8 +80,8 @@ module Num
   # a.astype(Bool)    # => [true, true, true]
   # a.astype(Float32) # => [1.5, 2.5, 3.5]
   # ```
-  def as_type(arr : Tensor(U, CPU(U)), dtype : V.class) forall U, V
-    r = Tensor(V, CPU(V)).new(arr.shape)
+  def as_type(arr : Tensor(U, ARROW(U)), dtype : V.class) forall U, V
+    r = Tensor(V, ARROW(V)).new(arr.shape)
     r.map!(arr) do |_, j|
       {% if U == Bool %}
         j ? 1 : 0
@@ -92,12 +92,12 @@ module Num
     r
   end
 
-  # Converts a CPU `Tensor` to CPU.  Returns the input array,
+  # Converts a ARROW `Tensor` to CPU.  Returns the input array,
   # no copy is performed.
   #
   # ## Arguments
   #
-  # * arr : `Tensor(U, CPU(U))` - `Tensor` to return
+  # * arr : `Tensor(U, ARROW(U))` - `Tensor` to return
   #
   # ## Examples
   #
@@ -105,7 +105,8 @@ module Num
   # a = Tensor.new([2, 2]) { |i| i }
   # a.opencl # => "<4> on OpenCL Backend"
   # ```
-  def cpu(arr : Tensor(U, CPU(U))) forall U
-    arr
+  def cpu(arr : Tensor(U, ARROW(U))) forall U
+    storage = CPU(U).new(arr.to_unsafe, arr.shape, arr.strides)
+    Tensor(U, CPU(U)).new(storage, arr.shape)
   end
 end

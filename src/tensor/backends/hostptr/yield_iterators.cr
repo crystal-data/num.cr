@@ -49,7 +49,6 @@ module Num::Backend
     end
   end
 
-  @[AlwaysInline]
   def strided_iteration(t : Tensor)
     data = t.data.to_hostptr + t.offset
     if t.is_c_contiguous
@@ -67,7 +66,6 @@ module Num::Backend
     end
   end
 
-  @[AlwaysInline]
   def dual_strided_iteration(t1 : Tensor, t2 : Tensor)
     n = t1.size
 
@@ -111,7 +109,6 @@ module Num::Backend
     end
   end
 
-  @[AlwaysInline]
   def tri_strided_iteration(t1 : Tensor, t2 : Tensor, t3 : Tensor)
     n = t1.size
 
@@ -164,7 +161,6 @@ module Num::Backend
     end
   end
 
-  @[AlwaysInline]
   def outer_strided_iteration(t1 : Tensor, t2 : Tensor)
     n = t1.size
     m = t2.size

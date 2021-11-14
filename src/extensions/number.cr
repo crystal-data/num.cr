@@ -24,7 +24,6 @@
 struct Number
   # :nodoc:
   macro op(name, operator)
-    @[AlwaysInline]
     def {{operator.id}}(other : Tensor)
       Num.{{name}}(self, other)
     end
