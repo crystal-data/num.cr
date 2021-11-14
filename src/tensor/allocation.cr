@@ -293,6 +293,152 @@ class Tensor(T, S)
     self.range(start, stop, T.new(1), device)
   end
 
+  # Return evenly spaced numbers over a specified interval.
+  # Returns `num` evenly spaced samples, calculated over the
+  # interval [`start`, `stop`].
+  # The endpoint of the interval can optionally be excluded.
+  #
+  # ## Arguments
+  #
+  # * start : `T` - Start of interval
+  # * stop : `T` - End of interval
+  # * num : `Int` - Number of samples
+  # * endpoint : `Bool` - Indicates if endpoint of the interval should be
+  #   included in the results
+  # * device : `Num::Storage` - Backend for the `Tensor`
+  #
+  # ## Examples
+  #
+  # ```
+  # Tensor.linspace(0_f32, 1_f32, 5) # => [0.0, 0.25, 0.5, 0.75, 1.0]
+  #
+  # Tensor.linspace(0_f32, 1_f32, 5, endpoint: false) # => [0.0, 0.2, 0.4, 0.6, 0.8]
+  # ```
+  def self.linear_space(
+    start : T,
+    stop : T,
+    num : Int = 50,
+    endpoint = true,
+    device = CPU
+  )
+    unless num > 0
+      raise Num::Exceptions::ValueError.new(
+        "Number of samples must be non-negative"
+      )
+    end
+    divisor = endpoint ? num - 1 : num
+    result = Tensor.range(T.new(num), device: device)
+    delta = stop - start
+
+    if num > 1
+      step = delta / divisor
+      if step == 0
+        raise Num::Exceptions::ValueError.new(
+          "Step cannot be 0"
+        )
+      end
+    else
+      step = delta
+    end
+
+    Num.multiply!(result, step)
+    Num.add!(result, start)
+
+    if endpoint && num > 1
+      result[-1] = stop
+    end
+
+    result
+  end
+
+  # Return numbers spaced evenly on a log scale.
+  # In linear space, the sequence starts at ``base ** start``
+  # (`base` to the power of `start`) and ends with ``base ** stop``
+  # (see `endpoint` below).
+  #
+  # ## Arguments
+  #
+  # * start : `T` - Start of interval
+  # * stop : `T` - End of interval
+  # * num : `Int` - Number of samples
+  # * endpoint : `Bool` - Indicates if endpoint should be included in the results
+  # * device : `Num::Storage` - Backend for the `Tensor`
+  #
+  # ## Examples
+  #
+  # ```
+  # Tensor.logarithmic_space(2.0, 3.0, num: 4)
+  #
+  # # [100    , 215.443, 464.159, 1000   ]
+  # ```
+  def self.logarithmic_space(
+    start : T,
+    stop : T,
+    num = 50,
+    endpoint = true,
+    base : T = T.new(10.0),
+    device = CPU
+  )
+    result = Tensor.linear_space(
+      start,
+      stop,
+      num: num,
+      endpoint: endpoint,
+      device: device
+    )
+    Num.power(base, result)
+  end
+
+  # Return numbers spaced evenly on a log scale (a geometric progression).
+  # This is similar to `logspace`, but with endpoints specified directly.
+  # Each output sample is a constant multiple of the previous.
+  #
+  # ## Arguments
+  #
+  # * start : `T` - Start of interval
+  # * stop : `T` - End of interval
+  # * num : `Int` - Number of samples
+  # * endpoint : `Bool` - Indicates if endpoint should be included in the results
+  # * device : `Num::Storage`
+  #
+  # ## Examples
+  #
+  # ```
+  # Tensor.geometric_space(1_f32, 1000_f32, 4) # => [1, 10, 100, 1000]
+  # ```
+  def self.geometric_space(
+    start : T,
+    stop : T,
+    num : Int = 50,
+    endpoint : Bool = true,
+    device = CPU
+  )
+    if start == 0 || stop == 0
+      raise Num::Exceptions::ValueError.new(
+        "Geometric sequence cannot include zero"
+      )
+    end
+
+    out_sign = T.new(1.0)
+
+    if start < 0 && stop < 0
+      start, stop = -start, -stop
+      out_sign = -out_sign
+    end
+
+    log_start = Math.log(start, T.new(10.0))
+    log_stop = Math.log(stop, T.new(10.0))
+
+    Tensor.logarithmic_space(
+      log_start,
+      log_stop,
+      num: num,
+      endpoint: endpoint,
+      base: T.new(10.0),
+      device: device
+    ) * out_sign
+  end
+
   # Return a two-dimensional `Tensor` with ones along the diagonal,
   # and zeros elsewhere
   #

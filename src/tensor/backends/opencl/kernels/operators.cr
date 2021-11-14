@@ -140,6 +140,51 @@ abstract class Num::ArithmeticTensorScalarKernel(T) < Num::Kernel(T)
 end
 
 # :nodoc:
+abstract class Num::ArithmeticTensorScalarInplaceKernel(T) < Num::Kernel(T)
+  @@operator : String = ""
+
+  def get_program(dtype)
+    "
+    #{super}
+
+    #pragma OPENCL EXTENSION cl_khr_fp64 : enable
+
+    __kernel void #{@@name}
+                (const int rank,
+                const int len,
+                __global const int * restrict dst_shape,
+                __global const int * restrict dst_strides,
+                const int dst_offset,
+                __global       #{dtype} * restrict const dst_data,
+                const #{dtype} B_data)
+    {
+      for (int elemID = get_global_id(0);
+      elemID < len;
+      elemID += get_global_size(0)) {
+        const int dst_real_idx = opencl_getIndexOfElementID(rank, dst_shape, dst_strides, dst_offset, elemID);
+        dst_data[dst_real_idx] = dst_data[dst_real_idx] #{@@operator} B_data;
+      }
+    }
+    "
+  end
+
+  def call(a : Tensor(T, OCL(T)), b : T)
+    Cl.args(
+      @kernel,
+      a.rank,
+      a.size,
+      a.data.shape,
+      a.data.strides,
+      a.offset,
+      a.to_unsafe,
+      b,
+    )
+    Cl.run(Num::ClContext.instance.queue, @kernel, a.size)
+    nil
+  end
+end
+
+# :nodoc:
 abstract class Num::ArithmeticScalarTensorKernel(T) < Num::Kernel(T)
   @@operator : String = ""
 

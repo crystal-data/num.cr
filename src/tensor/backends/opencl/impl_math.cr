@@ -43,6 +43,11 @@ module Num
         @@name = "{{ fn }}Kernel"
       end
 
+      class {{ dtype }}{{ fn.stringify.capitalize.id }}TensorScalarInplace < Num::ArithmeticTensorScalarInplaceKernel({{ dtype }})
+        @@operator = "{{ operator.id }}"
+        @@name = "{{ fn }}Kernel"
+      end
+
       # :nodoc:
       class {{ dtype }}{{ fn.stringify.capitalize.id }}ScalarTensor < Num::ArithmeticScalarTensorKernel({{ dtype }})
         @@operator = "{{ operator.id }}"
@@ -114,6 +119,29 @@ module Num
       call_opencl_kernel(
         U,
         {{ fn.stringify.capitalize.id }}TensorScalar,
+        [Int32, UInt32, Float32, Float64],
+        a, b
+      )
+    end
+
+    # {{ fn.stringify.capitalize.id }} a `Tensor` and a `Number` elementwise,
+    # modifying the `Tensor` inplace.
+    #
+    # ## Arguments
+    #
+    # * a : `Tensor(U, OCL(U))` - LHS argument to {{ fn }}
+    # * b : `U` - RHS argument to {{ fn }}
+    #
+    # ## Examples
+    #
+    # ```
+    # a = [1.5, 2.2, 3.2].to_tensor(OCL)
+    # Num.{{ fn }}(a, 3.5)
+    # ```
+    def {{ fn.id }}!(a : Tensor(U, OCL(U)), b : U) : Nil forall U
+      call_opencl_kernel(
+        U,
+        {{ fn.stringify.capitalize.id }}TensorScalarInplace,
         [Int32, UInt32, Float32, Float64],
         a, b
       )

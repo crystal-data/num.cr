@@ -152,6 +152,9 @@ class OCL(T) < Num::Backend::Storage(T)
   end
 
   private def metadata_to_buffer(arr : Array(Int32))
+    if arr == [] of Int32
+      arr = [1]
+    end
     buffer = Cl.buffer(Num::ClContext.instance.context, arr.size.to_u64, dtype: Int32)
     Cl.write(Num::ClContext.instance.queue, arr.to_unsafe, buffer, (arr.size * sizeof(Int32)).to_u64)
     buffer
