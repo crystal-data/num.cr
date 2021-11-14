@@ -393,4 +393,133 @@ module Num
     end
     a[s]
   end
+
+  # Split a `Tensor` into multiple sub-`Tensor`s
+  #
+  # ## Arguments
+  #
+  # * a : `Tensor(U, CPU(U))` - `Tensor` to split`
+  # * ind : `Int` - Number of sections of resulting `Array`
+  # * axis : `Int` - Axis along which to split
+  #
+  # ## Examples
+  #
+  # ```
+  # a = Tensor.range(9)
+  # puts Num.array_split(a, 2) # => [[0, 1, 2, 3, 4], [5, 6, 7, 8]]
+  # ```
+  def array_split(
+    a : Tensor(U, CPU(U)),
+    ind : Int,
+    axis : Int = 0
+  ) : Array(Tensor(U, CPU(U))) forall U
+    n = a.shape[axis]
+    e = n // ind
+    extra = n % ind
+    sizes = [0]
+    sizes += Array.new(extra, e + 1)
+    sizes += Array.new(ind - extra, e)
+    r = 0
+    sizes.each_with_index do |s, i|
+      tmp = r
+      r += s
+      sizes[i] = s + tmp
+    end
+    split_internal(a, axis, ind, sizes)
+  end
+
+  # Split a `Tensor` into multiple sub-`Tensor`s, using an explicit mapping
+  # of indices to split the `Tensor`
+  #
+  # ## Arguments
+  #
+  # * a : `Tensor(U, CPU(U))` - `Tensor` to split`
+  # * ind : `Int` - Array of indices to use when splitting the `Tensor`
+  # * axis : `Int` - Axis along which to split
+  #
+  # ## Examples
+  #
+  # ```
+  # a = Tensor.range(9)
+  # puts Num.array_split(a, [1, 3, 5]) # => [[0], [1, 2], [3, 4], [5, 6, 7, 8]]
+  # ```
+  def array_split(
+    a : Tensor(U, CPU(U)),
+    ind : Array(Int),
+    axis : Int = 0
+  ) : Array(Tensor(U, CPU(U))) forall U
+    n = ind.size + 1
+    div_points = [0]
+    div_points += ind
+    div_points << a.shape[axis]
+    split_internal(a, axis, n, div_points)
+  end
+
+  # Split a `Tensor` into multiple sub-`Tensor`s.  The number of sections
+  # must divide the `Tensor` equally.
+  #
+  # ## Arguments
+  #
+  # * a : `Tensor(U, CPU(U))` - `Tensor` to split`
+  # * ind : `Int` - Number of sections of resulting `Array`
+  # * axis : `Int` - Axis along which to split
+  #
+  # ## Examples
+  #
+  # ```
+  # a = Tensor.range(1, 9)
+  # puts Num.array_split(a, 2) # => [[1, 2, 3, 4], [5, 6, 7, 8]]
+  # ```
+  def split(
+    a : Tensor(U, CPU(U)),
+    ind : Int,
+    axis : Int = 0
+  ) : Array(Tensor(U, CPU(U))) forall U
+    n = a.shape[axis]
+    if n % ind != 0
+      raise Num::Exceptions::ValueError.new(
+        "Split does not result in equal size sub-Tensors"
+      )
+    end
+    array_split(a, ind, axis)
+  end
+
+  # Split a `Tensor` into multiple sub-`Tensor`s, using an explicit mapping
+  # of indices to split the `Tensor`
+  #
+  # ## Arguments
+  #
+  # * a : `Tensor(U, CPU(U))` - `Tensor` to split`
+  # * ind : `Int` - Array of indices to use when splitting the `Tensor`
+  # * axis : `Int` - Axis along which to split
+  #
+  # ## Examples
+  #
+  # ```
+  # a = Tensor.range(9)
+  # puts Num.array_split(a, [1, 3, 5]) # => [[0], [1, 2], [3, 4], [5, 6, 7, 8]]
+  # ```
+  def split(
+    a : Tensor(U, CPU(U)),
+    ind : Array(Int),
+    axis : Int = 0
+  ) : Array(Tensor(U, CPU(U))) forall U
+    array_split(a, ind, axis)
+  end
+
+  private def split_internal(
+    arr : Tensor(U, V),
+    axis : Int,
+    n : Int,
+    div_points : Array(Int)
+  ) : Array(Tensor(U, V)) forall U, V
+    result = [] of Tensor(U, V)
+    swapped = arr.swap_axes(axis, 0)
+    n.times do |i|
+      s0 = div_points[i]
+      s1 = div_points[i + 1]
+      result << arr[s0...s1].swap_axes(axis, 0)
+    end
+    result
+  end
 end

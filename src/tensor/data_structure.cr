@@ -95,6 +95,11 @@ class Tensor(T, S)
   end
 
   # :nodoc:
+  def inspect(io)
+    io << to_s
+  end
+
+  # :nodoc:
   def to_s : String
     Num.tensor_to_string(self)
   end
