@@ -27,7 +27,7 @@ class CPU(T) < Num::Backend::Storage(T)
 
   # Returns the raw Crystal pointer associated with
   # a `CPU(T)`
-  @[Inline]
+  
   def to_unsafe
     @data
   end
@@ -35,7 +35,7 @@ end
 
 module Num
   # :nodoc:
-  @[Inline]
+  
   def tensor_to_string(arr : Tensor(U, CPU(U))) forall U
     Num::Internal.array_to_string(arr)
   end

@@ -171,7 +171,7 @@ class ARROW(T) < Num::Backend::Storage(T)
   # a = CPU(Int32).new([3, 3, 2])
   # a.to_hostptr
   # ```
-  @[Inline]
+  
   def to_hostptr : Pointer(T)
     self.to_unsafe
   end
@@ -190,13 +190,13 @@ class ARROW(T) < Num::Backend::Storage(T)
   #
   # a.class.base(Float64).new([10])
   # ```
-  @[Inline]
+  
   def self.base(dtype : U.class) : ARROW(U).class forall U
     ARROW(U)
   end
 
   # :nodoc:
-  @[Inline]
+  
   def update_metadata(shape : Array(Int32), strides : Array(Int32))
   end
 end
@@ -219,7 +219,7 @@ module Num
   # a = Tensor.from_array [1, 2, 3]
   # a.dup # => [1, 2, 3]
   # ```
-  @[Inline]
+  
   def dup(t : Tensor(U, ARROW(U)), order : Num::OrderType = Num::RowMajor) forall U
     result = Tensor(U, ARROW(U)).new(t.shape, order)
     result.map!(t) do |_, j|

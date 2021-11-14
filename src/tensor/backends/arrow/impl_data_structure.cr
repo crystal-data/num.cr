@@ -27,7 +27,7 @@ class ARROW(T) < Num::Backend::Storage(T)
 
   # Returns the raw Arrow::Array associated with
   # an `Arrow(T)`
-  @[Inline]
+  
   def to_unsafe
     raw, _ = data.values
     raw.to_unsafe.unsafe_as(Pointer(T))
@@ -36,7 +36,7 @@ end
 
 module Num
   # :nodoc:
-  @[Inline]
+  
   def tensor_to_string(arr : Tensor(U, ARROW(U))) forall U
     Num::Internal.array_to_string(arr)
   end

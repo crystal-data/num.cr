@@ -46,7 +46,7 @@ module Num
   # # [[ 0,  1],
   # #  [ 2, 99]]
   # ```
-  @[Inline]
+  
   def set(arr : Tensor(U, CPU(U)), *args, value) forall U
     set(arr, args.to_a, value)
   end
@@ -75,7 +75,7 @@ module Num
   # # [[ 0,  1],
   # #  [ 2, 99]]
   # ```
-  @[Inline]
+  
   def set(arr : Tensor(U, CPU(U)), args : Array, t : Tensor(V, CPU(V))) forall U, V
     s = arr[args]
     t = t.broadcast_to(s.shape)
@@ -111,7 +111,7 @@ module Num
   # # [[ 0,  1],
   # #  [ 2, 99]]
   # ```
-  @[Inline]
+  
   def set(arr : Tensor(U, CPU(U)), args : Array, t : V) forall U, V
     s = arr[args]
     s.map! do
@@ -135,7 +135,7 @@ module Num
   # a = Tensor.new([3]) { |i| i }
   # a.view(Int8) # => [0, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0]
   # ```
-  @[Inline]
+  
   def view(arr : Tensor(U, CPU(U)), dtype : V.class) forall U, V
     s0 = sizeof(U)
     s1 = sizeof(V)
@@ -169,7 +169,7 @@ module Num
   # a = Tensor.new(3, 3) { |i, _| i }
   # a.diagonal # => [0, 1, 2]
   # ```
-  @[Inline]
+  
   def diagonal(arr : Tensor(U, CPU(U))) forall U
     unless arr.rank == 2
       raise Num::Exceptions::ValueError.new("Tensor must be 2D")

@@ -45,7 +45,7 @@ module Num
   # x, y = a.broadcast(b)
   # x.shape # => [3, 3]
   # ```
-  @[Inline]
+  
   def broadcast(a : Tensor(U, CPU(U)), b : Tensor(V, CPU(V))) forall U, V
     if a.shape == b.shape
       return {a, b}
@@ -77,7 +77,7 @@ module Num
   # x, y, z = a.broadcast(b, c)
   # x.shape # => [3, 3, 3, 3]
   # ```
-  @[Inline]
+  
   def broadcast(a : Tensor(U, CPU(U)), b : Tensor(V, CPU(V)), c : Tensor(W, CPU(W))) forall U, V, W
     if a.shape == b.shape && a.shape == c.shape
       return {a, b, c}
@@ -104,7 +104,7 @@ module Num
   # # [[1, 2],
   # #  [3, 4]]
   # ```
-  @[Inline]
+  
   def reshape(arr : Tensor(U, CPU(U)), shape : Array(Int)) forall U
     shape, strides = Num::Internal.strides_for_reshape(arr.shape, shape)
     flags = arr.flags.dup
@@ -117,7 +117,7 @@ module Num
   end
 
   # :ditto:
-  @[Inline]
+  
   def reshape(arr : Tensor(U, CPU(U)), *shape : Int) forall U
     reshape(arr, shape.to_a)
   end
@@ -135,7 +135,7 @@ module Num
   # a = Tensor.new([2, 2]) { |i| i }
   # a.flat # => [0, 1, 2, 3]
   # ```
-  @[Inline]
+  
   def flat(arr : Tensor(U, CPU(U))) forall U
     reshape(arr, -1)
   end
@@ -155,7 +155,7 @@ module Num
   # a = Tensor(Int8, CPU(Int8)).new([3, 4, 5])
   # Num.moveaxis(a, [0], [-1]).shape # => 4, 5, 3
   # ```
-  @[Inline]
+  
   def move_axis(arr : Tensor(U, CPU(U)), source : Array(Int), destination : Array(Int)) forall U
     axes = Num::Internal.move_axes_for_transpose(arr.rank, source, destination)
     transpose(arr, axes)
@@ -176,7 +176,7 @@ module Num
   # a = Tensor(Int8, CPU(Int8)).new([3, 4, 5])
   # Num.moveaxis(a, 0, 1).shape # => 4, 5, 3
   # ```
-  @[Inline]
+  
   def move_axis(arr : Tensor(U, CPU(U)), source : Int, destination : Int) forall U
     moveaxis(arr, [source], [destination])
   end
@@ -204,7 +204,7 @@ module Num
   # #   [ 3,  9, 15, 21]
   # #   [ 5, 11, 17, 23]]]
   # ```
-  @[Inline]
+  
   def swap_axes(arr : Tensor(U, CPU(U)), a : Int, b : Int) forall U
     axes = Num::Internal.swap_axes_for_transpose(arr.rank, a, b)
     transpose(arr, axes)
@@ -236,7 +236,7 @@ module Num
   # #   [13, 15, 17],
   # #   [19, 21, 23]]]
   # ```
-  @[Inline]
+  
   def transpose(arr : Tensor(U, CPU(U)), axes : Array(Int) = [] of Int32) forall U
     shape, strides = Num::Internal.shape_and_strides_for_transpose(arr.shape, arr.strides, axes)
     flags = arr.flags.dup
@@ -245,7 +245,7 @@ module Num
   end
 
   # :ditto:
-  @[Inline]
+  
   def transpose(arr : Tensor(U, CPU(U)), *args : Int) forall U
     transpose(arr, args.to_a)
   end
@@ -264,7 +264,7 @@ module Num
   # a = [1, 2, 3]
   # Num.repeat(a, 2) # => [1, 1, 2, 2, 3, 3]
   # ```
-  @[Inline]
+  
   def repeat(a : Tensor(U, CPU(U)), n : Int) forall U
     result = Tensor(U, CPU(U)).new([a.size * n])
     iter = result.each
@@ -291,7 +291,7 @@ module Num
   # # [[1, 1, 2, 2, 3, 3],
   # #  [4, 4, 5, 5, 6, 6]]
   # ```
-  @[Inline]
+  
   def repeat(a : Tensor(U, CPU(U)), n : Int, axis : Int) forall U
     shape = a.shape.dup
     shape[axis] *= n
@@ -321,7 +321,7 @@ module Num
   # # [[1, 2, 3, 1, 2, 3],
   # #  [4, 5, 6, 4, 5, 6]]
   # ```
-  @[Inline]
+  
   def tile(a : Tensor(U, CPU(U)), n : Int) forall U
     d = a.rank > 1 ? [1] * (a.rank - 1) + [n] : [1]
     Num::Internal.tile_inner(a, d)
@@ -343,7 +343,7 @@ module Num
   # # [[1, 2, 3, 1, 2, 3],
   # #  [4, 5, 6, 4, 5, 6]]
   # ```
-  @[Inline]
+  
   def tile(a : Tensor(U, CPU(U)), n : Array(Int)) forall U
     n = n.size < a.rank ? [1] * (a.rank - n.size) + n : n
     Num::Internal.tile_inner(a, n)
@@ -364,7 +364,7 @@ module Num
   # # [[6, 5, 4],
   # #  [3, 2, 1]]
   # ```
-  @[Inline]
+  
   def flip(a : Tensor(U, CPU(U))) forall U
     i = [{..., -1}] * a.rank
     a[i]
@@ -386,7 +386,7 @@ module Num
   # # [[3, 2, 1],
   # #  [6, 5, 4]]
   # ```
-  @[Inline]
+  
   def flip(a : Tensor(U, CPU(U)), axis : Int) forall U
     s = (0...a.rank).map do |i|
       i == axis ? {..., -1} : (...)

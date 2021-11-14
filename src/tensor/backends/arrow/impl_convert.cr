@@ -35,7 +35,7 @@ module Num
   # a = Tensor.new([2, 2]) { |i| i }
   # a.to_a # => [0, 1, 2, 3]
   # ```
-  @[Inline]
+  
   def to_a(arr : Tensor(U, ARROW(U))) forall U
     a = [] of U
     each(arr) do |el|
@@ -56,7 +56,7 @@ module Num
   # a = Tensor.new([2, 2]) { |i| i }
   # a.opencl # => "<4> on OpenCL Backend"
   # ```
-  @[Inline]
+  
   def opencl(arr : Tensor(U, ARROW(U))) : Tensor(U, OCL(U)) forall U
     unless arr.flags.contiguous?
       arr = arr.dup
@@ -82,7 +82,7 @@ module Num
   # a.astype(Bool)    # => [true, true, true]
   # a.astype(Float32) # => [1.5, 2.5, 3.5]
   # ```
-  @[Inline]
+  
   def as_type(arr : Tensor(U, ARROW(U)), dtype : V.class) forall U, V
     r = Tensor(V, ARROW(V)).new(arr.shape)
     r.map!(arr) do |_, j|
@@ -108,7 +108,7 @@ module Num
   # a = Tensor.new([2, 2]) { |i| i }
   # a.opencl # => "<4> on OpenCL Backend"
   # ```
-  @[Inline]
+  
   def cpu(arr : Tensor(U, ARROW(U))) forall U
     storage = CPU(U).new(arr.to_unsafe, arr.shape, arr.strides)
     Tensor(U, CPU(U)).new(storage, arr.shape)

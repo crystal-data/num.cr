@@ -121,7 +121,7 @@ class CPU(T) < Num::Backend::Storage(T)
   # a = CPU(Int32).new([3, 3, 2])
   # a.to_hostptr
   # ```
-  @[Inline]
+  
   def to_hostptr : Pointer(T)
     @data
   end
@@ -140,13 +140,13 @@ class CPU(T) < Num::Backend::Storage(T)
   #
   # a.class.base(Float64).new([10])
   # ```
-  @[Inline]
+  
   def self.base(dtype : U.class) : CPU(U).class forall U
     CPU(U)
   end
 
   # :nodoc:
-  @[Inline]
+  
   def update_metadata(shape : Array(Int32), strides : Array(Int32))
   end
 end
@@ -169,7 +169,7 @@ module Num
   # a = Tensor.from_array [1, 2, 3]
   # a.dup # => [1, 2, 3]
   # ```
-  @[Inline]
+  
   def dup(t : Tensor(U, CPU(U)), order : Num::OrderType = Num::RowMajor) forall U
     result = Tensor(U, CPU(U)).new(t.shape, order)
     result.map!(t) do |_, j|
