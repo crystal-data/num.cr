@@ -2,217 +2,297 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://crystal-data.github.io/num.cr/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Array/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/CPU/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/ArrayFlags/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/Einsum/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/Exceptions/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/Exceptions/AxisError/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/Exceptions/IndexError/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/Exceptions/LinAlgError/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/Exceptions/ValueError/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://crystal-data.github.io/num.cr/Num/Float32AddTensorScalarInplace/</loc>
+         <lastmod>2021-11-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://crystal-data.github.io/num.cr/Num/Float32DivideTensorScalarInplace/</loc>
+         <lastmod>2021-11-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://crystal-data.github.io/num.cr/Num/Float32MultiplyTensorScalarInplace/</loc>
+         <lastmod>2021-11-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://crystal-data.github.io/num.cr/Num/Float32SubtractTensorScalarInplace/</loc>
+         <lastmod>2021-11-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://crystal-data.github.io/num.cr/Num/Float64AddTensorScalarInplace/</loc>
+         <lastmod>2021-11-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://crystal-data.github.io/num.cr/Num/Float64DivideTensorScalarInplace/</loc>
+         <lastmod>2021-11-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://crystal-data.github.io/num.cr/Num/Float64MultiplyTensorScalarInplace/</loc>
+         <lastmod>2021-11-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://crystal-data.github.io/num.cr/Num/Float64SubtractTensorScalarInplace/</loc>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/Grad/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/Grad/Context/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/Grad/Variable/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://crystal-data.github.io/num.cr/Num/Int32AddTensorScalarInplace/</loc>
+         <lastmod>2021-11-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://crystal-data.github.io/num.cr/Num/Int32DivideTensorScalarInplace/</loc>
+         <lastmod>2021-11-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://crystal-data.github.io/num.cr/Num/Int32MultiplyTensorScalarInplace/</loc>
+         <lastmod>2021-11-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://crystal-data.github.io/num.cr/Num/Int32SubtractTensorScalarInplace/</loc>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/NN/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/NN/AdamOptimizer/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/NN/ConvolutionalLayer/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/NN/Distribution/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/NN/DropoutLayer/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/NN/EluLayer/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/NN/FanMode/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/NN/FlattenLayer/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/NN/InputLayer/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/NN/Layer/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/NN/LeakyReluLayer/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/NN/LinearLayer/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/NN/Loss/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/NN/MSELoss/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/NN/MaxPoolLayer/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/NN/Network/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/NN/NetworkInfo/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/NN/Optimizer/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/NN/ReluLayer/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/NN/SGDMomentumOptimizer/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/NN/SGDOptimizer/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/NN/SigmoidCrossEntropyLoss/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/NN/SigmoidLayer/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/NN/SoftmaxCrossEntropyLoss/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/OrderType/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Num/Rand/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://crystal-data.github.io/num.cr/Num/UInt32AddTensorScalarInplace/</loc>
+         <lastmod>2021-11-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://crystal-data.github.io/num.cr/Num/UInt32DivideTensorScalarInplace/</loc>
+         <lastmod>2021-11-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://crystal-data.github.io/num.cr/Num/UInt32MultiplyTensorScalarInplace/</loc>
+         <lastmod>2021-11-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://crystal-data.github.io/num.cr/Num/UInt32SubtractTensorScalarInplace/</loc>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Number/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/OCL/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://crystal-data.github.io/num.cr/Tensor/</loc>
-         <lastmod>2021-11-07</lastmod>
+         <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
