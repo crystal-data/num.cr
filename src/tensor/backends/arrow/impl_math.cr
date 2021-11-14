@@ -199,7 +199,6 @@ module Num
     # a = [2.0, 3.65, 3.141].to_tensor
     # Num.{{ fn }}(a)
     # ```
-
     def {{fn.id}}(a : Tensor(U, ARROW(U))) : Tensor forall U
       a.map do |i|
         Math.{{fn.id}}(i)
@@ -220,7 +219,6 @@ module Num
     # a = [2.0, 3.65, 3.141].to_tensor
     # Num.{{ fn }}(a)
     # ```
-
     def {{fn.id}}!(a : Tensor(U, ARROW(U))) : Nil forall U
       a.map! do |i|
         Math.{{fn.id}}(i)
@@ -276,7 +274,6 @@ module Num
     # b = [1.45, 3.2, 1.18]
     # Num.{{ fn }}(a, b)
     # ```
-
     def {{fn.id}}(
       a : Tensor(U, ARROW(U)),
       b : Tensor(V, ARROW(V))
@@ -303,7 +300,6 @@ module Num
     # b = [1.45, 3.2, 1.18]
     # Num.{{ fn }}!(a, b)
     # ```
-
     def {{fn.id}}!(
       a : Tensor(U, ARROW(U)),
       b : Tensor(V, ARROW(V))
@@ -328,7 +324,6 @@ module Num
     # b = 1.5
     # Num.{{ fn }}(a, b)
     # ```
-
     def {{fn.id}}(
       a : Tensor(U, ARROW(U)),
       b : Number
@@ -354,7 +349,6 @@ module Num
     # b = 1.5
     # Num.{{ fn }}!(a, b)
     # ```
-
     def {{fn.id}}!(a : Tensor(U, ARROW(U)), b : Number) : Nil forall U
       a.map! do |i|
         Math.{{fn.id}}(i, b)
@@ -376,7 +370,6 @@ module Num
     # b = [2.0, 3.65, 3.141].to_tensor
     # Num.{{ fn }}(a, b)
     # ```
-
     def {{fn.id}}(
       a : Number,
       b : Tensor(U, ARROW(U))
