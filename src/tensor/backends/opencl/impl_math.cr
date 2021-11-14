@@ -43,6 +43,7 @@ module Num
         @@name = "{{ fn }}Kernel"
       end
 
+      # :nodoc:
       class {{ dtype }}{{ fn.stringify.capitalize.id }}TensorScalarInplace < Num::ArithmeticTensorScalarInplaceKernel({{ dtype }})
         @@operator = "{{ operator.id }}"
         @@name = "{{ fn }}Kernel"
