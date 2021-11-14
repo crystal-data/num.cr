@@ -6,6 +6,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://crystal-data.github.io/num.cr/ARROW/</loc>
+         <lastmod>2021-11-14</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://crystal-data.github.io/num.cr/Array/</loc>
          <lastmod>2021-11-14</lastmod>
          <changefreq>daily</changefreq>
