@@ -155,6 +155,17 @@ lib LibNNPACK
     threadpool : Void*,
     profile : NNPProfile*
   ) : NNPStatus
+
+  fun nnp_max_pooling_output = nnp_max_pooling_output(
+    batch_size : LibC::SizeT,
+    channels : LibC::SizeT,
+    input_size : NNPSize,
+    input_padding : NNPPadding,
+    pooling_size : NNPSize,
+    pooling_stride : NNPSize,
+    input : LibC::Float*,
+    output : LibC::Float*
+  ) : NNPStatus
 end
 
 {% if flag?(:nnpack) %}

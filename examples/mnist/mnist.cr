@@ -25,7 +25,7 @@ y_train = dataset.labels
 
 losses = [] of Float32
 
-5.times do |epoch|
+10.times do |epoch|
   y_trues = [] of Int32
   y_preds = [] of Int32
 

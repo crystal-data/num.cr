@@ -98,11 +98,11 @@ class Num::NN::ConvolutionalLayer(T) < Num::NN::Layer(T)
   def forward(input : Num::Grad::Variable(T)) : Num::Grad::Variable(T)
     output = \
        {% if flag?(:nnpack) %}
-         Num::NN.conv2d(input.value, @weights.value, @bias.value, padding, stride)
+         Num::NN.conv2d(input.value, @weights.value, @bias.value, @padding, @stride)
        {% elsif flag?(:im2col) %}
-         Num::NN.im2colgemm_conv2d(input.value, @weights.value, @bias.value, padding, stride)
+         Num::NN.im2colgemm_conv2d(input.value, @weights.value, @bias.value, @padding, @stride)
        {% else %}
-         Num::NN.im2colgemm_conv2d(input.value, @weights.value, @bias.value, padding, stride)
+         Num::NN.im2colgemm_conv2d(input.value, @weights.value, @bias.value, @padding, @stride)
        {% end %}
 
     result = input.context.variable(output)
@@ -117,7 +117,7 @@ class Num::NN::ConvolutionalLayer(T) < Num::NN::Layer(T)
   # Returns all `Num::Grad::Variables` associated with the `Layer`.
   # Used primarily to register variables with optimizers
   def variables : Array(Num::Grad::Variable(T))
-    [weights, bias]
+    [@weights, @bias]
   end
 
   # Returns the output shape of a `ConvolutionalLayer`.  This method is
