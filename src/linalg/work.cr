@@ -19,7 +19,7 @@ module Num
       get(n*sizeof(Float64)).unsafe_as(Slice(Float64))
     end
 
-    def get_cmplx(n) : Slice(LibCBLAS::ComplexDouble)
+    def get_cmplx(n) : Slice(LibCblas::ComplexDouble)
       get(n*sizeof(LibCblas::ComplexDouble)).unsafe_as(Slice(LibCblas::ComplexDouble))
     end
 
