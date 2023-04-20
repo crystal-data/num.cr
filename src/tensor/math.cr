@@ -22,7 +22,28 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 class Tensor(T, S)
-  private macro alias_to_backend(name, op)
+  private macro alias_unary_op_to_backend(name, op)
+    def {{name.id}}
+      Num.{{name.id}}(self)
+    end
+
+    # :ditto:
+    def {{op.id}}
+      Num.{{name.id}}(self)
+    end
+  end
+
+  # Implements the negation operator on a `Tensor`
+  #
+  # ## Examples
+  #
+  # ```
+  # a = [1, 2, 3].to_tensor
+  # -a # => [-1, -2, -3]
+  # ```
+  alias_unary_op_to_backend negate, :-
+
+  private macro alias_binary_op_to_backend(name, op)
     def {{name.id}}(other)
       Num.{{name.id}}(self, other)
     end
@@ -45,7 +66,7 @@ class Tensor(T, S)
   # a = Tensor.from_array [1.5, 2.2, 3.2]
   # a + a
   # ```
-  alias_to_backend add, :+
+  alias_binary_op_to_backend add, :+
 
   # Subtracts two `Tensor`s elementwise
   #
@@ -59,7 +80,7 @@ class Tensor(T, S)
   # a = Tensor.from_array [1.5, 2.2, 3.2]
   # a - a
   # ```
-  alias_to_backend subtract, :-
+  alias_binary_op_to_backend subtract, :-
 
   # Multiplies two `Tensor`s elementwise
   #
@@ -73,7 +94,7 @@ class Tensor(T, S)
   # a = Tensor.from_array [1.5, 2.2, 3.2]
   # a * a
   # ```
-  alias_to_backend multiply, :*
+  alias_binary_op_to_backend multiply, :*
 
   # Divides two `Tensor`s elementwise
   #
@@ -87,7 +108,7 @@ class Tensor(T, S)
   # a = Tensor.from_array [1.5, 2.2, 3.2]
   # a / a
   # ```
-  alias_to_backend divide, :/
+  alias_binary_op_to_backend divide, :/
 
   # Floor divides two `Tensor`s elementwise
   #
@@ -101,7 +122,7 @@ class Tensor(T, S)
   # a = Tensor.from_array [1.5, 2.2, 3.2]
   # a // a
   # ```
-  alias_to_backend floordiv, ://
+  alias_binary_op_to_backend floordiv, ://
 
   # Exponentiates two `Tensor`s elementwise
   #
@@ -115,7 +136,7 @@ class Tensor(T, S)
   # a = Tensor.from_array [1.5, 2.2, 3.2]
   # a ** a
   # ```
-  alias_to_backend power, :**
+  alias_binary_op_to_backend power, :**
 
   # Return element-wise remainder of division for two `Tensor`s elementwise
   #
@@ -129,7 +150,7 @@ class Tensor(T, S)
   # a = Tensor.from_array [1.5, 2.2, 3.2]
   # a % a
   # ```
-  alias_to_backend modulo, :%
+  alias_binary_op_to_backend modulo, :%
 
   # Shift the bits of an integer to the left.
   # Bits are shifted to the left by appending x2 0s at the right of x1.
@@ -146,7 +167,7 @@ class Tensor(T, S)
   # a = Tensor.from_array [1, 2, 3]
   # a << a
   # ```
-  alias_to_backend left_shift, :<<
+  alias_binary_op_to_backend left_shift, :<<
 
   # Shift the bits of an integer to the right.
   #
@@ -164,7 +185,7 @@ class Tensor(T, S)
   # a = Tensor.from_array [1, 2, 3]
   # a >> a
   # ```
-  alias_to_backend right_shift, :>>
+  alias_binary_op_to_backend right_shift, :>>
 
   # Compute the bit-wise AND of two `Tensor`s element-wise.
   #
@@ -178,7 +199,7 @@ class Tensor(T, S)
   # a = Tensor.from_array [1, 2, 3]
   # a & a
   # ```
-  alias_to_backend bitwise_and, :&
+  alias_binary_op_to_backend bitwise_and, :&
 
   # Compute the bit-wise OR of two `Tensor`s element-wise.
   #
@@ -192,7 +213,7 @@ class Tensor(T, S)
   # a = Tensor.from_array [1, 2, 3]
   # a | a
   # ```
-  alias_to_backend bitwise_or, :|
+  alias_binary_op_to_backend bitwise_or, :|
 
   # Compute the bit-wise XOR of two `Tensor`s element-wise.
   #
@@ -206,7 +227,7 @@ class Tensor(T, S)
   # a = Tensor.from_array [1, 2, 3]
   # a ^ a
   # ```
-  alias_to_backend bitwise_xor, :^
+  alias_binary_op_to_backend bitwise_xor, :^
 
   # Implements the > operator for two `Tensor`s element-wise.
   #
@@ -220,7 +241,7 @@ class Tensor(T, S)
   # a = Tensor.from_array [1, 2, 3]
   # a > a
   # ```
-  alias_to_backend greater, :>
+  alias_binary_op_to_backend greater, :>
 
   # Implements the >= operator for two `Tensor`s element-wise.
   #
@@ -234,7 +255,7 @@ class Tensor(T, S)
   # a = Tensor.from_array [1, 2, 3]
   # a >= a
   # ```
-  alias_to_backend greater_equal, :>=
+  alias_binary_op_to_backend greater_equal, :>=
 
   # Implements the == operator for two `Tensor`s element-wise.
   #
@@ -248,7 +269,7 @@ class Tensor(T, S)
   # a = Tensor.from_array [1, 2, 3]
   # a == a
   # ```
-  alias_to_backend equal, :==
+  alias_binary_op_to_backend equal, :==
 
   # Implements the != operator for two `Tensor`s element-wise.
   #
@@ -262,7 +283,7 @@ class Tensor(T, S)
   # a = Tensor.from_array [1, 2, 3]
   # a != a
   # ```
-  alias_to_backend not_equal, :!=
+  alias_binary_op_to_backend not_equal, :!=
 
   # Implements the < operator for two `Tensor`s element-wise.
   #
@@ -276,7 +297,7 @@ class Tensor(T, S)
   # a = Tensor.from_array [1, 2, 3]
   # a < a
   # ```
-  alias_to_backend less, :<
+  alias_binary_op_to_backend less, :<
 
   # Implements the <= operator for two `Tensor`s element-wise.
   #
@@ -290,7 +311,7 @@ class Tensor(T, S)
   # a = Tensor.from_array [1, 2, 3]
   # a <= a
   # ```
-  alias_to_backend less_equal, :<=
+  alias_binary_op_to_backend less_equal, :<=
 
   private macro delegate_to_backend(name)
     def {{name.id}}

@@ -21,6 +21,22 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+macro test_unary_operator(operator, backend = :cpu)
+  it "Maps the {{ operator.id }} unary operator across one Tensor" do
+    a = [1, 2, 3]
+
+    a_tensor = a.to_tensor
+    {% if backend != :cpu %}
+      a_tensor = a_tensor.{{backend.id}}
+    {% end %}
+    result = {{ operator.id }} a_tensor
+    expected = a.map { |i|  {{ operator.id }} i }
+
+    result.to_a.should eq expected
+  end
+
+end
+
 macro test_operator(operator)
   it "Maps the {{ operator.id }} operator across two Tensors" do
     a = [1, 2, 3]
@@ -86,6 +102,9 @@ macro test_builtin(fn)
 end
 
 describe Tensor do
+  test_unary_operator :-, :opencl
+  test_unary_operator :-
+
   test_operator :+
   test_operator :-
   test_operator :*

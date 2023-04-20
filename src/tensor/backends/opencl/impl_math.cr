@@ -616,4 +616,20 @@ module Num
   builtin_two_op atan2, atan2
   builtin_two_op fmax, max
   builtin_two_op fmin, min
+
+  # Implements the negation operator on a `Tensor`
+  #
+  # ## Arguments
+  #
+  # * a : `Tensor(U, OCL(U))` - `Tensor` to negate
+  #
+  # ## Examples
+  #
+  # ```
+  # a = [1, 2, 3].to_tensor
+  # Num.negate(a) # => [-1, -2, -3]
+  # ```
+  def negate(a : Tensor(U, OCL(U))) : Tensor(U, OCL(U)) forall U
+    U.new(0) - a
+  end
 end
