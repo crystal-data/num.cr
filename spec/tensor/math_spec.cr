@@ -102,7 +102,10 @@ macro test_builtin(fn)
 end
 
 describe Tensor do
-  test_unary_operator :-, :opencl
+  {% if flag?(:opencl) %}
+    test_unary_operator :-, :opencl
+  {% end %}
+
   test_unary_operator :-
 
   test_operator :+
