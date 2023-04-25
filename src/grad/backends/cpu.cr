@@ -65,7 +65,6 @@ module Num::Grad
     a : Variable(Tensor(U, CPU(U)))
   ) : Array(Tensor(U, CPU(U))) forall U
     r0 = gradient.map(a.value) do |i, j|
-      # puts "#{i}, #{j} -> #{i} * #{1 / j} "
       i * (U.new(1)/j)
     end
     [r0]
