@@ -60,6 +60,18 @@ module Num::Grad
   end
 
   # :nodoc:
+  def log_backward(
+    gradient : Tensor(U, CPU(U)),
+    a : Variable(Tensor(U, CPU(U)))
+  ) : Array(Tensor(U, CPU(U))) forall U
+    r0 = gradient.map(a.value) do |i, j|
+      # puts "#{i}, #{j} -> #{i} * #{1 / j} "
+      i * (U.new(1)/j)
+    end
+    [r0]
+  end
+
+  # :nodoc:
   def sin_backward(
     gradient : Tensor(U, CPU(U)),
     a : Variable(Tensor(U, CPU(U)))
@@ -88,6 +100,17 @@ module Num::Grad
   ) : Array(Tensor(U, CPU(U))) forall U
     r0 = gradient.map(a.value) do |i, j|
       i / Math.cos(j) ** 2
+    end
+    [r0]
+  end
+
+  # :nodoc:
+  def tanh_backward(
+    gradient : Tensor(U, CPU(U)),
+    a : Variable(Tensor(U, CPU(U)))
+  ) : Array(Tensor(U, CPU(U))) forall U
+    r0 = gradient.map(a.value) do |i, j|
+      i * (1 - Math.tanh(j).abs2)
     end
     [r0]
   end

@@ -287,6 +287,54 @@ end
 create_kernel_children(ExpBackwardsKernel, [Float32, Float64])
 
 # :nodoc:
+class Num::LogBackwardsKernel(T) < Num::Kernel(T)
+  def get_program(dtype)
+    "
+    #{super}
+
+    #pragma OPENCL EXTENSION cl_khr_fp64: enable
+
+    __kernel void #{@@name}(const int rank,
+        const int len,
+        __global const int * restrict C_shape,
+        __global const int * restrict C_strides,
+        const int C_offset,
+        __global #{dtype} * restrict C,
+        __global const int * restrict A_shape,
+        __global const int * restrict A_strides,
+        const int A_offset,
+        __global const #{dtype} * restrict const A,
+        __global const int * restrict B_shape,
+        __global const int * restrict B_strides,
+        const int B_offset,
+        __global const #{dtype} * restrict const B) {
+        for (int elemID = get_global_id(0); elemID < len; elemID += get_global_size(0)) {
+          const int c = opencl_getIndexOfElementID(rank, C_shape, C_strides, C_offset, elemID);
+          const int a = opencl_getIndexOfElementID(rank, A_shape, A_strides, A_offset, elemID);
+          const int b = opencl_getIndexOfElementID(rank, B_shape, B_strides, B_offset, elemID);
+
+          C[c] = A[a] * ((#{dtype}) 1 / (B[b]));
+        }
+    }
+    "
+  end
+
+  def call(gradient : Tensor(T, OCL(T)), a : Tensor(T, OCL(T)))
+    result = gradient.class.new(gradient.shape)
+    Cl.args(
+      @kernel, result.rank, result.size,
+      result.data.shape, result.data.strides, result.offset, result.data.to_unsafe,
+      gradient.data.shape, gradient.data.strides, gradient.offset, gradient.data.to_unsafe,
+      a.data.shape, a.data.strides, a.offset, a.data.to_unsafe
+    )
+    Cl.run(Num::ClContext.instance.queue, @kernel, result.size)
+    result
+  end
+end
+
+create_kernel_children(LogBackwardsKernel, [Float32, Float64])
+
+# :nodoc:
 class Num::TrigBackwardKernel(T) < Num::Kernel(T)
   def call(gradient : Tensor(T, OCL(T)), a : Tensor(T, OCL(T)))
     result = Tensor(T, OCL(T)).zeros_like(a)
@@ -406,6 +454,41 @@ class Num::TanBackwardKernel(T) < Num::TrigBackwardKernel(T)
 end
 
 create_kernel_children(TanBackwardKernel, [Float32, Float64])
+
+# :nodoc:
+class Num::TanhGradBackwardsKernel(T) < Num::TrigBackwardKernel(T)
+  def get_program(dtype)
+    "
+    #{super}
+    #pragma OPENCL EXTENSION cl_khr_fp64: enable
+
+        __kernel void #{@@name}(const int rank,
+            const int len,
+            __global const int * restrict C_shape,
+            __global const int * restrict C_strides,
+            const int C_offset,
+            __global #{dtype} * restrict C,
+            __global const int * restrict A_shape,
+            __global const int * restrict A_strides,
+            const int A_offset,
+            __global const #{dtype} * restrict const A,
+            __global const int * restrict B_shape,
+            __global const int * restrict B_strides,
+            const int B_offset,
+            __global const #{dtype} * restrict const B) {
+          for (int elemID = get_global_id(0); elemID < len; elemID += get_global_size(0)) {
+            const int c = opencl_getIndexOfElementID(rank, C_shape, C_strides, C_offset, elemID);
+            const int a = opencl_getIndexOfElementID(rank, A_shape, A_strides, A_offset, elemID);
+            const int b = opencl_getIndexOfElementID(rank, B_shape, B_strides, B_offset, elemID);
+
+            C[c] = A[a] * ((#{dtype}) 1 - pow(tanh(B[b]), 2));
+          }
+        }
+    "
+  end
+end
+
+create_kernel_children(TanhGradBackwardsKernel, [Float32, Float64])
 
 # :nodoc:
 class Num::AsinBackwardKernel(T) < Num::TrigBackwardKernel(T)

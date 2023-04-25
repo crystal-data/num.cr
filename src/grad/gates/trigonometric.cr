@@ -69,6 +69,15 @@ class Num::Grad::TanGate(T) < Num::Grad::Trig1dGate(T)
 end
 
 # :nodoc:
+class Num::Grad::TanhGate(T) < Num::Grad::Trig1dGate(T)
+  @@name = "Tanh"
+
+  def backward(payload : Num::Grad::Payload(T)) : Array(T)
+    Num::Grad.tanh_backward(payload.variable.grad, @a)
+  end
+end
+
+# :nodoc:
 class Num::Grad::ASinGate(T) < Num::Grad::Trig1dGate(T)
   @@name = "ASin"
 
