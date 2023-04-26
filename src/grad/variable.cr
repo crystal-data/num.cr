@@ -249,6 +249,17 @@ class Num::Grad::Variable(T)
   # ```
   num_op tan, Num::Grad::TanGate(T)
 
+  # Computes the tanh of a variable
+  #
+  # ## Examples
+  #
+  # ```
+  # ctx = Num::Grad::Context(Tensor(Float64, CPU(Float64))).new
+  # x = ctx.variable([1.0])
+  # x.tanh # => [0.761594156]
+  # ```
+  num_op tanh, Num::Grad::TanhGate(T)
+
   # Computes the arcsine of a variable
   #
   # ## Examples
@@ -292,4 +303,15 @@ class Num::Grad::Variable(T)
   # x.exp # => [2.71828]
   # ```
   num_op exp, Num::Grad::ExpGate(T)
+
+  # Computes the log of a variable
+  #
+  # ## Examples
+  #
+  # ```
+  # ctx = Num::Grad::Context(Tensor(Float64, CPU(Float64))).new
+  # x = ctx.variable([2.7182818285])
+  # x.log # => [1.0]
+  # ```
+  num_op log, Num::Grad::LogGate(T)
 end

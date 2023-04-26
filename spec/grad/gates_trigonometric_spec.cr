@@ -114,6 +114,36 @@ describe Num::Grad do
     end
   {% end %}
 
+  it "backpropogates for tanh" do
+    ctx = Num::Grad::Context(Tensor(Float32, CPU(Float32))).new
+
+    a = Tensor.new([10], device: CPU) { |i| (i + 1).to_f32 / 10 }
+    x = ctx.variable(a)
+
+    result = x.tanh
+    result.backprop
+
+    expected = [0.9901, 0.9610, 0.9151, 0.8556, 0.7864, 0.7116, 0.6347, 0.5591, 0.4869, 0.4200].to_tensor
+
+    Num::Testing.tensor_equal(x.grad, expected, tolerance: 1e-4).should be_true
+  end
+
+  {% if flag?(:opencl) %}
+    it "backpropogates for tanh opencl", tags: "opencl" do
+      ctx = Num::Grad::Context(Tensor(Float32, OCL(Float32))).new
+
+      a = Tensor.new([10], device: OCL) { |i| (i + 1).to_f32 / 10 }
+      x = ctx.variable(a)
+
+      result = x.tanh
+      result.backprop
+
+      expected = [0.9901, 0.9610, 0.9151, 0.8556, 0.7864, 0.7116, 0.6347, 0.5591, 0.4869, 0.4200].to_tensor
+
+      Num::Testing.tensor_equal(x.grad.cpu, expected, tolerance: 1e-4).should be_true
+    end
+  {% end %}
+
   it "backpropogates for asin" do
     ctx = Num::Grad::Context(Tensor(Float32, CPU(Float32))).new
 

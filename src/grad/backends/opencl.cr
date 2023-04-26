@@ -84,6 +84,20 @@ module Num::Grad
   end
 
   # :nodoc:
+  def log_backward(
+    gradient : Tensor(U, OCL(U)),
+    av : Variable(Tensor(U, OCL(U)))
+  ) forall U
+    result = call_opencl_kernel(
+      U,
+      LogBackwardsKernel,
+      [Float32, Float64],
+      gradient, av.value
+    )
+    [result]
+  end
+
+  # :nodoc:
   def sin_backward(
     gradient : Tensor(U, OCL(U)),
     a : Variable(Tensor(U, OCL(U)))
@@ -119,6 +133,20 @@ module Num::Grad
     result = call_opencl_kernel(
       U,
       TanBackwardKernel,
+      [Float32, Float64],
+      gradient, a.value
+    )
+    [result]
+  end
+
+  # :nodoc:
+  def tanh_backward(
+    gradient : Tensor(U, OCL(U)),
+    a : Variable(Tensor(U, OCL(U)))
+  ) forall U
+    result = call_opencl_kernel(
+      U,
+      TanhGradBackwardsKernel,
       [Float32, Float64],
       gradient, a.value
     )
