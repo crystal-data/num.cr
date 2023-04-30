@@ -154,4 +154,12 @@ module Num::Grad
     end
     [r0]
   end
+
+  # :nodoc:
+  def sum_backward(
+    gradient : Tensor(U, CPU(U)),
+    a : Variable(Tensor(U, CPU(U)))
+  ) forall U
+    [gradient.dup]
+  end
 end
