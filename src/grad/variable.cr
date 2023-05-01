@@ -205,17 +205,23 @@ class Num::Grad::Variable(T)
     result
   end
 
-  # Computes the sum of all the elements of the variable
+  # Reduces a `Tensor` along an axis, summing each view into
+  # the variable
+  #
+  # ## Arguments
+  #
+  # * axis : `Int` - Axis of summation
   #
   # ## Examples
   #
   # ```
   # ctx = Num::Grad::Context(Tensor(Float64, CPU(Float64))).new
-  # x = ctx.variable([1.0, 2.0, 3.0, 4.0])
-  # x.sum # => [10.0]
+  # x = ctx.variable([[1.0, 2.0], [3.0, 4.0]])
+  # x.sum(0) # => [[4.0, 6.0]]
+  # x.sum(1) # => [[3.0], [7.0]]
   # ```
-  def sum : Num::Grad::Variable(T)
-    result = @context.variable(Num.sum(@value, axis: -1, dims: true))
+  def sum(axis : Int) : Num::Grad::Variable(T)
+    result = @context.variable(Num.sum(@value, axis, dims: true))
     if self.is_grad_needed
       gate = Num::Grad::SumGate(T).new self
       gate.cache(result, self)
@@ -223,18 +229,24 @@ class Num::Grad::Variable(T)
     result
   end
 
-  # Computes the mean of all the elements of the variable
+  # Reduces a `Tensor` along an axis, finding the average of each
+  # view into the `Tensor`
+  #
+  # ## Arguments
+  #
+  # * axis : `Int` - Axis of reduction
   #
   # ## Examples
   #
   # ```
   # ctx = Num::Grad::Context(Tensor(Float64, CPU(Float64))).new
-  # x = ctx.variable([1.0, 2.0, 3.0, 4.0])
-  # x.mean # => [2.5]
+  # x = ctx.variable([[1.0, 2.0], [3.0, 4.0]])
+  # x.mean(0) # => [[2.0, 3.0]]
+  # x.mean(1) # => [[1.5], [3.5]]
   # ```
-  def mean : Num::Grad::Variable(T)
-    s = sum
-    b = @context.variable(Num.as_tensor(@value.size, like: s.value))
+  def mean(axis : Int) : Num::Grad::Variable(T)
+    s = sum(axis)
+    b = @context.variable(Num.as_tensor(@value.shape[axis], like: s.value))
     s / b
   end
 

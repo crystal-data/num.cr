@@ -30,7 +30,7 @@ describe Num::Grad do
     a = ctx.variable([1.0_f32, 0.9_f32, 0.8_f32, 0.7_f32, 0.6_f32,
                       0.5_f32, 0.4_f32, 0.3_f32, 0.2_f32, 0.1_f32])
 
-    result = a.sum
+    result = a.sum(0)
     result.backprop
 
     expected = Array.new(10, 1.0_f32).to_tensor
@@ -46,7 +46,7 @@ describe Num::Grad do
       a = ctx.variable([1.0_f32, 0.9_f32, 0.8_f32, 0.7_f32, 0.6_f32,
                         0.5_f32, 0.4_f32, 0.3_f32, 0.2_f32, 0.1_f32].to_tensor(OCL))
 
-      result = a.sum
+      result = a.sum(0)
       result.backprop
 
       expected = Array.new(10, 1.0_f32).to_tensor
@@ -61,7 +61,7 @@ describe Num::Grad do
     a = ctx.variable([1.0_f32, 0.9_f32, 0.8_f32, 0.7_f32, 0.6_f32,
                       0.5_f32, 0.4_f32, 0.3_f32, 0.2_f32, 0.1_f32])
 
-    result = a.mean
+    result = a.mean(0)
     result.backprop
 
     expected = Array.new(10, 0.1_f32).to_tensor
@@ -77,7 +77,7 @@ describe Num::Grad do
       a = ctx.variable([1.0_f32, 0.9_f32, 0.8_f32, 0.7_f32, 0.6_f32,
                         0.5_f32, 0.4_f32, 0.3_f32, 0.2_f32, 0.1_f32].to_tensor(OCL))
 
-      result = a.mean
+      result = a.mean(0)
       result.backprop
 
       expected = Array.new(10, 0.1_f32).to_tensor
