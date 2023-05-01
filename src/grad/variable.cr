@@ -205,6 +205,51 @@ class Num::Grad::Variable(T)
     result
   end
 
+  # Reduces a `Tensor` along an axis, summing each view into
+  # the variable
+  #
+  # ## Arguments
+  #
+  # * axis : `Int` - Axis of summation
+  #
+  # ## Examples
+  #
+  # ```
+  # ctx = Num::Grad::Context(Tensor(Float64, CPU(Float64))).new
+  # x = ctx.variable([[1.0, 2.0], [3.0, 4.0]])
+  # x.sum(0) # => [[4.0, 6.0]]
+  # x.sum(1) # => [[3.0], [7.0]]
+  # ```
+  def sum(axis : Int) : Num::Grad::Variable(T)
+    result = @context.variable(Num.sum(@value, axis, dims: true))
+    if self.is_grad_needed
+      gate = Num::Grad::SumGate(T).new self
+      gate.cache(result, self)
+    end
+    result
+  end
+
+  # Reduces a `Tensor` along an axis, finding the average of each
+  # view into the `Tensor`
+  #
+  # ## Arguments
+  #
+  # * axis : `Int` - Axis of reduction
+  #
+  # ## Examples
+  #
+  # ```
+  # ctx = Num::Grad::Context(Tensor(Float64, CPU(Float64))).new
+  # x = ctx.variable([[1.0, 2.0], [3.0, 4.0]])
+  # x.mean(0) # => [[2.0, 3.0]]
+  # x.mean(1) # => [[1.5], [3.5]]
+  # ```
+  def mean(axis : Int) : Num::Grad::Variable(T)
+    s = sum(axis)
+    b = @context.variable(Num.as_tensor(@value.shape[axis], like: s.value))
+    s / b
+  end
+
   private macro num_op(fn, gate_cls)
     def {{fn.id}} : Num::Grad::Variable(T)
       result = @context.variable(Num.{{ fn.id }}(@value))

@@ -194,4 +194,13 @@ module Num::Grad
     )
     [result]
   end
+
+  # :nodoc:
+  def sum_backward(
+    gradient : Tensor(U, OCL(U)),
+    a : Variable(Tensor(U, OCL(U)))
+  ) forall U
+    # Tensor#dup not available for OCL Tensors, so adding 0 to create copy for now
+    [gradient + U.new(0)]
+  end
 end

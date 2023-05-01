@@ -322,4 +322,16 @@ module Num
   def hstack(*arrs : Tensor(U, V)) forall U, V
     concatenate(arrs.to_a, 1)
   end
+
+  # Convert a scalar *value* to a `Tensor` *like* the one specified, matching
+  # the data type and target compute.
+  #
+  # ## Examples
+  #
+  # ```
+  # t = Tensor(Float32, OCL(Float32)).from_array([0.5, 0.2])
+  # x = Num.as_tensor(12, like: t)
+  def as_tensor(value : Number, like : Tensor(U, V)) forall U, V
+    Tensor(U, V).from_array([U.new(value)], device = V)
+  end
 end
