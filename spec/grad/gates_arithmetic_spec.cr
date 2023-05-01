@@ -24,6 +24,34 @@
 require "../spec_helper"
 
 describe Num::Grad do
+  it "backpropogates for negation" do
+    ctx = Num::Grad::Context(Float32Tensor).new
+
+    a = ctx.variable([1.0_f32, 2.0_f32])
+
+    result = -a
+    result.backprop
+
+    expected = [-1_f32, -1_f32].to_tensor
+
+    Num::Testing.tensor_equal(a.grad, expected).should be_true
+  end
+
+  {% if flag?(:opencl) %}
+    it "backpropogates for negation opencl", tags: "opencl" do
+      ctx = Num::Grad::Context(Float32ClTensor).new
+
+      a = ctx.variable([1.0_f32, 2.0_f32].to_tensor(OCL))
+
+      result = -a
+      result.backprop
+
+      expected = [-1_f32, -1_f32].to_tensor
+
+      Num::Testing.tensor_equal(a.grad.cpu, expected).should be_true
+    end
+  {% end %}
+
   it "backpropogates for addition" do
     ctx = Num::Grad::Context(Float32Tensor).new
 
