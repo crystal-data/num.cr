@@ -1268,7 +1268,7 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/crystal-data/num.cr/blob/5dfe5cff8a44c6876474693d06acca854b66dda5/src/tensor/backends/cpu/impl_allocation.cr#L24" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/crystal-data/num.cr/blob/9c91420509c981c73e7e6f7e13a2c9c087b3962f/src/tensor/backends/cpu/impl_allocation.cr#L24" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
@@ -1303,7 +1303,7 @@ an initial value, which will fill the buffer</p>
 <div class="highlight"><pre><span></span><code><span class="n">CPU</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="o">]</span><span class="p">,</span> <span class="mf">3.4</span><span class="p">)</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/5dfe5cff8a44c6876474693d06acca854b66dda5/src/tensor/backends/cpu/impl_allocation.cr#L73">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/9c91420509c981c73e7e6f7e13a2c9c087b3962f/src/tensor/backends/cpu/impl_allocation.cr#L73">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -1324,31 +1324,31 @@ an initial value, which will fill the buffer</p>
 <div class="highlight"><pre><span></span><code><span class="n">CPU</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="o">]</span><span class="p">,</span> <span class="mf">3.4</span><span class="p">)</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/5dfe5cff8a44c6876474693d06acca854b66dda5/src/tensor/backends/cpu/impl_allocation.cr#L91">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/9c91420509c981c73e7e6f7e13a2c9c087b3962f/src/tensor/backends/cpu/impl_allocation.cr#L91">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
-<h3 id="CPU.new(data,shape,strides)" class="doc doc-heading">    <code>
-      .new<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">data</span> <span class="p">:</span> <span class="n">Pointer</span><span class="p">(</span><span class="n">T</span><span class="p">),</span> <span class="n">shape</span> <span class="p">:</span> <a href="../Array/#Array">Array</a><span class="p">(</span><span class="n">Int</span><span class="p">),</span> <span class="n">strides</span> <span class="p">:</span> <a href="../Array/#Array">Array</a><span class="p">(</span><span class="n">Int</span><span class="p">))</span></code></span>
+<h3 id="CPU.new(hostptr,shape,strides)" class="doc doc-heading">    <code>
+      .new<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">hostptr</span> <span class="p">:</span> <span class="n">Pointer</span><span class="p">(</span><span class="n">T</span><span class="p">),</span> <span class="n">shape</span> <span class="p">:</span> <a href="../Array/#Array">Array</a><span class="p">(</span><span class="n">Int</span><span class="p">),</span> <span class="n">strides</span> <span class="p">:</span> <a href="../Array/#Array">Array</a><span class="p">(</span><span class="n">Int</span><span class="p">))</span></code></span>
     </code>
-<a href="#CPU.new(data,shape,strides)" class="headerlink" title="Permanent link">#</a></h3>
+<a href="#CPU.new(hostptr,shape,strides)" class="headerlink" title="Permanent link">#</a></h3>
   <div class="doc doc-contents ">
 <p>Initialize a CPU storage from a hostptr and initial
 shape.  The shape is not required for this storage type,
 but is needed by other implementations to ensure copy
 requirements have the right pointer size.</p>
-<h5 id="CPU.new(data,shape,strides)--arguments">Arguments<a class="headerlink" href="#CPU.new(data,shape,strides)--arguments" title="Permanent link">#</a></h5>
+<h5 id="CPU.new(hostptr,shape,strides)--arguments">Arguments<a class="headerlink" href="#CPU.new(hostptr,shape,strides)--arguments" title="Permanent link">#</a></h5>
 <ul>
 <li>data : <code>Pointer(T)</code> - Existing databuffer for a <a href="../Tensor/#Tensor"><code>Tensor</code></a></li>
 <li>shape : <a href="../Array/#Array"><code>Array(Int)</code></a> - Shape of the parent <a href="../Tensor/#Tensor"><code>Tensor</code></a></li>
 <li>strides : <a href="../Array/#Array"><code>Array(Int)</code></a> - Strides of the parent <a href="../Tensor/#Tensor"><code>Tensor</code></a></li>
 </ul>
-<h5 id="CPU.new(data,shape,strides)--examples">Examples<a class="headerlink" href="#CPU.new(data,shape,strides)--examples" title="Permanent link">#</a></h5>
+<h5 id="CPU.new(hostptr,shape,strides)--examples">Examples<a class="headerlink" href="#CPU.new(hostptr,shape,strides)--examples" title="Permanent link">#</a></h5>
 <div class="highlight"><pre><span></span><code><span class="n">a</span> <span class="o">=</span> <span class="n">Pointer</span><span class="p">(</span><span class="n">Int32</span><span class="p">)</span><span class="o">.</span><span class="n">malloc</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 <span class="n">s</span> <span class="o">=</span> <span class="n">CPU</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="o">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="o">]</span><span class="p">)</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/5dfe5cff8a44c6876474693d06acca854b66dda5/src/tensor/backends/cpu/impl_allocation.cr#L112">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/9c91420509c981c73e7e6f7e13a2c9c087b3962f/src/tensor/backends/cpu/impl_allocation.cr#L112">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -1368,7 +1368,7 @@ The data will be filled with zeros</p>
 <div class="highlight"><pre><span></span><code><span class="n">CPU</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="o">]</span><span class="p">)</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/5dfe5cff8a44c6876474693d06acca854b66dda5/src/tensor/backends/cpu/impl_allocation.cr#L38">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/9c91420509c981c73e7e6f7e13a2c9c087b3962f/src/tensor/backends/cpu/impl_allocation.cr#L38">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -1388,7 +1388,7 @@ The data will be filled with zeros</p>
 <div class="highlight"><pre><span></span><code><span class="n">CPU</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="o">]</span><span class="p">)</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/5dfe5cff8a44c6876474693d06acca854b66dda5/src/tensor/backends/cpu/impl_allocation.cr#L55">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/9c91420509c981c73e7e6f7e13a2c9c087b3962f/src/tensor/backends/cpu/impl_allocation.cr#L55">View source</a>
 </div><h2 id="CPU-class-methods">Class methods<a href="#CPU-class-methods" class="headerlink" title="Permanent link">#</a></h2>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -1409,7 +1409,7 @@ storage type than the parent Tensor</p>
 <span class="n">a</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">base</span><span class="p">(</span><span class="n">Float64</span><span class="p">)</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">[</span><span class="mi">10</span><span class="o">]</span><span class="p">)</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/5dfe5cff8a44c6876474693d06acca854b66dda5/src/tensor/backends/cpu/impl_allocation.cr#L142">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/9c91420509c981c73e7e6f7e13a2c9c087b3962f/src/tensor/backends/cpu/impl_allocation.cr#L142">View source</a>
 </div><h2 id="CPU-methods">Methods<a href="#CPU-methods" class="headerlink" title="Permanent link">#</a></h2>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -1420,7 +1420,7 @@ storage type than the parent Tensor</p>
   <div class="doc doc-contents ">
 <p>Raw Crystal pointer that holds a <a href="#CPU"><code>CPU(T)</code></a>s data</p>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/5dfe5cff8a44c6876474693d06acca854b66dda5/src/tensor/backends/cpu/impl_data_structure.cr#L26">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/9c91420509c981c73e7e6f7e13a2c9c087b3962f/src/tensor/backends/cpu/impl_data_structure.cr#L26">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -1435,7 +1435,7 @@ storage type than the parent Tensor</p>
 <span class="n">a</span><span class="o">.</span><span class="n">to_hostptr</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/5dfe5cff8a44c6876474693d06acca854b66dda5/src/tensor/backends/cpu/impl_allocation.cr#L124">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/9c91420509c981c73e7e6f7e13a2c9c087b3962f/src/tensor/backends/cpu/impl_allocation.cr#L124">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -1447,7 +1447,7 @@ storage type than the parent Tensor</p>
 <p>Returns the raw Crystal pointer associated with
 a <a href="#CPU"><code>CPU(T)</code></a></p>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/5dfe5cff8a44c6876474693d06acca854b66dda5/src/tensor/backends/cpu/impl_data_structure.cr#L30">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/9c91420509c981c73e7e6f7e13a2c9c087b3962f/src/tensor/backends/cpu/impl_data_structure.cr#L30">View source</a>
 </div>      </div>
   </div>
 
