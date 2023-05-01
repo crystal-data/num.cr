@@ -109,8 +109,8 @@ class CPU(T) < Num::Backend::Storage(T)
   # a = Pointer(Int32).malloc(10)
   # s = CPU.new(a, [5, 2])
   # ```
-  def initialize(data : Pointer(T), shape : Array(Int), strides : Array(Int))
-    @data = data
+  def initialize(hostptr : Pointer(T), shape : Array(Int), strides : Array(Int))
+    @data = hostptr
   end
 
   # Converts a CPU storage to a crystal pointer

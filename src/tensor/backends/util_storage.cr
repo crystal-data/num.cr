@@ -26,7 +26,7 @@ abstract class Num::Backend::Storage(T)
   abstract def initialize(shape : Array(Int), strides : Array(Int))
   abstract def initialize(shape : Array(Int), order : Num::OrderType, value : T)
   abstract def initialize(shape : Array(Int), strides : Array(Int), value : T)
-  abstract def initialize(data : Pointer(T), shape : Array(Int), strides : Array(Int))
+  abstract def initialize(hostptr : Pointer(T), shape : Array(Int), strides : Array(Int))
   abstract def update_metadata(shape : Array(Int32), strides : Array(Int32))
   abstract def to_unsafe
 end
