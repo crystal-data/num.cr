@@ -331,7 +331,8 @@ module Num
   # ```
   # t = Tensor(Float32, OCL(Float32)).from_array([0.5, 0.2])
   # x = Num.as_tensor(12, like: t)
-  def as_tensor(value : Number, like : Tensor(U, V)) forall U, V
+  # x = Num.as_tensor(12, like: Tensor(Float32, OCL(Float32)))
+  def as_tensor(value : Number, like : Tensor(U, V) | Tensor(U, V).class) forall U, V
     Tensor(U, V).from_array([U.new(value)], device = V)
   end
 end
