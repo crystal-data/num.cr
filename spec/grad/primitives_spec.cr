@@ -40,6 +40,15 @@ describe Num::Grad::Context do
     t_var = ctx.variable(t)
     t_var.context.should eq ctx
   end
+
+  it "can create a variable with scalar" do
+    ctx = Num::Grad::Context(Float32Tensor).new
+    t = 3.14_f32
+    t_var = ctx.variable(t)
+    t_var.context.should eq ctx
+    t_var.value[0].should eq t   # has the scalar
+    t_var.value.size.should eq 1 # has only one element
+  end
 end
 
 describe Num::Grad do

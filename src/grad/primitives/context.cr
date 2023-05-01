@@ -103,7 +103,7 @@ class Num::Grad::Context(T)
   # ctx.variable(3.0)
   # ```
   def variable(value : Number, requires_grad : Bool = true) : Num::Grad::Variable(T)
-    Num::Grad::Variable.new(self, T.new(value), requires_grad)
+    Num::Grad::Variable.new(self, Num.as_tensor(value, like: T), requires_grad)
   end
 
   # Creates a new variable within the `Context`.  This variable
