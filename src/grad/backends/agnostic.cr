@@ -30,15 +30,14 @@ module Num::Grad
   # size and rank of the two variables
   #
   private def sum_grad_backward(gradient : U, a : U, b : U) : Array(U) forall U
-    # if a.size == 1 || b.size == 1
-    #   # broadcast of 1 element, sum it all up
-    #   gless = U.new([1]) { gradient.sum }
-    #   b.size == 1 ? [gradient, gless] : [gless, gradient]
     if a.rank != b.rank
       # broadcast along an axis, so sum dwn by axis
       swap = a.rank > b.rank
       gless = gradient
       (b.rank - a.rank).abs.times do
+        gless = gless.sum(0)
+      end
+      if a.size == 1 || b.size == 1
         gless = gless.sum(0)
       end
       swap ? [gradient, gless] : [gless, gradient]
