@@ -378,4 +378,96 @@ class Tensor(T, S)
       success
     end
   end
+
+  # Draw samples from a multinomial distribution.
+  # Returns a Tensor where each row contains `num_samples` samples from the multinomial distribution
+  # located in the corresponding row of Tensor `input`.
+  # The rows of `input` do not need to be normalized, but must sum to a positive number.
+  # If `input` is a vector (1-D Tensor), returns a vector of length `num_samples`
+  # If `input` is a matrix (2-D Tensor), returns a matrix where each row contains `num_samples` samples, with shape (*m* x `num_samples`).
+  #
+  # ## Arguments
+  #
+  # * input : `Tensor` - Tensor containing probabilities of different outcomes
+  # * num_samples : `Int` - Number of samples to draw from the multinomial distribution
+  #
+  # ## Examples
+  #
+  # ```
+  # Num::Rand.set_seed(0)
+  # input = [[0.5, 0.5], [0.5, 0.5]].to_tensor
+  # a = Tensor.multinomial(input, 5)
+  # puts a # => [[0, 1, 1, 0, 1], [1, 0, 1, 1, 0]]
+
+  # input2 = [0.5, 0.5, 0.5, 0.5].to_tensor
+  # b = Tensor.multinomial(input, 6)
+  # puts b # => [3, 2, 1, 1, 0, 2]
+  # ```
+  def self.multinomial(input : Tensor(T, S), num_samples : Int32)
+    sum = input.sum
+
+    if sum == 0
+      raise "Sum of probabilities is 0, can't draw samples"
+    end
+
+    # Normalize 1D tensors into 2D tensors
+    if input.shape.size == 1
+      input = input.expand_dims(0)
+    end
+
+    # Normalize the probabilities
+    probabilities = input / input.sum(axis: 1, dims: true)
+
+    samples = [] of Array(Int32)
+
+    probabilities.each_axis(0) do |p_row|
+      sample_set = [] of Int32
+      num_samples.times do
+        rand_num = Num::Rand.generator.float32
+
+        # Calculate the cumulative probabilities
+        cumulative_prob = 0.0
+
+        # default to return the last probability
+        s_index = p_row.size - 1
+
+        # Loop through the probabilities
+        p_row.each_with_index do |prob, index|
+          cumulative_prob += prob
+          if rand_num <= cumulative_prob
+            s_index = index
+            break
+          end
+        end
+
+        sample_set << s_index
+      end
+
+      samples << sample_set
+    end
+
+    # If the input is a vector, return a vector of size num_samples
+    if input.shape[0] == 1
+      samples[0].to_tensor
+    else
+      samples.to_tensor
+    end
+  end
+
+  private def self.draw_sample(probabilities : Array(Float64))
+    # Generate a random number between 0 and 1
+    rand_num = Random.new.rand
+
+    # Calculate the cumulative probabilities
+    cumulative_prob = 0.0
+
+    # Loop through the probabilities
+    probabilities.each_with_index do |prob, index|
+      cumulative_prob += prob
+      return index if rand_num <= cumulative_prob
+    end
+
+    # If no index has been returned, return the last one
+    probabilities.size - 1
+  end
 end
