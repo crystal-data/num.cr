@@ -102,6 +102,48 @@ class Tensor(T, S)
     slice(args)
   end
 
+  # An indexing operation that accepts another Tensor for advanced indexing capabilities.
+  #
+  # This method allows you to index a tensor by using another tensor as indices.
+  # It's particularly useful when you need to select or change complex patterns that can't be achieved with simple slicing.
+  #
+  # The shape of the returned tensor is determined by the shape of the `indices` tensor concatenated with the remaining dimensions of the original tensor.
+  # Each value in `indices` selects a value from the original tensor at the corresponding index.
+  # If the corresponding index is a vector, than the returned tensor will include the vector as an additional dimension.
+  #
+  # ## Parameters:
+  #
+  # * `indices` - A Tensor that contains the indices to index the original tensor.
+  #
+  # ## Returns:
+  #
+  # A new tensor containing the values of the original tensor indexed by `indices`.
+  #
+  # ## Examples:
+  #
+  # ```
+  # t = Tensor.new([[1, 2], [3, 4], [5, 6]])
+  # indices = Tensor.new([[0, 2]])
+  # result = t[indices] # Returns: Tensor([[1, 2], [5, 6]])
+  # ```
+  #
+  def [](indices : Tensor) : Tensor(T, S)
+    shape = indices.shape + self.shape[1..]
+    o = Tensor(T, S).zeros(shape)
+    indices.shape[0].times do |i|
+      row = indices[i]
+      # If row is a single value, unwrap it
+      # TODO: Is there a better way to detect this?
+      if row.is_a?(Tensor) && row.rank == 0 && row.size == 1
+        o[i] = self[row.value]
+      else
+        o[i] = self[row]
+      end
+    end
+
+    o
+  end
+
   # The primary method of setting Tensor values.  The slicing behavior
   # for this method is identical to the `[]` method.
   #

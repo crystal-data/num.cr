@@ -398,7 +398,7 @@ class Tensor(T, S)
   # input = [[0.5, 0.5], [0.5, 0.5]].to_tensor
   # a = Tensor.multinomial(input, 5)
   # puts a # => [[0, 1, 1, 0, 1], [1, 0, 1, 1, 0]]
-
+  #
   # input2 = [0.5, 0.5, 0.5, 0.5].to_tensor
   # b = Tensor.multinomial(input, 6)
   # puts b # => [3, 2, 1, 1, 0, 2]
