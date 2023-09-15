@@ -36,7 +36,7 @@ module Num
   # a.to_a # => [0, 1, 2, 3]
   # ```
   def to_a(arr : Tensor(U, CPU(U))) forall U
-    a = [] of U
+    a = Array(U).new(arr.size)
     each(arr) do |el|
       a << el
     end
