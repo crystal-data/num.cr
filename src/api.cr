@@ -8,6 +8,7 @@ require "complex"
   require "arrow"
 {% end %}
 
+require "./extensions/slice"
 require "./extensions/array"
 require "./extensions/number"
 

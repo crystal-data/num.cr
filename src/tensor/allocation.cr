@@ -67,7 +67,7 @@ class Tensor(T, S)
   # without having to provide a specific generic type to the array.
   # Since the storage instance is S, having the array passed
   # allows Num to infer T
-  private def initialize(@data : S, shape : Array(Int), from_array : Array(T))
+  private def initialize(@data : S, shape : Array(Int), from_array : Array(T) | Slice(T))
     assert_types
     @shape = shape.map &.to_i
     @strides = Num::Internal.shape_to_strides(shape, Num::RowMajor)
@@ -153,6 +153,22 @@ class Tensor(T, S)
     flat = a.flatten
     storage = device.new(flat.to_unsafe, shape, Num::Internal.shape_to_strides(shape))
     new(storage, shape, from_array: flat)
+  end
+
+  # Creates a Tensor from a standard library slice onto a specified device.
+  # The type of Tensor is inferred from the element type, and alternative
+  # shapes can be provided.
+  #
+  # ## Examples
+  #
+  # ```
+  # s = Slice.new(200) { |i| (i + 10).to_u8 }
+  # Tensor.from_array(s, device: OCL) # => [200] Tensor stored on a GPU
+  # ```
+  def self.from_slice(s : Slice, device = CPU, shape : Array(Int32)? = nil)
+    shape = shape || [s.size]
+    storage = device.new(s.to_unsafe, shape, Num::Internal.shape_to_strides(shape))
+    new(storage, shape, from_array: s)
   end
 
   # Creates a `Tensor` of a provided shape, filled with 0.  The generic type

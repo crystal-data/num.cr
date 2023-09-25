@@ -1,4 +1,4 @@
-# Copyright (c) 2022 Crystal Data Contributors
+# Copyright (c) 2021 Crystal Data Contributors
 #
 # MIT License
 #
@@ -21,9 +21,11 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-describe Num::WorkPool do
-  it "can allocate complex numbers" do
-    pool = Num::WorkPool.new
-    pool.get_cmplx(10)
+describe Slice do
+  it "creates a Tensor from a stdlib slice" do
+    s = Slice.new(5) { |i| (i + 10).to_u8 }
+    t = s.to_tensor
+    t.shape.should eq [5]
+    t.to_a.should eq s.to_a
   end
 end
