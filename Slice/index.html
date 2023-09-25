@@ -9,21 +9,21 @@
       
       
       
-        <link rel="canonical" href="https://crystal-data.github.io/num.cr/Num/NN/ReluLayer/">
+        <link rel="canonical" href="https://crystal-data.github.io/num.cr/Slice/">
       
-      <link rel="icon" href="../../../assets/images/favicon.png">
+      <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.4">
     
     
       
-        <title>ReluLayer - Num.cr</title>
+        <title>Slice - Num.cr</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.db9e7362.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.db9e7362.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.3f5d1f46.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
         
       
     
@@ -38,9 +38,9 @@
     
     
     
-      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
     
-      <link rel="stylesheet" href="../../../css/mkdocstrings.css">
+      <link rel="stylesheet" href="../css/mkdocstrings.css">
     
     
       
@@ -61,7 +61,7 @@
     <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="blue">
   
     
-    <script>function __prefix(e){return new URL("../../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
     
       <script>var palette=__get("__palette");if(null!==palette&&"object"==typeof palette.color)for(var key in palette.color)document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
     
@@ -71,7 +71,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#Num::NN::ReluLayer" class="md-skip">
+        <a href="#Slice" class="md-skip">
           Skip to content
         </a>
       
@@ -84,7 +84,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="Num.cr" class="md-header__button md-logo" aria-label="Num.cr" data-md-component="logo">
+    <a href=".." title="Num.cr" class="md-header__button md-logo" aria-label="Num.cr" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -103,7 +103,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              ReluLayer
+              Slice
             
           </span>
         </div>
@@ -189,7 +189,7 @@
 
 
   <li class="md-tabs__item">
-    <a href="../../.." class="md-tabs__link">
+    <a href=".." class="md-tabs__link">
       Introduction
     </a>
   </li>
@@ -201,7 +201,7 @@
 
 
   <li class="md-tabs__item">
-    <a href="../../../ARROW/" class="md-tabs__link">
+    <a href="../ARROW/" class="md-tabs__link">
       ARROW
     </a>
   </li>
@@ -213,7 +213,7 @@
 
 
   <li class="md-tabs__item">
-    <a href="../../../Array/" class="md-tabs__link">
+    <a href="../Array/" class="md-tabs__link">
       Array
     </a>
   </li>
@@ -225,8 +225,44 @@
 
 
   <li class="md-tabs__item">
-    <a href="../../../CPU/" class="md-tabs__link">
+    <a href="../CPU/" class="md-tabs__link">
       CPU
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../Num/" class="md-tabs__link">
+      Num
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../Number/" class="md-tabs__link">
+      Number
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../OCL/" class="md-tabs__link">
+      OCL
     </a>
   </li>
 
@@ -239,43 +275,7 @@
 
 
   <li class="md-tabs__item">
-    <a href="../../" class="md-tabs__link md-tabs__link--active">
-      Num
-    </a>
-  </li>
-
-      
-        
-  
-  
-
-
-  <li class="md-tabs__item">
-    <a href="../../../Number/" class="md-tabs__link">
-      Number
-    </a>
-  </li>
-
-      
-        
-  
-  
-
-
-  <li class="md-tabs__item">
-    <a href="../../../OCL/" class="md-tabs__link">
-      OCL
-    </a>
-  </li>
-
-      
-        
-  
-  
-
-
-  <li class="md-tabs__item">
-    <a href="../../../Slice/" class="md-tabs__link">
+    <a href="./" class="md-tabs__link md-tabs__link--active">
       Slice
     </a>
   </li>
@@ -287,7 +287,7 @@
 
 
   <li class="md-tabs__item">
-    <a href="../../../Tensor/" class="md-tabs__link">
+    <a href="../Tensor/" class="md-tabs__link">
       Tensor
     </a>
   </li>
@@ -314,7 +314,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="Num.cr" class="md-nav__button md-logo" aria-label="Num.cr" data-md-component="logo">
+    <a href=".." title="Num.cr" class="md-nav__button md-logo" aria-label="Num.cr" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -346,7 +346,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
+      <a href=".." class="md-nav__link">
         Introduction
       </a>
     </li>
@@ -361,7 +361,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../ARROW/" class="md-nav__link">
+      <a href="../ARROW/" class="md-nav__link">
         ARROW
       </a>
     </li>
@@ -376,7 +376,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../Array/" class="md-nav__link">
+      <a href="../Array/" class="md-nav__link">
         Array
       </a>
     </li>
@@ -391,7 +391,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../CPU/" class="md-nav__link">
+      <a href="../CPU/" class="md-nav__link">
         CPU
       </a>
     </li>
@@ -404,14 +404,12 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
       
       
       
@@ -419,7 +417,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../">Num</a>
+          <a href="../Num/">Num</a>
           
             <label for="__nav_5">
               <span class="md-nav__icon md-icon"></span>
@@ -440,7 +438,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../ArrayFlags/" class="md-nav__link">
+      <a href="../Num/ArrayFlags/" class="md-nav__link">
         ArrayFlags
       </a>
     </li>
@@ -454,7 +452,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Einsum/" class="md-nav__link">
+      <a href="../Num/Einsum/" class="md-nav__link">
         Einsum
       </a>
     </li>
@@ -479,7 +477,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../Exceptions/">Exceptions</a>
+          <a href="../Num/Exceptions/">Exceptions</a>
           
             <label for="__nav_5_3">
               <span class="md-nav__icon md-icon"></span>
@@ -500,7 +498,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Exceptions/AxisError/" class="md-nav__link">
+      <a href="../Num/Exceptions/AxisError/" class="md-nav__link">
         AxisError
       </a>
     </li>
@@ -514,7 +512,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Exceptions/IndexError/" class="md-nav__link">
+      <a href="../Num/Exceptions/IndexError/" class="md-nav__link">
         IndexError
       </a>
     </li>
@@ -528,7 +526,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Exceptions/LinAlgError/" class="md-nav__link">
+      <a href="../Num/Exceptions/LinAlgError/" class="md-nav__link">
         LinAlgError
       </a>
     </li>
@@ -542,7 +540,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Exceptions/ValueError/" class="md-nav__link">
+      <a href="../Num/Exceptions/ValueError/" class="md-nav__link">
         ValueError
       </a>
     </li>
@@ -574,7 +572,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../Grad/">Grad</a>
+          <a href="../Num/Grad/">Grad</a>
           
             <label for="__nav_5_4">
               <span class="md-nav__icon md-icon"></span>
@@ -595,7 +593,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Grad/Context/" class="md-nav__link">
+      <a href="../Num/Grad/Context/" class="md-nav__link">
         Context
       </a>
     </li>
@@ -609,7 +607,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Grad/Variable/" class="md-nav__link">
+      <a href="../Num/Grad/Variable/" class="md-nav__link">
         Variable
       </a>
     </li>
@@ -628,14 +626,12 @@
               
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_5" type="checkbox" id="__nav_5_5" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_5" type="checkbox" id="__nav_5_5" >
       
       
       
@@ -643,7 +639,7 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../">NN</a>
+          <a href="../Num/NN/">NN</a>
           
             <label for="__nav_5_5">
               <span class="md-nav__icon md-icon"></span>
@@ -664,7 +660,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../AdamOptimizer/" class="md-nav__link">
+      <a href="../Num/NN/AdamOptimizer/" class="md-nav__link">
         AdamOptimizer
       </a>
     </li>
@@ -678,7 +674,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ConvolutionalLayer/" class="md-nav__link">
+      <a href="../Num/NN/ConvolutionalLayer/" class="md-nav__link">
         ConvolutionalLayer
       </a>
     </li>
@@ -692,7 +688,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../Distribution/" class="md-nav__link">
+      <a href="../Num/NN/Distribution/" class="md-nav__link">
         Distribution
       </a>
     </li>
@@ -706,7 +702,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../DropoutLayer/" class="md-nav__link">
+      <a href="../Num/NN/DropoutLayer/" class="md-nav__link">
         DropoutLayer
       </a>
     </li>
@@ -720,7 +716,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../EluLayer/" class="md-nav__link">
+      <a href="../Num/NN/EluLayer/" class="md-nav__link">
         EluLayer
       </a>
     </li>
@@ -734,7 +730,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../FanMode/" class="md-nav__link">
+      <a href="../Num/NN/FanMode/" class="md-nav__link">
         FanMode
       </a>
     </li>
@@ -748,7 +744,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../FlattenLayer/" class="md-nav__link">
+      <a href="../Num/NN/FlattenLayer/" class="md-nav__link">
         FlattenLayer
       </a>
     </li>
@@ -762,7 +758,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../InputLayer/" class="md-nav__link">
+      <a href="../Num/NN/InputLayer/" class="md-nav__link">
         InputLayer
       </a>
     </li>
@@ -776,7 +772,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../Layer/" class="md-nav__link">
+      <a href="../Num/NN/Layer/" class="md-nav__link">
         Layer
       </a>
     </li>
@@ -790,7 +786,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../LeakyReluLayer/" class="md-nav__link">
+      <a href="../Num/NN/LeakyReluLayer/" class="md-nav__link">
         LeakyReluLayer
       </a>
     </li>
@@ -804,7 +800,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../LinearLayer/" class="md-nav__link">
+      <a href="../Num/NN/LinearLayer/" class="md-nav__link">
         LinearLayer
       </a>
     </li>
@@ -818,7 +814,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../Loss/" class="md-nav__link">
+      <a href="../Num/NN/Loss/" class="md-nav__link">
         Loss
       </a>
     </li>
@@ -832,7 +828,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../MSELoss/" class="md-nav__link">
+      <a href="../Num/NN/MSELoss/" class="md-nav__link">
         MSELoss
       </a>
     </li>
@@ -846,7 +842,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../MaxPoolLayer/" class="md-nav__link">
+      <a href="../Num/NN/MaxPoolLayer/" class="md-nav__link">
         MaxPoolLayer
       </a>
     </li>
@@ -860,7 +856,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../Network/" class="md-nav__link">
+      <a href="../Num/NN/Network/" class="md-nav__link">
         Network
       </a>
     </li>
@@ -874,7 +870,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../NetworkInfo/" class="md-nav__link">
+      <a href="../Num/NN/NetworkInfo/" class="md-nav__link">
         NetworkInfo
       </a>
     </li>
@@ -888,7 +884,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../Optimizer/" class="md-nav__link">
+      <a href="../Num/NN/Optimizer/" class="md-nav__link">
         Optimizer
       </a>
     </li>
@@ -900,91 +896,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          ReluLayer
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../Num/NN/ReluLayer/" class="md-nav__link">
         ReluLayer
       </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#Num::NN::ReluLayer-constructors" class="md-nav__link">
-    Constructors
-  </a>
-  
-    <nav class="md-nav" aria-label="Constructors">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#Num::NN::ReluLayer.new(context,output_shape)" class="md-nav__link">
-    .new
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#Num::NN::ReluLayer-methods" class="md-nav__link">
-    Methods
-  </a>
-  
-    <nav class="md-nav" aria-label="Methods">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#Num::NN::ReluLayer#forward(input)" class="md-nav__link">
-    #forward
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#Num::NN::ReluLayer#output_shape" class="md-nav__link">
-    #output_shape
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -996,7 +912,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../SGDMomentumOptimizer/" class="md-nav__link">
+      <a href="../Num/NN/SGDMomentumOptimizer/" class="md-nav__link">
         SGDMomentumOptimizer
       </a>
     </li>
@@ -1010,7 +926,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../SGDOptimizer/" class="md-nav__link">
+      <a href="../Num/NN/SGDOptimizer/" class="md-nav__link">
         SGDOptimizer
       </a>
     </li>
@@ -1024,7 +940,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../SigmoidCrossEntropyLoss/" class="md-nav__link">
+      <a href="../Num/NN/SigmoidCrossEntropyLoss/" class="md-nav__link">
         SigmoidCrossEntropyLoss
       </a>
     </li>
@@ -1038,7 +954,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../SigmoidLayer/" class="md-nav__link">
+      <a href="../Num/NN/SigmoidLayer/" class="md-nav__link">
         SigmoidLayer
       </a>
     </li>
@@ -1052,7 +968,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../SoftmaxCrossEntropyLoss/" class="md-nav__link">
+      <a href="../Num/NN/SoftmaxCrossEntropyLoss/" class="md-nav__link">
         SoftmaxCrossEntropyLoss
       </a>
     </li>
@@ -1073,7 +989,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../OrderType/" class="md-nav__link">
+      <a href="../Num/OrderType/" class="md-nav__link">
         OrderType
       </a>
     </li>
@@ -1087,7 +1003,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Rand/" class="md-nav__link">
+      <a href="../Num/Rand/" class="md-nav__link">
         Rand
       </a>
     </li>
@@ -1109,7 +1025,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../Number/" class="md-nav__link">
+      <a href="../Number/" class="md-nav__link">
         Number
       </a>
     </li>
@@ -1124,7 +1040,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../OCL/" class="md-nav__link">
+      <a href="../OCL/" class="md-nav__link">
         OCL
       </a>
     </li>
@@ -1137,11 +1053,64 @@
 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../../../Slice/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Slice
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Slice
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#Slice-methods" class="md-nav__link">
+    Methods
+  </a>
+  
+    <nav class="md-nav" aria-label="Methods">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#Slice#to_tensor(device,shape)" class="md-nav__link">
+    #to_tensor
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1154,7 +1123,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../Tensor/" class="md-nav__link">
+      <a href="../Tensor/" class="md-nav__link">
         Tensor
       </a>
     </li>
@@ -1187,27 +1156,7 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#Num::NN::ReluLayer-constructors" class="md-nav__link">
-    Constructors
-  </a>
-  
-    <nav class="md-nav" aria-label="Constructors">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#Num::NN::ReluLayer.new(context,output_shape)" class="md-nav__link">
-    .new
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#Num::NN::ReluLayer-methods" class="md-nav__link">
+  <a href="#Slice-methods" class="md-nav__link">
     Methods
   </a>
   
@@ -1215,15 +1164,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#Num::NN::ReluLayer#forward(input)" class="md-nav__link">
-    #forward
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#Num::NN::ReluLayer#output_shape" class="md-nav__link">
-    #output_shape
+  <a href="#Slice#to_tensor(device,shape)" class="md-nav__link">
+    #to_tensor
   </a>
   
 </li>
@@ -1245,54 +1187,52 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/nn/layers/relu.cr#L24" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/extensions/slice.cr#L24" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <div class="doc doc-object doc-type class">
-<h1 id="Num::NN::ReluLayer" class="doc doc-heading">class <code>Num::NN::ReluLayer(T)</code>
-      <br/><small>inherits <code><a href="../Layer/#Num::NN::Layer">Num::NN::Layer</a></code></small>
-<a href="#Num::NN::ReluLayer" class="headerlink" title="Permanent link">#</a></h1>
+                <div class="doc doc-object doc-type struct">
+<h1 id="Slice" class="doc doc-heading">struct <code>Slice(T)</code>
+      <br/><small>inherits <code>Struct</code></small>
+<a href="#Slice" class="headerlink" title="Permanent link">#</a></h1>
   <div class="doc doc-contents first">
-
+<p>A <a href="#Slice"><code>Slice</code></a> is a <code>Pointer</code> with an associated size.</p>
+<p>While a pointer is unsafe because no bound checks are performed when reading from and writing to it,
+reading from and writing to a slice involve bound checks.
+In this way, a slice is a safe alternative to <code>Pointer</code>.</p>
+<p>A Slice can be created as read-only: trying to write to it
+will raise. For example the slice of bytes returned by
+<code>String#to_slice</code> is read-only.</p>
       <div class="doc doc-children">
 
+            <h2>Included modules</h2>
+              <code>Comparable</code>
+              <code>Indexable::Mutable</code>
 
 
-<h2 id="Num::NN::ReluLayer-constructors">Constructors<a href="#Num::NN::ReluLayer-constructors" class="headerlink" title="Permanent link">#</a></h2>
-
-<div class="doc doc-object doc-method doc-class_method">
-<h3 id="Num::NN::ReluLayer.new(context,output_shape)" class="doc doc-heading">    <code>
-      .new<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">context</span> <span class="p">:</span> <a href="../../Grad/Context/#Num::Grad::Context">Num::Grad::Context</a><span class="p">(</span><span class="n">T</span><span class="p">),</span> <span class="n">output_shape</span> <span class="p">:</span> <a href="../../../Array/#Array">Array</a><span class="p">(</span><span class="n">Int32</span><span class="p">))</span></code></span>
-    </code>
-<a href="#Num::NN::ReluLayer.new(context,output_shape)" class="headerlink" title="Permanent link">#</a></h3>
-  <div class="doc doc-contents ">
-  </div>
-
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/nn/layers/relu.cr#L27">View source</a>
-</div><h2 id="Num::NN::ReluLayer-methods">Methods<a href="#Num::NN::ReluLayer-methods" class="headerlink" title="Permanent link">#</a></h2>
+<h2 id="Slice-methods">Methods<a href="#Slice-methods" class="headerlink" title="Permanent link">#</a></h2>
 
 <div class="doc doc-object doc-method doc-instance_method">
-<h3 id="Num::NN::ReluLayer#forward(input)" class="doc doc-heading">    <code>
-      #forward<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">input</span> <span class="p">:</span> <a href="../../Grad/Variable/#Num::Grad::Variable">Num::Grad::Variable</a><span class="p">(</span><span class="n">T</span><span class="p">))</span> <span class="p">:</span> <a href="../../Grad/Variable/#Num::Grad::Variable">Num::Grad::Variable</a><span class="p">(</span><span class="n">T</span><span class="p">)</span></code></span>
+<h3 id="Slice#to_tensor(device,shape)" class="doc doc-heading">    <code>
+      #to_tensor<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">device</span> <span class="o">=</span> <span class="no">CPU</span><span class="p">,</span> <span class="n">shape</span> <span class="p">:</span> <a href="../Array/#Array">Array</a><span class="p">(</span><span class="n">Int32</span><span class="p">)?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></span>
     </code>
-<a href="#Num::NN::ReluLayer#forward(input)" class="headerlink" title="Permanent link">#</a></h3>
+<a href="#Slice#to_tensor(device,shape)" class="headerlink" title="Permanent link">#</a></h3>
   <div class="doc doc-contents ">
-  </div>
+<p>Converts a standard library slice to a <a href="../Tensor/#Tensor"><code>Tensor</code></a>.
+The type of Tensor is inferred from the element type, and alternative
+shapes can be provided.</p>
+<h5 id="Slice#to_tensor(device,shape)--arguments">Arguments<a class="headerlink" href="#Slice#to_tensor(device,shape)--arguments" title="Permanent link">#</a></h5>
+<ul>
+<li>device : <code>Num::Storage</code> - The storage backend on which to place the <a href="../Tensor/#Tensor"><code>Tensor</code></a></li>
+<li>shape : <a href="../Array/#Array"><code>Array(Int32)?</code></a> - An optional shape this slice represents</li>
+</ul>
+<h5 id="Slice#to_tensor(device,shape)--examples">Examples<a class="headerlink" href="#Slice#to_tensor(device,shape)--examples" title="Permanent link">#</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">s</span> <span class="o">=</span> <span class="n">Slice</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">to_u8</span> <span class="p">}</span>
+<span class="kp">typeof</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">to_tensor</span><span class="p">)</span> <span class="c1"># =&gt; Tensor(UInt8, CPU(Float32))</span>
+</code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/nn/layers/relu.cr#L30">View source</a>
-</div>
-
-<div class="doc doc-object doc-method doc-instance_method">
-<h3 id="Num::NN::ReluLayer#output_shape" class="doc doc-heading">    <code>
-      #output_shape<span style="font-weight: normal"> <code class="highlight language-crystal"><span class="p">:</span> <a href="../../../Array/#Array">Array</a><span class="p">(</span><span class="n">Int32</span><span class="p">)</span></code></span>
-    </code>
-<a href="#Num::NN::ReluLayer#output_shape" class="headerlink" title="Permanent link">#</a></h3>
-  <div class="doc doc-contents ">
-  </div>
-
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/nn/layers/relu.cr#L25">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/extensions/slice.cr#L40">View source</a>
 </div>      </div>
   </div>
 
@@ -1316,7 +1256,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../Optimizer/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Optimizer" rel="prev">
+        <a href="../OCL/" class="md-footer__link md-footer__link--prev" aria-label="Previous: OCL" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -1325,20 +1265,20 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              Optimizer
+              OCL
             </div>
           </div>
         </a>
       
       
         
-        <a href="../SGDMomentumOptimizer/" class="md-footer__link md-footer__link--next" aria-label="Next: SGDMomentumOptimizer" rel="next">
+        <a href="../Tensor/" class="md-footer__link md-footer__link--next" aria-label="Next: Tensor" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              SGDMomentumOptimizer
+              Tensor
             </div>
           </div>
           <div class="md-footer__button md-icon">
@@ -1369,10 +1309,10 @@
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../../assets/javascripts/workers/search.8397ff9e.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.8397ff9e.min.js", "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.1e84347e.min.js"></script>
+      <script src="../assets/javascripts/bundle.1e84347e.min.js"></script>
       
     
   </body>

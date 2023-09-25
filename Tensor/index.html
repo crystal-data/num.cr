@@ -270,6 +270,18 @@
         
   
   
+
+
+  <li class="md-tabs__item">
+    <a href="../Slice/" class="md-tabs__link">
+      Slice
+    </a>
+  </li>
+
+      
+        
+  
+  
     
   
 
@@ -1041,6 +1053,21 @@
 
   
   
+  
+    <li class="md-nav__item">
+      <a href="../Slice/" class="md-nav__link">
+        Slice
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
     
   
   
@@ -1148,6 +1175,13 @@
           <li class="md-nav__item">
   <a href="#Tensor.from_npy(path)" class="md-nav__link">
     .from_npy
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#Tensor.from_slice(s,device,shape)" class="md-nav__link">
+    .from_slice
   </a>
   
 </li>
@@ -2429,6 +2463,13 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#Tensor.from_slice(s,device,shape)" class="md-nav__link">
+    .from_slice
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#Tensor.fsned(shape,df1,df2)" class="md-nav__link">
     .fsned
   </a>
@@ -3606,7 +3647,7 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/io/npy.cr#L26" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/io/npy.cr#L26" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
@@ -3637,7 +3678,7 @@ since it assumes the passed shape and strides correspond to the
 storage provided.</p>
 <p>The dtype is required to infer T without having it explicitly provided</p>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/allocation.cr#L60">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/allocation.cr#L60">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -3651,7 +3692,7 @@ data type.  This should primarily be used by internal methods, since it
 assumes the contiguity of the storage.</p>
 <p>The dtype is required to infer T without having it explicitly provided</p>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/allocation.cr#L30">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/allocation.cr#L30">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -3666,7 +3707,7 @@ since it assumes the passed shape and strides correspond to the
 storage provided.</p>
 <p>The dtype is required to infer T without having it explicitly provided</p>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/allocation.cr#L47">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/allocation.cr#L47">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -3682,7 +3723,7 @@ layout.</p>
 <span class="n">b</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">Float32</span><span class="p">)</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="o">]</span><span class="p">)</span>                       <span class="c1"># =&gt; CPU Tensor</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/allocation.cr#L89">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/allocation.cr#L89">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -3697,7 +3738,7 @@ layout, containing a specified value.</p>
 <div class="highlight"><pre><span></span><code><span class="n">a</span> <span class="o">=</span> <span class="n">Tensor</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="o">]</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">)</span> <span class="c1"># =&gt; CPU Tensor filled with 3.5</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/allocation.cr#L102">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/allocation.cr#L102">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -3712,7 +3753,7 @@ Tensor is inferred from the return type of the block</p>
 <div class="highlight"><pre><span></span><code><span class="n">a</span> <span class="o">=</span> <span class="n">Tensor</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="o">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="o">]</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="n">i</span> <span class="p">}</span> <span class="c1"># =&gt; Int32 Tensor stored on a CPU</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/allocation.cr#L115">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/allocation.cr#L115">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -3727,7 +3768,7 @@ of the Tensor is inferred from the return type of the block</p>
 <div class="highlight"><pre><span></span><code><span class="n">a</span> <span class="o">=</span> <span class="n">Tensor</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="o">|</span> <span class="n">i</span> <span class="o">/</span> <span class="n">j</span> <span class="p">}</span> <span class="c1"># =&gt; Float64 Tensor stored on a CPU</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/allocation.cr#L131">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/allocation.cr#L131">View source</a>
 </div><h2 id="Tensor-class-methods">Class methods<a href="#Tensor-class-methods" class="headerlink" title="Permanent link">#</a></h2>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -3750,7 +3791,7 @@ of values</p>
 <span class="nb">puts</span> <span class="n">a</span> <span class="c1"># =&gt; [0.000463782, 0.40858    , 1.67573e-07, 0.143055, 3.08452e-08]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/random.cr#L93">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/random.cr#L93">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -3775,7 +3816,7 @@ p is in the interval [0,1].</p>
 <span class="nb">puts</span> <span class="n">a</span> <span class="c1"># =&gt; [23, 30, 22, 18, 28]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/random.cr#L372">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/random.cr#L372">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -3796,7 +3837,7 @@ p is in the interval [0,1].</p>
 <span class="nb">puts</span> <span class="n">a</span> <span class="c1"># =&gt; [32.2738, 27.2351, 26.0258, 22.136 , 31.9774]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/random.cr#L119">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/random.cr#L119">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -3818,7 +3859,7 @@ values</p>
 <span class="nb">puts</span> <span class="n">a</span> <span class="c1"># =&gt; [0.697832 , 0.710307 , 1.35733  , 0.0423776, 0.209743 ]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/random.cr#L146">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/random.cr#L146">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -3849,7 +3890,7 @@ and zeros elsewhere</p>
 <span class="c1">#  [0, 1]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/allocation.cr#L466">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/allocation.cr#L482">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -3866,7 +3907,7 @@ the Array's shape must be uniform along all subarrays.</p>
 <span class="n">Tensor</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="ss">device</span><span class="p">:</span> <span class="no">OCL</span><span class="p">)</span> <span class="c1"># =&gt; [3, 2] Tensor stored on a GPU</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/allocation.cr#L151">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/allocation.cr#L151">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -3887,7 +3928,24 @@ If the ndarray is stored in a different type inside the file, it will be convert
 NOTE: Only little endian files can be read due to laziness by the num.cr developer</p>
 </div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/io/npy.cr#L43">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/io/npy.cr#L43">View source</a>
+</div>
+
+<div class="doc doc-object doc-method doc-class_method">
+<h3 id="Tensor.from_slice(s,device,shape)" class="doc doc-heading">    <code>
+      .from_slice<span style="font-weight: normal"><code class="highlight language-crystal"><span class="p">(</span><span class="n">s</span> <span class="p">:</span> <a href="../Slice/#Slice">Slice</a><span class="p">,</span> <span class="n">device</span> <span class="o">=</span> <span class="no">CPU</span><span class="p">,</span> <span class="n">shape</span> <span class="p">:</span> <a href="../Array/#Array">Array</a><span class="p">(</span><span class="n">Int32</span><span class="p">)?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span></code></span>
+    </code>
+<a href="#Tensor.from_slice(s,device,shape)" class="headerlink" title="Permanent link">#</a></h3>
+  <div class="doc doc-contents ">
+<p>Creates a Tensor from a standard library slice onto a specified device.
+The type of Tensor is inferred from the element type, and alternative
+shapes can be provided.</p>
+<h5 id="Tensor.from_slice(s,device,shape)--examples">Examples<a class="headerlink" href="#Tensor.from_slice(s,device,shape)--examples" title="Permanent link">#</a></h5>
+<div class="highlight"><pre><span></span><code><span class="n">s</span> <span class="o">=</span> <span class="n">Slice</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">to_u8</span> <span class="p">}</span>
+<span class="n">Tensor</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="ss">device</span><span class="p">:</span> <span class="no">OCL</span><span class="p">)</span> <span class="c1"># =&gt; [200] Tensor stored on a GPU</span>
+</code></pre></div>  </div>
+
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/allocation.cr#L168">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -3912,7 +3970,7 @@ values</p>
 <span class="nb">puts</span> <span class="n">a</span> <span class="c1"># =&gt; [1.15436 , 1.08983 , 0.971573, 1.75811 , 2.06518 ]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/random.cr#L176">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/random.cr#L176">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -3931,7 +3989,7 @@ is inferred from the value</p>
 <div class="highlight"><pre><span></span><code><span class="n">t</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">Int8</span><span class="p">,</span> <span class="no">CPU</span><span class="p">(</span><span class="n">Int8</span><span class="p">))</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="o">[</span><span class="mi">3</span><span class="o">]</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="c1"># =&gt; [1, 1, 1]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/allocation.cr#L236">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/allocation.cr#L252">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -3951,7 +4009,7 @@ provided <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="n">u</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">Int8</span><span class="p">,</span> <span class="no">CPU</span><span class="p">(</span><span class="n">Int8</span><span class="p">))</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="c1"># =&gt; [3, 3, 3]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/allocation.cr#L253">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/allocation.cr#L269">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -3975,7 +4033,7 @@ provided <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="nb">puts</span> <span class="n">a</span> <span class="c1"># =&gt; [0.169394 , 0.0336937, 0.921517 , 0.0210972, 0.0487926]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/random.cr#L205">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/random.cr#L205">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -3999,7 +4057,7 @@ Each output sample is a constant multiple of the previous.</p>
 <div class="highlight"><pre><span></span><code><span class="n">Tensor</span><span class="o">.</span><span class="n">geometric_space</span><span class="p">(</span><span class="mf">1_f32</span><span class="p">,</span> <span class="mf">1000_f32</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="c1"># =&gt; [1, 10, 100, 1000]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/allocation.cr#L409">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/allocation.cr#L425">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -4021,7 +4079,7 @@ and zeros elsewhere</p>
 <span class="c1">#  [0, 1]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/allocation.cr#L488">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/allocation.cr#L504">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -4045,7 +4103,7 @@ and zeros elsewhere</p>
 <span class="nb">puts</span> <span class="n">a</span> <span class="c1"># =&gt; [0.305384 , 0.601509 , 0.247952 , -3.34791 , -0.502075]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/random.cr#L234">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/random.cr#L234">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -4073,7 +4131,7 @@ The endpoint of the interval can optionally be excluded.</p>
 <span class="n">Tensor</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0_f32</span><span class="p">,</span> <span class="mf">1_f32</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="ss">endpoint</span><span class="p">:</span> <span class="kc">false</span><span class="p">)</span> <span class="c1"># =&gt; [0.0, 0.2, 0.4, 0.6, 0.8]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/allocation.cr#L317">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/allocation.cr#L333">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -4100,7 +4158,7 @@ In linear space, the sequence starts at <code>base ** start</code>
 <span class="c1"># [100    , 215.443, 464.159, 1000   ]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/allocation.cr#L374">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/allocation.cr#L390">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -4124,7 +4182,7 @@ In linear space, the sequence starts at <code>base ** start</code>
 <span class="nb">puts</span> <span class="n">a</span> <span class="c1"># =&gt; [1.41285 , 5.00594 , 0.766401, 1.61069 , 2.29073 ]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/random.cr#L263">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/random.cr#L263">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -4155,7 +4213,7 @@ If <code>input</code> is a matrix (2-D Tensor), returns a matrix where each row 
 <span class="nb">puts</span> <span class="n">b</span> <span class="c1"># =&gt; [3, 2, 1, 1, 0, 2]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/random.cr#L406">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/random.cr#L406">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -4178,7 +4236,7 @@ of values</p>
 <span class="nb">puts</span> <span class="n">a</span> <span class="c1"># =&gt; 0.345609, 1.61063 , -0.26605, 0.476662, 0.828871]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/random.cr#L291">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/random.cr#L291">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -4197,7 +4255,7 @@ must be specified.</p>
 <div class="highlight"><pre><span></span><code><span class="n">t</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">Int8</span><span class="p">,</span> <span class="no">CPU</span><span class="p">(</span><span class="n">Int8</span><span class="p">))</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="o">[</span><span class="mi">3</span><span class="o">]</span><span class="p">)</span> <span class="c1"># =&gt; [1, 1, 1]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/allocation.cr#L203">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/allocation.cr#L219">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -4217,7 +4275,7 @@ provided <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="n">u</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">Int8</span><span class="p">,</span> <span class="no">CPU</span><span class="p">(</span><span class="n">Int8</span><span class="p">))</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="c1"># =&gt; [0, 0, 0]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/allocation.cr#L220">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/allocation.cr#L236">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -4239,7 +4297,7 @@ provided <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="nb">puts</span> <span class="n">a</span> <span class="c1"># =&gt; [1, 0, 1, 0, 3]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/random.cr#L318">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/random.cr#L318">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -4259,7 +4317,7 @@ provided <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="nb">puts</span> <span class="n">a</span> <span class="c1"># =&gt; [0.411575 , 0.548264 , 0.388604 , 0.0106621, 0.183558 ]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/random.cr#L65">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/random.cr#L65">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -4286,7 +4344,7 @@ of the range</p>
 <span class="c1">#  [7, 4]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/random.cr#L46">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/random.cr#L46">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -4310,7 +4368,7 @@ the inputs to the method</p>
 <span class="n">Tensor</span><span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">)</span> <span class="c1"># =&gt; [0  , 0.7, 1.4, 2.1, 2.8]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/allocation.cr#L274">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/allocation.cr#L290">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -4334,7 +4392,7 @@ the inputs to the method</p>
 <span class="n">Tensor</span><span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">)</span> <span class="c1"># =&gt; [0  , 0.7, 1.4, 2.1, 2.8]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/allocation.cr#L292">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/allocation.cr#L308">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -4358,7 +4416,7 @@ the inputs to the method</p>
 <span class="n">Tensor</span><span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">)</span> <span class="c1"># =&gt; [0  , 0.7, 1.4, 2.1, 2.8]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/allocation.cr#L287">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/allocation.cr#L303">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -4380,7 +4438,7 @@ the inputs to the method</p>
 <span class="nb">puts</span> <span class="n">a</span> <span class="c1"># =&gt; [-0.148853, -0.803994, 0.353089 , -1.25613 , -0.141144]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/random.cr#L342">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/random.cr#L342">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -4399,7 +4457,7 @@ must be specified.</p>
 <div class="highlight"><pre><span></span><code><span class="n">t</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">Int8</span><span class="p">)</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="o">[</span><span class="mi">3</span><span class="o">]</span><span class="p">)</span> <span class="c1"># =&gt; [0, 0, 0]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/allocation.cr#L170">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/allocation.cr#L186">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-class_method">
@@ -4419,7 +4477,7 @@ provided <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="n">u</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">Int8</span><span class="p">,</span> <span class="no">CPU</span><span class="p">(</span><span class="n">Int8</span><span class="p">))</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="c1"># =&gt; [0, 0, 0]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/allocation.cr#L187">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/allocation.cr#L203">View source</a>
 </div><h2 id="Tensor-methods">Methods<a href="#Tensor-methods" class="headerlink" title="Permanent link">#</a></h2>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -4438,7 +4496,7 @@ provided <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="n">a</span> <span class="o">!=</span> <span class="n">a</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L286">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L286">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -4457,7 +4515,7 @@ provided <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="n">a</span> <span class="o">%</span> <span class="n">a</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L153">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L153">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -4476,7 +4534,7 @@ provided <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="n">a</span> <span class="o">&amp;</span> <span class="n">a</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L202">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L202">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -4495,7 +4553,7 @@ provided <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="n">a</span> <span class="o">*</span> <span class="n">a</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L97">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L97">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -4514,7 +4572,7 @@ provided <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="n">a</span> <span class="o">**</span> <span class="n">a</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L139">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L139">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -4533,7 +4591,7 @@ provided <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="n">a</span> <span class="o">+</span> <span class="n">a</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L69">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L69">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -4552,7 +4610,7 @@ provided <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="n">a</span> <span class="o">-</span> <span class="n">a</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L83">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L83">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -4567,7 +4625,7 @@ provided <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="o">-</span><span class="n">a</span> <span class="c1"># =&gt; [-1, -2, -3]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L44">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L44">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -4586,7 +4644,7 @@ provided <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="n">a</span> <span class="o">/</span> <span class="n">a</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L111">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L111">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -4605,7 +4663,7 @@ provided <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="n">a</span> <span class="sr">//</span> <span class="n">a</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L125">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L125">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -4624,7 +4682,7 @@ provided <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="n">a</span> <span class="o">&lt;</span> <span class="n">a</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L300">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L300">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -4646,7 +4704,7 @@ this operation is equivalent to multiplying x1 by 2**x2.</p>
 <span class="n">a</span> <span class="o">&lt;&lt;</span> <span class="n">a</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L170">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L170">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -4665,7 +4723,7 @@ this operation is equivalent to multiplying x1 by 2**x2.</p>
 <span class="n">a</span> <span class="o">&lt;=</span> <span class="n">a</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L314">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L314">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -4684,7 +4742,7 @@ this operation is equivalent to multiplying x1 by 2**x2.</p>
 <span class="n">a</span> <span class="o">==</span> <span class="n">a</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L272">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L272">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -4703,7 +4761,7 @@ this operation is equivalent to multiplying x1 by 2**x2.</p>
 <span class="n">a</span> <span class="o">&gt;</span> <span class="n">a</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L244">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L244">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -4722,7 +4780,7 @@ this operation is equivalent to multiplying x1 by 2**x2.</p>
 <span class="n">a</span> <span class="o">&gt;=</span> <span class="n">a</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L258">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L258">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -4744,7 +4802,7 @@ dividing x1 by 2**x2.</p>
 <span class="n">a</span> <span class="o">&gt;&gt;</span> <span class="n">a</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L188">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L188">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -4780,7 +4838,7 @@ the array along an axis.</p>
 <span class="c1">#  [0, 1]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/index.cr#L101">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/index.cr#L101">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -4807,7 +4865,7 @@ If the corresponding index is a vector, than the returned tensor will include th
 <span class="n">result</span> <span class="o">=</span> <span class="n">t</span><span class="o">[</span><span class="n">indices</span><span class="o">]</span> <span class="c1"># Returns: Tensor([[1, 2], [5, 6]])</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/index.cr#L130">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/index.cr#L130">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -4843,7 +4901,7 @@ the array along an axis.</p>
 <span class="c1">#  [0, 1]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/index.cr#L61">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/index.cr#L61">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -4872,7 +4930,7 @@ be tiled across the slice.</p>
 <span class="c1">#  [ 2, 99]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/index.cr#L208">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/index.cr#L208">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -4902,7 +4960,7 @@ be tiled across the slice.</p>
 <span class="c1">#  [ 2, 99]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/index.cr#L171">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/index.cr#L171">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -4921,7 +4979,7 @@ be tiled across the slice.</p>
 <span class="n">a</span> <span class="o">^</span> <span class="n">a</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L230">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L230">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -4940,7 +4998,7 @@ is the first element in the Tensor.</p>
 <div class="highlight"><pre><span></span><code><span class="o">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="o">]..</span><span class="n">to_tensor</span><span class="o">.</span><span class="n">accumulate</span> <span class="p">{</span> <span class="o">|</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">|</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span> <span class="p">}</span> <span class="c1"># =&gt; [2, 6, 24, 120]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/iteration.cr#L390">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/iteration.cr#L390">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -4955,7 +5013,7 @@ is the first element in the Tensor.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">acos</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L330">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L330">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -4970,7 +5028,7 @@ is the first element in the Tensor.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">acos</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L340">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L340">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -4989,7 +5047,7 @@ is the first element in the Tensor.</p>
 <span class="n">a</span> <span class="o">+</span> <span class="n">a</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L69">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L69">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5014,7 +5072,7 @@ in each view into the <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="c1">#  [ true]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/reduction.cr#L126">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/reduction.cr#L126">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5030,7 +5088,7 @@ all elements</p>
 <span class="n">a</span><span class="o">.</span><span class="n">all</span> <span class="c1"># =&gt; false</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/reduction.cr#L104">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/reduction.cr#L104">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5054,7 +5112,7 @@ an EPSILON value.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">all_close</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="mf">1e-12</span><span class="p">)</span> <span class="c1"># =&gt; false</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/reduction.cr#L466">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/reduction.cr#L466">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5079,7 +5137,7 @@ in each view into the <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="c1">#  [ true]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/reduction.cr#L161">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/reduction.cr#L161">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5095,7 +5153,7 @@ any element</p>
 <span class="n">a</span><span class="o">.</span><span class="n">any</span> <span class="c1"># =&gt; true</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/reduction.cr#L139">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/reduction.cr#L139">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5117,7 +5175,7 @@ an axis</p>
 <span class="n">a</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># =&gt; [0, 1]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/reduction.cr#L328">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/reduction.cr#L328">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5132,7 +5190,7 @@ an axis</p>
 <span class="n">a</span><span class="o">.</span><span class="n">argmax</span> <span class="c1"># =&gt; 2</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/reduction.cr#L309">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/reduction.cr#L309">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5154,7 +5212,7 @@ an axis</p>
 <span class="n">a</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># =&gt; [1, 0]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/reduction.cr#L359">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/reduction.cr#L359">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5169,7 +5227,7 @@ an axis</p>
 <span class="n">a</span><span class="o">.</span><span class="n">argmin</span> <span class="c1"># =&gt; 0</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/reduction.cr#L340">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/reduction.cr#L340">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5204,7 +5262,7 @@ large, or transposed <a href="#Tensor"><code>Tensor</code></a>s.</p>
 <span class="c1">#  [1, 2, 3]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/manipulate.cr#L126">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/manipulate.cr#L126">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5224,7 +5282,7 @@ is done on floating point values.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">as_type</span><span class="p">(</span><span class="n">Int32</span><span class="p">)</span> <span class="c1"># =&gt; [1, 2, 3]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/convert.cr#L81">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/convert.cr#L81">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5239,7 +5297,7 @@ is done on floating point values.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">asin</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L350">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L350">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5254,7 +5312,7 @@ is done on floating point values.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">asinh</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L360">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L360">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5269,7 +5327,7 @@ is done on floating point values.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">atan</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L370">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L370">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5284,7 +5342,7 @@ is done on floating point values.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">atanh</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L380">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L380">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5299,7 +5357,7 @@ is done on floating point values.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">besselj0</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L390">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L390">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5314,7 +5372,7 @@ is done on floating point values.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">besselj1</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L400">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L400">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5329,7 +5387,7 @@ is done on floating point values.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">bessely0</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L410">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L410">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5344,7 +5402,7 @@ is done on floating point values.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">bessely1</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L420">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L420">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5363,7 +5421,7 @@ is done on floating point values.</p>
 <span class="n">a</span> <span class="o">&amp;</span> <span class="n">a</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L202">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L202">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5382,7 +5440,7 @@ is done on floating point values.</p>
 <span class="n">a</span> <span class="o">|</span> <span class="n">a</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L216">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L216">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5401,7 +5459,7 @@ is done on floating point values.</p>
 <span class="n">a</span> <span class="o">^</span> <span class="n">a</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L230">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L230">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5429,7 +5487,7 @@ an error.</p>
 <span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="c1"># =&gt; [3, 3, 3]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/manipulate.cr#L176">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/manipulate.cr#L176">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5455,7 +5513,7 @@ an error.</p>
 <span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="c1"># =&gt; [3, 3]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/manipulate.cr#L150">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/manipulate.cr#L150">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5483,7 +5541,7 @@ if broadcasting fails.</p>
 <span class="c1">#  [1, 2, 3]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/manipulate.cr#L47">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/manipulate.cr#L47">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5498,7 +5556,7 @@ if broadcasting fails.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">cbrt</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L430">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L430">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5526,7 +5584,7 @@ returned.</p>
 <span class="c1">#  [   0.0, -0.816,  1.155]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/linalg/linalg.cr#L113">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/linalg/linalg.cr#L113">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5541,7 +5599,7 @@ returned.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">cos</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L440">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L440">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5556,7 +5614,7 @@ returned.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">cosh</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L450">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L450">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5573,7 +5631,7 @@ if the Tensor is already on a CPU</p>
 <span class="n">a</span><span class="o">.</span><span class="n">cpu</span> <span class="c1"># =&gt; [1, 1, 1]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/convert.cr#L51">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/convert.cr#L51">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5584,7 +5642,7 @@ if the Tensor is already on a CPU</p>
   <div class="doc doc-contents ">
   </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/data_structure.cr#L27">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/data_structure.cr#L27">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5599,7 +5657,7 @@ if the Tensor is already on a CPU</p>
 <span class="nb">puts</span> <span class="n">t</span><span class="o">.</span><span class="n">det</span> <span class="c1"># =&gt; -2.0</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/linalg/linalg.cr#L334">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/linalg/linalg.cr#L334">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5619,7 +5677,7 @@ for two-dimensional arrays.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">diagonal</span> <span class="c1"># =&gt; [0, 1, 2]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/manipulate.cr#L434">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/manipulate.cr#L434">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5638,7 +5696,7 @@ for two-dimensional arrays.</p>
 <span class="n">a</span> <span class="o">/</span> <span class="n">a</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L111">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L111">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5658,7 +5716,7 @@ Uses unrolled loops for increments equal to one.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="c1"># =&gt; 55.0</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/linalg/linalg.cr#L469">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/linalg/linalg.cr#L469">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5678,7 +5736,7 @@ Uses unrolled loops for increments equal to one.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">dup</span> <span class="c1"># =&gt; [1, 2, 3]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/allocation.cr#L507">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/allocation.cr#L523">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5701,7 +5759,7 @@ as if the <a href="#Tensor"><code>Tensor</code></a> was flat.</p>
 <span class="c1"># 3</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/iteration.cr#L41">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/iteration.cr#L41">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5725,7 +5783,7 @@ as if the <a href="#Tensor"><code>Tensor</code></a> was flat.</p>
 <span class="c1"># 3</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/iteration.cr#L91">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/iteration.cr#L91">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5753,7 +5811,7 @@ the passed block will be reflected in the original <a href="#Tensor"><code>Tenso
 <span class="c1"># [2, 5, 8]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/iteration.cr#L446">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/iteration.cr#L446">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5775,7 +5833,7 @@ Each element returned by the iterator is a view, not a copy</p>
 <span class="n">a</span><span class="o">.</span><span class="n">each_axis</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">next</span> <span class="c1"># =&gt; [0, 3, 6]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/iteration.cr#L467">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/iteration.cr#L467">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5801,7 +5859,7 @@ of a <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="c1"># 3</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/iteration.cr#L115">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/iteration.cr#L115">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5828,7 +5886,7 @@ of a <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="c1"># 3_3</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/iteration.cr#L165">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/iteration.cr#L165">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5852,7 +5910,7 @@ element.</p>
 <span class="c1"># 3_3</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/iteration.cr#L138">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/iteration.cr#L138">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5873,7 +5931,7 @@ element.</p>
 <span class="c1">#  [-0.525731, -0.850651]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/linalg/linalg.cr#L240">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/linalg/linalg.cr#L240">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5894,7 +5952,7 @@ element.</p>
 <span class="c1">#  [0.525731 , 0.850651 ]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/linalg/linalg.cr#L208">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/linalg/linalg.cr#L208">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5913,7 +5971,7 @@ returned.</p>
 <span class="c1"># [-0.618034, 1.61803  ]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/linalg/linalg.cr#L288">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/linalg/linalg.cr#L288">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5932,7 +5990,7 @@ returned.</p>
 <span class="c1"># [-0.618034, 1.61803  ]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/linalg/linalg.cr#L266">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/linalg/linalg.cr#L266">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5951,7 +6009,7 @@ returned.</p>
 <span class="n">a</span> <span class="o">==</span> <span class="n">a</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L272">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L272">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5966,7 +6024,7 @@ returned.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">erf</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L460">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L460">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5981,7 +6039,7 @@ returned.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">erfc</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L470">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L470">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -5996,7 +6054,7 @@ returned.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">exp</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L480">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L480">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6011,7 +6069,7 @@ returned.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">exp2</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L490">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L490">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6034,7 +6092,7 @@ returned.</p>
 <span class="c1"># [[2, 3]]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/manipulate.cr#L91">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/manipulate.cr#L91">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6049,7 +6107,7 @@ returned.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">expm1</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L500">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L500">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6067,7 +6125,7 @@ and read status</p>
 <span class="n">b</span><span class="o">.</span><span class="n">flags</span> <span class="c1"># =&gt; WRITE</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/data_structure.cr#L78">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/data_structure.cr#L78">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6083,7 +6141,7 @@ the reshape operation will not copy data.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">flat</span> <span class="c1"># =&gt; [0, 1, 2, 3]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/manipulate.cr#L215">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/manipulate.cr#L215">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6105,7 +6163,7 @@ the reshape operation will not copy data.</p>
 <span class="c1">#  [6, 5, 4]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/manipulate.cr#L419">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/manipulate.cr#L419">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6123,7 +6181,7 @@ the reshape operation will not copy data.</p>
 <span class="c1">#  [3, 2, 1]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/manipulate.cr#L400">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/manipulate.cr#L400">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6142,7 +6200,7 @@ the reshape operation will not copy data.</p>
 <span class="n">a</span> <span class="sr">//</span> <span class="n">a</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L125">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L125">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6157,7 +6215,7 @@ the reshape operation will not copy data.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">gamma</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L510">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L510">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6176,7 +6234,7 @@ the reshape operation will not copy data.</p>
 <span class="n">a</span> <span class="o">&gt;</span> <span class="n">a</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L244">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L244">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6195,7 +6253,7 @@ the reshape operation will not copy data.</p>
 <span class="n">a</span> <span class="o">&gt;=</span> <span class="n">a</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L258">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L258">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6223,7 +6281,7 @@ the reshape operation will not copy data.</p>
 <span class="c1">#  [0       , 0       , -3.8319 , 1.07495 ]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/linalg/linalg.cr#L438">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/linalg/linalg.cr#L438">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6238,7 +6296,7 @@ the reshape operation will not copy data.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">ilogb</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L520">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L520">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6258,7 +6316,7 @@ dot(a, ainv) = dot(ainv, a) = eye(a.shape[0])</p>
 <span class="c1">#  [1.5 , -0.5]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/linalg/linalg.cr#L374">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/linalg/linalg.cr#L374">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6280,7 +6338,7 @@ this operation is equivalent to multiplying x1 by 2**x2.</p>
 <span class="n">a</span> <span class="o">&lt;&lt;</span> <span class="n">a</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L170">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L170">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6299,7 +6357,7 @@ this operation is equivalent to multiplying x1 by 2**x2.</p>
 <span class="n">a</span> <span class="o">&lt;</span> <span class="n">a</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L300">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L300">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6318,7 +6376,7 @@ this operation is equivalent to multiplying x1 by 2**x2.</p>
 <span class="n">a</span> <span class="o">&lt;=</span> <span class="n">a</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L314">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L314">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6333,7 +6391,7 @@ this operation is equivalent to multiplying x1 by 2**x2.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">lgamma</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L530">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L530">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6348,7 +6406,7 @@ this operation is equivalent to multiplying x1 by 2**x2.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">log</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L540">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L540">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6363,7 +6421,7 @@ this operation is equivalent to multiplying x1 by 2**x2.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">log10</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L550">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L550">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6378,7 +6436,7 @@ this operation is equivalent to multiplying x1 by 2**x2.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">log1p</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L560">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L560">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6393,7 +6451,7 @@ this operation is equivalent to multiplying x1 by 2**x2.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">log2</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L570">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L570">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6408,7 +6466,7 @@ this operation is equivalent to multiplying x1 by 2**x2.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">logb</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L580">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L580">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6437,7 +6495,7 @@ call, avoiding overhead from tracking multiple iterators.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="o">|</span> <span class="n">i</span> <span class="o">+</span> <span class="n">j</span> <span class="o">+</span> <span class="n">k</span> <span class="p">}</span> <span class="c1"># =&gt; [0, 3, 6]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/iteration.cr#L293">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/iteration.cr#L293">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6463,7 +6521,7 @@ call, avoiding overhead from tracking multiple iterators.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="o">|</span> <span class="n">i</span> <span class="o">+</span> <span class="n">j</span> <span class="p">}</span> <span class="c1"># =&gt; [0, 2, 4]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/iteration.cr#L235">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/iteration.cr#L235">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6486,7 +6544,7 @@ the block</p>
 <span class="n">a</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">e</span><span class="o">|</span> <span class="n">e</span> <span class="o">+</span> <span class="mi">5</span> <span class="p">}</span> <span class="c1"># =&gt; [5, 6, 7]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/iteration.cr#L188">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/iteration.cr#L188">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6518,7 +6576,7 @@ operation, the other <a href="#Tensor"><code>Tensor</code></a>'s must broadcast 
 <span class="n">a</span> <span class="c1"># =&gt; [0, 3, 6]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/iteration.cr#L325">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/iteration.cr#L325">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6547,7 +6605,7 @@ operation, the other <a href="#Tensor"><code>Tensor</code></a> must broadcast to
 <span class="n">a</span> <span class="c1"># =&gt; [0, 2, 4]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/iteration.cr#L264">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/iteration.cr#L264">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6569,7 +6627,7 @@ in RowMajor order</p>
 <span class="n">a</span> <span class="c1"># =&gt; [5, 6, 7]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/iteration.cr#L209">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/iteration.cr#L209">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6596,7 +6654,7 @@ for this operation</p>
 <span class="c1">#  [34.0873, 73.5366, 40.5504]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/linalg/linalg.cr#L549">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/linalg/linalg.cr#L549">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6621,7 +6679,7 @@ view into the <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="c1">#  [3]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/reduction.cr#L229">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/reduction.cr#L229">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6636,7 +6694,7 @@ view into the <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="n">a</span><span class="o">.</span><span class="n">max</span> <span class="c1"># =&gt; 3</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/reduction.cr#L207">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/reduction.cr#L207">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6661,7 +6719,7 @@ view into the <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="c1">#  [2]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/reduction.cr#L195">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/reduction.cr#L195">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6676,7 +6734,7 @@ view into the <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="n">a</span><span class="o">.</span><span class="n">mean</span> <span class="c1"># =&gt; 2.0</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/reduction.cr#L173">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/reduction.cr#L173">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6701,7 +6759,7 @@ view into the <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="c1">#  [2]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/reduction.cr#L263">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/reduction.cr#L263">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6716,7 +6774,7 @@ view into the <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="n">Num</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="c1"># =&gt; 3</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/reduction.cr#L241">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/reduction.cr#L241">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6735,7 +6793,7 @@ view into the <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="n">a</span> <span class="o">%</span> <span class="n">a</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L153">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L153">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6756,7 +6814,7 @@ in their original order</p>
 <span class="n">a</span><span class="o">.</span><span class="n">moveaxis</span><span class="p">(</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span><span class="p">,</span> <span class="o">[-</span><span class="mi">1</span><span class="o">]</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span> <span class="c1"># =&gt; 4, 5, 3</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/manipulate.cr#L233">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/manipulate.cr#L233">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6777,7 +6835,7 @@ in their original order</p>
 <span class="n">a</span><span class="o">.</span><span class="n">moveaxis</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span> <span class="c1"># =&gt; 4, 5, 3</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/manipulate.cr#L251">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/manipulate.cr#L251">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6796,7 +6854,7 @@ in their original order</p>
 <span class="n">a</span> <span class="o">*</span> <span class="n">a</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L97">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L97">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6811,7 +6869,7 @@ in their original order</p>
 <span class="o">-</span><span class="n">a</span> <span class="c1"># =&gt; [-1, -2, -3]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L44">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L44">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6831,7 +6889,7 @@ in their original order</p>
 <span class="n">t</span><span class="o">.</span><span class="n">norm</span> <span class="c1"># =&gt; 3.6055512</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/linalg/linalg.cr#L315">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/linalg/linalg.cr#L315">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6850,7 +6908,7 @@ in their original order</p>
 <span class="n">a</span> <span class="o">!=</span> <span class="n">a</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L286">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L286">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6865,7 +6923,7 @@ in their original order</p>
 <span class="n">a</span><span class="o">.</span><span class="n">offset</span> <span class="c1"># =&gt; 0</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/data_structure.cr#L57">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/data_structure.cr#L57">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6881,7 +6939,7 @@ if the Tensor is already on a CPU</p>
 <span class="n">a</span><span class="o">.</span><span class="n">opencl</span> <span class="c1"># =&gt; &lt;[3] on OpenCL Backend&gt;</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/convert.cr#L64">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/convert.cr#L64">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6900,7 +6958,7 @@ if the Tensor is already on a CPU</p>
 <span class="n">a</span> <span class="o">**</span> <span class="n">a</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L139">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L139">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6925,7 +6983,7 @@ the <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="c1">#  [6]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/reduction.cr#L91">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/reduction.cr#L91">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6941,7 +6999,7 @@ elements</p>
 <span class="n">a</span><span class="o">.</span><span class="n">prod</span> <span class="c1"># =&gt; 6</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/reduction.cr#L69">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/reduction.cr#L69">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6963,7 +7021,7 @@ elements of a <a href="#Tensor"><code>Tensor</code></a> along an axis</p>
 <span class="n">a</span><span class="o">.</span><span class="n">ptp</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># [1, 1, 4]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/reduction.cr#L498">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/reduction.cr#L498">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -6979,7 +7037,7 @@ elements of a <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="n">a</span><span class="o">.</span><span class="n">ptp</span> <span class="c1"># =&gt; 2</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/reduction.cr#L479">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/reduction.cr#L479">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7007,7 +7065,7 @@ upper-triangular</p>
 <span class="c1">#  [   0.0,    0.0]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/linalg/linalg.cr#L144">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/linalg/linalg.cr#L144">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7022,7 +7080,7 @@ upper-triangular</p>
 <span class="n">a</span><span class="o">.</span><span class="n">rank</span> <span class="c1"># =&gt; 4</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/data_structure.cr#L88">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/data_structure.cr#L88">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7041,7 +7099,7 @@ accumulator.</p>
 <div class="highlight"><pre><span></span><code><span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="o">].</span><span class="n">to_tensor</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">acc</span><span class="p">,</span> <span class="n">i</span><span class="o">|</span> <span class="n">acc</span> <span class="o">+</span> <span class="n">i</span> <span class="p">}</span> <span class="c1"># =&gt; 25</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/iteration.cr#L370">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/iteration.cr#L370">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7062,7 +7120,7 @@ in the Tensor.</p>
 <div class="highlight"><pre><span></span><code><span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="o">].</span><span class="n">to_tensor</span><span class="o">.</span><span class="n">reduce</span> <span class="p">{</span> <span class="o">|</span><span class="n">acc</span><span class="p">,</span> <span class="n">i</span><span class="o">|</span> <span class="n">acc</span> <span class="o">+</span> <span class="n">i</span> <span class="p">}</span> <span class="c1"># =&gt; 15</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/iteration.cr#L347">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/iteration.cr#L347">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7085,7 +7143,7 @@ axis versions.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">reduce_axis</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="o">|</span> <span class="n">i</span> <span class="o">+</span> <span class="n">j</span> <span class="p">}</span> <span class="c1"># =&gt; [ 9, 12, 15]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/iteration.cr#L419">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/iteration.cr#L419">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7108,7 +7166,7 @@ axis versions.</p>
 <span class="c1">#  [4, 4, 5, 5, 6, 6]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/manipulate.cr#L347">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/manipulate.cr#L347">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7128,7 +7186,7 @@ as flat</p>
 <span class="n">a</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># =&gt; [1, 1, 2, 2, 3, 3]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/manipulate.cr#L327">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/manipulate.cr#L327">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7152,7 +7210,7 @@ in the <a href="#Tensor"><code>Tensor</code></a> must remain the same.</p>
 <span class="c1">#  [3, 4]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/manipulate.cr#L197">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/manipulate.cr#L197">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7176,7 +7234,7 @@ in the <a href="#Tensor"><code>Tensor</code></a> must remain the same.</p>
 <span class="c1">#  [3, 4]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/manipulate.cr#L202">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/manipulate.cr#L202">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7198,7 +7256,7 @@ dividing x1 by 2**x2.</p>
 <span class="n">a</span> <span class="o">&gt;&gt;</span> <span class="n">a</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L188">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L188">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7227,7 +7285,7 @@ be tiled across the slice.</p>
 <span class="c1">#  [ 2, 99]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/index.cr#L283">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/index.cr#L283">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7242,7 +7300,7 @@ be tiled across the slice.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">shape</span> <span class="c1"># =&gt; [2, 3, 4]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/data_structure.cr#L37">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/data_structure.cr#L37">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7257,7 +7315,7 @@ be tiled across the slice.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">sin</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L590">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L590">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7272,7 +7330,7 @@ be tiled across the slice.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">sinh</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L600">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L600">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7286,7 +7344,7 @@ be tiled across the slice.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">shape</span> <span class="c1"># =&gt; [2, 3, 4]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/data_structure.cr#L65">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/data_structure.cr#L65">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7322,7 +7380,7 @@ the array along an axis.</p>
 <span class="c1">#  [0, 1]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/index.cr#L256">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/index.cr#L256">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7346,7 +7404,7 @@ linear matrix equation ax = b.</p>
 <span class="c1"># [2, 3]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/linalg/linalg.cr#L402">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/linalg/linalg.cr#L402">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7377,7 +7435,7 @@ linear matrix equation ax = b.</p>
 <span class="c1">#   [5, 7]]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/reduction.cr#L417">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/reduction.cr#L417">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7393,7 +7451,7 @@ is flat.</p>
 <span class="n">a</span><span class="o">.</span><span class="n">sort</span> <span class="c1"># =&gt; [1, 2, 3]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/reduction.cr#L372">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/reduction.cr#L372">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7424,7 +7482,7 @@ is flat.</p>
 <span class="c1">#   [7, 8]]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/reduction.cr#L445">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/reduction.cr#L445">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7444,7 +7502,7 @@ is flat.  Sorts using criteria specified by a passed block</p>
 <span class="n">a</span><span class="o">.</span><span class="n">sort</span> <span class="p">{</span> <span class="o">|</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="o">|</span> <span class="n">j</span> <span class="o">-</span> <span class="n">i</span> <span class="p">}</span> <span class="c1"># =&gt; [3, 2, 1]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/reduction.cr#L389">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/reduction.cr#L389">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7459,7 +7517,7 @@ is flat.  Sorts using criteria specified by a passed block</p>
 <span class="n">a</span><span class="o">.</span><span class="n">sqrt</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L610">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L610">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7484,7 +7542,7 @@ view into the <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="c1">#  [0.707107]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/reduction.cr#L297">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/reduction.cr#L297">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7499,7 +7557,7 @@ view into the <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="n">a</span><span class="o">.</span><span class="n">std</span> <span class="c1"># =&gt; 0.816496580927726</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/reduction.cr#L275">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/reduction.cr#L275">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7514,7 +7572,7 @@ view into the <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="n">a</span><span class="o">.</span><span class="n">shape</span> <span class="c1"># =&gt; [4, 2, 1]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/data_structure.cr#L47">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/data_structure.cr#L47">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7533,7 +7591,7 @@ view into the <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="n">a</span> <span class="o">-</span> <span class="n">a</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L83">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L83">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7558,7 +7616,7 @@ the <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="c1">#  [5]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/reduction.cr#L56">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/reduction.cr#L56">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7574,7 +7632,7 @@ elements</p>
 <span class="n">a</span><span class="o">.</span><span class="n">sum</span> <span class="c1"># =&gt; 6</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/reduction.cr#L34">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/reduction.cr#L34">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7603,7 +7661,7 @@ values.</p>
 <span class="c1">#  [-0.615412, 0.788205 ]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/linalg/linalg.cr#L180">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/linalg/linalg.cr#L180">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7632,7 +7690,7 @@ of the permuted <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="c1">#   [ 5, 11, 17, 23]]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/manipulate.cr#L277">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/manipulate.cr#L277">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7647,7 +7705,7 @@ of the permuted <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="n">a</span><span class="o">.</span><span class="n">tan</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L620">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L620">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7662,7 +7720,7 @@ of the permuted <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="n">a</span><span class="o">.</span><span class="n">tanh</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L630">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L630">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7684,7 +7742,7 @@ of the permuted <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="c1">#  [4, 5, 6, 4, 5, 6]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/manipulate.cr#L366">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/manipulate.cr#L366">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7706,7 +7764,7 @@ of the permuted <a href="#Tensor"><code>Tensor</code></a></p>
 <span class="c1">#  [4, 5, 6, 4, 5, 6]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/manipulate.cr#L385">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/manipulate.cr#L385">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7723,7 +7781,7 @@ type ambiguity this will always return a 1D Array</p>
 <span class="n">a</span><span class="o">.</span><span class="n">to_a</span> <span class="c1"># =&gt; [1, 2, 3, 4]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/convert.cr#L36">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/convert.cr#L36">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7739,7 +7797,7 @@ type ambiguity this will always return a 1D Array</p>
 </ul>
 <p>Only integer, unsigned integer and float ndarrays are supported at the moment.</p>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/io/npy.cr#L92">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/io/npy.cr#L92">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7770,7 +7828,7 @@ always create a view of the permuted <a href="#Tensor"><code>Tensor</code></a>.<
 <span class="c1">#   [19, 21, 23]]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/manipulate.cr#L305">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/manipulate.cr#L305">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7801,7 +7859,7 @@ always create a view of the permuted <a href="#Tensor"><code>Tensor</code></a>.<
 <span class="c1">#   [19, 21, 23]]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/manipulate.cr#L310">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/manipulate.cr#L310">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7826,7 +7884,7 @@ out values above the <code>k</code>th diagonal</p>
 <span class="c1">#  [1, 1, 1]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/linalg/linalg.cr#L85">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/linalg/linalg.cr#L85">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7851,7 +7909,7 @@ out values above the <code>k</code>th diagonal</p>
 <span class="c1">#  [1, 1, 1]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/linalg/linalg.cr#L76">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/linalg/linalg.cr#L76">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7876,7 +7934,7 @@ out values below the <code>k</code>th diagonal</p>
 <span class="c1">#  [0, 0, 1]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/linalg/linalg.cr#L52">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/linalg/linalg.cr#L52">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7901,7 +7959,7 @@ out values below the <code>k</code>th diagonal</p>
 <span class="c1">#  [0, 0, 1]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/linalg/linalg.cr#L43">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/linalg/linalg.cr#L43">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7923,7 +7981,7 @@ The size of the new dtype must be a multiple of the current dtype</p>
 <span class="n">a</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">Int8</span><span class="p">)</span> <span class="c1"># =&gt; [0, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/index.cr#L305">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/index.cr#L305">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7946,7 +8004,7 @@ to a view of a <a href="#Tensor"><code>Tensor</code></a> will be reflected in th
 <span class="c1">#  [99, 99, 99]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/allocation.cr#L527">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/allocation.cr#L543">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -7973,7 +8031,7 @@ is a read-only view of the original <a href="#Tensor"><code>Tensor</code></a></p
 <span class="c1">#  [[3]]]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/manipulate.cr#L71">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/manipulate.cr#L71">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -8008,7 +8066,7 @@ reduce.</p>
 <span class="c1"># [ 8, 17, 26]</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/iteration.cr#L499">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/iteration.cr#L499">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -8036,7 +8094,7 @@ as if the <a href="#Tensor"><code>Tensor</code></a>s were flat.</p>
 <span class="c1"># { 3, 5}</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/iteration.cr#L68">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/iteration.cr#L68">View source</a>
 </div>
 
 <div class="doc doc-object doc-method doc-instance_method">
@@ -8055,7 +8113,7 @@ as if the <a href="#Tensor"><code>Tensor</code></a>s were flat.</p>
 <span class="n">a</span> <span class="o">|</span> <span class="n">a</span>
 </code></pre></div>  </div>
 
-    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/v1.1.1/src/tensor/math.cr#L216">View source</a>
+    <a class="doc-source-link" href="https://github.com/crystal-data/num.cr/blob/750a6ee7d4450659f6c7c20e47ece4ae8a998cc6/src/tensor/math.cr#L216">View source</a>
 </div>      </div>
   </div>
 
@@ -8079,7 +8137,7 @@ as if the <a href="#Tensor"><code>Tensor</code></a>s were flat.</p>
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../OCL/" class="md-footer__link md-footer__link--prev" aria-label="Previous: OCL" rel="prev">
+        <a href="../Slice/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Slice" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -8088,7 +8146,7 @@ as if the <a href="#Tensor"><code>Tensor</code></a>s were flat.</p>
               <span class="md-footer__direction">
                 Previous
               </span>
-              OCL
+              Slice
             </div>
           </div>
         </a>
