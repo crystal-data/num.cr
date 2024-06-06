@@ -239,7 +239,7 @@ class Tensor(T, S)
   # Num.min(a) # => 3
   # ```
   def min : T
-    Num.min(self, axis, dims)
+    Num.min(self)
   end
 
   # Reduces a `Tensor` along an axis, finding the min of each
