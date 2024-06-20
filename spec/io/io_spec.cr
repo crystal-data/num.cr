@@ -27,4 +27,10 @@ describe Tensor do
     expected = Tensor.new([5, 5]) { |i| i }
     Num::Testing.tensor_equal(result, expected).should be_true
   end
+
+  it "reads a rank 1 tensor from a file" do
+    result = Tensor(Int32, CPU(Int32)).from_npy("#{__DIR__}/data/single_rank_tensor.npy")
+    expected = [1, 2, 3, 4].to_tensor
+    Num::Testing.tensor_equal(result, expected).should be_true
+  end
 end
