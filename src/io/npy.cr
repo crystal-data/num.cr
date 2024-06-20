@@ -48,7 +48,7 @@ class Tensor(T, S)
     file.read_fully(header)
     size = IO::Memory.new(header).read_bytes(Int16, IO::ByteFormat::LittleEndian)
 
-    header = file.read_string(size).downcase.tr("()'", "[]\"").gsub(/,]|],/, "]")
+    header = file.read_string(size).downcase.tr("()'", "[]\"").gsub(/,],|],/, "]")
     json_header = JSON.parse(header)
 
     dtype = json_header["descr"].as_s
